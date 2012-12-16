@@ -89,7 +89,7 @@ if (empty($user)) {
                 array_push($msgs, $m);
             }else
             {
-                $event->headerImage = UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png";
+                $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
             }
 
             $startDate = $_POST["te_event_start_date"];
@@ -272,7 +272,7 @@ if (empty($user)) {
 					
                     var options = {
                         autoResize: true, // This will auto-update the layout when the browser window is resized.
-                        container: $(".main_event"), // Optional, used for some extra CSS styling
+                        container: jQuery(".main_event"), // Optional, used for some extra CSS styling
                         offset: 10, // Optional, the distance between grid items
                         itemWidth: 200 // Optional, the width of a grid item
                     };

@@ -295,7 +295,7 @@ class UserFuctions {
 		$id=DBUtils::getNextId(CLM_EVENTID);
 		$SQL=	"INSERT INTO ".TBL_EVENTS." (id, title, location, description, startDateTime, endDateTime,reminderType,reminderUnit,reminderValue,privacy,allday,repeat_,addsocial_fb,addsocial_gg,addsocial_fq,addsocial_tw) ".
 				" VALUES (".$id.",\"".DBUtils::mysql_escape($event->title)."\",\"".DBUtils::mysql_escape($event->location)."\",\"".DBUtils::mysql_escape($event->description)."\",\"$event->startDateTime\",\"$event->endDateTime\",\"$event->reminderType\",\"$event->reminderUnit\",$event->reminderValue,$event->privacy,$event->allday,$event->repeat,$event->addsocial_fb,$event->addsocial_gg,$event->addsocial_fq,$event->addsocial_tw)";
-		$query = mysql_query($SQL) or die(mysql_error());
+                $query = mysql_query($SQL) or die(mysql_error());
                 $event=$this->getEventById($id);
 		/*
 		 * Image'ler eklenecek
@@ -320,17 +320,26 @@ class UserFuctions {
                             }
 			}
                     }
-                    
+                }
+                if(!empty($event)  && !empty($headerImage) )
+		{
                     if(!empty($headerImage))
                     {
-                        $img=new Image();
-                        $img->url=$headerImage;
-                        $img->header=1;
-                        $img->eventId=$event->id;
-			if(!empty($img))
-			{
-                           ImageFunctions::insert($img);
-			}
+                        if(!file_exists(UPLOAD_FOLDER."events/".$event->id."/"))
+                        {
+                            mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
+                        }
+                        if (!copy(UPLOAD_FOLDER.$headerImage, UPLOAD_FOLDER."events/".$event->id."/".$headerImage)) {
+                        }
+                        
+                         $img=new Image();
+                         $img->url=UPLOAD_FOLDER."events/".$event->id."/".$headerImage;
+                         $img->header=1;
+                         $img->eventId=$event->id;
+                         if(!empty($img))
+                         {
+                            ImageFunctions::insert($img);
+                         }
                     }
                 }
 		return $event;
@@ -778,8 +787,30 @@ class UserFuctions {
 			return null;
 		}
 	}
+        
+        /*
+         * $userId= user id that logged in -1 default guest
+         * list events after given date dafault current date
+         * $type = events type 1=Popular,2=Mytimete,3=following default 1
+         * $query search paramaters deeafult "" all
+         * $pageNumber deafult 0
+         * $pageItemCount default 15
+         */
+        public static function  getEvents($userId=-1,$date="0000-00-00 00:00:00",$type=1,$query="",$pageNumber=0,$pageItemCount=15)
+        {
+            if(!empty($userId))
+            {
+		$n=new Neo4jFuctions();
+		$array=$n->getEvents($userId,$date,$type,$query,$pageNumber,$pageItemCount);
+		return $array;
+            } else
+            {
+		return null;
+            }
+        }
+            
 
-	/*
+        /*
 	 * Util
 	*/
 
