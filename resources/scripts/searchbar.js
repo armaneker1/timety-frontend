@@ -22,7 +22,7 @@ jQuery(function(){
     }).keypress(function(e){
         if(e.keyCode == 13)
         {
-            jQuery(inputText).val('');
+           
         }
     });
 });

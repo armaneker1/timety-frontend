@@ -1,7 +1,8 @@
-function wookmarkFiller(options)
+function wookmarkFiller(options,clear)
 {
+    
     var pager = 15;
-    var page = Math.floor(jQuery('.main_event .main_event_box').length / pager)+1;
+    var page = clear ? 0 :(Math.floor(jQuery('.main_event .main_event_box').length / pager)+1);
     var userId = -1;
     var channel = 1;
     var searchText = jQuery('#hiddenSearch').val() || '';
@@ -22,9 +23,11 @@ function wookmarkFiller(options)
             'type':channel
         },
         success: function(data){
-            if(handler) handler.wookmarkClear();
-            var dataJSON = jQuery.parseJSON(data)
+            jQuery('#hiddenSearch').val('');
+            var dataJSON = jQuery.parseJSON(data);
+            if(clear) jQuery('.main_event').html('');
             wookmarkHTML(dataJSON);
+            if(handler) handler.wookmarkClear();
             handler = jQuery('.main_event .main_event_box');
             handler.wookmark(options);
         }
