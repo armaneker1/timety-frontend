@@ -1,0 +1,76 @@
+.dropdown-menu.bootstrap-timepicker { 
+	left: 0px;
+	top: 0px;
+	display: none;
+	min-width: 10px;
+	background-image: url(calbg.png);
+	background-repeat: repeat-x;
+	position: absolute;
+z-index: 700;
+}
+.open.dropdown-menu.bootstrap-timepicker {
+	display: inline-block;
+}
+
+.modal.bootstrap-timepicker {
+	top: 30%; width: 200px; margin-top: 0px; margin-left: -100px;
+}
+.modal.bootstrap-timepicker .modal-content {
+	padding: 0px;
+}
+.bootstrap-timepicker table {
+	margin: 0px; width: 137px;
+}
+.bootstrap-timepicker table td {
+	margin: 0px; padding: 2px; height: 30px; text-align: center;
+}
+.bootstrap-timepicker table td span {
+	width: 100%;
+}
+.bootstrap-timepicker table td a {
+	margin: 0px;
+	padding:0px;
+	outline: 0px;
+	width: 200px;
+	
+}
+
+.bootstrap-timepicker table td a i {
+	margin-top: 2px;
+	
+}
+.bootstrap-timepicker table td input {
+	margin: 0px; 
+	width: 33px; 
+	text-align: center;
+	border:none;
+	background-color: #767676;
+	height:22px;
+	border-radius: 2px;
+	color:#FFF;
+}
+.bootstrap-timepicker-component .add-on {
+	cursor: pointer;
+}
+.bootstrap-timepicker-component .add-on i {
+	width: 16px; height: 16px; display: block;
+}
+.icon-chevron-up{
+	background-image:url(up.png);
+	display:block;
+	width:10px;
+	height:10px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	}
+	.icon-chevron-down{
+	background-image:url(down.png);
+	display:block;
+	width:10px;
+	height:10px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	}
+	.separator{
+		color:#cacaca;
+		}

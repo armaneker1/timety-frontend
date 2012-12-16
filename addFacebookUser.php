@@ -1,0 +1,50 @@
+<?php 
+
+require 'apis/facebook/facebook.php';
+require 'config/fbconfig.php';
+require 'utils/userFunctions.php';
+session_start();
+
+
+if(isset($_SESSION['id']))
+{
+	$userFunctions = new UserFuctions();
+	$l_user=$userFunctions->getUserById($_SESSION['id']);
+
+	$facebook = new Facebook(array(
+			'appId' => FB_APP_ID,
+			'secret' => FB_APP_SECRET,
+			'cookie' => true
+	));
+
+	try {
+		$uid = $facebook->getUser();
+		$user = $facebook->api('/me');
+		$access_token=$facebook->getAccessToken();
+	}
+	catch (Exception $e) {
+		echo $e->getMessage();
+	}
+	if (!empty($user)) {
+		try {
+			$provider=new SocialProvider();
+			$provider->oauth_provider=FACEBOOK_TEXT;
+			$provider->oauth_token=$access_token;
+			$provider->oauth_uid=$uid;
+			$provider->status=0;
+			$provider->user_id=$l_user->id;
+
+			$userFunctions->updateSocialProvider($provider);
+		} catch (Exception $e) {
+			echo 'Error -> '.$e->getMessage();
+		}
+	}else {
+		echo "User empty1";
+	}
+} else
+{
+	echo "User empty2";
+}
+?>
+<body onload="window.close();window.opener.document.getElementById('addSocialReturnButton').click();" >
+</body>
