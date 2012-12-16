@@ -21,8 +21,6 @@ jQuery(function(){
         }, 300);
     }).keypress(function(e){
         if(e.keyCode == 13)
-        {
-           
-        }
+            wookmarkFiller(options, true);
     });
 });
