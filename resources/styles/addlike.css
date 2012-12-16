@@ -1,0 +1,37 @@
+
+.add_ktg_sag{
+		max-height:95px !important;
+		overflow: hidden !important;
+}
+ 
+.add_ktg_sag .category {
+	list-style-type: none !important;
+	margin: 0px !important;
+	float: left !important;
+	padding-top: 8px !important;
+	padding-right: 0px !important;
+	padding-bottom: 0px !important;
+	padding-left: 0px !important;
+	position: absolute !important;
+	left: 120px !important;
+}
+
+
+.add_ktg_sag div div {
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	float: left !important;
+	font-family: Arial !important;
+	font-size: 11px !important;
+	color: #5a5a5a !important;
+	text-align: center !important;
+	padding-top: 0px !important;
+}
+
+.add_ktg_sag div div div {
+	padding-top: 0px !important;
+}
+
+.add_ktg_sag div div div div{
+	padding-top: 0px !important;
+}

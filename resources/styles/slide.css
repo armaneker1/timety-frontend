@@ -1,0 +1,60 @@
+/* CSS Document */
+ 
+		/*
+			Load CSS before JavaScript
+		*/
+		
+		/*
+			Slides container
+			Important:
+			Set the width of your slides container
+			Set to display none, prevents content flash
+		*/
+		.slides_container {
+			display:none;
+			min-height:110px;
+		}
+
+		/*
+			Each slide
+			Important:
+			Set the width of your slides
+			If height not specified height will be set by the slide content
+			Set to display block
+		*/
+		.slides_container div {
+			display:block;
+		}
+		
+		/*
+			Optional:
+			Reset list default style
+		*/
+		.pagination {
+			list-style:none;
+			margin:0;
+			padding:0;
+		}
+
+		/*
+			Optional:
+			Show the current slide in the pagination
+		*/
+		.pagination .current a {
+			color:red;
+		}
+		
+		.slide_item {
+			width:100%;
+			height:100%;
+		}
+		
+		.solscrl {
+			cursor:pointer;
+		}
+		.sagscrl {
+			cursor:pointer;
+		}
+		
+		
+		
