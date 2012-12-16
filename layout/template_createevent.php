@@ -61,7 +61,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
                     if(!$showPopup || empty($event->headerImage) ) { ?>
                          <a href="#">click here to add image</a>
                     <?php } else {  ?>
-                         <img src="<?=$event->headerImage?>" width="100" height="99">
+                         <img src="<?=HOSTNAME.UPLOAD_FOLDER.$event->headerImage?>" width="100" height="99">
                     <?php } ?>
 		</div>
 		<div class="cae_foto" id="te_event_image_div"

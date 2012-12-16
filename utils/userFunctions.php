@@ -320,17 +320,26 @@ class UserFuctions {
                             }
 			}
                     }
-                    
+                }
+                if(!empty($event)  && !empty($headerImage) )
+		{
                     if(!empty($headerImage))
                     {
-                        $img=new Image();
-                        $img->url=$headerImage;
-                        $img->header=1;
-                        $img->eventId=$event->id;
-			if(!empty($img))
-			{
-                           ImageFunctions::insert($img);
-			}
+                        if(!file_exists(UPLOAD_FOLDER."events/".$event->id."/"))
+                        {
+                            mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
+                        }
+                        if (!copy(UPLOAD_FOLDER.$headerImage, UPLOAD_FOLDER."events/".$event->id."/".$headerImage)) {
+                        }
+                        
+                         $img=new Image();
+                         $img->url=UPLOAD_FOLDER."events/".$event->id."/".$headerImage;
+                         $img->header=1;
+                         $img->eventId=$event->id;
+                         if(!empty($img))
+                         {
+                            ImageFunctions::insert($img);
+                         }
                     }
                 }
 		return $event;

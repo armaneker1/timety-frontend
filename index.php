@@ -89,7 +89,7 @@ if (empty($user)) {
                 array_push($msgs, $m);
             }else
             {
-                $event->headerImage = UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png";
+                $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
             }
 
             $startDate = $_POST["te_event_start_date"];
