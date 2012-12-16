@@ -31,7 +31,8 @@ if (isset($_SESSION['id'])) {
 		<div class="logo"><a href="/timete"><img src="images/timete.png" width="82" height="36" border="0" /></a></div>
 		<div class="t_bs">
 			<input type="button" name="" value="" id="add_event_button" class="add_event_btn icon_bg" id="main_dropable" onclick="return false;"/>
-			<input type="button" name="" value="" id="search_event_button" class="search_btn icon_bg" onclick="return false;"/>
+                        <input type="button" name="" value="" id="search_event_button" class="search_btn icon_bg" onclick="return false;"/>
+                        <input type="text" id="hiddenSearch" class="user_inpt invite_friends icon_bg" style="opacity: 0"/>
 			<?php 
 			if(!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status>2)
 			{
@@ -39,6 +40,7 @@ if (isset($_SESSION['id'])) {
 			<script type="text/javascript">
 				jQuery("#add_event_button").click(openCreatePopup);
 			</script>
+                        <script language="javascript" src="resources/scripts/searchbar.js"></script>
 			<?php } ?>
 		</div>
 	</div>
@@ -53,7 +55,7 @@ if (isset($_SESSION['id'])) {
 				  <ul>
 				    <li class="t_m_line"><a href="#" >My Timete</a></li>
 				    <li class="t_m_line"><a href="#">Following</a></li>
-				    <li><a href="#">Populer</a></li>
+				    <li class="t_m_line"><a href="#">Populer</a></li>
 				    <li><a href="logout.php?logout=1">Logout</a></li>
 				  </ul>
 			</div>

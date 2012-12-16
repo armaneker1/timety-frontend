@@ -1,19 +1,25 @@
 function wookmarkFiller(options)
 {
     var pager = 15;
-    var page = Math.floor(jQuery('.main_event .main_event_box').length / 15)+1;
-    var userId = 0;
+    var page = Math.floor(jQuery('.main_event .main_event_box').length / pager)+1;
+    var userId = -1;
+    var channel = 1;
+    var searchText = jQuery('#hiddenSearch').val() || '';
+    var dateSelected = null;
     jQuery.sessionphp.get('id',function(data){
-        userId =data;
+        if(data) userId =data;
     });
     
     jQuery.ajax({
         type: 'GET',
         url: 'getEvents.php',
         data: {
-            'pager':pager,
-            'page':page,
-            'id':userId
+            'userId':userId,
+            'pagerNumber':page,
+            'pageItemCount':pager,
+            'date':dateSelected,
+            'query':searchText,
+            'type':channel
         },
         success: function(data){
             var dataJSON = jQuery.parseJSON(data)
@@ -25,7 +31,7 @@ function wookmarkFiller(options)
 
 function wookmarkHTML(dataArray)
 {
-    jQuery.each(dataArray, function(index, data) { 
+    jQuery.each(dataArray, function(i, data) { 
         //whole html    
         var result = document.createElement('div');
         jQuery(result).addClass('main_event_box');
