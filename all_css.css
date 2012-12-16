@@ -115,7 +115,8 @@ p,h1,h2,h3,h4,h5{
 		0px -1px 0px rgba(000,000,000,0.2),
 		inset 0px 3px 5px rgba(255,255,255,1);
 	box-shadow:
-0px -1px 0px rgba(000,000,000,0.2),inset 0px 3px 5px rgba(255,255,255,1);
+                0px -1px 0px rgba(000,000,000,0.2),
+                inset 0px 3px 5px rgba(255,255,255,1);
 	border-radius:5px;
 	height: 23px;
 	display: block;
