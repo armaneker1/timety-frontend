@@ -201,7 +201,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 				<div class="ts_sorta" style="padding: 0">
 					<input class="eam_inpt"
 						style="font-size: 12px; max-width: 22px; width: 22px;" type="text"
-						value="<?php if($showPopup){ echo $event->reminderValue;}?>" id="te_event_reminder_value"
+						value="<?php if($showPopup){ echo $event->reminderValue;} else { echo "0";}?>" id="te_event_reminder_value"
 						name="te_event_reminder_value" maxlength="3"
 						onkeypress="validateInt(event)"></input>
 				</div>
@@ -310,15 +310,15 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 				<button class="dugme" type="submit">Add Event</button>
 			</div>
 		</div>
-		<input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php if($event->allday==1) {echo "true";} else {echo "false";}?>"></input> 
-		<input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?php if($event->repeat==1) {echo "true";} else {echo "false";}?>"></input>
+		<input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php if($showPopup && $event->allday==1) {echo "true";} else {echo "false";}?>"></input> 
+		<input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?php if($showPopup && $event->repeat==1) {echo "true";} else {echo "false";}?>"></input>
 		
 		<input type="hidden" name="te_event_addsocial_fb" id="te_event_addsocial_fb" value="false"></input>
 		<input type="hidden" name="te_event_addsocial_gg" id="te_event_addsocial_gg" value="false"></input>
 		<input type="hidden" name="te_event_addsocial_tw" id="te_event_addsocial_tw" value="false"></input>
 		<input type="hidden" name="te_event_addsocial_fq" id="te_event_addsocial_fq" value="false"></input>
                 <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?=$_random_session_id?>"></input>
-                <input type="hidden" name="upload_image" id="upload_image" value="0"></input>
+                <input type="hidden" name="upload_image" id="upload_image" value="<?php  if ($showPopup && isset($_POST["upload_image"]) && $_POST["upload_image"] != '0') {echo $_POST["upload_image"];} else {echo "0";}?>"></input>
 	</form>
 </div>
 
