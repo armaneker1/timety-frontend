@@ -16,8 +16,10 @@ function wookmarkFiller(options)
             'id':userId
         },
         success: function(data){
+            if(handler) handler.wookmarkClear();
             var dataJSON = jQuery.parseJSON(data)
             wookmarkHTML(dataJSON);
+            handler = jQuery('.main_event .main_event_box');
             handler.wookmark(options);
         }
     });

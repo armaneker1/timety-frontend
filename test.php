@@ -5,11 +5,15 @@ require 'utils/userFunctions.php';
 
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
+$result=$nf->getHomePageEvents(1, 0, 15);
+var_dump($result);
 
-//var_dump($uf::checkTime("05:12"));
-$result=$nf->getHomePageEvents(22, 0, 15);
-$json_response = json_encode($result);
-echo $json_response;
+
+
+//$result=$nf->getEvents(1, 0, 15);
+
+//$json_response = json_encode($result);
+//echo $json_response;
 /*
 $user=$uf->getUserById(17);
 for($i=0;$i<5;$i++)

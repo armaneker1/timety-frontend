@@ -272,7 +272,7 @@ if (empty($user)) {
 					
                     var options = {
                         autoResize: true, // This will auto-update the layout when the browser window is resized.
-                        container: $(".main_event"), // Optional, used for some extra CSS styling
+                        container: jQuery(".main_event"), // Optional, used for some extra CSS styling
                         offset: 10, // Optional, the distance between grid items
                         itemWidth: 200 // Optional, the width of a grid item
                     };

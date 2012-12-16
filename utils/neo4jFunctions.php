@@ -936,6 +936,32 @@ class Neo4jFuctions {
 		}
 		return $array;
 	}
+        
+        /*
+         * $userId= user id that logged in -1 default guest
+         * list events after given date dafault current date
+         * $type = events type 1=Popular,2=Mytimete,3=following default 1
+         * $query search paramaters deeafult "" all
+         * $pageNumber deafult 0
+         * $pageItemCount default 15
+         */
+        public static  function getEvents($userId=-1,$date="0000-00-00 00:00:00",$type=1,$query="",$pageNumber=0,$pageItemCount=15)
+	{
+		$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+		$query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
+				 "MATCH (user)-[:".REL_INTERESTS."]->(like)<-[:".REL_OBJECTS."]-(cat)-[:".REL_EVENTS."]->(event)  ".
+				 "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." DESC SKIP ".$page." LIMIT ".$pageLimit;
+                var_dump($query);
+		$query = new Cypher\Query($client, $query,null);
+		$result = $query->getResultSet();
+		$array=array();
+		foreach($result as $row) {
+                        $evt=new Event();
+                        $evt->createNeo4j($row['event']);
+			array_push($array, $evt);
+		}
+		return $array;
+	}
 
 
 }
