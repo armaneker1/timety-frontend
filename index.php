@@ -241,7 +241,8 @@ if (empty($user)) {
                     clear('category');
                     clear('invites');
                 });
-
+                
+             
                 jQuery(function(){          
                     var uploader = new qq.FileUploader({
                         element: document.getElementById('te_event_image_div'),
@@ -268,17 +269,18 @@ if (empty($user)) {
                 jQuery(document).ready(function(){ 
                     jQuery('.main_sag').jScroll({speed:"0", top:68,limit:145,tmax:220});
                     jQuery('#slides').slides({preload: true,generateNextPrev: false,prev:"prev_button",next:"next_button",pagination :false,generatePagination :false});
-					
-					
-                    var options = {
+                    
+		    var optionsWookmark = {
                         autoResize: true, // This will auto-update the layout when the browser window is resized.
                         container: jQuery(".main_event"), // Optional, used for some extra CSS styling
                         offset: 10, // Optional, the distance between grid items
                         itemWidth: 200 // Optional, the width of a grid item
                     };
-					
+                    
+                    document.optionsWookmark = optionsWookmark;
+		
                     handler = jQuery('.main_event .main_event_box');
-                    handler.wookmark(options);
+                    handler.wookmark(optionsWookmark);
 					
 					
                     /*
@@ -289,7 +291,7 @@ if (empty($user)) {
                         var closeToBottom = (jQuery(window).scrollTop() + jQuery(window).height() > jQuery(document).height() - 100);
                         if(closeToBottom) {
                             // Get the first then items from the grid, clone them, and add them to the bottom of the grid.
-                            wookmarkFiller(options);
+                            wookmarkFiller(optionsWookmark);
                         }
                     };
                     jQuery(document).bind('scroll', onScroll);

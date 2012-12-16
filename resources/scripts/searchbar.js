@@ -1,4 +1,4 @@
-jQuery(function(){
+jQuery(document).ready(function(){ 
     var inputBtn = jQuery('#search_event_button');
     var inputText = jQuery('#hiddenSearch');
     inputBtn.bind('click', function() {
@@ -10,6 +10,7 @@ jQuery(function(){
         jQuery(inputText).animate({
             opacity :1
         }, 300); 
+        inputBtn.focus();
     });
     inputText.bind('blur', function() {
         jQuery(inputText).animate({
@@ -21,6 +22,7 @@ jQuery(function(){
         }, 300);
     }).keypress(function(e){
         if(e.keyCode == 13)
-            wookmarkFiller(options, true);
+            wookmarkFiller(document.optionsWookmark, true);
+            inputText.blur();
     });
 });

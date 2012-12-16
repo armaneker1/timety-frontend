@@ -1,6 +1,5 @@
 function wookmarkFiller(options,clear)
 {
-    
     var pager = 15;
     var page = clear ? 0 :(Math.floor(jQuery('.main_event .main_event_box').length / pager)+1);
     var userId = -1;
@@ -29,6 +28,7 @@ function wookmarkFiller(options,clear)
             wookmarkHTML(dataJSON);
             if(handler) handler.wookmarkClear();
             handler = jQuery('.main_event .main_event_box');
+            
             handler.wookmark(options);
         }
     });
