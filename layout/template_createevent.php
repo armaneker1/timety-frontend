@@ -78,6 +78,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 							<li style="width: 48px; height: 17px;"><input type="checkbox"
 								id="on_off" name="te_event_privacy"
                                                                 tabindex="-1"
+                                                                value="false"
 								style="width: 48px; height: 17px;" />
 							</li>
 						</ol>

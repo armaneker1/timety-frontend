@@ -207,7 +207,7 @@ if (empty($user)) {
             if (isset($_POST["te_event_privacy"]))
                 $event->privacy = $_POST["te_event_privacy"];
             else
-                $event->privacy = 0;
+                $event->privacy = "false";
 
             $event->categories = $_POST["te_event_category"];
             $event->attendance = $_POST["te_event_people"];
