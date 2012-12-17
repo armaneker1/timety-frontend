@@ -8,7 +8,7 @@ $nf=new Neo4jFuctions();
 
 //$result=$nf->getHomePageEvents(1, 0, 15);
 //$result=$nf->getEvents(4, 0, 15,  null ,null,1);
-$result=$nf->getPopuparEventsByLike(4, 0, 15,  "1999-01-01 00:00:00" ,null);
+$result=$nf->getPopuparEventsByTag(4, 0, 15,  "1999-01-01 00:00:00" ,null);
 
 //$result=$nf->getUserOtherInterestsByCategory(3,146, 4);
 var_dump($result);
