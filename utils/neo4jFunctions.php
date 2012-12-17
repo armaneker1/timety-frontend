@@ -145,6 +145,7 @@ class Neo4jFuctions {
 			$evnt->setProperty(PROP_EVENT_LOCATION, $event->location);
 			$evnt->setProperty(PROP_EVENT_TITLE, $event->title);
 			$evnt->setProperty(PROP_EVENT_PRIVACY, $event->privacy);
+                        $evnt->setProperty(PROP_EVENT_WEIGHT, 10);
 			$evnt->save();
 			
 			$eventIndex->add($evnt, PROP_EVENT_ID, $eventId);
@@ -434,28 +435,36 @@ class Neo4jFuctions {
 		}
 	}
 
-	function addInterest($categoryId,$interestName,$socialType,$type,$status)
+	function addTag($categoryId,$tagName,$socialType)
 	{
 		try {
 			$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 
 			$objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
 			$catIndex = new Index($client, Index::TypeNode, IND_CATEGORY_LEVEL2);
-			$cat=$catIndex->findOne(PROP_CATEGORY_ID, $categoryId);
-
-			if(empty($cat))
+                        $cat=null;
+                        if(empty($categoryId))
+                        {
+                            $cat=$catIndex->findOne(PROP_CATEGORY_NAME, CATEGORY_TAG_CONSTANT);
+                        }else
+                        {
+                            $cat=$catIndex->findOne(PROP_CATEGORY_ID, $categoryId);
+                        }
+                        var_dump($cat);
+			if(!empty($cat))
 			{
 				$object = $client->makeNode();
-				$object->setProperty(PROP_OBJECT_ID, "custom".rand(1000, 1000000));
-				$object->setProperty(PROP_OBJECT_NAME, $interestName);
-				$object->setProperty(PROP_OBJECT_SOCIALTYPE, "customUser");
+				$object->setProperty(PROP_OBJECT_ID, "custom_tag_".rand(1000, 1000000));
+				$object->setProperty(PROP_OBJECT_NAME, $tagName);
+				$object->setProperty(PROP_OBJECT_SOCIALTYPE, $socialType);
 				$object->save();
 
 
 				$objectIndex->add($object, PROP_OBJECT_ID, $object->getProperty(PROP_OBJECT_ID));
-				$objectIndex->add($object, PROP_OBJECT_NAME,  $interestName);
+				$objectIndex->add($object, PROP_OBJECT_NAME,  $tagName);
 
 				$objectIndex->save();
+                                $cat->relateTo($object, REL_OBJECTS)->save();
 				return $object->getProperty(PROP_OBJECT_ID);
 			}
 		} catch (Exception $e) {
@@ -940,12 +949,12 @@ class Neo4jFuctions {
         /*
          * $userId= user id that logged in -1 default guest
          * list events after given date dafault current date
-         * $type = events type 1=Popular,2=Mytimete,3=following default 1
+         * $type = events type 1=Popular,2=Mytimete,3=following,4=an other user's public events default 1
          * $query search paramaters deeafult "" all
          * $pageNumber deafult 0
          * $pageItemCount default 15
          */
-        public static  function getEvents($userId=-1,$pageNumber=0,$pageItemCount=15,$date="0000-00-00 00:00:00",$query="",$type=1)
+        public static  function getEvents($userId=-1,$pageNumber=0,$pageItemCount=15,$date="0000-00-00 00:00",$query="",$type=1)
 	{
                 $array=array();
                 if($userId==-1)
@@ -954,12 +963,80 @@ class Neo4jFuctions {
                     $type=1;
                 }
                 
-                if ($type==3)
+                if(empty($date) || substr($date, 0,1)=="0")
+                {
+                    $date=date(DATE_FORMAT);
+                    $date=$date." 00:00:00";
+                }else
+                {
+                    $datestr=$date.":00";
+                    $datestr=date_parse_from_format(DATETIME_DB_FORMAT,$datestr);
+                    if(checkdate($datestr['month'], $datestr['day'], $datestr['year']))
+                    {
+			$result=$datestr['year']."-";
+			if(strlen($datestr['month'])==1)
+			{
+                            $result=$result."0".$datestr['month']."-";
+			}else
+			{
+                            $result=$result.$datestr['month']."-";
+			}
+			if(strlen($datestr['day'])==1)
+			{
+                            $result=$result."0".$datestr['day'];
+			}else
+			{
+                            $result=$result.$datestr['day'];
+			}
+                        
+                        $result=$result." ";
+                        if(strlen($datestr['hour'])==1)
+			{
+                            $result=$result."0".$datestr['hour'];
+			}else
+			{
+                            $result=$result.$datestr['hour'];
+			}
+                        $result=$result.":";
+                        if(strlen($datestr['minute'])==1)
+			{
+                            $result=$result."0".$datestr['minute'];
+			}else
+			{
+                            $result=$result.$datestr['minute'];
+			}
+                        $result=$result.":00";
+			$date=$result;
+                    }else
+                    {
+                          $date=date(DATE_FORMAT);
+                          $date=$date." 00:00:00";
+                    }
+                }
+                
+                
+                if($type==4)
+                {
+                    $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                    $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
+                                     "MATCH (user)-[r:".REL_EVENTS_JOINS."]->(event)  ".
+                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">'".$date."')  AND  (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
+                                     "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+                    var_dump($query);
+                    $query = new Cypher\Query($client, $query,null);
+                    $result = $query->getResultSet();
+                    foreach($result as $row) {
+                            $evt=new Event();
+                            $evt->createNeo4j($row['event']);
+                            array_push($array, $evt);
+                    }
+                }
+                else  if ($type==3)
                 {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                     $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                                      "MATCH (user)-[:".REL_FOLLOWS."]->(friend)-[r:".REL_EVENTS_JOINS."]->(event)  ".
-                                     "WHERE (r.".PROP_JOIN_CREATE."=1) AND (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
+                                     "WHERE (r.".PROP_JOIN_CREATE."=1) AND (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">'".$date."') AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
                                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
                     var_dump($query);
                     $query = new Cypher\Query($client, $query,null);
@@ -974,7 +1051,7 @@ class Neo4jFuctions {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                     $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                                      "MATCH (user)-[r:".REL_EVENTS_JOINS."]->(event)  ".
-                                     "WHERE (r.".PROP_JOIN_CREATE."=1) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
+                                     "WHERE (r.".PROP_JOIN_CREATE."=1) AND (event.".PROP_EVENT_START_DATE.">'".$date."') AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
                                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
                     var_dump($query);
                     $query = new Cypher\Query($client, $query,null);

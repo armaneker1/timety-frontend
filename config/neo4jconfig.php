@@ -46,6 +46,8 @@ define('PROP_CATEGORY_ID', 'id');
 define('PROP_CATEGORY_NAME', 'name');
 define('PROP_CATEGORY_SOCIALTYPE', 'socialType');
 
+define('CATEGORY_TAG_CONSTANT', 'tag');
+
 
 define('PROP_OBJECT_ID', 'id');
 define('PROP_OBJECT_NAME', 'name');
@@ -69,6 +71,7 @@ define('PROP_EVENT_DESCRIPTION', 'description');
 define('PROP_EVENT_START_DATE', 'start_date_time');
 define('PROP_EVENT_END_DATE', 'end_date_time');
 define('PROP_EVENT_PRIVACY', 'privacy');
+define('PROP_EVENT_WEIGHT', 'event_weight');
 
 
 

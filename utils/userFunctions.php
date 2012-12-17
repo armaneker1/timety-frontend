@@ -626,10 +626,10 @@ class UserFuctions {
 	}
 
 
-	function addInterest($categoryId,$interestName,$socialType,$type,$status)
+	function addTag($categoryId,$tagName,$socialType)
 	{
 		$neo=new Neo4jFuctions();
-		return $neo->addInterest($categoryId, $interestName, $socialType, $type, $status);
+		return $neo->addTag($categoryId, $tagName, $socialType);
 	}
 
 	function removeInterest($userId,$interestId)

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require 'apis/facebook/facebook.php';
 require 'config/fbconfig.php';
 require 'apis/foursquare/FoursquareAPI.php';
@@ -22,34 +22,34 @@ else
 		if(isset($_POST['add_ineterest']))
 			$userAddInterest=$_POST['add_ineterest'];
 		$check=0;
-	
 		if(!empty($userAddInterest))
 		{
 			$userAddInterest=json_decode($userAddInterest);
-	
-			var_dump($userAddInterest);
 			foreach ( $userAddInterest as $interest)
 			{
 				if(!empty($interest))
 				{
 					if(!empty($interest->id))
 					{
-						$userFuctions->saveUserInterest($userId, $interest->id);
-					} else
-					{
-						//$id=$userFunctions->addInterest( $interest->categoryRefId, $interest->name,"0","0","0");
-						//if(!empty($id))
-						//	$userFunctions->saveUserInterest($userId, $id);
-					}
+                                                if(!empty($interest->new_) && $interest->new_=="1")
+                                                {
+                                                    $id=$userFuctions->addTag( null, $interest->label,"usercustomtag");
+                                                    if(!empty($id))
+                                                    	$userFuctions->saveUserInterest($userId, $id);
+                                                }else
+                                                {
+                                                    $userFuctions->saveUserInterest($userId, $interest->id);
+                                                }
+					} 
 				}
 			}
 		}
 	
-		$user->status=2;
-		$userFuctions->updateUser($_SESSION['id'], $user);
+		//$user->status=2;
+		//$userFuctions->updateUser($_SESSION['id'], $user);
 	
 		
-		header("Location : suggest-friend.php");
+		//header("Location : suggest-friend.php");
 		
 		/*foreach($_POST as $name=>$param)
 		 {
@@ -95,7 +95,7 @@ else
 	
 	
 	
-	if($user!=null && $user->status!=1)
+	if(false && $user!=null && $user->status!=1)
 	{
 		UserFuctions::checkUserStatus($user);
 	}

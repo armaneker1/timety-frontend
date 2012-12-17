@@ -6,8 +6,8 @@ require 'utils/userFunctions.php';
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
-$result=$nf->getHomePageEvents(1, 0, 15);
-//$result=$nf->getEvents(2, 0, 15,  null ,null,3);
+//$result=$nf->getHomePageEvents(1, 0, 15);
+$result=$nf->getEvents(1, 0, 15,  null ,null,4);
 var_dump($result);
 
 
