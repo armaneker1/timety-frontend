@@ -45,11 +45,11 @@ else
 			}
 		}
 	
-		//$user->status=2;
-		//$userFuctions->updateUser($_SESSION['id'], $user);
+		$user->status=2;
+		$userFuctions->updateUser($_SESSION['id'], $user);
 	
 		
-		//header("Location : suggest-friend.php");
+		header("Location : suggest-friend.php");
 		
 		/*foreach($_POST as $name=>$param)
 		 {
@@ -95,7 +95,7 @@ else
 	
 	
 	
-	if(false && $user!=null && $user->status!=1)
+	if($user!=null && $user->status!=1)
 	{
 		UserFuctions::checkUserStatus($user);
 	}
