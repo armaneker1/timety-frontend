@@ -132,6 +132,7 @@ class Neo4jFuctions {
 			$categoryIndex = new Index($client, Index::TypeNode, IND_CATEGORY_LEVEL2);
 			$userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
 			$groupIndex = new Index($client, Index::TypeNode, IND_GROUP_INDEX);
+                        $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
 
 
 			$evnt = $client->makeNode();
@@ -159,11 +160,26 @@ class Neo4jFuctions {
 				{
 					if(!empty($cat))
 					{
-						$cat=$categoryIndex->findOne(PROP_CATEGORY_ID, $cat);
-						if(!empty($cat))
+						$catTmp=$categoryIndex->findOne(PROP_CATEGORY_ID, $cat);
+						if(!empty($catTmp))
 						{
-							$cat->relateTo($evnt, REL_EVENTS)->setProperty(PROP_EVENTS_ACC_TYPE, $user->type)->save();
-						}
+							$catTmp->relateTo($evnt, REL_EVENTS)->setProperty(PROP_EVENTS_ACC_TYPE, $user->type)->save();
+						}else
+                                                {
+                                                    $tags=explode(";",$cat);
+                                                    if(sizeof($tags)==2)
+                                                    {
+                                                        $tag=  $this->addTag(null, $tags[1], "usercustomtag");
+                                                        if(!empty($tag))
+                                                        {
+                                                            $tag=$objectIndex->findOne(PROP_OBJECT_ID, strtolower($tag));
+                                                            if(!empty($tag))
+                                                            {
+                                                                $tag->relateTo($evnt, REL_TAGS)->save();
+                                                            }
+                                                        }
+                                                    }
+                                                }
 					}
 				}
                             }

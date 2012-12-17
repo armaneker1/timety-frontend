@@ -22,7 +22,9 @@ jQuery(document).ready(function(){
         }, 300);
     }).keypress(function(e){
         if(e.keyCode == 13)
+        {    
             wookmarkFiller(document.optionsWookmark, true);
             inputText.blur();
+        }
     });
 });
