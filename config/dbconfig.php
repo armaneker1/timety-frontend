@@ -12,9 +12,11 @@ mysql_query("SET COLLATION_CONNECTION = 'UTF8' ");
 define('TBL_KEYGENERATOR','timete_key_generator');
 define('CLM_EVENTID' ,'EVENT_ID');
 define('CLM_IMAGEID' ,'IMAGE_ID');
+define('CLM_COMMENTID' ,'COMMENT_ID');
 define('TBL_EVENTS' ,'timete_events');
 define('TBL_USERS' ,'timete_users');
 define('TBL_USERS_SOCIALPROVIDER' ,'timete_user_socialprovider');
 define('TBL_LOSTPASS' ,'timete_lost_pass');
 define('TBL_IMAGES' ,'timete_images');
+define('TBL_COMMENT' ,'timete_comment');
 ?>

@@ -264,4 +264,25 @@ class LostPass{
 	public  $date=null;
 	public  $valid=null;
 }
+
+class Comment{
+    
+    public function  createFromSQL($result)
+    {
+	if(!empty($result))
+	{
+            $this->id=$result['id'];
+            $this->userId=$result['user_id'];
+            $this->datetime=$result['datetime'];
+            $this->eventId=$result['event_id'];
+            $this->comment=$result['comment'];
+	}
+    }
+    
+    public $id=null;
+    public $userId=null;
+    public $datetime=null;
+    public $eventId=null;
+    public $comment=null;
+}
 ?>
