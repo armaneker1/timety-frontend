@@ -443,7 +443,6 @@ class Neo4jFuctions {
                         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                         $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
                         $tag=$objectIndex->findOne(PROP_OBJECT_NAME, strtolower($tagName));
-                        var_dump($tag);
                         return $tag;
                   } catch (Exception $e) {
                             log("Error",$e->getMessage());

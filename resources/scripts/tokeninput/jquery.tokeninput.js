@@ -585,7 +585,8 @@
 				input_box.attr("placeholder","");
 			}else
 			{
-				input_box.attr("placeholder",settings.placeholder);
+                               input_box.width(input_resizer.width() + settings.input_width);
+                               input_box.attr("placeholder",settings.placeholder);
 			}
 
 			// Don't show the help dropdown, they've got the idea
@@ -682,7 +683,8 @@
 				input_box.attr("placeholder","");
 			}else
 			{
-				input_box.attr("placeholder",settings.placeholder);
+                                input_box.width(input_resizer.width() + settings.input_width);
+                                input_box.attr("placeholder",settings.placeholder);
 			}
 			
 			// Execute the onDelete callback if defined
