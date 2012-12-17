@@ -35,7 +35,11 @@ try {
             $json_response = json_encode($res);
             echo $json_response;
         }
-     }
+     } else
+        {
+            $json_response = json_encode($res);
+            echo $json_response;
+        }
 } catch (Exception $e) {
     $res->error=$e->getMessage();
     $json_response = json_encode($res);
