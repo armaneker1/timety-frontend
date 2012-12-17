@@ -7,7 +7,10 @@ $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
 //$result=$nf->getHomePageEvents(1, 0, 15);
-$result=$nf->getEvents(1, 0, 15,  null ,null,4);
+//$result=$nf->getEvents(1, 0, 15,  null ,null,4);
+
+
+$result=$nf->getUserOtherInterestsByCategory(3,146, 4);
 var_dump($result);
 
 

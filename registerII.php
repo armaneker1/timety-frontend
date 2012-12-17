@@ -286,7 +286,7 @@ else
 								style="padding-top: 0px;">
 								<?php 
 								$item_count=8;
-								$interests=$userFuctions->getUserInterest($user->id,$cat->id,16);
+								$interests=$userFuctions->getUserOtherInterestsByCategory($user->id,$cat->id,16);
 								if(!empty($interests) && sizeof($interests)>0)
 								{
 

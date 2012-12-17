@@ -693,10 +693,7 @@ class Neo4jFuctions {
 		$query = new Cypher\Query($client, $query,null);
 		$result = $query->getResultSet();
 		$array=array();
-		//echo "Found ".count($result)." object:<p/>";
 		foreach($result as $row) {
-			//echo "  ".$row['object']->getProperty('id')." - ";
-			//echo "  ".$row['object']->getProperty('name')."<p/>";
 			$int=new Interest();
 			$int->id=$row['object']->getProperty(PROP_OBJECT_ID);
 			$int->name=$row['object']->getProperty(PROP_OBJECT_NAME);
@@ -710,17 +707,60 @@ class Neo4jFuctions {
 		}
 		return $array;
 	}
-
-	function getUserExtraInterestsByCategory($uid,$array,$categoryId,$limit)
-	{
-		$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        
+        function getUserOtherInterestsByCategory($uid,$categoryId,$count)
+        {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 		$query = "START cat=node:".IND_CATEGORY_LEVEL2."('".PROP_CATEGORY_ID.":".$categoryId."') ".
 				"MATCH (cat) -[:".REL_OBJECTS."]- (object)".
 				"RETURN object, count(*)";
 		$query = new Cypher\Query($client, $query,null);
 		$result = $query->getResultSet();
 		$i=0;
-		//echo "Found ".count($result)." category:<p/>";
+                $array=array();
+                $likes=  $this->getUserInterestsByCategory($uid, $categoryId, null);
+		foreach($result as $row) {
+			$int=new Interest();
+			$int->id=$row['object']->getProperty(PROP_OBJECT_ID);
+			$int->name=$row['object']->getProperty(PROP_OBJECT_NAME);
+			$int->socialType=$row['object']->getProperty(PROP_OBJECT_SOCIALTYPE);
+			$int->categoryRefId=$categoryId;
+			if(!in_array($int,$likes))
+			{
+				if($i<$count)
+				{
+					$i++;
+				} else
+				{
+					break;
+				}
+				array_push($array, $int);
+			}
+		}
+                if(empty($array) || sizeof($array)<$count)
+                {
+                    $size=$count-sizeof($array);
+                    if($size>  sizeof($likes))
+                    {
+                        $size=sizeof($likes);
+                    }
+                    for($i=0;$i<$size;$i++)
+                    {
+                        array_push($array, $likes[$i]);
+                    }
+                }
+		return $array;
+        }
+
+        function getUserExtraInterestsByCategory($uid,$array,$categoryId,$limit)
+	{
+		$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+		$query = "START cat=node:".IND_CATEGORY_LEVEL2."('".PROP_CATEGORY_ID.":".$categoryId."') ".
+				"MATCH (cat) -[:".REL_OBJECTS."]- (object)".
+				"RETURN object, count(*)";
+		$query = new Cypher\Query($client, $query,1);
+		$result = $query->getResultSet();
+		$i=0;
 		foreach($result as $row) {
 			$int=new Interest();
 			$int->id=$row['object']->getProperty(PROP_OBJECT_ID);

@@ -576,8 +576,15 @@ class UserFuctions {
 		$n=new Neo4jFuctions();
 		return $n->getUserInterestsByCategory($userId,$categoryId,$count);
 	}
+        
+        function  getUserOtherInterestsByCategory($userId,$categoryId,$count)
+        {
+            //do some other things if needed
+            $n=new Neo4jFuctions();
+            return $n->getUserOtherInterestsByCategory($userId,$categoryId,$count);
+        }
 
-	function getUserInterestIds($userId,$categoryId)
+        function getUserInterestIds($userId,$categoryId)
 	{
 		$n=new Neo4jFuctions();
 		return $n->getUserInterestsIdsByCategory($userId,$categoryId);
