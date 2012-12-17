@@ -434,9 +434,33 @@ class Neo4jFuctions {
 			return false;
 		}
 	}
+        
+        function getTag($tagName)
+        {
+                if(!empty($tagName))
+                {
+                  try {
+                        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                        $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
+                        $tag=$objectIndex->findOne(PROP_OBJECT_NAME, strtolower($tagName));
+                        var_dump($tag);
+                        return $tag;
+                  } catch (Exception $e) {
+                            log("Error",$e->getMessage());
+                            return null;
+                  }
+                }
+                return null;
+        }
 
 	function addTag($categoryId,$tagName,$socialType)
 	{
+                $tag =  $this->getTag($tagName);
+                
+                if(!empty($tag))
+                {
+                    return $tag->getProperty(PROP_OBJECT_ID);
+                }
 		try {
 			$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 
@@ -445,12 +469,11 @@ class Neo4jFuctions {
                         $cat=null;
                         if(empty($categoryId))
                         {
-                            $cat=$catIndex->findOne(PROP_CATEGORY_NAME, CATEGORY_TAG_CONSTANT);
+                            $cat=$catIndex->findOne(PROP_CATEGORY_NAME, strtolower(CATEGORY_TAG_CONSTANT));
                         }else
                         {
                             $cat=$catIndex->findOne(PROP_CATEGORY_ID, $categoryId);
                         }
-                        var_dump($cat);
 			if(!empty($cat))
 			{
 				$object = $client->makeNode();
@@ -461,9 +484,7 @@ class Neo4jFuctions {
 
 
 				$objectIndex->add($object, PROP_OBJECT_ID, $object->getProperty(PROP_OBJECT_ID));
-				$objectIndex->add($object, PROP_OBJECT_NAME,  $tagName);
-
-				$objectIndex->save();
+				$objectIndex->add($object, PROP_OBJECT_NAME, strtolower($tagName));
                                 $cat->relateTo($object, REL_OBJECTS)->save();
 				return $object->getProperty(PROP_OBJECT_ID);
 			}
