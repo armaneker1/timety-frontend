@@ -310,7 +310,7 @@ if (empty($user)) {
                     handler = jQuery('.main_event .main_event_box');
                     handler.wookmark(optionsWookmark);
 					
-					
+		    wookmarkFiller(document.optionsWookmark, true);		
                     /*
                      * Endless scroll
                      */
@@ -542,54 +542,7 @@ if (empty($user)) {
                 </div>
             </div>
             <div class="main_event">
-                <?php
-                $userId = -1;
-                if (!empty($user)) {
-                    $userId = $user->id;
-                }
-                $userFunctions = new UserFuctions();
-                $events = $userFunctions->getEvents($userId, 0, 15,null,null,1);
-                $evt = new Event();
-                foreach ($events as $evt) {
-                    $evtDesc = $evt->description;
-                    if (strlen($evtDesc) > 500) {
-                        $evtDesc = substr($evtDesc, 0, 500) + "...";
-                    }
-                    ?>
-                    <div class="main_event_box" date="<?=$evt->startDateTime?>">
-                        <div class="m_e_img">
-                            <img src="<?=$evt->headerImage->url?>" width="186" height="219"
-                                 class="main_draggable" onclick="return openModalPanel(<?=$evt->id?>);" />
-                        </div>
-                        <div class="m_e_metin">
-                            <div class="m_e_baslik">
-                                <?php echo $evt->title ?>
-                            </div>
-                            <div class="m_e_ackl">
-                                <?php echo $evtDesc ?>
-                            </div>
-                            <div class="m_e_drm">
-                                <ul>
-                                    <li class="m_e_cizgi"><a href="#" class="mavi_link"> <img
-                                                src="images/usr.png" width="18" height="18" border="0"
-                                                align="absmiddle" /><?=$evt->attendancecount?>
-                                        </a>
-                                    </li>
-                                    <li class="m_e_cizgi"><a href="#" class="turuncu_link"> <img
-                                                src="images/comm.png" width="19" height="18" border="0"
-                                                align="absmiddle" /><?=$evt->commentCount?>
-                                        </a>
-                                    </li>
-                                    <li><a href="#" class="yesil_link"> <img src="images/zmn.png"
-                                                                             width="19" height="18" border="0" align="absmiddle" /><?=$evt->remainingtime?>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                <?php } ?>
+               
             </div>
         </div>
         <div class="main_sag_header">
