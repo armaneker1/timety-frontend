@@ -24,8 +24,7 @@ if(isset($_GET["query"]))
 $type=null;
 if(isset($_GET["type"]))
     $type=$_GET["type"];
-        
-var_dump($_GET);
+    
 $res=new Result();
 $res->error=true;
 $res->success=false;

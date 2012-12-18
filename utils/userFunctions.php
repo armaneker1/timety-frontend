@@ -803,12 +803,12 @@ class UserFuctions {
          * $pageNumber deafult 0
          * $pageItemCount default 15
          */
-        public static function  getEvents($userId=-1,$date="0000-00-00 00:00:00",$type=1,$query="",$pageNumber=0,$pageItemCount=15)
+        public static function  getEvents($userId=-1,$pageNumber=0,$pageItemCount=15,$date="0000-00-00 00:00",$query="",$type=1)
         {
             if(!empty($userId))
             {
 		$n=new Neo4jFuctions();
-		$array=$n->getEvents($userId,$date,$type,$query,$pageNumber,$pageItemCount);
+		$array=$n->getEvents($userId,$pageNumber,$pageItemCount,$date,$query,$type);
 		return $array;
             } else
             {

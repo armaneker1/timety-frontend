@@ -17,6 +17,6 @@ define('COOKIE_KEY_RM','tmfblckirm');
 define('DATETIME_DB_FORMAT', 'Y-m-d H:i:s');
 define('TIME_FE_FORMAT', 'H:i');
 define('DATE_FE_FORMAT', 'd.m.Y H:i');
-define('DATE_FORMAT', 'Y.m.d');
+define('DATE_FORMAT', 'Y-m-d');
 
 ?>

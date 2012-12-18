@@ -550,7 +550,7 @@ if (empty($user)) {
                     $userId = $user->id;
                 }
                 $userFunctions = new UserFuctions();
-                $events = $userFunctions->getHomePageEvents($userId, 0, 15);
+                $events = $userFunctions->getEvents($userId, 0, 15,null,null,1);
                 $evt = new Event();
                 foreach ($events as $evt) {
                     $evtDesc = $evt->description;

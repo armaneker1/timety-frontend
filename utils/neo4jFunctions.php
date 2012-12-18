@@ -1039,6 +1039,11 @@ class Neo4jFuctions {
                     $type=1;
                 }
                 
+                if(empty($query))
+                {
+                    $query="";
+                }
+                
                 if(empty($date) || substr($date, 0,1)=="0")
                 {
                     $date=date(DATE_FORMAT);
@@ -1089,7 +1094,6 @@ class Neo4jFuctions {
                           $date=$date." 00:00:00";
                     }
                 }
-                
                 if($type==4)
                 {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -1135,7 +1139,6 @@ class Neo4jFuctions {
                     }
                 } else
                 {
-                 
                     $array1= Neo4jFuctions::getPopuparEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query);
                     $array2=  Neo4jFuctions::getPopuparEventsByEvent($userId, $pageNumber, $pageItemCount, $date, $query);
                     $dublicateKeys=array();
