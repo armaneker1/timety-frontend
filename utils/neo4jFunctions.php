@@ -1139,6 +1139,8 @@ class Neo4jFuctions {
                     }
                 } else
                 {
+                    $array= Neo4jFuctions::getAllEvents($pageNumber=0,$pageItemCount=15,$query);
+                    /*
                     $array1= Neo4jFuctions::getPopuparEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query);
                     $array2=  Neo4jFuctions::getPopuparEventsByEvent($userId, $pageNumber, $pageItemCount, $date, $query);
                     $dublicateKeys=array();
@@ -1170,7 +1172,7 @@ class Neo4jFuctions {
                     } else if(!empty ($array2))
                     {
                         $array=$array2;
-                    }
+                    }*/
                 }
 		return $array;
 	}
@@ -1215,6 +1217,21 @@ class Neo4jFuctions {
              return $array;
         }
           
+        public  static function getAllEvents($pageNumber=0,$pageItemCount=15,$query="")
+        {
+             $array=array();
+             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+             $query ="START events=node:".IND_EVENT_INDEX."('".PROP_USER_ID.":**') ".
+                     "RETURN events, count(*) ORDER BY events.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+             $query = new Cypher\Query($client, $query,null);
+             $result = $query->getResultSet();
+             foreach($result as $row) {
+                $evt=new Event();
+                $evt->createNeo4j($row['events']);
+                array_push($array, $evt);
+             }
+             return $array;
+        }
         
         
         

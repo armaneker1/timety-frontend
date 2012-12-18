@@ -36,7 +36,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 });
 </script>
 <?php  } ?>
-<div id="div_follow_trans" class="follow_trans" style="display: <?php if($showPopup) { echo  "block";} else { echo "none";}  ?>;"></div>
+<div id="div_follow_trans" class="follow_trans" style="overflow-y: scroll;display: <?php if($showPopup) { echo  "block";} else { echo "none";}  ?>;"></div>
 <div class="event_add_ekr" id="div_event_add_ekr" style="display: <?php if($showPopup) { echo  "block";} else { echo "none";} ?>;"> 
         <?php 
             if($showPopup) {

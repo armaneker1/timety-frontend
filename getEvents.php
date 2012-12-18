@@ -37,14 +37,12 @@ if($userId!=null  && $pageNumber!=""  && $pageItemCount!=null  && $type!=null )
         $json_response = json_encode($result);
         echo $json_response;
     }else
-    {
-        array_push($res->param,"2");
+    { 
         $json_response = json_encode($res);
         echo $json_response;
     }
 }else
-{
-    array_push($res->param,"1");
+{ 
     $json_response = json_encode($res);
     echo $json_response;
 }
