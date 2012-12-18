@@ -1020,6 +1020,39 @@ class DBUtils{
 	}
 }
 
+class UtilFUnctions{
+    
+    public static function getTimeDiffString($datestart,$dateend)
+    {
+        try {
+                $start_date = new DateTime($datestart);
+                $since_start = $start_date->diff(new DateTime($dateend));
+                $result=null;
+                if(!empty($since_start->y) && empty($result))
+                    $result=$since_start->y.'y';
+                if(!empty($since_start->m) && empty($result))
+                    $result=$since_start->m.'mo';
+                if(!empty($since_start->d) && empty($result))
+                    $result=$since_start->d.'d';
+                if(!empty($since_start->h) && empty($result))
+                    $result=$since_start->h.'h';
+                 if(!empty($since_start->m) && empty($result))
+                    $result=$since_start->m.'m';
+                 if(!empty($result))
+                 {
+                     return $result;
+                 } else
+                 {
+                     return "~m";
+                 }
+           } catch (Exception $e) {
+                return "~m";
+           }
+          
+    }
+    
+}
+
 
 class ImageFunctions{
 	public static function  getImageListByEvent($eventId)
@@ -1115,6 +1148,27 @@ class CommentsFunctions{
 			}
 			return $array;
 		}
+	}
+        
+        public static function  getCmmentListSizeByEvent($eventId)
+	{
+		$eventId=DBUtils::mysql_escape($eventId);
+		$query=mysql_query("SELECT count(*) as count_comment from ".TBL_COMMENT." WHERE event_id=$eventId ") or die(mysql_error());
+		$array=array();
+		if(!empty($query))
+		{
+                     mysql_num_rows($query);
+		     $db_field = mysql_fetch_assoc($query);
+                     if(!empty($db_field))
+                     {
+                        $count =$db_field['count_comment'];
+                        if(!empty($count))
+                        {
+                            return $count;
+                        }
+                     }
+		}
+                return 0;
 	}
 
 

@@ -558,10 +558,10 @@ if (empty($user)) {
                         $evtDesc = substr($evtDesc, 0, 500) + "...";
                     }
                     ?>
-                    <div class="main_event_box" date="2012.02.19 08:00">
+                    <div class="main_event_box" date="<?=$evt->startDateTime?>">
                         <div class="m_e_img">
-                            <img src="images/r5.png" width="186" height="219"
-                                 class="main_draggable" onclick="return openModalPanel(id);" />
+                            <img src="<?=$evt->headerImage->url?>" width="186" height="219"
+                                 class="main_draggable" onclick="return openModalPanel(<?=$evt->id?>);" />
                         </div>
                         <div class="m_e_metin">
                             <div class="m_e_baslik">
@@ -574,16 +574,16 @@ if (empty($user)) {
                                 <ul>
                                     <li class="m_e_cizgi"><a href="#" class="mavi_link"> <img
                                                 src="images/usr.png" width="18" height="18" border="0"
-                                                align="absmiddle" />5489
+                                                align="absmiddle" /><?=$evt->attendancecount?>
                                         </a>
                                     </li>
                                     <li class="m_e_cizgi"><a href="#" class="turuncu_link"> <img
                                                 src="images/comm.png" width="19" height="18" border="0"
-                                                align="absmiddle" />4658
+                                                align="absmiddle" /><?=$evt->commentCount?>
                                         </a>
                                     </li>
                                     <li><a href="#" class="yesil_link"> <img src="images/zmn.png"
-                                                                             width="19" height="18" border="0" align="absmiddle" />46m
+                                                                             width="19" height="18" border="0" align="absmiddle" /><?=$evt->remainingtime?>
                                         </a>
                                     </li>
                                 </ul>

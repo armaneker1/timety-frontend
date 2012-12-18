@@ -129,7 +129,8 @@ class Event{
 			$this->reminderType=$result[6];
 			$this->reminderUnit=$result[7];
 			$this->reminderValue=$result[8];
-			$this->privacy=$result[9];	$this->allday=$result[10];
+			$this->privacy=$result[9];	
+                        $this->allday=$result[10];
 			$this->repeat=$result[11];
 			$this->addsocial_fb=$result[12];
 			$this->addsocial_gg=$result[13];
@@ -150,9 +151,42 @@ class Event{
 			$this->endDateTime=$result->getProperty(PROP_EVENT_END_DATE);
 			$this->privacy=$result->getProperty(PROP_EVENT_PRIVACY);
 		}
+                $userFunctions=new UserFuctions();
+                $tmp=$userFunctions->getEventById($this->id);
+                $this->copyEvent($tmp);
+                $this->setAdditionalData();
 	}
+        
+        public function copyEvent($tmp)
+        {
+            $this->id=$tmp->id;
+            $this->title=$tmp->title;
+            $this->location=$tmp->location;
+            $this->description=$tmp->description;
+            $this->startDateTime=$tmp->startDateTime;
+            $this->endDateTime=$tmp->endDateTime;
+            $this->reminderType=$tmp->reminderType;
+            $this->reminderUnit=$tmp->reminderUnit;
+            $this->reminderValue=$tmp->reminderValue;
+            $this->privacy=$tmp->privacy;
+            $this->allday=$tmp->allday;
+            $this->repeat=$tmp->repeat;
+            $this->addsocial_fb=$tmp->addsocial_fb;
+            $this->addsocial_gg=$tmp->addsocial_gg;
+            $this->addsocial_fq=$tmp->addsocial_fq;
+            $this->addsocial_tw=$tmp->addsocial_tw;    
+        }
+        
+        public function setAdditionalData()
+        {
+            $this->getImages();
+            $this->getHeaderImage();
+            $this->commentCount =  CommentsFunctions::getCmmentListSizeByEvent($this->id);
+            $this->remainingtime=UtilFUnctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
+            $this->attendancecount=  Neo4jFuctions::getEventAttendanceCount($this->id);
+        }
 
-	public $id;
+        public $id;
 	public $title;
 	public $location;
 	public $description;
@@ -168,10 +202,16 @@ class Event{
 	public $addsocial_gg;
 	public $addsocial_fq;
 	public $addsocial_tw;
+        /*
+         * Additional Data
+         */
 	public $attendance=array();
 	public $categories=array();
 	public $images=array();
         public $headerImage;
+        public $commentCount;
+        public $remainingtime;
+        public $attendancecount;
         
         public function getImages()
         {

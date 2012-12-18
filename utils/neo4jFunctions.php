@@ -1215,6 +1215,29 @@ class Neo4jFuctions {
              return $array;
         }
           
+        
+        
+        
+        /*
+         * Event Utils
+         */
+        
+        public static function getEventAttendanceCount($eventId)
+        {
+             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+             $query ="START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":*".$eventId."*') ".
+                     "MATCH (event)<-[:".REL_EVENTS_JOINS."]->(usr)  ".
+                     "WITH usr,count(*) as cunt_of_people ".
+                     "RETURN cunt_of_people ";
+             $query = new Cypher\Query($client, $query,null);
+             $result = $query->getResultSet();
+             foreach($result as $row) {
+                 return $row['cunt_of_people'];
+             }
+             return 0;
+        }
+        
+       
 
 
 }
