@@ -234,6 +234,57 @@ if (empty($user)) {
         <link href="fileuploader.css" rel="stylesheet" type="text/css">
             <script src="fileuploader.js" type="text/javascript"></script>
 
+            
+            <?php if(!empty($user)) { ?>
+            <script>
+                jQuery(document).ready(function() {
+                    
+                    jQuery(function(){          
+                        var uploader = new qq.FileUploader({
+                            element: document.getElementById('te_event_image_div'),
+                            action: 'uploadImage.php?type=1',
+                            debug: true,
+                            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                            params: {
+                                imageName:'<?= "ImageEventHeader" . $_random_session_id . ".png" ?>'
+                            },
+                            sizeLimit : 10*1024*1024,
+                            multiple:false,
+                            onComplete: function(id, fileName, responseJSON){fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON); },
+                            messages: {
+                                typeError: "{file} has invalid extension. Only {extensions} are allowed.",
+                                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                                emptyError: "{file} is empty, please select files again without it.",
+                                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
+                            }
+                        }
+                    );
+                    });
+                });
+                
+                
+                
+                jQuery(document).ready(function() {
+                    //new iPhoneStyle('.on_off input[type=checkbox]');
+                    new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
+                    new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
+		      
+                    var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
+                    new iPhoneStyle(onchange_checkbox);
+                    setInterval(function toggleCheckbox() {
+                        if(onchange_checkbox)
+                        {
+                            onchange_checkbox.writeAttribute('checked', !onchange_checkbox.checked);
+                            onchange_checkbox.change();
+                            $('status').update(onchange_checkbox.checked);
+                        }
+                    }, 2500);
+                });
+            </script>
+            
+           <?php }  ?>
+            
             <script language="javascript">
                 var handler = null;
                 			
@@ -242,29 +293,6 @@ if (empty($user)) {
                     clear('invites');
                 });
                 
-             
-                jQuery(function(){          
-                    var uploader = new qq.FileUploader({
-                        element: document.getElementById('te_event_image_div'),
-                        action: 'uploadImage.php?type=1',
-                        debug: true,
-                        allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-                        params: {
-                            imageName:'<?= "ImageEventHeader" . $_random_session_id . ".png" ?>'
-                        },
-                        sizeLimit : 10*1024*1024,
-                        multiple:false,
-                        onComplete: function(id, fileName, responseJSON){fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON); },
-                        messages: {
-                            typeError: "{file} has invalid extension. Only {extensions} are allowed.",
-                            sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-                            minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-                            emptyError: "{file} is empty, please select files again without it.",
-                            onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
-                        }
-                    }
-                );
-                });
 			
                 jQuery(document).ready(function(){ 
                     jQuery('.main_sag').jScroll({speed:"0", top:68,limit:145,tmax:220});
@@ -331,24 +359,9 @@ if (empty($user)) {
                         }
                     });
                 });
-
-                jQuery(document).ready(function() {
-                    //new iPhoneStyle('.on_off input[type=checkbox]');
-                    new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                    new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-		      
-                    var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
-                    new iPhoneStyle(onchange_checkbox);
-                    setInterval(function toggleCheckbox() {
-                        if(onchange_checkbox)
-                        {
-                            onchange_checkbox.writeAttribute('checked', !onchange_checkbox.checked);
-                            onchange_checkbox.change();
-                            $('status').update(onchange_checkbox.checked);
-                        }
-                    }, 2500);
-                });
             </script>
+            
+            
             <!--takvim-->
             <script type="text/javascript" src="js/takvim/XRegExp.js"></script>  
             <script type="text/javascript" src="js/takvim/shCore.js"></script>
@@ -380,6 +393,8 @@ if (empty($user)) {
             <script type="text/javascript" src="resources/scripts/tokeninput/jquery.tokeninput.js"></script>
             
             <?php 
+            if(!empty($user))
+            {
             $var_cat="[]";
             $var_usr="[]";
             if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
@@ -432,6 +447,7 @@ if (empty($user)) {
                     });
                 });
             </script>
+            <?php }?>
             <!--auto complete-->
             <!--Placeholder-->
             <script>
@@ -460,82 +476,64 @@ if (empty($user)) {
                             <td colspan="2">
                                 <div id="slides">
                                     <div class="slides_container">
-
-                                        <!-- Slide 1-->
+                                        <?php  if(empty($user)) { ?>
+                                            <div class="slide_item">
+                                               <div class="akt_tkvm">
+                                                   <a href="signin.php"  class="add_event_link">Click Here to Add Event</a>
+                                               </div>
+                                            </div>
+                                        <?php } else {  
+                                            $userId = -1;
+                                            if (!empty($user)) {
+                                                $userId = $user->id;
+                                            }
+                                            $events=  UserFuctions::getEvents($userId, 0, 15,null,null,2);
+                                            if(empty($events))
+                                            {
+                                           ?>
                                         <div class="slide_item">
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <a href="#" class="add_event_link">Click Here to Add Event</a>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                        </div>
-                                        <!-- Slide 1-->
-                                        <!-- Slide 2-->
-                                        <div class="slide_item">
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <a href="#" class="add_event_link">Click Here to Add Event</a>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                            <div class="akt_tkvm">
-                                                <h1>Dotto'da toplanti</h1>
-                                                <p>16:00</p>
-                                                <p>consectetur adipiscing elit. Nullam mauris massa, ultrices
-                                                    vitae dapibus a, pharetra sed quam. Vestibulum</p>
-                                            </div>
-                                        </div>
-                                        <!-- Slide 2-->
-
+                                               <div class="akt_tkvm">
+                                                   <a href="signin.php"  class="add_event_link">Click Here to Add Event</a>
+                                               </div>
+                                         </div>
+                                                
+                                        <?php        
+                                            } else {
+                                               $indx=0;
+                                               $size=  sizeof($events);
+                                               $size2=  $size;
+                                               $size2=round($size/5);
+                                               if(($size%5)>0)
+                                                   $size2=$size2+1;
+                                               for($i=0;$i<$size2;$i++)
+                                               {
+                                        ?>
+                                                <!-- Slide 1-->
+                                                <div class="slide_item">
+                                                 <?php 
+                                                 $count=5;
+                                                 if($indx+$count>=$size)
+                                                 {
+                                                     $count=$size;
+                                                 }
+                                                 for($j=$indx;$j<$count;$j++) {
+                                                     $evt=$events[$j];
+                                                     $evtDesc = $evt->description;
+                                                     if (strlen($evtDesc) > 500) {
+                                                        $evtDesc = substr($evtDesc, 0, 500) + "...";
+                                                     }
+                                                 ?>   
+                                                    <div class="akt_tkvm">
+                                                        <h1><?=$evt->title?></h1>
+                                                        <p><?=$evt->startDateTime?></p>
+                                                        <p><?=$evtDesc?></p>
+                                                    </div>
+                                                 <?php } 
+                                                 
+                                                  $indx=$indx+$count;
+                                                 ?>
+                                                </div>
+                                        <?php }  } } ?>
                                     </div>
                                 </div>
                             </td>
@@ -613,7 +611,7 @@ if (empty($user)) {
             </ul>
         </div>
     </body>
-    <?php include('layout/template_createevent.php'); ?>
+    <?php if(!empty($user)) { include('layout/template_createevent.php'); }?>
 
 </html>
 
