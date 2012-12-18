@@ -1025,19 +1025,23 @@ class UtilFUnctions{
     public static function getTimeDiffString($datestart,$dateend)
     {
         try {
-                $start_date = new DateTime($datestart);
-                $since_start = $start_date->diff(new DateTime($dateend));
+                $start_date = new DateTime($datestart,new DateTimeZone('GMT'));
+                $end_date = new DateTime($dateend,new DateTimeZone('GMT'));
+                $since_start = $start_date->diff($end_date);
+               
                 $result=null;
-                if(!empty($since_start->y) && empty($result))
-                    $result=$since_start->y.'y';
-                if(!empty($since_start->m) && empty($result))
-                    $result=$since_start->m.'mo';
-                if(!empty($since_start->d) && empty($result))
-                    $result=$since_start->d.'d';
-                if(!empty($since_start->h) && empty($result))
-                    $result=$since_start->h.'h';
-                 if(!empty($since_start->m) && empty($result))
+                if($since_start->y>0 && empty($result))
+                    $result=$since_start->y.'y'; 
+                if($since_start->m>0 && empty($result))
+                    $result=$since_start->m.'mo'; 
+                if($since_start->d>0 && empty($result))
+                    $result=$since_start->d.'d'; 
+                if($since_start->h>0 && empty($result))
+                    $result=$since_start->h.'h'; 
+                if($since_start->m>0 && empty($result))
                     $result=$since_start->m.'m';
+                 
+                 
                  if(!empty($result))
                  {
                      return $result;
