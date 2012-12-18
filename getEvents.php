@@ -29,7 +29,7 @@ $res=new Result();
 $res->error=true;
 $res->success=false;
 
-if($userId!=null  && $pageNumber!=null  && $pageItemCount!=null  && $date!=null && $type!=null )
+if($userId!=null  && $pageNumber!=""  && $pageItemCount!=null  && $type!=null )
 {
     $result=Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type);
     if(!empty($result))
@@ -38,11 +38,13 @@ if($userId!=null  && $pageNumber!=null  && $pageItemCount!=null  && $date!=null 
         echo $json_response;
     }else
     {
+        array_push($res->param,"2");
         $json_response = json_encode($res);
         echo $json_response;
     }
 }else
 {
+    array_push($res->param,"1");
     $json_response = json_encode($res);
     echo $json_response;
 }
