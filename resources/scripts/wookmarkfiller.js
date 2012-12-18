@@ -48,7 +48,7 @@ function wookmarkHTML(dataArray)
 
             //IMG tag
             var img = document.createElement('img');
-            jQuery(img).attr('src',data.images[0]);
+            jQuery(img).attr('src',data.headerImage.url);
             jQuery(img).attr('width',186);
             jQuery(img).attr('heigh',219);
             jQuery(img).addClass('main_draggable');
@@ -93,7 +93,7 @@ function wookmarkHTML(dataArray)
             jQuery(liMaviA).addClass('mavi_link');
             jQuery(liMavi).addClass('m_e_cizgi');
             jQuery(liMaviA).append(liMaviAImg);
-            jQuery(liMaviA).append(data.peoplecount);
+            jQuery(liMaviA).append(data.attendancecount);
             jQuery(liMavi).append(liMaviA);
             jQuery(durumUL).append(liMavi);
 
@@ -126,7 +126,7 @@ function wookmarkHTML(dataArray)
             jQuery(liYesilA).attr('href','#');
             jQuery(liYesilA).addClass('yesil_link');
             jQuery(liYesilA).append(liYesilAImg);
-            jQuery(liYesilA).append(data.remaingtime);
+            jQuery(liYesilA).append(data.remainingtime);
             jQuery(liYesil).append(liYesilA);
             jQuery(durumUL).append(liYesil);
 
