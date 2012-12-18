@@ -198,7 +198,7 @@ function openModalPanel(id) {
 
     jQuery('#div_follow_trans').css('display','block');
     jQuery(detailModalPanel).insertAfter(jQuery('#div_follow_trans'));
-    //jQuery(detailModalPanelBackground).append(detailModalPanel);
+    jQuery(detailModalPanelBackground).append(detailModalPanel);
     document.body.style.overflow = "hidden";
     return false;
 }

@@ -1255,6 +1255,26 @@ class Neo4jFuctions {
         }
         
        
+        
+        /*
+         * Delete node
+         */
+        function removeEventById($eventId)
+	{
+            if(!empty($eventId))
+            {
+		try {
+			$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+			$query = "START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":".$eventId."') ".
+                                  "MATCH  event-[r]-()".
+                                  "DELETE  r,event";
+			$query = new Cypher\Query($client, $query,null);
+			$result = $query->getResultSet();
+		} catch (Exception $e) {
+                    echo "Error".$e->getMessage();
+		}
+            }
+	}
 
 
 }
