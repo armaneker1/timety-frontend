@@ -8,7 +8,9 @@ $nf=new Neo4jFuctions();
 
 //$result=$nf->getHomePageEvents(1, 0, 15);
 //$result=$nf->getEvents(4, 0, 15,  null ,null,1);
-$result=$nf->getEvents(-1, 0, 15,  null ,null,1);
+$date=date(DATE_FORMAT); 
+$date=$date." 00:00:00";
+$result=$nf->getPopuparEventsByEvent(1,0,15,$date,"");
 var_dump($result);
 //$result=$uf->getEvents(-1, 0, 15,  null ,null,1);
 //var_dump($result);

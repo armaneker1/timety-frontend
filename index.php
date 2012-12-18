@@ -296,7 +296,7 @@ if (empty($user)) {
 			
                 jQuery(document).ready(function(){ 
                     jQuery('.main_sag').jScroll({speed:"0", top:68,limit:145,tmax:220});
-                    jQuery('#slides').slides({preload: true,generateNextPrev: false,prev:"prev_button",next:"next_button",pagination :false,generatePagination :false});
+                    jQuery('#slides').slides({preload: true,generateNextPrev: false,prev:"prev_button",next:"next_button",pagination :false,generatePagination :false,childrenWidth : 1200});
                     
 		    var optionsWookmark = {
                         autoResize: true, // This will auto-update the layout when the browser window is resized.
@@ -493,7 +493,7 @@ if (empty($user)) {
                                            ?>
                                         <div class="slide_item">
                                                <div class="akt_tkvm">
-                                                   <a href="signin.php"  class="add_event_link">Click Here to Add Event</a>
+                                                   <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
                                                </div>
                                          </div>
                                                 
