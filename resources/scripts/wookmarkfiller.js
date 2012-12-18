@@ -139,7 +139,7 @@ function wookmarkHTML(dataArray)
             jQuery(durumDIV).append(durumUL);
             jQuery(contentDIV).append(durumDIV);
             jQuery(result).append(contentDIV);
-            jQuery(result).append(durumAlt);    
+            //jQuery(result).append(durumAlt);    
             jQuery('.main_event').append(result);
     });
 }

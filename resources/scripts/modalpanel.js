@@ -192,7 +192,9 @@ function openModalPanel(id) {
     jQuery(gdy_altDIV).append(fourthRow);
     jQuery(gdy_altDIV).append(fifthRow);
     jQuery(gdy_altDIV).append(sixthRow);
-    jQuery(detailModalPanel).append(gdy_altDIV);
+    //jQuery(detailModalPanel).append(gdy_altDIV);
+    jQuery(detailModalPanelBackground).append(gdy_altDIV);
+    
 
     /*
 <div class="genel_detay_yeni">
