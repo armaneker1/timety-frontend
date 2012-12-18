@@ -6,24 +6,12 @@ require 'utils/userFunctions.php';
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
-$comment=new Comment();
-$comment->comment="FFFFF";
-$comment->datetime=  date(DATETIME_DB_FORMAT);
-$comment->eventId=1000004;
-$comment->userId=4;
-
-$cf=  CommentsFunctions::insert($comment);
-var_dump($cf);
-
-
-var_dump(CommentsFunctions::getCmmentListByEvent(1000004));
-
 //$result=$nf->getHomePageEvents(1, 0, 15);
 //$result=$nf->getEvents(4, 0, 15,  null ,null,1);
-//$result=$nf->getPopuparEventsByEvent(4, 0, 15,  "1999-01-01 00:00:00" ,null);
-
-//$result=$nf->getUserOtherInterestsByCategory(3,146, 4);
+$result=$nf->getEvents(2, 0, 15,  "1999-01-01 00:00:00" ,null,1);
 var_dump($result);
+//$result=$nf->getUserOtherInterestsByCategory(3,146, 4);
+
 
 
 

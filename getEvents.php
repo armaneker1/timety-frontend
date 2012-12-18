@@ -1,3 +1,51 @@
 <?php
-echo '[{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"},{"id":"1000050","title":"asdasdsadsadi\u015faisd","location":"asdsadasd","description":"asdasdasdsad","startDateTime":"2012-12-04 12:45:00","endDateTime":"2012-12-26 12:45:00","reminderType":null,"reminderUnit":null,"reminderValue":null,"allday":null,"repeat":null,"privacy":0,"addsocial_fb":null,"addsocial_gg":null,"addsocial_fq":null,"addsocial_tw":null,"attendance":[],"categories":[],"images":["images/r5.png"],"commentcount":124,"peoplecount":15,"remaingtime":"46min"}]';
+require 'utils/userFunctions.php'; 
+
+$userId=null;
+if(isset($_GET["userId"]))
+    $userId=$_GET["userId"];
+
+$pageNumber=null;
+if(isset($_GET["pageNumber"]))
+    $pageNumber=$_GET["pageNumber"];
+
+$pageItemCount=null;
+if(isset($_GET["pageItemCount"]))
+    $pageItemCount=$_GET["pageItemCount"];
+
+$date=date(DATETIME_DB_FORMAT);
+if(isset($_GET["date"]))
+    $date=$_GET["date"];
+
+$query=null;
+if(isset($_GET["query"]))
+    $query=$_GET["query"];
+
+$type=null;
+if(isset($_GET["type"]))
+    $type=$_GET["type"];
+        
+var_dump($_GET);
+$res=new Result();
+$res->error=true;
+$res->success=false;
+
+if($userId!=null  && $pageNumber!=null  && $pageItemCount!=null  && $date!=null && $type!=null )
+{
+    $result=Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type);
+    if(!empty($result))
+    {
+        $json_response = json_encode($result);
+        echo $json_response;
+    }else
+    {
+        $json_response = json_encode($res);
+        echo $json_response;
+    }
+}else
+{
+    $json_response = json_encode($res);
+    echo $json_response;
+}
+
 ?>
