@@ -14,6 +14,7 @@ if (isset($_GET['finish'])) {
     
     $confirm=base64_encode($user->id.";".$user->userName.";".DBUtils::get_uuid());
     $res=UserFuctions::sendEmail("Dear ".$user->firstName." ".$user->lastName." click to confirm your account <a href='".HOSTNAME."confirm.php?guid=".$confirm."'>here</a> ", "Timety Account Confirmation",'{"email": "'.$user->email.'",  "name": "'.$user->firstName.' '.$user->lastName.'"}');
+    header('Location: index.php');
 }
 
 $userFunc = new UserFuctions();
@@ -215,11 +216,27 @@ if (empty($user)) {
             $event->categories = $_POST["te_event_category"];
             $event->attendance = $_POST["te_event_people"];
             if (!$error) {
-                $userFunc->createEvent($event, $user);
+                try { 
+                    $userFunc->createEvent($event, $user);
+                    $m = new HtmlMessage();
+                    $m->type = "s";
+                    $m->message = "Event created successfully.";
+                    $_SESSION[INDEX_MSG_SESSION_KEY]=  json_encode($m);
+                    header('Location: index.php');
+                }  catch (Exception $e)
+                {
+                    $error = true;
+                    $m = new HtmlMessage();
+                    $m->type = "e";
+                    $m->message = $e->getMessage();
+                    array_push($msgs, $m);
+                }
             }
         }
     }
 }
+
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -236,7 +253,20 @@ if (empty($user)) {
         <script language="javascript" src="resources/scripts/createEvent.js"></script>
         <link href="fileuploader.css" rel="stylesheet" type="text/css">
             <script src="fileuploader.js" type="text/javascript"></script>
-
+            
+               <?php
+                if(isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY]))
+                { 
+                    $m=new HtmlMessage();
+                    $m=  json_decode($_SESSION[INDEX_MSG_SESSION_KEY]);
+                    //$_SESSION[INDEX_MSG_SESSION_KEY]='';
+                ?>
+                <script>
+                        jQuery(document).ready(function() {
+                            jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success"><?=$m->message?><a class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');
+                        });
+                </script>
+             <?php } ?>
             
             <?php if(!empty($user)) { ?>
             <script>
@@ -566,6 +596,7 @@ if (empty($user)) {
                 <li><a href="#">02:30</a></li>
             </ul>
         </div>
+        <div style="position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
     </body>
     <?php if(!empty($user)) { include('layout/template_createevent.php'); }?>
 

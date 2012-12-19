@@ -19,4 +19,7 @@ define('TIME_FE_FORMAT', 'H:i');
 define('DATE_FE_FORMAT', 'd.m.Y H:i');
 define('DATE_FORMAT', 'Y-m-d');
 
+//SESSION constant
+define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
+
 ?>

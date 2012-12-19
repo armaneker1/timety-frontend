@@ -50,11 +50,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
                         }
             ?>
                    <span class="php_errors" style="color: <?=$color?>;"><?=$msg->message?></span><p/>
-            <?php } } 
-            else 
-            { ?>
-                <span class="php_errors" style="color: green;">Event created successfully.</span><p/>    
-        <?php  $showPopup=FALSE; } } ?>
+            <?php } }  } ?>
 	<form name="add_event_form" action="" method="post">
 		<div class="cae_foto" style="z-index: -10;" id="event_header_image">
                     <?php
