@@ -458,7 +458,7 @@ class UserFuctions {
 
 	function updateUser($uid,User $user)
 	{
-		$query = mysql_query("UPDATE ".TBL_USERS." set email='$user->email',userName='$user->userName',birthdate='".DBUtils::getDate($user->birthdate)."',firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm  WHERE id = $uid") or die(mysql_error());
+		$query = mysql_query("UPDATE ".TBL_USERS." set email='$user->email',userName='$user->userName',birthdate='".DBUtils::getDate($user->birthdate)."',firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture'  WHERE id = $uid") or die(mysql_error());
 	}
 
         public static function  confirmUser($uid)
@@ -468,7 +468,7 @@ class UserFuctions {
 
 	function createUser(User $user)
 	{
-		$query = mysql_query("INSERT INTO ".TBL_USERS." (username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm) VALUES ('$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm)") or die(mysql_error());
+		$query = mysql_query("INSERT INTO ".TBL_USERS." (username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture) VALUES ('$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture')") or die(mysql_error());
 		//create user for neo4j
 		$user=$this->getUserByUserName($user->userName);
 		try {
