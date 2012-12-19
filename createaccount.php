@@ -99,13 +99,6 @@ try {
 					array_push($msgs,$m);
 					$param=false;
 				}
-			}else
-			{
-				$m=new HtmlMessage();
-				$m->type="e";
-				$m->message="Error";
-				array_push($msgs,$m);
-				$param=false;
 			}
 		} catch (Exception $e) {
 			$result->success=false;
