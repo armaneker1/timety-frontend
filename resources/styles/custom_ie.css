@@ -310,3 +310,33 @@ span.rollover:hover {
 .left p{
 	padding-left: 11px !important;
 }
+
+.top_menu_ul_li_a_selected {
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+	color: #a9a9a9;
+	text-decoration: none;
+	padding-right: 10px;
+	padding-left: 10px;
+	background-color:#f4f4f4;
+	-moz-box-shadow:
+		0px -1px 0px rgba(000,000,000,0.2),
+		inset 0px 3px 5px rgba(255,255,255,1);
+	-ms-box-shadow:
+		0px -1px 0px rgba(000,000,000,0.2),
+		inset 0px 3px 5px rgba(255,255,255,1);
+	-o-box-shadow:
+		0px -1px 0px rgba(000,000,000,0.2),
+		inset 0px 3px 5px rgba(255,255,255,1);
+	-webkit-box-shadow:
+		0px -1px 0px rgba(000,000,000,0.2),
+		inset 0px 3px 5px rgba(255,255,255,1);
+	box-shadow:
+                0px -1px 0px rgba(000,000,000,0.2),
+                inset 0px 3px 5px rgba(255,255,255,1);
+	border-radius:5px;
+	height: 23px;
+	display: block;
+	border: 1px solid #cacaca;
+}

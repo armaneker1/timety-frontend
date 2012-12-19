@@ -51,11 +51,21 @@ if (isset($_SESSION['id'])) {
 			if($user->status>2)
 			{
 				?>
+            
+            <script>
+            
+    function changeChannel(item){
+        
+        jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+        jQuery(item).addClass('top_menu_ul_li_a_selected');
+        wookmarkFiller(document.optionsWookmark);
+    }    
+    </script>
 			<div class="top_menu">
 				  <ul>
-				    <li class="t_m_line"><a href="#" >My Timete</a></li>
-				    <li class="t_m_line"><a href="#">Following</a></li>
-				    <li class="t_m_line"><a href="#">Populer</a></li>
+                                      <li class="t_m_line"><a href="#" channelId="2" onclick="changeChannel(this)">My Timete</a></li>
+				    <li class="t_m_line"><a href="#" channelId="3" onclick="changeChannel(this)">Following</a></li>
+				    <li class="t_m_line"><a href="#" channelId="1" onclick="changeChannel(this)">Populer</a></li>
 				    <li><a href="logout.php?logout=1">Logout</a></li>
 				  </ul>
 			</div>
