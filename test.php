@@ -1,14 +1,32 @@
 <?php
+require 'apis/facebook/facebook.php';
+require 'config/fbconfig.php';
 require 'apis/foursquare/FoursquareAPI.php';
 require 'config/fqconfig.php';
+require 'apis/twitter/twitteroauth.php';
+require 'config/twconfig.php';
 require 'utils/userFunctions.php';
+
 
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
+
+$foursquare = new FoursquareAPI(FQ_CLIENT_ID,FQ_CLIENT_SECRET);
+						$foursquare->SetAccessToken("4RRQOIWF15JZWN5CJPZTO0BAQ23AFFQJGZZYOGKUHDBNZCWL");
+						$res = $foursquare->GetPrivate("users/self");
+						$details = json_decode($res);
+						$res = $details->response;
+						$user=$res->user;
+                                                
+                                                var_dump($user->photo);
+						
+
+
+
 //$result=$nf->getHomePageEvents(1, 0, 15);
 //$result=$nf->getEvents(4, 0, 15,  null ,null,1);
-$nf->removeEventById($_GET['eventId']);
+//$nf->removeEventById($_GET['eventId']);
 //$result=$uf->getEvents(-1, 0, 15,  null ,null,1);
 //var_dump($result);
 //$result=$nf->getUserOtherInterestsByCategory(3,146, 4);
