@@ -24,9 +24,14 @@ function wookmarkFiller(options,clear)
                 var dataJSON = jQuery.parseJSON(data);
                 if(clear) jQuery('.main_event').html('');
                 wookmarkHTML(dataJSON);
-                if(handler) handler.wookmarkClear();
-                handler = jQuery('.main_event .main_event_box');
-                handler.wookmark(options);
+                function tm()
+                {
+                    if(handler) handler.wookmarkClear();
+                    handler = jQuery('.main_event .main_event_box');
+                    handler.wookmark(options);
+                }
+                
+                setTimeout(tm,100);
             }
         });
     });

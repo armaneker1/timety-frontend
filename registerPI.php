@@ -16,7 +16,7 @@ $lastname = "";
 $email = "";
 $birhtdate = "";
 $hometown = "";
-
+$userProfilePic="";
 
 
 if (!isset($_SESSION['id'])) {
@@ -24,6 +24,10 @@ if (!isset($_SESSION['id'])) {
     header("location: index.php");
 } else {
     if (isset($_POST['te_username'])) {
+        if(isset($_POST['te_userpicture']))
+        {
+           $userProfilePic=$_POST['te_userpicture'];
+        }
         $username = $_POST['te_username'];
         if (empty($username)) {
             $m = new HtmlMessage();
@@ -144,6 +148,7 @@ if (!isset($_SESSION['id'])) {
                         $name = $fbUser['first_name'];
                         $lastname = $fbUser['last_name'];
                         //$birhtdate=$fbUser['birthday'];
+                        $userProfilePic="http://graph.facebook.com/".$fbUser['id']."/picture?type=large";
                         $birhtdate = "";
                         if (isset($fbUser['hometown']))
                             $hometown = $fbUser['hometown']['name'];
@@ -160,6 +165,7 @@ if (!isset($_SESSION['id'])) {
                             $email = "";
                             $birhtdate = "";
                             $hometown = $user_info->location;
+                             $userProfilePic=$user_info->profile_image_url;
                         }
                     } elseif ($provider->oauth_provider == 'foursquare') {
                         $foursquare = new FoursquareAPI(FQ_CLIENT_ID, FQ_CLIENT_SECRET);
@@ -173,6 +179,7 @@ if (!isset($_SESSION['id'])) {
                         $email = $user->contact->email;
                         $birhtdate = "";
                         $hometown = $user->homeCity;
+                         $userProfilePic=$user->photo;
                     }
                 }
             } else {
@@ -330,6 +337,7 @@ if (!isset($_SESSION['id'])) {
                                            onkeyup="validatePassword(this,$('#te_password'),true)" /> <span
                                            id='te_repassword_span'></span> <br />
 <?php } ?>
+                                           <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?=$userProfilePic?>" ></input>
                                 <button type="submit" class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
                             </form>
                             <div class="ts_box" style="font-size: 12px;margin-left: 48px;">
