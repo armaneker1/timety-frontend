@@ -87,7 +87,8 @@ if (empty($user)) {
                 $m->type = "e";
                 $m->message = "Upload an Image";
                 array_push($msgs, $m);
-            } else {
+            }else
+            {
                 $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
             }
 
@@ -233,57 +234,57 @@ if (empty($user)) {
         <link href="fileuploader.css" rel="stylesheet" type="text/css">
             <script src="fileuploader.js" type="text/javascript"></script>
 
-
-            <?php if (!empty($user)) { ?>
-                <script>
-                    jQuery(document).ready(function() {
-                        
-                        jQuery(function(){          
-                            var uploader = new qq.FileUploader({
-                                element: document.getElementById('te_event_image_div'),
-                                action: 'uploadImage.php?type=1',
-                                debug: true,
-                                allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-                                params: {
-                                    imageName:'<?= "ImageEventHeader" . $_random_session_id . ".png" ?>'
-                                },
-                                sizeLimit : 10*1024*1024,
-                                multiple:false,
-                                onComplete: function(id, fileName, responseJSON){fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON); },
-                                messages: {
-                                    typeError: "{file} has invalid extension. Only {extensions} are allowed.",
-                                    sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-                                    minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-                                    emptyError: "{file} is empty, please select files again without it.",
-                                    onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
-                                }
+            
+            <?php if(!empty($user)) { ?>
+            <script>
+                jQuery(document).ready(function() {
+                    
+                    jQuery(function(){          
+                        var uploader = new qq.FileUploader({
+                            element: document.getElementById('te_event_image_div'),
+                            action: 'uploadImage.php?type=1',
+                            debug: true,
+                            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                            params: {
+                                imageName:'<?= "ImageEventHeader" . $_random_session_id . ".png" ?>'
+                            },
+                            sizeLimit : 10*1024*1024,
+                            multiple:false,
+                            onComplete: function(id, fileName, responseJSON){fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON); },
+                            messages: {
+                                typeError: "{file} has invalid extension. Only {extensions} are allowed.",
+                                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                                emptyError: "{file} is empty, please select files again without it.",
+                                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
                             }
-                        );
-                        });
+                        }
+                    );
                     });
-                    
-                    
-                    
-                    jQuery(document).ready(function() {
-                        //new iPhoneStyle('.on_off input[type=checkbox]');
-                        new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                        new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-    		      
-                        var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
-                        new iPhoneStyle(onchange_checkbox);
-                        setInterval(function toggleCheckbox() {
-                            if(onchange_checkbox)
-                            {
-                                onchange_checkbox.writeAttribute('checked', !onchange_checkbox.checked);
-                                onchange_checkbox.change();
-                                $('status').update(onchange_checkbox.checked);
-                            }
-                        }, 2500);
-                    });
-                </script>
-
-            <?php } ?>
-
+                });
+                
+                
+                
+                jQuery(document).ready(function() {
+                    //new iPhoneStyle('.on_off input[type=checkbox]');
+                    new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
+                    new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
+		      
+                    var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
+                    new iPhoneStyle(onchange_checkbox);
+                    setInterval(function toggleCheckbox() {
+                        if(onchange_checkbox)
+                        {
+                            onchange_checkbox.writeAttribute('checked', !onchange_checkbox.checked);
+                            onchange_checkbox.change();
+                            $('status').update(onchange_checkbox.checked);
+                        }
+                    }, 2500);
+                });
+            </script>
+            
+           <?php }  ?>
+            
             <script language="javascript">
                 var handler = null;
                 			
@@ -297,7 +298,7 @@ if (empty($user)) {
                     jQuery('.main_sag').jScroll({speed:"0", top:68,limit:145,tmax:220});
                     jQuery('#slides').slides({preload: true,generateNextPrev: false,prev:"prev_button",next:"next_button",pagination :false,generatePagination :false,childrenWidth : 1200});
                     
-                    var optionsWookmark = {
+		    var optionsWookmark = {
                         autoResize: true, // This will auto-update the layout when the browser window is resized.
                         container: jQuery(".main_event"), // Optional, used for some extra CSS styling
                         offset: 10, // Optional, the distance between grid items
@@ -309,7 +310,7 @@ if (empty($user)) {
                     handler = jQuery('.main_event .main_event_box');
                     handler.wookmark(optionsWookmark);
 					
-                    wookmarkFiller(document.optionsWookmark, true);		
+		    wookmarkFiller(document.optionsWookmark, true);		
                     /*
                      * Endless scroll
                      */
@@ -359,8 +360,8 @@ if (empty($user)) {
                     });
                 });
             </script>
-
-
+            
+            
             <!--takvim-->
             <script type="text/javascript" src="js/takvim/XRegExp.js"></script>  
             <script type="text/javascript" src="js/takvim/shCore.js"></script>
@@ -390,61 +391,63 @@ if (empty($user)) {
             <link  href="resources/styles/tokeninput/token-input.css" rel="stylesheet" type="text/css" />
             <link  href="resources/styles/tokeninput/token-input-facebook.css" rel="stylesheet" type="text/css" />
             <script type="text/javascript" src="resources/scripts/tokeninput/jquery.tokeninput.js"></script>
+            
+            <?php 
+            if(!empty($user))
+            {
+            $var_cat="[]";
+            $var_usr="[]";
+            if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
+            {
+                $nf=new Neo4jFuctions();
+                $var_cat=$nf->getCategoryListByIdList($event->categories);
+                $var_usr=$nf->getUserGroupListByIdList($event->attendance);
+            }
+            ?>
+            <script>
+                jQuery(document).ready(function() {
+                    jQuery( "#te_event_category" ).tokenInput("getCategory.php",{ 
+                        theme: "facebook",
+                        userId :"<?= $user->id ?>",
+                        queryParam : "term",
+                        minChars : 2,
+                        placeholder : "category",
+                        preventDuplicates : true,
+                        input_width:70,
+                        propertyToSearch: "label",
+                        add_maunel:true,
+                        onAdd: function() {
+                            return true;
+                        },
+                        onAdd: function() {
+                            return true;
+                        },
+                        processPrePopulate : false,
+                        prePopulate : <?php echo $var_cat;?>	
+                    });	
 
-            <?php
-            if (!empty($user)) {
-                $var_cat = "[]";
-                $var_usr = "[]";
-                if (!empty($user) && isset($_POST["te_event_title"]) && !empty($event)) {
-                    $nf = new Neo4jFuctions();
-                    $var_cat = $nf->getCategoryListByIdList($event->categories);
-                    $var_usr = $nf->getUserGroupListByIdList($event->attendance);
-                }
-                ?>
-                <script>
-                    jQuery(document).ready(function() {
-                        jQuery( "#te_event_category" ).tokenInput("getCategory.php",{ 
-                            theme: "facebook",
-                            userId :"<?= $user->id ?>",
-                            queryParam : "term",
-                            minChars : 2,
-                            placeholder : "category",
-                            preventDuplicates : true,
-                            input_width:70,
-                            propertyToSearch: "label",
-                            add_maunel:true,
-                            onAdd: function() {
-                                return true;
-                            },
-                            onAdd: function() {
-                                return true;
-                            },
-                            processPrePopulate : false,
-                            prePopulate : <?php echo $var_cat; ?>	
-                        });	
-
-                        jQuery( "#te_event_people" ).tokenInput("getPeopleOrGroup.php",{ 
-                            theme: "facebook",
-                            userId :"<?= $user->id ?>",
-                            queryParam : "term",
-                            minChars : 2,
-                            placeholder : "add people manually",
-                            preventDuplicates : true,
-                            input_width:160,
-                            add_maunel:false,
-                            propertyToSearch: "label",
-                            onAdd: function() {
-                                return true;
-                            },
-                            onAdd: function() {
-                                return true;
-                            },
-                            processPrePopulate : false,
-                            prePopulate : <?= $var_usr ?>
-                        });
+                    jQuery( "#te_event_people" ).tokenInput("getPeopleOrGroup.php",{ 
+                        theme: "facebook",
+                        userId :"<?= $user->id ?>",
+                        queryParam : "term",
+                        minChars : 2,
+                        placeholder : "add people manually",
+                        preventDuplicates : true,
+                        input_width:160,
+                        add_maunel:false,
+                        propertyToSearch: "label",
+                        onAdd: function() {
+                            return true;
+                        },
+                        onAdd: function() {
+                            return true;
+                        },
+                        processPrePopulate : false,
+                        prePopulate : <?=$var_usr?>
                     });
-                </script>
-<?php } ?>
+                });
+            </script>
+            <?php }?>
             <!--auto complete-->
             <!--Placeholder-->
             <script>
@@ -455,7 +458,7 @@ if (empty($user)) {
             <!--Placeholder-->
     </head>
     <body class="bg">
-<?php include('layout/layout_top.php'); ?>
+        <?php include('layout/layout_top.php'); ?>
         <div class="main_sol" style="width:91%;">
             <div class="ust_blm">
                 <div class="trh_gn">
@@ -473,65 +476,64 @@ if (empty($user)) {
                             <td colspan="2">
                                 <div id="slides">
                                     <div class="slides_container">
-<?php if (empty($user)) { ?>
+                                        <?php  if(empty($user)) { ?>
                                             <div class="slide_item">
-                                                <div class="akt_tkvm">
-                                                    <a href="signin.php"  class="add_event_link">Click Here to Add Event</a>
-                                                </div>
+                                               <div class="akt_tkvm">
+                                                   <a href="signin.php"  class="add_event_link">Click Here to Add Event</a>
+                                               </div>
                                             </div>
-<?php
-} else {
-    $userId = -1;
-    if (!empty($user)) {
-        $userId = $user->id;
-    }
-    $events = UserFuctions::getEvents($userId, 0, 15, null, null, 2);
-    if (empty($events)) {
-        ?>
+                                        <?php } else {  
+                                            $userId = -1;
+                                            if (!empty($user)) {
+                                                $userId = $user->id;
+                                            }
+                                            $events=  UserFuctions::getEvents($userId, 0, 15,null,null,2);
+                                            if(empty($events))
+                                            {
+                                           ?>
+                                        <div class="slide_item">
+                                               <div class="akt_tkvm">
+                                                   <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
+                                               </div>
+                                         </div>
+                                                
+                                        <?php        
+                                            } else {
+                                               $indx=0;
+                                               $size=  sizeof($events);
+                                               $size2=  $size;
+                                               $size2=round($size/5);
+                                               if(($size%5)>0)
+                                                   $size2=$size2+1;
+                                               for($i=0;$i<$size2;$i++)
+                                               {
+                                        ?>
+                                                <!-- Slide 1-->
                                                 <div class="slide_item">
+                                                 <?php 
+                                                 $count=5;
+                                                 if($indx+$count>=$size)
+                                                 {
+                                                     $count=$size;
+                                                 }
+                                                 for($j=$indx;$j<$count;$j++) {
+                                                     $evt=$events[$j];
+                                                     $evtDesc = $evt->description;
+                                                     if (strlen($evtDesc) > 500) {
+                                                        $evtDesc = substr($evtDesc, 0, 500) + "...";
+                                                     }
+                                                 ?>   
                                                     <div class="akt_tkvm">
-                                                        <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
+                                                        <h1><?=$evt->title?></h1>
+                                                        <p><?=$evt->startDateTime?></p>
+                                                        <p><?=$evtDesc?></p>
                                                     </div>
+                                                 <?php } 
+                                                 
+                                                  $indx=$indx+$count;
+                                                 ?>
                                                 </div>
-
-        <?php
-    } else {
-        $indx = 0;
-        $size = sizeof($events);
-        $size2 = $size;
-        $size2 = round($size / 5);
-        if (($size % 5) > 0)
-            $size2 = $size2 + 1;
-        for ($i = 0; $i < $size2; $i++) {
-            ?>
-                                                    <!-- Slide 1-->
-                                                    <div class="slide_item">
-                                                    <?php
-                                                    $count = 5;
-                                                    if ($indx + $count >= $size) {
-                                                        $count = $size;
-                                                    }
-                                                    for ($j = $indx; $j < $count; $j++) {
-                                                        $evt = $events[$j];
-                                                        $evtDesc = $evt->description;
-                                                        if (strlen($evtDesc) > 500) {
-                                                            $evtDesc = substr($evtDesc, 0, 500) + "...";
-                                                        }
-                                                        ?>   
-                                                            <div class="akt_tkvm">
-                                                                <h1><?= $evt->title ?></h1>
-                                                                <p><?= $evt->startDateTime ?></p>
-                                                                <p><?= $evtDesc ?></p>
-                                                            </div>
-            <?php
-            }
-
-            $indx = $indx + $count;
-            ?>
-                                                    </div>
-                                                    <?php }
-                                                }
-                                            } ?>
+                                        <?php }  } } ?>
                                     </div>
                                 </div>
                             </td>
@@ -540,54 +542,7 @@ if (empty($user)) {
                 </div>
             </div>
             <div class="main_event">
-<?php
-$userId = -1;
-if (!empty($user)) {
-    $userId = $user->id;
-}
-$userFunctions = new UserFuctions();
-$events = array();//$userFunctions->getEvents($userId, 0, 15, null, null, 1);
-$evt = new Event();
-foreach ($events as $evt) {
-    $evtDesc = $evt->description;
-    if (strlen($evtDesc) > 500) {
-        $evtDesc = substr($evtDesc, 0, 500) + "...";
-    }
-    ?>
-                    <div class="main_event_box" date="<?= $evt->startDateTime ?>">
-                        <div class="m_e_img">
-                            <img src="<?= $evt->headerImage->url ?>" width="186" height="219"
-                                 class="main_draggable" onclick="return openModalPanel(<?= $evt->id ?>);" />
-                        </div>
-                        <div class="m_e_metin">
-                            <div class="m_e_baslik">
-    <?php echo $evt->title ?>
-                            </div>
-                            <div class="m_e_ackl">
-    <?php echo $evtDesc ?>
-                            </div>
-                            <div class="m_e_drm">
-                                <ul>
-                                    <li class="m_e_cizgi"><a href="#" class="mavi_link"> <img
-                                                src="images/usr.png" width="18" height="18" border="0"
-                                                align="absmiddle" /><?= $evt->attendancecount ?>
-                                        </a>
-                                    </li>
-                                    <li class="m_e_cizgi"><a href="#" class="turuncu_link"> <img
-                                                src="images/comm.png" width="19" height="18" border="0"
-                                                align="absmiddle" /><?= $evt->commentCount ?>
-                                        </a>
-                                    </li>
-                                    <li><a href="#" class="yesil_link"> <img src="images/zmn.png"
-                                                                             width="19" height="18" border="0" align="absmiddle" /><?= $evt->remainingtime ?>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-<?php } ?>
+               
             </div>
         </div>
         <div class="main_sag_header">
@@ -609,9 +564,6 @@ foreach ($events as $evt) {
             </ul>
         </div>
     </body>
-<?php if (!empty($user)) {
-    include('layout/template_createevent.php');
-} ?>
+    <?php if(!empty($user)) { include('layout/template_createevent.php'); }?>
 
 </html>
-
