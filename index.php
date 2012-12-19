@@ -567,4 +567,3 @@ if (empty($user)) {
     <?php if(!empty($user)) { include('layout/template_createevent.php'); }?>
 
 </html>
-

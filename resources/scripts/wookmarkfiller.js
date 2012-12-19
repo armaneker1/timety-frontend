@@ -20,13 +20,13 @@ function wookmarkFiller(options,clear)
                 'type':channel
             },
             success: function(data){
-                    jQuery('#hiddenSearch').val('');
-                    var dataJSON = jQuery.parseJSON(data);
-                    if(clear) jQuery('.main_event').html('');
-                    wookmarkHTML(dataJSON);
-                    if(handler) handler.wookmarkClear();
-                    handler = jQuery('.main_event .main_event_box');
-                    handler.wookmark(options);
+                jQuery('#hiddenSearch').val('');
+                var dataJSON = jQuery.parseJSON(data);
+                if(clear) jQuery('.main_event').html('');
+                wookmarkHTML(dataJSON);
+                if(handler) handler.wookmarkClear();
+                handler = jQuery('.main_event .main_event_box');
+                handler.wookmark(options);
             }
         });
     });
@@ -34,9 +34,9 @@ function wookmarkFiller(options,clear)
 
 function wookmarkHTML(dataArray)
 {
-  if(!dataArray.error)
-  {
-    jQuery.each(dataArray, function(i, data) { 
+    if(!dataArray.error)
+    {
+        jQuery.each(dataArray, function(i, data) { 
             //whole html    
             var result = document.createElement('div');
             jQuery(result).addClass('main_event_box');
@@ -50,7 +50,7 @@ function wookmarkHTML(dataArray)
             var img = document.createElement('img');
             jQuery(img).attr('src',data.headerImage.url);
             jQuery(img).attr('width',186);
-            jQuery(img).attr('heigh',219);
+            //jQuery(img).attr('heigh',219);
             jQuery(img).addClass('main_draggable');
 
             //binding DIV with Image
@@ -61,19 +61,24 @@ function wookmarkHTML(dataArray)
             var contentDIV = document.createElement('div');
             jQuery(contentDIV).addClass('m_e_metin');
 
+
+            //title
+            var titleDIV = document.createElement('div');
+            jQuery(titleDIV).addClass('m_e_baslik');
+            jQuery(titleDIV).append(data.title);
+            jQuery(contentDIV).append(titleDIV);
+            
+            
+            
             //description
             var descriptionDIV = document.createElement('div');
             jQuery(descriptionDIV).addClass('m_e_ackl');
             jQuery(descriptionDIV).append(data.description);
             jQuery(contentDIV).append(descriptionDIV);
 
-            /*
-            //title
-            var titleDIV = document.createElement('div');
-            jQuery(titleDIV).addClass('m_e_baslik');
-            jQuery(titleDIV).append(data.title);
-            jQuery(contentDIV).append(titleDIV);
-            */
+         
+            
+            
 
             //durum
             var durumDIV = document.createElement('div');
@@ -110,7 +115,7 @@ function wookmarkHTML(dataArray)
             jQuery(liTuruncuA).addClass('turuncu_link');
             jQuery(liTuruncu).addClass('m_e_cizgi');
             jQuery(liTuruncuA).append(liTuruncuAImg);
-            jQuery(liTuruncuA).append(data.commentcount);
+            jQuery(liTuruncuA).append(data.commentCount);
             jQuery(liTuruncu).append(liTuruncuA);
             jQuery(durumUL).append(liTuruncu);
 
@@ -140,7 +145,8 @@ function wookmarkHTML(dataArray)
             jQuery(contentDIV).append(durumDIV);
             jQuery(result).append(contentDIV);
             //jQuery(result).append(durumAlt);    
+            localStorage.setItem('event_' + data.id,JSON.stringify(data));
             jQuery('.main_event').append(result);
-    });
-}
+        });
+    }
 }

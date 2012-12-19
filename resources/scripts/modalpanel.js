@@ -1,35 +1,11 @@
 function openModalPanel(id) {
     var data = JSON.parse(localStorage.getItem('event_' + id));
-    var data = {
-        "id": "1000050",
-        "title": "asdasdsadsadi\u015faisd",
-        "location": "asdsadasd",
-        "description": "asdasdasdsad",
-        "startDateTime": "2012-12-04 12:45:00",
-        "endDateTime": "2012-12-26 12:45:00",
-        "reminderType": null,
-        "reminderUnit": null,
-        "reminderValue": null,
-        "allday": null,
-        "repeat": null,
-        "privacy": 0,
-        "addsocial_fb": null,
-        "addsocial_gg": null,
-        "addsocial_fq": null,
-        "addsocial_tw": null,
-        "attendance": [],
-        "categories": [],
-        "images": [],
-        "commentcount": 124,
-        "peoplecount": 15,
-        "remaingtime": "46min"
-    };
+    
     if (!data) return;
     
     var detailModalPanelBackground = document.getElementById('div_follow_trans');
     jQuery(detailModalPanelBackground).attr('onclick','closeModalPanel()');
    
-    var detailModalPanelContainer=document.createElement("div");
     var detailModalPanel = document.createElement("div");
     /////
     jQuery(detailModalPanel).attr('id', 'genel_detay_yeni');
@@ -63,9 +39,6 @@ function openModalPanel(id) {
     jQuery(gdy_solDIV).append(gdySolP);
     jQuery(gdy_solDIV).append(gdySolP2);
     jQuery(detailModalPanel).append(gdy_solDIV);
-
-
-
 
     //gdy_sag
     var gdy_sagDIV = document.createElement('div');
@@ -189,10 +162,48 @@ function openModalPanel(id) {
 
     jQuery(gdy_altDIV).append(firstRow);
     jQuery(gdy_altDIV).append(secondRow);
-    jQuery(gdy_altDIV).append(thirdRow);
-    jQuery(gdy_altDIV).append(fourthRow);
-    jQuery(gdy_altDIV).append(fifthRow);
-    jQuery(gdy_altDIV).append(sixthRow);
+    ///////////////////////
+    //
+    //
+    //
+    //
+    //
+    //
+    console.log(id);
+    jQuery.ajax({
+        type: 'POST',
+        url: 'getComments.php',
+        data: {
+            'eventId':id
+        },
+        success: function(data){
+            data= JSON.parse(data); 
+            console.log(data);
+            if(!data.error)
+            {
+                    
+            }
+            var commentHTML = '<div class="gdy_satir">'+
+            '<div class="gdy_alt_sol"><img src="images/yz.png" width="22" height="23" align="middle"></div>'+
+            '<div class="gdy_alt_orta bggri">'+
+            '<input name="" type="text" class="gdyorum" placeholder="Your message..." onkeypress="sendCommentByEnter(e)">'+
+            '<button type="button" id="sendComment" class="gdy_send">Send</button>'+
+            '</div>'+
+            '</div>';
+        //see all 
+        // jQuery(gdy_altDIV).append(fifthRow);
+        // jQuery(gdy_altDIV).append(thirdRow);
+        // jQuery(gdy_altDIV).append(fourthRow);
+        //yorum ekle
+         jQuery(gdy_altDIV).append(commentHTML);
+        
+        }
+    });
+    
+    
+   
+    ///////////////////////
+    
     jQuery(detailModalPanel).append(gdy_altDIV);
     
 
