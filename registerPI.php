@@ -214,11 +214,11 @@ if (!isset($_SESSION['id'])) {
                             }, {
                                 name : 'te_firstname',
                                 display : 'firstname',
-                                rules : 'required|min_length[3]|alpha'
+                                rules : 'required|min_length[3]|alpha_turkish'
                             }, {
                                 name : 'te_lastname',
                                 display : 'lastname',
-                                rules : 'required|min_length[3]|alpha'
+                                rules : 'required|min_length[3]|alpha_turkish'
                             }, {
                                 name : 'te_email',
                                 display : 'email',
@@ -226,7 +226,7 @@ if (!isset($_SESSION['id'])) {
                             }, {
                                 name : 'te_hometown',
                                 display : 'hometown',
-                                rules : 'required|min_length[3]|alpha_numeric'
+                                rules : 'required|min_length[3]|alpha_turkish'
                             } ],
                         function(errors, event) {
                             var SELECTOR_ERRORS = $('#msg');
