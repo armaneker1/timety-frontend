@@ -11,6 +11,9 @@ if (isset($_GET['finish'])) {
     $user = $userFunc->getUserById($_SESSION['id']);
     $user->status = 3;
     $userFunc->updateUser($user->id, $user);
+    
+    $confirm=base64_encode($user->id.";".$user->userName.";".DBUtils::get_uuid());
+    $res=UserFuctions::sendEmail("Dear ".$user->firstName." ".$user->lastName." click to confirm your account <a href='".HOSTNAME."confirm.php?guid=".$confirm."'>here</a> ", "Timety Account Confirmation",'{"email": "'.$user->email.'",  "name": "'.$user->firstName.' '.$user->lastName.'"}');
 }
 
 $userFunc = new UserFuctions();

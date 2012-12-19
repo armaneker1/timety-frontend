@@ -16,6 +16,7 @@ class User {
 			$this->status=$result['status'];
 			$this->password=$result['password'];
 			$this->type=$result['type'];
+                        $this->confirm=$result['confirm'];
 		}
 	}
 
@@ -31,6 +32,7 @@ class User {
 	public $password;
 	public $type; // 1 verified 0 normal account
 	public $socialProviders=array();
+        public $confirm=0;
 
 
 	public function  getUserPic()

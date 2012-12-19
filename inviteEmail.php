@@ -20,7 +20,7 @@ try {
                     $result->error="You can't invite yourself";
                 }else {
                     $result->success=false;
-                    $res=UserFuctions::sendEmail($user->firstName." ".$user->lastName." wants you to join timety. please click <a href='http://fabelist.com/timete/web/createaccount.php'>here</a> ", "Timety invite",'{"email": "'.$query.'",  "name": "Hasan "}');
+                    $res=UserFuctions::sendEmail($user->firstName." ".$user->lastName." wants you to join timety. please click <a href='".HOSTNAME."http://fabelist.com/timete/web/createaccount.php'>here</a> ", "Timety invite",'{"email": "'.$query.'",  "name": "Hasan "}');
                     if($res[0]->status=="sent")
                     {
                             $result->success=true;
