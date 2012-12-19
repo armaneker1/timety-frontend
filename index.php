@@ -222,7 +222,7 @@ if (empty($user)) {
                     $m->type = "s";
                     $m->message = "Event created successfully.";
                     $_SESSION[INDEX_MSG_SESSION_KEY]=  json_encode($m);
-                    header('Location: index.php');
+                   exit(header('Location: index.php'));
                 }  catch (Exception $e)
                 {
                     $error = true;
@@ -253,17 +253,21 @@ if (empty($user)) {
         <script language="javascript" src="resources/scripts/createEvent.js"></script>
         <link href="fileuploader.css" rel="stylesheet" type="text/css">
             <script src="fileuploader.js" type="text/javascript"></script>
-            
                <?php
                 if(isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY]))
                 { 
                     $m=new HtmlMessage();
                     $m=  json_decode($_SESSION[INDEX_MSG_SESSION_KEY]);
-                    //$_SESSION[INDEX_MSG_SESSION_KEY]='';
+                   
+                    $_SESSION[INDEX_MSG_SESSION_KEY]='';
                 ?>
                 <script>
                         jQuery(document).ready(function() {
                             jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success"><?=$m->message?><a class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');
+                            function clearMsg(){
+                                jQuery('#boot_msg').empty();
+                            }
+                            setTimeout(clearMsg, 3000);
                         });
                 </script>
              <?php } ?>
