@@ -40,7 +40,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 <div class="event_add_ekr" id="div_event_add_ekr" style="display: <?php if($showPopup) { echo  "block";} else { echo "none";} ?>;"> 
         <?php 
             if($showPopup) {
-                if(!empty($msgs))
+                if(!empty($msgs) && false)
                 {
                 foreach ($msgs as $msg) {
                         $color='red';

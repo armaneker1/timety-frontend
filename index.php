@@ -272,6 +272,23 @@ if (empty($user)) {
                 </script>
              <?php } ?>
             
+            <?php 
+                if(!empty($msgs))
+                {
+                    $txt="";
+                    foreach ($msgs as $msg) {
+                        $txt=$txt.$msg->message."<br/>";
+                    }
+            ?>
+                 <script>
+                    jQuery(document).ready(function() {
+                            jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-error"><?=$txt?><a style="right:0;float:right;top:0;" class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');
+                        });
+                </script>
+            <?php }  ?>
+                   
+                   
+            
             <?php if(!empty($user)) { ?>
             <script>
                 jQuery(document).ready(function() {
@@ -600,7 +617,7 @@ if (empty($user)) {
                 <li><a href="#">02:30</a></li>
             </ul>
         </div>
-        <div style="position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
+        <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
     </body>
     <?php if(!empty($user)) { include('layout/template_createevent.php'); }?>
 
