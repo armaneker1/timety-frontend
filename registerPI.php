@@ -169,7 +169,8 @@ else
 						$fbUser = $facebook->api('/me');
 						$name=$fbUser['first_name'];
 						$lastname=$fbUser['last_name'];
-						$birhtdate=$fbUser['birthday'];
+						//$birhtdate=$fbUser['birthday'];
+                                                $birhtdate="";
 						if(isset($fbUser['hometown']))
 							$hometown=$fbUser['hometown']['name'];
 					} elseif ($provider->oauth_provider=='twitter')
@@ -341,7 +342,7 @@ else
 					onkeyup="validateEmailNoEffect(this);"
 					default="<?php echo $email?>" onblur="validateEmailNoEffect(this);"
 					value="<?php echo $email?>" /> <br /> <span id='te_email_span'></span>
-				<input name="te_birthdate" type="text" placeholder="BirthDate"
+				<input name="te_birthdate" type="text" placeholder="Birthdate (dd.MM.yyyy)"
 					class="user_inpt" id="te_birthdate" value="<?php echo $birhtdate?>"
 					onchange="validatePlaceHolder(this);"
 					onblur="validatePlaceHolder(this);" /> <br /> <span
