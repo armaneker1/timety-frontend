@@ -16,8 +16,7 @@ $lastname="";
 $email="";
 $birhtdate="";
 $hometown="";
-
-
+$userProfilePic="";
 
 if (!isset($_SESSION['id'])) {
 	// Redirection to login page twitter or facebook or foursquare
@@ -26,6 +25,10 @@ if (!isset($_SESSION['id'])) {
 else
 {
 	if (isset($_POST['te_username'])) {
+                if(isset($_POST['te_userpicture']))
+                {
+                   $userProfilePic=$_POST['te_userpicture'];
+                }
 		$username=$_POST['te_username'];
 		if(empty($username))
 		{
@@ -126,6 +129,7 @@ else
 				$userFuctions->updateUser($_SESSION['id'], $user);
 				$user=$userFuctions->getUserById($_SESSION['id']);
 				$userFuctions->addUserInfoNeo4j($user);
+                                UserFuctions::changeserProfilePic($user->id,$userProfilePic);
 				header('Location: registerPI.php');
 			}else
 			{
@@ -169,6 +173,7 @@ else
 						$lastname=$fbUser['last_name'];
 						//$birhtdate=$fbUser['birthday'];
                                                 $birhtdate="";
+                                                $userProfilePic="http://graph.facebook.com/".$fbUser['id']."/picture?type=large";
 						if(isset($fbUser['hometown']))
 							$hometown=$fbUser['hometown']['name'];
 					} elseif ($provider->oauth_provider=='twitter')
@@ -185,6 +190,7 @@ else
 							$email="";
 							$birhtdate="";
 							$hometown=$user_info->location;
+                                                        $userProfilePic=$user_info->profile_image_url;
 						}
 					}
 					elseif ($provider->oauth_provider=='foursquare')
@@ -200,6 +206,7 @@ else
 						$email=$user->contact->email;
 						$birhtdate="";
 						$hometown=$user->homeCity;
+                                                $userProfilePic=$user->photo;
 					}
 				}
 			} else
@@ -358,6 +365,7 @@ else
 					onkeyup="validatePassword(this,$('#te_password'),true)" /> <span
 					id='te_repassword_span'></span> <br />
 				<?php }?>
+                                        <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?=$userProfilePic?>" ></input>
 				<button type="submit" class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
 			</form>
 			<div class="ts_box" style="font-size: 12px;margin-left: 48px;">

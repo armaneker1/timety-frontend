@@ -1,20 +1,28 @@
 <?php
+require 'apis/facebook/facebook.php';
+require 'config/fbconfig.php';
 require 'apis/foursquare/FoursquareAPI.php';
 require 'config/fqconfig.php';
+require 'apis/twitter/twitteroauth.php';
+require 'config/twconfig.php';
 require 'utils/userFunctions.php';
+
 
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
 
-function getTwitterProfileImage($username) {
-      $size = '_bigger';
-      $api_call = 'http://twitter.com/users/show/'.$username.'.json';
-      $results = json_decode(file_get_contents($api_call));
-      return str_replace('_normal', $size, $results->profile_image_url);
-}
-$img =  getTwitterProfileImage('thetutlage');
-echo '<img src="'.$img.'"/>';
+$foursquare = new FoursquareAPI(FQ_CLIENT_ID,FQ_CLIENT_SECRET);
+						$foursquare->SetAccessToken("4RRQOIWF15JZWN5CJPZTO0BAQ23AFFQJGZZYOGKUHDBNZCWL");
+						$res = $foursquare->GetPrivate("users/self");
+						$details = json_decode($res);
+						$res = $details->response;
+						$user=$res->user;
+                                                
+                                                var_dump($user->photo);
+						
+
+
 
 //$result=$nf->getHomePageEvents(1, 0, 15);
 //$result=$nf->getEvents(4, 0, 15,  null ,null,1);

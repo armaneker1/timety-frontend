@@ -44,13 +44,6 @@ class User {
 		return $this->userPicture;
             }else
             {
-                $uf=new UserFuctions();
-                $sp= $uf->getSocialProviderList($this->id);
-                if(!empty($sp) && sizeof($sp)>0)
-                {
-                    $spfirst=$sp[0];
-                    
-                }
                 return HOSTNAME."images/anonymous.jpg";
             }
 	}

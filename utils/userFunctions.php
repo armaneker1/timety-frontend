@@ -465,6 +465,18 @@ class UserFuctions {
 	{
 		$query = mysql_query("UPDATE ".TBL_USERS." set confirm=1 WHERE id = $uid") or die(mysql_error());
 	}
+        
+        public static function  changeserProfilePic($uid,$url)
+	{
+            if(!empty($uid))
+            {
+                if(empty($url))
+                {
+                   $url="images/anonymous.jpg"; 
+                }
+                $query = mysql_query("UPDATE ".TBL_USERS." set userPicture='".$url."' WHERE id = $uid") or die(mysql_error());  
+            }
+	}
 
 	function createUser(User $user)
 	{
