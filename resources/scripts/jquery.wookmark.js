@@ -33,7 +33,7 @@ $.fn.wookmark = function(options) {
     // Calculate basic layout parameters.
     var columnWidth = this.wookmarkOptions.itemWidth + this.wookmarkOptions.offset;
     var containerWidth = jQuery(this.wookmarkOptions.container).width();
-    var columns = Math.floor((containerWidth+this.wookmarkOptions.offset)/columnWidth)-1;
+    var columns = Math.floor((containerWidth+this.wookmarkOptions.offset)/columnWidth);
     var offset = 0;//Math.round((containerWidth - (columns*columnWidth-this.wookmarkOptions.offset))/2);
     
     // If container and column count hasn't changed, we can only update the columns.
