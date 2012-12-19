@@ -9,7 +9,11 @@ function openModalPanel(id) {
     var detailModalPanel = document.createElement("div");
     /////
     jQuery(detailModalPanel).attr('id', 'genel_detay_yeni');
-    jQuery(detailModalPanel).on('click',function(e){ e.stopPropagation();e.preventDefault(); return false;});
+    jQuery(detailModalPanel).on('click',function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        return false;
+    });
     jQuery(detailModalPanel).addClass('genel_detay_yeni');
     
     //gdy_sol
@@ -153,7 +157,7 @@ function openModalPanel(id) {
     
     
     var fourthRow = jQuery(thirdRow).clone();
-    var fifthRow = '<div class="tumyorumlar"><a href="#">See all 4 comments...</a></div>' 
+  
     var sixthRow = jQuery(thirdRow).clone();
     jQuery(jQuery(sixthRow).children()[1]).html('<input name="" type="text" class="gdyorum" value="Your message...">'+
         '<button type="button" name="" value="" class="gdy_send"> Send</button>');
@@ -170,7 +174,6 @@ function openModalPanel(id) {
     //
     //
     //
-    console.log(id);
     jQuery.ajax({
         type: 'POST',
         url: 'getComments.php',
@@ -179,35 +182,40 @@ function openModalPanel(id) {
         },
         success: function(data){
             data= JSON.parse(data); 
-            console.log(data);
+            var result = '';
             if(!data.error)
             {
-                    
+                if(data.length > 3 )
+                    result+= '<div class="tumyorumlar"><a href="#">See all '+(data.length-2)+' comment(s)...</a></div>'
+                data = data.slice(data.length-2,data.length);
+                jQuery.each(data,function(i,e)
+                {
+                    var commentHTMLe = "<div class=\"gdy_satir\">"+
+                    "<div class=\"gdy_alt_sol\"><img src=\"images/ekl.png\" width=\"32\" height=\"31\" align=\"middle\"></div>" +
+                    "<div class=\"gdy_alt_orta bggri\">" +
+                    "<h1>"+e.userId+": </h1>" +
+                    "<p>" + e.comment + "</p>"+
+                    "</div>" +
+                    "</div>";
+                    result += commentHTMLe;
+                });
+                
             }
-            var commentHTML = '<div class="gdy_satir">'+
+            var commentHTML = '<div class="gdy_satir">'+  
             '<div class="gdy_alt_sol"><img src="images/yz.png" width="22" height="23" align="middle"></div>'+
             '<div class="gdy_alt_orta bggri">'+
-            '<input name="" type="text" class="gdyorum" placeholder="Your message..." onkeypress="sendCommentByEnter(e)">'+
-            '<button type="button" id="sendComment" class="gdy_send">Send</button>'+
+            '<input name="" type="text" class="gdyorum" id="sendComment" eventId="'+id+'" placeholder="Your message...">'+
+            '<button type="button" onclick="sendComment()" class="gdy_send">Send</button>'+
             '</div>'+
             '</div>';
-        //see all 
-        // jQuery(gdy_altDIV).append(fifthRow);
-        // jQuery(gdy_altDIV).append(thirdRow);
-        // jQuery(gdy_altDIV).append(fourthRow);
-        //yorum ekle
-         jQuery(gdy_altDIV).append(commentHTML);
+            result += commentHTML;
+            jQuery(gdy_altDIV).append(result);
         
         }
     });
-    
-    
-   
-    ///////////////////////
+    //////////////////////////7
     
     jQuery(detailModalPanel).append(gdy_altDIV);
-    
-
     jQuery('#div_follow_trans').css('display','block');
     jQuery(detailModalPanel).insertAfter(jQuery('#div_follow_trans'));
     jQuery(detailModalPanelBackground).append(detailModalPanel);
@@ -224,3 +232,33 @@ function closeModalPanel() {
     document.body.style.overflow = "scroll";
     return false;
 } 
+
+
+
+function sendComment(){
+    jQuery.sessionphp.get('id',function(id){
+        var userId = id;
+        var comment = jQuery("#sendComment").val();
+        var eventId = jQuery("#sendComment").attr('eventId');
+        jQuery.ajax({
+            type: "POST",
+            url: "addComment.php",
+            data: {
+                "eventId":eventId,
+                "userId":userId,
+                "comment":comment
+            },
+            success: function(data){
+                var commentHTML = "<div class=\"gdy_satir\">"+
+                "<div class=\"gdy_alt_sol\"><img src=\"images/ekl.png\" width=\"32\" height=\"31\" align=\"middle\"></div>" +
+                "<div class=\"gdy_alt_orta bggri\">" +
+                "  <h1>Me: </h1>" +
+                "  <p>" + comment + "</p>"+
+                "</div>" +
+                "</div>";
+                jQuery(commentHTML).insertBefore(jQuery('.gdy_satir').last());
+                jQuery("#sendComment").val('');
+            }
+        });
+    });
+}
