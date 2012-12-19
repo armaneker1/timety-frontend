@@ -6,9 +6,19 @@ require 'utils/userFunctions.php';
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
+
+function getTwitterProfileImage($username) {
+      $size = '_bigger';
+      $api_call = 'http://twitter.com/users/show/'.$username.'.json';
+      $results = json_decode(file_get_contents($api_call));
+      return str_replace('_normal', $size, $results->profile_image_url);
+}
+$img =  getTwitterProfileImage('thetutlage');
+echo '<img src="'.$img.'"/>';
+
 //$result=$nf->getHomePageEvents(1, 0, 15);
 //$result=$nf->getEvents(4, 0, 15,  null ,null,1);
-$nf->removeEventById($_GET['eventId']);
+//$nf->removeEventById($_GET['eventId']);
 //$result=$uf->getEvents(-1, 0, 15,  null ,null,1);
 //var_dump($result);
 //$result=$nf->getUserOtherInterestsByCategory(3,146, 4);

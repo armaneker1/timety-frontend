@@ -17,6 +17,7 @@ class User {
 			$this->password=$result['password'];
 			$this->type=$result['type'];
                         $this->confirm=$result['confirm'];
+                        $this->userPicture=$result['userPicture'];
 		}
 	}
 
@@ -33,11 +34,25 @@ class User {
 	public $type; // 1 verified 0 normal account
 	public $socialProviders=array();
         public $confirm=0;
+        public $userPicture;
 
 
 	public function  getUserPic()
 	{
-		return "https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-prn1/37158_459074429420_5952883_n.jpg";
+            if(!empty($this->userPicture))
+            {
+		return $this->userPicture;
+            }else
+            {
+                $uf=new UserFuctions();
+                $sp= $uf->getSocialProviderList($this->id);
+                if(!empty($sp) && sizeof($sp)>0)
+                {
+                    $spfirst=$sp[0];
+                    
+                }
+                return HOSTNAME."images/anonymous.jpg";
+            }
 	}
 	public function getUserNotificationCount() {
 		return 0;
