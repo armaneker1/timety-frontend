@@ -219,6 +219,7 @@ function closeModalPanel() {
     var genelDetayYeni = document.getElementById('genel_detay_yeni');
     jQuery(genelDetayYeni).remove();
     var detailModalPanelBackground = document.getElementById('div_follow_trans');
+    jQuery(detailModalPanelBackground).attr('onclick','return false;');
     jQuery(detailModalPanelBackground).css('display','none');
     document.body.style.overflow = "scroll";
     return false;
