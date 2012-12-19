@@ -9,6 +9,7 @@ function openModalPanel(id) {
     var detailModalPanel = document.createElement("div");
     /////
     jQuery(detailModalPanel).attr('id', 'genel_detay_yeni');
+    jQuery(detailModalPanel).on('click',function(e){ e.stopPropagation();e.preventDefault(); return false;});
     jQuery(detailModalPanel).addClass('genel_detay_yeni');
     
     //gdy_sol

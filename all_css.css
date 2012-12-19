@@ -788,8 +788,7 @@ body {
 	background-image: url(images/iconlar.png);
 }
 .follow_trans {
-	background-color: #cacaca;
-	opacity:0.7;
+	background-color: rgba(202,202,202,0.7);
 	height: 100%;
 	width: 100%;
 	position: fixed;
@@ -2011,7 +2010,7 @@ body {
 	width: 660px;
 	margin-right: auto;
 	margin-left: auto;
-	position: absolute;
+	position: static;
 	left: 0px;
 	right: 0px;
 	z-index: 600;

@@ -2019,7 +2019,7 @@ body {
 	width: 660px;
 	margin-right: auto;
 	margin-left: auto;
-	position: absolute;
+	position: static;
 	left: 0px;
 	right: 0px;
 	z-index: 600;
