@@ -236,7 +236,7 @@ else
 				class="user_inpt invite_friends icon_bg" id="textfield4" value=""
 				placeholder="Invite User" />
 			<button type="button" name="" value="" class="invite_btn"
-				onclick="return inviteUser('te_invite_email');">invite</button>
+				onclick="return inviteUser('te_invite_email','<?=$user->id?>');">invite</button>
 		</div>
 		<div class="invite" style="margin-top: 0px;height:40px;max-height: 50px;margin-right: 3px;">
 			<div style="max-height: 50px;height:35px; width: 285px;position: absolute;" id="boot_msg">

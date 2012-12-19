@@ -17,7 +17,7 @@ if(!empty($query) && !empty( $userId))
 			for ($i=0; $i< sizeof($array);$i++) {
 				$val=$array[$i];
 				$val->id="u_".$val->id;
-				$val->label=$val->firstName." ".$val->lastName;
+				$val->label=$val->firstName." ".$val->lastName." (".$val->userName.")";
 				array_push($result, $val);
 			}
 		}

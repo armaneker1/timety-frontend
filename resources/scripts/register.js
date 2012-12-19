@@ -70,7 +70,7 @@ function checkInterestReady(location, spinner, userId, check) {
 }
 
 
-function inviteUser(emailE)
+function inviteUser(emailE,id)
 {
 	jQuery('.alert').remove();
 	email=$("#"+emailE)[0].value;
@@ -78,7 +78,8 @@ function inviteUser(emailE)
 	if(validateEmailRegex(email))
 	{
 		$.post("inviteEmail.php", {
-			e : email
+			e : email,
+                        u :id
 		}, function(data) {
 			console.log(data);
 			if (data.success) {
@@ -86,7 +87,7 @@ function inviteUser(emailE)
 				//alert("Invitation sended");
 			} else {
 				//alert("Invitation couldn't send");
-				jQuery('#boot_msg').append("<div class=\"alert alert-error\">Invitation couldn't send<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
+				jQuery('#boot_msg').append("<div class=\"alert alert-error\">"+data.error+"<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
 			}
 		}, "json");
 	} else 
