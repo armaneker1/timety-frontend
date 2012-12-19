@@ -217,7 +217,7 @@ else
 					?>
 			<li><img src="<?php echo $friend->getUserPic();?>" width="30"
 				height="30" border="0" align="absmiddle" class="follow_res" /><span
-				class="follow_ad"><?php echo $friend->firstName." ".$friend->lastName;?>
+				class="follow_ad"><?php echo $friend->firstName." ".$friend->lastName." (".$friend->userName.")";?>
 			</span> <?php if(strlen($key)<=0) { ?>
 				<button type="button" name="" value="" class="follow_btn"
 					id="foll_<?php echo $friend->id;?>"
