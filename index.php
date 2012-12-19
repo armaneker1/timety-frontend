@@ -519,8 +519,8 @@ if (empty($user)) {
                                                  for($j=$indx;$j<$count;$j++) {
                                                      $evt=$events[$j];
                                                      $evtDesc = $evt->description;
-                                                     if (strlen($evtDesc) > 500) {
-                                                        $evtDesc = substr($evtDesc, 0, 500) + "...";
+                                                     if (strlen($evtDesc) > 100) {
+                                                        $evtDesc = substr($evtDesc, 0, 100) . "...";
                                                      }
                                                  ?>   
                                                     <div class="akt_tkvm">

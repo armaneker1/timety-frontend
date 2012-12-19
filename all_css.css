@@ -233,6 +233,9 @@ p,h1,h2,h3,h4,h5{
 }
 .akt_tkvm {
 	min-height: 80px;
+        max-height: 80px;
+        height: 80px;
+        overflow: hidden;
 	width: 186px;
 	border: 1px solid #bcbcbc;
 	background-color: #FFF;

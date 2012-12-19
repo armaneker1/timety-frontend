@@ -2,7 +2,8 @@ var INTEREST_ADD_KEY = "timete_ineterests_add";
 var INTEREST_CAT_ADD_KEY = "timete_ineterests_cat_add";
 var USERIDS_ADD_KEY = "_";
 var ELM_ADD_KEY="add_ineterest";
-var isRed = 'rgb(194, 15, 15)';
+var isRed = 'rgb(33, 206, 0)';
+
 
  
 // auto complete and add /remove interest
@@ -279,11 +280,11 @@ function addNewLike(field)
 			{
 				if(f.value && f.value.trim()!="" && f.getAttribute('placeholder')!=f.value.trim())
 					{
-						var d = new Date();
-						var n = d.getMilliseconds();
+						//var d = new Date();
+						//var n = d.getMilliseconds();
 						var item=new Object();
 						item.item=new Object();
-						item.item.id='new_1'+n;
+						item.item.id='new_'+f.value.trim().toLowerCase();
 						item.item.label=f.value.trim();
 						item.item.new_='1';
 						insertItem('add_like_ul',item);
