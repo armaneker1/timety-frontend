@@ -1,3 +1,5 @@
+<?php header('Content-type: text/html; charset=utf-8'); ?>
+
 <!-- Nocahce --> 
 <meta http-equiv="cache-control" content="max-age=0" />
 <meta http-equiv="cache-control" content="no-cache" />

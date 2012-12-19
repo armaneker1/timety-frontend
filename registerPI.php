@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <?php 
 require 'apis/facebook/facebook.php';
 require 'config/fbconfig.php';
@@ -217,7 +215,8 @@ else
 	}
 }
 ?>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php include('layout/layout_header.php'); ?>
 <script language="javascript" src="js/takvim/glDatePicker.js"></script>
@@ -343,9 +342,7 @@ else
 					default="<?php echo $email?>" onblur="validateEmailNoEffect(this);"
 					value="<?php echo $email?>" /> <br /> <span id='te_email_span'></span>
 				<input name="te_birthdate" type="text" placeholder="Birthdate (dd.MM.yyyy)"
-					class="user_inpt" id="te_birthdate" value="<?php echo $birhtdate?>"
-					onchange="validatePlaceHolder(this);"
-					onblur="validatePlaceHolder(this);" /> <br /> <span
+					class="user_inpt" id="te_birthdate" value="<?php echo $birhtdate?>"/> <br /> <span
 					id='te_birthdate_span'></span> <input name="te_hometown"
 					type="text" placeholder="Hometown" class="user_inpt"
 					id="te_hometown" value="<?php echo $hometown?>" /> <br /> <span

@@ -298,7 +298,7 @@
 					.css(
 					{
 						"position":settings.position,
-						"z-index":settings.zIndex,
+						"z-index":settings.zIndex
 						/*"left":(target.offset().left),
 						"top":target.offset().top+target.outerHeight(true)*/
 					})
@@ -354,7 +354,19 @@
 
 					// Save the new date and update the target control
 					target.data("theDate", newDate);
-					target.val(newDate.getDate()+"."+(newDate.getMonth()+1)+"."+newDate.getFullYear());
+                                        var dateVal=newDate.getDate()+"";
+                                        if(dateVal && dateVal.length==1)
+                                        {
+                                             dateVal="0"+dateVal;   
+                                        }
+                                        var monthVal=(newDate.getMonth()+1)+"";
+                                        if(monthVal && monthVal.length==1)
+                                        {
+                                             monthVal="0"+monthVal;   
+                                        }
+                                        var yearVal=newDate.getFullYear()+"";
+                                        
+					target.val(dateVal+"."+monthVal+"."+yearVal);
 
 					// Run callback to user-defined date change method
 					if(settings.onChange != null && typeof settings.onChange != "undefined")
