@@ -28,7 +28,7 @@ if (isset($_SESSION['id'])) {
 <div class="u_bg"></div>
 <div id="top_blm">
 	<div id="top_blm_sol">
-		<div class="logo"><a href="/timety"><img src="images/timete.png" width="82" height="36" border="0" /></a></div>
+		<div class="logo"><a href="<?=HOSTNAME?>"><img src="images/timete.png" width="82" height="36" border="0" /></a></div>
 		<div class="t_bs">
 			<input type="button" name="" value="" id="add_event_button" class="add_event_btn icon_bg" id="main_dropable" onclick="return false;"/>
                         <input type="button" name="" value="" id="search_event_button" class="search_btn icon_bg" onclick="return false;"/>
@@ -40,7 +40,14 @@ if (isset($_SESSION['id'])) {
 			<script type="text/javascript">
 				jQuery("#add_event_button").click(openCreatePopup);
 			</script>
-			<?php } ?>
+			<?php } else { ?>
+                        <script type="text/javascript">
+                                function  to_home() {
+                                    window.location="<?=HOSTNAME?>signin.php";
+                                }
+				jQuery("#add_event_button").click(to_home);
+			</script>
+                        <?php } ?>
                         <?php 
                         if((!empty($user->id) && !empty($user->userName) && $user->status>2) || empty($user))
                         { ?>
