@@ -186,9 +186,9 @@ else
 	<script type="text/javascript" src="js/checradio.js"></script>
 	<script>
 		jQuery(document).ready(function() {
-                                jQuery('.on_off input[type=checkbox]').each(function (){
+                                jQuery('.on_off_check_box_style').each(function (){
 				    var id=this.id;
-					new iPhoneStyle('#'+id,{ widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="images/pyes1.png" width="14" heght="10">', uncheckedLabel: '<img src="images/pno1.png" style="margin-top: 1px;margin-left: 1px;" width="10" heght="10">',  statusChange: function() {changeCheckBoxStatus(id);}});
+                                    new iPhoneStyle('#'+id,{ widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="images/pyes1.png" width="14" heght="10">', uncheckedLabel: '<img src="images/pno1.png" style="margin-top: 1px;margin-left: 1px;" width="10" heght="10">',  statusChange: function() {changeCheckBoxStatus(id);}});
 				});
 		});
 	</script>
@@ -267,7 +267,7 @@ else
 					class="<?php if(($k % 2)==0) { echo "add_kategori_a"; } else { echo "add_kategori_k";  }?>  add_bg">
 					<div class="add_ktg_sol">
 						<ol class="on_off" style="margin-top: 40px;margin-left: 8px;">
-							<li><input type="checkbox"  cat_id="<?php echo $cat->id;?>" id="checkbox_on_off_<?php echo $cat->id;?>" checked="checked"/>
+							<li><input class="on_off_check_box_style" type="checkbox"  cat_id="<?php echo $cat->id;?>" id="checkbox_on_off_<?php echo $cat->id;?>" checked="checked"/>
 							</li>
 						</ol>
 					</div>
@@ -317,7 +317,7 @@ else
 										."onclick='return selectItem(this)' style='cursor: pointer;' src='".$val->photoUrl."'  class='cerceve'>";
 										$HTML4 = "</img>". substr($val->name,0,15)."...</div>";
 										$resultHTML =$resultHTML.$HTML1 . $HTML2 . $HTML4;
-										if (($i + 1) % $item_count== 0) {
+										if (($i + 1) % $item_count== 0 && ($i+1)!=sizeof($interests)) {
 											$resultHTML =$resultHTML."</div><div>";
 										}
 									}
