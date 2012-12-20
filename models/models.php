@@ -264,6 +264,8 @@ class Image{
 			$this->url=$result['url'];
 			$this->header=$result['header'];
 			$this->eventId=$result['eventId'];
+                        $this->width=$result['width'];
+			$this->height=$result['height'];
 		}
 	}
 
@@ -271,6 +273,8 @@ class Image{
 	public  $url=null;
 	public  $header=null;
 	public  $eventId=null;
+        public  $width=null;
+        public  $height=null;
 
 	public function  getUrl()
 	{

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $debug = false;
 
 if (array_key_exists("debug", $_GET)) {
@@ -16,9 +16,6 @@ if (array_key_exists("debug", $_GET)) {
     echo json_encode(false);
 }*/
 
-if (!(session_status() == PHP_SESSION_ACTIVE)) {
-    session_start();
-}
 
 if (array_key_exists("key", $_GET)) {
     try {

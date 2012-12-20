@@ -11,17 +11,7 @@ require 'utils/userFunctions.php';
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
-
-$foursquare = new FoursquareAPI(FQ_CLIENT_ID,FQ_CLIENT_SECRET);
-						$foursquare->SetAccessToken("4RRQOIWF15JZWN5CJPZTO0BAQ23AFFQJGZZYOGKUHDBNZCWL");
-						$res = $foursquare->GetPrivate("users/self");
-						$details = json_decode($res);
-						$res = $details->response;
-						$user=$res->user;
-                                                
-                                                var_dump($user->photo);
-						
-
+var_dump(ImageFunctions::getSize("uploads/events/1000040/ImageEventHeader1_1281615.png"));
 
 
 //$result=$nf->getHomePageEvents(1, 0, 15);

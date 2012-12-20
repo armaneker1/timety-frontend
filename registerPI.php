@@ -114,6 +114,7 @@ if (!isset($_SESSION['id'])) {
                 $userFuctions->updateUser($_SESSION['id'], $user);
                 $user = $userFuctions->getUserById($_SESSION['id']);
                 $userFuctions->addUserInfoNeo4j($user);
+                UserFuctions::changeserProfilePic($user->id, $userProfilePic);
                 header('Location: registerPI.php');
             } else {
                 $m = new HtmlMessage();

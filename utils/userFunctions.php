@@ -309,10 +309,22 @@ class UserFuctions {
 			{
 			    if(!empty($image))
 			    {
+                                
+                                if(!file_exists(UPLOAD_FOLDER."events/".$event->id."/"))
+                                {
+                                    mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
+                                }
+                                if (!copy(UPLOAD_FOLDER.$image, UPLOAD_FOLDER."events/".$event->id."/".$image)) {
+
+                                }
+
 				$img=new Image();
                                 $img->url=$image;
                                 $img->header=0;
                                 $img->eventId=$event->id;
+                                $size=ImageFunctions::getSize($img->url);
+                                $img->width= $size[0] ;
+                                $img->height= $size[1] ;
 				if(!empty($img))
 				{
                                     ImageFunctions::insert($img);
@@ -330,12 +342,16 @@ class UserFuctions {
                             mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
                         }
                         if (!copy(UPLOAD_FOLDER.$headerImage, UPLOAD_FOLDER."events/".$event->id."/".$headerImage)) {
+                            
                         }
                         
                          $img=new Image();
                          $img->url=UPLOAD_FOLDER."events/".$event->id."/".$headerImage;
                          $img->header=1;
                          $img->eventId=$event->id;
+                         $size=ImageFunctions::getSize($img->url);
+                         $img->width= $size[0] ;
+                         $img->height= $size[1] ;
                          if(!empty($img))
                          {
                             ImageFunctions::insert($img);
@@ -1117,7 +1133,7 @@ class ImageFunctions{
 
 	public static function insert(Image $image){
                 $imageId=DBUtils::getNextId(CLM_IMAGEID);
-		$query = mysql_query("INSERT INTO ".TBL_IMAGES." (id,url,header,eventId) VALUES (".$imageId.",'".DBUtils::mysql_escape($image->url)."',".DBUtils::mysql_escape($image->header).",".DBUtils::mysql_escape($image->eventId).")") or die(mysql_error());
+		$query = mysql_query("INSERT INTO ".TBL_IMAGES." (id,url,header,eventId,width,height) VALUES (".$imageId.",'".DBUtils::mysql_escape($image->url)."',".DBUtils::mysql_escape($image->header).",".DBUtils::mysql_escape($image->eventId).",$image->width,$image->height)") or die(mysql_error());
 		return ImageFunctions::getImageById($imageId);
 	}
 
@@ -1125,6 +1141,24 @@ class ImageFunctions{
 		$imageId=DBUtils::mysql_escape($imageId);
 		$query = mysql_query("DELETE FROM ".TBL_IMAGES." WHERE id = $imageId") or die(mysql_error());
 	}
+        
+        public static function getSize($imagePath)
+        {
+            $array=array();
+            array_push($array,186);
+            if(!empty($imagePath))
+            {
+                $size=getimagesize($imagePath);
+                $val=$size[1]*186;
+                $height=floor($val/$size[0]);
+                array_push($array, $height);
+                return $array;
+            }
+            array_push($array,0);
+            var_dump($array);
+            return $array;
+        }
+           
 }
 
 class CommentsFunctions{
