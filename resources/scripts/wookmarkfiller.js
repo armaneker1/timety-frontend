@@ -24,14 +24,14 @@ function wookmarkFiller(options,clear)
                 var dataJSON = jQuery.parseJSON(data);
                 if(clear) jQuery('.main_event').html('');
                 wookmarkHTML(dataJSON);
-                function tm()
-                {
+                //function tm()
+                //{
                     if(handler) handler.wookmarkClear();
                     handler = jQuery('.main_event .main_event_box');
                     handler.wookmark(options);
-                }
+                //}
                 
-                setTimeout(tm,100);
+                //setTimeout(tm,100);
             }
         });
     });
@@ -54,7 +54,12 @@ function wookmarkHTML(dataArray)
             //IMG tag
             var img = document.createElement('img');
             jQuery(img).attr('src',data.headerImage.url);
-            jQuery(img).attr('width',186);
+            if(data.headerImage.width && data.headerImage.width!=0)
+                jQuery(img).attr('width',data.headerImage.width);
+            else
+                jQuery(img).attr('width',186);
+            if(data.headerImage.height && data.headerImage.height!=0)
+                jQuery(img).attr('height',data.headerImage.height);
             //jQuery(img).attr('heigh',219);
             jQuery(img).addClass('main_draggable');
 

@@ -314,8 +314,8 @@ class UserFuctions {
                                 {
                                     mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
                                 }
-                                if (!copy(UPLOAD_FOLDER.$image, UPLOAD_FOLDER."events/".$event->id."/".$image)) {
-
+                                if (copy(UPLOAD_FOLDER.$image, UPLOAD_FOLDER."events/".$event->id."/".$image)) {
+                                    unlink(UPLOAD_FOLDER.$image);
                                 }
 
 				$img=new Image();
@@ -341,8 +341,8 @@ class UserFuctions {
                         {
                             mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
                         }
-                        if (!copy(UPLOAD_FOLDER.$headerImage, UPLOAD_FOLDER."events/".$event->id."/".$headerImage)) {
-                            
+                        if (copy(UPLOAD_FOLDER.$headerImage, UPLOAD_FOLDER."events/".$event->id."/".$headerImage)) {
+                             unlink(UPLOAD_FOLDER.$image);
                         }
                         
                          $img=new Image();
