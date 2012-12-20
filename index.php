@@ -373,7 +373,7 @@ if (empty($user)) {
                         var closeToBottom = (jQuery(window).scrollTop() + jQuery(window).height() > jQuery(document).height() - 100);
                         if(closeToBottom) {
                             // Get the first then items from the grid, clone them, and add them to the bottom of the grid.
-                            wookmarkFiller(optionsWookmark);
+                            wookmarkFiller(optionsWookmark,true);
                         }
                     };
                     jQuery(document).bind('scroll', onScroll);

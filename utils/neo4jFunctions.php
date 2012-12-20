@@ -1219,6 +1219,8 @@ class Neo4jFuctions {
           
         public  static function getAllEvents($pageNumber=0,$pageItemCount=15,$query="")
         {
+             $pageNumber=0;
+             $pageItemCount=100;
              $array=array();
              $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
              $query ="START events=node:".IND_EVENT_INDEX."('".PROP_USER_ID.":**') ".
