@@ -3,7 +3,7 @@ function wookmarkFiller(options,clear)
     var pager = 15;
     var page = clear ? 0 :(Math.floor(jQuery('.main_event .main_event_box').length / pager)+1);
     var userId = -1;
-    var channel = jQuery('.top_menu_ul_li_a_selected').attr('channelId') ||- 1;
+    var channel = jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
     var searchText = jQuery('#hiddenSearch').val() || '';
     var dateSelected = null;
     jQuery.sessionphp.get('id',function(data){
