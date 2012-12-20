@@ -1,4 +1,11 @@
 <?php
+use Everyman\Neo4j\Transport,
+Everyman\Neo4j\Client,
+Everyman\Neo4j\Index,
+Everyman\Neo4j\Index\NodeIndex,
+Everyman\Neo4j\Relationship,
+Everyman\Neo4j\Node,
+Everyman\Neo4j\Cypher; 
 require 'apis/facebook/facebook.php';
 require 'config/fbconfig.php';
 require 'apis/foursquare/FoursquareAPI.php';
@@ -10,8 +17,56 @@ require 'utils/userFunctions.php';
 
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
-var_dump(Neo4jFuctions::getAllEvents());
 
+/*
+try {
+			$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+			$rootIndex = new Index($client, Index::TypeNode, IND_ROOT_INDEX);
+			$catLevel1Index = new Index($client, Index::TypeNode, IND_CATEGORY_LEVEL1);
+                        $catLevel2Index = new Index($client, Index::TypeNode, IND_CATEGORY_LEVEL2);
+			$cat_root=$rootIndex->findOne(PROP_ROOT_ID, PROP_ROOT_CAT);
+                        
+                        $cat =null;
+			if(!empty($cat_root))
+			{
+                        	$cat = $client->makeNode();
+				$cat->setProperty(PROP_CATEGORY_ID, 6);
+				$cat->setProperty(PROP_CATEGORY_NAME, "Tag");
+				$cat->setProperty(PROP_CATEGORY_SOCIALTYPE,"facebook");
+				$cat->save();
+
+
+				$catLevel1Index->add($cat, PROP_CATEGORY_ID, 6);
+				$catLevel1Index->add($cat, PROP_CATEGORY_NAME, "Tag");
+
+				$catLevel1Index->save();
+				$cat_root->relateTo($cat, REL_CATEGORY_LEVEL1)->save();
+                                
+			}
+                        
+                        if(!empty($cat))
+			{
+                        	$cat2 = $client->makeNode();
+				$cat2->setProperty(PROP_CATEGORY_ID, 300);
+				$cat2->setProperty(PROP_CATEGORY_NAME, "Tag");
+				$cat2->setProperty(PROP_CATEGORY_SOCIALTYPE,"facebook");
+				$cat2->save();
+
+
+				$catLevel2Index->add($cat2, PROP_CATEGORY_ID, 300);
+				$catLevel2Index->add($cat2, PROP_CATEGORY_NAME, "Tag");
+
+				$catLevel2Index->save();
+				$cat->relateTo($cat2, REL_CATEGORY_LEVEL2)->save();
+                                
+			}
+		} catch (Exception $e) {
+			log("Error",$e->getMessage());
+			return false;
+		}
+                
+                
+*/
 
 //$result=$nf->getHomePageEvents(1, 0, 15);
 //$result=$nf->getEvents(4, 0, 15,  null ,null,1);
