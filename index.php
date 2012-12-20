@@ -222,7 +222,7 @@ if (empty($user)) {
                     $m->type = "s";
                     $m->message = "Event created successfully.";
                     $_SESSION[INDEX_MSG_SESSION_KEY]=  json_encode($m);
-                   exit(header('Location: index.php'));
+                    exit(header('Location: index.php'));
                 }  catch (Exception $e)
                 {
                     $error = true;

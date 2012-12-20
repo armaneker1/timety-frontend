@@ -10,30 +10,7 @@ require 'utils/userFunctions.php';
 
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
-
-var_dump(ImageFunctions::getSize("uploads/events/1000040/ImageEventHeader1_1281615.png"));
-
-
-$files = glob("C:\\Users\\hasan\\Desktop\\events\\" . "*");
- 
-foreach($files as $file)
-{
- if(is_dir($file))
- {
-     $file_names=  explode("\\",$file);
-     $id=$file_names[sizeof($file_names)-1];
-     $folders = glob($file."\\" . "*");
-     foreach($folders as $folder)
-     {
-         if(is_file($folder))
-         {
-             $siz=ImageFunctions::getSize($folder);
-             $SQL="update ".TBL_IMAGES." SET height=".$siz[1]." where eventId=".$id;
-             echo $SQL."<p/>";
-         }
-     }
- }
-}
+var_dump(Neo4jFuctions::getAllEvents());
 
 
 //$result=$nf->getHomePageEvents(1, 0, 15);

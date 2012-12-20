@@ -342,7 +342,7 @@ class UserFuctions {
                             mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
                         }
                         if (copy(UPLOAD_FOLDER.$headerImage, UPLOAD_FOLDER."events/".$event->id."/".$headerImage)) {
-                             unlink(UPLOAD_FOLDER.$image);
+                             unlink(UPLOAD_FOLDER.$headerImage);
                         }
                         
                          $img=new Image();
