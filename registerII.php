@@ -186,7 +186,7 @@ else
 	<script type="text/javascript" src="js/checradio.js"></script>
 	<script>
 		jQuery(document).ready(function() {
-			    jQuery('.on_off input[type=checkbox]').each(function (){
+                                jQuery('.on_off input[type=checkbox]').each(function (){
 				    var id=this.id;
 					new iPhoneStyle('#'+id,{ widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="images/pyes1.png" width="14" heght="10">', uncheckedLabel: '<img src="images/pno1.png" style="margin-top: 1px;margin-left: 1px;" width="10" heght="10">',  statusChange: function() {changeCheckBoxStatus(id);}});
 				});
@@ -372,5 +372,6 @@ else
 			</div>
 		</form>
 	</div>
+        <script language="javascript" src="resources/scripts/firefox.js"></script>
 </body>
 </html>

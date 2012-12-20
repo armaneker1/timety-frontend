@@ -619,6 +619,6 @@ if (empty($user)) {
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
     </body>
-    <?php if(!empty($user)) { include('layout/template_createevent.php'); }?>
+    <?php include('layout/template_createevent.php');?>
 
 </html>
