@@ -235,18 +235,21 @@ else
 			<div class="add_t_btn">
 				<button type="button" name="" value=""
 					class="zmn back_btn sosyal_icon" />
-				<button type="button" name="" value=""
-				<?php if(!$fb) echo "onclick=\"$('#spinner').show();openPopup('fb');checkOpenPopup();\"";?>
-					class="face<?php if($fb) echo '_aktiv';?> back_btn sosyal_icon"></button>
-
-				<button type="button" name="" value=""
-				<?php if(!$tw) echo "onclick=\"$('#spinner').show();openPopup('tw');checkOpenPopup();\"";?>
-					class="tweet<?php if($tw) echo '_aktiv';?> back_btn sosyal_icon"></button>
-
-				<button type="button" name="" value=""
-				<?php if(!$fq)  echo "onclick=\"$('#spinner').show();openPopup('fq');checkOpenPopup();\"";?>
-					class="googl_plus<?php if($fq) echo '_aktiv';?> back_btn sosyal_icon"></button>
-
+                                <?php if($fb) {?>
+                                    <button type="button" name="" value=""
+                                    <?php if(!$fb) echo "onclick=\"$('#spinner').show();openPopup('fb');checkOpenPopup();\"";?>
+                                            class="face<?php if($fb) echo '_aktiv';?> back_btn sosyal_icon"></button>
+                                <?php }?>      
+                                <?php if($tw) {?>
+                                    <button type="button" name="" value=""
+                                    <?php if(!$tw) echo "onclick=\"$('#spinner').show();openPopup('tw');checkOpenPopup();\"";?>
+                                            class="tweet<?php if($tw) echo '_aktiv';?> back_btn sosyal_icon"></button>
+                                <?php } ?>
+                                <?php if($fq) {?>
+                                    <button type="button" name="" value=""
+                                    <?php if(!$fq)  echo "onclick=\"$('#spinner').show();openPopup('fq');checkOpenPopup();\"";?>
+                                            class="googl_plus<?php if($fq) echo '_aktiv';?> back_btn sosyal_icon"></button>
+                                <?php } ?>
 				<button style="visibility: hidden;" id="addSocialReturnButton"
 					onclick="socialWindowButtonCliked=true;checkInterestReady('<?php echo HOSTNAME;?>registerII.php','#spinner','<?php echo $user->id;?>',true);"></button>
 			</div>
