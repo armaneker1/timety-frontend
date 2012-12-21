@@ -2,8 +2,8 @@
 require 'utils/userFunctions.php'; 
 
 $eventId=null;
-if(isset($_GET["eventId"]))
-    $eventId=$_GET["eventId"];
+if(isset($_POST["eventId"]))
+    $eventId=$_POST["eventId"];
 
 $res=new Result();
 $res->error=true;

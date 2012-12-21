@@ -155,76 +155,9 @@ function openModalPanel(id) {
      */
     
     
-    /*
-     * Users
-     */
-    var gdy_satirDIV_users= document.createElement('div');
-    jQuery(gdy_satirDIV_users).addClass('gdy_satir');
-
-    //add gdy_satirAltSolDIV_users
-    var gdy_satirAltSolDIV_users = document.createElement('div');
-    jQuery(gdy_satirAltSolDIV_users).addClass('gdy_alt_sol');
-
-    var gdy_satirAltSolDIVImg_users = document.createElement('img');
-    jQuery(gdy_satirAltSolDIVImg_users).attr('src', 'images/klnc.png');
-    jQuery(gdy_satirAltSolDIVImg_users).attr('width', 27);
-    jQuery(gdy_satirAltSolDIVImg_users).attr('height', 24);
-    jQuery(gdy_satirAltSolDIVImg_users).attr('align', 'middle');
-    jQuery(gdy_satirAltSolDIV_users).append(gdy_satirAltSolDIVImg_users);
-    
-    jQuery(gdy_satirDIV_users).append(gdy_satirAltSolDIV_users)
-    //add gdy_satirAltSolDIV_users
-    
-    //add gdy_altDIVOrta_users
-    var gdy_altDIVOrta_users = document.createElement('div');
-    jQuery(gdy_altDIVOrta_users).addClass('gdy_alt_orta');
-   
-    for(var i=0;i<data.images.length;i++)
-    {
-        var gdy_altDIVOrtaIMGDIV_users=document.createElement('div');
-        jQuery(gdy_altDIVOrtaIMGDIV_users).attr('style', 'width:62px;height:52px;text-align:center;overflow:hidden;');
-         
-        var imgOrta_users = document.createElement('img');
-        jQuery(imgOrta_users).attr('src',data.images[0].url);
-        //jQuery(imgOrta).attr('width', 62);
-        jQuery(imgOrta_users).attr('height', 52);
-        jQuery(imgOrta_users).addClass('gdy_alt_rsm');
-        
-        jQuery(gdy_altDIVOrtaIMGDIV_users).append(imgOrta_users);
-        jQuery(gdy_altDIVOrta_users).append(gdy_altDIVOrtaIMGDIV_users);
-    }
-
-    jQuery(gdy_satirDIV_users).append(gdy_altDIVOrta_users);
-    //add gdy_altDIVOrta_images
-
-    var gdy_altDIVSag_users= document.createElement('div');
-    jQuery(gdy_altDIVSag_users).addClass('gdy_alt_sag');
-
-    var gdy_altDIVSagP_users = document.createElement('p');
-    jQuery(gdy_altDIVSagP_users).append(data.images.length);
-
-    jQuery(gdy_altDIVSag_users).append(gdy_altDIVSagP_users);
-
-    var gdy_altDIVSagP2_users = document.createElement('p');
-    var gdy_altDIVSagP2A_users = document.createElement('a');
-    jQuery(gdy_altDIVSagP2A_users).attr('href', '#');
-    
-    var gdy_altDIVSagP2AImg_users = document.createElement('img');
-    jQuery(gdy_altDIVSagP2AImg_users).attr('src', 'images/bendedok.png');
-    jQuery(gdy_altDIVSagP2AImg_users).attr('width', 12);
-    jQuery(gdy_altDIVSagP2AImg_users).attr('height', 13);
-    
-    jQuery(gdy_altDIVSagP2_users).append(gdy_altDIVSagP2AImg_users);
-    jQuery(gdy_altDIVSag_users).append(gdy_altDIVSagP2_users);
-    
-     jQuery(gdy_satirDIV_users).append(gdy_altDIVSag_users);
-    /*
-     * Users
-     */
-
-     //add Users and Images
+     //add  Images
     jQuery(gdy_altDIV).append(gdy_satirDIV_images);
-    jQuery(gdy_altDIV).append(gdy_satirDIV_users);
+    
     
     //add loader
     var loader=jQuery('<div id="modal_loader" status="0" class="gdy_satir" style="width: 100%;"><divc class="gdy_alt_sol" style="width: 100%;text-align: center;"><img src="images/loader.gif" height="" class="" style="position:relative;margin-left:auto;margin-right:auto;"></divc></div>');
@@ -236,6 +169,95 @@ function openModalPanel(id) {
     jQuery(detailModalPanel).insertAfter(jQuery('#div_follow_trans'));
     jQuery(detailModalPanelBackground).append(detailModalPanel);
     document.body.style.overflow = "hidden";
+    
+    
+    /*
+     * Users
+     */ 
+    jQuery.ajax({
+        type: 'POST',
+        url: 'getEventAttendances.php',
+        data: {
+            'eventId':id
+        },
+        success: function(data){
+            data= JSON.parse(data); 
+            if(!data.error)
+            {
+                var gdy_satirDIV_users= document.createElement('div');
+                jQuery(gdy_satirDIV_users).addClass('gdy_satir');
+                jQuery(gdy_satirDIV_users).addClass('modal_invisable');
+
+                //add gdy_satirAltSolDIV_users
+                var gdy_satirAltSolDIV_users = document.createElement('div');
+                jQuery(gdy_satirAltSolDIV_users).addClass('gdy_alt_sol');
+
+                var gdy_satirAltSolDIVImg_users = document.createElement('img');
+                jQuery(gdy_satirAltSolDIVImg_users).attr('src', 'images/klnc.png');
+                jQuery(gdy_satirAltSolDIVImg_users).attr('width', 27);
+                jQuery(gdy_satirAltSolDIVImg_users).attr('height', 24);
+                jQuery(gdy_satirAltSolDIVImg_users).attr('align', 'middle');
+                jQuery(gdy_satirAltSolDIV_users).append(gdy_satirAltSolDIVImg_users);
+
+                jQuery(gdy_satirDIV_users).append(gdy_satirAltSolDIV_users);
+                //add gdy_satirAltSolDIV_users
+
+                //add gdy_altDIVOrta_users
+                var gdy_altDIVOrta_users = document.createElement('div');
+                jQuery(gdy_altDIVOrta_users).addClass('gdy_alt_orta');
+
+                for(var i=0;i<data.length;i++)
+                {
+                    var gdy_altDIVOrtaIMGDIV_users=document.createElement('div');
+                    jQuery(gdy_altDIVOrtaIMGDIV_users).attr('style', 'width:62px;height:52px;text-align:center;overflow:hidden;');
+
+                    var imgOrta_users = document.createElement('img');
+                    jQuery(imgOrta_users).attr('src',data[i].pic);
+                    jQuery(imgOrta_users).attr('title',data[i].userName);
+                    //jQuery(imgOrta).attr('width', 62);
+                    jQuery(imgOrta_users).attr('height', 52);
+                    jQuery(imgOrta_users).addClass('gdy_alt_rsm');
+
+                    jQuery(gdy_altDIVOrtaIMGDIV_users).append(imgOrta_users);
+                    jQuery(gdy_altDIVOrta_users).append(gdy_altDIVOrtaIMGDIV_users);
+                }
+
+                jQuery(gdy_satirDIV_users).append(gdy_altDIVOrta_users);
+                //add gdy_altDIVOrta_images
+
+                var gdy_altDIVSag_users= document.createElement('div');
+                jQuery(gdy_altDIVSag_users).addClass('gdy_alt_sag');
+
+                var gdy_altDIVSagP_users = document.createElement('p');
+                jQuery(gdy_altDIVSagP_users).append(data.length);
+
+                jQuery(gdy_altDIVSag_users).append(gdy_altDIVSagP_users);
+
+                var gdy_altDIVSagP2_users = document.createElement('p');
+                var gdy_altDIVSagP2A_users = document.createElement('a');
+                jQuery(gdy_altDIVSagP2A_users).attr('href', '#');
+
+                var gdy_altDIVSagP2AImg_users = document.createElement('img');
+                jQuery(gdy_altDIVSagP2AImg_users).attr('src', 'images/bendedok.png');
+                jQuery(gdy_altDIVSagP2AImg_users).attr('width', 12);
+                jQuery(gdy_altDIVSagP2AImg_users).attr('height', 13);
+
+                jQuery(gdy_altDIVSagP2_users).append(gdy_altDIVSagP2AImg_users);
+                jQuery(gdy_altDIVSag_users).append(gdy_altDIVSagP2_users);
+
+                 jQuery(gdy_satirDIV_users).append(gdy_altDIVSag_users);
+                 jQuery(gdy_satirDIV_users).insertBefore(loader);
+             }
+             loadGifHandler();
+        }
+    });
+     
+     
+    /*
+     * Users
+     */
+
+    
    
     ///////////////////////
     //
@@ -254,32 +276,122 @@ function openModalPanel(id) {
             data= JSON.parse(data); 
             var result = '';
             if(!data.error)
-            {
+            {   
+                var comments;
                 if(data.length > 3 )
-                    result+= '<div class="tumyorumlar modal_invisable"><a href="#">See all '+(data.length-2)+' comment(s)...</a></div>'
-                data = data.slice(data.length-2,data.length);
-                jQuery.each(data,function(i,e)
-                {
-                    var commentHTMLe = "<div class=\"gdy_satir modal_invisable\" >"+
-                    "<div class=\"gdy_alt_sol\"><img src=\""+e.userPic+"\" width=\"32\" height=\"31\" align=\"middle\"></div>" +
-                    "<div class=\"gdy_alt_orta bggri\">" +
-                    "<h1>"+e.userName+": </h1>" +
-                    "<p>" + e.comment + "</p>"+
-                    "</div>" +
-                    "</div>";
-                    result += commentHTMLe;
-                });
+                    comments = data.slice(0,3);
                 
+                //jQuery.each(comments,function(i,e)
+                
+                for(var i=0;i<comments.length;i++)
+                {
+                    var e=comments[i];
+                    var commentItemDIV=document.createElement('div');
+                    jQuery(commentItemDIV).addClass("gdy_satir");
+                    jQuery(commentItemDIV).addClass("modal_invisable");
+                    
+                    var commentItem_gdy_alt_solDIV=document.createElement("div");
+                    jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol");
+                    
+                    var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
+                    
+                    jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
+                    
+                    jQuery(commentItemDIV).append(commentItem_gdy_alt_solDIV);
+                    
+                    var commentItem_gdy_alt_ortaDIV=document.createElement("div");
+                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta");
+                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("bggri");
+                    
+                    
+                    var commentItem_gdy_alt_ortaDIV_h1=document.createElement("h1");
+                    jQuery(commentItem_gdy_alt_ortaDIV_h1).text(e.userName+":");
+                    jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_h1);
+                    
+                    var commentItem_gdy_alt_ortaDIV_p=document.createElement("p");
+                    jQuery(commentItem_gdy_alt_ortaDIV_p).text(e.comment);
+                    jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_p);
+                    
+                    jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
+                    
+                     jQuery(gdy_altDIV).append(commentItemDIV);
+                }
+                
+               
+                if(data.length > 3 )
+                {    
+                    var all_CommentsDIV=document.createElement("div");
+                    jQuery(all_CommentsDIV).addClass("tumyorumlar");
+                    jQuery(all_CommentsDIV).addClass("modal_invisable");
+                    
+                    all_CommentsDIV_a=document.createElement('a');
+                    jQuery(all_CommentsDIV_a).attr("href", "#");
+                    
+                    jQuery(all_CommentsDIV_a).text("See all "+(data.length-3)+" comment(s)...");
+                    jQuery(all_CommentsDIV).append(all_CommentsDIV_a);
+                    
+                    jQuery(gdy_altDIV).append(all_CommentsDIV);
+                }
             }
-            var commentHTML = '<div class="gdy_satir modal_invisable">'+  
-            '<div class="gdy_alt_sol"><img src="images/yz.png" width="22" height="23" align="middle"></div>'+
-            '<div class="gdy_alt_orta bggri">'+
-            '<input name="" type="text" class="gdyorum" id="sendComment" eventId="'+id+'" placeholder="Your message...">'+
-            '<button type="button" onclick="sendComment()" class="gdy_send">Send</button>'+
-            '</div>'+
-            '</div>';
-            result += commentHTML;
-            jQuery(gdy_altDIV).append(result);
+            
+            
+            var userLoggedin=true;
+            
+            if(userLoggedin)
+            {    
+                var writeComments_DIV=document.createElement("div");
+                jQuery(writeComments_DIV).addClass("class","gdy_satir");
+                jQuery(writeComments_DIV).addClass("class","modal_invisable");
+                
+                var writeComments_DIV_sol=document.createElement("div");
+                jQuery(writeComments_DIV_sol).addClass("gdy_alt_sol");
+                   
+                var writeComments_DIV_sol_img=document.createElement("img");
+                jQuery(writeComments_DIV_sol_img).attr("src","images/yz.png");
+                jQuery(writeComments_DIV_sol_img).attr("width",22);
+                jQuery(writeComments_DIV_sol_img).attr("height",23);
+                jQuery(writeComments_DIV_sol_img).attr("align","middle");
+                    
+                jQuery(writeComments_DIV_sol).append(writeComments_DIV_sol_img);
+                  
+                jQuery(writeComments_DIV).append(writeComments_DIV_sol);
+                
+                
+                var writeComments_DIV_orta = document.createElement("div");
+                jQuery(writeComments_DIV_orta).addClass("gdy_alt_orta");
+                jQuery(writeComments_DIV_orta).addClass("bggri");
+                
+                var writeComments_DIV_orta_input=document.createElement("input");
+                jQuery(writeComments_DIV_orta_input).attr("name","");
+                jQuery(writeComments_DIV_orta_input).attr("type","text");
+                jQuery(writeComments_DIV_orta_input).addClass("gdyorum");
+                jQuery(writeComments_DIV_orta_input).attr("id","sendComment");
+                jQuery(writeComments_DIV_orta_input).attr("eventId",id);
+                jQuery(writeComments_DIV_orta_input).attr("placeholder","Your message...");
+                
+                jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_input);
+                
+                var writeComments_DIV_orta_button=document.createElement("button");
+                jQuery(writeComments_DIV_orta_button).addClass("gdy_send");
+                jQuery(writeComments_DIV_orta_button).attr("type","button");
+                jQuery(writeComments_DIV_orta_button).attr("onclick","sendComment()");
+                jQuery(writeComments_DIV_orta_button).text("Send");
+                
+                
+                 
+                jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_button);
+                
+                
+                jQuery(writeComments_DIV).append(writeComments_DIV_orta);
+                
+             
+                jQuery(gdy_altDIV).append(writeComments_DIV);
+            }
+            
             loadGifHandler();
         }
     });
@@ -339,7 +451,7 @@ function loadGifHandler()
     {
         var status= parseInt(jQuery(loader).attr("status"));
         status++;
-        if(status==1)
+        if(status==2)
         {
             jQuery(loader).remove();
             jQuery(".modal_invisable").removeClass("modal_invisable");  

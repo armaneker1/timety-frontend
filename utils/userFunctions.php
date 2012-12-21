@@ -1181,7 +1181,7 @@ class CommentsFunctions{
 	public static function  getCmmentListByEvent($eventId)
 	{
 		$eventId=DBUtils::mysql_escape($eventId);
-		$query=mysql_query("SELECT * from ".TBL_COMMENT." WHERE event_id=$eventId ") or die(mysql_error());
+		$query=mysql_query("SELECT * from ".TBL_COMMENT." WHERE event_id=$eventId ORDER BY datetime DESC") or die(mysql_error());
 		$array=array();
 		if(!empty($query))
 		{
