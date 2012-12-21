@@ -344,11 +344,13 @@ p,h1,h2,h3,h4,h5{
 .m_e_drm {
 	padding: 5px;
 	height: 20px;
+        text-align: center;
 }
 .m_e_drm ul {
 	list-style-type: none;
 	margin: 0px;
 	padding: 0px;
+        display: inline-block;
 }
 .m_e_drm ul li {
 	float: left;

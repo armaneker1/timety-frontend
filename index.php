@@ -518,9 +518,9 @@ if (empty($user)) {
                 <div class="trh_gn">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td width="180" valign="middle"><span class="gn">12</span> <span
-                                    class="ay"> HAZ</span> <span class="yil">2012</span> <span
-                                    class="hd_line">|</span> <span class="gn">ÇARŞAMBA</span>
+                            <td width="180" valign="middle"><span class="gn"><?=date('d')?></span> <span
+                                    class="ay"> <?=strtoupper(date('M'))?></span> <span class="yil"><?=date('Y')?></span> <span
+                                        class="hd_line">|</span> <span class="gn"><?=strtoupper(date('l'))?></span>
                             </td>
                             <td align="left" valign="middle" class="u_line" width="100%"><input
                                     type="button" class="gn_btn" />
