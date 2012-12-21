@@ -185,6 +185,7 @@ function openModalPanel(id) {
             if(!data.error)
             {
                 var gdy_satirDIV_users= document.createElement('div');
+                jQuery(gdy_satirDIV_users).attr("id", "modal_panel_users");
                 jQuery(gdy_satirDIV_users).addClass('gdy_satir');
                 jQuery(gdy_satirDIV_users).addClass('modal_invisable');
 
@@ -274,7 +275,6 @@ function openModalPanel(id) {
         },
         success: function(data){
             data= JSON.parse(data); 
-            var result = '';
             if(!data.error)
             {   
                 var comments;
@@ -288,7 +288,9 @@ function openModalPanel(id) {
                     var e=comments[i];
                     var commentItemDIV=document.createElement('div');
                     jQuery(commentItemDIV).addClass("gdy_satir");
+                    jQuery(commentItemDIV).addClass("comment_classs");
                     jQuery(commentItemDIV).addClass("modal_invisable");
+                    
                     
                     var commentItem_gdy_alt_solDIV=document.createElement("div");
                     jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol");
@@ -318,7 +320,7 @@ function openModalPanel(id) {
                     
                     jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
                     
-                     jQuery(gdy_altDIV).append(commentItemDIV);
+                    jQuery(gdy_altDIV).append(commentItemDIV);
                 }
                 
                
@@ -328,9 +330,9 @@ function openModalPanel(id) {
                     jQuery(all_CommentsDIV).addClass("tumyorumlar");
                     jQuery(all_CommentsDIV).addClass("modal_invisable");
                     
-                    all_CommentsDIV_a=document.createElement('a');
+                    var all_CommentsDIV_a=document.createElement('a');
                     jQuery(all_CommentsDIV_a).attr("href", "#");
-                    
+                    jQuery(all_CommentsDIV_a).attr("onclick", "return openAllComments(this);");
                     jQuery(all_CommentsDIV_a).text("See all "+(data.length-3)+" comment(s)...");
                     jQuery(all_CommentsDIV).append(all_CommentsDIV_a);
                     
@@ -398,50 +400,6 @@ function openModalPanel(id) {
     //////////////////////////
     
     return false;
-    
-    /*
-    
-    var firstRow = jQuery(gdy_satirDIV_images).clone();
-    jQuery(firstRow).append(gdy_satirAltSolDIV);
-    jQuery(firstRow).append(gdy_altDIVOrta);
-    jQuery(firstRow).append(gdy_altDIVSag);
-    
-    //TODO: users images
-    var secondRow = jQuery(firstRow).clone();
-    var secondSol = jQuery(secondRow).children()[0];
-    var secondOrta = jQuery(secondRow).children()[1];
-    var secondSag = jQuery(secondRow).children()[2];
-    jQuery(jQuery(secondSol).children()[0]).attr('src','images/klnc.png');
-    jQuery(jQuery(secondOrta).children()).attr('src','images/r7.png');
-    jQuery(jQuery(secondSag).children()[0]).html(8);
-    
-    var thirdRow = jQuery(secondRow).clone();
-    var thridSol = jQuery(thirdRow).children()[0];
-    var thridOrta = jQuery(thirdRow).children()[1];
-    jQuery(jQuery(thirdRow).children()[2]).remove();
-    jQuery(jQuery(thridSol).children()[0]).attr('src','images/ekl.png');
-    //jQuery(thridOrta).addClass('bggri');
-    jQuery(thridOrta).html('');
-    var ortaHTML = 
-    '<h1>Me: </h1>' +
-    '<p> Etiam ullamcorper. Supendisse a pellentesque dui, non felis. '+
-    ' Maecenas malesuada elit lectus'+
-    'malesuada ultricies. Lorem ipsum dolor sit amet </p>'+
-    '</div>';
-    jQuery(thridOrta).html(ortaHTML);
-    
-    
-    var fourthRow = jQuery(thirdRow).clone();
-  
-    var sixthRow = jQuery(thirdRow).clone();
-    jQuery(jQuery(sixthRow).children()[1]).html('<input name="" type="text" class="gdyorum" value="Your message...">'+
-        '<button type="button" name="" value="" class="gdy_send"> Send</button>');
-    
-    
-    jQuery(jQuery(thirdRow).children()[1]).addClass('bggri');
-
-    jQuery(gdy_altDIV).append(firstRow);
-    jQuery(gdy_altDIV).append(secondRow);*/
 }
 
 function loadGifHandler()
@@ -478,6 +436,61 @@ function closeModalPanel() {
 } 
 
 
+function openAllComments(all_comments)
+{
+    var eventId = jQuery("#sendComment").attr('eventId');
+    jQuery.ajax({
+        type: 'POST',
+        url: 'getComments.php',
+        data: {
+            'eventId':eventId
+        },
+        success: function(data){
+            jQuery(all_comments).remove();
+            data= JSON.parse(data); 
+            jQuery(".comment_classs").remove();
+            for(var i=data.length-1;i>=0;i--)
+            {
+                var e=data[i];
+                var commentItemDIV=document.createElement('div');
+                jQuery(commentItemDIV).addClass("gdy_satir");
+                jQuery(commentItemDIV).addClass("comment_classs");
+
+
+                var commentItem_gdy_alt_solDIV=document.createElement("div");
+                jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol");
+
+                var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
+
+                jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
+
+                jQuery(commentItemDIV).append(commentItem_gdy_alt_solDIV);
+
+                var commentItem_gdy_alt_ortaDIV=document.createElement("div");
+                jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta");
+                jQuery(commentItem_gdy_alt_ortaDIV).addClass("bggri");
+
+
+                var commentItem_gdy_alt_ortaDIV_h1=document.createElement("h1");
+                jQuery(commentItem_gdy_alt_ortaDIV_h1).text(e.userName+":");
+                jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_h1);
+
+                var commentItem_gdy_alt_ortaDIV_p=document.createElement("p");
+                jQuery(commentItem_gdy_alt_ortaDIV_p).text(e.comment);
+                jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_p);
+
+                jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
+
+                jQuery(commentItemDIV).insertAfter(jQuery("#modal_panel_users"));
+            }
+        }
+    });
+}
+
 
 function sendComment(){
     jQuery.sessionphp.get('id',function(id){
@@ -493,14 +506,41 @@ function sendComment(){
                 "comment":comment
             },
             success: function(data){
-                var commentHTML = "<div class=\"gdy_satir\">"+
-                "<div class=\"gdy_alt_sol\"><img src=\"images/ekl.png\" width=\"32\" height=\"31\" align=\"middle\"></div>" +
-                "<div class=\"gdy_alt_orta bggri\">" +
-                "  <h1>Me: </h1>" +
-                "  <p>" + comment + "</p>"+
-                "</div>" +
-                "</div>";
-                jQuery(commentHTML).insertBefore(jQuery('.gdy_satir').last());
+                data= JSON.parse(data); 
+                
+                var commentItemDIV=document.createElement('div');
+                jQuery(commentItemDIV).addClass("gdy_satir");
+                jQuery(commentItemDIV).addClass("comment_classs");
+
+                var commentItem_gdy_alt_solDIV=document.createElement("div");
+                jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol");
+
+                var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",data.userPic);
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
+
+                jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
+
+                jQuery(commentItemDIV).append(commentItem_gdy_alt_solDIV);
+
+                var commentItem_gdy_alt_ortaDIV=document.createElement("div");
+                jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta");
+                jQuery(commentItem_gdy_alt_ortaDIV).addClass("bggri");
+
+
+                var commentItem_gdy_alt_ortaDIV_h1=document.createElement("h1");
+                jQuery(commentItem_gdy_alt_ortaDIV_h1).text(data.userName+":");
+                jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_h1);
+
+                var commentItem_gdy_alt_ortaDIV_p=document.createElement("p");
+                jQuery(commentItem_gdy_alt_ortaDIV_p).text(data.comment);
+                jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_p);
+
+                jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
+
+                jQuery(commentItemDIV).insertAfter(jQuery("#modal_panel_users"));
                 jQuery("#sendComment").val('');
             }
         });
