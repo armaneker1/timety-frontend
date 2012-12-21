@@ -294,7 +294,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 			<div class="eab_daire"></div>
 		</div>
 		<div class="ea_alt">
-			<div class="ea_sosyal">
+                         <div class="ea_sosyal" style="display: none">
 				<button type="button" name="" value=""
 					class="face back_btn sosyal_icon"></button>
 				<button type="button" name="" value=""

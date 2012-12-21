@@ -136,7 +136,7 @@
 }
 .gldp-default-noday {
 	color: #b4b3b3;
-	cursor: wait;
+	cursor: default;
 	background-color: #ececec;
 	border-top-width: 1px;
 	border-right-width: 1px;

@@ -235,11 +235,9 @@ else
 			<div class="add_t_btn">
 				<!--<button type="button" name="" value=""
 					class="zmn back_btn sosyal_icon" /> -->
-                                <?php if($fb) {?>
                                     <button type="button" name="" value=""
                                     <?php if(!$fb) echo "onclick=\"$('#spinner').show();openPopup('fb');checkOpenPopup();\"";?>
-                                            class="face<?php if($fb) echo '_aktiv';?> back_btn sosyal_icon"></button>
-                                <?php }?>      
+                                            class="face<?php if($fb) echo '_aktiv';?> back_btn sosyal_icon"></button>  
                                 <?php if($tw) {?>
                                     <button type="button" name="" value=""
                                     <?php if(!$tw) echo "onclick=\"$('#spinner').show();openPopup('tw');checkOpenPopup();\"";?>
