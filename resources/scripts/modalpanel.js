@@ -343,59 +343,63 @@ function openModalPanel(id) {
             }
             
             
-            var userLoggedin=true;
             
-            if(userLoggedin)
-            {    
-                var writeComments_DIV=document.createElement("div");
-                jQuery(writeComments_DIV).addClass("class","gdy_satir");
-                jQuery(writeComments_DIV).addClass("class","modal_invisable");
-                
-                var writeComments_DIV_sol=document.createElement("div");
-                jQuery(writeComments_DIV_sol).addClass("gdy_alt_sol");
-                   
-                var writeComments_DIV_sol_img=document.createElement("img");
-                jQuery(writeComments_DIV_sol_img).attr("src","images/yz.png");
-                jQuery(writeComments_DIV_sol_img).attr("width",22);
-                jQuery(writeComments_DIV_sol_img).attr("height",23);
-                jQuery(writeComments_DIV_sol_img).attr("align","middle");
-                    
-                jQuery(writeComments_DIV_sol).append(writeComments_DIV_sol_img);
-                  
-                jQuery(writeComments_DIV).append(writeComments_DIV_sol);
-                
-                
-                var writeComments_DIV_orta = document.createElement("div");
-                jQuery(writeComments_DIV_orta).addClass("gdy_alt_orta");
-                jQuery(writeComments_DIV_orta).addClass("bggri");
-                
-                var writeComments_DIV_orta_input=document.createElement("input");
-                jQuery(writeComments_DIV_orta_input).attr("name","");
-                jQuery(writeComments_DIV_orta_input).attr("type","text");
-                jQuery(writeComments_DIV_orta_input).addClass("gdyorum");
-                jQuery(writeComments_DIV_orta_input).attr("id","sendComment");
-                jQuery(writeComments_DIV_orta_input).attr("eventId",id);
-                jQuery(writeComments_DIV_orta_input).attr("placeholder","Your message...");
-                
-                jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_input);
-                
-                var writeComments_DIV_orta_button=document.createElement("button");
-                jQuery(writeComments_DIV_orta_button).addClass("gdy_send");
-                jQuery(writeComments_DIV_orta_button).attr("type","button");
-                jQuery(writeComments_DIV_orta_button).attr("onclick","sendComment()");
-                jQuery(writeComments_DIV_orta_button).text("Send");
-                
-                
-                 
-                jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_button);
-                
-                
-                jQuery(writeComments_DIV).append(writeComments_DIV_orta);
-                
-             
-                jQuery(gdy_altDIV).append(writeComments_DIV);
-            }
-            
+            jQuery.sessionphp.get('id',function(id){
+                        var userId = id;
+                        if(userId!=null && userId>0)
+                        {    
+                            var writeComments_DIV=document.createElement("div");
+                            jQuery(writeComments_DIV).addClass("class","gdy_satir");
+                            jQuery(writeComments_DIV).addClass("class","modal_invisable");
+
+                            var writeComments_DIV_sol=document.createElement("div");
+                            jQuery(writeComments_DIV_sol).addClass("gdy_alt_sol");
+
+                            var writeComments_DIV_sol_img=document.createElement("img");
+                            jQuery(writeComments_DIV_sol_img).attr("src","images/yz.png");
+                            jQuery(writeComments_DIV_sol_img).attr("width",22);
+                            jQuery(writeComments_DIV_sol_img).attr("height",23);
+                            jQuery(writeComments_DIV_sol_img).attr("align","middle");
+
+                            jQuery(writeComments_DIV_sol).append(writeComments_DIV_sol_img);
+
+                            jQuery(writeComments_DIV).append(writeComments_DIV_sol);
+
+
+                            var writeComments_DIV_orta = document.createElement("div");
+                            jQuery(writeComments_DIV_orta).addClass("gdy_alt_orta");
+                            jQuery(writeComments_DIV_orta).addClass("bggri");
+
+                            var writeComments_DIV_orta_input=document.createElement("input");
+                            jQuery(writeComments_DIV_orta_input).attr("name","");
+                            jQuery(writeComments_DIV_orta_input).attr("type","text");
+                            jQuery(writeComments_DIV_orta_input).addClass("gdyorum");
+                            jQuery(writeComments_DIV_orta_input).attr("id","sendComment");
+                            jQuery(writeComments_DIV_orta_input).attr("eventId",id);
+                            jQuery(writeComments_DIV_orta_input).attr("placeholder","Your message...");
+
+                            jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_input);
+
+                            var writeComments_DIV_orta_button=document.createElement("button");
+                            jQuery(writeComments_DIV_orta_button).addClass("gdy_send");
+                            jQuery(writeComments_DIV_orta_button).attr("type","button");
+                            jQuery(writeComments_DIV_orta_button).attr("onclick","sendComment()");
+                            jQuery(writeComments_DIV_orta_button).text("Send");
+
+
+
+                            jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_button);
+
+
+                            jQuery(writeComments_DIV).append(writeComments_DIV_orta);
+
+
+                            jQuery(gdy_altDIV).append(writeComments_DIV);
+                        }
+                        
+                        loadGifHandler();
+            });
+         
             loadGifHandler();
         }
     });
@@ -411,7 +415,7 @@ function loadGifHandler()
     {
         var status= parseInt(jQuery(loader).attr("status"));
         status++;
-        if(status==2)
+        if(status==3)
         {
             jQuery(loader).remove();
             jQuery(".modal_invisable").removeClass("modal_invisable");  
