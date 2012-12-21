@@ -233,8 +233,8 @@ else
 					Timete</span>
 			</p>
 			<div class="add_t_btn">
-				<button type="button" name="" value=""
-					class="zmn back_btn sosyal_icon" />
+				<!--<button type="button" name="" value=""
+					class="zmn back_btn sosyal_icon" /> -->
                                 <?php if($fb) {?>
                                     <button type="button" name="" value=""
                                     <?php if(!$fb) echo "onclick=\"$('#spinner').show();openPopup('fb');checkOpenPopup();\"";?>
