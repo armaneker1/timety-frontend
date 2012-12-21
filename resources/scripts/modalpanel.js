@@ -261,9 +261,9 @@ function openModalPanel(id) {
                 jQuery.each(data,function(i,e)
                 {
                     var commentHTMLe = "<div class=\"gdy_satir modal_invisable\" >"+
-                    "<div class=\"gdy_alt_sol\"><img src=\"images/ekl.png\" width=\"32\" height=\"31\" align=\"middle\"></div>" +
+                    "<div class=\"gdy_alt_sol\"><img src=\""+e.userPic+"\" width=\"32\" height=\"31\" align=\"middle\"></div>" +
                     "<div class=\"gdy_alt_orta bggri\">" +
-                    "<h1>"+e.userId+": </h1>" +
+                    "<h1>"+e.userName+": </h1>" +
                     "<p>" + e.comment + "</p>"+
                     "</div>" +
                     "</div>";

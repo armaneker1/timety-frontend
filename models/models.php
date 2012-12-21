@@ -37,7 +37,12 @@ class User {
         public $userPicture;
 
 
-	public function  getUserPic()
+        public function getFullName()
+        {
+            return $this->firstName." ".$this->lastName;
+        }
+
+        public function  getUserPic()
 	{
             if(!empty($this->userPicture))
             {
@@ -331,6 +336,7 @@ class Comment{
             $this->eventId=$result['event_id'];
             $this->comment=$result['comment'];
 	}
+        $this->setUserData();
     }
     
     public $id=null;
@@ -338,5 +344,26 @@ class Comment{
     public $datetime=null;
     public $eventId=null;
     public $comment=null;
+    /*
+     * Aditional 
+     */
+    public $userName;
+    public $userPic;
+    
+    public function setUserData()
+    {
+        
+        
+        if(empty($this->userName) || empty($this->userPic))
+        {
+           $uf=new UserFuctions();
+           $user=$uf->getUserById($this->userId);
+           if(!empty($user))
+           {
+               $this->userName=$user->getFullName();
+               $this->userPic=$user->getUserPic();
+           }
+        }
+    }
 }
 ?>
