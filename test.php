@@ -18,6 +18,15 @@ require 'utils/userFunctions.php';
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
+$usr=new stdClass();
+$usr->id="1";
+$usr->pic="2sadasd";
+
+var_dump($usr);
+
+$usr=  Neo4jFuctions::getEventAttendances(1000018);
+var_dump($usr);
+
 /*
 try {
 			$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));

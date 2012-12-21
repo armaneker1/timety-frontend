@@ -20,7 +20,7 @@ class User {
                         $this->userPicture=$result['userPicture'];
 		}
 	}
-
+        
 	public $id;
 	public $email;
 	public $userName;
@@ -348,6 +348,7 @@ class Comment{
      * Aditional 
      */
     public $userName;
+    public $userFullName;
     public $userPic;
     
     public function setUserData()
@@ -360,7 +361,8 @@ class Comment{
            $user=$uf->getUserById($this->userId);
            if(!empty($user))
            {
-               $this->userName=$user->getFullName();
+               $this->userFullName=$user->getFullName();
+               $this->userName=$user->userName;
                $this->userPic=$user->getUserPic();
            }
         }

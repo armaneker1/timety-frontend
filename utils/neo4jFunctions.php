@@ -1247,7 +1247,7 @@ class Neo4jFuctions {
              $query ="START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":*".$eventId."*') ".
                      "MATCH (event)<-[:".REL_EVENTS_JOINS."]->(usr)  ".
                      "WITH usr,count(*) as cunt_of_people ".
-                     "RETURN cunt_of_people ";
+                     "RETURN cunt_of_people";
              $query = new Cypher\Query($client, $query,null);
              $result = $query->getResultSet();
              foreach($result as $row) {
@@ -1255,6 +1255,43 @@ class Neo4jFuctions {
              }
              return 0;
         }
+        
+        
+        public static function getEventAttendances($eventId)
+        {
+             $array=array();
+             if(!empty($eventId))
+             {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query ="START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":*".$eventId."*') ".
+                        "MATCH (event)<-[r:".REL_EVENTS_JOINS."]->(usr)  ".
+                        "RETURN usr,count(*) ";
+                $query = new Cypher\Query($client, $query,null);
+                $result = $query->getResultSet();
+                foreach($result as $row) {
+                    if(!empty($row) && !empty($row['usr']))
+                    {   
+                       $id=$row['usr']->getProperty(PROP_USER_ID);
+                       if(!empty($id))
+                       {
+                           $uf=new UserFuctions();
+                           $user=$uf->getUserById($row['usr']->getProperty(PROP_USER_ID));
+                           if(!empty($user))
+                           {
+                              $usr=new stdClass();
+                              $usr->id=$user->id;
+                              $usr->fullName=$user->getFullName();
+                              $usr->pic=$user->getUserPic();
+                              $usr->userName=$user->userName;
+                              array_push($array,$usr);
+                           }
+                       }
+                    }
+                }
+             }
+             return $array;
+        }
+        
         
        
         
