@@ -280,6 +280,8 @@ function openModalPanel(id) {
                 var comments;
                 if(data.length > 3 )
                     comments = data.slice(0,3);
+                else
+                    comments=data;
                 
                 //jQuery.each(comments,function(i,e)
                 
