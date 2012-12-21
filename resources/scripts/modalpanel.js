@@ -42,7 +42,7 @@ function openModalPanel(id) {
          jQuery(gdySolP2Img).attr('src', data.headerImage.url);   
     }
     //jQuery(gdySolP2Img).attr('width', 560);
-    //jQuery(gdySolP2Img).attr('height', 295);
+    jQuery(gdySolP2Img).attr('height', 295);
     jQuery(gdySolP2Img).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
 
     jQuery(gdySolP2DIV).append(gdySolP2Img);
