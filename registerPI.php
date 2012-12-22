@@ -234,7 +234,7 @@ if (!isset($_SESSION['id'])) {
                             }, {
                                 name : 'te_hometown',
                                 display : 'hometown',
-                                rules : 'required|min_length[3]|alpha_turkish'
+                                rules : 'required|min_length[3]'
                             } ],
                         function(errors, event) {
                             var SELECTOR_ERRORS = $('#msg');
