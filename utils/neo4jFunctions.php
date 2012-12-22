@@ -79,22 +79,35 @@ class Neo4jFuctions {
 		$usr=$userIndex->findOne(PROP_USER_ID, $userId);
 		$event=$eventIndex->findOne(PROP_EVENT_ID, $eventId);
 		$result=new Result();
-		try {
-			if($resp==1)
-			{
-				$usr->relateTo($event,REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, 0)->save();
-				$result->success=true;
-			}else if($resp==0){
-				$usr->relateTo($event,REL_EVENTS_REJECTS)->setProperty(PROP_JOIN_CREATE, 0)->save();
-				$result->success=true;
-			} else {
-				$result->success=false;
-				$result->error=true;
-			}
-		} catch (Exception $e) {
-			log("Error"+$e->getMessage());
-			$result->error=$e->getMessage();
-		}
+                $result->success=false;
+                $result->error=true;
+                
+                if(!empty($event) && !empty($usr))
+                {
+                    try {
+                            if($resp==1)
+                            {
+                                    $usr->relateTo($event,REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, 0)->save();
+                                    $result->success=true;
+                                    $result->error=false;
+                            }else if($resp==0){
+                                    $usr->relateTo($event,REL_EVENTS_REJECTS)->setProperty(PROP_JOIN_CREATE, 0)->save();
+                                    $result->success=true;
+                                    $result->error=false;
+                            } else {
+                                    $result->success=false;
+                                    $result->error=true;
+                            }
+                    } catch (Exception $e) {
+                            log("Error"+$e->getMessage());
+                            $result->error=$e->getMessage();
+                    }
+                }
+                else
+                {
+                     $result->success=false;
+                     $result->error=true;
+                }
 		return $result;
 	}
 	

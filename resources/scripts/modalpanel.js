@@ -69,6 +69,10 @@ function openModalPanel(id) {
     var tweet = jQuery(socialDIV).clone();
     var gplus = jQuery(socialDIV).clone();
     jQuery(zmn.children()[0]).addClass('zmn');
+    // add Join butonu ekle
+    jQuery(zmn.children()[0]).bind("click",  function(){ 
+        joinEvent(zmn.children()[0], event_id) });
+    // add Join butonu ekle
     jQuery(face.children()[0]).addClass('face');
     jQuery(tweet.children()[0]).addClass('tweet');
     jQuery(gplus.children()[0]).addClass('googl_plus');
@@ -552,4 +556,38 @@ function sendComment(){
             }
         });
     });
+}
+
+
+function joinEvent(button,eventId)
+{
+        jQuery(button).attr("disabled", "disabled");
+        jQuery.sessionphp.get('id',function(user___id){
+                var userId = user___id;
+                if(eventId && userId)
+                {
+                   jQuery.ajax({
+                    type: 'POST',
+                    url: 'joinEvent.php',
+                    data: {
+                        'eventId':eventId,
+                        'userId':userId
+                    },
+                    success: function(data){
+                        if(data.error)
+                        {
+                            jQuery(button).removeAttr("disabled"); 
+                            jQuery('#boot_msg').empty();
+                            jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-error">An Error Occured<a class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');
+                        }else
+                        {
+                            jQuery('#boot_msg').empty();
+                            jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success">joined event<a class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');   
+                        }
+                    },
+                    error : function(error_data){
+                            jQuery(button).removeAttr("disabled"); 
+                    }},"json");
+                }     
+        });
 }
