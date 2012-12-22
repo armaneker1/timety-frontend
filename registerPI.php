@@ -210,6 +210,7 @@ if (!isset($_SESSION['id'])) {
                         $("#te_birthdate").glDatePicker({
                             allowOld : true,
                             position : "fixed",
+                            showLeftTopCss:true,
                             endDate: (new Date())
                         });
                         var validator = new FormValidator(

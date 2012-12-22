@@ -57,7 +57,9 @@
 		showPrevNext: true,
 		allowOld: true,
 		showAlways: false,
-		position: "absolute"
+		position: "absolute",
+                showLeftTopCss : false
+                
 	};
 
 	var methods =
@@ -75,9 +77,7 @@
 				self.data("settings", settings);
 
 				// Bind click and focus event to show
-				self
-					.click(methods.show)
-					.focus(methods.show);
+				self.click(methods.show).focus(methods.show);
 
 				// If always showing, trigger click causing it to show
 				if(settings.showAlways)
@@ -292,17 +292,27 @@
 			// If calendar doesn't exist, make one
 			if($("#"+calId).length == 0)
 			{
-				target.after
-				(
+                                if(settings.showLeftTopCss)
+                                {
+                                    target.after(
 					$("<div id='"+calId+"'></div>")
-					.css(
-					{
+					.css({
+						"position":settings.position,
+						"z-index":settings.zIndex,
+						"left":(target.offset().left),
+						"top":target.offset().top+target.outerHeight(true)
+					}));   
+                                }else
+                                {
+                                    target.after(
+					$("<div id='"+calId+"'></div>")
+					.css({
 						"position":settings.position,
 						"z-index":settings.zIndex
 						/*"left":(target.offset().left),
 						"top":target.offset().top+target.outerHeight(true)*/
-					})
-				);
+					}));    
+                                }
 			}
 
 			// Show calendar
