@@ -69,6 +69,7 @@ function openModalPanel(id) {
     var tweet = jQuery(socialDIV).clone();
     var gplus = jQuery(socialDIV).clone();
     jQuery(zmn.children()[0]).addClass('zmn');
+    jQuery(zmn.children()[0]).css('cursor','pointer');
     // add Join butonu ekle
     jQuery(zmn.children()[0]).bind("click",  function(){ 
         joinEvent(zmn.children()[0], event_id) });

@@ -556,7 +556,7 @@ if (empty($user)) {
                                                $indx=0;
                                                $size=  sizeof($events);
                                                $size2=  $size;
-                                               $size2=round($size/5);
+                                               $size2= floor($size/5);
                                                if(($size%5)>0)
                                                    $size2=$size2+1;
                                                for($i=0;$i<$size2;$i++)
