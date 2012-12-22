@@ -1143,8 +1143,10 @@ class Neo4jFuctions {
                                      "MATCH (user)-[r:".REL_EVENTS_JOINS."]->(event)  ".
                                      "WHERE (event.".PROP_EVENT_START_DATE.">'".$date."') AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
                                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+                    
                     $query = new Cypher\Query($client, $query,null);
                     $result = $query->getResultSet();
+                    
                     foreach($result as $row) {
                             $evt=new Event();
                             $evt->createNeo4j($row['event']);

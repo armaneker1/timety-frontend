@@ -1,22 +1,22 @@
-(function($) {
+(function(jQuery) {
 
-    $.sessionphp = {
+    jQuery.sessionphp = {
 
         get: function(key, callback) {
-            $.ajax({
+            jQuery.ajax({
                 type: 'GET',
                 url: 'session.php',
                 data: {
                     'key':key
                 },
                 success: function(data){
-                    callback($.parseJSON(data));
+                    callback(jQuery.parseJSON(data));
                 }
             });
         },
 
         set: function(key, value, callback) {
-            $.ajax({
+            jQuery.ajax({
                 type: 'POST',
                 url: 'session.php',
                 data: {
@@ -24,13 +24,13 @@
                     'value':value
                 },
                 success: function(data){
-                    callback($.parseJSON(data));
+                    callback(jQuery.parseJSON(data));
                 }
             });
         },
 
         remove: function(key, callback) {
-            $.ajax({
+            jQuery.ajax({
                 type: 'POST',
                 url: 'session.php',
                 data: {
@@ -38,25 +38,25 @@
                     'remove':true
                 },
                 success: function(data){
-                    callback($.parseJSON(data));
+                    callback(jQuery.parseJSON(data));
                 }
             });
         },
         
         show : function(callback){
-            $.ajax({
+            jQuery.ajax({
                 type: 'GET',
                 url: 'session.php',
                 data: {
                     'all':true
                 },
                 success: function(data){
-                    callback($.parseJSON(data));
+                    callback(jQuery.parseJSON(data));
                 }
             });
         }
     /* ,clear: function() {
-            $.ajax({
+            jQuery.ajax({
                 type: 'POST',
                 url: 'session.php',
                 data: {
