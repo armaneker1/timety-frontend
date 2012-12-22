@@ -1,3 +1,5 @@
+var post_wookmark;
+
 function wookmarkFiller(options,clear)
 {
     var pager = 15;
@@ -8,7 +10,8 @@ function wookmarkFiller(options,clear)
     var dateSelected = null;
     jQuery.sessionphp.get('id',function(data){
         if(data) userId =data;
-        jQuery.ajax({
+        if(post_wookmark) {post_wookmark.abort();}
+        post_wookmark = jQuery.ajax({
             type: 'GET',
             url: 'getEvents.php',
             data: {

@@ -66,7 +66,6 @@ if (isset($_SESSION['id'])) {
             <script>
             
     function changeChannel(item){
-        
         jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
         jQuery(item).addClass('top_menu_ul_li_a_selected');
         wookmarkFiller(document.optionsWookmark,true);
