@@ -77,13 +77,18 @@ function inviteUser(emailE,id)
 	$("#"+emailE)[0].value="";
 	if(validateEmailRegex(email))
 	{
+                var node=document.getElementById("boot_msg");
+                while (node.hasChildNodes()) {
+                    node.removeChild(node.lastChild);
+                }
+                jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
 		$.post("inviteEmail.php", {
 			e : email,
                         u :id
 		}, function(data) {
 			console.log(data);
 			if (data.success) {
-				jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
+				//jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
 				//alert("Invitation sended");
 			} else {
 				//alert("Invitation couldn't send");
