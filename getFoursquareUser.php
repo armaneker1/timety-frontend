@@ -5,6 +5,10 @@ require 'utils/userFunctions.php';
 
 session_start();
 
+$success=TRUE;
+$errortext="";
+
+
 if(isset($_GET['error']))
 {
 	header('Location: signin.php');
@@ -28,14 +32,23 @@ else if(isset($_GET['add']))
 				$res = $details->response;
 				$user=$res->user;
 
-				$provider=new SocialProvider();
-				$provider->oauth_provider=FOURSQUARE_TEXT;
-				$provider->oauth_token=$token;
-				$provider->oauth_uid=$user->id;
-				$provider->status=0;
-				$provider->user_id=$l_user->id;
+                                
+                                $fcUser=$userFunctions->getSocialProviderWithOAUTHId($user->id, FOURSQUARE_TEXT);
+                                if(empty($fcUser))
+                                {
+                                    $provider=new SocialProvider();
+                                    $provider->oauth_provider=FOURSQUARE_TEXT;
+                                    $provider->oauth_token=$token;
+                                    $provider->oauth_uid=$user->id;
+                                    $provider->status=0;
+                                    $provider->user_id=$l_user->id;
 
-				$userFunctions->updateSocialProvider($provider);
+                                    $userFunctions->updateSocialProvider($provider);
+                                }else
+                                {
+                                    $success=FALSE;
+                                    $errortext="This Foursquare account already registered";
+                                }
 
 			} catch (Exception $e) {
 				echo 'Error -> '.$e->getMessage();
@@ -49,7 +62,14 @@ else if(isset($_GET['add']))
 	{
 		echo "User empty2";
 	}
-	echo "<body onload=\"window.close();window.opener.document.getElementById('addSocialReturnButton').click();\"></body>";
+        include('layout/layout_header.php');
+        if($success)
+	{
+            echo "<body onload=\"window.close();window.opener.document.getElementById('addSocialReturnButton').click();\"></body>";
+        }else
+        {
+             echo "<body onload=\"window.close();jQuery(window.opener.document.getElementById('addSocialErrorReturnButton')).attr('errortext','".$errortext."');window.opener.document.getElementById('addSocialErrorReturnButton').click();\"></body>";
+        }
 }
 else
 {

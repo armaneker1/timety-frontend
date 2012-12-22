@@ -1,5 +1,6 @@
 function openModalPanel(id) {
-    var data = JSON.parse(localStorage.getItem('event_' + id));
+    var event_id=id;
+    var data = JSON.parse(localStorage.getItem('event_' + event_id));
     data.images=JSON.parse(data.images);
     if (!data) return;
     
@@ -375,7 +376,7 @@ function openModalPanel(id) {
                             jQuery(writeComments_DIV_orta_input).attr("type","text");
                             jQuery(writeComments_DIV_orta_input).addClass("gdyorum");
                             jQuery(writeComments_DIV_orta_input).attr("id","sendComment");
-                            jQuery(writeComments_DIV_orta_input).attr("eventId",id);
+                            jQuery(writeComments_DIV_orta_input).attr("eventId",event_id);
                             jQuery(writeComments_DIV_orta_input).attr("placeholder","Your message...");
 
                             jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_input);

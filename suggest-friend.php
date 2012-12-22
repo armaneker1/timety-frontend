@@ -202,6 +202,8 @@ else
 
 			<button style="visibility: hidden;" id="addSocialReturnButton"
 				onclick="$('#spinner').show();setTimeout(function() { window.location='<?php echo HOSTNAME;?>suggest-friend.php'; $('#spinner').hide();},1000);"></button>
+                        <button style="visibility: hidden;" id="addSocialErrorReturnButton" type="button" errorText=""
+					onclick="socialWindowButtonCliked=true;jQuery('#spinner').hide();showRegisterError(this);"></button>
 		</div>
 		<div style="display: block; min-height: 20px;">
 				<div class="add_t_ek" id="spinner" style="display: none;">
@@ -245,5 +247,6 @@ else
 				onclick="window.location='index.php?finish=true'">Finish</button>
 		</div>
 	</div>
+         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>
 </body>
 </html>

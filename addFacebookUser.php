@@ -5,6 +5,8 @@ require 'config/fbconfig.php';
 require 'utils/userFunctions.php';
 session_start();
 
+$success=TRUE;
+$errortext="";
 
 if(isset($_SESSION['id']))
 {
@@ -27,6 +29,9 @@ if(isset($_SESSION['id']))
 	}
 	if (!empty($user)) {
 		try {
+                    $fcUser=$userFunctions->getSocialProviderWithOAUTHId($uid, FACEBOOK_TEXT);
+                    if(empty($fcUser))
+                    {
 			$provider=new SocialProvider();
 			$provider->oauth_provider=FACEBOOK_TEXT;
 			$provider->oauth_token=$access_token;
@@ -35,6 +40,11 @@ if(isset($_SESSION['id']))
 			$provider->user_id=$l_user->id;
 
 			$userFunctions->updateSocialProvider($provider);
+                    }else
+                    {
+                        $success=FALSE;
+                        $errortext="This Facebook account already registered";
+                    }
 		} catch (Exception $e) {
 			echo 'Error -> '.$e->getMessage();
 		}
@@ -46,5 +56,9 @@ if(isset($_SESSION['id']))
 	echo "User empty2";
 }
 ?>
-<body onload="window.close();window.opener.document.getElementById('addSocialReturnButton').click();" >
-</body>
+<head><?php include('layout/layout_header.php'); ?></head>
+<?php if($success) { ?>
+<body onload="window.close();window.opener.document.getElementById('addSocialReturnButton').click();" ></body>
+<?php } else { ?>
+<body onload="window.close();jQuery(window.opener.document.getElementById('addSocialErrorReturnButton')).attr('errortext','<?=$errortext?>');window.opener.document.getElementById('addSocialErrorReturnButton').click();" ></body>
+<?php } ?>

@@ -50,6 +50,13 @@ function checkInterestReady(location, spinner, userId, check) {
 	}, "json");
 }
 
+function showRegisterError(errorButton)
+{
+    jQuery('#boot_msg_gen').empty();
+    var text=jQuery(errorButton).attr("errortext");
+    jQuery('#boot_msg_gen').append('<div style="width:100%;" class="alert alert-error">'+text+'<a class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');
+}
+
 function checkInterestReady(location, spinner, userId, check) {
 	jQuery(spinner).show();
 

@@ -248,8 +248,10 @@ else
                                     <?php if(!$fq)  echo "onclick=\"$('#spinner').show();openPopup('fq');checkOpenPopup();\"";?>
                                             class="googl_plus<?php if($fq) echo '_aktiv';?> back_btn sosyal_icon"></button>
                                 <?php } ?>
-				<button style="visibility: hidden;" id="addSocialReturnButton"
+                                <button style="visibility: hidden;" id="addSocialReturnButton" type="button"
 					onclick="socialWindowButtonCliked=true;checkInterestReady('<?php echo HOSTNAME;?>registerII.php','#spinner','<?php echo $user->id;?>',true);"></button>
+                                <button style="visibility: hidden;" id="addSocialErrorReturnButton" type="button" errorText=""
+					onclick="socialWindowButtonCliked=true;jQuery('#spinner').hide();showRegisterError(this);"></button>
 			</div>
 		</div>
 		<div style="display: block; min-height: 20px;">
@@ -373,6 +375,7 @@ else
 			</div>
 		</form>
 	</div>
+         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>
         <script language="javascript" src="resources/scripts/firefox.js"></script>
 </body>
 </html>
