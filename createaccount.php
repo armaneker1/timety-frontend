@@ -59,7 +59,14 @@ try {
 				array_push($msgs,$m);
 				$param=false;
 			}else {
-				if(!$userFunctions->checkEmail($uemail))
+                                if(!UserFuctions::check_email_address($uemail))
+                                {
+                                    $m=new HtmlMessage();
+                                    $m->type="e";
+                                    $m->message="Email is not valid";
+                                    array_push($msgs,$m);
+                                    $param=false;
+                                }else if(!$userFunctions->checkEmail($uemail))
 				{
 					$m=new HtmlMessage();
 					$m->type="e";
