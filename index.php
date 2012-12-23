@@ -458,7 +458,7 @@ if (empty($user)) {
                 $nf=new Neo4jFuctions();
                 $var_cat=$nf->getCategoryListByIdList($event->categories);
                 $var_usr=$nf->getUserGroupListByIdList($event->attendance);
-                //$var_tag=$nf->getTagListListByIdList($event->attendance);
+                $var_tag=$nf->getTagListListByIdList($event->tags);
             }
             ?>
             <script>

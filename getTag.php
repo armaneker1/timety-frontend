@@ -8,13 +8,13 @@ try {
 	{
 		$uFunction=new UserFuctions();
 		$array=array();
-		$array=$uFunction->seacrhCategoryList($query);
+		$array=$uFunction->searchInterests($query);
 		if(!empty($array))
 		{
-			$cat=new CateforyRef();
+			$int=new Interest();
 			for ($i=0; $i< sizeof($array);$i++) {
-				$cat=$array[$i];
-				$obj=array('id'=>$cat->id,'label'=>$cat->category,'value'=>$cat->id);
+				$int=$array[$i];
+				$obj=array('id'=>$int->id,'label'=>$int->name,'value'=>$int->id);
 				array_push($result, $obj);
 			}
 		}

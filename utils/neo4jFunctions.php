@@ -1012,6 +1012,49 @@ class Neo4jFuctions {
             }
             return "[]";
         }
+        
+        public static function  getTagListListByIdList($list)
+        {
+            if(!empty($list))
+	    {
+                $attendances =  explode(",",$list);
+                if(is_array($attendances) && sizeof($attendances)>0)
+                {
+                        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+			$userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
+			$groupIndex = new Index($client, Index::TypeNode, IND_GROUP_INDEX);
+                        $result=array();
+                	foreach ($attendances as $att)
+                        {
+                            if(!empty($att))
+			    {
+                                $parts = explode('_', $att);
+                                $type=$parts[0];
+				$id=$parts[1];
+				if($type=='u')
+				{
+                                    $usr=$userIndex->findOne(PROP_USER_ID,$id);
+                                    if(!empty($usr))
+                                    {
+					$obj=array('id'=>$att,'label'=>($usr->getProperty(PROP_USER_FIRSTNAME)." ".$usr->getProperty(PROP_USER_LASTNAME)));
+                                        array_push($result, $obj);
+                                    }
+                                } else if ($type=='g'){
+                                    $grp=$groupIndex->findOne(PROP_GROUP_ID,$id);
+                                    if(!empty($grp))
+                                    {
+                                        $obj=array('id'=>$att,'label'=>$grp->getProperty(PROP_GROUP_NAME));
+                                        array_push($result, $obj);
+                                    }
+				}
+                            }
+			}
+                        $json_response = json_encode($result);
+                        return $json_response;
+                 }
+            }
+            return "[]";
+        }
 
 
         /*
