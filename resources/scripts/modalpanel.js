@@ -178,7 +178,6 @@ function openModalPanel(id) {
     jQuery(detailModalPanelBackground).append(detailModalPanel);
     document.body.style.overflow = "hidden";
     
-    
     /*
      * Users
      */ 

@@ -46,14 +46,14 @@ function wookmarkFiller(options,clear)
                 });
 
 
-                wookmarkHTML(dataJSON );
+                wookmarkHTML(dataJSON);
                 //function tm()
                 //{
                 if(handler) handler.wookmarkClear();
                 handler = jQuery('.main_event .main_event_box');
                 handler.wookmark(options);
+                makeMeDraggable();
             //}
-                
             //setTimeout(tm,100);
             }
         });
@@ -102,24 +102,17 @@ function wookmarkHTML(dataArray)
         var contentDIV = document.createElement('div');
         jQuery(contentDIV).addClass('m_e_metin');
 
-
         //title
         var titleDIV = document.createElement('div');
         jQuery(titleDIV).addClass('m_e_baslik');
         jQuery(titleDIV).append(data.title);
         jQuery(contentDIV).append(titleDIV);
             
-            
-            
         //description
         var descriptionDIV = document.createElement('div');
         jQuery(descriptionDIV).addClass('m_e_ackl');
         jQuery(descriptionDIV).append(data.description);
         jQuery(contentDIV).append(descriptionDIV);
-
-         
-            
-            
 
         //durum
         var durumDIV = document.createElement('div');
@@ -188,7 +181,6 @@ function wookmarkHTML(dataArray)
         //jQuery(result).append(durumAlt);    
             
         jQuery('.main_event').append(result);
-        //makeMeDraggable(result);
     });
     
 }

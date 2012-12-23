@@ -32,6 +32,7 @@
 <script language="javascript"  src="resources/scripts/date.js"></script>
 <script language="javascript"  src="resources/scripts/jquery.mousewheel.js"></script>
 <script language="javascript"  src="resources/scripts/slides.jquery.js"></script>
+<script language="javascript"  src="resources/scripts/dragdrop.js"></script>
 <script language="javascript"  src="resources/scripts/jquery.wookmark.js"></script>
 <script language="javascript"  src="resources/scripts/wookmarkfiller.js"></script>
 <script language="javascript"  src="resources/scripts/modalpanel.js"></script>
