@@ -108,6 +108,7 @@ class CateforyRef{
 }
 
 
+
 class Interest{
 	function  create($result)
 	{
@@ -222,6 +223,7 @@ class Event{
          */
 	public $attendance=array();
 	public $categories=array();
+        public $tags=array();
 	public $images=array();
         public $headerImage;
         public $commentCount;

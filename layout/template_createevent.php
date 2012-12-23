@@ -172,6 +172,15 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 			</div>
 			<div class="eam_bg_sag"></div>
 		</div>
+                <div class="eam_cate" style="height: auto; min-height: 49px;">
+			<div class="eam_bg_sol"></div>
+			<div class="eam_bg_orta"
+				style="width: 95%; height: auto; min-height: 42px;">
+				<input name="te_event_tag" type="text" class="eam_inpt_b"
+					id="te_event_tag" placeholder="tag" />
+			</div>
+			<div class="eam_bg_sag"></div>
+		</div>
 		<div class="eam_bg">
 			<div class="eam_bg_sol"></div>
 			<div class="eam_bg_orta">

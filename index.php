@@ -214,6 +214,7 @@ if (empty($user)) {
                 $event->privacy = "false";
 
             $event->categories = $_POST["te_event_category"];
+            $event->tags = $_POST["te_event_tag"];
             $event->attendance = $_POST["te_event_people"];
             if (!$error) {
                 try { 
@@ -450,12 +451,14 @@ if (empty($user)) {
             if(!empty($user))
             {
             $var_cat="[]";
+            $var_tag="[]";
             $var_usr="[]";
             if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
             {
                 $nf=new Neo4jFuctions();
                 $var_cat=$nf->getCategoryListByIdList($event->categories);
                 $var_usr=$nf->getUserGroupListByIdList($event->attendance);
+                //$var_tag=$nf->getTagListListByIdList($event->attendance);
             }
             ?>
             <script>
@@ -469,15 +472,30 @@ if (empty($user)) {
                         preventDuplicates : true,
                         input_width:70,
                         propertyToSearch: "label",
-                        add_maunel:true,
-                        onAdd: function() {
-                            return true;
-                        },
+                        add_maunel:false,
                         onAdd: function() {
                             return true;
                         },
                         processPrePopulate : false,
                         prePopulate : <?php echo $var_cat;?>	
+                    });	
+                    
+                    
+                    jQuery( "#te_event_tag" ).tokenInput("getTag.php",{ 
+                        theme: "facebook",
+                        userId :"<?= $user->id ?>",
+                        queryParam : "term",
+                        minChars : 2,
+                        placeholder : "tag",
+                        preventDuplicates : true,
+                        input_width:70,
+                        propertyToSearch: "label",
+                        add_maunel:true,
+                        onAdd: function() {
+                            return true;
+                        },
+                        processPrePopulate : false,
+                        prePopulate : <?php echo $var_tag;?>	
                     });	
 
                     jQuery( "#te_event_people" ).tokenInput("getPeopleOrGroup.php",{ 
@@ -490,9 +508,6 @@ if (empty($user)) {
                         input_width:160,
                         add_maunel:false,
                         propertyToSearch: "label",
-                        onAdd: function() {
-                            return true;
-                        },
                         onAdd: function() {
                             return true;
                         },

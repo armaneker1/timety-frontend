@@ -17,6 +17,8 @@ function openCreatePopup() {
 		widthConstant : 3, 
 		statusChange : changePublicPrivate
 	});
+        
+        document.body.style.overflow = "hidden";
 }
 
 function changePublicPrivate(elem) {
@@ -33,6 +35,7 @@ function changePublicPrivate(elem) {
 function closeCreatePopup() {
 	jQuery("#div_follow_trans").css("display", "none");
 	jQuery("#div_event_add_ekr").css("display", "none");
+         document.body.style.overflow = "scroll";
 }
 
 function validateInt(evt) {
