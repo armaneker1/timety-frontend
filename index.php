@@ -365,7 +365,7 @@ if (empty($user)) {
                     handler = jQuery('.main_event .main_event_box');
                     handler.wookmark(optionsWookmark);
 					
-		    wookmarkFiller(document.optionsWookmark, true);		
+		    wookmarkFiller(document.optionsWookmark);		
                     /*
                      * Endless scroll
                      */

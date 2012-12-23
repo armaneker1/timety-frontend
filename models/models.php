@@ -199,7 +199,8 @@ class Event{
             $this->getHeaderImage();
             $this->commentCount =  CommentsFunctions::getCmmentListSizeByEvent($this->id);
             $this->remainingtime=UtilFUnctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
-            $this->attendancecount=  Neo4jFuctions::getEventAttendanceCount($this->id);
+              $this->attendancecount=0;
+          //  $this->attendancecount=  Neo4jFuctions::getEventAttendanceCount($this->id);
         }
 
         public $id;

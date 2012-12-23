@@ -2,7 +2,7 @@
 define('FACEBOOK_TEXT', 'facebook');
 define('FOURSQUARE_TEXT', 'foursquare');
 define('TWITTER_TEXT', 'twitter');
-define('HOSTNAME','http://localhost/timety/');
+define('HOSTNAME','http://localhost:81/timety/');
 define('UPLOAD_FOLDER','uploads/');
 //define('HOSTNAME','http://fabelist.com/timete/web/');
 

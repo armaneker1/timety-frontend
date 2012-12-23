@@ -18,14 +18,7 @@ require 'utils/userFunctions.php';
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
-$usr=new stdClass();
-$usr->id="1";
-$usr->pic="2sadasd";
-
-var_dump($usr);
-
-$usr=  Neo4jFuctions::getEventAttendances(1000018);
-var_dump($usr);
+var_dump($nf->getPopuparEventsByTag(1, 0, 15, "1999-01-01 09:09:09", null));
 
 /*
 try {
