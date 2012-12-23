@@ -18,7 +18,10 @@ require 'utils/userFunctions.php';
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
 
-var_dump($nf->getPopuparEventsByTag(1, 0, 15, "1999-01-01 09:09:09", null));
+var_dump($nf->getEvents(1, 0, 15, "1999-01-01 09:09:09", null, 1));
+//var_dump($nf->getPopuparEventsByTag(1, 0, 15, "1999-01-01 09:09:09", null));
+//var_dump($nf->getAllOtherEvents(1, 0, 150, "1999-01-01 09:09:09", null));
+
 
 /*
 try {

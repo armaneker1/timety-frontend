@@ -1222,10 +1222,13 @@ class Neo4jFuctions {
                     }
                 } else
                 {
-                    $array= Neo4jFuctions::getAllEvents($pageNumber=0,$pageItemCount=15,$query);
+                    $recommendsCount=  floor($pageItemCount/7);
+                    $pageItemCount=$pageItemCount-$recommendsCount;
+                    $array1= Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
+                    $array2= Neo4jFuctions::getPopuparEventsByTag($userId, $pageNumber, $recommendsCount, $date, $query);
                     /*
                     $array1= Neo4jFuctions::getPopuparEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query);
-                    $array2=  Neo4jFuctions::getPopuparEventsByEvent($userId, $pageNumber, $pageItemCount, $date, $query);
+                    $array2=  Neo4jFuctions::getPopuparEventsByEvent($userId, $pageNumber, $pageItemCount, $date, $query);*/
                     $dublicateKeys=array();
                     if(!empty($array1))
                     {
@@ -1255,7 +1258,24 @@ class Neo4jFuctions {
                     } else if(!empty ($array2))
                     {
                         $array=$array2;
-                    }*/
+                    }
+                    //sort by date 
+                    $low=new Event();
+                    $evnt=new Event();
+                    $low=$array[0];
+                    $low_indx=0;
+                    for($i=1;$i<sizeof($array);$i++)
+                    {
+                        $evnt=$array[$i];
+                        if($low->startDateTime>$evnt)
+                        {
+                            $array[$i]=$array[$low_indx];
+                            $array[$low_indx]=$evnt;
+                            $low=$evnt;
+                            $low_indx=$i;
+                        }
+                    }
+                    
                 }
 		return $array;
 	}
@@ -1290,7 +1310,7 @@ class Neo4jFuctions {
                      "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
                      "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">'".$date."') ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
-             echo $query;
+             var_dump($query);
              $query = new Cypher\Query($client, $query,null);
              $result = $query->getResultSet();
              foreach($result as $row) {
@@ -1316,6 +1336,25 @@ class Neo4jFuctions {
              foreach($result as $row) {
                 $evt=new Event();
                 $evt->createNeo4j($row['event']);
+                array_push($array, $evt);
+             }
+             return $array;
+        }
+        
+        public  static function getAllOtherEvents($userId,$pageNumber=0,$pageItemCount=15,$date,$query="")
+        {
+             $array=array();
+             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+             $query ="START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":**'),user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
+                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
+                     "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
+                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">'".$date."') ".
+                     "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+             $query = new Cypher\Query($client, $query,null);
+             $result = $query->getResultSet();
+             foreach($result as $row) {
+                $evt=new Event();
+                $evt->createNeo4j($row['events']);
                 array_push($array, $evt);
              }
              return $array;
