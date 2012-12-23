@@ -118,12 +118,14 @@ function openModalPanel(id) {
     for(var i=0;i<data.images.length;i++)
     {
         var gdy_altDIVOrtaIMGDIV_images=document.createElement('div');
-        jQuery(gdy_altDIVOrtaIMGDIV_images).attr('style', 'width:62px;height:52px;text-align:center;overflow:hidden;');
+        jQuery(gdy_altDIVOrtaIMGDIV_images).addClass('gdy_alt_rsm');
+        jQuery(gdy_altDIVOrtaIMGDIV_images).attr('style', 'width:64px;height:54px;text-align:center;overflow:hidden;margin-left:0px;');
          
         var imgOrta_images = document.createElement('img');
         jQuery(imgOrta_images).attr('src',data.images[0].url);
         //jQuery(imgOrta).attr('width', 62);
         jQuery(imgOrta_images).attr('height', 52);
+        jQuery(imgOrta_images).attr('style', 'margin-left:0px;');
         jQuery(imgOrta_images).addClass('gdy_alt_rsm');
         
         jQuery(gdy_altDIVOrtaIMGDIV_images).append(imgOrta_images);
@@ -216,13 +218,15 @@ function openModalPanel(id) {
                 for(var i=0;i<data.length;i++)
                 {
                     var gdy_altDIVOrtaIMGDIV_users=document.createElement('div');
-                    jQuery(gdy_altDIVOrtaIMGDIV_users).attr('style', 'width:62px;height:52px;text-align:center;overflow:hidden;');
+                   jQuery(gdy_altDIVOrtaIMGDIV_users).addClass('gdy_alt_rsm');
+                    jQuery(gdy_altDIVOrtaIMGDIV_users).attr('style', 'width:64px;height:54px;text-align:center;overflow:hidden;margin-left:0px;');
 
                     var imgOrta_users = document.createElement('img');
                     jQuery(imgOrta_users).attr('src',data[i].pic);
                     jQuery(imgOrta_users).attr('title',data[i].userName);
                     //jQuery(imgOrta).attr('width', 62);
                     jQuery(imgOrta_users).attr('height', 52);
+                    jQuery(imgOrta_users).attr('style', 'margin-left:0px;');
                     jQuery(imgOrta_users).addClass('gdy_alt_rsm');
 
                     jQuery(gdy_altDIVOrtaIMGDIV_users).append(imgOrta_users);
