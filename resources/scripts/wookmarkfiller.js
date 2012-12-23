@@ -33,8 +33,20 @@ function wookmarkFiller(options,clear)
                 }
                 jQuery.each(dataJSON,function(i,e){
                     localStorage.setItem('event_' + e.id,JSON.stringify(e));
-                })
-                wookmarkHTML();
+                });
+                
+                var IDs = [];
+                jQuery.each(jQuery('.m_e_img'),function(i,e){
+                    var t = jQuery(e).attr('onclick').split('(')[1].split(')')[0];
+                    IDs.push(t);
+                });
+
+                dataJSON = jQuery.grep(dataJSON, function(e,i){
+                    return (jQuery.inArray(e.id,IDs)<0);
+                });
+
+
+                wookmarkHTML(dataJSON );
                 //function tm()
                 //{
                 if(handler) handler.wookmarkClear();
@@ -176,6 +188,7 @@ function wookmarkHTML(dataArray)
         //jQuery(result).append(durumAlt);    
             
         jQuery('.main_event').append(result);
+        makeMeDraggable(result);
     });
     
 }
