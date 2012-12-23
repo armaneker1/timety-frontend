@@ -365,7 +365,7 @@ if (empty($user)) {
                     handler = jQuery('.main_event .main_event_box');
                     handler.wookmark(optionsWookmark);
 					
-		    wookmarkFiller(document.optionsWookmark, true);		
+		    wookmarkFiller(document.optionsWookmark);		
                     /*
                      * Endless scroll
                      */
@@ -374,7 +374,7 @@ if (empty($user)) {
                         var closeToBottom = (jQuery(window).scrollTop() + jQuery(window).height() > jQuery(document).height() - 100);
                         if(closeToBottom) {
                             // Get the first then items from the grid, clone them, and add them to the bottom of the grid.
-                            wookmarkFiller(optionsWookmark,true);
+                            wookmarkFiller(optionsWookmark);
                         }
                     };
                     jQuery(document).bind('scroll', onScroll);

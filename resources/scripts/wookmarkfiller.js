@@ -188,7 +188,7 @@ function wookmarkHTML(dataArray)
         //jQuery(result).append(durumAlt);    
             
         jQuery('.main_event').append(result);
-        makeMeDraggable(result);
+        //makeMeDraggable(result);
     });
     
 }

@@ -67,8 +67,8 @@
                 if (this.template) {
                     this.$element.on({
                         focus: $.proxy(this.showWidget, this),
-                        click: $.proxy(this.showWidget, this),
-                        blur: $.proxy(this.updateFromElementValAndClose, this)
+                        click: $.proxy(this.showWidget, this)
+                        //,blur : $.proxy(this.updateFromElementValAndClose, this)
                     });
                 } else {
                     this.$element.on({
