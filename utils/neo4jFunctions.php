@@ -197,6 +197,40 @@ class Neo4jFuctions {
 				}
                             }
 			}
+                        
+                        if(!empty($event->tags) )
+			{
+                            $tags=  explode(",",$event->tags);
+                            if(is_array($tags) && sizeof($tags)>0)
+                            {
+				foreach ($tags as $tag)
+				{
+					if(!empty($tag))
+					{
+						$tagTmp=$objectIndex->findOne(PROP_OBJECT_ID, $tag);
+						if(!empty($tagTmp))
+						{
+							$tagTmp->relateTo($evnt, REL_TAGS)->save();
+						}else
+                                                {
+                                                    $tags_=explode(";",$tag);
+                                                    if(sizeof($tags_)==2)
+                                                    {
+                                                        $tag_=  $this->addTag(null, $tags_[1], "usercustomtag");
+                                                        if(!empty($tag_))
+                                                        {
+                                                            $tag_=$objectIndex->findOne(PROP_OBJECT_ID, strtolower($tag_));
+                                                            if(!empty($tag_))
+                                                            {
+                                                                $tag_->relateTo($evnt, REL_TAGS)->save();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+					}
+				}
+                            }
+			}
 
 
 			if(!empty($event->attendance) && sizeof($event->attendance))
@@ -1017,36 +1051,27 @@ class Neo4jFuctions {
         {
             if(!empty($list))
 	    {
-                $attendances =  explode(",",$list);
-                if(is_array($attendances) && sizeof($attendances)>0)
+                $tags=  explode(",",$list);
+                if(is_array($tags) && sizeof($tags)>0)
                 {
                         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-			$userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
-			$groupIndex = new Index($client, Index::TypeNode, IND_GROUP_INDEX);
+                        $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
                         $result=array();
-                	foreach ($attendances as $att)
+                	foreach ($tags as $tag)
                         {
-                            if(!empty($att))
+                            if(!empty($tag))
 			    {
-                                $parts = explode('_', $att);
-                                $type=$parts[0];
-				$id=$parts[1];
-				if($type=='u')
+                                $tagObj=$objectIndex->findOne(PROP_OBJECT_ID, $tag);
+                                if(!empty($tagObj))
 				{
-                                    $usr=$userIndex->findOne(PROP_USER_ID,$id);
-                                    if(!empty($usr))
-                                    {
-					$obj=array('id'=>$att,'label'=>($usr->getProperty(PROP_USER_FIRSTNAME)." ".$usr->getProperty(PROP_USER_LASTNAME)));
-                                        array_push($result, $obj);
-                                    }
-                                } else if ($type=='g'){
-                                    $grp=$groupIndex->findOne(PROP_GROUP_ID,$id);
-                                    if(!empty($grp))
-                                    {
-                                        $obj=array('id'=>$att,'label'=>$grp->getProperty(PROP_GROUP_NAME));
-                                        array_push($result, $obj);
-                                    }
-				}
+                                    $obj=array('id'=>$tagObj->getProperty(PROP_OBJECT_ID),'label'=>$tagObj->getProperty(PROP_OBJECT_NAME));
+                                    array_push($result, $obj);
+				}else
+                                {
+                                    $tags_=  explode(";",$tag);
+                                    $obj=array('id'=>$tag,'label'=>$tags_[1]);
+                                    array_push($result, $obj);
+                                }
                             }
 			}
                         $json_response = json_encode($result);
