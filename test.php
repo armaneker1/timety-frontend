@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 use Everyman\Neo4j\Transport,
 Everyman\Neo4j\Client,
 Everyman\Neo4j\Index,
@@ -14,11 +15,61 @@ require 'apis/twitter/twitteroauth.php';
 require 'config/twconfig.php';
 require 'utils/userFunctions.php';
 
+$type=0;
+if(isset($_GET["type"]))
+{
+    $type=$_GET["type"];
+}
 
+$userId=1;
+if(isset($_SESSION["id"]))
+{
+    $userId=$_SESSION["id"];
+}
+echo "<h1>User ".$userId."</h1>";
+echo "<h1>Type ".$type."</h1>";
+
+ echo "<p>Type 0: Tüm Eventler</p>";
+ echo "<p>Type 1: Katılmadığım tüm eventler</p>";
+ echo "<p>Type 2: Katıldığım eventlerin kategorisine gore eventler</p>";
+ echo "<p>Type 3: Katıldığım eventlerin taglerine gore eventler</p>";
+ echo "<p>Type 4: Likelarıma  gore eventler</p>";
+ echo "<p>Type 5: Likelarımın ait oldugu kategorileres  gore eventler</p>";
+ echo "<p>Type 6: Anasayfada gozukecek olan eventler</p>";
+ 
+ 
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
+if($type==0)
+{
+    echo "<h1>Tüm Eventler</h1>";
+    var_dump($nf->getAllEvents());
+}else if($type==1)
+{
+    echo "<h1>Katılmadığım tüm eventler</h1>";
+    var_dump($nf->getAllOtherEvents($userId, 0, 100, "1999-01-01 09:09:09", null));
+}else if($type==2)
+{
+    echo "<h1>Katıldığım eventlerin kategorisine gore eventler</h1>";
+    var_dump($nf->getPopularEventsByEventCategory($userId, 0, 100, "1999-01-01 09:09:09", null));
+}else if($type==3)
+{
+     echo "<h1>Katıldığım eventlerin taglerine gore eventler</h1>";
+     var_dump($nf->getPopularEventsByTag($userId, 0, 100, "1999-01-01 09:09:09", null));
+}else if($type==4)
+{
+     echo "<h1>Likelarıma  gore eventler</h1>";
+     var_dump($nf->getPopularEventsByLike($userId, 0, 100, "1999-01-01 09:09:09", null));
+}else if($type==5)
+{
+     echo "<h1>Likelarımın ait oldugu kategorileres  gore eventler</h1>";
+     var_dump($nf->getPopularEventsByLikeCatgory($userId, 0, 100, "1999-01-01 09:09:09", null));
+}else if($type==6)
+{
+     echo "<h1>Anasayfada gozukecek olan eventler</h1>";
+     var_dump($nf->getEvents($userId, 0, 100, "1999-01-01 09:09:09", null, 1));
+}
 
-var_dump($nf->getEvents(1, 0, 15, "1999-01-01 09:09:09", null, 1));
 //var_dump($nf->getPopuparEventsByTag(1, 0, 15, "1999-01-01 09:09:09", null));
 //var_dump($nf->getAllOtherEvents(1, 0, 150, "1999-01-01 09:09:09", null));
 
