@@ -163,8 +163,8 @@ class Event{
 			$this->title=$result->getProperty(PROP_EVENT_TITLE);
 			$this->location=$result->getProperty(PROP_EVENT_LOCATION);
 			$this->description=$result->getProperty(PROP_EVENT_DESCRIPTION);
-			$this->startDateTime=$result->getProperty(PROP_EVENT_START_DATE);
-			$this->endDateTime=$result->getProperty(PROP_EVENT_END_DATE);
+			$this->startDateTimeLong=$result->getProperty(PROP_EVENT_START_DATE);
+			$this->endDateTimeLong=$result->getProperty(PROP_EVENT_END_DATE);
 			$this->privacy=$result->getProperty(PROP_EVENT_PRIVACY);
 		}
                 $userFunctions=new UserFuctions();
@@ -230,6 +230,8 @@ class Event{
         public $commentCount;
         public $remainingtime;
         public $attendancecount;
+        public $startDateTimeLong;
+	public $endDateTimeLong;
         
         public function getImages()
         {

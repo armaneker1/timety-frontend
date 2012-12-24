@@ -1,4 +1,5 @@
 <?php
+session_start();
 header('Content-Type: text/html; charset=utf-8');
 use Everyman\Neo4j\Transport,
 Everyman\Neo4j\Client,
@@ -14,6 +15,12 @@ require 'config/fqconfig.php';
 require 'apis/twitter/twitteroauth.php';
 require 'config/twconfig.php';
 require 'utils/userFunctions.php';
+
+/*
+ * 
+ */
+
+
 
 $type=0;
 if(isset($_GET["type"]))
@@ -60,7 +67,7 @@ if($type==0)
 }else if($type==4)
 {
      echo "<h1>Likelarıma  gore eventler</h1>";
-     var_dump($nf->getPopularEventsByLike($userId, 0, 100, "1999-01-01 09:09:09", null));
+     var_dump($nf->getPopularEventsByLike($userId, 0, 100, null, null));
 }else if($type==5)
 {
      echo "<h1>Likelarımın ait oldugu kategorileres  gore eventler</h1>";
@@ -68,7 +75,7 @@ if($type==0)
 }else if($type==6)
 {
      echo "<h1>Anasayfada gozukecek olan eventler</h1>";
-     var_dump($nf->getEvents($userId, 0, 100, "1999-01-01 09:09:09", null, 1));
+     var_dump($nf->getEvents($userId, 0, 100, null, null, 1));
 }
 
 //var_dump($nf->getPopuparEventsByTag(1, 0, 15, "1999-01-01 09:09:09", null));

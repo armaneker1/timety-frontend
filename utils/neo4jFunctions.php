@@ -154,8 +154,8 @@ class Neo4jFuctions {
 			$evnt->setProperty(PROP_EVENT_ID, $eventId);
 			$evnt->setProperty(PROP_EVENTS_ACC_TYPE, $user->type);
 			$evnt->setProperty(PROP_EVENT_DESCRIPTION, $event->description);
-			$evnt->setProperty(PROP_EVENT_START_DATE, $event->startDateTime);
-			$evnt->setProperty(PROP_EVENT_END_DATE, $event->endDateTime);
+			$evnt->setProperty(PROP_EVENT_START_DATE, strtotime($event->startDateTime));
+			$evnt->setProperty(PROP_EVENT_END_DATE, strtotime($event->endDateTime));
 			$evnt->setProperty(PROP_EVENT_LOCATION, $event->location);
 			$evnt->setProperty(PROP_EVENT_TITLE, $event->title);
 			$evnt->setProperty(PROP_EVENT_PRIVACY, $event->privacy);
@@ -1127,8 +1127,7 @@ class Neo4jFuctions {
                 
                 if(empty($date) || substr($date, 0,1)=="0")
                 {
-                    $date=date(DATE_FORMAT);
-                    $date=$date." 00:00:00";
+                    $date=  strtotime("now");
                 }else
                 {
                     $datestr=$date.":00";
@@ -1174,13 +1173,14 @@ class Neo4jFuctions {
                           $date=date(DATE_FORMAT);
                           $date=$date." 00:00:00";
                     }
+                    $date=strtotime($date);
                 }
                 if($type==4)
                 {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                     $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                                      "MATCH (user)-[r:".REL_EVENTS_JOINS."]->(event)  ".
-                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">'".$date."')  AND  (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
+                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">".$date.")  AND  (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
                                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
                     $query = new Cypher\Query($client, $query,null);
                     $result = $query->getResultSet();
@@ -1195,7 +1195,7 @@ class Neo4jFuctions {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                     $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                                      "MATCH (user)-[:".REL_FOLLOWS."]->(friend)-[r:".REL_EVENTS_JOINS."]->(event)  ".
-                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">'".$date."') AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
+                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">".$date.") AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
                                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
                     $query = new Cypher\Query($client, $query,null);
                     $result = $query->getResultSet();
@@ -1209,7 +1209,7 @@ class Neo4jFuctions {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                     $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                                      "MATCH (user)-[r:".REL_EVENTS_JOINS."]->(event)  ".
-                                     "WHERE (event.".PROP_EVENT_START_DATE.">'".$date."') AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
+                                     "WHERE (event.".PROP_EVENT_START_DATE.">".$date.") AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
                                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
                     
                     $query = new Cypher\Query($client, $query,null);
@@ -1241,7 +1241,7 @@ class Neo4jFuctions {
                         {
                             foreach ($array2 as $evt)
                             {    
-                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
+                                if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
                                 {
                                     $evt->title=$evt->title."(*)";
                                     array_push($temparray,$evt);
@@ -1285,7 +1285,6 @@ class Neo4jFuctions {
                                     array_push($dublicateKeys, $evt->id);
                                 }
                             }
-                            
                             foreach ($temparray as $evt)
                             {
                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
@@ -1303,7 +1302,6 @@ class Neo4jFuctions {
                     {
                         $array=$array3;
                     }
-                    
                     //sort by date 
                     $low=new Event();
                     $evnt=new Event();
@@ -1312,7 +1310,7 @@ class Neo4jFuctions {
                     for($i=1;$i<sizeof($array);$i++)
                     {
                         $evnt=$array[$i];
-                        if($low->startDateTime>$evnt)
+                        if($low->startDateTimeLong>$evnt->startDateTimeLong)
                         {
                             $array[$i]=$array[$low_indx];
                             $array[$low_indx]=$evnt;
@@ -1322,6 +1320,7 @@ class Neo4jFuctions {
                     }
                     
                 }
+                //var_dump($array);
 		return $array;
 	}
         
@@ -1333,7 +1332,7 @@ class Neo4jFuctions {
                      "MATCH (user)-[:".REL_INTERESTS."]->(like)<-[:".REL_OBJECTS."]-(cat)-[:".REL_EVENTS."]->(event)  ".
                      "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
                      "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">'".$date."') ".
+                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
             $query = new Cypher\Query($client, $query,null);
             $result = $query->getResultSet();
@@ -1353,7 +1352,7 @@ class Neo4jFuctions {
                      "MATCH (user)-[:".REL_INTERESTS."]->(tag)-[:".REL_TAGS."]->(event)  ".
                      "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
                      "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">'".$date."') ".
+                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
              $query = new Cypher\Query($client, $query,null);
              $result = $query->getResultSet();
@@ -1373,7 +1372,7 @@ class Neo4jFuctions {
                      "MATCH (user)-[:".REL_EVENTS_JOINS."]->(evt)<-[:".REL_TAGS."]-(tag)-[:".REL_TAGS."]->(event)  ".
                      "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
                      "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">'".$date."') ".
+                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
              $query = new Cypher\Query($client, $query,null);
              $result = $query->getResultSet();
@@ -1393,7 +1392,7 @@ class Neo4jFuctions {
                      "MATCH (user)-[:".REL_EVENTS_JOINS."]->(evt)<-[:".REL_EVENTS."|".REL_TAGS."]-(cat)-[:".REL_EVENTS."|".REL_TAGS."]->(event)  ".
                      "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
                      "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">'".$date."') ".
+                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
              $query = new Cypher\Query($client, $query,null);
              $result = $query->getResultSet();
@@ -1412,7 +1411,7 @@ class Neo4jFuctions {
              $query ="START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":**'),user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                      "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
                      "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">'".$date."') ".
+                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
              $query = new Cypher\Query($client, $query,null);
              $result = $query->getResultSet();
