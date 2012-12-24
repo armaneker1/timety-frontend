@@ -29,6 +29,7 @@ if(isset($_SESSION["id"]))
 echo "<h1>User ".$userId."</h1>";
 echo "<h1>Type ".$type."</h1>";
 
+ echo "<p>Tüm eventleri listeler tarihler onemli degildir</p>";
  echo "<p>Type 0: Tüm Eventler</p>";
  echo "<p>Type 1: Katılmadığım tüm eventler</p>";
  echo "<p>Type 2: Katıldığım eventlerin kategorisine gore eventler</p>";

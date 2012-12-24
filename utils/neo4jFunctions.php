@@ -1224,15 +1224,11 @@ class Neo4jFuctions {
                 {
                     $count1=  2;
                     $count2=  2;
-                    $pageItemCount=$pageItemCount-($count1+$count1);
                     $array1= Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
-                    //echo "1<p/>";
                     //var_dump($array1);
                     $array2= Neo4jFuctions::getPopularEventsByLike($userId, $pageNumber, $count1, $date, $query);
-                    //echo "2<p/>";
                     //var_dump($array2);
                     $array3= Neo4jFuctions::getPopularEventsByLikeCatgory($userId, $pageNumber, $count2, $date, $query);
-                    //echo "3<p/>";
                     //var_dump($array3);
                     /*
                     $array1= Neo4jFuctions::getPopuparEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query);
@@ -1243,6 +1239,17 @@ class Neo4jFuctions {
                     {
                         if(!empty($array2))
                         {
+                            foreach ($array2 as $evt)
+                            {    
+                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
+                                {
+                                    $evt->title=$evt->title."(*)";
+                                    array_push($temparray,$evt);
+                                    array_push($dublicateKeys, $evt->id);
+                                }
+                            }
+                            
+                            
                             foreach ($array1 as $evt)
                             {
                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
@@ -1252,14 +1259,7 @@ class Neo4jFuctions {
                                 }
                             }
                             
-                            foreach ($array2 as $evt)
-                            {    
-                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
-                                {
-                                    array_push($temparray,$evt);
-                                    array_push($dublicateKeys, $evt->id);
-                                }
-                            }
+                            
                         }else
                         {
                             $temparray=$array1;
@@ -1275,6 +1275,17 @@ class Neo4jFuctions {
                     {
                         if(!empty($array3))
                         {
+                            
+                            foreach ($array3 as $evt)
+                            {    
+                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
+                                {
+                                    $evt->title=$evt->title."(**)";
+                                    array_push($array,$evt);
+                                    array_push($dublicateKeys, $evt->id);
+                                }
+                            }
+                            
                             foreach ($temparray as $evt)
                             {
                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
@@ -1283,14 +1294,7 @@ class Neo4jFuctions {
                                     array_push($dublicateKeys, $evt->id);
                                 }
                             }     
-                            foreach ($array3 as $evt)
-                            {    
-                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
-                                {
-                                    array_push($array,$evt);
-                                    array_push($dublicateKeys, $evt->id);
-                                }
-                            }
+                            
                         }else
                         {
                             $array=$temparray;

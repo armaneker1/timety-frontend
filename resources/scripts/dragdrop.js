@@ -1,5 +1,5 @@
 function makeMeDraggable() {
-    jQuery('.main_draggable').draggable({
+    jQuery('.main_draggable2').draggable({
         drag: function(event, ui) {
             ui.helper.width(40);
             ui.helper.height(36);
@@ -28,6 +28,8 @@ function makeMeDraggable() {
         scroll: false,
         helper: "clone"
     });
+    
+    jQuery('.main_draggable').draggable({zIndex: 100,helper: "clone" });
     
     jQuery(".main_dropable_").droppable( { 
                         tolerance : 'touch',
