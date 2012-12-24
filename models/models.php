@@ -136,23 +136,24 @@ class Event{
 	{
 		if(!empty($result))
 		{
-			$this->id=$result[0];
-			$this->title=$result[1];
-			$this->location=$result[2];
-			$this->description=$result[3];
-			$this->startDateTime=$result[4];
-			$this->endDateTime=$result[5];
-			$this->reminderType=$result[6];
-			$this->reminderUnit=$result[7];
-			$this->reminderValue=$result[8];
-			$this->privacy=$result[9];	
-                        $this->allday=$result[10];
-			$this->repeat=$result[11];
-			$this->addsocial_fb=$result[12];
-			$this->addsocial_gg=$result[13];
-			$this->addsocial_fq=$result[14];
-			$this->addsocial_tw=$result[15];
+			$this->id=$result['id'];
+			$this->title=$result['title'];
+			$this->location=$result['location'];
+			$this->description=$result['description'];
+			$this->startDateTime=$result['startDateTime'];
+			$this->endDateTime=$result['endDateTime'];
+			$this->reminderType=$result['reminderType'];
+			$this->reminderUnit=$result['reminderUnit'];
+			$this->reminderValue=$result['reminderValue'];
+			$this->privacy=$result['privacy'];	
+                        $this->allday=$result['allday'];
+			$this->repeat=$result['repeat_'];
+			$this->addsocial_fb=$result['addsocial_fb'];
+			$this->addsocial_gg=$result['addsocial_gg'];
+			$this->addsocial_fq=$result['addsocial_fq'];
+			$this->addsocial_tw=$result['addsocial_tw'];
 		}
+                $this->setAdditionalData();
 	}
 	
 	public function  createNeo4j($result)

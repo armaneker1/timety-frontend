@@ -1342,6 +1342,39 @@ class Neo4jFuctions {
        
         public  static function getAllOtherEvents($userId,$pageNumber=0,$pageItemCount=15,$date,$query_="")
         {
+            $date=  date(DATETIME_DB_FORMAT,$date);
+             $array=array();
+             $query="SELECT * FROM ".TBL_EVENTS." WHERE startDateTime>'".$date."'";
+             if(!empty($query_))
+             {
+                 $query=$query." AND ( title LIKE '".$query_."' OR description LIKE '".$query_."') ";
+             }    
+             $query=$query." ORDER BY startDateTime LIMIT ".$pageNumber." , ".$pageItemCount." ";
+             //echo $query;
+             $query = mysql_query($query) or die(mysql_error());
+             $num= mysql_num_rows($query);
+	     if(!empty($query) && $num>0)
+             {
+		if($num>1)
+		{
+                    while ($db_field = mysql_fetch_assoc($query) ) {
+			$event=new Event();
+                        $event->create($db_field);
+			array_push($array, $event);
+                    }
+		} else
+		{
+                    $db_field = mysql_fetch_assoc($query);
+                    $event=new Event();
+                        $event->create($db_field);
+			array_push($array, $event);
+		}
+             }
+             return $array;
+        }
+        
+        public  static function getAllOtherEvents_old($userId,$pageNumber=0,$pageItemCount=15,$date,$query_="")
+        {
              /*
              $dates=array();
              $teg="getAllOtherEvents            -   ";
@@ -1358,7 +1391,7 @@ class Neo4jFuctions {
             
              $query=$query." AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
              "RETURN distinct(event) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
-             //echo $query;
+             echo $query;
              
              $query = new Cypher\Query($client, $query,null);
              /*
@@ -1397,7 +1430,6 @@ class Neo4jFuctions {
                      }
                      $query=$query." AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
-             //echo $query;
              $query = new Cypher\Query($client, $query,null);
               /*
              array_push($dates, $teg."query ready");
