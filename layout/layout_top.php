@@ -73,7 +73,7 @@ if (isset($_SESSION['id'])) {
     </script>
 			<div class="top_menu">
 				  <ul>
-                                    <li class="t_m_line"><a href="#" channelId="2" onclick="changeChannel(this)">My Timete</a></li>
+                                      <li class="t_m_line"><a href="#" channelId="2" onclick="changeChannel(this)">My Timete</a><img width="150" height="150" src="images/drop.png" class="main_dropable_"></img></li>
 				    <li class="t_m_line"><a href="#" channelId="3" onclick="changeChannel(this)">Following</a></li>
                                     <li class="t_m_line"><a href="#" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a></li>
 				    <li><a href="logout.php?logout=1">Logout</a></li>

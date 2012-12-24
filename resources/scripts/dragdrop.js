@@ -10,26 +10,32 @@ function makeMeDraggable() {
             left: Math.round(40 /  2)
         }, 
         start: function(event, ui) {
-            ui.helper.bind("click.prevent",
+            /*ui.helper.bind("click.prevent",
                 function(event) {
                     event.preventDefault();
-                });
+                });*/
         },
         stop: function(event, ui) {
-            setTimeout(function(){
+            /*setTimeout(function(){
                 ui.helper.unbind("click.prevent");
-            }, 300);
+            }, 300);*/
+            jQuery(".main_dropable_").css('display','none');
         },
         revert :"invalid",
         opacity: 0.80,
-        revertDuration: 400,
+        revertDuration: 300,
         zIndex: 100,
         scroll: false,
         helper: "clone"
     });
-    jQuery('#slides_container').droppable({ 
-        drop: function( event, ui ) {
-            alert('a');
-        }
-    });
+    
+    jQuery(".main_dropable_").droppable( { 
+                        tolerance : 'pointer',
+                        accept:  function(){
+                            jQuery(this).css('display','block');
+                        },
+                        drop: function(dropElem,ui) {
+                            alert(dropElem.className);
+                        }
+     });
 }

@@ -340,3 +340,11 @@ span.rollover:hover {
 	display: block;
 	border: 1px solid #cacaca;
 }
+
+.main_dropable_{
+    z-index: 100000;
+    top: -10px;
+    position: absolute;
+    right: 450px;
+    display: none;
+}

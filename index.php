@@ -382,7 +382,7 @@ if (empty($user)) {
                     /*
                      * Drag Drop
                      */							
-                    jQuery('.main_draggable').each(function() { 
+                    /*jQuery('.main_draggable').each(function() { 
                         jQuery(this).draggable({ revert: "invalid",
                             revertDuration : 250,
                             cursor : 'move', 
@@ -412,7 +412,7 @@ if (empty($user)) {
                         drop: function(dropElem) {
                             alert(dropElem.className);
                         }
-                    });
+                    });*/
                 });
             </script>
             
@@ -635,5 +635,4 @@ if (empty($user)) {
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
     </body>
     <?php include('layout/template_createevent.php');?>
-
 </html>
