@@ -45,6 +45,7 @@ echo "<h1>Type ".$type."</h1>";
  echo "<p>Type 5: Likelarımın ait oldugu kategorileres  gore eventler</p>";
  echo "<p>Type 6: Anasayfada gozukecek olan eventler</p>";
  
+ $date=strtotime("1999-01-01 00:00:00");
  
 $uf=new UserFuctions();
 $nf=new Neo4jFuctions();
@@ -55,27 +56,27 @@ if($type==0)
 }else if($type==1)
 {
     echo "<h1>Katılmadığım tüm eventler</h1>";
-    var_dump($nf->getAllOtherEvents($userId, 0, 100, "1999-01-01 09:09:09", null));
+    var_dump($nf->getAllOtherEvents($userId, 0, 100,  $date, null));
 }else if($type==2)
 {
     echo "<h1>Katıldığım eventlerin kategorisine gore eventler</h1>";
-    var_dump($nf->getPopularEventsByEventCategory($userId, 0, 100, "1999-01-01 09:09:09", null));
+    var_dump($nf->getPopularEventsByEventCategory($userId, 0, 100,  $date, null));
 }else if($type==3)
 {
      echo "<h1>Katıldığım eventlerin taglerine gore eventler</h1>";
-     var_dump($nf->getPopularEventsByTag($userId, 0, 100, "1999-01-01 09:09:09", null));
+     var_dump($nf->getPopularEventsByTag($userId, 0, 100,  $date, null));
 }else if($type==4)
 {
      echo "<h1>Likelarıma  gore eventler</h1>";
-     var_dump($nf->getPopularEventsByLike($userId, 0, 100, null, null));
+     var_dump($nf->getPopularEventsByLike($userId, 0, 100,  $date, null));
 }else if($type==5)
 {
      echo "<h1>Likelarımın ait oldugu kategorileres  gore eventler</h1>";
-     var_dump($nf->getPopularEventsByLikeCatgory($userId, 0, 100, "1999-01-01 09:09:09", null));
+     var_dump($nf->getPopularEventsByLikeCatgory($userId, 0, 100,  $date, null));
 }else if($type==6)
 {
      echo "<h1>Anasayfada gozukecek olan eventler</h1>";
-     var_dump($nf->getEvents($userId, 0, 100, null, null, 1));
+     var_dump($nf->getEvents($userId, 0, 100,  $date, null, 1));
 }
 
 //var_dump($nf->getPopuparEventsByTag(1, 0, 15, "1999-01-01 09:09:09", null));

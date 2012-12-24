@@ -1112,7 +1112,7 @@ class Neo4jFuctions {
          * $pageItemCount default 15
          */
         public static  function getEvents($userId=-1,$pageNumber=0,$pageItemCount=15,$date="0000-00-00 00:00",$query="",$type=1)
-	{
+	{     
                 $array=array();
                 if($userId==-1)
                 {
@@ -1178,10 +1178,16 @@ class Neo4jFuctions {
                 if($type==4)
                 {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                    $query_=$query;
                     $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                                      "MATCH (user)-[r:".REL_EVENTS_JOINS."]->(event)  ".
-                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">".$date.")  AND  (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                                     "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">".$date.") ";
+                                     if(!empty($query_))
+                                     {
+                                          $query=$query." AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query_.".*' OR ".
+                                           "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
+                                    }
+                                     $query=$query."RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
                     $query = new Cypher\Query($client, $query,null);
                     $result = $query->getResultSet();
                     foreach($result as $row) {
@@ -1193,10 +1199,16 @@ class Neo4jFuctions {
                 else  if ($type==3)
                 {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                    $query_=$query;
                     $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                                      "MATCH (user)-[:".REL_FOLLOWS."]->(friend)-[r:".REL_EVENTS_JOINS."]->(event)  ".
-                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">".$date.") AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                                     "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+                                     "WHERE (event.".PROP_EVENT_PRIVACY."='true') AND (event.".PROP_EVENT_START_DATE.">".$date.") ";
+                                     if(!empty($query_))
+                                     {
+                                          $query=$query." AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query_.".*' OR ".
+                                           "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
+                                     }
+                                     $query=$query."RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
                     $query = new Cypher\Query($client, $query,null);
                     $result = $query->getResultSet();
                     foreach($result as $row) {
@@ -1207,10 +1219,16 @@ class Neo4jFuctions {
                 } else if($type==2)
                 {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                    $query_=$query;
                     $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                                      "MATCH (user)-[r:".REL_EVENTS_JOINS."]->(event)  ".
-                                     "WHERE (event.".PROP_EVENT_START_DATE.">".$date.") AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                                     "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+                                     "WHERE (event.".PROP_EVENT_START_DATE.">".$date.") ";
+                                      if(!empty($query_))
+                                     {
+                                          $query=$query." AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query_.".*' OR ".
+                                           "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
+                                     }
+                                     $query=$query."RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
                     
                     $query = new Cypher\Query($client, $query,null);
                     $result = $query->getResultSet();
@@ -1222,18 +1240,13 @@ class Neo4jFuctions {
                     }
                 } else
                 {
-                    $count1=  2;
-                    $count2=  2;
+                    $count=  2;
                     $array1= Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
-                    //var_dump($array1);
-                    $array2= Neo4jFuctions::getPopularEventsByLike($userId, $pageNumber, $count1, $date, $query);
-                    //var_dump($array2);
-                    $array3= Neo4jFuctions::getPopularEventsByLikeCatgory($userId, $pageNumber, $count2, $date, $query);
-                    //var_dump($array3);
+                    $array2= Neo4jFuctions::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
                     /*
+                    $array3= Neo4jFuctions::getPopularEventsByLikeCatgory($userId, $pageNumber, $count2, $date, $query);
                     $array1= Neo4jFuctions::getPopuparEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query);
                     $array2=  Neo4jFuctions::getPopuparEventsByEvent($userId, $pageNumber, $pageItemCount, $date, $query);*/
-                    $temparray=array();
                     $dublicateKeys=array();
                     if(!empty($array1))
                     {
@@ -1244,7 +1257,7 @@ class Neo4jFuctions {
                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
                                 {
                                     $evt->title=$evt->title."(*)";
-                                    array_push($temparray,$evt);
+                                    array_push($array,$evt);
                                     array_push($dublicateKeys, $evt->id);
                                 }
                             }
@@ -1254,7 +1267,7 @@ class Neo4jFuctions {
                             {
                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
                                 {
-                                    array_push($temparray,$evt);
+                                    array_push($array,$evt);
                                     array_push($dublicateKeys, $evt->id);
                                 }
                             }
@@ -1262,46 +1275,13 @@ class Neo4jFuctions {
                             
                         }else
                         {
-                            $temparray=$array1;
+                            $array=$array1;
                         }
                     } else if(!empty ($array2))
                     {
-                        $temparray=$array2;
+                        $array=$array2;
                     }
                     
-                    
-                    $dublicateKeys=array();
-                    if(!empty($temparray))
-                    {
-                        if(!empty($array3))
-                        {
-                            
-                            foreach ($array3 as $evt)
-                            {    
-                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
-                                {
-                                    $evt->title=$evt->title."(**)";
-                                    array_push($array,$evt);
-                                    array_push($dublicateKeys, $evt->id);
-                                }
-                            }
-                            foreach ($temparray as $evt)
-                            {
-                                if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
-                                {
-                                    array_push($array,$evt);
-                                    array_push($dublicateKeys, $evt->id);
-                                }
-                            }     
-                            
-                        }else
-                        {
-                            $array=$temparray;
-                        }
-                    } else if(!empty ($array3))
-                    {
-                        $array=$array3;
-                    }
                     //sort by date 
                     $low=new Event();
                     $evnt=new Event();
@@ -1318,24 +1298,40 @@ class Neo4jFuctions {
                             $low_indx=$i;
                         }
                     }
-                    
                 }
-                //var_dump($array);
 		return $array;
 	}
         
         public  static function getPopularEventsByLikeCatgory($userId,$pageNumber,$pageItemCount,$date,$query)
         {
+            /*
+            $dates=array();
+            $teg="getPopularEventsByLikeCatgory-   "; 
+            */
             $array=array();
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                      "MATCH (user)-[:".REL_INTERESTS."]->(like)<-[:".REL_OBJECTS."]-(cat)-[:".REL_EVENTS."]->(event)  ".
-                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
-                     "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
+                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) ";
+                     if(!empty($query_))
+                     {
+                           $query=$query." AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query_.".*' OR ".
+                            "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
+                     }
+                     $query=$query."AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+            echo $query;
             $query = new Cypher\Query($client, $query,null);
+            /*
+            array_push($dates, $teg."query ready");
+            array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+            */
             $result = $query->getResultSet();
+            /*
+            array_push($dates, $teg. "get result");
+            array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+            var_dump($dates);
+            */
             foreach($result as $row) {
                 $evt=new Event();
                 $evt->createNeo4j($row['event']);
@@ -1343,19 +1339,76 @@ class Neo4jFuctions {
             }
             return $array;
         }
-        
-        public  static function getPopularEventsByLike($userId,$pageNumber,$pageItemCount,$date,$query)
+       
+        public  static function getAllOtherEvents($userId,$pageNumber=0,$pageItemCount=15,$date,$query_="")
         {
+             /*
+             $dates=array();
+             $teg="getAllOtherEvents            -   ";
+             */
+             $array=array();
+             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+             $query ="START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":**'),user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
+                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) ";
+             if(!empty($query_))
+             {
+                    $query=$query." AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query_.".*' OR ".
+                     "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
+             }
+            
+             $query=$query." AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
+             "RETURN distinct(event) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+             echo $query;
+             
+             $query = new Cypher\Query($client, $query,null);
+             /*
+             array_push($dates, $teg."query ready");
+             array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+             */
+             $result = $query->getResultSet();
+             /*
+             array_push($dates, $teg. "get result");
+             array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+             var_dump($dates);
+             */
+             foreach($result as $row) {
+                $evt=new Event();
+                $evt->createNeo4j($row['events']);
+                array_push($array, $evt);
+             }
+             return $array;
+        }
+        
+        public  static function getPopularEventsByLike($userId,$pageNumber,$pageItemCount,$date,$query_)
+        {
+             /*
+             $dates=array();
+             $teg="getPopularEventsByLike-   ";
+             */
              $array=array();
              $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
              $query ="START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                      "MATCH (user)-[:".REL_INTERESTS."]->(tag)-[:".REL_TAGS."]->(event)  ".
-                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
-                     "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
+                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) ";
+                     if(!empty($query_))
+                     {
+                           $query=$query." AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query_.".*' OR ".
+                            "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
+                     }
+                     $query=$query." AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+             echo $query;
              $query = new Cypher\Query($client, $query,null);
+              /*
+             array_push($dates, $teg."query ready");
+             array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+             */
              $result = $query->getResultSet();
+             /*
+             array_push($dates, $teg. "get result");
+             array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+             var_dump($dates);
+             */
              foreach($result as $row) {
                 $evt=new Event();
                 $evt->createNeo4j($row['event']);
@@ -1364,15 +1417,19 @@ class Neo4jFuctions {
              return $array;
         }
         
-        public  static function getPopularEventsByTag($userId,$pageNumber,$pageItemCount,$date,$query)
+        public  static function getPopularEventsByTag($userId,$pageNumber,$pageItemCount,$date,$query_)
         {
              $array=array();
              $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
              $query ="START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                      "MATCH (user)-[:".REL_EVENTS_JOINS."]->(evt)<-[:".REL_TAGS."]-(tag)-[:".REL_TAGS."]->(event)  ".
-                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
-                     "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
+                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) ";
+                     if(!empty($query_))
+                     {
+                          $query=$query." AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query_.".*' OR ".
+                          "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
+                     }
+                     $query=$query." AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
              $query = new Cypher\Query($client, $query,null);
              $result = $query->getResultSet();
@@ -1390,9 +1447,13 @@ class Neo4jFuctions {
              $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
              $query ="START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
                      "MATCH (user)-[:".REL_EVENTS_JOINS."]->(evt)<-[:".REL_EVENTS."|".REL_TAGS."]-(cat)-[:".REL_EVENTS."|".REL_TAGS."]->(event)  ".
-                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
-                     "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
+                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) ";
+                     if(!empty($query_))
+                     {
+                          $query=$query." AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query_.".*' OR ".
+                          "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
+                     }
+                     $query=$query."AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
              $query = new Cypher\Query($client, $query,null);
              $result = $query->getResultSet();
@@ -1404,29 +1465,9 @@ class Neo4jFuctions {
              return $array;
         }
         
-        public  static function getAllOtherEvents($userId,$pageNumber=0,$pageItemCount=15,$date,$query="")
-        {
-             $array=array();
-             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-             $query ="START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":**'),user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
-                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
-                     "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
-                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
-                     "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
-             $query = new Cypher\Query($client, $query,null);
-             $result = $query->getResultSet();
-             foreach($result as $row) {
-                $evt=new Event();
-                $evt->createNeo4j($row['events']);
-                array_push($array, $evt);
-             }
-             return $array;
-        }
           
         public  static function getAllEvents($pageNumber=0,$pageItemCount=15,$query="")
         {
-             $pageNumber=0;
-             $pageItemCount=100;
              $array=array();
              $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
              $query ="START events=node:".IND_EVENT_INDEX."('".PROP_USER_ID.":**') ".
