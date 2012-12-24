@@ -4,7 +4,7 @@ function makeMeDraggable() {
             ui.helper.width(40);
             ui.helper.height(36);
         },
-        cursor : 'move', 
+        cursor : 'pointer', 
         cursorAt: {
             top: Math.round(36 /  2), 
             left: Math.round(40 /  2)
@@ -30,7 +30,7 @@ function makeMeDraggable() {
     });
     
     jQuery(".main_dropable_").droppable( { 
-                        tolerance : 'pointer',
+                        tolerance : 'touch',
                         accept:  function(){
                             jQuery(this).css('display','block');
                         },
