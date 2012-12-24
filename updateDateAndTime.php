@@ -31,10 +31,16 @@ $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
 $evt=new Event();
 foreach ($list as $evt)
 {
+    var_dump($evt->id);
+    var_dump($evt->startDateTimeLong);
+    var_dump($evt->endDateTimeLong);
     $event=$eventIndex->findOne(PROP_EVENT_ID, $evt->id);
     $event->setProperty(PROP_EVENT_START_DATE,strtotime($evt->startDateTime));
     $event->setProperty(PROP_EVENT_END_DATE,strtotime($evt->endDateTime));
     $event->save();
+    
+    $event=$eventIndex->findOne(PROP_EVENT_ID, $evt->id);
+    var_dump($event);
 }
 
 
