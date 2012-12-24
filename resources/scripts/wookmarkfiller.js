@@ -27,10 +27,14 @@ function wookmarkFiller(options,clear)
                 'type':channel
             },
             success: function(data){
-                page_wookmark++;
                 jQuery('#hiddenSearch').val('');
                 var dataJSON = jQuery.parseJSON(data);
+                if(dataJSON)
+                {
+                    page_wookmark++;
+                }
                 if(clear) {
+                    page_wookmark=0;
                     localStorage.clear();
                     jQuery('.main_event').html('');
                 }
