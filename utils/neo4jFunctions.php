@@ -1222,13 +1222,22 @@ class Neo4jFuctions {
                     }
                 } else
                 {
-                    $recommendsCount=  floor($pageItemCount/7);
-                    $pageItemCount=$pageItemCount-$recommendsCount;
+                    $count1=  2;
+                    $count2=  2;
+                    $pageItemCount=$pageItemCount-($count1+$count1);
                     $array1= Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
-                    $array2= Neo4jFuctions::getPopuparEventsByTag($userId, $pageNumber, $recommendsCount, $date, $query);
+                    //echo "1<p/>";
+                    //var_dump($array1);
+                    $array2= Neo4jFuctions::getPopularEventsByLike($userId, $pageNumber, $count1, $date, $query);
+                    //echo "2<p/>";
+                    //var_dump($array2);
+                    $array3= Neo4jFuctions::getPopularEventsByLikeCatgory($userId, $pageNumber, $count2, $date, $query);
+                    //echo "3<p/>";
+                    //var_dump($array3);
                     /*
                     $array1= Neo4jFuctions::getPopuparEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query);
                     $array2=  Neo4jFuctions::getPopuparEventsByEvent($userId, $pageNumber, $pageItemCount, $date, $query);*/
+                    $temparray=array();
                     $dublicateKeys=array();
                     if(!empty($array1))
                     {
@@ -1238,12 +1247,43 @@ class Neo4jFuctions {
                             {
                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
                                 {
-                                    array_push($array,$evt);
+                                    array_push($temparray,$evt);
                                     array_push($dublicateKeys, $evt->id);
                                 }
                             }
                             
                             foreach ($array2 as $evt)
+                            {    
+                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
+                                {
+                                    array_push($temparray,$evt);
+                                    array_push($dublicateKeys, $evt->id);
+                                }
+                            }
+                        }else
+                        {
+                            $temparray=$array1;
+                        }
+                    } else if(!empty ($array2))
+                    {
+                        $temparray=$array2;
+                    }
+                    
+                    
+                    $dublicateKeys=array();
+                    if(!empty($temparray))
+                    {
+                        if(!empty($array3))
+                        {
+                            foreach ($temparray as $evt)
+                            {
+                                if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
+                                {
+                                    array_push($array,$evt);
+                                    array_push($dublicateKeys, $evt->id);
+                                }
+                            }     
+                            foreach ($array3 as $evt)
                             {    
                                  if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
                                 {
@@ -1253,12 +1293,13 @@ class Neo4jFuctions {
                             }
                         }else
                         {
-                            $array=$array1;
+                            $array=$temparray;
                         }
-                    } else if(!empty ($array2))
+                    } else if(!empty ($array3))
                     {
-                        $array=$array2;
+                        $array=$array3;
                     }
+                    
                     //sort by date 
                     $low=new Event();
                     $evnt=new Event();
@@ -1280,7 +1321,7 @@ class Neo4jFuctions {
 		return $array;
 	}
         
-        public  static function getPopuparEventsByLike($userId,$pageNumber,$pageItemCount,$date,$query)
+        public  static function getPopularEventsByLikeCatgory($userId,$pageNumber,$pageItemCount,$date,$query)
         {
             $array=array();
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -1300,7 +1341,27 @@ class Neo4jFuctions {
             return $array;
         }
         
-        public  static function getPopuparEventsByTag($userId,$pageNumber,$pageItemCount,$date,$query)
+        public  static function getPopularEventsByLike($userId,$pageNumber,$pageItemCount,$date,$query)
+        {
+             $array=array();
+             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+             $query ="START user=node:".IND_USER_INDEX."('".PROP_USER_ID.":*".$userId."*') ".
+                     "MATCH (user)-[:".REL_INTERESTS."]->(tag)-[:".REL_TAGS."]->(event)  ".
+                     "WHERE NOT(user-[:".REL_EVENTS_JOINS."]->(event)) AND (event.".PROP_EVENT_TITLE." =~ '.*(?i)".$query.".*' OR ".
+                     "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query.".*') ".
+                     "AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">'".$date."') ".
+                     "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
+             $query = new Cypher\Query($client, $query,null);
+             $result = $query->getResultSet();
+             foreach($result as $row) {
+                $evt=new Event();
+                $evt->createNeo4j($row['event']);
+                array_push($array, $evt);
+             }
+             return $array;
+        }
+        
+        public  static function getPopularEventsByTag($userId,$pageNumber,$pageItemCount,$date,$query)
         {
              $array=array();
              $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -1321,7 +1382,7 @@ class Neo4jFuctions {
              return $array;
         }
         
-        public  static function getPopuparEventsByEvent($userId,$pageNumber,$pageItemCount,$date,$query)
+        public  static function getPopularEventsByEventCategory($userId,$pageNumber,$pageItemCount,$date,$query)
         {
              $array=array();
              $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
