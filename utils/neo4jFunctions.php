@@ -1320,7 +1320,7 @@ class Neo4jFuctions {
                      }
                      $query=$query."AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
                      "RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
-            echo $query;
+            //echo $query;
             $query = new Cypher\Query($client, $query,null);
             /*
             array_push($dates, $teg."query ready");
@@ -1358,7 +1358,7 @@ class Neo4jFuctions {
             
              $query=$query." AND event.".PROP_EVENT_PRIVACY."=~ 'true' AND (event.".PROP_EVENT_START_DATE.">".$date.") ".
              "RETURN distinct(event) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
-             echo $query;
+             //echo $query;
              
              $query = new Cypher\Query($client, $query,null);
              /*
