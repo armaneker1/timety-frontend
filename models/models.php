@@ -195,8 +195,8 @@ class Event{
         
         public function setAdditionalData()
         {
-            $this->getImages();
-            $this->getHeaderImage();
+            //$this->getImages();
+            //$this->getHeaderImage();
             $this->commentCount =  CommentsFunctions::getCmmentListSizeByEvent($this->id);
             $this->remainingtime=UtilFUnctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
             $this->attendancecount=  Neo4jFuctions::getEventAttendanceCount($this->id);

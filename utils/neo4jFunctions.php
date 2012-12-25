@@ -1184,6 +1184,7 @@ class Neo4jFuctions {
                 echo  $teg."Date calculated<p/>";
                 echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
                 */
+                $eventIds="";
                 if($type==4)
                 {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -1288,8 +1289,6 @@ class Neo4jFuctions {
                                     array_push($dublicateKeys, $evt->id);
                                 }
                             }
-                            
-                            
                             foreach ($array1 as $evt)
                             {
                                 if(!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys))
@@ -1298,8 +1297,6 @@ class Neo4jFuctions {
                                     array_push($dublicateKeys, $evt->id);
                                 }
                             }
-                            
-                            
                         }else
                         {
                             $array=$array1;
@@ -1317,14 +1314,22 @@ class Neo4jFuctions {
                     echo  $teg."start sort array<p/>";
                     echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
                     */
-                    //sort by date 
+                    //sort by date
+                    $dublicateKeys=array();
                     $low=new Event();
                     $evnt=new Event();
                     $low=$array[0];
                     $low_indx=0;
+                    array_push($dublicateKeys, $low->id);
+                    $eventIds=$eventIds. $low->id.",";
                     for($i=1;$i<sizeof($array);$i++)
                     {
                         $evnt=$array[$i];
+                        if(!in_array($evnt->id, $dublicateKeys))
+                        {
+                            array_push($dublicateKeys, $evnt->id);
+                            $eventIds=$eventIds. $evnt->id.",";
+                        }
                         if($low->startDateTimeLong>$evnt->startDateTimeLong)
                         {
                             $array[$i]=$array[$low_indx];
@@ -1338,7 +1343,31 @@ class Neo4jFuctions {
                     echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
                     */
                 }
-		return $array;
+                if(!empty($eventIds))
+                {
+                    $eventIds=  substr($eventIds, 0, strlen($eventIds)-1);
+                }
+                
+                $images=  ImageFunctions::getAllHeaderImageList($eventIds);
+                $tmparray=array();
+                $img=new Image();
+                if(!empty($images))
+                {
+                    foreach($array as $evt)
+                    {
+                       foreach($images as $img)
+                       {
+                           if($evt->id+""==$img->eventId+"")
+                           {
+                               array_push($evt->images, $img);
+                               $evt->headerImage=$img;
+                               break;
+                           }
+                       } 
+                       array_push($tmparray, $evt);
+                    }
+                }
+		return $tmparray;
 	}
         
         public  static function getPopularEventsByLikeCatgory($userId,$pageNumber,$pageItemCount,$date,$query)

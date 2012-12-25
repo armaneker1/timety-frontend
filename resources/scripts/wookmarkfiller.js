@@ -90,15 +90,22 @@ function wookmarkHTML(dataArray)
         jQuery(imgDiv).attr('onclick','return openModalPanel('+data.id+');');
 
         //IMG tag
-        var img = document.createElement('img');
-        jQuery(img).attr('src',data.headerImage.url);
-        if(data.headerImage.width && data.headerImage.width!=0)
-            jQuery(img).attr('width',data.headerImage.width);
-        else
+         var img = document.createElement('img');
+        if(data.headerImage)
+        {
+            jQuery(img).attr('src',data.headerImage.url);
+            if(data.headerImage.width && data.headerImage.width!=0)
+                jQuery(img).attr('width',data.headerImage.width);
+            else
+                jQuery(img).attr('width',186);
+            if(data.headerImage.height && data.headerImage.height!=0)
+                jQuery(img).attr('height',data.headerImage.height);
+            //jQuery(img).attr('heigh',219);
+        }else
+        {
             jQuery(img).attr('width',186);
-        if(data.headerImage.height && data.headerImage.height!=0)
-            jQuery(img).attr('height',data.headerImage.height);
-        //jQuery(img).attr('heigh',219);
+            jQuery(img).attr('heigh',219);
+        }
         jQuery(img).addClass('main_draggable');
 
         //binding DIV with Image

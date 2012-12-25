@@ -1103,7 +1103,37 @@ class UtilFUnctions{
 
 
 class ImageFunctions{
-	public static function  getImageListByEvent($eventId)
+    
+        public static function getAllHeaderImageList($idListString)
+        {
+            if(!empty($idListString))
+            {
+                $query=mysql_query("SELECT * from ".TBL_IMAGES." WHERE header=1 AND id IN (".$idListString.")") or die(mysql_error());
+                $array=array();
+                if(!empty($query))
+                {
+                    $num= mysql_num_rows($query);
+                    if($num>1)
+                    {
+                        while ($db_field = mysql_fetch_assoc($query) ) {
+                            $image=new Image();
+                            $image->createFromSQL($db_field);
+                            array_push($array, $image);
+                        }
+                    } else if($num>0)
+                    {
+                        $db_field = mysql_fetch_assoc($query);
+                        $image=new Image();
+                        $image->createFromSQL($db_field);
+                        array_push($array, $image);
+                    }
+                    return $array;
+                }
+            }
+        }
+
+
+        public static function  getImageListByEvent($eventId)
 	{
 		$eventId=DBUtils::mysql_escape($eventId);
 		$query=mysql_query("SELECT * from ".TBL_IMAGES." WHERE eventId=$eventId") or die(mysql_error());
