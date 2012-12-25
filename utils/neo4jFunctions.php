@@ -1113,6 +1113,11 @@ class Neo4jFuctions {
          */
         public static  function getEvents($userId=-1,$pageNumber=0,$pageItemCount=15,$date="0000-00-00 00:00",$query="",$type=1)
 	{     
+                /*
+                $teg="<p/>getEvents-   ";
+                echo  $teg."Started<p/>";
+                echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                */
                 $array=array();
                 if($userId==-1)
                 {
@@ -1175,6 +1180,10 @@ class Neo4jFuctions {
                     }
                     $date=strtotime($date);
                 }
+                /*
+                echo  $teg."Date calculated<p/>";
+                echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                */
                 if($type==4)
                 {
                     $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -1241,12 +1250,30 @@ class Neo4jFuctions {
                 } else
                 {
                     $count=  2;
+                    /*
+                    echo  $teg."Date type 1<p/>";
+                    echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                    */
                     $array1= Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
+                    /*
+                    echo  $teg."array 1 mysql<p/>";
+                    echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                    */
                     $array2= Neo4jFuctions::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
+                    /*
+                    echo  $teg."array 2 gremlin<p/>";
+                    echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                    */
+                    
                     /*
                     $array3= Neo4jFuctions::getPopularEventsByLikeCatgory($userId, $pageNumber, $count2, $date, $query);
                     $array1= Neo4jFuctions::getPopuparEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query);
                     $array2=  Neo4jFuctions::getPopuparEventsByEvent($userId, $pageNumber, $pageItemCount, $date, $query);*/
+                    
+                    /*
+                    echo  $teg."start merge array<p/>";
+                    echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                    */
                     $dublicateKeys=array();
                     if(!empty($array1))
                     {
@@ -1281,7 +1308,15 @@ class Neo4jFuctions {
                     {
                         $array=$array2;
                     }
+                    /*
+                    echo  $teg."end merge array<p/>";
+                    echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                    */
                     
+                    /*
+                    echo  $teg."start sort array<p/>";
+                    echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                    */
                     //sort by date 
                     $low=new Event();
                     $evnt=new Event();
@@ -1298,6 +1333,10 @@ class Neo4jFuctions {
                             $low_indx=$i;
                         }
                     }
+                    /*
+                    echo  $teg."end sort array<p/>";
+                    echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+                    */
                 }
 		return $array;
 	}
@@ -1342,7 +1381,7 @@ class Neo4jFuctions {
        
         public  static function getAllOtherEvents($userId,$pageNumber=0,$pageItemCount=15,$date,$query_="")
         {
-            $date=  date(DATETIME_DB_FORMAT,$date);
+             $date=  date(DATETIME_DB_FORMAT,$date);
              $array=array();
              $query="SELECT * FROM ".TBL_EVENTS." WHERE startDateTime>'".$date."'";
              if(!empty($query_))
@@ -1351,7 +1390,16 @@ class Neo4jFuctions {
              }    
              $query=$query." ORDER BY startDateTime LIMIT ".$pageNumber." , ".$pageItemCount." ";
              //echo $query;
+             /*
+             $teg="<p/>getAllOtherEvents - ";
+             echo  $teg."start uery mysql<p/>";
+             echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+             */
              $query = mysql_query($query) or die(mysql_error());
+             /* 
+             echo  $teg."query executed<p/>";
+             echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+             */
              $num= mysql_num_rows($query);
 	     if(!empty($query) && $num>0)
              {
@@ -1370,6 +1418,10 @@ class Neo4jFuctions {
 			array_push($array, $event);
 		}
              }
+             /* 
+             echo  $teg."query pared<p/>";
+             echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+             */
              return $array;
         }
         
@@ -1414,10 +1466,9 @@ class Neo4jFuctions {
         
         public  static function getPopularEventsByLike($userId,$pageNumber,$pageItemCount,$date,$query_)
         {
-             //
-             $dates=array();
-             $teg="getPopularEventsByLike-   ";
-             //
+             //UserId Test
+             $userId=5;
+             //UserId Test
              $array=array();
              $pgStart=$pageNumber*$pageItemCount;
              $pgEnd=$pgStart+$pageItemCount-1;
@@ -1427,21 +1478,25 @@ class Neo4jFuctions {
                     ".filter{it.".PROP_EVENT_START_DATE.">=".$date."}.filter{it.inE('".REL_EVENTS_JOINS."').inV.dedup.".PROP_USER_ID."!='".$userId."'}".
                     ".sort{it.".PROP_EVENT_START_DATE."}._()[".$pgStart."..".$pgEnd."]";
              $query = new Everyman\Neo4j\Gremlin\Query($client, $query,null);
-              //
-             array_push($dates, $teg."query ready");
-             array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
-             //
+             /*
+             $teg="<p/>getPopularEventsByLike-   ";
+             echo $teg."query ready"."<p/>";
+             echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+             */
              $result = $query->getResultSet();
-             //
-             array_push($dates, $teg. "get result");
-             array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
-             var_dump($dates);
-             //
+             /*
+             echo $teg. "get result"."<p/>";
+             echo UtilFUnctions::udate(DATETIME_DB_FORMAT2)."<p/>";
+             */
              foreach($result as $row) {
                 $evt=new Event();
                 $evt->createNeo4j($row[0]);
                 array_push($array, $evt);
              }
+             /*
+             echo $teg. "result pared"."<p/>";
+             echo UtilFUnctions::udate(DATETIME_DB_FORMAT2)."<p/>";
+             */
              return $array;
         }
         
@@ -1552,8 +1607,19 @@ class Neo4jFuctions {
         /*
          * Event Utils
          */
-        
         public static function getEventAttendanceCount($eventId)
+        {
+             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+             $query ="g.idx('".IND_EVENT_INDEX."')[[".PROP_EVENT_ID.":'".$eventId."']].in.dedup.count()";
+             $query = new Everyman\Neo4j\Gremlin\Query($client, $query,null);
+             $result = $query->getResultSet();
+             foreach($result as $row) {
+                 return $row[0];
+             }
+             return 0;
+        }
+        
+        public static function getEventAttendanceCount_Cypher($eventId)
         {
              $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
              $query ="START event=node:".IND_EVENT_INDEX."('".PROP_EVENT_ID.":*".$eventId."*') ".

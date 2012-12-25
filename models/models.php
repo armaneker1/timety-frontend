@@ -165,12 +165,11 @@ class Event{
 			$this->location=$result->getProperty(PROP_EVENT_LOCATION);
 			$this->description=$result->getProperty(PROP_EVENT_DESCRIPTION);
 			$this->startDateTimeLong=$result->getProperty(PROP_EVENT_START_DATE);
+                        $this->startDateTime=date(DATETIME_DB_FORMAT,$this->startDateTimeLong);
 			$this->endDateTimeLong=$result->getProperty(PROP_EVENT_END_DATE);
+                        $this->endDateTime=date(DATETIME_DB_FORMAT,$this->endDateTimeLong);
 			$this->privacy=$result->getProperty(PROP_EVENT_PRIVACY);
 		}
-                $userFunctions=new UserFuctions();
-                $tmp=$userFunctions->getEventById($this->id);
-                $this->copyEvent($tmp);
                 $this->setAdditionalData();
 	}
         

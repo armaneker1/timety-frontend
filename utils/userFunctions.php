@@ -1219,7 +1219,7 @@ class CommentsFunctions{
         public static function  getCmmentListSizeByEvent($eventId)
 	{
 		$eventId=DBUtils::mysql_escape($eventId);
-		$query=mysql_query("SELECT count(*) as count_comment from ".TBL_COMMENT." WHERE event_id=$eventId ") or die(mysql_error());
+		$query=mysql_query("SELECT count(id) as count_comment from ".TBL_COMMENT." WHERE event_id=$eventId ") or die(mysql_error());
 		$array=array();
 		if(!empty($query))
 		{
