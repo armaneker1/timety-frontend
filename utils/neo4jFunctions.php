@@ -1414,6 +1414,39 @@ class Neo4jFuctions {
         
         public  static function getPopularEventsByLike($userId,$pageNumber,$pageItemCount,$date,$query_)
         {
+             //
+             $dates=array();
+             $teg="getPopularEventsByLike-   ";
+             //
+             $array=array();
+             $pgStart=$pageNumber*$pageItemCount;
+             $pgEnd=$pgStart+$pageItemCount-1;
+             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+             $query="g.idx('".IND_USER_INDEX."')[[".PROP_USER_ID.":'".$userId."']]".
+                    ".out('".REL_INTERESTS."').dedup.out('".REL_TAGS."').dedup.has('".PROP_EVENT_PRIVACY."','true')".
+                    ".filter{it.".PROP_EVENT_START_DATE.">=".$date."}.filter{it.inE('".REL_EVENTS_JOINS."').inV.dedup.".PROP_USER_ID."!='".$userId."'}".
+                    ".sort{it.".PROP_EVENT_START_DATE."}._()[".$pgStart."..".$pgEnd."]";
+             $query = new Everyman\Neo4j\Gremlin\Query($client, $query,null);
+              //
+             array_push($dates, $teg."query ready");
+             array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+             //
+             $result = $query->getResultSet();
+             //
+             array_push($dates, $teg. "get result");
+             array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+             var_dump($dates);
+             //
+             foreach($result as $row) {
+                $evt=new Event();
+                $evt->createNeo4j($row[0]);
+                array_push($array, $evt);
+             }
+             return $array;
+        }
+        
+        public  static function getPopularEventsByLike_Cypher($userId,$pageNumber,$pageItemCount,$date,$query_)
+        {
              /*
              $dates=array();
              $teg="getPopularEventsByLike-   ";

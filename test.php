@@ -7,7 +7,8 @@ Everyman\Neo4j\Index,
 Everyman\Neo4j\Index\NodeIndex,
 Everyman\Neo4j\Relationship,
 Everyman\Neo4j\Node,
-Everyman\Neo4j\Cypher; 
+Everyman\Neo4j\Cypher,
+Everyman\Neo4j\Gremlin\Query;
 require 'apis/facebook/facebook.php';
 require 'config/fbconfig.php';
 require 'apis/foursquare/FoursquareAPI.php';
@@ -17,6 +18,28 @@ require 'config/twconfig.php';
 require 'utils/userFunctions.php';
 
 /*
+ * 
+ */
+
+$uf=new UserFuctions;
+$nf=new Neo4jFuctions();
+
+/*var_dump(strtotime("now"));
+
+$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+$queryTemplate = "g.V.in(type).dedup.sort{it.name}.toList()";
+$params = array('type' => 'OBJECTS');
+$dates=array();
+$teg="sda";
+ array_push($dates, $teg. "get result");
+         array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+$query = new Query($client, $queryTemplate, $params);
+$result = $query->getResultSet();
+ array_push($dates, UtilFUnctions::udate(DATETIME_DB_FORMAT2));
+             var_dump($dates);
+foreach ($result as $row) {
+	echo "* " . $row[0]->getProperty('name')."\n";
+}
  * 
  */
 
@@ -47,8 +70,7 @@ echo "<h1>Type ".$type."</h1>";
  
  $date=strtotime("1999-01-01 00:00:00");
  
-$uf=new UserFuctions();
-$nf=new Neo4jFuctions();
+
 if($type==0)
 {
     echo "<h1>Tüm Eventler</h1>";
@@ -81,7 +103,6 @@ if($type==0)
 
 //var_dump($nf->getPopuparEventsByTag(1, 0, 15, "1999-01-01 09:09:09", null));
 //var_dump($nf->getAllOtherEvents(1, 0, 150, "1999-01-01 09:09:09", null));
-
 
 /*
 try {
