@@ -1493,7 +1493,7 @@ class Neo4jFuctions {
         public  static function getPopularEventsByLike($userId,$pageNumber,$pageItemCount,$date,$query_)
         {
              //UserId Test
-             $userId=5;
+             //$userId=5;
              //UserId Test
              $array=array();
              $pgStart=$pageNumber*$pageItemCount;
