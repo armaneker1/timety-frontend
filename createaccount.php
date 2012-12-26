@@ -152,14 +152,21 @@ $(function() {
 					} ],
 			function(errors, event) {
 				var SELECTOR_ERRORS = $('#msg');
-				$('#te_username_span').attr('class', '');
-				$('#te_password_span').attr('class', '');
-				$('#te_repassword_span').attr('class', '');
-				$('#te_email_span').attr('class', '');
-				$('#te_username').attr('class', 'user_inpt icon_bg username');
-				$('#te_password').attr('class', 'user_inpt icon_bg password');
-				$('#te_repassword').attr('class', 'user_inpt icon_bg password');
-				$('#te_email').attr('class', 'user_inpt icon_bg email');
+				$('#te_username_span').attr('class', 'onay icon_bg');
+				$('#te_username').attr('class', 'user_inpt username  icon_bg onay_brdr');
+                                
+                                
+                                $('#te_password_span').attr('class', 'onay icon_bg');
+				$('#te_password').attr('class', 'user_inpt icon_bg password onay_brdr');
+                                
+                                
+                                $('#te_repassword_span').attr('class', 'onay icon_bg');
+				$('#te_repassword').attr('class', 'user_inpt icon_bg password onay_brdr');
+                                
+                                
+                                $('#te_email_span').attr('class', 'onay icon_bg');
+                                $('#te_email').attr('class', 'user_inpt icon_bg email onay_brdr');
+                                
 				if (errors.length > 0) {
 					SELECTOR_ERRORS.empty();
 					for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
