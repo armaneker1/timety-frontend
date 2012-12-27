@@ -488,7 +488,7 @@ function remUrlEventId()
               {
                      path=path+"/"+url_[i];
               }
-              window.History.pushState(null, null, path);  
+              window.History.pushState(null, null, path+"/");  
         }
     }
 }
