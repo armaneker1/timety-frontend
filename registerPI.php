@@ -207,12 +207,23 @@ if (!isset($_SESSION['id'])) {
                 <script type="text/javascript">
                     $(function() {
                         $.Placeholder.init();
-                        $("#te_birthdate").glDatePicker({
+                        
+                        
+                        jQuery( "#te_birthdate" ).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: "dd.mm.yy",
+                            maxDate: new Date(),
+                            yearRange: "1923:2012"
+                        });
+                        /*jQuery("#te_birthdate").glDatePicker({
                             allowOld : true,
                             position : "fixed",
                             showLeftTopCss:true,
                             endDate: (new Date())
-                        });
+                        });*/
+                        
+                        
                         var validator = new FormValidator(
                         'registerPI',
                         [
