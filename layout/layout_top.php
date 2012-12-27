@@ -43,7 +43,7 @@ if (isset($_SESSION['id'])) {
 			<?php } else { ?>
                         <script type="text/javascript">
                                 function  to_home() {
-                                    window.location="<?=HOSTNAME?>signin.php";
+                                    window.location="<?=PAGE_LOGIN?>";
                                 }
 				jQuery("#add_event_button").click(to_home);
 			</script>
@@ -51,7 +51,7 @@ if (isset($_SESSION['id'])) {
                         <?php 
                         if((!empty($user->id) && !empty($user->userName) && $user->status>2) || empty($user))
                         { ?>
-                          <script language="javascript" src="resources/scripts/searchbar.js"></script>
+                          <script language="javascript" src="<?=HOSTNAME?>resources/scripts/searchbar.js"></script>
                         <?php } ?>
 		</div>
 	</div>
