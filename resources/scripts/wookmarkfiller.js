@@ -94,7 +94,7 @@ function wookmarkHTML(dataArray)
          jQuery(img).attr('eventid',data.id);  
         if(data.headerImage)
         {
-            jQuery(img).attr('src',data.headerImage.url);
+            jQuery(img).attr('src',TIMETY_HOSTNAME+data.headerImage.url);
             if(data.headerImage.width && data.headerImage.width!=0)
                 jQuery(img).attr('width',data.headerImage.width);
             else
@@ -138,7 +138,7 @@ function wookmarkHTML(dataArray)
         var liMavi = document.createElement('li');
         var liMaviA = document.createElement('a');
         var liMaviAImg = document.createElement('img');
-        jQuery(liMaviAImg).attr('src','images/usr.png');
+        jQuery(liMaviAImg).attr('src',TIMETY_HOSTNAME+'images/usr.png');
         jQuery(liMaviAImg).attr('width',18);
         jQuery(liMaviAImg).attr('heigh',18);
         jQuery(liMaviAImg).attr('align','absmiddle');
@@ -155,7 +155,7 @@ function wookmarkHTML(dataArray)
         var liTuruncu = document.createElement('li');
         var liTuruncuA = document.createElement('a');
         var liTuruncuAImg = document.createElement('img');
-        jQuery(liTuruncuAImg).attr('src','images/comm.png');
+        jQuery(liTuruncuAImg).attr('src',TIMETY_HOSTNAME+'images/comm.png');
         jQuery(liTuruncuAImg).attr('width',18);
         jQuery(liTuruncuAImg).attr('heigh',18);
         jQuery(liTuruncuAImg).attr('align','absmiddle');
@@ -172,7 +172,7 @@ function wookmarkHTML(dataArray)
         var liYesil = document.createElement('li');
         var liYesilA = document.createElement('a');
         var liYesilAImg = document.createElement('img');
-        jQuery(liYesilAImg).attr('src','images/zmn.png');
+        jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
         jQuery(liYesilAImg).attr('width',18);
         jQuery(liYesilAImg).attr('heigh',18);
         jQuery(liYesilAImg).attr('align','absmiddle');

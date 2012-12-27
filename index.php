@@ -252,7 +252,7 @@ if (empty($user)) {
         <script src="<?=HOSTNAME?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?=HOSTNAME?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" src="<?=HOSTNAME?>js/checradio.js"></script>
-
+        
         <script language="javascript" src="<?=HOSTNAME?>resources/scripts/createEvent.js"></script>
         <link href="<?=HOSTNAME?>fileuploader.css" rel="stylesheet" type="text/css">
             <script src="<?=HOSTNAME?>fileuploader.js" type="text/javascript"></script>
