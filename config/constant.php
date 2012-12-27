@@ -3,8 +3,10 @@ define('FACEBOOK_TEXT', 'facebook');
 define('FOURSQUARE_TEXT', 'foursquare');
 define('TWITTER_TEXT', 'twitter');
 define('HOSTNAME','http://localhost/timety/');
+define('HOSTNAME_WWW','http://localhost/timety/');
 define('UPLOAD_FOLDER','uploads/');
-//define('HOSTNAME','http://fabelist.com/timete/web/');
+//define('HOSTNAME','http://timety.com/');
+//define('HOSTNAME_WWW','http://www.timety.com');
 
 define('USER_TYPE_NORMAL', 0);
 define('USER_TYPE_VERIFIED', 1);
