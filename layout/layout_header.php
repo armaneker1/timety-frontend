@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
-<script language="javascript" src="<?=HOSTNAME?>resources/scripts/config.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>config/config.js"></script>
 <!--[if IE]>
     <link  href="ie7_8.css" rel="stylesheet" type="text/css" />
     <link  href="resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
