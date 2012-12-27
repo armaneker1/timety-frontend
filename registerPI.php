@@ -1,4 +1,4 @@
-f<?php
+<?php
 require 'apis/facebook/facebook.php';
 require 'config/fbconfig.php';
 require 'apis/foursquare/FoursquareAPI.php';

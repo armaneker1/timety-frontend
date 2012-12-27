@@ -1,0 +1,3 @@
+RewriteEngine On
+
+RewriteRule ^timety/register/$ /timety/registerPI.php

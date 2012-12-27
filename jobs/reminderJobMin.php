@@ -1,7 +1,4 @@
 <?php
-require 'utils/userFunctions.php';
-
-var_dump(ReminderUtils::getUpcomingEvents());
 
 /*
  * To change this template, choose Tools | Templates
