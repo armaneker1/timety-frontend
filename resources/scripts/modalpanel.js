@@ -207,7 +207,7 @@ function openModalPanel(id) {
                 jQuery(gdy_satirAltSolDIV_users).addClass('gdy_alt_sol');
 
                 var gdy_satirAltSolDIVImg_users = document.createElement('img');
-                jQuery(gdy_satirAltSolDIVImg_users).attr('src', TIMETY_HOSTNAME+'images/klnc.png');
+                jQuery(gdy_satirAltSolDIVImg_users).attr('src', 'images/klnc.png');
                 jQuery(gdy_satirAltSolDIVImg_users).attr('width', 27);
                 jQuery(gdy_satirAltSolDIVImg_users).attr('height', 24);
                 jQuery(gdy_satirAltSolDIVImg_users).attr('align', 'middle');
