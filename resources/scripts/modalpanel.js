@@ -207,7 +207,7 @@ function openModalPanel(id) {
                 jQuery(gdy_satirAltSolDIV_users).addClass('gdy_alt_sol');
 
                 var gdy_satirAltSolDIVImg_users = document.createElement('img');
-                jQuery(gdy_satirAltSolDIVImg_users).attr('src', 'images/klnc.png');
+                jQuery(gdy_satirAltSolDIVImg_users).attr('src', TIMETY_HOSTNAME+'images/klnc.png');
                 jQuery(gdy_satirAltSolDIVImg_users).attr('width', 27);
                 jQuery(gdy_satirAltSolDIVImg_users).attr('height', 24);
                 jQuery(gdy_satirAltSolDIVImg_users).attr('align', 'middle');
@@ -227,7 +227,7 @@ function openModalPanel(id) {
                     jQuery(gdy_altDIVOrtaIMGDIV_users).attr('style', 'width:64px;height:54px;text-align:center;overflow:hidden;margin-left:0px;');
 
                     var imgOrta_users = document.createElement('img');
-                    jQuery(imgOrta_users).attr('src',TIMETY_HOSTNAME+data[i].pic);
+                    jQuery(imgOrta_users).attr('src',data[i].pic);
                     jQuery(imgOrta_users).attr('title',data[i].userName);
                     //jQuery(imgOrta).attr('width', 62);
                     jQuery(imgOrta_users).attr('height', 52);
