@@ -1,4 +1,4 @@
-<?php
+f<?php
 require 'apis/facebook/facebook.php';
 require 'config/fbconfig.php';
 require 'apis/foursquare/FoursquareAPI.php';
@@ -198,11 +198,7 @@ if (!isset($_SESSION['id'])) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 <?php include('layout/layout_header.php'); ?>
-        <script language="javascript" src="js/takvim/glDatePicker.js"></script>
-        <link href="js/takvim/takvim.css" rel="stylesheet">
-            <link href="resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
-                <script language="javascript"
-                src="resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
+                <script language="javascript" src="resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
                 <script type="text/javascript" src="resources/scripts/validate.js"></script>
                 <script type="text/javascript">
                     $(function() {

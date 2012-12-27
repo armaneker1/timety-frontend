@@ -431,7 +431,12 @@ if (empty($user)) {
                     SyntaxHighlighter.defaults["gutter"] = false;
                     SyntaxHighlighter.all();
                     // Basic date picker with default settings
-                    jQuery(".date1").glDatePicker();
+                    //jQuery(".date1").glDatePicker();
+                    jQuery( ".date1" ).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: "dd.mm.yy"
+                    });
                     jQuery('.timepicker-default').timepicker();
                 });
             </SCRIPT>

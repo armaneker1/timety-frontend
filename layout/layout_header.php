@@ -24,6 +24,7 @@
 <link  href="resources/styles/message.css" rel="stylesheet" type="text/css" />
 <link  href="resources/styles/addlike.css" rel="stylesheet" type="text/css" />
 <link  href="style.css" rel="stylesheet" type="text/css"  />
+<link href="resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
 
 <script language="javascript" src="resources/scripts/main.js"></script>
 <script language="javascript" src="resources/scripts/jquery/jquery-1.8.2.js"></script>
