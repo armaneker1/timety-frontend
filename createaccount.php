@@ -97,7 +97,7 @@ try {
 					$_SESSION['id'] = $user->id;
 					$_SESSION['username'] = $user->userName;
 					$_SESSION['oauth_provider'] = 'timety';
-					header("Location:registerPI.php");
+					header("Location: ".PAGE_WHO_TO_FOLLOW);
 				} else
 				{
 					$m=new HtmlMessage();
@@ -124,11 +124,31 @@ $upass=null;
 <head>
 <?php include('layout/layout_header.php'); ?>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
-<title>Timete Signup</title>
-<script type="text/javascript" src="resources/scripts/validate.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
+<title>Timety Signup</title>
+<script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/validate.js"></script>
 <script type="text/javascript">
-$(function() {
+
+function validateUserNameNoEffect(field2) {
+		var field = document.getElementById($(field2).attr('id'));
+		$.post("checkUserName.php", {
+			u : field.value
+		}, function(data) {
+			field.setAttribute("suc", (!!(data.success)));
+		}, "json");
+	}
+
+
+	function validateEmailNoEffect(field2) {
+		var field = document.getElementById($(field2).attr('id'));
+		$.post("checkEmail.php", {
+			e : field.value
+		}, function(data) {
+			field.setAttribute("suc", (!!(data.success)));
+		}, "json");
+	}
+
+jQuery(function() {
 	$.Placeholder.init();
 	var validator = new FormValidator(
 			'registerPI',
@@ -193,25 +213,6 @@ $(function() {
 		return result;
 	})
 	.setMessage('check_username', 'That username is already taken. Please choose another.');
-
-	function validateUserNameNoEffect(field2) {
-		var field = document.getElementById($(field2).attr('id'));
-		$.post("checkUserName.php", {
-			u : field.value
-		}, function(data) {
-			field.setAttribute("suc", (!!(data.success)));
-		}, "json");
-	}
-
-
-	function validateEmailNoEffect(field2) {
-		var field = document.getElementById($(field2).attr('id'));
-		$.post("checkEmail.php", {
-			e : field.value
-		}, function(data) {
-			field.setAttribute("suc", (!!(data.success)));
-		}, "json");
-	}
 	
 });
 </script>
@@ -223,11 +224,11 @@ $(function() {
 		<div class="create_acco_alt">
 			<div class="account_sol">
 				<a href="?login&oauth_provider=foursquare"><img
-					src="images/google.png" width="251" height="42" border="0"
+					src="<?=HOSTNAME?>images/google.png" width="251" height="42" border="0"
 					class="user_account" /> </a> <a
-					href="?login&oauth_provider=facebook"><img src="images/face.png"
+					href="?login&oauth_provider=facebook"><img src="<?=HOSTNAME?>images/face.png"
 					width="251" height="42" border="0" class="user_account" /> </a> <a
-					href="?login&oauth_provider=twitter"><img src="images/twitter.png"
+					href="?login&oauth_provider=twitter"><img src="<?=HOSTNAME?>images/twitter.png"
 					width="251" height="42" border="0" class="user_account" /> </a>
 			</div>
 			<div class="account_sag">

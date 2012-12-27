@@ -10,7 +10,7 @@ if (isset($_SESSION['id'])) {
 	$user=$userFunc->getUserById($_SESSION['id']);
 	if(empty($user))
 	{
-		header("location: logout.php?logout");
+		header("location: ".PAGE_LOGOUT);
 	} else
 	{
 		UserFuctions::checkUserStatus($user);
@@ -93,7 +93,7 @@ if (isset($_SESSION['id'])) {
 }
 else
 {
-	header("location: index.php");
+	header("location: ".HOSTNAME);
 }
 
 ?>
@@ -101,22 +101,22 @@ else
 <?php include('layout/layout_header.php'); ?>
 
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.core.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.core.js"></script>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.widget.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.widget.js"></script>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.position.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.position.js"></script>
 
-<script language="javascript" src="resources/scripts/createEvent.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/createEvent.js"></script>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.datepicker.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.datepicker.js"></script>
 
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
-<link href="resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
+<link href="<?=HOSTNAME?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
 
 	<script language="javascript"
-		src="resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
+		src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 	<script type="text/javascript">
 			$(function(){
 				$.Placeholder.init();
@@ -125,7 +125,7 @@ else
 	<link href="fileuploader.css" rel="stylesheet" type="text/css">
 	<script src="fileuploader.js" type="text/javascript"></script>
 
-		<title>Timete Create Event</title>
+		<title>Timety Create Event</title>
 
 </head>
 

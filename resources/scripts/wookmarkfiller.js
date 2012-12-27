@@ -17,7 +17,7 @@ function wookmarkFiller(options,clear)
         }
         post_wookmark = jQuery.ajax({
             type: 'GET',
-            url: 'getEvents.php',
+            url: TIMETY_HOSTNAME+'getEvents.php',
             data: {
                 'userId':userId,
                 'pageNumber':page,

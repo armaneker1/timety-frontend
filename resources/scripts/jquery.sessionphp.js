@@ -5,7 +5,7 @@
         get: function(key, callback) {
             jQuery.ajax({
                 type: 'GET',
-                url: 'session.php',
+                url: TIMETY_HOSTNAME+'session.php',
                 data: {
                     'key':key
                 },
@@ -18,7 +18,7 @@
         set: function(key, value, callback) {
             jQuery.ajax({
                 type: 'POST',
-                url: 'session.php',
+                url: TIMETY_HOSTNAME+'session.php',
                 data: {
                     'key':key,
                     'value':value
@@ -32,7 +32,7 @@
         remove: function(key, callback) {
             jQuery.ajax({
                 type: 'POST',
-                url: 'session.php',
+                url: TIMETY_HOSTNAME+'session.php',
                 data: {
                     'key':key,
                     'remove':true
@@ -46,7 +46,7 @@
         show : function(callback){
             jQuery.ajax({
                 type: 'GET',
-                url: 'session.php',
+                url: TIMETY_HOSTNAME+'session.php',
                 data: {
                     'all':true
                 },

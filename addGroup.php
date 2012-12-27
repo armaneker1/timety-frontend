@@ -10,7 +10,7 @@ if (isset($_SESSION['id'])) {
 	$user=$userFunc->getUserById($_SESSION['id']);
 	if(empty($user))
 	{
-		header("location: logout.php?logout");
+		header("location: ".PAGE_LOGOUT);
 	} else
 	{
 		UserFuctions::checkUserStatus($user);
@@ -24,34 +24,34 @@ if (isset($_SESSION['id'])) {
 		$userFunc->createGroup($groupName, $element_people, $_SESSION['id']);
 	}
 } else {
-	header("location: index.php");
+	header("location: ".HOSTNAME);
 }?>
 <head>
 <?php include('layout/layout_header.php'); ?>
 
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.core.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.core.js"></script>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.widget.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.widget.js"></script>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.position.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.position.js"></script>
 
-<script language="javascript" src="resources/scripts/addGroup.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/addGroup.js"></script>
 
 
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
-<link href="resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
+<link href="<?=HOSTNAME?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
 
 	<script language="javascript"
-		src="resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
+		src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 	<script type="text/javascript">
 			$(function(){
 				$.Placeholder.init();
 			});
 </script>
 
-	<title>Timete Add Group</title>
+	<title>Timety Add Group</title>
 
 </head>
 
@@ -60,7 +60,7 @@ if (isset($_SESSION['id'])) {
 	<div id="personel_info_h">
 		<div class="create_acco_ust">Add Group</div>
 		<div class="personel_info">
-			<form action="addGroup.php" method="post" style="margin-left: 45px;">
+			<form action="" method="post" style="margin-left: 45px;">
 				<input name="te_groupname" type="text" class="user_inpt"
 					id="te_groupname" value="" placeholder="Group Name"
 					onkeyup="checkGroupName(this,<?php echo $_SESSION['id'];?>);"

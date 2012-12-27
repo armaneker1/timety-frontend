@@ -102,7 +102,7 @@ if(isset($_POST["te_email"]))
 					$usr->password=sha1($userpass);
 					$userFunctions->updateUser($usr->id,$usr);
 					$_SESSION['id'] = $usr->id;
-					header("location: index.php");
+					header("location: ".HOSTNAME);
 				}else
 				{
 					$m=new HtmlMessage();
@@ -130,8 +130,8 @@ header("Content-Type: text/html; charset=utf8");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php include('layout/layout_header.php'); ?>
-<title>Timete Signup</title>
-<script type="text/javascript" src="resources/scripts/validate.js"></script>
+<title>Timety Signup</title>
+<script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/validate.js"></script>
 <script type="text/javascript">
 $(function() {
 	$.Placeholder.init();

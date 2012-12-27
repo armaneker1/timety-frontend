@@ -11,7 +11,7 @@ try {
 		$result=$userFunctions->unfollowUser($fromUserId, $toUserId);
 	}else 
 	{
-		$result->error="User Yok";
+		$result->error="User not exists";
 	}
 } catch (Exception $e) {
 	$result->error=$e->getMessage();

@@ -139,7 +139,7 @@ class UserFuctions {
 			$usr=$usrF->getUserById($_SESSION['id']);
 			if(empty($usr) || empty($usr->id) || empty($usr->userName))
 			{
-				header("location: index.php");
+				header("location: ".HOSTNAME);
 			}
 		}
 	}
@@ -152,7 +152,7 @@ class UserFuctions {
 			$usr=$usrF->getUserById($_SESSION['id']);
 			if(!empty($usr) && !empty($usr->id) && !empty($usr->userName))
 			{
-				header("location: index.php");
+				header("location: ".HOSTNAME);
 			}
 		}
 	}
@@ -170,14 +170,14 @@ class UserFuctions {
 			$statu=$user->status;
 			if($statu==0)
 			{
-				header("location: registerPI.php");
+				header("location: ".PAGE_ABOUT_YOU);
 			}else if ($statu==1)
 			{
-				header("location: registerII.php");
+				header("location: ".PAGE_LIKES);
 			}
 			else if ($statu==2)
 			{
-				header("location: suggest-friend.php");
+				header("location: ".PAGE_WHO_TO_FOLLOW);
 			}
 		}
 	}
@@ -1057,6 +1057,21 @@ class DBUtils{
 }
 
 class UtilFUnctions{
+    
+    public static function startsWith($haystack, $needle)
+    {
+        return !strncmp($haystack, $needle, strlen($needle));
+    }
+
+    public static function endsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        if ($length == 0) {
+            return true;
+        }
+
+        return (substr($haystack, -$length) === $needle);
+    }
     
     public static function udate($format, $utimestamp = null)
     {

@@ -15,7 +15,7 @@ header("Content-Type: text/html; charset=utf-8");
 
 if (!isset($_SESSION['id'])) {
 	// Redirection to login page twitter or facebook or foursquare
-	header("location: index.php");
+	header("location: ".HOSTNAME);
 }
 else
 {
@@ -143,16 +143,16 @@ else
 		}
 	} else
 	{
-		header("location: index.php");
+		header("location: ".HOSTNAME);
 	}
 }
 ?>
 <head>
 <?php include('layout/layout_header.php'); ?>
-<title>Timete Friend Suggest</title>
+<title>Timety Friend Suggest</title>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
-<script language="javascript" src="resources/scripts/register.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/register.js"></script>
 <script type="text/javascript">
 			$(function(){
 				$.Placeholder.init();
@@ -201,7 +201,7 @@ else
 				class="googl_plus<?php if($fq) echo '_aktiv';?> back_btn sosyal_icon"></button>
 
 			<button style="visibility: hidden;" id="addSocialReturnButton"
-				onclick="$('#spinner').show();setTimeout(function() { window.location='<?php echo HOSTNAME;?>suggest-friend.php'; $('#spinner').hide();},1000);"></button>
+				onclick="$('#spinner').show();setTimeout(function() { window.location='<?php echo PAGE_WHO_TO_FOLLOW;?>'; $('#spinner').hide();},1000);"></button>
                         <button style="visibility: hidden;" id="addSocialErrorReturnButton" type="button" errorText=""
 					onclick="socialWindowButtonCliked=true;jQuery('#spinner').hide();showRegisterError(this);"></button>
 		</div>
@@ -244,7 +244,7 @@ else
 			<div style="max-height: 50px;height:35px; width: 285px;position: absolute;" id="boot_msg">
 			</div>
 			<button type="button" name="" value="" class="invite_btn" style="float: right;"
-				onclick="window.location='index.php?finish=true'">Finish</button>
+				onclick="window.location='<?=HOSTNAME?>?finish=true'">Finish</button>
 		</div>
 	</div>
          <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>

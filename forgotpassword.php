@@ -42,7 +42,7 @@ if (array_key_exists("te_email", $_POST)) {
 			if(!empty($lss))
 			{
 				$lost=base64_encode($lss->id.";".$userId.";".$guid);
-				UserFuctions::sendEmail("to reset your password please click <a href='".HOSTNAME."rememberpassword.php?guid=".$lost."'>here</a> ","Timety Password Reminder",
+				UserFuctions::sendEmail("to reset your password please click <a href='".PAGE_NEW_PASSWORD."?guid=".$lost."'>here</a> ","Timety Password Reminder",
 						'{"email": "'.$user->email.'",  "name": "'.$user->firstName." ".$user->lastName.'"}');
 					
 				$m=new HtmlMessage();
@@ -66,7 +66,7 @@ header("Content-Type: text/html; charset=utf8");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php include('layout/layout_header.php'); ?>
-<script type="text/javascript" src="resources/scripts/validate.js"></script>
+<script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/validate.js"></script>
 <script type="text/javascript">
 $(function() {
 	$.Placeholder.init();
@@ -101,7 +101,7 @@ $(function() {
 			});
 });
 </script>
-<title>Timete Signup</title>
+<title>Timety Signup</title>
 </head>
 
 <body class="bg">

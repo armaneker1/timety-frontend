@@ -21,7 +21,7 @@ $userProfilePic="";
 
 if (!isset($_SESSION['id'])) {
     // Redirection to login page twitter or facebook or foursquare
-    header("location: index.php");
+    header("location: ".HOSTNAME);
 } else {
     if (isset($_POST['te_username'])) {
         if(isset($_POST['te_userpicture']))
@@ -115,7 +115,7 @@ if (!isset($_SESSION['id'])) {
                 $user = $userFuctions->getUserById($_SESSION['id']);
                 $userFuctions->addUserInfoNeo4j($user);
                 UserFuctions::changeserProfilePic($user->id, $userProfilePic);
-                header('Location: registerPI.php');
+                header('Location: '.PAGE_ABOUT_YOU);
             } else {
                 $m = new HtmlMessage();
                 $m->type = "e";
@@ -189,7 +189,7 @@ if (!isset($_SESSION['id'])) {
                 $visible = false;
             }
         } else {
-            header('Location: index.php');
+            header('Location: '.HOSTNAME);
         }
     }
 }
@@ -198,8 +198,8 @@ if (!isset($_SESSION['id'])) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 <?php include('layout/layout_header.php'); ?>
-                <script language="javascript" src="resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
-                <script type="text/javascript" src="resources/scripts/validate.js"></script>
+                <script language="javascript" src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
+                <script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/validate.js"></script>
                 <script type="text/javascript">
                     $(function() {
                         $.Placeholder.init();
@@ -286,7 +286,7 @@ if (!isset($_SESSION['id'])) {
 
                     function validateUserNameNoEffect(field2) {
                         var field = document.getElementById($(field2).attr('id'));
-                        $.post("checkUserName.php", {
+                        jQuery.post("<?=HOSTNAME?>checkUserName.php", {
                             u : field.value
                         }, function(data) {
                             field.setAttribute("suc", ((($(field2).attr('default')) == field.value) || (!!(data.success))));
@@ -295,14 +295,14 @@ if (!isset($_SESSION['id'])) {
 
                     function validateEmailNoEffect(field2) {
                         var field = document.getElementById($(field2).attr('id'));
-                        $.post("checkEmail.php", {
+                        $.post("<?=HOSTNAME?>checkEmail.php", {
                             e : field.value
                         }, function(data) {
                             field.setAttribute("suc", ((($(field2).attr('default')) == field.value) || (!!(data.success))));
                         }, "json");
                     }
                 </script>
-                <title>Timete Personal Info</title>
+                <title>Timety Personal Info</title>
 
                 </head>
                 <body class="bg">
@@ -310,7 +310,7 @@ if (!isset($_SESSION['id'])) {
                     <div id="personel_info_h">
                         <div class="create_acco_ust">Personel Information</div>
                         <div class="personel_info">
-                            <form action="registerPI.php" method="post" style="margin-left: 48px"
+                            <form action="" method="post" style="margin-left: 48px"
                                   name="registerPI">
                                 <input name="te_username" type="text"
                                        class="user_inpt username icon_bg" id="te_username"

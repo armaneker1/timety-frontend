@@ -34,7 +34,7 @@ function checkGroupName(field, userId) {
 			field.parentNode.insertBefore(spin, field.nextSibling);
 		}
 
-		$.post("checkGroupName.php", {
+		$.post(TIMETY_HOSTNAME+"checkGroupName.php", {
 			g : groupName,
 			u : userId
 		},
@@ -150,7 +150,7 @@ function clear() {
 
 // accept invites
 function accept(groupId, userID) {
-	$.post("responseToGroupInvites.php", {
+	$.post(TIMETY_HOSTNAME+"responseToGroupInvites.php", {
 		g : groupId,
 		u : userID,
 		r :1
@@ -164,7 +164,7 @@ function accept(groupId, userID) {
 
 // reject invites
 function reject(groupId, userID) {
-	$.post("responseToGroupInvites.php", {
+	$.post(TIMETY_HOSTNAME+"responseToGroupInvites.php", {
 		g : groupId,
 		u : userID,
 		r :0

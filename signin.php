@@ -36,7 +36,7 @@ if (array_key_exists("te_username", $_POST)) {
 		{
 			setcookie (COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
 		}
-		header("location: index.php");
+		header("location: ".HOSTNAME);
 	} else
 	{
 		$m=new HtmlMessage();
@@ -52,8 +52,8 @@ header("Content-Type: text/html; charset=utf8");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php include('layout/layout_header.php'); ?>
-<title>Timete Signup</title>
-<script type="text/javascript" src="resources/scripts/validate.js"></script>
+<title>Timety Signup</title>
+<script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/validate.js"></script>
 <script type="text/javascript">
 $(function() {
 	$.Placeholder.init();
@@ -99,15 +99,15 @@ $(function() {
 		<div class="create_acco_alt">
 			<div class="account_sol">
 				<a href="?login&oauth_provider=foursquare"><img
-					src="images/google.png" width="251" height="42" border="0"
+					src="<?=HOSTNAME?>images/google.png" width="251" height="42" border="0"
 					class="user_account" /> </a> <a
-					href="?login&oauth_provider=facebook"><img src="images/face.png"
+					href="?login&oauth_provider=facebook"><img src="<?=HOSTNAME?>images/face.png"
 					width="251" height="42" border="0" class="user_account" /> </a> <a
-					href="?login&oauth_provider=twitter"><img src="images/twitter.png"
+					href="?login&oauth_provider=twitter"><img src="<?=HOSTNAME?>images/twitter.png"
 					width="251" height="42" border="0" class="user_account" /> </a>
 			</div>
 			<div class="account_sag" style="margin-top: 60px;">
-				<form action="signin.php" name="formsignin" method="post">
+				<form action="" name="formsignin" method="post">
 					<input name="te_username" type="text"
 						class="user_inpt username  icon_bg" id="te_username"
 						name="te_username" value="<?=$uname?>" placeholder="User Name" />

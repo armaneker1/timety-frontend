@@ -9,7 +9,7 @@ require 'utils/userFunctions.php';
 session_start();
 if (!isset($_SESSION['id'])) {
 	// Redirection to login page twitter or facebook or foursquare
-	header("location: index.php");
+	header("location: ".HOSTNAME);
 }
 else
 {	
@@ -49,7 +49,7 @@ else
 		$userFuctions->updateUser($_SESSION['id'], $user);
 	
 		
-		header("Location : suggest-friend.php");
+		header("Location : ".PAGE_WHO_TO_FOLLOW);
 		
 		/*foreach($_POST as $name=>$param)
 		 {
@@ -107,7 +107,7 @@ else
 		$categoryList=$userFuctions->getInterestedCategoryList($user->id,4);
 	}else
 	{
-		header("location: index.php");
+		header("location: ".HOSTNAME);
 	}
 }
 ?>
@@ -116,18 +116,18 @@ else
 <head>
 
 <?php include('layout/layout_header.php'); ?>
-<script language="javascript" src="resources/scripts/register.js"></script>
-<script language="javascript" src="resources/scripts/registerutil.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/register.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/registerutil.js"></script>
 
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.core.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.core.js"></script>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.widget.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.widget.js"></script>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.position.js"></script>
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.position.js"></script>
 <script language="javascript"
-	src="resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
-<link href="resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
+	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
+<link href="<?=HOSTNAME?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
 
 	<script type="text/javascript">
 			
@@ -155,7 +155,7 @@ else
 				});
 
 				 jQuery( "#add_like_autocomplete" ).autocomplete({ 
-			            source: "getCategoryToken.php?u=<?php echo $user->id;?>&&c=*", 
+			            source: "<?=HOSTNAME?>getCategoryToken.php?u=<?php echo $user->id;?>&&c=*", 
 			            minLength: 2,
 			            select: function( event, ui ) { insertItem("add_like_ul",ui,'0'); }	
 		         });	
@@ -180,25 +180,25 @@ else
 			});
 	</script>
 	
-	<script src="js/prototype.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript" src="js/checradio.js"></script>
+	<script src="<?=HOSTNAME?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<?=HOSTNAME?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<?=HOSTNAME?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="<?=HOSTNAME?>js/checradio.js"></script>
 	<script>
 		jQuery(document).ready(function() {
                                 jQuery('.on_off_check_box_style').each(function (){
 				    var id=this.id;
-                                    new iPhoneStyle('#'+id,{ widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="images/pyes1.png" width="14" heght="10">', uncheckedLabel: '<img src="images/pno1.png" style="margin-top: 1px;margin-left: 1px;" width="10" heght="10">',  statusChange: function() {changeCheckBoxStatus(id);}});
+                                    new iPhoneStyle('#'+id,{ widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="<?=HOSTNAME?>images/pyes1.png" width="14" heght="10">', uncheckedLabel: '<img src="<?=HOSTNAME?>images/pno1.png" style="margin-top: 1px;margin-left: 1px;" width="10" heght="10">',  statusChange: function() {changeCheckBoxStatus(id);}});
 				});
 		});
 	</script>
 
 
-<title>Timete Personal Information</title>
+<title>Timety Personal Information</title>
 
 </head>
 <body class="bg"
-	onload="checkInterestReady('registerII.php','#spinner','<?php if( !empty($user) ) { echo $user->id; } else { echo "";}?>',false);">
+	onload="checkInterestReady('<?=PAGE_LIKES?>','#spinner','<?php if( !empty($user) ) { echo $user->id; } else { echo "";}?>',false);">
 	<?php include('layout/layout_top.php'); ?>
 	<div class="follow_trans"></div>
 	<?php 
@@ -229,27 +229,27 @@ else
 	<div class="add_timete_ekr">
 		<div class="add_timete_ols">
 			<p class="find_friends">
-				Make your Timete<span class="add_t_k"> Select that you want to add
-					Timete</span>
+				Make your Timety<span class="add_t_k"> Select that you want to add
+					Timety</span>
 			</p>
 			<div class="add_t_btn">
 				<!--<button type="button" name="" value=""
 					class="zmn back_btn sosyal_icon" /> -->
                                     <button type="button" name="" value=""
-                                    <?php if(!$fb) echo "onclick=\"$('#spinner').show();openPopup('fb');checkOpenPopup();\"";?>
+                                    <?php if(!$fb) echo "onclick=\"jQuery('#spinner').show();openPopup('fb');checkOpenPopup();\"";?>
                                             class="face<?php if($fb) echo '_aktiv';?> back_btn sosyal_icon"></button>  
                                 <?php if($tw) {?>
                                     <button type="button" name="" value=""
-                                    <?php if(!$tw) echo "onclick=\"$('#spinner').show();openPopup('tw');checkOpenPopup();\"";?>
+                                    <?php if(!$tw) echo "onclick=\"jQuery('#spinner').show();openPopup('tw');checkOpenPopup();\"";?>
                                             class="tweet<?php if($tw) echo '_aktiv';?> back_btn sosyal_icon"></button>
                                 <?php } ?>
                                 <?php if($fq) {?>
                                     <button type="button" name="" value=""
-                                    <?php if(!$fq)  echo "onclick=\"$('#spinner').show();openPopup('fq');checkOpenPopup();\"";?>
+                                    <?php if(!$fq)  echo "onclick=\"jQuery('#spinner').show();openPopup('fq');checkOpenPopup();\"";?>
                                             class="googl_plus<?php if($fq) echo '_aktiv';?> back_btn sosyal_icon"></button>
                                 <?php } ?>
                                 <button style="visibility: hidden;" id="addSocialReturnButton" type="button"
-					onclick="socialWindowButtonCliked=true;checkInterestReady('<?php echo HOSTNAME;?>registerII.php','#spinner','<?php echo $user->id;?>',true);"></button>
+					onclick="socialWindowButtonCliked=true;checkInterestReady('<?php echo PAGE_LIKES;?>','#spinner','<?php echo $user->id;?>',true);"></button>
                                 <button style="visibility: hidden;" id="addSocialErrorReturnButton" type="button" errorText=""
 					onclick="socialWindowButtonCliked=true;jQuery('#spinner').hide();showRegisterError(this);"></button>
 			</div>
@@ -299,7 +299,7 @@ else
 									for ($i=0; $i< sizeof($interests);$i++)
 									{
 										$val=$interests[$i];
-										$url="images/add_rsm_y.png";
+										$url=HOSTNAME."images/add_rsm_y.png";
 										$url=$userFuctions->getSocialElementPhoto($val->id, $val->socialType);
 										$val->photoUrl=$url;
 											
@@ -376,6 +376,6 @@ else
 		</form>
 	</div>
          <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>
-        <script language="javascript" src="resources/scripts/firefox.js"></script>
+        <script language="javascript" src="<?=HOSTNAME?>resources/scripts/firefox.js"></script>
 </body>
 </html>

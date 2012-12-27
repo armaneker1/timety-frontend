@@ -10,35 +10,35 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
-
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/config.js"></script>
 <!--[if IE]>
     <link  href="ie7_8.css" rel="stylesheet" type="text/css" />
     <link  href="resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
-    <link  href="all_css.css" rel="stylesheet" type="text/css" />
-    <link  href="resources/styles/custom.css" rel="stylesheet" type="text/css" />
+    <link  href="<?=HOSTNAME?>all_css.css" rel="stylesheet" type="text/css" />
+    <link  href="<?=HOSTNAME?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
 <!--<![endif]-->	
-<link  href="resources/styles/slide.css" rel="stylesheet" type="text/css" />
-<link  href="resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
-<link  href="resources/styles/message.css" rel="stylesheet" type="text/css" />
-<link  href="resources/styles/addlike.css" rel="stylesheet" type="text/css" />
-<link  href="style.css" rel="stylesheet" type="text/css"  />
-<link href="resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
+<link  href="<?=HOSTNAME?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
+<link  href="<?=HOSTNAME?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
+<link  href="<?=HOSTNAME?>resources/styles/message.css" rel="stylesheet" type="text/css" />
+<link  href="<?=HOSTNAME?>resources/styles/addlike.css" rel="stylesheet" type="text/css" />
+<link  href="<?=HOSTNAME?>style.css" rel="stylesheet" type="text/css"  />
+<link href="<?=HOSTNAME?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
 
-<script language="javascript" src="resources/scripts/main.js"></script>
-<script language="javascript" src="resources/scripts/jquery/jquery-1.8.2.js"></script>
-<script language="javascript" src="resources/scripts/jquery.sessionphp.js"></script>
-<script language="javascript"  src="resources/scripts/jquery-ui.js"></script>
-<script language="javascript"  src="resources/scripts/date.js"></script>
-<script language="javascript"  src="resources/scripts/jquery.mousewheel.js"></script>
-<script language="javascript"  src="resources/scripts/slides.jquery.js"></script>
-<script language="javascript"  src="resources/scripts/dragdrop.js"></script>
-<script language="javascript"  src="resources/scripts/jquery.wookmark.js"></script>
-<script language="javascript"  src="resources/scripts/wookmarkfiller.js"></script>
-<script language="javascript"  src="resources/scripts/modalpanel.js"></script>
-<script language="javascript"  src="resources/scripts/jquery.jscroll.js"></script>
-<script language="javascript"  src="resources/scripts/bootstrap.js"></script>
-<script language="javascript"  src="resources/scripts/bootbox.js"></script>
-<script language="javascript"  src="resources/scripts/index.js"></script>
-<script language="javascript" src="resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/main.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/jquery/jquery-1.8.2.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/jquery.sessionphp.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/jquery-ui.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/date.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/jquery.mousewheel.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/slides.jquery.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/dragdrop.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/jquery.wookmark.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/wookmarkfiller.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/modalpanel.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/jquery.jscroll.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/bootstrap.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/bootbox.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/index.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>

@@ -19,25 +19,32 @@ if (array_key_exists("guid", $_GET)) {
         if(!empty($guid))
         {
             $array= explode(";", $guid);
-            $userId=$array[0];
-            $userName=$array[1];
-            if(!empty($userId) && !empty($userName))
+            if(!empty($array) && sizeof($array)==2)
             {
-                $uf=new UserFuctions();
-                $user=$uf->getUserById($userId);
-                if(!empty($user) && $user->userName==$userName)
+                $userId=$array[0];
+                $userName=$array[1];
+                if(!empty($userId) && !empty($userName))
                 {
-                    UserFuctions::confirmUser($userId);
-                    $color="green";
-                    $msg="Confirmation is completed";
-                }
-                else
+                    $uf=new UserFuctions();
+                    $user=$uf->getUserById($userId);
+                    if(!empty($user) && $user->userName==$userName)
+                    {
+                        UserFuctions::confirmUser($userId);
+                        $color="green";
+                        $msg="Confirmation is completed";
+                    }
+                    else
+                    {
+                         $msg="User doesn't exist ";
+                    }
+                }else
                 {
-                     $msg="User doesn't exist ";
+                    $msg="User doesn't exist ";
                 }
-            }else
+            }
+            else
             {
-                $msg="User doesn't exist ";
+                $msg="Parameters wrong ";
             }
         }else
         {
@@ -51,11 +58,11 @@ header("Content-Type: text/html; charset=utf8");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php include('layout/layout_header.php'); ?>
-<script type="text/javascript" src="resources/scripts/validate.js"></script>
+<script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/validate.js"></script>
 <script type="text/javascript">
-    setTimeout(function() {window.location="<?=HOSTNAME?>index.php";}, 2000);
+    setTimeout(function() {window.location="<?=HOSTNAME?>";}, 2000);
 </script>
-<title>Timete Confirm</title>
+<title>Timety Confirm</title>
 </head>
 
 <body class="bg">
@@ -65,7 +72,7 @@ header("Content-Type: text/html; charset=utf8");
 		<div class="ts_box" style="font-size: 12px; margin-left: 0px;">
                     <div class="ts_box" style="font-size: 12px;">
 			<span style="color: <?=$color?>; display: block;" id="msg">
-                            <?=$msg?> you will redirect to main page. click <a href="<?=HOSTNAME?>index.php">here</a>
+                            <?=$msg?> you will redirect to main page. click <a href="<?=HOSTNAME?>">here</a>
                         </span>
                     </div>
 		</div>

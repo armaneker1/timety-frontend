@@ -34,15 +34,15 @@ if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empt
 			$_SESSION['oauth_provider'] = 'twitter';
 			if($type==1)
 			{
-				header("Location: index.php");
+				header("Location: ".HOSTNAME);
 			} else
 			{
-				header("Location: registerPI.php");
+				header("Location: ".PAGE_ABOUT_YOU);
 			}
 		}
 		else
 		{
-			header("Location: index.php");
+			header("Location: ".HOSTNAME);
 		}
 	}
 } else {

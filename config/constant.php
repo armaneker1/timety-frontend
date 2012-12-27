@@ -25,4 +25,20 @@ define('DATE_FORMAT', 'Y-m-d');
 //SESSION constant
 define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
 
+
+
+//URLLER
+define('PAGE_TEST', HOSTNAME.'test');
+define('PAGE_ABOUT_YOU', HOSTNAME.'gettingstarted/about-you');
+define('PAGE_WHO_TO_FOLLOW', HOSTNAME.'gettingstarted/who-to-follow');
+define('PAGE_LIKES', HOSTNAME.'gettingstarted/likes');
+define('PAGE_SIGNUP', HOSTNAME.'signup');
+define('PAGE_LOGIN', HOSTNAME.'login');
+define('PAGE_LOGOUT', HOSTNAME.'logout');
+define('PAGE_FORGOT_PASSWORD', HOSTNAME.'forgot-password');
+define('PAGE_NEW_PASSWORD', HOSTNAME.'new-password');
+define('PAGE_CONFIRM', HOSTNAME.'confirm-user');
+
+
+
 ?>

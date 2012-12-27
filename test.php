@@ -21,6 +21,9 @@ require 'utils/userFunctions.php';
  * 
  */
 
+
+var_dump(PAGE_TEST);
+
 $uf=new UserFuctions;
 $nf=new Neo4jFuctions();
 

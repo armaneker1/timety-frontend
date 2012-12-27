@@ -11,7 +11,7 @@ $errortext="";
 
 if(isset($_GET['error']))
 {
-	header('Location: signin.php');
+	header('Location: '.PAGE_LOGIN);
 }
 else if(isset($_GET['add']))
 {
@@ -104,15 +104,15 @@ else
 				$_SESSION['oauth_provider'] = 'foursquare';
 				if($type==1)
 				{
-					header("Location: index.php");
+					header("Location: ".HOSTNAME);
 				} else
 				{
-					header("Location: registerPI.php");
+					header("Location: ".PAGE_ABOUT_YOU);
 				}
 			}
 			else
 			{
-				header("Location: index.php");
+				header("Location: ".HOSTNAME);
 			}
 
 

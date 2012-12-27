@@ -4,13 +4,13 @@ var socialWindowButtonCliked=false;
 
 function openPopup(type) {
 	if (type == 'fb') { 
-		socialWindow=window.open('login-facebook.php?type=1', 'fb_sign',
+		socialWindow=window.open(TIMETY_HOSTNAME+'login-facebook.php?type=1', 'fb_sign',
 				'status=1,toolbar=0,location=0,menubar=0,height=460,width=420');
 	} else if (type == 'tw') {
-		socialWindow=window.open('login-twitter.php?type=1', 'tw_sign',
+		socialWindow=window.open(TIMETY_HOSTNAME+'login-twitter.php?type=1', 'tw_sign',
 				'status=1,toolbar=0,location=0,menubar=0,height=460,width=420');
 	} else if (type == 'fq') {
-		socialWindow=window.open('login-foursquare.php?type=1', 'fq_sign',
+		socialWindow=window.open(TIMETY_HOSTNAME+'login-foursquare.php?type=1', 'fq_sign',
 				'status=1,toolbar=0,location=0,menubar=0,height=460,width=420');
 	}
 	socialWindowOpen=true;
@@ -34,7 +34,7 @@ function checkOpenPopup() {
 function checkInterestReady(location, spinner, userId, check) {
 	jQuery(spinner).show();
 
-	jQuery.post("checkInterestReady.php", {
+	jQuery.post(TIMETY_HOSTNAME+"checkInterestReady.php", {
 		user : userId
 	}, function(data) {
 		if (data.success) {
@@ -54,13 +54,13 @@ function showRegisterError(errorButton)
 {
     jQuery('#boot_msg_gen').empty();
     var text=jQuery(errorButton).attr("errortext");
-    jQuery('#boot_msg_gen').append('<div style="width:100%;" class="alert alert-error">'+text+'<a class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');
+    jQuery('#boot_msg_gen').append('<div style="width:100%;" class="alert alert-error">'+text+'<a class="close" data-dismiss="alert"><img src="'+TIMETY_HOSTNAME+'images/close.png"></img></a></div>');
 }
 
 function checkInterestReady(location, spinner, userId, check) {
 	jQuery(spinner).show();
 
-	jQuery.post("checkInterestReady.php", {
+	jQuery.post(TIMETY_HOSTNAME+"checkInterestReady.php", {
 		user : userId
 	}, function(data) {
 		if (data.success) {
@@ -88,8 +88,8 @@ function inviteUser(emailE,id)
                 while (node.hasChildNodes()) {
                     node.removeChild(node.lastChild);
                 }
-                jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
-		$.post("inviteEmail.php", {
+                jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='"+TIMETY_HOSTNAME+"images/close.png'></img></a></div>");
+		$.post(TIMETY_HOSTNAME+"inviteEmail.php", {
 			e : email,
                         u :id
 		}, function(data) {
@@ -104,7 +104,7 @@ function inviteUser(emailE,id)
 		}, "json");
 	} else 
 	{
-		jQuery('#boot_msg').append("<div class=\"alert alert-error\">Email is invalid<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
+		jQuery('#boot_msg').append("<div class=\"alert alert-error\">Email is invalid<a class=\"close\" data-dismiss=\"alert\"><img src='"+TIMETY_HOSTNAME+"images/close.png'></img></a></div>");
 	}
 	return false;
 }

@@ -35,14 +35,14 @@ if (!empty($user)) {
 		$_SESSION['oauth_provider'] = 'facebook';
 		if($type==1)
 		{
-			header("Location: index.php");
+			header("Location: ".HOSTNAME);
 		} else
 		{
-			header("Location: registerPI.php");
+			header("Location: ".PAGE_ABOUT_YOU);
 		}
 	} else
 	{
-		header("Location: index.php");
+		header("Location: ".HOSTNAME);
 	}
 }else {
 	header('Location: login-facebook.php');

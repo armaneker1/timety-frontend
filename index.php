@@ -13,8 +13,8 @@ if (isset($_GET['finish'])) {
     $userFunc->updateUser($user->id, $user);
     
     $confirm=base64_encode($user->id.";".$user->userName.";".DBUtils::get_uuid());
-    $res=UserFuctions::sendEmail("Dear ".$user->firstName." ".$user->lastName." click to confirm your account <a href='".HOSTNAME."confirm.php?guid=".$confirm."'>here</a> ", "Timety Account Confirmation",'{"email": "'.$user->email.'",  "name": "'.$user->firstName.' '.$user->lastName.'"}');
-    header('Location: index.php');
+    $res=UserFuctions::sendEmail("Dear ".$user->firstName." ".$user->lastName." click to confirm your account <a href='".PAGE_CONFIRM."?guid=".$confirm."'>here</a> ", "Timety Account Confirmation",'{"email": "'.$user->email.'",  "name": "'.$user->firstName.' '.$user->lastName.'"}');
+    header('Location: '.HOSTNAME);
 }
 
 $userFunc = new UserFuctions();
@@ -225,7 +225,7 @@ if (empty($user)) {
                     $m->message = "Event created successfully.";
                     $_SESSION[INDEX_MSG_SESSION_KEY]=  json_encode($m);
                     error_log("redirected ".$_random_session_id);
-                    exit(header('Location: index.php'));
+                    exit(header('Location: '.HOSTNAME));
                 }  catch (Exception $e)
                 {
                     $error = true;
@@ -246,16 +246,16 @@ if (empty($user)) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php include('layout/layout_header.php'); ?>
-        <title>Timete</title>
+        <title>Timety</title>
 
-        <script src="js/prototype.js" type="text/javascript" charset="utf-8"></script>
-        <script src="js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
-        <script src="js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript" src="js/checradio.js"></script>
+        <script src="<?=HOSTNAME?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
+        <script src="<?=HOSTNAME?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
+        <script src="<?=HOSTNAME?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="<?=HOSTNAME?>js/checradio.js"></script>
 
-        <script language="javascript" src="resources/scripts/createEvent.js"></script>
-        <link href="fileuploader.css" rel="stylesheet" type="text/css">
-            <script src="fileuploader.js" type="text/javascript"></script>
+        <script language="javascript" src="<?=HOSTNAME?>resources/scripts/createEvent.js"></script>
+        <link href="<?=HOSTNAME?>fileuploader.css" rel="stylesheet" type="text/css">
+            <script src="<?=HOSTNAME?>fileuploader.js" type="text/javascript"></script>
                <?php
                 if(isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY]))
                 { 
@@ -420,9 +420,9 @@ if (empty($user)) {
             
             
             <!--takvim-->
-            <script type="text/javascript" src="js/takvim/XRegExp.js"></script>  
-            <script type="text/javascript" src="js/takvim/shCore.js"></script>
-            <script type="text/javascript" src="js/takvim/glDatePicker.js"></script>
+            <script type="text/javascript" src="<?=HOSTNAME?>js/takvim/XRegExp.js"></script>  
+            <script type="text/javascript" src="<?=HOSTNAME?>js/takvim/shCore.js"></script>
+            <script type="text/javascript" src="<?=HOSTNAME?>js/takvim/glDatePicker.js"></script>
             <SCRIPT type="text/javascript">
                 jQuery.noConflict();
                 jQuery(document).ready(function()
@@ -442,17 +442,17 @@ if (empty($user)) {
                     jQuery('.timepicker-default').timepicker();
                 });
             </SCRIPT>
-            <link href="js/takvim/takvim.css" rel="stylesheet" type="text/css" />
+            <link href="<?=HOSTNAME?>js/takvim/takvim.css" rel="stylesheet" type="text/css" />
             <!--takvim-->
             <!--saat-->
-            <script type="text/javascript" src="js/saat/bootstrap-timepicker.js"></script>
-            <link href="js/saat/timepicker.css" rel="stylesheet" type="text/css" />
+            <script type="text/javascript" src="<?=HOSTNAME?>js/saat/bootstrap-timepicker.js"></script>
+            <link href="<?=HOSTNAME?>js/saat/timepicker.css" rel="stylesheet" type="text/css" />
             <!--saat-->
 
             <!--auto complete-->
-            <link  href="resources/styles/tokeninput/token-input.css" rel="stylesheet" type="text/css" />
-            <link  href="resources/styles/tokeninput/token-input-facebook.css" rel="stylesheet" type="text/css" />
-            <script type="text/javascript" src="resources/scripts/tokeninput/jquery.tokeninput.js"></script>
+            <link  href="<?=HOSTNAME?>resources/styles/tokeninput/token-input.css" rel="stylesheet" type="text/css" />
+            <link  href="<?=HOSTNAME?>resources/styles/tokeninput/token-input-facebook.css" rel="stylesheet" type="text/css" />
+            <script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
             
             <?php 
             if(!empty($user))

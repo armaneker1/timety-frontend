@@ -10,7 +10,7 @@ if (isset($_SESSION['id'])) {
 	$user=$userFunc->getUserById($_SESSION['id']);
 	if(empty($user))
 	{
-		header("location: logout.php?logout");
+		header("location: ".PAGE_LOGOUT);
 	} else
 	{
 		UserFuctions::checkUserStatus($user);
@@ -18,14 +18,14 @@ if (isset($_SESSION['id'])) {
 }
 else
 {
-	header("location: index.php");
+	header("location: ".HOSTNAME);
 }
 ?>
 <head>
 <?php include('layout/layout_header.php'); ?>
 
-<script language="javascript" src="resources/scripts/events.js"></script>
-<title>Timete Events</title>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/events.js"></script>
+<title>Timety Events</title>
 
 </head>
 
