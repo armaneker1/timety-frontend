@@ -36,3 +36,6 @@ RewriteRule ^timety/confirm-user$ /timety/confirm.php
 
 RewriteRule ^timety/test/$ /timety/test [R]
 RewriteRule ^timety/test$ /timety/test.php
+
+RewriteRule ^timety/index.php/$ /timety/ [R]
+RewriteRule ^timety/index.php$ /timety/ [R]
