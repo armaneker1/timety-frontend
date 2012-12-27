@@ -1203,6 +1203,7 @@ class Neo4jFuctions {
                     foreach($result as $row) {
                             $evt=new Event();
                             $evt->createNeo4j($row['event']);
+                            $eventIds=$eventIds. $evt->id.",";
                             array_push($array, $evt);
                     }
                 }
@@ -1224,6 +1225,7 @@ class Neo4jFuctions {
                     foreach($result as $row) {
                             $evt=new Event();
                             $evt->createNeo4j($row['event']);
+                            $eventIds=$eventIds. $evt->id.",";
                             array_push($array, $evt);
                     }
                 } else if($type==2)
@@ -1239,13 +1241,14 @@ class Neo4jFuctions {
                                            "event.".PROP_EVENT_DESCRIPTION." =~ '.*(?i)".$query_.".*') ";
                                      }
                                      $query=$query."RETURN event, count(*) ORDER BY event.".PROP_EVENT_START_DATE." ASC SKIP ".$pageNumber." LIMIT ".$pageItemCount;
-                    
+                                 
                     $query = new Cypher\Query($client, $query,null);
                     $result = $query->getResultSet();
                     
                     foreach($result as $row) {
                             $evt=new Event();
                             $evt->createNeo4j($row['event']);
+                            $eventIds=$eventIds. $evt->id.",";
                             array_push($array, $evt);
                     }
                 } else

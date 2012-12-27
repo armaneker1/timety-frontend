@@ -91,6 +91,7 @@ function wookmarkHTML(dataArray)
 
         //IMG tag
          var img = document.createElement('img');
+         jQuery(img).attr('eventid',data.id);  
         if(data.headerImage)
         {
             jQuery(img).attr('src',data.headerImage.url);

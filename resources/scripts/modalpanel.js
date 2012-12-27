@@ -1,4 +1,8 @@
 function openModalPanel(id) {
+   /*
+    *Clear dropale
+    */
+    jQuery(".main_dropable_").css('display','none');
     var event_id=id;
     var data = JSON.parse(localStorage.getItem('event_' + event_id));
     data.images=JSON.parse(data.images);
