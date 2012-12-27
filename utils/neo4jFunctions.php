@@ -1256,11 +1256,13 @@ class Neo4jFuctions {
                     echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
                     */
                     $array1= Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
+                    //var_dump($array1);
                     /*
                     echo  $teg."array 1 mysql<p/>";
                     echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
                     */
                     $array2= Neo4jFuctions::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
+                    //var_dump($array2);
                     /*
                     echo  $teg."array 2 gremlin<p/>";
                     echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
