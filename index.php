@@ -52,6 +52,7 @@ if (empty($user)) {
     UserFuctions::checkUserStatus($user);
     $_random_session_id = $user->id . "_" . $_random_session_id;
     if (isset($_POST["te_event_title"])) {
+        
         if (!empty($_POST['rand_session_id'])) {
             $_random_session_id = $_POST['rand_session_id'];
         }
@@ -223,6 +224,7 @@ if (empty($user)) {
                     $m->type = "s";
                     $m->message = "Event created successfully.";
                     $_SESSION[INDEX_MSG_SESSION_KEY]=  json_encode($m);
+                    error_log("redirected ".$_random_session_id);
                     exit(header('Location: index.php'));
                 }  catch (Exception $e)
                 {

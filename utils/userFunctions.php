@@ -337,16 +337,20 @@ class UserFuctions {
 		{
                     if(!empty($headerImage))
                     {
+                        error_log($headerImage);
                         if(!file_exists(UPLOAD_FOLDER."events/".$event->id."/"))
                         {
                             mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
+                            error_log("events createed"."events/".$event->id."/");
                         }
                         if (copy(UPLOAD_FOLDER.$headerImage, UPLOAD_FOLDER."events/".$event->id."/".$headerImage)) {
                              unlink(UPLOAD_FOLDER.$headerImage);
+                              error_log("image copied "." from ".UPLOAD_FOLDER.$headerImage." to ".UPLOAD_FOLDER."events/".$event->id."/".$headerImage);
                         }
                         
                          $img=new Image();
                          $img->url=UPLOAD_FOLDER."events/".$event->id."/".$headerImage;
+                         error_log($img->url);
                          $img->header=1;
                          $img->eventId=$event->id;
                          $size=ImageFunctions::getSize($img->url);
