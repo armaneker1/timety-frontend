@@ -1,0 +1,38 @@
+RewriteEngine On
+
+RewriteRule ^timety/gettingstarted/about-you/$ /gettingstarted/about-you [R]
+RewriteRule ^timety/gettingstarted/about-you$ /timety/registerPI.php
+
+RewriteRule ^timety/gettingstarted/likes/$ /timety/registerII.php [R]
+RewriteRule ^timety/gettingstarted/likes$ /timety/registerII.php
+
+
+RewriteRule ^timety/gettingstarted/who-to-follow/$ /timety/gettingstarted/who-to-follow [R]
+RewriteRule ^timety/gettingstarted/who-to-follow$ /timety/suggest-friend.php
+
+
+RewriteRule ^timety/signup/$ /timety/signup [R]
+RewriteRule ^timety/signup$ /timety/createaccount.php
+
+
+RewriteRule ^timety/login/$ /timety/login [R]
+RewriteRule ^timety/login$ /timety/signin.php
+
+RewriteRule ^timety/logout/$ /timety/logout [R]
+RewriteRule ^timety/logout$ /timety/logout.php?logout=1
+
+
+RewriteRule ^timety/forgot-password/$ /timety/forgot-password [R]
+RewriteRule ^timety/forgot-password$ /timety/forgotpassword.php
+
+
+RewriteRule ^timety/new-password/$ /timety/new-password [R]
+RewriteRule ^timety/new-password$ /timety/rememberpassword.php
+
+
+RewriteRule ^timety/confirm-user/$ /timety/confirm-user [R]
+RewriteRule ^timety/confirm-user$ /timety/confirm.php
+
+
+RewriteRule ^timety/test/$ /timety/test [R]
+RewriteRule ^timety/test$ /timety/test.php
