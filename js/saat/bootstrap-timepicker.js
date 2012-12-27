@@ -67,7 +67,9 @@
                 if (this.template) {
                     this.$element.on({
                         focus: $.proxy(this.showWidget, this),
-                        click: $.proxy(this.showWidget, this)
+                        click: $.proxy(this.showWidget, this),
+                        keypress: $.proxy(this.elementKeypress, this),
+                        keydown: $.proxy(this.elementKeypress, this)
                         //,blur : $.proxy(this.updateFromElementValAndClose, this)
                     });
                 } else {
@@ -219,20 +221,21 @@
                 case 0: //input
                 break;
                 case 9: //tab
-                    this.updateFromElementVal();
+                   this.updateFromElementVal();
                    {
                         if (this.showSeconds) { 
                             if (this.highlightedUnit != 'second') {
-                                e.preventDefault();
+                                //e.preventDefault();
                                 this.highlightNextUnit();
                             }
                         } else {
                             if (this.highlightedUnit != 'minute') {
-                                e.preventDefault();
+                                //e.preventDefault();
                                 this.highlightNextUnit();
                             }
                         }
                     }
+                    this.hideWidget();
                 break;
                 case 27: // escape
                     this.updateFromElementVal();
