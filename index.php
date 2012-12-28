@@ -583,11 +583,11 @@ if (empty($user)) {
                   } else { 
             ?>
             <meta property="og:title" content="Timety"/>
-            <meta property="og:image" content="<?=HOSTNAME?>images/timete.png"/>
+            <meta property="og:image" content="<?=HOSTNAME?>images/logo_fb.jpeg"/>
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
-            <meta property="og:description" content=""/>
-            <meta property="og:url " content="http://timety.com"/>
+            <meta property="og:description" content="Timety"/>
+            <meta property="og:url " content="<?=HOSTNAME?>"/>
             <meta property="fb:app_id  " content="<?=FB_APP_ID?>"/>
             
             <?php } ?>
