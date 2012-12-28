@@ -96,6 +96,7 @@ function openModalPanel(id,custom) {
     jQuery(face.children()[0]).addClass('face');
     jQuery(face.children()[0]).bind("click",shareThisFacebook);
     jQuery(tweet.children()[0]).addClass('tweet');
+     jQuery(tweet.children()[0]).bind("click",function() { shareThisTwitter(data.title); });
     jQuery(gplus.children()[0]).addClass('googl_plus');
 
     
