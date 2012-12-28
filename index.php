@@ -555,7 +555,7 @@ if (empty($user)) {
             ?>
             
             <meta property="og:title" content="<?=$prm_event->title?>"/>
-            <meta property="og:image" content="<?=HOSTNAME.$hdr_img?>"/>
+            <meta property="og:image" content="<?=$hdr_img?>"/>
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="<?=$prm_event->description?>"/>
