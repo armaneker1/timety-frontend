@@ -1,4 +1,5 @@
 <?php
+require 'config/fbconfig.php';
 require 'utils/userFunctions.php';
 session_start();
 
@@ -236,7 +237,7 @@ if (empty($user)) {
                 }
             }
         }
-    }
+    }   
 }
 
 
@@ -532,6 +533,65 @@ if (empty($user)) {
                 });
             </script>
             <!--Placeholder-->
+            
+            
+            
+            <!-- Open Event Popup -->
+            <?php 
+                  $prm_event=null;
+                  if (isset($_GET["eventId"]) && !empty($_GET["eventId"]))
+                  {
+                    $prm_event=$userFunc->getEventById($_GET["eventId"]);
+                  }
+                  
+                  if(!empty($prm_event))
+                  {
+                    $prm_event->getHeaderImage();
+                    $hdr_img=HOSTNAME."images/timete.png";
+                    if(!empty($prm_event->headerImage))
+                    {
+                        $hdr_img=HOSTNAME.$prm_event->headerImage->url;
+                    }
+            ?>
+            
+            <meta property="og:title" content="<?=$prm_event->title?>"/>
+            <meta property="og:image" content="<?=HOSTNAME.$hdr_img?>"/>
+            <meta property="og:site_name" content="Timety"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:description" content="<?=$prm_event->description?>"/>
+            <meta property="og:url " content="<?=PAGE_EVENT.$prm_event->id?>"/>
+            <meta property="fb:app_id  " content="<?=FB_APP_ID?>"/>
+            
+            
+            <script>
+                jQuery(function(){
+                   jQuery.ajax({
+                        type: 'POST',
+                        url: TIMETY_HOSTNAME+'getEvent.php',
+                        data: {
+                            'eventId':'<?=$_GET["eventId"]?>'
+                        },
+                        success: function(data){
+                            openModalPanel('<?=$_GET["eventId"]?>',data);
+                        }
+                    },"json");
+                });
+            </script>
+            
+           
+            <?php 
+                  } else { 
+            ?>
+            <meta property="og:title" content="Timety"/>
+            <meta property="og:image" content="<?=HOSTNAME?>images/timete.png"/>
+            <meta property="og:site_name" content="Timety"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:description" content=""/>
+            <meta property="og:url " content="http://timety.com"/>
+            <meta property="fb:app_id  " content="<?=FB_APP_ID?>"/>
+            
+            <?php } ?>
+            <!-- Open Event Popup -->
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>

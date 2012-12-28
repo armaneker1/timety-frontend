@@ -38,6 +38,7 @@ define('PAGE_LOGOUT', HOSTNAME.'logout');
 define('PAGE_FORGOT_PASSWORD', HOSTNAME.'forgot-password');
 define('PAGE_NEW_PASSWORD', HOSTNAME.'new-password');
 define('PAGE_CONFIRM', HOSTNAME.'confirm-user');
+define('PAGE_EVENT', HOSTNAME.'event/');
 
 
 

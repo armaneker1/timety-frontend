@@ -1,16 +1,26 @@
-function openModalPanel(id) {
+function openModalPanel(id,custom) {
    /*
     *Clear dropale
     */
     jQuery(".main_dropable_").css('display','none');    
-    var event_id=id;
-    var data = JSON.parse(localStorage.getItem('event_' + event_id));
-    data.images=JSON.parse(data.images);
-    if (!data) return;
+    var event_id=null;
+    var data = null;
     
-    if(!addUrlEventId(event_id))
+    if(!custom)
     {
-         return false;    
+        event_id=id;
+        data = JSON.parse(localStorage.getItem('event_' + event_id));
+        data.images=JSON.parse(data.images);
+        if (!data) return;
+        if(!addUrlEventId(event_id))
+        {
+             return false;    
+        }
+    }else
+    {
+        data = JSON.parse(custom);
+        event_id=data.id;
+        if (!data) return;
     }
     
     var detailModalPanelBackground = document.getElementById('div_follow_trans');
