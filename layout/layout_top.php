@@ -79,7 +79,7 @@ if (isset($_SESSION['id'])) {
 				    <li><a href="<?=PAGE_LOGOUT?>">Logout</a></li>
 				  </ul>
 			</div>
-    <div class="avatar"> <a href="#"><img src="<?php if(UtilFUnctions::startsWith($user->getUserPic(),"http")) {echo $user->getUserPic();} else {echo HOSTNAME.$user->getUserPic();} ?>" width="32" height="32" border="0" /></a>
+    <div class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic();?>" width="32" height="32" border="0" /></a>
 			<?php if($user->getUserNotificationCount()) {?>
 			<div class="avtr_box"><?=$user->getUserNotificationCount()?></div>
 			<?php }?>
@@ -91,7 +91,7 @@ if (isset($_SESSION['id'])) {
 				    <li><a href="<?=PAGE_LOGOUT?>">Logout</a></li>
 				  </ul>
 			</div>
-			<div class="avatar"> <a href="#"><img src="<?php if(UtilFUnctions::startsWith($user->getUserPic(),"http")) {echo $user->getUserPic();} else {echo HOSTNAME.$user->getUserPic();} ?>" width="32" height="32" border="0" /></a>
+			<div class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic();?>" width="32" height="32" border="0" /></a>
 			<?php if($user->getUserNotificationCount()) {?>
 			<div class="avtr_box"><?=$user->getUserNotificationCount()?></div>
 			<?php }?>

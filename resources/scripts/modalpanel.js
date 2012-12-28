@@ -313,7 +313,7 @@ function openModalPanel(id) {
                     jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol");
                     
                     var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",TIMETY_HOSTNAME+e.userPic);
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
                     jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
                     jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
                     jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
@@ -460,35 +460,51 @@ function closeModalPanel() {
 
 function addUrlEventId(event_id)
 {
-     /*
-     * Url rewrite
-     */
-    var url_=window.location.href.split("/");
-    if(url_)
-    {
-        if(jQuery.inArray("event",url_)<0)
+    if (history.pushState) {
+        /*
+         * Url rewrite
+         */
+        var url_=window.location.href.split("/");
+        if(url_)
         {
-              window.History.pushState(null, null, "event/"+event_id);  
+            if(jQuery.inArray("event",url_)<0)
+            {
+                  window.History.pushState(null, null, "event/"+event_id);  
+            }else
+            {
+                  path="";
+                  for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
+                  {
+                         path=path+"/"+url_[i];
+                  }
+                  window.History.pushState(null, null, path+"/"+"event/"+event_id);  
+            }
         }
+    }
+    else
+    {
+        window.location=TIMETY_PAGE_EVENT_DETAIL+event_id;
     }
 }
 
 function remUrlEventId()
 {
-    /*
-     * Url rewrite
-     */
-    var url_=window.location.href.split("/");
-    if(url_)
-    {
-        if(jQuery.inArray("event",url_)>=0)
+    if (history.pushState) {
+        /*
+         * Url rewrite
+         */
+        var url_=window.location.href.split("/");
+        if(url_)
         {
-              var path="";
-              for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
-              {
-                     path=path+"/"+url_[i];
-              }
-              window.History.pushState(null, null, path+"/");  
+            if(jQuery.inArray("event",url_)>=0)
+            {
+                  var path="";
+                  for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
+                  {
+                         path=path+"/"+url_[i];
+                  }
+                  window.History.pushState(null, null, path+"/");  
+            }
         }
     }
 }
@@ -519,7 +535,7 @@ function openAllComments(all_comments)
                 jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol");
 
                 var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",TIMETY_HOSTNAME+e.userPic);
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
                 jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
                 jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
                 jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
@@ -574,7 +590,7 @@ function sendComment(){
                 jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol");
 
                 var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",TIMETY_HOSTNAME+data.userPic);
+                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",data.userPic);
                 jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
                 jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
                 jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");

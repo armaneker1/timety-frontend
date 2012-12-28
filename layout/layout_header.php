@@ -12,8 +12,8 @@
 
 <script language="javascript" src="<?=HOSTNAME?>config/config.js"></script>
 <!--[if IE]>
-    <link  href="ie7_8.css" rel="stylesheet" type="text/css" />
-    <link  href="resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
+    <link  href="<?=HOSTNAME?>ie7_8.css" rel="stylesheet" type="text/css" />
+    <link  href="<?=HOSTNAME?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
     <link  href="<?=HOSTNAME?>all_css.css" rel="stylesheet" type="text/css" />

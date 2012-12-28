@@ -22,10 +22,8 @@ require 'utils/userFunctions.php';
  */
 
 
-var_dump(PAGE_TEST);
+var_dump(UtilFUnctions::startsWith("http://ssadsd","http"));
 
-$uf=new UserFuctions;
-$nf=new Neo4jFuctions();
 
 /*var_dump(strtotime("now"));
 
@@ -46,7 +44,7 @@ foreach ($result as $row) {
  * 
  */
 
-
+/*
 
 $type=0;
 if(isset($_GET["type"]))
@@ -103,7 +101,7 @@ if($type==0)
      echo "<h1>Anasayfada gozukecek olan eventler</h1>";
      var_dump($nf->getEvents($userId, 0, 100,  $date, null, 1));
 }
-
+*/
 //var_dump($nf->getPopuparEventsByTag(1, 0, 15, "1999-01-01 09:09:09", null));
 //var_dump($nf->getAllOtherEvents(1, 0, 150, "1999-01-01 09:09:09", null));
 

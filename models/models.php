@@ -46,7 +46,10 @@ class User {
 	{
             if(!empty($this->userPicture))
             {
-		return $this->userPicture;
+                if(UtilFUnctions::startsWith( $this->userPicture,"http"))
+                    return $this->userPicture;
+                else 
+                    return HOSTNAME.$this->userPicture;
             }else
             {
                 return HOSTNAME."images/anonymous.jpg";
