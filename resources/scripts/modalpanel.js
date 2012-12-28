@@ -663,7 +663,7 @@ function joinEvent(button,eventId)
                         }else
                         {
                             jQuery('#boot_msg').empty();
-                            jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success">joined event<a class="close" data-dismiss="alert"><img src="'+ITMETY_HOSTNAME+'images/close.png"></img></a></div>');   
+                            jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success">joined event<a class="close" data-dismiss="alert"><img src="'+TIMETY_HOSTNAME+'images/close.png"></img></a></div>');   
                         }
                     },
                     error : function(error_data){
