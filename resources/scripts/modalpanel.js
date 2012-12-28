@@ -94,9 +94,11 @@ function openModalPanel(id,custom) {
         joinEvent(zmn.children()[0], event_id) });
     // add Join butonu ekle
     jQuery(face.children()[0]).addClass('face');
+    jQuery(face.children()[0]).bind("click",shareThisFacebook);
     jQuery(tweet.children()[0]).addClass('tweet');
     jQuery(gplus.children()[0]).addClass('googl_plus');
 
+    
     jQuery(gdy_sagDIV).append(zmn);
     jQuery(gdy_sagDIV).append(face);
     jQuery(gdy_sagDIV).append(tweet);

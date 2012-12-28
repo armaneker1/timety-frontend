@@ -348,3 +348,31 @@ span.rollover:hover {
     right: 450px;
     display: none;
 }
+
+.cr_acc_hover {
+                font-family: Arial;
+                font-size: 12px;
+                font-weight: bold;
+                color: #626262;
+                text-decoration: none;
+                background-image: url(../../images/creat_hover.png);
+                border-radius: 5px 0px 0px 5px;
+                border-right-width: 1px;
+                border-right-style: solid;
+                border-right-color: #bbbbbb;
+                margin-right: -1px;
+}
+
+.sgn_in_hover {
+                font-family: Arial;
+                font-size: 12px;
+                font-weight: bold;
+                color: #626262;
+                text-decoration: none;
+                background-image: url(../../images/creat_hover.png);
+                border-radius: 0px 5px 5px 0px;
+                border-left-width: 1px;
+                border-left-style: solid;
+                border-left-color: #bbbbbb;
+                line-height: 36px;
+}

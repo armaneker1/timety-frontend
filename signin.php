@@ -1,6 +1,7 @@
 <?php
 require 'utils/userFunctions.php';
 session_start();
+$sign_page_type="signin";
 UserFuctions::checkNotLoggedinUser();
 $msgs=array();
 if (array_key_exists("login", $_GET)) {

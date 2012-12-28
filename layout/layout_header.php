@@ -36,6 +36,7 @@
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/slides.jquery.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/dragdrop.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/jquery.wookmark.js"></script>
+<script language="javascript" src="<?=HOSTNAME?>resources/scripts/social.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/wookmarkfiller.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/modalpanel.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/jquery.jscroll.js"></script>

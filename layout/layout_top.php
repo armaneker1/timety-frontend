@@ -97,8 +97,24 @@ if (isset($_SESSION['id'])) {
 			<?php }?>
 			</div>
 			
-		<?php }} else { ?>
-			<div class="t_account"><a href="<?=PAGE_SIGNUP?>">create account</a> | <a href="<?=PAGE_LOGIN?>">sign-in </a></div>
+		<?php }} else {
+                    
+                        $signin_class="";
+                        $create_class="";
+                    
+                        if(!empty($sign_page_type) && $sign_page_type=="createaccount")
+                        {
+                            $create_class="cr_acc_hover";
+                        }
+                        
+                        if(!empty($sign_page_type) && $sign_page_type=="signin")
+                        {
+                            $signin_class="sgn_in_hover";
+                        }
+                    
+                    ?>
+			<div class="t_account"><a href="<?=PAGE_SIGNUP?>" class="cr_acc <?=$create_class?>">create account</a><a href="<?=PAGE_LOGIN?>" class="sgn_in <?=$signin_class?>">sign-in </a></div>
+                        
 		<?php } ?>
 	</div>
 </div>

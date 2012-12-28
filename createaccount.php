@@ -3,6 +3,7 @@
 <?php
 require 'utils/userFunctions.php';
 session_start();
+$sign_page_type="createaccount";
 header("Content-Type: text/html; charset=utf8");
 UserFuctions::checkNotLoggedinUser();
 
