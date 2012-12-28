@@ -12,15 +12,15 @@ function makeMeDraggable() {
         }, 
         start: function(event, ui) {
            jQuery(".main_dropable_").css('display','block');
-           /*ui.helper.bind("click.prevent",
+           ui.helper.bind("click.prevent",
                 function(event) {
                     event.preventDefault();
-           });*/
+           });
         },
         stop: function(event, ui) {
-           /* setTimeout(function(){
+            setTimeout(function(){
                 ui.helper.unbind("click.prevent");
-            }, 300);*/
+            }, 300);
             jQuery(".main_dropable_").css('display','none');
         },
         revert :"invalid",
@@ -67,11 +67,11 @@ function dropJoinEvent(userId,eventId)
                             if(data.error)
                             {
                                 jQuery('#boot_msg').empty();
-                                jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-error">An Error Occured<a class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');
+                                jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-error">An Error Occured<a class="close" data-dismiss="alert"><img src="'+ TIMETY_HOSTNAME + 'images/close.png"></img></a></div>');
                             }else
                             {
                                 jQuery('#boot_msg').empty();
-                                jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success">joined event<a class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');   
+                                jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success">joined event<a class="close" data-dismiss="alert"><img src="'+ TIMETY_HOSTNAME + 'images/close.png"></img></a></div>');   
                             }
                         },
                         error : function(error_data){

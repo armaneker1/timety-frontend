@@ -87,11 +87,12 @@ function wookmarkHTML(dataArray)
         // img DIV
         var imgDiv = document.createElement('div');
         jQuery(imgDiv).addClass('m_e_img');    
-        jQuery(imgDiv).attr('onclick','return openModalPanel('+data.id+');');
+        //jQuery(imgDiv).attr('onclick','return openModalPanel('+data.id+');');
 
         //IMG tag
          var img = document.createElement('img');
          jQuery(img).attr('eventid',data.id);  
+         jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
         if(data.headerImage)
         {
             jQuery(img).attr('src',TIMETY_HOSTNAME+data.headerImage.url);
