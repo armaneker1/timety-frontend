@@ -55,14 +55,34 @@ function openModalPanel(id,custom) {
 
     var gdySolP2 = document.createElement('p');
     var gdySolP2DIV=document.createElement('div');
-    jQuery(gdySolP2DIV).attr('style', 'width:560px;height:295px;text-align:center;');
+    jQuery(gdySolP2DIV).attr('style', 'width:560px;max-width:560px;height:295px;text-align:center;');
     var gdySolP2Img = document.createElement('img');
     if(data.headerImage && data.headerImage.url)
     {
-         jQuery(gdySolP2Img).attr('src', TIMETY_HOSTNAME+data.headerImage.url);   
+        var myImage = new Image();
+        myImage.src = TIMETY_HOSTNAME+data.headerImage.url;
+        var width=myImage.width;
+        var height=myImage.height;
+        
+        if(560>width)
+        {
+             console.log("smaller");
+        }else
+        {
+             console.log("bigger");
+             height=(560/width)*height;
+             width=560;
+        }
+        
+        jQuery(gdySolP2DIV).css('height',height);
+        jQuery(gdySolP2Img).attr('width', width);
+        //jQuery(gdySolP2Img).attr('height', height);
+        jQuery(gdySolP2Img).attr('src', TIMETY_HOSTNAME+data.headerImage.url);   
+    }else
+    {
+        //jQuery(gdySolP2Img).attr('width', 560);
+        jQuery(gdySolP2Img).attr('height', 295);
     }
-    //jQuery(gdySolP2Img).attr('width', 560);
-    jQuery(gdySolP2Img).attr('height', 295);
     jQuery(gdySolP2Img).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
 
     jQuery(gdySolP2DIV).append(gdySolP2Img);
