@@ -8,7 +8,10 @@ function openModalPanel(id) {
     data.images=JSON.parse(data.images);
     if (!data) return;
     
-    addUrlEventId(event_id);
+    if(!addUrlEventId(event_id))
+    {
+         return false;    
+    }
     
     var detailModalPanelBackground = document.getElementById('div_follow_trans');
     jQuery(detailModalPanelBackground).attr('onclick','closeModalPanel()');
@@ -484,7 +487,9 @@ function addUrlEventId(event_id)
     else
     {
         window.location=TIMETY_PAGE_EVENT_DETAIL+event_id;
+        return false;
     }
+    return true;
 }
 
 function remUrlEventId()

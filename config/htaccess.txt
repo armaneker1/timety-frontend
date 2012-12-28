@@ -1,6 +1,6 @@
 RewriteEngine On
 
-RewriteRule ^timety/gettingstarted/about-you/$ /gettingstarted/about-you [R]
+RewriteRule ^timety/gettingstarted/about-you/$ /timety/gettingstarted/about-you [R]
 RewriteRule ^timety/gettingstarted/about-you$ /timety/registerPI.php
 
 RewriteRule ^timety/gettingstarted/likes/$ /timety/registerII.php [R]
@@ -36,6 +36,12 @@ RewriteRule ^timety/confirm-user$ /timety/confirm.php
 
 RewriteRule ^timety/test/$ /timety/test [R]
 RewriteRule ^timety/test$ /timety/test.php
+
+RewriteRule ^timety/event/([0-9]+)/$ /timety/event/$1
+RewriteRule ^timety/event/([0-9]+)$ /timety/?eventId=$1
+
+RewriteRule ^timety/event/$ /timety/ [R]
+RewriteRule ^timety/event$ /timety/ [R]
 
 RewriteRule ^timety/index.php/$ /timety/ [R]
 RewriteRule ^timety/index.php$ /timety/ [R]
