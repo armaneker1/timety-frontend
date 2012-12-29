@@ -279,6 +279,7 @@ class Neo4jFuctions {
                                                             {
                                                                 $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                                             }
+                                                            UserFuctions::sendEmail($user->firstName." ".$user->lastName." wants you to join <a href='".PAGE_EVENT.$event->id."'>".$event->title."</a> event. please click <a href='".PAGE_SIGNUP."'>here</a> ", "Timety Event invitation",'{"email": "'.$email.'",  "name": "'.$email.' "}');
                                                         }                                                         
                                                      }
                                                }
