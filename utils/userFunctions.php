@@ -383,7 +383,7 @@ class UserFuctions {
 	{
 		if($this->check_email_address($email))
 		{
-                        $SQL="SELECT id FROM ".TBL_USERS." WHERE email = '$email' AND (status!=0 AND invited!=1)";
+                        $SQL="SELECT id FROM ".TBL_USERS." WHERE email = '$email' AND invited!=1";
                         $query = mysql_query($SQL) or die(mysql_error());
 
 			$result = mysql_fetch_array($query);
