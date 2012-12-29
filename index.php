@@ -67,7 +67,7 @@ if (empty($user)) {
             $m->type = "e";
             $m->message = "Event Title can not be empty";
             array_push($msgs, $m);
-        } else {
+        } 
             $event->location = $_POST["te_event_location"];
             if (empty($event->location)) {
                 $error = true;
@@ -236,7 +236,6 @@ if (empty($user)) {
                     array_push($msgs, $m);
                 }
             }
-        }
     }   
 }
 

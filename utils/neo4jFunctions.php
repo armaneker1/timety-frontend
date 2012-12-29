@@ -1019,25 +1019,34 @@ class Neo4jFuctions {
                         {
                             if(!empty($att))
 			    {
-                                $parts = explode('_', $att);
-                                $type=$parts[0];
-				$id=$parts[1];
-				if($type=='u')
-				{
-                                    $usr=$userIndex->findOne(PROP_USER_ID,$id);
-                                    if(!empty($usr))
+                                 $att_=  explode(";",$att);
+                                 if(sizeof($att_)==2)
+                                 {
+                                    $obj=array('id'=>$att,'label'=>$att_[1]);
+                                    array_push($result, $obj);
+                                 }else
+                                 {
+                                    $parts = explode('_', $att);
+                                    $type=$parts[0];
+                                    $id=$parts[1];
+                                    if($type=='u')
                                     {
-					$obj=array('id'=>$att,'label'=>($usr->getProperty(PROP_USER_FIRSTNAME)." ".$usr->getProperty(PROP_USER_LASTNAME)));
-                                        array_push($result, $obj);
+                                        $usr=$userIndex->findOne(PROP_USER_ID,$id);
+                                        if(!empty($usr))
+                                        {
+                                            $obj=array('id'=>$att,'label'=>($usr->getProperty(PROP_USER_FIRSTNAME)." ".$usr->getProperty(PROP_USER_LASTNAME)));
+                                            array_push($result, $obj);
+                                        }
+                                    } else if ($type=='g'){
+                                        $grp=$groupIndex->findOne(PROP_GROUP_ID,$id);
+                                        if(!empty($grp))
+                                        {
+                                            $obj=array('id'=>$att,'label'=>$grp->getProperty(PROP_GROUP_NAME));
+                                            array_push($result, $obj);
+                                        }
                                     }
-                                } else if ($type=='g'){
-                                    $grp=$groupIndex->findOne(PROP_GROUP_ID,$id);
-                                    if(!empty($grp))
-                                    {
-                                        $obj=array('id'=>$att,'label'=>$grp->getProperty(PROP_GROUP_NAME));
-                                        array_push($result, $obj);
-                                    }
-				}
+                                 }
+                                
                             }
 			}
                         $json_response = json_encode($result);
