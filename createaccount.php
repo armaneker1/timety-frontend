@@ -98,7 +98,7 @@ try {
 					$_SESSION['id'] = $user->id;
 					$_SESSION['username'] = $user->userName;
 					$_SESSION['oauth_provider'] = 'timety';
-					header("Location: ".PAGE_WHO_TO_FOLLOW);
+					exit(header("Location: ".PAGE_WHO_TO_FOLLOW));
 				} else
 				{
 					$m=new HtmlMessage();

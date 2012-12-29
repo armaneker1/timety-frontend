@@ -271,6 +271,7 @@ class Neo4jFuctions {
                                                         $emailUser->userName="invite_".$email;
                                                         $emailUser->password=sha1(rand(100000, 9999999));
                                                         $emailUser->status=0;
+                                                        $emailUser->invited=1;
                                                         $emailUser=$uf->createUser($emailUser,USER_TYPE_INVITED);
                                                         if(!empty($emailUser))
                                                         {
@@ -279,7 +280,8 @@ class Neo4jFuctions {
                                                             {
                                                                 $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                                             }
-                                                            UserFuctions::sendEmail($user->firstName." ".$user->lastName." wants you to join <a href='".PAGE_EVENT.$event->id."'>".$event->title."</a> event. please click <a href='".PAGE_SIGNUP."'>here</a> ", "Timety Event invitation",'{"email": "'.$email.'",  "name": "'.$email.' "}');
+                                                            $res=UserFuctions::sendEmail($user->firstName." ".$user->lastName." wants you to join <a href='".PAGE_EVENT.$event->id."'>".$event->title."</a> event. please click <a href='".PAGE_SIGNUP."'>here</a> ", "Timety Event invitation",'{"email": "'.$email.'",  "name": "'.$email.' "}');
+                                                            var_dump($res);
                                                         }                                                         
                                                      }
                                                }
@@ -499,27 +501,43 @@ class Neo4jFuctions {
 				return false;
 			} else
 			{
-				$usr = $client->makeNode();
-				$usr->setProperty(PROP_USER_ID, $userId);
-				$usr->setProperty(PROP_USER_USERNAME, $userName);
-                                if($type==USER_TYPE_INVITED)
+                                $usr=$userIndex->findOne(PROP_USER_ID, $userId);
+                                if(!empty($usr))
                                 {
-                                    $type=USER_TYPE_NORMAL;
-                                    $usr->setProperty(PROP_USER_CM_INVITED,true);
+                                    $userIndex->remove($usr, PROP_USER_USERNAME,  $usr->getProperty(PROP_USER_USERNAME));
+                                    $usr->setProperty(PROP_USER_USERNAME, $userName);
+                                    $usr->setProperty(PROP_USER_TYPE,$type);
+                                    $usr->save();
+                                    $userIndex->add($usr, PROP_USER_USERNAME,  $userName);
+                                    
+                                    $userIndex->save();
+                                    return true;
+                                }else
+                                {
+                                    $usr = $client->makeNode();
+                                    $usr->setProperty(PROP_USER_ID, $userId);
+                                    $usr->setProperty(PROP_USER_USERNAME, $userName);
+                                    $usr->setProperty(PROP_USER_CM_INVITED,false);
+                                    if($type==USER_TYPE_INVITED)
+                                    {
+                                        $type=USER_TYPE_NORMAL;
+                                        $usr->setProperty(PROP_USER_CM_INVITED,true);
+                                    }
+                                    $usr->setProperty(PROP_USER_TYPE,$type);
+                                    $usr->save();
+
+
+                                    $userIndex->add($usr, PROP_USER_ID, $userId);
+                                    $userIndex->add($usr, PROP_USER_USERNAME,  $userName);
+
+                                    $userIndex->save();
+                                    $root_usr->relateTo($usr, REL_USER)->save();
+                                    return true;
                                 }
-				$usr->setProperty(PROP_USER_TYPE,$type);
-				$usr->save();
-
-
-				$userIndex->add($usr, PROP_USER_ID, $userId);
-				$userIndex->add($usr, PROP_USER_USERNAME,  $userName);
-
-				$userIndex->save();
-				$root_usr->relateTo($usr, REL_USER)->save();
-				return true;
 			}
 		} catch (Exception $e) {
-			log("Error",$e->getMessage());
+                        var_dump($e);
+			//log("Error",$e->getMessage());
 			return false;
 		}
 	}

@@ -18,6 +18,7 @@ class User {
 			$this->type=$result['type'];
                         $this->confirm=$result['confirm'];
                         $this->userPicture=$result['userPicture'];
+                        $this->invited=$result['invited'];
 		}
 	}
         
@@ -35,6 +36,7 @@ class User {
 	public $socialProviders=array();
         public $confirm=0;
         public $userPicture;
+        public $invited=0;
 
 
         public function getFullName()
