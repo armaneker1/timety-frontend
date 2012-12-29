@@ -10,7 +10,7 @@ define('UPLOAD_FOLDER','uploads/');
 
 define('USER_TYPE_NORMAL', 0);
 define('USER_TYPE_VERIFIED', 1);
-
+define('USER_TYPE_INVITED', 2);
 
 define('COOKIE_KEY_UN','tmfblckius');
 define('COOKIE_KEY_PSS','tmfblckipss');

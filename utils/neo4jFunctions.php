@@ -140,6 +140,7 @@ class Neo4jFuctions {
 	}
 	function createEvent(Event $event,User $user){
 		try {
+                    
 			$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 			$eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
 			$categoryIndex = new Index($client, Index::TypeNode, IND_CATEGORY_LEVEL2);
@@ -161,7 +162,7 @@ class Neo4jFuctions {
 			$evnt->setProperty(PROP_EVENT_PRIVACY, $event->privacy);
                         $evnt->setProperty(PROP_EVENT_WEIGHT, 10);
 			$evnt->save();
-			
+                        
 			$eventIndex->add($evnt, PROP_EVENT_ID, $eventId);
 			$eventIndex->save();
 			if(!empty($event->categories) )
@@ -242,6 +243,47 @@ class Neo4jFuctions {
 				{
 					if(!empty($att))
 					{
+                                            
+                                            $att_=  explode(";",$att);
+                                            if(sizeof($att_)==2)
+                                            {
+                                               $uf=new UserFuctions();
+                                               $email=$att_[1];
+                                               if(!empty($email))
+                                               {
+                                                     //check  if email exist
+                                                     $emailUser=  $uf->getUserByEmail($email);
+                                                     if(!empty($emailUser))
+                                                     {
+                                                        $emailUser=$userIndex->findOne(PROP_USER_ID, $emailUser->id);
+                                                        if(!empty($emailUser))
+                                                        {
+                                                            $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
+                                                        }
+                                                     }
+                                                     
+                                                     // if not 
+                                                     // create a new dummy user and send email to join event
+                                                     if(empty($emailUser))
+                                                     {
+                                                        $emailUser=new User();
+                                                        $emailUser->email=$email;
+                                                        $emailUser->userName="invite_".$email;
+                                                        $emailUser->password=sha1(rand(100000, 9999999));
+                                                        $emailUser->status=0;
+                                                        $emailUser=$uf->createUser($emailUser,USER_TYPE_INVITED);
+                                                        if(!empty($emailUser))
+                                                        {
+                                                            $emailUser=$userIndex->findOne(PROP_USER_ID, $emailUser->id);
+                                                            if(!empty($emailUser))
+                                                            {
+                                                                $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
+                                                            }
+                                                        }                                                         
+                                                     }
+                                               }
+                                            }else
+                                            {
 						$parts = explode('_', $att);
 						$type=$parts[0];
 						$id=$parts[1];
@@ -264,7 +306,7 @@ class Neo4jFuctions {
 							}
 
 						}
-
+                                            }
 					}
 				}
                             }
@@ -459,6 +501,11 @@ class Neo4jFuctions {
 				$usr = $client->makeNode();
 				$usr->setProperty(PROP_USER_ID, $userId);
 				$usr->setProperty(PROP_USER_USERNAME, $userName);
+                                if($type==USER_TYPE_INVITED)
+                                {
+                                    $type=USER_TYPE_NORMAL;
+                                    $usr->setProperty(PROP_USER_CM_INVITED,true);
+                                }
 				$usr->setProperty(PROP_USER_TYPE,$type);
 				$usr->save();
 
@@ -1332,24 +1379,27 @@ class Neo4jFuctions {
                     $dublicateKeys=array();
                     $low=new Event();
                     $evnt=new Event();
-                    $low=$array[0];
-                    $low_indx=0;
-                    array_push($dublicateKeys, $low->id);
-                    $eventIds=$eventIds. $low->id.",";
-                    for($i=1;$i<sizeof($array);$i++)
+                    if(!empty($array))
                     {
-                        $evnt=$array[$i];
-                        if(!in_array($evnt->id, $dublicateKeys))
+                        $low=$array[0];
+                        $low_indx=0;
+                        array_push($dublicateKeys, $low->id);
+                        $eventIds=$eventIds. $low->id.",";
+                        for($i=1;$i<sizeof($array);$i++)
                         {
-                            array_push($dublicateKeys, $evnt->id);
-                            $eventIds=$eventIds. $evnt->id.",";
-                        }
-                        if($low->startDateTimeLong>$evnt->startDateTimeLong)
-                        {
-                            $array[$i]=$array[$low_indx];
-                            $array[$low_indx]=$evnt;
-                            $low=$evnt;
-                            $low_indx=$i;
+                            $evnt=$array[$i];
+                            if(!in_array($evnt->id, $dublicateKeys))
+                            {
+                                array_push($dublicateKeys, $evnt->id);
+                                $eventIds=$eventIds. $evnt->id.",";
+                            }
+                            if($low->startDateTimeLong>$evnt->startDateTimeLong)
+                            {
+                                $array[$i]=$array[$low_indx];
+                                $array[$low_indx]=$evnt;
+                                $low=$evnt;
+                                $low_indx=$i;
+                            }
                         }
                     }
                     /*

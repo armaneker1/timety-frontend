@@ -369,7 +369,7 @@ class UserFuctions {
 		$query = mysql_query("SELECT * FROM ".TBL_EVENTS." WHERE id=".$id) or die(mysql_error());
 		$result = mysql_fetch_array($query);
 		$event=new Event();
-		$event->create($result);
+		$event->create($result,FALSE);
 		if(!empty($event->id))
 		{
 			return $event;
@@ -498,14 +498,14 @@ class UserFuctions {
             }
 	}
 
-	function createUser(User $user)
+	function createUser(User $user,$usertype=USER_TYPE_NORMAL)
 	{
 		$query = mysql_query("INSERT INTO ".TBL_USERS." (username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture) VALUES ('$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture')") or die(mysql_error());
 		//create user for neo4j
 		$user=$this->getUserByUserName($user->userName);
 		try {
 			$n=new Neo4jFuctions();
-			if(!$n->createUser($user->id, $user->userName))
+			if(!$n->createUser($user->id, $user->userName,$usertype))
 			{
 				$user->saved=0;
 				$this->updateUser($user->id, $user);

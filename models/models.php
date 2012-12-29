@@ -135,7 +135,7 @@ class Interest{
 
 class Event{
 	
-	public function  create($result)
+	public function  create($result,$additionalData=TRUE)
 	{
 		if(!empty($result))
 		{
@@ -156,10 +156,13 @@ class Event{
 			$this->addsocial_fq=$result['addsocial_fq'];
 			$this->addsocial_tw=$result['addsocial_tw'];
 		}
-                $this->setAdditionalData();
+                if(!empty($additionalData) && $additionalData)
+                {
+                    $this->setAdditionalData();
+                }
 	}
 	
-	public function  createNeo4j($result)
+	public function  createNeo4j($result,$additionalData=TRUE)
 	{
 		if(!empty($result))
 		{
@@ -173,7 +176,10 @@ class Event{
                         $this->endDateTime=date(DATETIME_DB_FORMAT,$this->endDateTimeLong);
 			$this->privacy=$result->getProperty(PROP_EVENT_PRIVACY);
 		}
-                $this->setAdditionalData();
+                if(!empty($additionalData) && $additionalData)
+                {
+                    $this->setAdditionalData();
+                }
 	}
         
         public function copyEvent($tmp)

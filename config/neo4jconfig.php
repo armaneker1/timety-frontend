@@ -42,6 +42,7 @@ define('PROP_USER_USERNAME', 'username');
 define('PROP_USER_FIRSTNAME', 'firstName');
 define('PROP_USER_LASTNAME', 'lastName');
 define('PROP_USER_TYPE', 'type');
+define('PROP_USER_CM_INVITED', 'type');
 
 define('PROP_CATEGORY_ID', 'id');
 define('PROP_CATEGORY_NAME', 'name');
