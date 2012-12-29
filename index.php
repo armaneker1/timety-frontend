@@ -514,7 +514,8 @@ if (empty($user)) {
                         placeholder : "add people manually",
                         preventDuplicates : true,
                         input_width:160,
-                        add_maunel:false,
+                        add_maunel:true,
+                        add_mauel_validate_function : validateEmailRegex,
                         propertyToSearch: "label",
                         onAdd: function() {
                             return true;

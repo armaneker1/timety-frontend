@@ -21,8 +21,10 @@
 		placeholder : "",
 		input_width:70,
 		add_maunel:false,
+                add_mauel_validate_function : null,
 		// TODO ben ekledim
-		searchDelay : 300,
+		
+                searchDelay : 300,
 		minChars : 1,
 		propertyToSearch : "name",
 		jsonContainer : null,
@@ -315,10 +317,23 @@
 									// token
 									// addToken(input_box.val().toLowerCase());
 									if (input_box.val().length>0 && settings.add_maunel)
-										add_token({
-											id : 'new;'+input_box.val(),
-											label : input_box.val()
-										});
+                                                                                
+                                                                                if(settings.add_mauel_validate_function!=null)
+                                                                                {
+                                                                                    if(settings.add_mauel_validate_function(input_box.val()))
+                                                                                    {
+                                                                                        add_token({
+                                                                                            id : 'new;'+input_box.val(),
+                                                                                            label : input_box.val()
+                                                                                        });    
+                                                                                    }
+                                                                                }else
+                                                                                {
+                                                                                    add_token({
+                                                                                            id : 'new;'+input_box.val(),
+                                                                                            label : input_box.val()
+                                                                                    });
+                                                                                }
 									hidden_input.change();
 									return false;
 								}
