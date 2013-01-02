@@ -225,7 +225,7 @@ if (empty($user)) {
                     $m->type = "s";
                     $m->message = "Event created successfully.";
                     $_SESSION[INDEX_MSG_SESSION_KEY]=  json_encode($m);
-                    error_log("redirected ".$_random_session_id);
+                    error_log("redirected ".$_random_session_id,0);
                     exit(header('Location: '.HOSTNAME));
                 }  catch (Exception $e)
                 {

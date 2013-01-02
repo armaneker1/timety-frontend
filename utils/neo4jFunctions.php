@@ -140,7 +140,6 @@ class Neo4jFuctions {
 	}
 	function createEvent(Event $event,User $user){
 		try {
-                    
 			$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 			$eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
 			$categoryIndex = new Index($client, Index::TypeNode, IND_CATEGORY_LEVEL2);
@@ -151,7 +150,6 @@ class Neo4jFuctions {
 
 			$evnt = $client->makeNode();
 			$eventId=$event->id;
-
 			$evnt->setProperty(PROP_EVENT_ID, $eventId);
 			$evnt->setProperty(PROP_EVENTS_ACC_TYPE, $user->type);
 			$evnt->setProperty(PROP_EVENT_DESCRIPTION, $event->description);
@@ -163,8 +161,9 @@ class Neo4jFuctions {
                         $evnt->setProperty(PROP_EVENT_WEIGHT, 10);
 			$evnt->save();
                         
-			$eventIndex->add($evnt, PROP_EVENT_ID, $eventId);
+                        $eventIndex->add($evnt, PROP_EVENT_ID, $eventId);
 			$eventIndex->save();
+                        
 			if(!empty($event->categories) )
 			{
                             $cats=  explode(",",$event->categories);
@@ -208,7 +207,12 @@ class Neo4jFuctions {
 				{
 					if(!empty($tag))
 					{
-						$tagTmp=$objectIndex->findOne(PROP_OBJECT_ID, $tag);
+                                                $tagTmp=null;
+                                                try {
+                                                     $tagTmp=$objectIndex->findOne(PROP_OBJECT_ID, $tag);
+                                                } catch (Exception $exc) {
+                                                     $tagTmp=null;
+                                                }
 						if(!empty($tagTmp))
 						{
 							$tagTmp->relateTo($evnt, REL_TAGS)->save();
@@ -281,7 +285,6 @@ class Neo4jFuctions {
                                                                 $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                                             }
                                                             $res=UserFuctions::sendEmail($user->firstName." ".$user->lastName." wants you to join <a href='".PAGE_EVENT.$event->id."'>".$event->title."</a> event. please click <a href='".PAGE_SIGNUP."'>here</a> ", "Timety Event invitation",'{"email": "'.$email.'",  "name": "'.$email.' "}');
-                                                            var_dump($res);
                                                         }                                                         
                                                      }
                                                }
@@ -352,7 +355,7 @@ class Neo4jFuctions {
 			$this->removeEventInvite($user->id,$eventId);
 			return true;
 		} catch (Exception $e) {
-			log("Error",$e->getMessage());
+			error_log("Error".$e->getMessage(),0);
 			return false;
 		}
 	}
@@ -574,7 +577,7 @@ class Neo4jFuctions {
                         $tag=$objectIndex->findOne(PROP_OBJECT_NAME, strtolower($tagName));
                         return $tag;
                   } catch (Exception $e) {
-                            log("Error",$e->getMessage());
+                            error_log("Error".$e->getMessage());
                             return null;
                   }
                 }
@@ -1136,7 +1139,12 @@ class Neo4jFuctions {
                         {
                             if(!empty($tag))
 			    {
-                                $tagObj=$objectIndex->findOne(PROP_OBJECT_ID, $tag);
+                                $tagObj=null;
+                                try {
+                                     $tagObj=$objectIndex->findOne(PROP_OBJECT_ID, $tag);
+                                } catch (Exception $exc) {
+                                   $tagObj=null;
+                                }
                                 if(!empty($tagObj))
 				{
                                     $obj=array('id'=>$tagObj->getProperty(PROP_OBJECT_ID),'label'=>$tagObj->getProperty(PROP_OBJECT_NAME));
