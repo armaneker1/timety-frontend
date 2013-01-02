@@ -9,6 +9,7 @@ mysql_query("SET NAMES UTF8");
 mysql_query("SET CHARACTER SET latin5_turkish_ci");
 mysql_query("SET COLLATION_CONNECTION = 'UTF8' ");
 #DB TABLES
+define('TBL_SETTINGS' ,'timete_settings');
 define('TBL_KEYGENERATOR','timete_key_generator');
 define('CLM_EVENTID' ,'EVENT_ID');
 define('CLM_IMAGEID' ,'IMAGE_ID');

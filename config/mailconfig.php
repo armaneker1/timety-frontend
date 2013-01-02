@@ -1,4 +1,9 @@
 <?php 
-define('MANDRILL_API_KEY','a726a3f0-33ca-4e43-ada2-2074ea384ba6');
-define('MANDRILL_API_TO','{"email": "keklikhasan@gmail.com",  "name": "Hasan Keklik"},{"email": "arman.eker@gmail.com",  "name": "Arman Eker"}');
+/*
+ * Dependencies
+ */
+require_once __DIR__.'/../utils/SettingsUtil.php';
+
+define('MANDRILL_API_KEY', SettingsUtil::getSetting(SETINGS_MAIL_APP_KEY));
+define('MANDRILL_API_TO', SettingsUtil::getSetting(SETINGS_SYSTEM_ADMIN_MAIL_ADDRRESS));
 ?>

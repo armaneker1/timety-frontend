@@ -1,12 +1,16 @@
 <?php
-require 'appConfig.php';
-require 'config/constant.php';
-require 'config/dbconfig.php';
-require 'config/neo4jconfig.php';
-require 'config/mailconfig.php';
-require 'utils/neo4jFunctions.php';
-require 'apis/Mail/Mandrill.php';
-require 'models/models.php';
+/*
+ * Dependencies
+ */
+require_once __DIR__.'/../utils/SettingsUtil.php';
+require_once __DIR__.'/../appConfig.php';
+require_once __DIR__.'/../config/constant.php';
+require_once __DIR__.'/../config/dbconfig.php';
+require_once __DIR__.'/../config/neo4jconfig.php';
+require_once __DIR__.'/../config/mailconfig.php';
+require_once __DIR__.'/../utils/neo4jFunctions.php';
+require_once __DIR__.'/../apis/Mail/Mandrill.php';
+require_once __DIR__.'/../models/models.php';
 
 class UserFuctions {
 

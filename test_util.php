@@ -1,10 +1,8 @@
 <?php
-require 'utils/userFunctions.php';
+require_once 'utils/SettingsUtil.php';
 
-var_dump(ReminderUtils::getUpcomingEvents());
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+SettingsUtil::setSetting("Hasan","dddddd");
+var_dump(SettingsUtil::getSetting("Hasan"));
+
 ?>

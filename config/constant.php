@@ -1,12 +1,15 @@
 <?php  
+/*
+ * Dependencies
+ */
+require_once __DIR__.'/../utils/SettingsUtil.php';
+
 define('FACEBOOK_TEXT', 'facebook');
 define('FOURSQUARE_TEXT', 'foursquare');
 define('TWITTER_TEXT', 'twitter');
-define('HOSTNAME','http://localhost/timety/');
-define('HOSTNAME_WWW','http://localhost/timety/');
+define('HOSTNAME','http://'.SettingsUtil::getSetting(SETINGS_HOSTNAME));
+define('HOSTNAME_WWW','http://www.'.SettingsUtil::getSetting(SETINGS_HOSTNAME));
 define('UPLOAD_FOLDER','uploads/');
-//define('HOSTNAME','http://timety.com/');
-//define('HOSTNAME_WWW','http://www.timety.com');
 
 define('USER_TYPE_NORMAL', 0);
 define('USER_TYPE_VERIFIED', 1);
