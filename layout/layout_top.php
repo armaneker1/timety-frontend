@@ -30,8 +30,19 @@ if (isset($_SESSION['id'])) {
 	<div id="top_blm_sol">
 		<div class="logo"><a href="<?=HOSTNAME?>"><img src="<?=HOSTNAME?>images/timete.png" width="82" height="36" border="0" /></a></div>
 		<div class="t_bs">
-			<input type="button" name="" value="" id="add_event_button" class="add_event_btn icon_bg" id="main_dropable" onclick="return false;"/>
-                        <input type="button" name="" value="" id="search_event_button" class="search_btn icon_bg" onclick="return false;"/>
+			<input type="button" name="" value="" id="add_event_button" class="add_event_btn" id="main_dropable" onclick="return false;"/>
+                        <input type="button" name="" value="" id="search_event_button" class="search_btn" onclick="return false;"/>
+                        <!--
+                            <div class="add_event">
+                            <input name="" type="text" class="add_event_input" value="enter event here" />
+                            <button type="button" name="" value="" class="kbtn icon_bg"></button>
+                            <button type="button" name="" value="" class="tbtn icon_bg"></button>
+                            <button type="button" name="" value="" class="cbtn icon_bg"></button>
+
+                            </div>
+                            <button type="button" name="" value="" class="addbtn">Add</button>
+                         -->
+                        
                         <input type="text" id="hiddenSearch" class="user_inpt invite_friends icon_bg" style="opacity: 0"/>
 			<?php 
 			if(!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status>2)
