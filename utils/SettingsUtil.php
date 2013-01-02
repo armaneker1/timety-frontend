@@ -8,18 +8,18 @@ require_once __DIR__.'/../config/dbconfig.php';
 /*
  * Constants
  */
-define("SETINGS_HOSTNAME","hostname");
-define("SETINGS_FB_APP_ID","facebook_app_id");
-define("SETINGS_FB_APP_SECRET","facebook_app_secret");
-define("SETINGS_FB_APP_SCOPE","facebook_app_scope");
-define("SETINGS_TW_APP_ID","twitter_app_id");
-define("SETINGS_TW_APP_SECRET","twitter_app_secret");
-define("SETINGS_FQ_APP_ID","foursquare_app_id");
-define("SETINGS_FQ_APP_SECRET","foursquare_app_secret");
-define("SETINGS_MAIL_APP_KEY","mail_app_key");
-define("SETINGS_SYSTEM_ADMIN_MAIL_ADDRRESS","system_mail_addrress");
-define("SETINGS_NEO4J_HOST","neo4j_hostname");
-define("SETINGS_NEO4J_PORT","neo4j_port");
+define("SETTINGS_HOSTNAME","hostname");
+define("SETTINGS_FB_APP_ID","facebook_app_id");
+define("SETTINGS_FB_APP_SECRET","facebook_app_secret");
+define("SETTINGS_FB_APP_SCOPE","facebook_app_scope");
+define("SETTINGS_TW_APP_ID","twitter_app_id");
+define("SETTINGS_TW_APP_SECRET","twitter_app_secret");
+define("SETTINGS_FQ_APP_ID","foursquare_app_id");
+define("SETTINGS_FQ_APP_SECRET","foursquare_app_secret");
+define("SETTINGS_MAIL_APP_KEY","mail_app_key");
+define("SETTINGS_SYSTEM_ADMIN_MAIL_ADDRRESS","system_mail_addrress");
+define("SETTINGS_NEO4J_HOST","neo4j_hostname");
+define("SETTINGS_NEO4J_PORT","neo4j_port");
 
 
 class SettingsUtil

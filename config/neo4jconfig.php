@@ -4,8 +4,8 @@
  */
 require_once __DIR__.'/../utils/SettingsUtil.php';
 
-define('NEO4J_URL',  SettingsUtil::getSetting(SETINGS_NEO4J_HOST));
-define('NEO4J_PORT',SettingsUtil::getSetting(SETINGS_NEO4J_PORT));
+define('NEO4J_URL',  SettingsUtil::getSetting(SETTINGS_NEO4J_HOST));
+define('NEO4J_PORT',SettingsUtil::getSetting(SETTINGS_NEO4J_PORT));
 
 define('REL_INTERESTS','INTERESTS');
 define('REL_USER_ROOT','USER_ROOT');

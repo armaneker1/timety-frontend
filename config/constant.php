@@ -7,8 +7,8 @@ require_once __DIR__.'/../utils/SettingsUtil.php';
 define('FACEBOOK_TEXT', 'facebook');
 define('FOURSQUARE_TEXT', 'foursquare');
 define('TWITTER_TEXT', 'twitter');
-define('HOSTNAME','http://'.SettingsUtil::getSetting(SETINGS_HOSTNAME));
-define('HOSTNAME_WWW','http://www.'.SettingsUtil::getSetting(SETINGS_HOSTNAME));
+define('HOSTNAME','http://'.SettingsUtil::getSetting(SETTINGS_HOSTNAME));
+define('HOSTNAME_WWW','http://www.'.SettingsUtil::getSetting(SETTINGS_HOSTNAME));
 define('UPLOAD_FOLDER','uploads/');
 
 define('USER_TYPE_NORMAL', 0);
