@@ -18,7 +18,7 @@ jQuery(document).ready(function(){
         }, 300); 
         jQuery(inputBtn).animate({
             opacity :1,
-            width:'40px'
+            width:'42px'
         }, 300);
     }).keypress(function(e){
         if(e.keyCode == 13)
