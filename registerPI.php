@@ -115,6 +115,21 @@ if (!isset($_SESSION['id'])) {
                 $user = $userFuctions->getUserById($_SESSION['id']);
                 $userFuctions->addUserInfoNeo4j($user);
                 UserFuctions::changeserProfilePic($user->id, $userProfilePic);
+                /*
+                 * check user is invited
+                 */
+                $tmpuser=  UserFuctions::checkInvitedEmail($email);
+                if(!empty($tmpuser))
+                {
+                    $newUserId=UserFuctions::moveUser($user->id, $tmpuser->id);
+                    if(!empty($newUserId))
+                    {
+                        $_SESSION['id']=$newUserId;
+                    }
+                }
+                /*
+                 * check user is invited
+                 */
                 header('Location: '.PAGE_ABOUT_YOU);
             } else {
                 $m = new HtmlMessage();

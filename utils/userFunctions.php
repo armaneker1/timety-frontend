@@ -397,8 +397,66 @@ class UserFuctions {
 			return false;
 		}
 	}
+        
+       public static function checkInvitedEmail($email)
+       {
+		if($this->check_email_address($email))
+		{
+                        $SQL="SELECT * FROM ".TBL_USERS." WHERE email = '$email' AND invited=1";
+                        $query = mysql_query($SQL) or die(mysql_error());
 
-	function checkGroupName($groupName,$userId)
+			$result = mysql_fetch_array($query);
+			if (empty($result)) {
+				$user=new User();
+                                $user->create($result);
+                                return $user;
+			}else {
+				return null;
+			}
+		}else
+		{
+			return null;
+		}
+	}
+        
+        public static function moveUser($fromUserId,$toUserId)
+        {
+            $fromUser=  $this->getUserById($fromUserId);
+            $toUser  =  $this->getUserById($toUserId);
+            if(!empty($fromUser) && !empty($toUser) && $toUser->invited==1)
+            {
+                $this->updateUser($toUser->id, $fromUser);
+                UserFuctions::moveUserSocialProvider($fromUserId, $toUserId);
+                Neo4jFuctions::moveUser($fromUserId, $toUserId, $fromUser);
+                UserFuctions::deleteUser($fromUserId);
+                $toUser  =  $this->getUserById($toUserId);
+                $toUser->invited=2;
+                $this->updateUser($toUser->id, $toUser);
+                return $toUserId;
+            }
+        }
+
+        public static function deleteUser($userId)
+        {
+            if(!empty($userId))
+            {
+                $SQL="DELETE FROM ".TBL_USERS." WHERE id=".$userId;
+                $query = mysql_query($SQL) or die(mysql_error());
+            }
+        }
+        
+        public static function moveUserSocialProvider($fromUserId,$toUserId)
+        {
+            $fromUser=  $this->getUserById($fromUserId);
+            $toUser  =  $this->getUserById($toUserId);
+            if(!empty($fromUser) && !empty($toUser) && $toUser->invited==1)
+            {
+                $SQL="UPDATE ".TBL_USERS_SOCIALPROVIDER." SET user_id=".$toUserId." WHERE user_id=".$fromUserId;
+                $query = mysql_query($SQL) or die(mysql_error());
+            }
+        }
+
+        function checkGroupName($groupName,$userId)
 	{
 		$n=new Neo4jFuctions();
 		$group= $n->checkGroupName($groupName,$userId);
@@ -509,6 +567,7 @@ class UserFuctions {
                 $tmp_user=  $this->getUserByEmail($user->email);
                 if(!empty($tmp_user))
                 {
+                    $user->invited=2;
                     $this->updateUser($tmp_user->id, $user);
                     $user=  $this->getUserById($tmp_user->id);
                 }else
