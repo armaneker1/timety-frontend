@@ -38,7 +38,7 @@ if (array_key_exists("te_email", $_POST)) {
 			$lss->userId=$userId;
 			$lss->valid=1;
 
-			$lss=LostPassFunctions::insert($lss);
+			$lss=LostPassUtil::insert($lss);
 			if(!empty($lss))
 			{
 				$lost=base64_encode($lss->id.";".$userId.";".$guid);

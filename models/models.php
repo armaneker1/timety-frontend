@@ -208,7 +208,7 @@ class Event{
         {
             //$this->getImages();
             //$this->getHeaderImage();
-            $this->commentCount =  CommentsFunctions::getCmmentListSizeByEvent($this->id);
+            $this->commentCount =  CommentUtil::getCmmentListSizeByEvent($this->id);
             $this->remainingtime=UtilFUnctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
             $this->attendancecount=  Neo4jFuctions::getEventAttendanceCount($this->id);
         }
@@ -247,7 +247,7 @@ class Event{
         {
             if(empty($this->images))
             {
-                $this->images=  ImageFunctions::getImageListByEvent($this->id);
+                $this->images=  ImageUtil::getImageListByEvent($this->id);
             }
             return $this->images;
         }

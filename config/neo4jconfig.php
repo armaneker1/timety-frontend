@@ -2,7 +2,7 @@
 /*
  * Dependencies
  */
-require_once __DIR__.'/../utils/SettingsUtil.php';
+require_once __DIR__.'/../utils/SettingFunctions.php';
 
 define('NEO4J_URL',  SettingsUtil::getSetting(SETTINGS_NEO4J_HOST));
 define('NEO4J_PORT',SettingsUtil::getSetting(SETTINGS_NEO4J_PORT));

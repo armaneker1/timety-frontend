@@ -1439,7 +1439,7 @@ class Neo4jFuctions {
                     $eventIds=  substr($eventIds, 0, strlen($eventIds)-1);
                 }
                 
-                $images=  ImageFunctions::getAllHeaderImageList($eventIds);
+                $images=  ImageUtil::getAllHeaderImageList($eventIds);
                 $tmparray=array();
                 $img=new Image();
                 if(!empty($images))

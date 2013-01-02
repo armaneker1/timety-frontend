@@ -24,7 +24,7 @@ try {
         $comm->datetime=$datetime;
         $comm->eventId=$eventId;
         $comm->userId=$userId;
-        $comm=  CommentsFunctions::insert($comm);
+        $comm=  CommentUtil::insert($comm);
         if(!empty($comm))
 	{ 
            $json_response = json_encode($comm);

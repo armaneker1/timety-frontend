@@ -20,7 +20,7 @@ if(isset($_GET["guid"]))
 		$array= explode(";", $guid);
 		if(!empty($array) && sizeof($array)==3)
 		{
-			$lss=LostPassFunctions::getLostPass($array[0],$array[1],$array[2]);
+			$lss=LostPassUtil::getLostPass($array[0],$array[1],$array[2]);
 			if(!empty($lss) && $lss->valid)
 			{
 				$userId=$lss->userId;
@@ -98,7 +98,7 @@ if(isset($_POST["te_email"]))
 				{
 					var_dump($lss);
 					var_dump($usr->id);
-					LostPassFunctions::invalidate($lss->id);
+					LostPassUtil::invalidate($lss->id);
 					$usr->password=sha1($userpass);
 					$userFunctions->updateUser($usr->id,$usr);
 					$_SESSION['id'] = $usr->id;

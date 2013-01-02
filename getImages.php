@@ -12,7 +12,7 @@ $res->success=false;
 try {
     if(!empty( $eventId))
     {
-        $array = ImageFunctions::getImageListByEvent($eventId);
+        $array = ImageUtil::getImageListByEvent($eventId);
         if(!empty($array))
 	{ 
            $json_response = json_encode($array);

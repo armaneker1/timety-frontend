@@ -2,7 +2,7 @@
 /*
  * Dependencies
  */
-require_once __DIR__.'/../utils/SettingsUtil.php';
+require_once __DIR__.'/../utils/SettingFunctions.php';
 
 define('FACEBOOK_TEXT', 'facebook');
 define('FOURSQUARE_TEXT', 'foursquare');

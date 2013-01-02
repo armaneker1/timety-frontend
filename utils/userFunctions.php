@@ -2,7 +2,14 @@
 /*
  * Dependencies
  */
-require_once __DIR__.'/../utils/SettingsUtil.php';
+
+require_once __DIR__.'/SettingFunctions.php';
+require_once __DIR__.'/ReminderFunctions.php';
+require_once __DIR__.'/CommentFunctions.php';
+require_once __DIR__.'/ImageFunctions.php';
+require_once __DIR__.'/Functions.php';
+require_once __DIR__.'/DBFunctions.php';
+require_once __DIR__.'/LostPassFunctions.php';
 require_once __DIR__.'/../appConfig.php';
 require_once __DIR__.'/../config/constant.php';
 require_once __DIR__.'/../config/dbconfig.php';
@@ -326,12 +333,12 @@ class UserFuctions {
                                 $img->url=$image;
                                 $img->header=0;
                                 $img->eventId=$event->id;
-                                $size=ImageFunctions::getSize($img->url);
+                                $size=ImageUtil::getSize($img->url);
                                 $img->width= $size[0] ;
                                 $img->height= $size[1] ;
 				if(!empty($img))
 				{
-                                    ImageFunctions::insert($img);
+                                    ImageUtil::insert($img);
 				}
                             }
 			}
@@ -357,12 +364,12 @@ class UserFuctions {
                          error_log($img->url);
                          $img->header=1;
                          $img->eventId=$event->id;
-                         $size=ImageFunctions::getSize($img->url);
+                         $size=ImageUtil::getSize($img->url);
                          $img->width= $size[0] ;
                          $img->height= $size[1] ;
                          if(!empty($img))
                          {
-                            ImageFunctions::insert($img);
+                            ImageUtil::insert($img);
                          }
                     }
                 }
@@ -1012,404 +1019,5 @@ class UserFuctions {
 
 }
 
-class LostPassFunctions{
-
-	public static function getLostPassByGUID($guid)
-	{
-		$guid=DBUtils::mysql_escape($guid);
-		$query = mysql_query("SELECT * FROM ".TBL_LOSTPASS." WHERE guid = '$guid'") or die(mysql_error());
-		$result = mysql_fetch_array($query);
-		if (empty($result)) {
-			return null;
-		}else {
-			$lss=new LostPass();
-			$lss->createFromSQL($result);
-			return $lss;
-		}
-	}
-
-	public static function getLostPassById($id)
-	{
-		$id=DBUtils::mysql_escape($id,1);
-		$query = mysql_query("SELECT * FROM ".TBL_LOSTPASS." WHERE id = $id") or die(mysql_error());
-		$result = mysql_fetch_array($query);
-		if (empty($result)) {
-			return null;
-		}else {
-			$lss=new LostPass();
-			$lss->createFromSQL($result);
-			return $lss;
-		}
-	}
-
-	public static function getLostPass($id, $userId, $guid)
-	{
-		$id=DBUtils::mysql_escape($id,1);
-		$userId=DBUtils::mysql_escape($userId,1);
-		$guid=DBUtils::mysql_escape($guid);
-		$query = mysql_query("SELECT * FROM ".TBL_LOSTPASS." WHERE id = $id and guid='$guid' and user_id=$userId and valid=1") or die(mysql_error());
-		$result = mysql_fetch_array($query);
-		if (empty($result)) {
-			return null;
-		}else {
-			$lss=new LostPass();
-			$lss->createFromSQL($result);
-			return $lss;
-		}
-	}
-
-	public static function insert(LostPass $lss){
-		$query = mysql_query("INSERT INTO ".TBL_LOSTPASS." (user_id,guid,date,valid) VALUES (".DBUtils::mysql_escape($lss->userId,1).",'".DBUtils::mysql_escape($lss->guid)."','".DBUtils::mysql_escape($lss->date,1)."',".DBUtils::mysql_escape($lss->valid,1).")") or die(mysql_error());
-		return LostPassFunctions::getLostPassByGUID($lss->guid);
-	}
-
-	public static function invalidate($lssId){
-		$lssId=DBUtils::mysql_escape($lssId,1);
-		$sql="UPDATE ".TBL_LOSTPASS." SET valid=0 WHERE id=$lssId";
-		$query = mysql_query($sql) or die(mysql_error());
-		return LostPassFunctions::getLostPassById($lssId)->valid;
-	}
-
-}
-
-class DBUtils{
-
-	public  static function getNextId($field)
-	{
-		$query = mysql_query("SELECT * FROM ".TBL_KEYGENERATOR." WHERE  PK_COLUMN = '".$field."'") or die(mysql_error());
-		$result = mysql_fetch_array($query);
-		if (empty($result)) {
-			return null;
-		}else {
-			$val= ($result['VALUE_COLUMN']+1);
-			$sql="UPDATE  ".TBL_KEYGENERATOR." SET  VALUE_COLUMN=$val WHERE PK_COLUMN = '".$field."'";
-			mysql_query($sql) or die(mysql_error());
-			return $val;
-		}
-	}
-
-	
-	public static function getDate($datestr)
-	{
-		if(!empty($datestr))
-		{
-			$datestr=UserFuctions::checkDate($datestr);
-			return $datestr;
-		}
-		return "";
-	}
-
-	public static function get_uuid() {
-		return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-				// 32 bits for "time_low"
-				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-
-				// 16 bits for "time_mid"
-				mt_rand( 0, 0xffff ),
-
-				// 16 bits for "time_hi_and_version",
-				// four most significant bits holds version number 4
-				mt_rand( 0, 0x0fff ) | 0x4000,
-
-				// 16 bits, 8 bits for "clk_seq_hi_res",
-				// 8 bits for "clk_seq_low",
-				// two most significant bits holds zero and one for variant DCE1.1
-				mt_rand( 0, 0x3fff ) | 0x8000,
-
-				// 48 bits for "node"
-				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
-		);
-	}
-
-
-	public static function mysql_escape($str,$rtn=0)
-	{
-                if(!empty($str))
-                {
-                    $str=mysql_real_escape_string($str);
-                }
-		if($rtn=="1" && empty($str) && $str!="0")
-		{
-			return "null";
-		}
-		return $str;
-	}
-}
-
-class UtilFUnctions{
-    
-    public static function startsWith($haystack, $needle)
-    {
-        return !strncmp($haystack, $needle, strlen($needle));
-    }
-
-    public static function endsWith($haystack, $needle)
-    {
-        $length = strlen($needle);
-        if ($length == 0) {
-            return true;
-        }
-
-        return (substr($haystack, -$length) === $needle);
-    }
-    
-    public static function udate($format, $utimestamp = null)
-    {
-        if (is_null($utimestamp))
-            $utimestamp = microtime(true);
-
-        $timestamp = floor($utimestamp);
-        $milliseconds = round(($utimestamp - $timestamp) * 1000000);
-
-        return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
-    }
-
-    
-    public static function getTimeDiffString($datestart,$dateend)
-    {
-        try {
-                $start_date = new DateTime($datestart,new DateTimeZone('GMT'));
-                $end_date = new DateTime($dateend,new DateTimeZone('GMT'));
-                $since_start = $start_date->diff($end_date);
-               
-                $result=null;
-                if($since_start->y>0 && empty($result))
-                    $result=$since_start->y.'y'; 
-                if($since_start->m>0 && empty($result))
-                    $result=$since_start->m.'mo'; 
-                if($since_start->d>0 && empty($result))
-                    $result=$since_start->d.'d'; 
-                if($since_start->h>0 && empty($result))
-                    $result=$since_start->h.'h'; 
-                if($since_start->m>0 && empty($result))
-                    $result=$since_start->m.'m';
-                 
-                 
-                 if(!empty($result))
-                 {
-                     return $result;
-                 } else
-                 {
-                     return "~m";
-                 }
-           } catch (Exception $e) {
-                return "~m";
-           }
-          
-    }
-    
-}
-
-
-class ImageFunctions{
-    
-        public static function getAllHeaderImageList($idListString)
-        {
-            if(!empty($idListString))
-            {
-                $query=mysql_query("SELECT * from ".TBL_IMAGES." WHERE header=1 AND id IN (".$idListString.")") or die(mysql_error());
-                $array=array();
-                if(!empty($query))
-                {
-                    $num= mysql_num_rows($query);
-                    if($num>1)
-                    {
-                        while ($db_field = mysql_fetch_assoc($query) ) {
-                            $image=new Image();
-                            $image->createFromSQL($db_field);
-                            array_push($array, $image);
-                        }
-                    } else if($num>0)
-                    {
-                        $db_field = mysql_fetch_assoc($query);
-                        $image=new Image();
-                        $image->createFromSQL($db_field);
-                        array_push($array, $image);
-                    }
-                    return $array;
-                }
-            }
-        }
-
-
-        public static function  getImageListByEvent($eventId)
-	{
-		$eventId=DBUtils::mysql_escape($eventId);
-		$query=mysql_query("SELECT * from ".TBL_IMAGES." WHERE eventId=$eventId") or die(mysql_error());
-		$array=array();
-		if(!empty($query))
-		{
-			$num= mysql_num_rows($query);
-			if($num>1)
-			{
-				while ($db_field = mysql_fetch_assoc($query) ) {
-					$image=new Image();
-					$image->createFromSQL($db_field);
-					array_push($array, $image);
-				}
-			} else if($num>0)
-			{
-				$db_field = mysql_fetch_assoc($query);
-				$image=new Image();
-				$image->createFromSQL($db_field);
-				array_push($array, $image);
-			}
-			return $array;
-		}
-	}
-
-	public static function  getImageById($imageId)
-	{
-		$imageId=DBUtils::mysql_escape($imageId);
-		$query = mysql_query("SELECT * FROM ".TBL_IMAGES." WHERE id = $imageId") or die(mysql_error());
-		$result = mysql_fetch_array($query);
-		if (empty($result)) {
-			return null;
-		}else {
-			$image=new Image();
-			$image->createFromSQL($result);
-			return $image;
-		}
-	}
-
-	public static function insert(Image $image){
-                $imageId=DBUtils::getNextId(CLM_IMAGEID);
-		$query = mysql_query("INSERT INTO ".TBL_IMAGES." (id,url,header,eventId,width,height) VALUES (".$imageId.",'".DBUtils::mysql_escape($image->url)."',".DBUtils::mysql_escape($image->header).",".DBUtils::mysql_escape($image->eventId).",$image->width,$image->height)") or die(mysql_error());
-		return ImageFunctions::getImageById($imageId);
-	}
-
-	public static function delete($imageId){
-		$imageId=DBUtils::mysql_escape($imageId);
-		$query = mysql_query("DELETE FROM ".TBL_IMAGES." WHERE id = $imageId") or die(mysql_error());
-	}
-        
-        public static function getSize($imagePath)
-        {
-            $array=array();
-            array_push($array,186);
-            if(!empty($imagePath))
-            {
-                $size=getimagesize($imagePath);
-                $val=$size[1]*186;
-                $height=floor($val/$size[0]);
-                array_push($array, $height);
-                return $array;
-            }
-            array_push($array,0);
-            var_dump($array);
-            return $array;
-        }
-           
-}
-
-class CommentsFunctions{
-
-	public static function  getCommentById($commentId)
-	{
-		$commentId=DBUtils::mysql_escape($commentId);
-		$query = mysql_query("SELECT * FROM ".TBL_COMMENT." WHERE id = $commentId") or die(mysql_error());
-		$result = mysql_fetch_array($query);
-		if (empty($result)) {
-			return null;
-		}else {
-			$comment=new Comment();
-			$comment->createFromSQL($result);
-			return $comment;
-		}
-	}
-
-
-	public static function  getCmmentListByEvent($eventId)
-	{
-		$eventId=DBUtils::mysql_escape($eventId);
-		$query=mysql_query("SELECT * from ".TBL_COMMENT." WHERE event_id=$eventId ORDER BY datetime DESC") or die(mysql_error());
-		$array=array();
-		if(!empty($query))
-		{
-			$num= mysql_num_rows($query);
-			if($num>1)
-			{
-				while ($db_field = mysql_fetch_assoc($query) ) {
-					$comment=new Comment();
-					$comment->createFromSQL($db_field);
-					array_push($array, $comment);
-				}
-			} else if($num>0)
-			{
-				$db_field = mysql_fetch_assoc($query);
-				$comment=new Comment();
-				$comment->createFromSQL($db_field);
-				array_push($array, $comment);
-			}
-			return $array;
-		}
-	}
-        
-        public static function  getCmmentListSizeByEvent($eventId)
-	{
-		$eventId=DBUtils::mysql_escape($eventId);
-		$query=mysql_query("SELECT count(id) as count_comment from ".TBL_COMMENT." WHERE event_id=$eventId ") or die(mysql_error());
-		$array=array();
-		if(!empty($query))
-		{
-                     mysql_num_rows($query);
-		     $db_field = mysql_fetch_assoc($query);
-                     if(!empty($db_field))
-                     {
-                        $count =$db_field['count_comment'];
-                        if(!empty($count))
-                        {
-                            return $count;
-                        }
-                     }
-		}
-                return 0;
-	}
-
-
-	public static function insert(Comment $comment){
-                $id=  DBUtils::getNextId(CLM_COMMENTID);
-                $SQL="INSERT INTO ".TBL_COMMENT." (id,user_id,datetime,event_id,comment) VALUES  ".
-				"(".DBUtils::mysql_escape($id,1).
-				",".DBUtils::mysql_escape($comment->userId,1).
-				",'".DBUtils::mysql_escape($comment->datetime,1).
-				"',".DBUtils::mysql_escape($comment->eventId,1).
-				",'".DBUtils::mysql_escape($comment->comment)."')";
-		$query = mysql_query($SQL) or die(mysql_error());
-
-		return CommentsFunctions::getCommentById($id);
-	}
-
-
-}
-
-
-
-class ReminderUtils{
-    
-    /*
-     * 0=Day
-     * 1=Hour
-     * 2=Min
-     */
-    public static function getUpcomingEvents($type=0,$type_="email")
-    {
-        $dif=60*60*24;
-        $unit="day";
-        if($type==2)
-        {
-            $dif=60;
-            $unit="min";
-        }else if($type==1)
-        {
-            $dif=60*60;
-            $unit="hour";
-        }
-        $SQL="SELECT * FROM ".TBL_EVENTS." WHERE  reminderValue>0 AND startDateTime>now() AND reminderType='".$type_."' AND reminderUnit='".$unit."' AND  startDateTime-now()>".$dif;
-    
-        return $SQL;
-    }
-        
-}
 
 ?>

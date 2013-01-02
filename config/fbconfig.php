@@ -2,7 +2,7 @@
 /*
  * Dependencies
  */
-require_once __DIR__.'/../utils/SettingsUtil.php';
+require_once __DIR__.'/../utils/SettingFunctions.php';
 
 
 define('FB_APP_ID', SettingsUtil::getSetting(SETTINGS_FB_APP_ID));
