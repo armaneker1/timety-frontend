@@ -433,7 +433,6 @@ class UserFuctions {
                 $toUser  =  $us->getUserById($toUserId);
                 $toUser->invited=2;
                 $us->updateUser($toUser->id, $toUser);
-                $us->deleteUser($userId);
                 return $toUserId;
             }
         }
@@ -452,7 +451,7 @@ class UserFuctions {
             $us=new UserFuctions();
             $fromUser=  $us->getUserById($fromUserId);
             $toUser  =  $us->getUserById($toUserId);
-            if(!empty($fromUser) && !empty($toUser) && $toUser->invited==1)
+            if(!empty($fromUser) && !empty($toUser))
             {
                 $SQL="UPDATE ".TBL_USERS_SOCIALPROVIDER." SET user_id=".$toUserId." WHERE user_id=".$fromUserId;
                 $query = mysql_query($SQL) or die(mysql_error());

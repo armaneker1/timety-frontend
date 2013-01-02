@@ -1791,7 +1791,7 @@ class Neo4jFuctions {
         }
         
         
-        public static function moveUser($fromUserId,$toUserId,User $user)
+        public static function moveUser($fromUserId,$toUserId,User $tmpuser)
         {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
@@ -1799,13 +1799,13 @@ class Neo4jFuctions {
             
             $userIndex->remove($user, PROP_USER_USERNAME,  $user->getProperty(PROP_USER_USERNAME));
             
-            $user->setProperty(PROP_USER_CM_INVITED, 2);
-            $user->setProperty(PROP_USER_FIRSTNAME, $user->firstName);
-            $user->setProperty(PROP_USER_LASTNAME, $user->lastName);
-            $user->setProperty(PROP_USER_USERNAME, $user->userName);
             
+            $user->setProperty(PROP_USER_CM_INVITED, 2);
+            $user->setProperty(PROP_USER_FIRSTNAME, $tmpuser->firstName);
+            $user->setProperty(PROP_USER_LASTNAME, $tmpuser->lastName);
+            $user->setProperty(PROP_USER_USERNAME, $tmpuser->userName);
             $user->save();
-            $userIndex->add($user, PROP_USER_USERNAME,  $user->userName);
+            $userIndex->add($user, PROP_USER_USERNAME,  $tmpuser->userName);
             $userIndex->save();
             
             Neo4jFuctions::removeUserById($fromUserId);
