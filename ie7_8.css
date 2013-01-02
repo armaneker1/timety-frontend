@@ -126,46 +126,50 @@ p,h1,h2,h3,h4,h5{
 	padding-right: 5px;
 	padding-left: 5px;
 }
-.top_menu ul li a {
-	font-family: Arial;
-	font-size: 12px;
-	font-weight: bold;
-	color: #626262;
-	text-decoration: none;
-	padding-right: 10px;
-	padding-left: 10px;
-	height: 25px;
-	display: block;
+.top_menu_ul_li_a {
+                font-family: Arial;
+                font-size: 12px;
+                font-weight: bold;
+                color: #626262;
+                text-decoration: none;
+                padding-right: 11px;
+                padding-left: 11px;
+                height: 25px;
+                display: block;
+ 
 }
-.top_menu ul li a:hover {
-	font-family: Arial;
-	font-size: 12px;
-	font-weight: bold;
-	color: #a9a9a9;
-	text-decoration: none;
-	padding-right: 10px;
-	padding-left: 10px;
-	background-color:#f4f4f4;
-	-moz-box-shadow:
-		0px -1px 0px rgba(000,000,000,0.2),
-		inset 0px 3px 5px rgba(255,255,255,1);
-	-ms-box-shadow:
-		0px -1px 0px rgba(000,000,000,0.2),
-		inset 0px 3px 5px rgba(255,255,255,1);
-	-o-box-shadow:
-		0px -1px 0px rgba(000,000,000,0.2),
-		inset 0px 3px 5px rgba(255,255,255,1);
-	-webkit-box-shadow:
-		0px -1px 0px rgba(000,000,000,0.2),
-		inset 0px 3px 5px rgba(255,255,255,1);
-	box-shadow:
-0px -1px 0px rgba(000,000,000,0.2),inset 0px 3px 5px rgba(255,255,255,1);
-	border-radius:5px;
-	height: 23px;
-	display: block;
-	border: 1px solid #cacaca;
+.top_menu_ul_li_a:hover {
+                font-family: Arial;
+                font-size: 12px;
+                font-weight: bold;
+                color: #a9a9a9;
+                text-decoration: none;
+                padding-right: 10px;
+                padding-left: 10px;
+                background-color:#eeeeee;
+                -moz-box-shadow:
+                               0px 1px 0px rgba(255,255,255,0.65),inset 0px 1px 1px rgba(0,0,0,0.15);
+                -ms-box-shadow:
+                               0px 1px 0px rgba(255,255,255,0.65),inset 0px 1px 1px rgba(0,0,0,0.15);
+                -o-box-shadow:
+                               0px 1px 0px rgba(255,255,255,0.65),inset 0px 1px 1px rgba(0,0,0,0.15);
+                -webkit-box-shadow:
+                               0px 1px 0px rgba(255,255,255,0.65),inset 0px 1px 1px rgba(0,0,0,0.15);
+                box-shadow:
+0px 1px 0px rgba(255,255,255,0.65),inset 0px 1px 1px rgba(0,0,0,0.15);
+                border-radius:5px;
+                height: 24px;
+                display: block;
+                border-right-width: 1px;
+                border-bottom-width: 1px;
+                border-left-width: 1px;
+                border-right-style: solid;
+                border-bottom-style: solid;
+                border-left-style: solid;
+                border-right-color: #e3e3e3;
+                border-bottom-color: #dddddd;
+                border-left-color: #e3e3e3;
 }
-
 .t_m_line {
 	border-right-width: 1px;
 	border-right-style: solid;

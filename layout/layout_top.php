@@ -77,17 +77,19 @@ if (isset($_SESSION['id'])) {
             <script>
             
     function changeChannel(item){
+        jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
         jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+        jQuery(item).removeClass('top_menu_ul_li_a');
         jQuery(item).addClass('top_menu_ul_li_a_selected');
         wookmarkFiller(document.optionsWookmark,true);
     }    
     </script>
 			<div class="top_menu">
 				  <ul>
-                                      <li class="t_m_line"><a href="#" channelId="2" onclick="changeChannel(this)">My Timete</a><img width="150" height="150" src="<?=HOSTNAME?>images/drop.png" class="main_dropable_"></img></li>
-				    <li class="t_m_line"><a href="#" channelId="3" onclick="changeChannel(this)">Following</a></li>
-                                    <li class="t_m_line"><a href="#" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a></li>
-				    <li><a href="<?=PAGE_LOGOUT?>">Logout</a></li>
+                                      <li class="t_m_line"><a href="#" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timete</a><img width="150" height="150" src="<?=HOSTNAME?>images/drop.png" class="main_dropable_"></img></li>
+                                      <li class="t_m_line"><a href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a></li>
+                                      <li class="t_m_line"><a href="#" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a></li>
+				    <li><a href="<?=PAGE_LOGOUT?>" class="top_menu_ul_li_a">Logout</a></li>
 				  </ul>
 			</div>
     <div class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic();?>" width="32" height="32" border="0" /></a>
