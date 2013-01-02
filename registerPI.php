@@ -109,7 +109,7 @@ if (!isset($_SESSION['id'])) {
                 $user->hometown = $hometown;
                 if (!empty($password)) {
                     $user->password = sha1($password);
-                }
+                }                
                 $user->status = 1;
                 $userFuctions->updateUser($_SESSION['id'], $user);
                 $user = $userFuctions->getUserById($_SESSION['id']);

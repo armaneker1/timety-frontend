@@ -400,13 +400,13 @@ class UserFuctions {
         
        public static function checkInvitedEmail($email)
        {
-		if($this->check_email_address($email))
+                $us=new UserFuctions();
+		if($us->check_email_address($email))
 		{
                         $SQL="SELECT * FROM ".TBL_USERS." WHERE email = '$email' AND invited=1";
                         $query = mysql_query($SQL) or die(mysql_error());
-
 			$result = mysql_fetch_array($query);
-			if (empty($result)) {
+			if (!empty($result)) {
 				$user=new User();
                                 $user->create($result);
                                 return $user;
@@ -421,17 +421,19 @@ class UserFuctions {
         
         public static function moveUser($fromUserId,$toUserId)
         {
-            $fromUser=  $this->getUserById($fromUserId);
-            $toUser  =  $this->getUserById($toUserId);
+            $us=new UserFuctions();
+            $fromUser=  $us->getUserById($fromUserId);
+            $toUser  =  $us->getUserById($toUserId);
             if(!empty($fromUser) && !empty($toUser) && $toUser->invited==1)
             {
-                $this->updateUser($toUser->id, $fromUser);
+                $us->updateUser($toUser->id, $fromUser);
                 UserFuctions::moveUserSocialProvider($fromUserId, $toUserId);
                 Neo4jFuctions::moveUser($fromUserId, $toUserId, $fromUser);
                 UserFuctions::deleteUser($fromUserId);
-                $toUser  =  $this->getUserById($toUserId);
+                $toUser  =  $us->getUserById($toUserId);
                 $toUser->invited=2;
-                $this->updateUser($toUser->id, $toUser);
+                $us->updateUser($toUser->id, $toUser);
+                $us->deleteUser($userId);
                 return $toUserId;
             }
         }
@@ -447,8 +449,9 @@ class UserFuctions {
         
         public static function moveUserSocialProvider($fromUserId,$toUserId)
         {
-            $fromUser=  $this->getUserById($fromUserId);
-            $toUser  =  $this->getUserById($toUserId);
+            $us=new UserFuctions();
+            $fromUser=  $us->getUserById($fromUserId);
+            $toUser  =  $us->getUserById($toUserId);
             if(!empty($fromUser) && !empty($toUser) && $toUser->invited==1)
             {
                 $SQL="UPDATE ".TBL_USERS_SOCIALPROVIDER." SET user_id=".$toUserId." WHERE user_id=".$fromUserId;
