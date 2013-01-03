@@ -5,7 +5,7 @@ class ImageUtil {
     public static function getAllHeaderImageList($idListString) {
         if (!empty($idListString)) {
             $idListString = DBUtils::mysql_escape($idListString);
-            $SQL = "SELECT * from " . TBL_IMAGES . " WHERE header=1 AND id IN (" . $idListString . ")";
+            $SQL = "SELECT * from " . TBL_IMAGES . " WHERE header=1 AND eventId IN (" . $idListString . ")";
             $query = mysql_query($SQL) or die(mysql_error());
             $array = array();
             if (!empty($query)) {

@@ -69,6 +69,7 @@ if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty
                 <script>
                     
                     function changeChannel(item){
+                        page_wookmark=0;
                         jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
                         jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
                         jQuery(item).removeClass('top_menu_ul_li_a');

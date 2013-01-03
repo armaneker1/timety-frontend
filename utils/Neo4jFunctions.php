@@ -1166,10 +1166,8 @@ class Neo4jFuctions {
                         "event." . PROP_EVENT_DESCRIPTION . " =~ '.*(?i)" . $query_ . ".*') ";
             }
             $query = $query . "RETURN event, count(*) ORDER BY event." . PROP_EVENT_START_DATE . " ASC SKIP " . $pageNumber . " LIMIT " . $pageItemCount;
-
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
-
             foreach ($result as $row) {
                 $evt = new Event();
                 $evt->createNeo4j($row['event']);
@@ -1268,6 +1266,7 @@ class Neo4jFuctions {
         }
 
         $images = ImageUtil::getAllHeaderImageList($eventIds);
+        
         $tmparray = array();
         $img = new Image();
         if (!empty($images)) {
