@@ -4,9 +4,6 @@
  */
 require_once __DIR__.'/../utils/SettingFunctions.php';
 
-define('FACEBOOK_TEXT', 'facebook');
-define('FOURSQUARE_TEXT', 'foursquare');
-define('TWITTER_TEXT', 'twitter');
 define('HOSTNAME','http://'.SettingsUtil::getSetting(SETTINGS_HOSTNAME));
 define('HOSTNAME_WWW','http://www.'.SettingsUtil::getSetting(SETTINGS_HOSTNAME));
 define('UPLOAD_FOLDER','uploads/');

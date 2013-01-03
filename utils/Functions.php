@@ -6,8 +6,10 @@ require_once __DIR__ . '/../config/dbconfig.php';
 require_once __DIR__ . '/../config/constant.php';
 require_once __DIR__ . '/../config/neo4jconfig.php';
 require_once __DIR__ . '/../config/mailconfig.php';
-require_once __DIR__ . '/../utils/neo4jFunctions.php';
 require_once __DIR__ . '/../models/models.php';
+require_once __DIR__ . '/../config/fbconfig.php';
+require_once __DIR__ . '/../config/fqconfig.php';
+require_once __DIR__ . '/../config/twconfig.php';
 
 require_once __DIR__ . '/CommentFunctions.php';
 require_once __DIR__ . '/DBFunctions.php';

@@ -4,7 +4,7 @@
  */
 require_once __DIR__.'/../utils/SettingFunctions.php';
 
-
+define('FACEBOOK_TEXT', 'facebook');
 define('FB_APP_ID', SettingsUtil::getSetting(SETTINGS_FB_APP_ID));
 define('FB_APP_SECRET', SettingsUtil::getSetting(SETTINGS_FB_APP_SECRET));
 define('FB_CALLBACK_URL','getFacebookUser.php');
