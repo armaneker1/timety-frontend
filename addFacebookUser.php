@@ -1,9 +1,8 @@
 <?php 
-
-require 'apis/facebook/facebook.php';
-require 'config/fbconfig.php';
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+
+require_once __DIR__.'/utils/Functions.php';
+
 
 $success=TRUE;
 $errortext="";

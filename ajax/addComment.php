@@ -2,23 +2,35 @@
 session_start();
 header("Content-Type: text/html; charset=utf8");
 
-require_once __DIR__.'/utils/Functions.php';
+require_once __DIR__.'/../utils/Functions.php';
 
+$userId=null;
+$datetime=  date(DATETIME_DB_FORMAT);
+
+if(isset($_POST["userId"]))
+    $userId=$_POST["userId"];
 $eventId=null;
 if(isset($_POST["eventId"]))
     $eventId=$_POST["eventId"];
-
+$comment=null;
+if(isset($_POST["comment"]))
+    $comment=$_POST["comment"];
 $res=new Result();
 $res->error=true;
 $res->success=false;
 
 try {
-    if(!empty( $eventId))
+    if(!empty( $comment) && !empty( $eventId) && !empty($userId))
     {
-        $array = Neo4jFuctions::getEventAttendances($eventId);
-        if(!empty($array))
+	$comm=new Comment();
+        $comm->comment=$comment;
+        $comm->datetime=$datetime;
+        $comm->eventId=$eventId;
+        $comm->userId=$userId;
+        $comm=  CommentUtil::insert($comm);
+        if(!empty($comm))
 	{ 
-           $json_response = json_encode($array);
+           $json_response = json_encode($comm);
            echo $json_response;
         }
         else
@@ -26,8 +38,7 @@ try {
             $json_response = json_encode($res);
             echo $json_response;
         }
-     }
-      else
+     } else
         {
             $json_response = json_encode($res);
             echo $json_response;

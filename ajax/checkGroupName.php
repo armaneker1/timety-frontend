@@ -2,16 +2,17 @@
 session_start();
 header("Content-Type: text/html; charset=utf8");
 
-require_once __DIR__.'/utils/Functions.php';
+require_once __DIR__.'/../utils/Functions.php';
 
 $result=new Result();
 try {
-	$query=$_POST["u"];
+	$query=$_POST["g"];
+	$user=$_POST["u"];
 	$result->success=false;
 	try {
 		if(!empty( $query))
 		{
-			$result->success=UserUtils::checkUserName($query);
+			$result->success=GroupUtil::checkGroupName($query,$user);
 		}else
 		{
 			$result->success=true;

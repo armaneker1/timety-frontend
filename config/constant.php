@@ -40,6 +40,10 @@ define('PAGE_NEW_PASSWORD', HOSTNAME.'new-password');
 define('PAGE_CONFIRM', HOSTNAME.'confirm-user');
 define('PAGE_EVENT', HOSTNAME.'event/');
 
+define('PAGE_FB_LOGIN', HOSTNAME.'login-facebook.php');
+define('PAGE_FQ_LOGIN', HOSTNAME.'login-foursquare.php');
+define('PAGE_TW_LOGIN', HOSTNAME.'login-twitter.php');
+
 
 
 ?>

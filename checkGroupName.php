@@ -1,5 +1,9 @@
 <?php 
+session_start();
+header("Content-Type: text/html; charset=utf8");
+
 require_once __DIR__.'/utils/Functions.php';
+
 $result=new Result();
 try {
 	$query=$_POST["g"];
@@ -8,7 +12,6 @@ try {
 	try {
 		if(!empty( $query))
 		{
-			$userFunctions=new UserUtils();
 			$result->success=GroupUtil::checkGroupName($query,$user);
 		}else
 		{

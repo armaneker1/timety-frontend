@@ -1,5 +1,9 @@
 <?php 
+session_start();
+header("Content-Type: text/html; charset=utf8");
+
 require_once __DIR__.'/utils/Functions.php';
+
 $result=new Result();
 try {
 	$query=$_POST["e"];
@@ -7,8 +11,7 @@ try {
 	try {
 		if(!empty( $query))
 		{
-			$userFunctions=new UserUtils();
-			$result->success=$userFunctions->checkEmail($query);
+			$result->success=UserUtils::checkEmail($query);
 		}else
 		{
 			$result->success=true;

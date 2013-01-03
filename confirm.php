@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__.'/utils/Functions.php';
 session_start(); 
 
+require_once __DIR__.'/utils/Functions.php';
 
 $msgs=array();
 $email=null;
@@ -25,8 +25,7 @@ if (array_key_exists("guid", $_GET)) {
                 $userName=$array[1];
                 if(!empty($userId) && !empty($userName))
                 {
-                    $uf=new UserUtils();
-                    $user=$uf->getUserById($userId);
+                    $user=UserUtils::getUserById($userId);
                     if(!empty($user) && $user->userName==$userName)
                     {
                         UserUtils::confirmUser($userId);
@@ -58,7 +57,6 @@ header("Content-Type: text/html; charset=utf8");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php include('layout/layout_header.php'); ?>
-<script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/validate.js"></script>
 <script type="text/javascript">
     setTimeout(function() {window.location="<?=HOSTNAME?>";}, 2000);
 </script>

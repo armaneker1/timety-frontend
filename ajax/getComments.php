@@ -2,7 +2,7 @@
 session_start();
 header("Content-Type: text/html; charset=utf8");
 
-require_once __DIR__.'/utils/Functions.php';
+require_once __DIR__.'/../utils/Functions.php';
 
 $eventId=null;
 if(isset($_POST["eventId"]))
@@ -15,7 +15,7 @@ $res->success=false;
 try {
     if(!empty( $eventId))
     {
-        $array = Neo4jFuctions::getEventAttendances($eventId);
+        $array =  CommentUtil::getCommentListByEvent($eventId);
         if(!empty($array))
 	{ 
            $json_response = json_encode($array);

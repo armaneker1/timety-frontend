@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__.'/utils/Functions.php';
 session_start(); 
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
+
 SessionUtil::checkNotLoggedinUser();
 
 
@@ -12,7 +15,6 @@ if (array_key_exists("te_email", $_POST)) {
 	{
 		$email=$_POST["te_email"];
 	}
-	$userFunctions=new UserUtils();
 	if(empty($email) && UtilFunctions::check_email_address($email) )
 	{
 		$m=new HtmlMessage();
@@ -20,7 +22,7 @@ if (array_key_exists("te_email", $_POST)) {
 		$m->message="Enter valid email addrress";
 		array_push($msgs,$m);
 	} else {
-		$user=$userFunctions->getUserByEmail($email);
+		$user=UserUtils::getUserByEmail($email);
 		if(empty($user))
 		{
 			$m=new HtmlMessage();
@@ -59,8 +61,6 @@ if (array_key_exists("te_email", $_POST)) {
 		}
 	}
 }
-
-header("Content-Type: text/html; charset=utf8");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

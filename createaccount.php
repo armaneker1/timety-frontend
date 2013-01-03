@@ -1,25 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"> 
 <?php
-require_once __DIR__.'/utils/Functions.php';
 session_start();
-$sign_page_type="createaccount";
 header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
+
+$sign_page_type="createaccount";
 SessionUtil::checkNotLoggedinUser();
 
 if (array_key_exists("login", $_GET)) {
 	$oauth_provider = $_GET['oauth_provider'];
-	if ($oauth_provider == 'twitter') {
-		header("Location: login-twitter.php");
-	} else if ($oauth_provider == 'facebook') {
-		header("Location: login-facebook.php");
-	} else if ($oauth_provider == 'foursquare') {
-		header("Location: login-foursquare.php");
+	if ($oauth_provider == TWITTER_TEXT) {
+		header("Location: ".PAGE_TW_LOGIN);
+	} else if ($oauth_provider == FACEBOOK_TEXT) {
+		header("Location: ".PAGE_FB_LOGIN);
+	} else if ($oauth_provider == FOURSQUARE_TEXT) {
+		header("Location: ".PAGE_FQ_LOGIN);
 	}
 }
 
 $msgs=array();
-
 $uname=null;
 $uemail=null;
 $upass=null;
@@ -32,7 +31,6 @@ try {
 			$uemail=$_POST["te_email"];
 		if(isset($_POST["te_password"]))
 			$upass=$_POST["te_password"];
-		$userFunctions=new UserUtils();
 		$param=true;
 		try {
 			if(empty($uname))
@@ -43,7 +41,7 @@ try {
 				array_push($msgs,$m);
 				$param=false;
 			} else{
-				if(!$userFunctions->checkUserName($uname))
+				if(!UserUtils::checkUserName($uname))
 				{
 					$m=new HtmlMessage();
 					$m->type="e";
@@ -67,7 +65,7 @@ try {
                                     $m->message="Email is not valid";
                                     array_push($msgs,$m);
                                     $param=false;
-                                }else if(!$userFunctions->checkEmail($uemail))
+                                }else if(!UserUtils::checkEmail($uemail))
 				{
 					$m=new HtmlMessage();
 					$m->type="e";
@@ -92,7 +90,7 @@ try {
 				$user->userName=$uname;
 				$user->password=sha1($upass);
 				$user->status=0;
-				$user=$userFunctions->createUser($user);
+				$user=UserUtils::createUser($user);
 				if(!empty($user))
 				{
 					$_SESSION['id'] = $user->id;
@@ -122,10 +120,10 @@ try {
 }
 $upass=null;
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"> 
 <head>
 <?php include('layout/layout_header.php'); ?>
-<script language="javascript"
-	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 <title>Timety Signup</title>
 <script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/validate.js"></script>
 <script type="text/javascript">
