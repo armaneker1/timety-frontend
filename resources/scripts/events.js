@@ -1,6 +1,6 @@
 // accept invites
 function accept(eventId, userID) {
-	$.post(TIMETY_HOSTNAME+"responseToEventInvites.php", {
+	$.post(TIMETY_PAGE_AJAX_RESPONSETOEVENTINVITES, {
 		e : eventId,
 		u : userID, 
 		r :1
@@ -14,7 +14,7 @@ function accept(eventId, userID) {
 
 // reject invites
 function reject(eventId, userID) {
-	$.post(TIMETY_HOSTNAME+"responseToEventInvites.php", {
+	$.post(TIMETY_PAGE_AJAX_RESPONSETOEVENTINVITES, {
 		e : eventId,
 		u : userID,
 		r :0

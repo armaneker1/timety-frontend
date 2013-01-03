@@ -1,5 +1,5 @@
 function followUser(fromUserId, toUSerId, button) {
-	$.post(TIMETY_HOSTNAME+"followUser.php", { 
+	$.post(TIMETY_PAGE_AJAX_FOLLOWUSER, { 
 		fuser : fromUserId,
 		tuser : toUSerId
 	}, function(data) {
@@ -15,7 +15,7 @@ function followUser(fromUserId, toUSerId, button) {
 }
 
 function unfollowUser(fromUserId, toUSerId, button) {
-	$.post(TIMETY_HOSTNAME+"unfollowUser.php", {
+	$.post(TIMETY_PAGE_AJAX_UNFOLLOWUSER, {
 		fuser : fromUserId,
 		tuser : toUSerId
 	}, function(data) {
@@ -87,7 +87,7 @@ function validateUserName(field2, dbCheck) {
 		if(result)
 			{
 				setInputWarning(field, cssClassAttr);
-				$.post(TIMETY_HOSTNAME+"checkUserName.php", {
+				$.post(TIMETY_PAGE_AJAX_CHECKUSERNAME, {
 					u : field.value
 				}, function(data) {
 					var result = (!!data.success || (field.value == $(field).attr(
@@ -116,7 +116,7 @@ function validateEmail(field2, dbCheck) {
 	} else {
 		setInputWarning(field, cssClassAttr);
 		if (validateEmailRegex(field.value)) {
-			$.post(TIMETY_HOSTNAME+"checkEmail.php", {
+			$.post(TIMETY_PAGE_AJAX_CHECKEMAIL, {
 				e : field.value
 			}, function(data) {
 				var result =(!!data.success   || (field.value == $(field).attr(
@@ -159,26 +159,6 @@ function checkFormPI(userName, firstName, lastName, email, birthdate, hometown,
 		return true;
 	} 
 	else
-	{
-		return false;
-	}
-}
-function checkFormCreateAccount(userName, password, rePassword, email) {
-	var result = true;
-	result = (validateUserName(userName) && validatePassword(password, rePassword, true) && validateEmail(email));
-	if (result) {
-		$.post(TIMETY_HOSTNAME+"createUser.php", {
-			uname : userName.value,
-			uemail : email.value,
-			upass : password.value
-		}, function(data) {
-			if (data.success) {
-				window.location = TIMETY_PAGE_ABOUT_YOU;
-			} else {
-				console.log(data);
-			}
-		}, "json");
-	}else
 	{
 		return false;
 	}

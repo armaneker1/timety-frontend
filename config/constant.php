@@ -49,6 +49,19 @@ define('PAGE_AJAX_FOLDER',HOSTNAME.'ajax/');
 define('PAGE_AJAX_CHECKUSERNAME',PAGE_AJAX_FOLDER.'checkUserName.php');
 define('PAGE_AJAX_CHECKEMAIL',PAGE_AJAX_FOLDER.'checkEmail.php');
 define('PAGE_AJAX_GETCATEGORYTOKEN',PAGE_AJAX_FOLDER.'getCategoryToken.php');
+define('PAGE_AJAX_UNFOLLOWUSER',PAGE_AJAX_FOLDER.'unfollowUser.php');
+define('PAGE_AJAX_FOLLOWUSER',PAGE_AJAX_FOLDER.'followUser.php');
+define('PAGE_AJAX_CHECKINTERESTREADY',PAGE_AJAX_FOLDER.'checkInterestReady.php');
+define('PAGE_AJAX_INVITEEMAIL',PAGE_AJAX_FOLDER.'inviteEmail.php');
+define('PAGE_AJAX_CHECKGROUPNAME',PAGE_AJAX_FOLDER.'checkGroupName.php');
+define('PAGE_AJAX_RESPONSETOGROUPINVITES',PAGE_AJAX_FOLDER.'responseToGroupInvites.php');
+define('PAGE_AJAX_JOINEVENT',PAGE_AJAX_FOLDER.'joinEvent.php');
+define('PAGE_AJAX_RESPONSETOEVENTINVITES',PAGE_AJAX_FOLDER.'responseToEventInvites.php');
+define('PAGE_AJAX_GETEVENTATTENDANCES',PAGE_AJAX_FOLDER.'getEventAttendances.php');
+define('PAGE_AJAX_GETCOMMENTS',PAGE_AJAX_FOLDER.'getComments.php');
+define('PAGE_AJAX_ADDCOMMENTS',PAGE_AJAX_FOLDER.'addComments.php');
+define('PAGE_AJAX_GETEVENTS',PAGE_AJAX_FOLDER.'getEvents.php');
+
 
 
 

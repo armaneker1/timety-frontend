@@ -226,7 +226,7 @@ function openModalPanel(id,custom) {
      */ 
     jQuery.ajax({
         type: 'POST',
-        url: TIMETY_HOSTNAME+'getEventAttendances.php',
+        url: TIMETY_PAGE_AJAX_GETEVENTATTENDANCES,
         data: {
             'eventId':id
         },
@@ -321,7 +321,7 @@ function openModalPanel(id,custom) {
     //    
     jQuery.ajax({
         type: 'POST',
-        url: TIMETY_HOSTNAME+'getComments.php',
+        url: TIMETY_PAGE_AJAX_GETCOMMENTS,
         data: {
             'eventId':id
         },
@@ -554,7 +554,7 @@ function openAllComments(all_comments)
     var eventId = jQuery("#sendComment").attr('eventId');
     jQuery.ajax({
         type: 'POST',
-        url: TIMETY_HOSTNAME+'getComments.php',
+        url: TIMETY_PAGE_AJAX_GETCOMMENTS,
         data: {
             'eventId':eventId
         },
@@ -612,7 +612,7 @@ function sendComment(){
         var eventId = jQuery("#sendComment").attr('eventId');
         jQuery.ajax({
             type: "POST",
-            url: TIMETY_HOSTNAME+"addComment.php",
+            url: TIMETY_PAGE_AJAX_ADDCOMMENTS,
             data: {
                 "eventId":eventId,
                 "userId":userId,
@@ -670,7 +670,7 @@ function joinEvent(button,eventId)
                 {
                    jQuery.ajax({
                     type: 'POST',
-                    url: TIMETY_HOSTNAME+'joinEvent.php',
+                    url: TIMETY_PAGE_AJAX_JOINEVENT,
                     data: {
                         'eventId':eventId,
                         'userId':userId

@@ -34,7 +34,7 @@ function checkGroupName(field, userId) {
 			field.parentNode.insertBefore(spin, field.nextSibling);
 		}
 
-		$.post(TIMETY_HOSTNAME+"checkGroupName.php", {
+		$.post(TIMETY_PAGE_AJAX_CHECKGROUPNAME, {
 			g : groupName,
 			u : userId
 		},
@@ -150,7 +150,7 @@ function clear() {
 
 // accept invites
 function accept(groupId, userID) {
-	$.post(TIMETY_HOSTNAME+"responseToGroupInvites.php", {
+	$.post(TIMETY_PAGE_AJAX_RESPONSETOGROUPINVITES, {
 		g : groupId,
 		u : userID,
 		r :1
@@ -164,7 +164,7 @@ function accept(groupId, userID) {
 
 // reject invites
 function reject(groupId, userID) {
-	$.post(TIMETY_HOSTNAME+"responseToGroupInvites.php", {
+	$.post(TIMETY_PAGE_AJAX_RESPONSETOGROUPINVITES, {
 		g : groupId,
 		u : userID,
 		r :0

@@ -4,13 +4,13 @@ var socialWindowButtonCliked=false;
 
 function openPopup(type) {
 	if (type == 'fb') { 
-		socialWindow=window.open(TIMETY_HOSTNAME+'login-facebook.php?type=1', 'fb_sign',
+		socialWindow=window.open(TIMETY_PAGE_SOCIAL_FB_LOGIN+'?type=1', 'fb_sign',
 				'status=1,toolbar=0,location=0,menubar=0,height=460,width=420');
 	} else if (type == 'tw') {
-		socialWindow=window.open(TIMETY_HOSTNAME+'login-twitter.php?type=1', 'tw_sign',
+		socialWindow=window.open(TIMETY_PAGE_SOCIAL_TW_LOGIN+'?type=1', 'tw_sign',
 				'status=1,toolbar=0,location=0,menubar=0,height=460,width=420');
 	} else if (type == 'fq') {
-		socialWindow=window.open(TIMETY_HOSTNAME+'login-foursquare.php?type=1', 'fq_sign',
+		socialWindow=window.open(TIMETY_PAGE_SOCIAL_FQ_LOGIN+'?type=1', 'fq_sign',
 				'status=1,toolbar=0,location=0,menubar=0,height=460,width=420');
 	}
 	socialWindowOpen=true;
@@ -34,7 +34,7 @@ function checkOpenPopup() {
 function checkInterestReady(location, spinner, userId, check) {
 	jQuery(spinner).show();
 
-	jQuery.post(TIMETY_HOSTNAME+"checkInterestReady.php", {
+	jQuery.post(TIMETY_PAGE_AJAX_CHECKINTERESTREADY, {
 		user : userId
 	}, function(data) {
 		if (data.success) {
@@ -60,7 +60,7 @@ function showRegisterError(errorButton)
 function checkInterestReady(location, spinner, userId, check) {
 	jQuery(spinner).show();
 
-	jQuery.post(TIMETY_HOSTNAME+"checkInterestReady.php", {
+	jQuery.post(TIMETY_PAGE_AJAX_CHECKINTERESTREADY, {
 		user : userId
 	}, function(data) {
 		if (data.success) {
@@ -89,7 +89,7 @@ function inviteUser(emailE,id)
                     node.removeChild(node.lastChild);
                 }
                 jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='"+TIMETY_HOSTNAME+"images/close.png'></img></a></div>");
-		$.post(TIMETY_HOSTNAME+"inviteEmail.php", {
+		$.post(TIMETY_PAGE_AJAX_INVITEEMAIL, {
 			e : email,
                         u :id
 		}, function(data) {

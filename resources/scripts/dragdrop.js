@@ -57,7 +57,7 @@ function dropJoinEvent(userId,eventId)
     {
         jQuery.ajax({
                         type: 'POST',
-                        url: TIMETY_HOSTNAME+'joinEvent.php',
+                        url: TIMETY_PAGE_AJAX_JOINEVENT,
                         data: {
                             'eventId':eventId,
                             'userId':userId
