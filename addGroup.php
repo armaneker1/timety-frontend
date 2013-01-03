@@ -13,7 +13,7 @@ if (isset($_SESSION['id'])) {
 		header("location: ".PAGE_LOGOUT);
 	} else
 	{
-		UserFuctions::checkUserStatus($user);
+		SessionUtil::checkUserStatus($user);
 	}
 
 	if(isset($_POST['te_groupname']) && isset($_POST['element_people']) )
@@ -87,7 +87,7 @@ if (isset($_SESSION['id'])) {
 			<h3>Invites</h3>
 			<?php 	
 			$array=array();
-			$array=$userFunc->getGropInvitesByUserId($user->id);
+			$array=InviteUtil::getGropInvitesByUserId($user->id);
 			$group=new Group();
 			if(!empty($array))
 			{

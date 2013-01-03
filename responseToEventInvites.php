@@ -9,8 +9,7 @@ if(isset($_POST["e"]) && isset($_POST["u"]) && isset($_POST["r"]))
 	try {
 		if(!empty( $userId) && !empty( $eventId)  && (!empty( $resp) || $resp==0))
 		{
-			$userFunctions=new UserFuctions();
-			$result=$userFunctions->responseToEventInvites($userId, $eventId,$resp);
+			$result=InviteUtil::responseToEventInvites($userId, $eventId,$resp);
 		}
 	} catch (Exception $e) { 
 		$result->error=$e->getMessage();

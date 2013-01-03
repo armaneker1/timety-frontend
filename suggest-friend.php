@@ -32,7 +32,7 @@ else
 		//post ile gelinmemisse
 		if($user->status!=2)
 		{
-			UserFuctions::checkUserStatus($user);
+			SessionUtil::checkUserStatus($user);
 		}
 
 		$socialProviders=$user->socialProviders;

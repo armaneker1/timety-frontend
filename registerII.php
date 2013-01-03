@@ -97,7 +97,7 @@ else
 	
 	if($user!=null && $user->status!=1)
 	{
-		UserFuctions::checkUserStatus($user);
+		SessionUtil::checkUserStatus($user);
 	}
 	
 	//get data

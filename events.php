@@ -13,7 +13,7 @@ if (isset($_SESSION['id'])) {
 		header("location: ".PAGE_LOGOUT);
 	} else
 	{
-		UserFuctions::checkUserStatus($user);
+		SessionUtil::checkUserStatus($user);
 	}
 }
 else
@@ -35,7 +35,7 @@ else
 	<h3>Event Invites</h3>
 	<?php 	
 	$array=array();
-	$array=$userFunc->getEventInvitesByUserId($user->id);
+	$array=InviteUtil::getEventInvitesByUserId($user->id);
 	$event=new Event();
 	if(!empty($array))
 	{

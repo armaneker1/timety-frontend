@@ -13,7 +13,7 @@ if (isset($_SESSION['id'])) {
 		header("location: ".PAGE_LOGOUT);
 	} else
 	{
-		UserFuctions::checkUserStatus($user);
+		SessionUtil::checkUserStatus($user);
 	}
 	
 	

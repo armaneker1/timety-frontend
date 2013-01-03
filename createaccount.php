@@ -5,7 +5,7 @@ require 'utils/userFunctions.php';
 session_start();
 $sign_page_type="createaccount";
 header("Content-Type: text/html; charset=utf8");
-UserFuctions::checkNotLoggedinUser();
+SessionUtil::checkNotLoggedinUser();
 
 if (array_key_exists("login", $_GET)) {
 	$oauth_provider = $_GET['oauth_provider'];

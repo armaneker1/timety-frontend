@@ -24,7 +24,7 @@ if (isset($_SESSION['id'])) {
     $user = new User();
     $user = $userFunc->getUserById($_SESSION['id']);
     if (!empty($user)) {
-        UserFuctions::checkUserStatus($user);
+        SessionUtil::checkUserStatus($user);
     }
 } else {
     //check cookie
@@ -50,7 +50,7 @@ if (empty($user)) {
     setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
     setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
 } else {
-    UserFuctions::checkUserStatus($user);
+    SessionUtil::checkUserStatus($user);
     $_random_session_id = $user->id . "_" . $_random_session_id;
     if (isset($_POST["te_event_title"])) {
         

@@ -2,7 +2,7 @@
 require 'utils/userFunctions.php';
 session_start();
 $sign_page_type="signin";
-UserFuctions::checkNotLoggedinUser();
+SessionUtil::checkNotLoggedinUser();
 $msgs=array();
 if (array_key_exists("login", $_GET)) {
 	$oauth_provider = $_GET['oauth_provider'];

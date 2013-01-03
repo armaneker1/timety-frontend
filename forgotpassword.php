@@ -1,7 +1,7 @@
 <?php
 require 'utils/userFunctions.php';
 session_start(); 
-UserFuctions::checkNotLoggedinUser();
+SessionUtil::checkNotLoggedinUser();
 
 
 $msgs=array();

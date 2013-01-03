@@ -145,7 +145,7 @@ if (!isset($_SESSION['id'])) {
         $visible = true;
         if (!empty($user)) {
             if ($user->status != 0) {
-                UserFuctions::checkUserStatus($user);
+                SessionUtil::checkUserStatus($user);
             }
             $socialProviders = $user->socialProviders;
             if (!empty($socialProviders)) {

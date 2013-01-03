@@ -14,8 +14,7 @@ $res->success=false;
 try {
 	if(!empty( $eventId) && !empty( $userId))
 	{
-            $nf=new Neo4jFuctions();
-            $result= $nf->responseToEventInvites($userId, $eventId, 1);
+            $result= InviteUtil::responseToEventInvites($userId, $eventId, 1);
             if(empty($result) || $result->error || !$result->success )
             {
                 $res->error=true;

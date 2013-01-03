@@ -8,6 +8,8 @@ require_once __DIR__.'/CommentFunctions.php';
 require_once __DIR__.'/ImageFunctions.php';
 require_once __DIR__.'/MailFunctions.php';
 require_once __DIR__.'/Functions.php';
+require_once __DIR__.'/SessionFunctions.php';
+require_once __DIR__.'/InviteFunctions.php';
 require_once __DIR__.'/DBFunctions.php';
 require_once __DIR__.'/LostPassFunctions.php';
 require_once __DIR__.'/../appConfig.php';
@@ -19,85 +21,6 @@ require_once __DIR__.'/../utils/neo4jFunctions.php';
 require_once __DIR__.'/../models/models.php';
 
 class UserFuctions {
-
-
-	//check session and if user logged in redirect it to home.php
-	public static function  checkLoggedinUser()
-	{
-		if(isset($_SESSION['id']))
-		{
-			$usrF=new UserFuctions();
-			$usr=$usrF->getUserById($_SESSION['id']);
-			if(empty($usr) || empty($usr->id) || empty($usr->userName))
-			{
-				header("location: ".HOSTNAME);
-			}
-		}
-	}
-
-	public static function  checkNotLoggedinUser()
-	{
-		if(isset($_SESSION['id']))
-		{
-			$usrF=new UserFuctions();
-			$usr=$usrF->getUserById($_SESSION['id']);
-			if(!empty($usr) && !empty($usr->id) && !empty($usr->userName))
-			{
-				header("location: ".HOSTNAME);
-			}
-		}
-	}
-
-
-
-	//check user status  0 -> new user, user should see registerPI.php
-	// 1-> user entered name,surname email.. user should see registerII.php
-	// 2-> user entered his interests.. user should go friend requeste
-	// 3-> user finished register
-	public static function checkUserStatus(User $user)
-	{
-		if(!empty($user))
-		{
-			$statu=$user->status;
-			if($statu==0)
-			{
-				header("location: ".PAGE_ABOUT_YOU);
-			}else if ($statu==1)
-			{
-				header("location: ".PAGE_LIKES);
-			}
-			else if ($statu==2)
-			{
-				header("location: ".PAGE_WHO_TO_FOLLOW);
-			}
-		}
-	}
-	function getGropInvitesByUserId($userId)
-	{
-		$n=new Neo4jFuctions();
-		return $n->getGropInvitesByUserId($userId);
-	}
-
-	function getEventInvitesByUserId($userId)
-	{
-		$n=new Neo4jFuctions();
-		return $n->getEventInvitesByUserId($userId);
-	}
-
-	function responseToGroupInvites($userId, $groupId,$resp)
-	{
-		$n=new Neo4jFuctions();
-		return $n->responseToGroupInvites($userId, $groupId,$resp);
-	}
-
-
-	function responseToEventInvites($userId, $eventId,$resp)
-	{
-		$n=new Neo4jFuctions();
-		return $n->responseToEventInvites($userId, $eventId,$resp);
-	}
-
-
 
 	//check user if user exist update if not create user. and return user
 	function checkUser($uid, $oauth_provider, $username,$accessToken,$accessTokenSecret)
