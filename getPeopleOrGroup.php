@@ -10,7 +10,7 @@ if(!empty($query) && !empty( $userId))
 		$array=array();
 		$result=array();
 		//methoddan interestleri getir
-		$array=$userFunctions->getFriendList($userId, $query);
+		$array=SocialFriendUtil::getFriendList($userId, $query);
 		if(!empty($array) && sizeof($array)>0)
 		{
 			$val=new User();

@@ -21,7 +21,7 @@ if (isset($_SESSION['id'])) {
 		$groupName=$_POST['te_groupname'];
 		$element_people=$_POST['element_people'];
 		$element_people=json_decode($element_people);
-		$userFunc->createGroup($groupName, $element_people, $_SESSION['id']);
+		GroupUtil::createGroup($groupName, $element_people, $_SESSION['id']);
 	}
 } else {
 	header("location: ".HOSTNAME);

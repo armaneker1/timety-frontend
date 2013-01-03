@@ -8,7 +8,7 @@ try {
 	if(!empty( $fromUserId) && !empty( $toUserId))
 	{
 		$userFunctions=new UserFuctions();
-		$result=$userFunctions->followUser($fromUserId, $toUserId);
+		$result=SocialFriendUtil::followUser($fromUserId, $toUserId);
 	}
 } catch (Exception $e) {
 	$result->error=$e->getMessage();

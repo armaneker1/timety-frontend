@@ -118,7 +118,7 @@ else
 						array_push($friendsId, $friend['id']);
 					}
 					if(!empty($friendsId))
-						$friends=$userFunctions->getUserSuggestList($user->id,$friendsId, $provider->oauth_provider);
+						$friends=SocialFriendUtil::getUserSuggestList($user->id,$friendsId, $provider->oauth_provider);
 					else
 						$friends=null;
 				}
@@ -212,7 +212,7 @@ else
 		</div>
 		<ul>
 			<?php 
-			$follow=$userFunctions->getUserFollowList($user->id);
+			$follow=SocialFriendUtil::getUserFollowList($user->id);
 			if(!empty($friendList))
 			{
 				foreach ($friendList as $friend) {

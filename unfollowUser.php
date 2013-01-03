@@ -8,7 +8,7 @@ try {
 	if(!empty( $fromUserId) && !empty( $toUserId))
 	{
 		$userFunctions=new UserFuctions();
-		$result=$userFunctions->unfollowUser($fromUserId, $toUserId);
+		$result=SocialFriendUtil::unfollowUser($fromUserId, $toUserId);
 	}else 
 	{
 		$result->error="User not exists";

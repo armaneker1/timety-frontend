@@ -9,7 +9,7 @@ try {
 		if(!empty( $query))
 		{
 			$userFunctions=new UserFuctions();
-			$result->success=$userFunctions->checkGroupName($query,$user);
+			$result->success=GroupUtil::checkGroupName($query,$user);
 		}else
 		{
 			$result->success=true;

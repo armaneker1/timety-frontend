@@ -10,7 +10,7 @@ try {
 		$array=array();
 		$result=array();
 		//methoddan interestleri getir
-		$array=$userFunctions->getFriendList($userId, $query);
+		$array=SocialFriendUtil::getFriendList($userId, $query);
 		//id nin basına isaret cak ; ile ayır
 		if(!empty($array) && sizeof($array)>0)
 		{
