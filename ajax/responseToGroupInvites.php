@@ -2,7 +2,7 @@
 session_start();
 header("Content-Type: text/html; charset=utf8");
 
-require_once __DIR__.'/utils/Functions.php';
+require_once __DIR__.'/../utils/Functions.php';
 
 $result=new Result();
 if(isset($_POST["g"]) && isset($_POST["u"]) && isset($_POST["r"]))

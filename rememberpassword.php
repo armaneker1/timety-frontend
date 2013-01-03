@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
+
 SessionUtil::checkNotLoggedinUser();
 
 
@@ -11,7 +14,7 @@ $email="";
 $userpass="";
 $userrepass="";
 
-$userFunctions=new UserUtils();
+
 if(isset($_GET["guid"]))
 { 
 	try {
@@ -65,7 +68,7 @@ if(isset($_POST["te_email"]))
 		$m->message="ivalid email addrress";
 		array_push($msgs,$m);
 	} else {
-		$usr=$userFunctions->getUserByEmail($email);
+		$usr=UserUtils::getUserByEmail($email);
 		if(empty($usr))
 		{
 			$m=new HtmlMessage();
@@ -100,7 +103,7 @@ if(isset($_POST["te_email"]))
 					var_dump($usr->id);
 					LostPassUtil::invalidate($lss->id);
 					$usr->password=sha1($userpass);
-					$userFunctions->updateUser($usr->id,$usr);
+					UserUtils::updateUser($usr->id,$usr);
 					$_SESSION['id'] = $usr->id;
 					header("location: ".HOSTNAME);
 				}else
@@ -120,11 +123,10 @@ if(isset($_POST["te_email"]))
 
 if(!empty($userId))
 {
-	$usr=$userFunctions->getUserById($userId);
+	$usr=UserUtils::getUserById($userId);
 	$email=$usr->email;
 }
 
-header("Content-Type: text/html; charset=utf8");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

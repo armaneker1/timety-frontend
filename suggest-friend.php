@@ -1,16 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <?php
-require 'apis/facebook/facebook.php';
-require 'config/fbconfig.php';
-require 'apis/foursquare/FoursquareAPI.php';
-require 'config/fqconfig.php';
-require 'apis/twitter/twitteroauth.php';
-require 'config/twconfig.php';
-require_once __DIR__.'/utils/Functions.php';
-
 session_start();
-header("Content-Type: text/html; charset=utf-8");
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
  
 
 if (!isset($_SESSION['id'])) {
@@ -19,9 +11,8 @@ if (!isset($_SESSION['id'])) {
 }
 else
 {
-	$userFunctions=new UserUtils();
 	$user=new User();
-	$user=$userFunctions->getUserById($_SESSION['id']);
+	$user=UserUtils::getUserById($_SESSION['id']);
 
 	/*
 	 * suggest friends
@@ -147,11 +138,11 @@ else
 	}
 }
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php include('layout/layout_header.php'); ?>
 <title>Timety Friend Suggest</title>
-<script language="javascript"
-	src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 <script language="javascript" src="<?=HOSTNAME?>resources/scripts/register.js"></script>
 <script type="text/javascript">
 			$(function(){

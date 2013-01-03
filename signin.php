@@ -1,17 +1,21 @@
 <?php
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
+
+
 $sign_page_type="signin";
 SessionUtil::checkNotLoggedinUser();
 $msgs=array();
 if (array_key_exists("login", $_GET)) {
 	$oauth_provider = $_GET['oauth_provider'];
-	if ($oauth_provider == 'twitter') {
-		header("Location: login-twitter.php");
-	} else if ($oauth_provider == 'facebook') {
-		header("Location: login-facebook.php");
-	} else if ($oauth_provider == 'foursquare') {
-		header("Location: login-foursquare.php");
+	if ($oauth_provider == TWITTER_TEXT) {
+		header("Location: ".PAGE_TW_LOGIN);
+	} else if ($oauth_provider == FACEBOOK_TEXT) {
+		header("Location: ".PAGE_FB_LOGIN);
+	} else if ($oauth_provider == FOURSQUARE_TEXT) {
+		header("Location: ".PAGE_FQ_LOGIN);
 	}
 } 
 $uname=null;
@@ -23,8 +27,7 @@ if (array_key_exists("te_username", $_POST)) {
 	if(isset($_POST["te_password"]))
 		$upass=$_POST["te_password"];
 
-	$userFunctions=new UserUtils();
-	$user=$userFunctions->login($uname, sha1($upass));
+	$user=UserUtils::login($uname, sha1($upass));
 	if(!empty($user))
 	{
 		$_SESSION['id'] = $user->id;
@@ -47,7 +50,6 @@ if (array_key_exists("te_username", $_POST)) {
 	}
 	$upass=null;
 }
-header("Content-Type: text/html; charset=utf8");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

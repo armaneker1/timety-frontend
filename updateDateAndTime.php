@@ -1,27 +1,9 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
-use Everyman\Neo4j\Transport,
-Everyman\Neo4j\Client,
-Everyman\Neo4j\Index,
-Everyman\Neo4j\Index\NodeIndex,
-Everyman\Neo4j\Relationship,
-Everyman\Neo4j\Node,
-Everyman\Neo4j\Cypher; 
-require 'apis/facebook/facebook.php';
-require 'config/fbconfig.php';
-require 'apis/foursquare/FoursquareAPI.php';
-require 'config/fqconfig.php';
-require 'apis/twitter/twitteroauth.php';
-require 'config/twconfig.php';
+session_start();
+header("Content-Type: text/html; charset=utf8");
+
 require_once __DIR__.'/utils/Functions.php';
 
-
-/*
- * 
- */
-
- 
-$uf=new UserUtils();
 $nf=new Neo4jFuctions();
 
 $list=$nf->getAllEvents();

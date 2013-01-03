@@ -1,21 +1,17 @@
 <?php
-require 'apis/facebook/facebook.php';
-require 'config/fbconfig.php';
-require 'apis/foursquare/FoursquareAPI.php';
-require 'config/fqconfig.php';
-require 'apis/twitter/twitteroauth.php';
-require 'config/twconfig.php';
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
+
+
 if (!isset($_SESSION['id'])) {
 	// Redirection to login page twitter or facebook or foursquare
 	header("location: ".HOSTNAME);
 }
 else
 {	
-	
-	$userFuctions=new UserUtils();
-	$user=$userFuctions->getUserById($_SESSION['id']);
+	$user=UserUtils::getUserById($_SESSION['id']);
 	
 	if (isset($_POST['type']) && !empty($user)) {
 		$userId=$user->id;
@@ -46,7 +42,7 @@ else
 		}
 	
 		$user->status=2;
-		$userFuctions->updateUser($_SESSION['id'], $user);
+		UserUtils::updateUser($_SESSION['id'], $user);
 	
 		
 		header("Location : ".PAGE_WHO_TO_FOLLOW);
@@ -114,7 +110,6 @@ else
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
 <?php include('layout/layout_header.php'); ?>
 <script language="javascript" src="<?=HOSTNAME?>resources/scripts/register.js"></script>
 <script language="javascript" src="<?=HOSTNAME?>resources/scripts/registerutil.js"></script>
