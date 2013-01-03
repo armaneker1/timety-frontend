@@ -48,6 +48,7 @@ define('PAGE_TW_LOGIN', HOSTNAME.'login-twitter.php');
 define('PAGE_AJAX_FOLDER',HOSTNAME.'ajax/');
 define('PAGE_AJAX_CHECKUSERNAME',PAGE_AJAX_FOLDER.'checkUserName.php');
 define('PAGE_AJAX_CHECKEMAIL',PAGE_AJAX_FOLDER.'checkEmail.php');
+define('PAGE_AJAX_GETCATEGORYTOKEN',PAGE_AJAX_FOLDER.'getCategoryToken.php');
 
 
 

@@ -106,7 +106,7 @@ class ImageUtil {
         return $array;
     }
 
-    function getSocialElementPhoto($id, $socialType) {
+    public static function getSocialElementPhoto($id, $socialType) {
         $url = "";
         if ($socialType == FACEBOOK_TEXT) {
             $url = "https://graph.facebook.com/" . $id . "/picture?type=square";

@@ -17,7 +17,6 @@ else
 		$userId=$user->id;
 		if(isset($_POST['add_ineterest']))
 			$userAddInterest=$_POST['add_ineterest'];
-		$check=0;
 		if(!empty($userAddInterest))
 		{
 			$userAddInterest=json_decode($userAddInterest);
@@ -43,57 +42,14 @@ else
 	
 		$user->status=2;
 		UserUtils::updateUser($_SESSION['id'], $user);
-	
-		
 		header("Location : ".PAGE_WHO_TO_FOLLOW);
-		
-		/*foreach($_POST as $name=>$param)
-		 {
-		$namePre=substr($name,0,4);
-		if($namePre=='cat_' && !empty($param))
-		{
-		$catId=substr($name, 4);
-		$userId=$_SESSION['id'];
-	
-		$Ids=$userFunctions->getUserInterestIds($userId, $catId);
-		$array=array();
-		$params=preg_split('/,/', $param);
-	
-		foreach($params as $val)
-		{
-		if(strpos($val, ";") == "3")
-		{
-		//Kayitlarda yok yeni interest ekle
-		$valT=substr($val, 4);
-		$id=$userFunctions->addInterest( $catId, $valT,"0","0","0");
-		if(!empty($id))
-			$userFunctions->saveUserInterest($userId, $id);
-		}
-		else
-		{
-		//var olan interest iliski ekle
-		array_push($array, $val);
-		$userFunctions->saveUserInterest($userId, $val);
-		}
-		}
-		//remove delted events
-		$array=array_diff($Ids, $array);
-		if(!empty($array))
-		{
-		foreach($array as $row) {
-		$userFunctions->removeInterest($userId, $row);
-		}
-		}
-		}
-		}*/
-	
 	}
 	
 	
 	
 	if($user!=null && $user->status!=1)
 	{
-		SessionUtil::checkUserStatus($user);
+            SessionUtil::checkUserStatus($user);
 	}
 	
 	//get data
@@ -150,7 +106,7 @@ else
 				});
 
 				 jQuery( "#add_like_autocomplete" ).autocomplete({ 
-			            source: "<?=HOSTNAME?>getCategoryToken.php?u=<?php echo $user->id;?>&&c=*", 
+			            source: "<?=PAGE_AJAX_GETCATEGORYTOKEN?>?u=<?php echo $user->id;?>&c=*", 
 			            minLength: 2,
 			            select: function( event, ui ) { insertItem("add_like_ul",ui,'0'); }	
 		         });	
