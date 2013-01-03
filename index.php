@@ -299,7 +299,7 @@ if (empty($user)) {
                     jQuery(function(){          
                         var uploader = new qq.FileUploader({
                             element: document.getElementById('te_event_image_div'),
-                            action: 'uploadImage.php?type=1',
+                            action: '<?=PAGE_AJAX_UPLOADIMAGE?>?type=1',
                             debug: true,
                             allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
                             params: {
@@ -470,7 +470,7 @@ if (empty($user)) {
             ?>
             <script>
                 jQuery(document).ready(function() {
-                    jQuery( "#te_event_category" ).tokenInput("getCategory.php",{ 
+                    jQuery( "#te_event_category" ).tokenInput("<?=PAGE_AJAX_GETCATEGORY?>",{ 
                         theme: "facebook",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
@@ -488,7 +488,7 @@ if (empty($user)) {
                     });	
                     
                     
-                    jQuery( "#te_event_tag" ).tokenInput("getTag.php",{ 
+                    jQuery( "#te_event_tag" ).tokenInput("<?=PAGE_AJAX_GETTAG?>",{ 
                         theme: "facebook",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
@@ -505,7 +505,7 @@ if (empty($user)) {
                         prePopulate : <?php echo $var_tag;?>	
                     });	
 
-                    jQuery( "#te_event_people" ).tokenInput("getPeopleOrGroup.php",{ 
+                    jQuery( "#te_event_people" ).tokenInput("<?=PAGE_AJAX_GETPEOPLEORGROUP?>",{ 
                         theme: "facebook",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
@@ -567,7 +567,7 @@ if (empty($user)) {
                 jQuery(function(){
                    jQuery.ajax({
                         type: 'POST',
-                        url: TIMETY_HOSTNAME+'getEvent.php',
+                        url: TIMETY_PAGE_AJAX_GETEVENT,
                         data: {
                             'eventId':'<?=$_GET["eventId"]?>'
                         },

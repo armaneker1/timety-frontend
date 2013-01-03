@@ -61,6 +61,14 @@ define('PAGE_AJAX_GETEVENTATTENDANCES',PAGE_AJAX_FOLDER.'getEventAttendances.php
 define('PAGE_AJAX_GETCOMMENTS',PAGE_AJAX_FOLDER.'getComments.php');
 define('PAGE_AJAX_ADDCOMMENTS',PAGE_AJAX_FOLDER.'addComments.php');
 define('PAGE_AJAX_GETEVENTS',PAGE_AJAX_FOLDER.'getEvents.php');
+define('PAGE_AJAX_UPLOADIMAGE',PAGE_AJAX_FOLDER.'uploadImage.php');
+define('PAGE_AJAX_GETCATEGORY',PAGE_AJAX_FOLDER.'getCategory.php');
+define('PAGE_AJAX_GETTAG',PAGE_AJAX_FOLDER.'getTag.php');
+define('PAGE_AJAX_GETPEOPLEORGROUP',PAGE_AJAX_FOLDER.'getPeopleOrGroup.php');
+define('PAGE_AJAX_GETEVENT',PAGE_AJAX_FOLDER.'getEvent.php');
+
+
+
 
 
 
