@@ -1,8 +1,8 @@
 <?php
-require 'apis/foursquare/FoursquareAPI.php';
-require 'config/fqconfig.php';
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
  
 $call_back=FQ_CALLBACK_URL;
 if(isset($_GET['type']))

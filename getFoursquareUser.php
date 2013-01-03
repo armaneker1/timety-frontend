@@ -1,9 +1,9 @@
 <?php
-require 'apis/foursquare/FoursquareAPI.php'; 
-require 'config/fqconfig.php';
+session_start();
+header("Content-Type: text/html; charset=utf8");
+
 require_once __DIR__.'/utils/Functions.php';
 
-session_start();
 
 $success=TRUE;
 $errortext="";
@@ -18,8 +18,7 @@ else if(isset($_GET['add']))
 
 	if(isset($_SESSION['id']))
 	{
-		$userFunctions = new UserUtils();
-		$l_user=$userFunctions->getUserById($_SESSION['id']);
+		$l_user=UserUtils::getUserById($_SESSION['id']);
 
 		$foursquare = new FoursquareAPI(FQ_CLIENT_ID,FQ_CLIENT_SECRET);
 		$token=$foursquare->GetToken($_GET['code'],HOSTNAME.FQ_CALLBACK_URL);
@@ -33,7 +32,7 @@ else if(isset($_GET['add']))
 				$user=$res->user;
 
                                 
-                                $fcUser=$userFunctions->getSocialProviderWithOAUTHId($user->id, FOURSQUARE_TEXT);
+                                $fcUser=UserUtils::getSocialProviderWithOAUTHId($user->id, FOURSQUARE_TEXT);
                                 if(empty($fcUser))
                                 {
                                     $provider=new SocialProvider();
@@ -43,7 +42,7 @@ else if(isset($_GET['add']))
                                     $provider->status=0;
                                     $provider->user_id=$l_user->id;
 
-                                    $userFunctions->updateSocialProvider($provider);
+                                    UserUtils::updateSocialProvider($provider);
                                 }else
                                 {
                                     $success=FALSE;
@@ -83,13 +82,12 @@ else
 			$details = json_decode($res);
 			$res = $details->response;
 			$user=$res->user;
-			$userFunctions = new UserUtils();
 			$uid= $user->id;
 			// check username if exist return new username
 			$username= strtolower($user->firstName.$user->lastName);
 			$access_token=$token;
 
-			$result = $userFunctions->checkUser($uid, 'foursquare', $username,$access_token,null);
+			$result = UserUtils::checkUser($uid, 'foursquare', $username,$access_token,null);
 
 
 			$type=$result['type'];
@@ -121,7 +119,7 @@ else
 		}
 	} else
 	{
-		header('Location: login-foursquare.php');
+		header('Location: '.PAGE_FQ_LOGIN);
 	}
 }
 

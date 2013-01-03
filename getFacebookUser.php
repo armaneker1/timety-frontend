@@ -1,8 +1,9 @@
 <?php
-require 'apis/facebook/facebook.php'; 
-require 'config/fbconfig.php';
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
+
 
 $facebook = new Facebook(array(
 		'appId' => FB_APP_ID,
@@ -20,14 +21,12 @@ catch (Exception $e) {
 	echo $e->getMessage();
 }
 if (!empty($user)) {
-	$userFunctions = new UserUtils();
 	// check username if exist return new username 
 	$username =strtolower($user['username']);
-	$result = $userFunctions->checkUser($uid, 'facebook', $username,$access_token,null);
+	$result = UserUtils::checkUser($uid, 'facebook', $username,$access_token,null);
 	$type=$result['type'];
 	$user=new User();
 	$user=$result['user'];
-
 	if(!empty($user)){
 		$_SESSION['id'] = $user->id;
 		$_SESSION['oauth_id'] = $uid;
@@ -45,6 +44,6 @@ if (!empty($user)) {
 		header("Location: ".HOSTNAME);
 	}
 }else {
-	header('Location: login-facebook.php');
+	header('Location: '.PAGE_FB_LOGIN);
 }
 ?>

@@ -1,11 +1,20 @@
 <?php 
+session_start();
+header("Content-Type: text/html; charset=utf8");
+
 require_once __DIR__.'/utils/Functions.php';
-$query=$_GET["term"];
-$userId=$_GET["u"];
+
+$query=null;
+if(isset($_GET["term"]))
+    $query=$_GET["term"];
+
+$userId=null;
+if(isset($_GET["u"]))
+    $userId=$_GET["u"];
+
 try {
 if(!empty($query) && !empty( $userId))
 	{
-		$userFunctions=new UserUtils();
 		//noramlly get neo4j
 		$array=array();
 		$result=array();

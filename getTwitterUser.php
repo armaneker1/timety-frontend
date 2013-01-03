@@ -1,9 +1,9 @@
 <?php
-
-require 'apis/twitter/twitteroauth.php'; 
-require 'config/twconfig.php';
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
+
 
 if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empty($_SESSION['oauth_token_secret'])) {
 	$twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
@@ -12,15 +12,13 @@ if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empt
 	$user_info = $twitteroauth->get('account/verify_credentials');
 	if (isset($user_info->error)) {
 		// Something's wrong, go back to square 1
-		header('Location: login-twitter.php');
+		header('Location: '.PAGE_TW_LOGIN);
 	} else {
 		$uid = $user_info->id;
-
-		$userFunctions = new UserUtils();
 		// check username if exist return new username
 		$username = strtolower($user_info->screen_name);
 
-		$result = $userFunctions->checkUser($uid, 'twitter', $username,$access_token['oauth_token'],$access_token['oauth_token_secret']);
+		$result = UserUtils::checkUser($uid, 'twitter', $username,$access_token['oauth_token'],$access_token['oauth_token_secret']);
 		$type=$result['type'];
 		$user=new User();
 		$user=$result['user'];
@@ -47,6 +45,6 @@ if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empt
 	}
 } else {
 	// Something's missing, go back to square 1
-	header('Location: login-twitter.php');
+	header('Location: '.PAGE_TW_LOGIN);
 }
 ?>

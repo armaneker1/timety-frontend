@@ -1,9 +1,8 @@
 <?php
-
-require 'apis/facebook/facebook.php'; 
-require 'config/fbconfig.php';
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
 
 $call_back=FB_CALLBACK_URL;
 if(isset($_GET['type']))

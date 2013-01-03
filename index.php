@@ -1,28 +1,28 @@
 <?php
-require_once __DIR__.'/config/fbconfig.php';
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
+
 
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
 
 if (isset($_GET['finish'])) {
     $user = new User();
-    $userFunc = new UserUtils();
-    $user = $userFunc->getUserById($_SESSION['id']);
+    $user = UserUtils::getUserById($_SESSION['id']);
     $user->status = 3;
-    $userFunc->updateUser($user->id, $user);
+    UserUtils::updateUser($user->id, $user);
     
     $confirm=base64_encode($user->id.";".$user->userName.";".DBUtils::get_uuid());
     $res=MailUtil::sendEmail("Dear ".$user->firstName." ".$user->lastName." click to confirm your account <a href='".PAGE_CONFIRM."?guid=".$confirm."'>here</a> ", "Timety Account Confirmation",'{"email": "'.$user->email.'",  "name": "'.$user->firstName.' '.$user->lastName.'"}');
     header('Location: '.HOSTNAME);
 }
 
-$userFunc = new UserUtils();
 $user = null;
 if (isset($_SESSION['id'])) {
     $user = new User();
-    $user = $userFunc->getUserById($_SESSION['id']);
+    $user = UserUtils::getUserById($_SESSION['id']);
     if (!empty($user)) {
         SessionUtil::checkUserStatus($user);
     }
@@ -35,7 +35,7 @@ if (isset($_SESSION['id'])) {
         $uname = base64_decode($_COOKIE[COOKIE_KEY_UN]);
         $upass = base64_decode($_COOKIE[COOKIE_KEY_PSS]);
         if (!empty($uname) && !empty($upass)) {
-            $user = $userFunc->login($uname, $upass);
+            $user = UserUtils::login($uname, $upass);
             if (!empty($user))
                 $_SESSION['id'] = $user->id;
         }

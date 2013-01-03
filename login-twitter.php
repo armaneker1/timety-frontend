@@ -1,8 +1,8 @@
 <?php
-require 'apis/twitter/twitteroauth.php';
-require 'config/twconfig.php';
-require_once __DIR__.'/utils/Functions.php';
 session_start();
+header("Content-Type: text/html; charset=utf8");
+
+require_once __DIR__.'/utils/Functions.php';
 
 $call_back=TW_CALLBACK_URL; 
 if(isset($_GET['type']))
