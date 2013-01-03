@@ -12,7 +12,7 @@ if(isset($_GET['type']) && $_GET['type']==1)
 
 	$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 
-	$result = $uploader->handleUpload('uploads/',TRUE);
+	$result = $uploader->handleUpload(__DIR__.'/../uploads/',TRUE);
 
 	echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 }
