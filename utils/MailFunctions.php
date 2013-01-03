@@ -6,9 +6,6 @@
 require_once __DIR__ . '/../apis/Mail/Mandrill.php';
 
 class MailUtil {
-    /*
-     * Mail
-     */
 
     public static function sendTemplateEmail($templateName, $param, $subject, $to) {
         if (!empty($param)) {
@@ -80,9 +77,6 @@ class MailUtil {
         return $ret;
     }
 
-    /*
-     * Mail
-     */
 }
 
 ?>

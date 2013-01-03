@@ -17,9 +17,10 @@ class EventUtil {
         $images = $event->images;
         $headerImage = $event->headerImage;
         $id = DBUtils::getNextId(CLM_EVENTID);
+
         $SQL = "INSERT INTO " . TBL_EVENTS . " (id, title, location, description, startDateTime, endDateTime,reminderType,reminderUnit,reminderValue,privacy,allday,repeat_,addsocial_fb,addsocial_gg,addsocial_fq,addsocial_tw) " .
                 " VALUES (" . $id . ",\"" . DBUtils::mysql_escape($event->title) . "\",\"" . DBUtils::mysql_escape($event->location) . "\",\"" . DBUtils::mysql_escape($event->description) . "\",\"$event->startDateTime\",\"$event->endDateTime\",\"$event->reminderType\",\"$event->reminderUnit\",$event->reminderValue,$event->privacy,$event->allday,$event->repeat,$event->addsocial_fb,$event->addsocial_gg,$event->addsocial_fq,$event->addsocial_tw)";
-        $query = mysql_query($SQL) or die(mysql_error());
+        mysql_query($SQL) or die(mysql_error());
         $event = EventUtil::getEventById($id);
         /*
          * Image'ler eklenecek
@@ -80,12 +81,17 @@ class EventUtil {
     }
 
     public static function getEventById($id) {
-        $query = mysql_query("SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id) or die(mysql_error());
-        $result = mysql_fetch_array($query);
-        $event = new Event();
-        $event->create($result, FALSE);
-        if (!empty($event->id)) {
-            return $event;
+        if (!empty($id)) {
+            $SQL="SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id;
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $event = new Event();
+            $event->create($result, FALSE);
+            if (!empty($event->id)) {
+                return $event;
+            } else {
+                return null;
+            }
         } else {
             return null;
         }

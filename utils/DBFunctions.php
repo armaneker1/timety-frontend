@@ -1,24 +1,19 @@
 <?php
 
-/*
- * Dependencies
- */
-require_once __DIR__ . '/userFunctions.php';
-require_once __DIR__ . '/../config/dbconfig.php';
-
 class DBUtils {
 
     public static function getNextId($field) {
         if (!empty($field)) {
             $field = DBUtils::mysql_escape($field);
-            $query = mysql_query("SELECT * FROM " . TBL_KEYGENERATOR . " WHERE  PK_COLUMN = '" . $field . "'") or die(mysql_error());
+            $SQL="SELECT * FROM " . TBL_KEYGENERATOR . " WHERE  PK_COLUMN = '" . $field . "'";
+            $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return DBUtils::setNextId($field);
             } else {
                 $val = ($result['VALUE_COLUMN'] + 1);
-                $sql = "UPDATE  " . TBL_KEYGENERATOR . " SET  VALUE_COLUMN=$val WHERE PK_COLUMN = '" . $field . "'";
-                mysql_query($sql) or die(mysql_error());
+                $SQL = "UPDATE  " . TBL_KEYGENERATOR . " SET  VALUE_COLUMN=$val WHERE PK_COLUMN = '" . $field . "'";
+                mysql_query($SQL) or die(mysql_error());
                 return $val;
             }
         } else {
@@ -30,7 +25,8 @@ class DBUtils {
         if (!empty($field)) {
             $field = DBUtils::mysql_escape($field);
             $id = rand(1000, 10000000);
-            mysql_query("INSERT INTO " . TBL_KEYGENERATOR . " (PK_COLUMN,VALUE_COLUMN)  VALUES ('" . $field . "'," . $id . ")") or die(mysql_error());
+            $SQL="INSERT INTO " . TBL_KEYGENERATOR . " (PK_COLUMN,VALUE_COLUMN)  VALUES ('" . $field . "'," . $id . ")";
+            mysql_query($SQL) or die(mysql_error());
             return $id;
         } else {
             return -1;

@@ -4,8 +4,7 @@ class SessionUtil {
 
     public static function checkNotLoggedinUser() {
         if (isset($_SESSION['id'])) {
-            $userFunctions = new UserUtils();
-            $user = $userFunctions->getUserById($_SESSION['id']);
+            $user = UserUtils::getUserById($_SESSION['id']);
             if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
                 header("location: " . HOSTNAME);
             }

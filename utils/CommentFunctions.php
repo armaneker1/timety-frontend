@@ -1,12 +1,5 @@
 <?php
 
-/*
- * Dependencies
- */
-require_once __DIR__ . '/DBFunctions.php';
-require_once __DIR__ . '/../config/dbconfig.php';
-require_once __DIR__ . '/../models/models.php';
-
 class CommentUtil {
 
     public static function getCommentById($commentId) {

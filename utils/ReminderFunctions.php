@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . '/DBFunctions.php';
-require_once __DIR__ . '/../config/dbconfig.php';
-
 class ReminderUtil {
     /*
      * 0=Day

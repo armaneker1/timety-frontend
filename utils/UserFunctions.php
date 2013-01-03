@@ -38,31 +38,10 @@ class UserUtils {
     }
 
     public static function checkUserName($userName) {
-        $query = mysql_query("SELECT id FROM " . TBL_USERS . " WHERE userName = '$userName'") or die(mysql_error());
-        $result = mysql_fetch_array($query);
-        if (empty($result)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static function login($userName, $pass) {
-        $query = mysql_query("SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName' AND password='$pass'") or die(mysql_error());
-        $result = mysql_fetch_array($query);
-        $user = new User();
-        $user->create($result);
-        if (!empty($user->id))
-            return $user;
-        else
-            return null;
-    }
-
-    public static function checkEmail($email) {
-        if (UtilFunctions::check_email_address($email)) {
-            $SQL = "SELECT id FROM " . TBL_USERS . " WHERE email = '$email' AND invited!=1";
+        if (!empty($userName)) {
+            $userName = DBUtils::mysql_escape($userName);
+            $SQL = "SELECT id FROM " . TBL_USERS . " WHERE userName = '$userName'";
             $query = mysql_query($SQL) or die(mysql_error());
-
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return true;
@@ -74,9 +53,44 @@ class UserUtils {
         }
     }
 
+    public static function login($userName, $pass) {
+        if (!empty($userName) && !empty($pass)) {
+            $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName' AND password='$pass'";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $user = new User();
+            $user->create($result);
+            if (!empty($user->id))
+                return $user;
+            else
+                return null;
+        } else {
+            return null;
+        }
+    }
+
+    public static function checkEmail($email) {
+        if (!empty($email)) {
+            if (UtilFunctions::check_email_address($email)) {
+                $email = DBUtils::mysql_escape($email);
+                $SQL = "SELECT id FROM " . TBL_USERS . " WHERE email = '$email' AND invited!=1";
+                $query = mysql_query($SQL) or die(mysql_error());
+                $result = mysql_fetch_array($query);
+                if (empty($result)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public static function checkInvitedEmail($email) {
-        $us = new UserUtils();
-        if ($us->check_email_address($email)) {
+        if (UtilFunctions::check_email_address($email)) {
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE email = '$email' AND invited=1";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
@@ -93,35 +107,36 @@ class UserUtils {
     }
 
     public static function moveUser($fromUserId, $toUserId) {
-        $us = new UserUtils();
-        $fromUser = $us->getUserById($fromUserId);
-        $toUser = $us->getUserById($toUserId);
+        $fromUser = UserUtils::getUserById($fromUserId);
+        $toUser = UserUtils::getUserById($toUserId);
         if (!empty($fromUser) && !empty($toUser) && $toUser->invited == 1) {
-            $us->updateUser($toUser->id, $fromUser);
+            UserUtils::updateUser($toUser->id, $fromUser);
             UserUtils::moveUserSocialProvider($fromUserId, $toUserId);
             Neo4jFuctions::moveUser($fromUserId, $toUserId, $fromUser);
             UserUtils::deleteUser($fromUserId);
-            $toUser = $us->getUserById($toUserId);
+            $toUser = UserUtils::getUserById($toUserId);
             $toUser->invited = 2;
-            $us->updateUser($toUser->id, $toUser);
+            UserUtils::updateUser($toUser->id, $toUser);
             return $toUserId;
         }
     }
 
     public static function deleteUser($userId) {
         if (!empty($userId)) {
+            $userId = DBUtils::mysql_escape($userId);
             $SQL = "DELETE FROM " . TBL_USERS . " WHERE id=" . $userId;
-            $query = mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL) or die(mysql_error());
         }
     }
 
     public static function moveUserSocialProvider($fromUserId, $toUserId) {
-        $us = new UserUtils();
-        $fromUser = $us->getUserById($fromUserId);
-        $toUser = $us->getUserById($toUserId);
+        $fromUser = UserUtils::getUserById($fromUserId);
+        $toUser = UserUtils::getUserById($toUserId);
         if (!empty($fromUser) && !empty($toUser)) {
+            $toUserId = DBUtils::mysql_escape($toUserId);
+            $fromUserId = DBUtils::mysql_escape($fromUserId);
             $SQL = "UPDATE " . TBL_USERS_SOCIALPROVIDER . " SET user_id=" . $toUserId . " WHERE user_id=" . $fromUserId;
-            $query = mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL) or die(mysql_error());
         }
     }
 
@@ -129,7 +144,6 @@ class UserUtils {
         if (UserUtils::checkUserName($userName)) {
             return $userName;
         }
-
         $i = 0;
         while ($i < 10) {
             $temp = $userName . rand(1, 100);
@@ -142,34 +156,48 @@ class UserUtils {
     }
 
     public static function getUserById($uid) {
-        $query = mysql_query("SELECT * FROM " . TBL_USERS . " WHERE id = $uid") or die(mysql_error());
-        $result = mysql_fetch_array($query);
-        if (empty($result)) {
-            return null;
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "SELECT * FROM " . TBL_USERS . " WHERE id = $uid";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            if (empty($result)) {
+                return null;
+            } else {
+                $user = new User();
+                $user->create($result);
+                $user->socialProviders = UserUtils::getSocialProviderList($user->id);
+                return $user;
+            }
         } else {
-            $user = new User();
-            $user->create($result);
-            $user->socialProviders = UserUtils::getSocialProviderList($user->id);
-            return $user;
+            return null;
         }
     }
 
     public static function getUserByUserName($userName) {
-        $query = mysql_query("SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName'") or die(mysql_error());
-        $result = mysql_fetch_array($query);
-        if (empty($result)) {
-            return null;
+        if (!empty($userName)) {
+            $userName = DBUtils::mysql_escape($userName);
+            $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName'";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            if (empty($result)) {
+                return null;
+            } else {
+                $user = new User();
+                $user->create($result);
+                $user->socialProviders = UserUtils::getSocialProviderList($user->id);
+                return $user;
+            }
         } else {
-            $user = new User();
-            $user->create($result);
-            $user->socialProviders = UserUtils::getSocialProviderList($user->id);
-            return $user;
+            return null;
         }
     }
 
     public static function getUserByEmail($email) {
         if (!empty($email)) {
-            $query = mysql_query("SELECT * FROM " . TBL_USERS . " WHERE email = '$email'") or die(mysql_error());
+            $email = DBUtils::mysql_escape($email);
+            $SQL = "SELECT * FROM " . TBL_USERS . " WHERE email = '$email'";
+            $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return null;
@@ -183,12 +211,20 @@ class UserUtils {
         return null;
     }
 
-   public static  function updateUser($uid, User $user) {
-        $query = mysql_query("UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate='" . DBUtils::getDate($user->birthdate) . "',firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited  WHERE id = $uid") or die(mysql_error());
+    public static function updateUser($uid, User $user) {
+        if (!empty($uid) && !empty($user)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate='" . DBUtils::getDate($user->birthdate) . "',firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited  WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
     }
 
     public static function confirmUser($uid) {
-        $query = mysql_query("UPDATE " . TBL_USERS . " set confirm=1 WHERE id = $uid") or die(mysql_error());
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set confirm=1 WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
     }
 
     public static function changeserProfilePic($uid, $url) {
@@ -196,7 +232,10 @@ class UserUtils {
             if (empty($url)) {
                 $url = "images/anonymous.jpg";
             }
-            $query = mysql_query("UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid") or die(mysql_error());
+            $url = DBUtils::mysql_escape($url);
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
         }
     }
 
@@ -208,7 +247,7 @@ class UserUtils {
             $user = UserUtils::getUserById($tmp_user->id);
         } else {
             $SQL = "INSERT INTO " . TBL_USERS . " (username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited) VALUES ('$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited)";
-            $query = mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL) or die(mysql_error());
             //create user for neo4j
             $user = UserUtils::getUserByUserName($user->userName);
         }
@@ -220,6 +259,7 @@ class UserUtils {
                 $user = UserUtils::getUserByUserName($user->userName);
             }
         } catch (Exception $e) {
+            error_log($e->getMessage());
             $user->saved = 0;
             UserUtils::updateUser($user->id, $user);
             $user = UserUtils::getUserByUserName($user->userName);
@@ -234,36 +274,49 @@ class UserUtils {
 
     //Social Provider Functions
     public static function getSocialProviderList($uid) {
-        $query = mysql_query("SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id = $uid") or die(mysql_error());
-        $array = array();
-        if (!empty($query)) {
-            $num = mysql_num_rows($query);
-            if ($num > 1) {
-                while ($db_field = mysql_fetch_assoc($query)) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id = $uid";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $array = array();
+            if (!empty($query)) {
+                $num = mysql_num_rows($query);
+                if ($num > 1) {
+                    while ($db_field = mysql_fetch_assoc($query)) {
+                        $provider = new SocialProvider();
+                        $provider->create($db_field);
+                        array_push($array, $provider);
+                    }
+                } else if ($num > 0) {
+                    $db_field = mysql_fetch_assoc($query);
                     $provider = new SocialProvider();
                     $provider->create($db_field);
                     array_push($array, $provider);
                 }
-            } else if ($num > 0) {
-                $db_field = mysql_fetch_assoc($query);
-                $provider = new SocialProvider();
-                $provider->create($db_field);
-                array_push($array, $provider);
             }
+            return $array;
+        } else {
+            return null;
         }
-        return $array;
     }
 
     public static function getSocialProviderWithOAUTHId($oauth_id, $oauth_provider) {
-        $query = mysql_query("SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE oauth_uid = '$oauth_id' and oauth_provider = '$oauth_provider'") or die(mysql_error());
-        $result = mysql_fetch_array($query);
-        $provider = new SocialProvider();
-        if (!empty($result)) {
-            $provider->create($result);
+        if (!empty($oauth_id) && !empty($oauth_provider)) {
+            $oauth_provider = DBUtils::mysql_escape($oauth_provider);
+            $oauth_id = DBUtils::mysql_escape($oauth_id);
+            $SQL="SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE oauth_uid = '$oauth_id' and oauth_provider = '$oauth_provider'";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $provider = new SocialProvider();
+            if (!empty($result)) {
+                $provider->create($result);
+            } else {
+                $provider = null;
+            }
+            return $provider;
         } else {
-            $provider = null;
+            return null;
         }
-        return $provider;
     }
 
     public static function updateSocialProvider(SocialProvider $provider) {
