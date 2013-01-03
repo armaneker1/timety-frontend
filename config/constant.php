@@ -45,5 +45,11 @@ define('PAGE_FQ_LOGIN', HOSTNAME.'login-foursquare.php');
 define('PAGE_TW_LOGIN', HOSTNAME.'login-twitter.php');
 
 
+define('PAGE_AJAX_FOLDER',HOSTNAME.'ajax/');
+define('PAGE_AJAX_CHECKUSERNAME',PAGE_AJAX_FOLDER.'checkUserName.php');
+define('PAGE_AJAX_CHECKEMAIL',PAGE_AJAX_FOLDER.'checkEmail.php');
+
+
+
 
 ?>
