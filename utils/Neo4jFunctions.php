@@ -220,7 +220,7 @@ class Neo4jFuctions {
 
                             $att_ = explode(";", $att);
                             if (sizeof($att_) == 2) {
-                                $uf = new UserFuctions();
+                                $uf = new UserUtils();
                                 $email = $att_[1];
                                 if (!empty($email)) {
                                     //check  if email exist
@@ -247,7 +247,7 @@ class Neo4jFuctions {
                                             if (!empty($emailUser)) {
                                                 $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                             }
-                                            $res = UserFuctions::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
+                                            $res = UserUtils::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
                                         }
                                     }
                                 }
@@ -879,7 +879,7 @@ class Neo4jFuctions {
         $array = array();
         foreach ($result as $row) {
             $uid = $row['follow']->getProperty(PROP_USER_ID);
-            $userFunction = new UserFuctions();
+            $userFunction = new UserUtils();
             $user = $userFunction->getUserById($uid);
             array_push($array, $user);
         }
@@ -1570,7 +1570,7 @@ class Neo4jFuctions {
                 if (!empty($row) && !empty($row['usr'])) {
                     $id = $row['usr']->getProperty(PROP_USER_ID);
                     if (!empty($id)) {
-                        $uf = new UserFuctions();
+                        $uf = new UserUtils();
                         $user = $uf->getUserById($row['usr']->getProperty(PROP_USER_ID));
                         if (!empty($user)) {
                             $usr = new stdClass();

@@ -9,7 +9,7 @@ if(isset($_POST["g"]) && isset($_POST["u"]) && isset($_POST["r"]))
 	try {
 		if(!empty( $userId) && !empty( $groupId)  && (!empty( $resp) || $resp==0))
 		{
-			$userFunctions=new UserFuctions();
+			$userFunctions=new UserUtils();
 			$result=InviteUtil::responseToGroupInvites($userId, $groupId,$resp);
 		}
 	} catch (Exception $e) {

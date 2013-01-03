@@ -18,7 +18,7 @@ else if(isset($_GET['add']))
 
 	if(isset($_SESSION['id']))
 	{
-		$userFunctions = new UserFuctions();
+		$userFunctions = new UserUtils();
 		$l_user=$userFunctions->getUserById($_SESSION['id']);
 
 		$foursquare = new FoursquareAPI(FQ_CLIENT_ID,FQ_CLIENT_SECRET);
@@ -83,7 +83,7 @@ else
 			$details = json_decode($res);
 			$res = $details->response;
 			$user=$res->user;
-			$userFunctions = new UserFuctions();
+			$userFunctions = new UserUtils();
 			$uid= $user->id;
 			// check username if exist return new username
 			$username= strtolower($user->firstName.$user->lastName);

@@ -10,7 +10,7 @@ $errortext="";
 
 if(isset($_SESSION['id']))
 {
-	$userFunctions = new UserFuctions();
+	$userFunctions = new UserUtils();
 	$l_user=$userFunctions->getUserById($_SESSION['id']);
 
 	$facebook = new Facebook(array(

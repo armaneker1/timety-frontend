@@ -16,7 +16,7 @@ if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empt
 	} else {
 		$uid = $user_info->id;
 
-		$userFunctions = new UserFuctions();
+		$userFunctions = new UserUtils();
 		// check username if exist return new username
 		$username = strtolower($user_info->screen_name);
 

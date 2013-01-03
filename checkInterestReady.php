@@ -7,7 +7,7 @@ try {
 	try {
 		if(!empty( $query))
 		{
-			$userFunctions=new UserFuctions();
+			$userFunctions=new UserUtils();
 			$user=$userFunctions->getUserById($query);
 			$providers=$user->socialProviders;
 			if(!empty($providers) && sizeof($providers)>0)

@@ -25,11 +25,11 @@ if (array_key_exists("guid", $_GET)) {
                 $userName=$array[1];
                 if(!empty($userId) && !empty($userName))
                 {
-                    $uf=new UserFuctions();
+                    $uf=new UserUtils();
                     $user=$uf->getUserById($userId);
                     if(!empty($user) && $user->userName==$userName)
                     {
-                        UserFuctions::confirmUser($userId);
+                        UserUtils::confirmUser($userId);
                         $color="green";
                         $msg="Confirmation is completed";
                     }

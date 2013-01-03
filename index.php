@@ -8,7 +8,7 @@ $_random_session_id = rand(10000, 9999999);
 
 if (isset($_GET['finish'])) {
     $user = new User();
-    $userFunc = new UserFuctions();
+    $userFunc = new UserUtils();
     $user = $userFunc->getUserById($_SESSION['id']);
     $user->status = 3;
     $userFunc->updateUser($user->id, $user);
@@ -18,7 +18,7 @@ if (isset($_GET['finish'])) {
     header('Location: '.HOSTNAME);
 }
 
-$userFunc = new UserFuctions();
+$userFunc = new UserUtils();
 $user = null;
 if (isset($_SESSION['id'])) {
     $user = new User();

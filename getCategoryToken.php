@@ -13,7 +13,7 @@ try {
 
 	if(!empty( $query) && !empty( $catId) && !empty( $userId))
 	{
-		$userFunctions=new UserFuctions();
+		$userFunctions=new UserUtils();
 		//noramlly get neo4j
 		$array=array();
 		$result=array();

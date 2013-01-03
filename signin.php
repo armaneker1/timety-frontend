@@ -23,7 +23,7 @@ if (array_key_exists("te_username", $_POST)) {
 	if(isset($_POST["te_password"]))
 		$upass=$_POST["te_password"];
 
-	$userFunctions=new UserFuctions();
+	$userFunctions=new UserUtils();
 	$user=$userFunctions->login($uname, sha1($upass));
 	if(!empty($user))
 	{

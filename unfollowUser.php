@@ -7,7 +7,7 @@ $result=new Result();
 try {
 	if(!empty( $fromUserId) && !empty( $toUserId))
 	{
-		$userFunctions=new UserFuctions();
+		$userFunctions=new UserUtils();
 		$result=SocialFriendUtil::unfollowUser($fromUserId, $toUserId);
 	}else 
 	{

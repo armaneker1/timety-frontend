@@ -14,7 +14,7 @@ if (!isset($_SESSION['id'])) {
 else
 {	
 	
-	$userFuctions=new UserFuctions();
+	$userFuctions=new UserUtils();
 	$user=$userFuctions->getUserById($_SESSION['id']);
 	
 	if (isset($_POST['type']) && !empty($user)) {

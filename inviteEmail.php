@@ -10,7 +10,7 @@ try {
             $result->error="Invalid email";
         }else if(!empty ($userId))
         {
-            $uf=new UserFuctions();
+            $uf=new UserUtils();
             $user=$uf->getUserById($userId);
             if(!empty($user))
             {

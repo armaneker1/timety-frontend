@@ -32,7 +32,7 @@ try {
 			$uemail=$_POST["te_email"];
 		if(isset($_POST["te_password"]))
 			$upass=$_POST["te_password"];
-		$userFunctions=new UserFuctions();
+		$userFunctions=new UserUtils();
 		$param=true;
 		try {
 			if(empty($uname))

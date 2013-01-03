@@ -5,7 +5,7 @@ $userId=$_GET["u"];
 try {
 	if(!empty($query) && !empty( $userId))
 	{
-		$userFunctions=new UserFuctions();
+		$userFunctions=new UserUtils();
 		//noramlly get neo4j
 		$array=array();
 		$result=array();

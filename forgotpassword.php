@@ -12,7 +12,7 @@ if (array_key_exists("te_email", $_POST)) {
 	{
 		$email=$_POST["te_email"];
 	}
-	$userFunctions=new UserFuctions();
+	$userFunctions=new UserUtils();
 	if(empty($email) && UtilFunctions::check_email_address($email) )
 	{
 		$m=new HtmlMessage();

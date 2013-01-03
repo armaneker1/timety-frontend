@@ -19,7 +19,7 @@ if (!isset($_SESSION['id'])) {
 }
 else
 {
-	$userFunctions=new UserFuctions();
+	$userFunctions=new UserUtils();
 	$user=new User();
 	$user=$userFunctions->getUserById($_SESSION['id']);
 

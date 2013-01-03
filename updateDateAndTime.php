@@ -21,7 +21,7 @@ require_once __DIR__.'/utils/Functions.php';
  */
 
  
-$uf=new UserFuctions();
+$uf=new UserUtils();
 $nf=new Neo4jFuctions();
 
 $list=$nf->getAllEvents();

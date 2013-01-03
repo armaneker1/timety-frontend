@@ -11,7 +11,7 @@ $email="";
 $userpass="";
 $userrepass="";
 
-$userFunctions=new UserFuctions();
+$userFunctions=new UserUtils();
 if(isset($_GET["guid"]))
 { 
 	try {

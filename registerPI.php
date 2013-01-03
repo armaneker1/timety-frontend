@@ -98,7 +98,7 @@ if (!isset($_SESSION['id'])) {
             }
         }
         if (sizeof($msgs) <= 0) {
-            $userFuctions = new UserFuctions();
+            $userFuctions = new UserUtils();
             $user = $userFuctions->getUserById($_SESSION['id']);
             if ($user != null) {
                 $user->userName = $username;
@@ -114,14 +114,14 @@ if (!isset($_SESSION['id'])) {
                 $userFuctions->updateUser($_SESSION['id'], $user);
                 $user = $userFuctions->getUserById($_SESSION['id']);
                 $userFuctions->addUserInfoNeo4j($user);
-                UserFuctions::changeserProfilePic($user->id, $userProfilePic);
+                UserUtils::changeserProfilePic($user->id, $userProfilePic);
                 /*
                  * check user is invited
                  */
-                $tmpuser=  UserFuctions::checkInvitedEmail($email);
+                $tmpuser=  UserUtils::checkInvitedEmail($email);
                 if(!empty($tmpuser))
                 {
-                    $newUserId=UserFuctions::moveUser($user->id, $tmpuser->id);
+                    $newUserId=UserUtils::moveUser($user->id, $tmpuser->id);
                     if(!empty($newUserId))
                     {
                         $_SESSION['id']=$newUserId;
@@ -140,7 +140,7 @@ if (!isset($_SESSION['id'])) {
         }
     } else {
         $user = new User();
-        $userFuctions = new UserFuctions();
+        $userFuctions = new UserUtils();
         $user = $userFuctions->getUserById($_SESSION['id']);
         $visible = true;
         if (!empty($user)) {

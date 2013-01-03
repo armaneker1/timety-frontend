@@ -6,7 +6,7 @@ session_start();
 
 if (isset($_SESSION['id'])) {
 	$user=new User();
-	$userFunc=new UserFuctions();
+	$userFunc=new UserUtils();
 	$user=$userFunc->getUserById($_SESSION['id']);
 	if(empty($user))
 	{

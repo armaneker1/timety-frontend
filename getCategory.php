@@ -6,7 +6,7 @@ try {
 	$result=array();
 	if(!empty( $query))
 	{
-		$uFunction=new UserFuctions();
+		$uFunction=new UserUtils();
 		$array=array();
 		$array=InterestUtil::seacrhCategoryList($query);
 		if(!empty($array))

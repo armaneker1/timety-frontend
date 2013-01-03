@@ -8,7 +8,7 @@ try {
 	try {
 		if(!empty( $query))
 		{
-			$userFunctions=new UserFuctions();
+			$userFunctions=new UserUtils();
 			$result->success=GroupUtil::checkGroupName($query,$user);
 		}else
 		{

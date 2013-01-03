@@ -10,7 +10,7 @@ $errortext="";
 
 if (isset($_SESSION['id']) && !empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empty($_SESSION['oauth_token_secret'])) {
 
-	$userFunctions = new UserFuctions();
+	$userFunctions = new UserUtils();
 	$l_user=$userFunctions->getUserById($_SESSION['id']);
 
 	$twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);

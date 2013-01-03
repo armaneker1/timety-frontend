@@ -372,7 +372,7 @@ class Comment{
         
         if(empty($this->userName) || empty($this->userPic))
         {
-           $uf=new UserFuctions();
+           $uf=new UserUtils();
            $user=$uf->getUserById($this->userId);
            if(!empty($user))
            {

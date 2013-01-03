@@ -20,7 +20,7 @@ catch (Exception $e) {
 	echo $e->getMessage();
 }
 if (!empty($user)) {
-	$userFunctions = new UserFuctions();
+	$userFunctions = new UserUtils();
 	// check username if exist return new username 
 	$username =strtolower($user['username']);
 	$result = $userFunctions->checkUser($uid, 'facebook', $username,$access_token,null);

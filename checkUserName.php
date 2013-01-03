@@ -7,7 +7,7 @@ try {
 	try {
 		if(!empty( $query))
 		{
-			$userFunctions=new UserFuctions();
+			$userFunctions=new UserUtils();
 			$result->success=$userFunctions->checkUserName($query);
 		}else
 		{
