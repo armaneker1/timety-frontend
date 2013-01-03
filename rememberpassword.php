@@ -58,7 +58,7 @@ else
 if(isset($_POST["te_email"]))
 {
 	$email=$_POST["te_email"];
-	if(empty($email) && UserFuctions::check_email_address($email) )
+	if(empty($email) && UtilFunctions::check_email_address($email) )
 	{
 		$m=new HtmlMessage();
 		$m->type="e";

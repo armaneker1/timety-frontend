@@ -57,7 +57,7 @@ if (!isset($_SESSION['id'])) {
             array_push($msgs, $m);
         }
 
-        if (!UserFuctions::check_email_address($email)) {
+        if (!UtilFunctions::check_email_address($email)) {
             $m = new HtmlMessage();
             $m->type = "e";
             $m->message = "Email is not valid";

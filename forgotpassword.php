@@ -13,7 +13,7 @@ if (array_key_exists("te_email", $_POST)) {
 		$email=$_POST["te_email"];
 	}
 	$userFunctions=new UserFuctions();
-	if(empty($email) && UserFuctions::check_email_address($email) )
+	if(empty($email) && UtilFunctions::check_email_address($email) )
 	{
 		$m=new HtmlMessage();
 		$m->type="e";
@@ -42,7 +42,7 @@ if (array_key_exists("te_email", $_POST)) {
 			if(!empty($lss))
 			{
 				$lost=base64_encode($lss->id.";".$userId.";".$guid);
-				UserFuctions::sendEmail("to reset your password please click <a href='".PAGE_NEW_PASSWORD."?guid=".$lost."'>here</a> ","Timety Password Reminder",
+				MailUtil::sendEmail("to reset your password please click <a href='".PAGE_NEW_PASSWORD."?guid=".$lost."'>here</a> ","Timety Password Reminder",
 						'{"email": "'.$user->email.'",  "name": "'.$user->firstName." ".$user->lastName.'"}');
 					
 				$m=new HtmlMessage();

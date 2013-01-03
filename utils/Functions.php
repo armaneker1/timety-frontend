@@ -54,6 +54,32 @@ class UtilFunctions {
         }
     }
 
+    public static function check_email_address($email) {
+
+        //check for all the non-printable codes in the standard ASCII set,
+        //including null bytes and newlines, and exit immediately if any are found.
+        if (preg_match("/[\\000-\\037]/", $email)) {
+            return false;
+        }
+        $pattern = "/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$/iD";
+        if (!preg_match($pattern, $email)) {
+            return false;
+        }
+        // Validate the domain exists with a DNS check
+        // if the checks cannot be made (soft fail over to true)
+        list($user, $domain) = explode('@', $email);
+        if (function_exists('checkdnsrr')) {
+            if (!checkdnsrr($domain, "MX")) { // Linux: PHP 4.3.0 and higher & Windows: PHP 5.3.0 and higher
+                return false;
+            }
+        } else if (function_exists("getmxrr")) {
+            if (!getmxrr($domain, $mxhosts)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
 
 ?>

@@ -60,7 +60,7 @@ try {
 				array_push($msgs,$m);
 				$param=false;
 			}else {
-                                if(!UserFuctions::check_email_address($uemail))
+                                if(!UtilFunctions::check_email_address($uemail))
                                 {
                                     $m=new HtmlMessage();
                                     $m->type="e";

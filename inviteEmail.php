@@ -4,7 +4,7 @@ $result=new Result();
 try {
 	$query=$_POST["e"];
         $userId=$_POST["u"];
-        if(!UserFuctions::check_email_address($query))
+        if(!UtilFunctions::check_email_address($query))
         {
             $result->success=false;
             $result->error="Invalid email";
@@ -20,7 +20,7 @@ try {
                     $result->error="You can't invite yourself";
                 }else {
                     $result->success=false;
-                    $res=UserFuctions::sendEmail($user->firstName." ".$user->lastName." wants you to join timety. please click <a href='".PAGE_SIGNUP."'>here</a> ", "Timety invite",'{"email": "'.$query.'",  "name": "'.$query.' "}');
+                    $res=MailUtil::sendEmail($user->firstName." ".$user->lastName." wants you to join timety. please click <a href='".PAGE_SIGNUP."'>here</a> ", "Timety invite",'{"email": "'.$query.'",  "name": "'.$query.' "}');
                     if($res[0]->status=="sent")
                     {
                             $result->success=true;
