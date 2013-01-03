@@ -52,14 +52,24 @@ if (!isset($_SESSION['id'])) {
             $m->type = "e";
             $m->message = "Email can not be empty";
             array_push($msgs, $m);
+        } else {
+            if (!UtilFunctions::check_email_address($email)) {
+                $m = new HtmlMessage();
+                $m->type = "e";
+                $m->message = "Email is not valid";
+                array_push($msgs, $m);
+                $param = false;
+            } else if (!UserUtils::checkEmail($email)) {
+                $m = new HtmlMessage();
+                $m->type = "e";
+                $m->message = "Email already taken";
+                array_push($msgs, $m);
+                $param = false;
+            }
         }
 
-        if (!UtilFunctions::check_email_address($email)) {
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Email is not valid";
-            array_push($msgs, $m);
-        }
+
+
         $birhtdate = $_POST['te_birthdate'];
         if (!UtilFunctions::checkDate($birhtdate)) {
             $m = new HtmlMessage();
@@ -201,11 +211,14 @@ if (!isset($_SESSION['id'])) {
         }
     }
 }
+if (empty($birhtdate)) {
+    $birhtdate = "01.01.1980";
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-<?php include('layout/layout_header.php'); ?>
+        <?php include('layout/layout_header.php'); ?>
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
         <script type="text/javascript">
             $(function() {
@@ -293,7 +306,7 @@ if (!isset($_SESSION['id'])) {
 
             function validateUserNameNoEffect(field2) {
                 var field = document.getElementById($(field2).attr('id'));
-                jQuery.post("<?= HOSTNAME ?>checkUserName.php", {
+                jQuery.post("<?= PAGE_AJAX_CHECKUSERNAME ?>", {
                     u : field.value
                 }, function(data) {
                     field.setAttribute("suc", ((($(field2).attr('default')) == field.value) || (!!(data.success))));
@@ -302,7 +315,7 @@ if (!isset($_SESSION['id'])) {
 
             function validateEmailNoEffect(field2) {
                 var field = document.getElementById($(field2).attr('id'));
-                $.post("<?= HOSTNAME ?>checkEmail.php", {
+                $.post("<?= PAGE_AJAX_CHECKEMAIL ?>", {
                     e : field.value
                 }, function(data) {
                     field.setAttribute("suc", ((($(field2).attr('default')) == field.value) || (!!(data.success))));
@@ -313,7 +326,7 @@ if (!isset($_SESSION['id'])) {
 
     </head>
     <body class="bg">
-<?php include('layout/layout_top.php'); ?>
+        <?php include('layout/layout_top.php'); ?>
         <div id="personel_info_h">
             <div class="create_acco_ust">Personel Information</div>
             <div class="personel_info">
@@ -342,7 +355,7 @@ if (!isset($_SESSION['id'])) {
                            type="text" placeholder="Hometown" class="user_inpt"
                            id="te_hometown" value="<?php echo $hometown ?>" /> <br /> <span
                            id='te_hometown_span'></span>
-<?php if ($visible) { ?>
+                           <?php if ($visible) { ?>
                         <input name="te_password" type="password"
                                class="user_inpt password icon_bg" id="te_password" value=""
                                placeholder="Password"
@@ -352,21 +365,21 @@ if (!isset($_SESSION['id'])) {
                                id="te_repassword" value="" placeholder="Re-Password"
                                onkeyup="validatePassword(this,$('#te_password'),true)" /> <span
                                id='te_repassword_span'></span> <br />
-<?php } ?>
+                           <?php } ?>
                     <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?= $userProfilePic ?>" ></input>
                     <button type="submit" class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
                 </form>
                 <div class="ts_box" style="font-size: 12px;margin-left: 48px;">
                     <span style="color: red; display: none;" id="msg"></span>
-<?php
-if (!empty($msgs)) {
-    $ms = "";
-    foreach ($msgs as $m) {
-        $ms = $ms . "<span class='php_errors' style='color: red;'>" . $m->message . "</span><p/>";
-    }
-    echo $ms;
-}
-?>
+                    <?php
+                    if (!empty($msgs)) {
+                        $ms = "";
+                        foreach ($msgs as $m) {
+                            $ms = $ms . "<span class='php_errors' style='color: red;'>" . $m->message . "</span><p/>";
+                        }
+                        echo $ms;
+                    }
+                    ?>
                 </div>
             </div>
         </div>
