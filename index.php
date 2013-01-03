@@ -1,6 +1,6 @@
 <?php
-require 'config/fbconfig.php';
-require 'utils/userFunctions.php';
+require_once __DIR__.'/config/fbconfig.php';
+require_once __DIR__.'/utils/UserFunctions.php';
 session_start();
 
 $msgs = array();
