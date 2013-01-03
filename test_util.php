@@ -1,8 +1,7 @@
 <?php
-require_once 'utils/SettingsUtil.php';
+require_once __DIR__.'/utils/DBFunctions.php';
 
 
-SettingsUtil::setSetting("Hasan","dddddd");
-var_dump(SettingsUtil::getSetting("Hasan"));
+var_dump(DBUtils::getNextId("Hasan"));
 
 ?>

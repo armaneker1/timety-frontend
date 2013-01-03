@@ -22,7 +22,7 @@ require 'utils/userFunctions.php';
  */
 
 
-var_dump(UtilFUnctions::startsWith("http://ssadsd","http"));
+var_dump(UtilFunctions::startsWith("http://ssadsd","http"));
 
 
 /*var_dump(strtotime("now"));

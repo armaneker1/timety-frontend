@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/DBFunctions.php';
+require_once __DIR__ . '/../config/dbconfig.php';
 
 class ReminderUtil{
     
@@ -21,7 +23,7 @@ class ReminderUtil{
             $unit="hour";
         }
         $SQL="SELECT * FROM ".TBL_EVENTS." WHERE  reminderValue>0 AND startDateTime>now() AND reminderType='".$type_."' AND reminderUnit='".$unit."' AND  startDateTime-now()>".$dif;
-    
+        
         return $SQL;
     }
         

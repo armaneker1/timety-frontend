@@ -12,7 +12,7 @@ $res->success=false;
 try {
     if(!empty( $eventId))
     {
-        $array =  CommentUtil::getCmmentListByEvent($eventId);
+        $array =  CommentUtil::getCommentListByEvent($eventId);
         if(!empty($array))
 	{ 
            $json_response = json_encode($array);

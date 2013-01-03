@@ -48,7 +48,7 @@ class User {
 	{
             if(!empty($this->userPicture))
             {
-                if(UtilFUnctions::startsWith( $this->userPicture,"http"))
+                if(UtilFunctions::startsWith( $this->userPicture,"http"))
                     return $this->userPicture;
                 else 
                     return HOSTNAME.$this->userPicture;
@@ -208,8 +208,8 @@ class Event{
         {
             //$this->getImages();
             //$this->getHeaderImage();
-            $this->commentCount =  CommentUtil::getCmmentListSizeByEvent($this->id);
-            $this->remainingtime=UtilFUnctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
+            $this->commentCount =  CommentUtil::getCommentListSizeByEvent($this->id);
+            $this->remainingtime=UtilFunctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
             $this->attendancecount=  Neo4jFuctions::getEventAttendanceCount($this->id);
         }
 
