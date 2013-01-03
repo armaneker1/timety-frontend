@@ -13,6 +13,7 @@ define('TBL_SETTINGS' ,'timete_settings');
 define('TBL_KEYGENERATOR','timete_key_generator');
 define('CLM_EVENTID' ,'EVENT_ID');
 define('CLM_IMAGEID' ,'IMAGE_ID');
+define('CLM_USERID' ,'USER_ID');
 define('CLM_COMMENTID' ,'COMMENT_ID');
 define('TBL_EVENTS' ,'timete_events');
 define('TBL_USERS' ,'timete_users');

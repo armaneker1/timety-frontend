@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `timete_unknown_category` (
 --
 
 CREATE TABLE IF NOT EXISTS `timete_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `userName` varchar(100) NOT NULL,
   `firstName` varchar(100) DEFAULT NULL,

@@ -246,7 +246,8 @@ class UserUtils {
             UserUtils::updateUser($tmp_user->id, $user);
             $user = UserUtils::getUserById($tmp_user->id);
         } else {
-            $SQL = "INSERT INTO " . TBL_USERS . " (username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited) VALUES ('$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited)";
+            $userId=  DBUtils::getNextId(CLM_USERID);
+            $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited) VALUES ($userId,'$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited)";
             mysql_query($SQL) or die(mysql_error());
             //create user for neo4j
             $user = UserUtils::getUserByUserName($user->userName);

@@ -93,7 +93,7 @@ if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty
         ?>
                 <div class="top_menu">
                     <ul>
-                        <li><a href="<?= PAGE_LOGOUT ?>">Logout</a></li>
+                        <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
                 <div class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
