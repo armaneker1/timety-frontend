@@ -5,7 +5,7 @@ require 'apis/foursquare/FoursquareAPI.php';
 require 'config/fqconfig.php';
 require 'apis/twitter/twitteroauth.php';
 require 'config/twconfig.php';
-require 'utils/userFunctions.php'; 
+require_once __DIR__.'/utils/Functions.php';
 session_start();
 if (!isset($_SESSION['id'])) {
 	// Redirection to login page twitter or facebook or foursquare
@@ -33,12 +33,12 @@ else
 					{
                                                 if(!empty($interest->new_) && $interest->new_=="1")
                                                 {
-                                                    $id=$userFuctions->addTag( null, $interest->label,"usercustomtag");
+                                                    $id=InterestUtil::addTag( null, $interest->label,"usercustomtag");
                                                     if(!empty($id))
-                                                    	$userFuctions->saveUserInterest($userId, $id);
+                                                    	InterestUtil::saveUserInterest($userId, $id);
                                                 }else
                                                 {
-                                                    $userFuctions->saveUserInterest($userId, $interest->id);
+                                                    InterestUtil::saveUserInterest($userId, $interest->id);
                                                 }
 					} 
 				}
@@ -104,7 +104,7 @@ else
 	$categoryList=array();
 	if(!empty($user))
 	{
-		$categoryList=$userFuctions->getInterestedCategoryList($user->id,4);
+		$categoryList=InterestUtil::getInterestedCategoryList($user->id,4);
 	}else
 	{
 		header("location: ".HOSTNAME);
@@ -289,7 +289,7 @@ else
 								style="padding-top: 0px;">
 								<?php 
 								$item_count=8;
-								$interests=$userFuctions->getUserOtherInterestsByCategory($user->id,$cat->id,16);
+								$interests=InterestUtil::getUserOtherInterestsByCategory($user->id,$cat->id,16);
 								if(!empty($interests) && sizeof($interests)>0)
 								{
 

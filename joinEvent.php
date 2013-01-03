@@ -1,5 +1,5 @@
 <?php 
-require 'utils/userFunctions.php';
+require_once __DIR__.'/utils/Functions.php';
 if(isset($_POST["userId"]))
     $userId=$_POST["userId"];
 

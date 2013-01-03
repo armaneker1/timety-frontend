@@ -1,7 +1,7 @@
 <?php
 require 'apis/twitter/twitteroauth.php';
 require 'config/twconfig.php';
-require 'utils/userFunctions.php';
+require_once __DIR__.'/utils/Functions.php';
 session_start();
 
 $call_back=TW_CALLBACK_URL; 

@@ -1,5 +1,5 @@
 <?php 
-require 'utils/userFunctions.php'; 
+require_once __DIR__.'/utils/Functions.php';
 $query=$_GET["term"];
 try {
 
@@ -8,7 +8,7 @@ try {
 	{
 		$uFunction=new UserFuctions();
 		$array=array();
-		$array=$uFunction->seacrhCategoryList($query);
+		$array=InterestUtil::seacrhCategoryList($query);
 		if(!empty($array))
 		{
 			$cat=new CateforyRef();

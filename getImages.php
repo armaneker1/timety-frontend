@@ -1,5 +1,5 @@
 <?php 
-require 'utils/userFunctions.php'; 
+require_once __DIR__.'/utils/Functions.php';
 
 $eventId=null;
 if(isset($_POST["eventId"]))

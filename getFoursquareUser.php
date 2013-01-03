@@ -1,7 +1,7 @@
 <?php
 require 'apis/foursquare/FoursquareAPI.php'; 
 require 'config/fqconfig.php';
-require 'utils/userFunctions.php';
+require_once __DIR__.'/utils/Functions.php';
 
 session_start();
 

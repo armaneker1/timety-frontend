@@ -1,5 +1,5 @@
 <?php
-require 'utils/userFunctions.php';
+require_once __DIR__.'/utils/Functions.php';
 
 $result=new Result();
 if(isset($_GET['type']) && $_GET['type']==1)

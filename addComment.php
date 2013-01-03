@@ -1,5 +1,5 @@
 <?php 
-require 'utils/userFunctions.php'; 
+require_once __DIR__.'/utils/Functions.php';
 
 $userId=null;
 $datetime=  date(DATETIME_DB_FORMAT);

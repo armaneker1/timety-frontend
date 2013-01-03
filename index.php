@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/config/fbconfig.php';
-require_once __DIR__.'/utils/UserFunctions.php';
+require_once __DIR__.'/utils/Functions.php';
 session_start();
 
 $msgs = array();
@@ -623,7 +623,7 @@ if (empty($user)) {
                                             if (!empty($user)) {
                                                 $userId = $user->id;
                                             }
-                                            $events=  UserFuctions::getEvents($userId, 0, 15,null,null,2);
+                                            $events= InterestUtil::getEvents($userId, 0, 15,null,null,2);
                                             if(empty($events))
                                             {
                                            ?>

@@ -1,5 +1,5 @@
 <?php 
-require 'utils/userFunctions.php';
+require_once __DIR__.'/utils/Functions.php';
 $fromUserId=$_POST["fuser"];
 $toUserId=$_POST["tuser"];
 

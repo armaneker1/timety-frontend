@@ -1,5 +1,5 @@
 <?php 
-require 'utils/userFunctions.php'; 
+require_once __DIR__.'/utils/Functions.php';
 $query=$_GET["term"];
 $userId=$_GET["u"];
 try {

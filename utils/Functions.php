@@ -1,4 +1,29 @@
 <?php
+/*
+ * Dependencies
+ */
+require_once __DIR__ . '/../config/dbconfig.php';
+require_once __DIR__ . '/../config/constant.php';
+require_once __DIR__ . '/../config/neo4jconfig.php';
+require_once __DIR__ . '/../config/mailconfig.php';
+require_once __DIR__ . '/../utils/neo4jFunctions.php';
+require_once __DIR__ . '/../models/models.php';
+
+require_once __DIR__ . '/CommentFunctions.php';
+require_once __DIR__ . '/DBFunctions.php';
+require_once __DIR__ . '/EventFunctions.php';
+require_once __DIR__ . '/GroupFunctions.php';
+require_once __DIR__ . '/ImageFunctions.php';
+require_once __DIR__ . '/InterestFunctions.php';
+require_once __DIR__ . '/InviteFunctions.php';
+require_once __DIR__ . '/LostPassFunctions.php';
+require_once __DIR__ . '/MailFunctions.php';
+require_once __DIR__ . '/Neo4jFunctions.php';
+require_once __DIR__ . '/ReminderFunctions.php';
+require_once __DIR__ . '/SessionFunctions.php';
+require_once __DIR__ . '/SettingFunctions.php';
+require_once __DIR__ . '/SocialFriendFunctions.php';
+require_once __DIR__ . '/UserFunctions.php';
 
 class UtilFunctions {
 

@@ -5,7 +5,7 @@ require 'apis/facebook/facebook.php';
 require 'config/fbconfig.php';
 require 'apis/twitter/twitteroauth.php';
 require 'config/twconfig.php';
-require 'utils/userFunctions.php';
+require_once __DIR__.'/utils/Functions.php';
 $query=$_GET["term"];
 $catId=$_GET["c"];
 $userId=$_GET["u"];
@@ -21,10 +21,10 @@ try {
 		//$catId=substr($catId,4);
 		if($catId=="*")
 		{
-			$array=$userFunctions->searchInterests($query);
+			$array=InterestUtil::searchInterests($query);
 		} else
 		{
-			$array=$userFunctions->searchInterestsByCategory($catId,$query);
+			$array=getUserInterestJSON::searchInterestsByCategory($catId,$query);
 		}
 		//id nin basına isaret cak ; ile ayır
 		if(!empty($array) && sizeof($array)>0)
