@@ -64,7 +64,7 @@ if (!isset($_SESSION['id'])) {
             array_push($msgs, $m);
         }
         $birhtdate = $_POST['te_birthdate'];
-        if (!UserFuctions::checkDate($birhtdate)) {
+        if (!UtilFunctions::checkDate($birhtdate)) {
             $m = new HtmlMessage();
             $m->type = "e";
             $m->message = "Birthdate is not valid";

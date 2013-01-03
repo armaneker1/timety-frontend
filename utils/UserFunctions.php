@@ -11,6 +11,7 @@ require_once __DIR__.'/Functions.php';
 require_once __DIR__.'/SessionFunctions.php';
 require_once __DIR__.'/InviteFunctions.php';
 require_once __DIR__.'/DBFunctions.php';
+require_once __DIR__.'/EventFunctions.php';
 require_once __DIR__.'/LostPassFunctions.php';
 require_once __DIR__.'/../appConfig.php';
 require_once __DIR__.'/../config/constant.php';
@@ -79,118 +80,6 @@ class UserFuctions {
 			return $user;
 		else
 			return null;
-	}
-
-
-	function createGroup($groupName,$userList,$userId)
-	{
-		$n=new Neo4jFuctions();
-		$n->createGroup($groupName,$userList,$userId);
-	}
-
-	function createEvent(Event $event,$user)
-	{
-		if(!empty($event) && !empty($user))
-		{
-			$eventDB=$this->addEventToDB($event);
-			if(!empty($eventDB))
-			{
-				$event->id=$eventDB->id;
-				$n=new Neo4jFuctions();
-				$n->createEvent($event, $user);
-			}
-		}
-	}
-
-	function addEventToDB(Event $event)
-	{
-                $images=$event->images;
-                $headerImage=$event->headerImage;
-		$id=DBUtils::getNextId(CLM_EVENTID);
-		$SQL=	"INSERT INTO ".TBL_EVENTS." (id, title, location, description, startDateTime, endDateTime,reminderType,reminderUnit,reminderValue,privacy,allday,repeat_,addsocial_fb,addsocial_gg,addsocial_fq,addsocial_tw) ".
-				" VALUES (".$id.",\"".DBUtils::mysql_escape($event->title)."\",\"".DBUtils::mysql_escape($event->location)."\",\"".DBUtils::mysql_escape($event->description)."\",\"$event->startDateTime\",\"$event->endDateTime\",\"$event->reminderType\",\"$event->reminderUnit\",$event->reminderValue,$event->privacy,$event->allday,$event->repeat,$event->addsocial_fb,$event->addsocial_gg,$event->addsocial_fq,$event->addsocial_tw)";
-                $query = mysql_query($SQL) or die(mysql_error());
-                $event=$this->getEventById($id);
-		/*
-		 * Image'ler eklenecek
-		*/
-                if(!empty($event)  && !empty($images) )
-		{
-                    $images=  explode(",",$images);
-                    if(sizeof($images)>0)
-                    {
-			foreach ($images as $image)
-			{
-			    if(!empty($image))
-			    {
-                                
-                                if(!file_exists(UPLOAD_FOLDER."events/".$event->id."/"))
-                                {
-                                    mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
-                                }
-                                if (copy(UPLOAD_FOLDER.$image, UPLOAD_FOLDER."events/".$event->id."/".$image)) {
-                                    unlink(UPLOAD_FOLDER.$image);
-                                }
-
-				$img=new Image();
-                                $img->url=$image;
-                                $img->header=0;
-                                $img->eventId=$event->id;
-                                $size=ImageUtil::getSize($img->url);
-                                $img->width= $size[0] ;
-                                $img->height= $size[1] ;
-				if(!empty($img))
-				{
-                                    ImageUtil::insert($img);
-				}
-                            }
-			}
-                    }
-                }
-                if(!empty($event)  && !empty($headerImage) )
-		{
-                    if(!empty($headerImage))
-                    {
-                        error_log($headerImage);
-                        if(!file_exists(UPLOAD_FOLDER."events/".$event->id."/"))
-                        {
-                            mkdir(UPLOAD_FOLDER."events/".$event->id."/",0777,true);
-                            error_log("events createed"."events/".$event->id."/");
-                        }
-                        if (copy(UPLOAD_FOLDER.$headerImage, UPLOAD_FOLDER."events/".$event->id."/".$headerImage)) {
-                             unlink(UPLOAD_FOLDER.$headerImage);
-                              error_log("image copied "." from ".UPLOAD_FOLDER.$headerImage." to ".UPLOAD_FOLDER."events/".$event->id."/".$headerImage);
-                        }
-                        
-                         $img=new Image();
-                         $img->url=UPLOAD_FOLDER."events/".$event->id."/".$headerImage;
-                         error_log($img->url);
-                         $img->header=1;
-                         $img->eventId=$event->id;
-                         $size=ImageUtil::getSize($img->url);
-                         $img->width= $size[0] ;
-                         $img->height= $size[1] ;
-                         if(!empty($img))
-                         {
-                            ImageUtil::insert($img);
-                         }
-                    }
-                }
-		return $event;
-	}
-
-	function getEventById($id) {
-		$query = mysql_query("SELECT * FROM ".TBL_EVENTS." WHERE id=".$id) or die(mysql_error());
-		$result = mysql_fetch_array($query);
-		$event=new Event();
-		$event->create($result,FALSE);
-		if(!empty($event->id))
-		{
-			return $event;
-		}
-		else {
-			return null;
-		}
 	}
 
 	function checkEmail($email)
@@ -272,23 +161,7 @@ class UserFuctions {
             }
         }
 
-        function checkGroupName($groupName,$userId)
-	{
-		$n=new Neo4jFuctions();
-		$group= $n->checkGroupName($groupName,$userId);
-		if (empty($group)) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-
-	function searchGroupByName($userId,$groupName)
-	{
-		$n=new Neo4jFuctions();
-		return  $n->searchGroupByName($userId,$groupName);
-	}
-
+       
 	function findTemprorayUserName($userName)
 	{
 		if($this->checkUserName($userName))
@@ -473,103 +346,7 @@ class UserFuctions {
 	}
 
 
-	//User Category Functions
-	function getInterestedCategoryList($uid,$limit)
-	{
-		//do some other things if needed
-		if(!empty($uid))
-		{
-			$n=new Neo4jFuctions();
-			return $n->getInterestedCategoryList($uid, $limit);
-		}else
-		{
-			return array();
-		}
-	}
-
-
-	//Seacrh Categories
-	function seacrhCategoryList($query)
-	{
-		$n=new Neo4jFuctions();
-		return $n->searchCategoryList($query);
-	}
-
-	//Interest Functions
-	function getUserInterest($userId,$categoryId,$count)
-	{
-		//do some other things if needed
-		$n=new Neo4jFuctions();
-		return $n->getUserInterestsByCategory($userId,$categoryId,$count);
-	}
-        
-        function  getUserOtherInterestsByCategory($userId,$categoryId,$count)
-        {
-            //do some other things if needed
-            $n=new Neo4jFuctions();
-            return $n->getUserOtherInterestsByCategory($userId,$categoryId,$count);
-        }
-
-        function getUserInterestIds($userId,$categoryId)
-	{
-		$n=new Neo4jFuctions();
-		return $n->getUserInterestsIdsByCategory($userId,$categoryId);
-	}
-
-	function  getUserInterestJSON($userId,$categoryId,$count)
-	{
-		$array=$this->getUserInterest($userId,$categoryId,$count);
-		$result=array();
-		if(!empty($array) && sizeof($array)>0)
-		{
-			$val=new Interest();
-			for ($i=0; $i< sizeof($array);$i++) {
-				$val=$array[$i];
-				$url="images/add_rsm_y.png";
-				$url=$this->getSocialElementPhoto($val->id, $val->socialType);
-				$val->photoUrl=$url;
-				array_push($result, $val);
-			}
-		}
-		$json_response = json_encode($result);
-		echo $json_response;
-	}
-
-	//Interest Functions
-	function searchInterestsByCategory($categoryId,$query)
-	{
-		//do some other things if needed
-		$n=new Neo4jFuctions();
-		return $n->searchInterestsByCategory($categoryId, $query);
-	}
-
-	//Interest Functions
-	function searchInterests($query)
-	{
-		//do some other things if needed
-		$n=new Neo4jFuctions();
-		return $n->searchInterests($query);
-	}
-
-
-	function saveUserInterest($userId,$interestId)
-	{
-		$neo=new Neo4jFuctions();
-		$neo->saveUserInterest($userId, $interestId);
-	}
-
-
-	function addTag($categoryId,$tagName,$socialType)
-	{
-		$neo=new Neo4jFuctions();
-		return $neo->addTag($categoryId, $tagName, $socialType);
-	}
-
-	function removeInterest($userId,$interestId)
-	{
-		$neo=new Neo4jFuctions();
-		$neo->removeInterest($userId, $interestId);
-	}
+	
 
 	/*
 	 * Social friend funcstions
@@ -634,92 +411,142 @@ class UserFuctions {
 		}
 		return $array;
 	}
-
-	function getSocialElementPhoto($id,$socialType)
+        
+        /*
+         * Group Utils
+         */
+        function createGroup($groupName,$userList,$userId)
 	{
-		$url="";
-		if($socialType==FACEBOOK_TEXT)
-		{
-			$url="https://graph.facebook.com/".$id."/picture?type=square";
-		} else if ($socialType==TWITTER_TEXT)
-		{
-			//?????
-		} else if ($socialType==FOURSQUARE_TEXT)
-		{
-			try {
-				//100x100
-				$foursquare = new FoursquareAPI(FQ_CLIENT_ID,FQ_CLIENT_SECRET);
-				$resp=$foursquare->GetPublic("/venues/".$id."/photos",array("group"=>"venue","limit"=>"1"),false);
-				$resp=$foursquare->getResponseFromJsonString($resp);
-				if(!empty($resp))
-				{
-					if(!empty($resp->photos))
-					{
-						$resp=$resp->photos;
-						if(!empty($resp->items))
-						{
-							$resp=$resp->items;
-							if(!empty($resp['0']))
-							{
-								$resp=$resp['0'];
-								$url=$resp->url;
-								if(!empty($resp->sizes))
-								{
-									$resp=$resp->sizes;
-									$count=$resp->count;
-									if($count>0)
-									{
-										if(!empty($resp->items))
-										{
-											$resp=$resp->items;
-											$url=$resp[$count-1];
-											for($i=$count-1;$i>=0;$i--)
-											{
-												$tmpUrl=$resp[$i];
-												if($tmpUrl->width==100 || $tmpUrl->height==100)
-												{
-													$url=$tmpUrl;
-													break;
-												}
-											}
-											$url=$url->url;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			} catch (Exception $e)
-			{
-				var_dump($e);
-			}
+		$n=new Neo4jFuctions();
+		$n->createGroup($groupName,$userList,$userId);
+	}
+        
+         function checkGroupName($groupName,$userId)
+	{
+		$n=new Neo4jFuctions();
+		$group= $n->checkGroupName($groupName,$userId);
+		if (empty($group)) {
+			return true;
+		}else {
+			return false;
 		}
-		if(empty($url))
-		{
-			$url=HOSTNAME."/images/add_rsm_y.png";
-		}
-		return $url;
 	}
 
-
-
-	/*
-	 * HomePage
-	*/
-
-	public static  function getHomePageEvents($userid,$page,$pageLimit)
+	function searchGroupByName($userId,$groupName)
 	{
-		if(!empty($userid))
+		$n=new Neo4jFuctions();
+		return  $n->searchGroupByName($userId,$groupName);
+	}
+
+        
+        
+        
+        
+        /*
+         * Interest Util
+         */
+        
+        //User Category Functions
+	function getInterestedCategoryList($uid,$limit)
+	{
+		//do some other things if needed
+		if(!empty($uid))
 		{
 			$n=new Neo4jFuctions();
-			$array=$n->getHomePageEvents($userid,$page,$pageLimit);
-			return $array;
-		} else
+			return $n->getInterestedCategoryList($uid, $limit);
+		}else
 		{
-			return null;
+			return array();
 		}
 	}
+
+
+	//Seacrh Categories
+	function seacrhCategoryList($query)
+	{
+		$n=new Neo4jFuctions();
+		return $n->searchCategoryList($query);
+	}
+
+	//Interest Functions
+	function getUserInterest($userId,$categoryId,$count)
+	{
+		//do some other things if needed
+		$n=new Neo4jFuctions();
+		return $n->getUserInterestsByCategory($userId,$categoryId,$count);
+	}
+        
+        function  getUserOtherInterestsByCategory($userId,$categoryId,$count)
+        {
+            //do some other things if needed
+            $n=new Neo4jFuctions();
+            return $n->getUserOtherInterestsByCategory($userId,$categoryId,$count);
+        }
+
+        function getUserInterestIds($userId,$categoryId)
+	{
+		$n=new Neo4jFuctions();
+		return $n->getUserInterestsIdsByCategory($userId,$categoryId);
+	}
+
+	function  getUserInterestJSON($userId,$categoryId,$count)
+	{
+		$array=$this->getUserInterest($userId,$categoryId,$count);
+		$result=array();
+		if(!empty($array) && sizeof($array)>0)
+		{
+			$val=new Interest();
+			for ($i=0; $i< sizeof($array);$i++) {
+				$val=$array[$i];
+				$url="images/add_rsm_y.png";
+				$url=ImageUtil::getSocialElementPhoto($val->id, $val->socialType);
+				$val->photoUrl=$url;
+				array_push($result, $val);
+			}
+		}
+		$json_response = json_encode($result);
+		echo $json_response;
+	}
+
+	//Interest Functions
+	function searchInterestsByCategory($categoryId,$query)
+	{
+		//do some other things if needed
+		$n=new Neo4jFuctions();
+		return $n->searchInterestsByCategory($categoryId, $query);
+	}
+
+	//Interest Functions
+	function searchInterests($query)
+	{
+		//do some other things if needed
+		$n=new Neo4jFuctions();
+		return $n->searchInterests($query);
+	}
+
+
+	function saveUserInterest($userId,$interestId)
+	{
+		$neo=new Neo4jFuctions();
+		$neo->saveUserInterest($userId, $interestId);
+	}
+
+
+	function addTag($categoryId,$tagName,$socialType)
+	{
+		$neo=new Neo4jFuctions();
+		return $neo->addTag($categoryId, $tagName, $socialType);
+	}
+
+	function removeInterest($userId,$interestId)
+	{
+		$neo=new Neo4jFuctions();
+		$neo->removeInterest($userId, $interestId);
+	}
+        
+        /*
+	 * HomePage
+	*/
         
         /*
          * $userId= user id that logged in -1 default guest
@@ -741,85 +568,6 @@ class UserFuctions {
 		return null;
             }
         }
-            
-
-        /*
-	 * Util
-	*/
-
-	public static function  checkDate($datestr)
-	{
-		$datestr=str_replace("-",".",$datestr);
-		$datestr=str_replace("/",".",$datestr);
-		$result=$datestr;
-		if(!empty($datestr) && strlen($datestr)<11 && strlen($datestr)>5)
-		{
-			$datestr=date_parse_from_format(DATE_FE_FORMAT,$datestr);
-			if(checkdate($datestr['month'], $datestr['day'], $datestr['year']))
-			{
-				$result=$datestr['year']."-";
-				if(strlen($datestr['month'])==1)
-				{
-					$result=$result."0".$datestr['month']."-";
-				}else
-				{
-					$result=$result.$datestr['month']."-";
-				}
-
-				if(strlen($datestr['day'])==1)
-				{
-					$result=$result."0".$datestr['day'];
-				}else
-				{
-					$result=$result.$datestr['day'];
-				}
-				return $result;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		return false;
-	}
-
-	public static function  checkTime($timestr)
-	{
-		$timestr=str_replace(":",".",$timestr);
-		$timestr=str_replace(":","-",$timestr);
-		$result=$timestr;
-		if(!empty($timestr) && strlen($timestr)<6 && strlen($timestr)>2)
-		{
-			$timestr=date_parse_from_format(TIME_FE_FORMAT,$timestr);
-			if($timestr['hour']<24 && $timestr['hour']>-1 && $timestr['minute']>-1 && $timestr['minute']<60)
-			{
-
-				if(strlen($timestr['hour'])==1)
-				{
-					$result="0".$timestr['hour'].":";
-				}else
-				{
-					$result=$timestr['hour'].":";
-				}
-
-
-				if(strlen($timestr['minute'])==1)
-				{
-					$result=$result."0".$timestr['minute'];
-				}else
-				{
-					$result=$result.$timestr['minute'];
-				}
-				return $result;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		return false;
-	}
-
 }
 
 

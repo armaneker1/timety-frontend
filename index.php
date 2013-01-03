@@ -100,7 +100,7 @@ if (empty($user)) {
 
             $startDate = $_POST["te_event_start_date"];
             $startTime = $_POST["te_event_start_time"];
-            $startDate = UserFuctions::checkDate($startDate);
+            $startDate = UtilFunctions::checkDate($startDate);
             if (!$startDate) {
                 $error = true;
                 $m = new HtmlMessage();
@@ -108,7 +108,7 @@ if (empty($user)) {
                 $m->message = "Event Start Date not valid";
                 array_push($msgs, $m);
             }
-            $startTime = UserFuctions::checkTime($startTime);
+            $startTime = UtilFunctions::checkTime($startTime);
             if (!$startTime) {
                 $error = true;
                 $m = new HtmlMessage();
@@ -122,12 +122,12 @@ if (empty($user)) {
             $endDate = $_POST["te_event_end_date"];
             $endTime = $_POST["te_event_end_time"];
 
-            $endTime = UserFuctions::checkTime($endTime);
+            $endTime = UtilFunctions::checkTime($endTime);
             if (!$endTime) {
                 $endTime = "00:00";
             }
 
-            $endDate = UserFuctions::checkDate($endDate);
+            $endDate = UtilFunctions::checkDate($endDate);
             if (!$endDate) {
                 $endDate = "0000-00-00";
                 if ($endTime != "00:00") {
@@ -220,7 +220,7 @@ if (empty($user)) {
             $event->attendance = $_POST["te_event_people"];
             if (!$error) {
                 try { 
-                    $userFunc->createEvent($event, $user);
+                    EventUtil::createEvent($event, $user);
                     $m = new HtmlMessage();
                     $m->type = "s";
                     $m->message = "Event created successfully.";
@@ -541,7 +541,7 @@ if (empty($user)) {
                   $prm_event=null;
                   if (isset($_GET["eventId"]) && !empty($_GET["eventId"]))
                   {
-                    $prm_event=$userFunc->getEventById($_GET["eventId"]);
+                    $prm_event=EventUtil::getEventById($_GET["eventId"]);
                   }
                   
                   if(!empty($prm_event))

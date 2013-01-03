@@ -112,5 +112,73 @@ class ImageUtil {
         var_dump($array);
         return $array;
     }
+    
+    function getSocialElementPhoto($id,$socialType)
+	{
+		$url="";
+		if($socialType==FACEBOOK_TEXT)
+		{
+			$url="https://graph.facebook.com/".$id."/picture?type=square";
+		} else if ($socialType==TWITTER_TEXT)
+		{
+			//?????
+		} else if ($socialType==FOURSQUARE_TEXT)
+		{
+			try {
+				//100x100
+				$foursquare = new FoursquareAPI(FQ_CLIENT_ID,FQ_CLIENT_SECRET);
+				$resp=$foursquare->GetPublic("/venues/".$id."/photos",array("group"=>"venue","limit"=>"1"),false);
+				$resp=$foursquare->getResponseFromJsonString($resp);
+				if(!empty($resp))
+				{
+					if(!empty($resp->photos))
+					{
+						$resp=$resp->photos;
+						if(!empty($resp->items))
+						{
+							$resp=$resp->items;
+							if(!empty($resp['0']))
+							{
+								$resp=$resp['0'];
+								$url=$resp->url;
+								if(!empty($resp->sizes))
+								{
+									$resp=$resp->sizes;
+									$count=$resp->count;
+									if($count>0)
+									{
+										if(!empty($resp->items))
+										{
+											$resp=$resp->items;
+											$url=$resp[$count-1];
+											for($i=$count-1;$i>=0;$i--)
+											{
+												$tmpUrl=$resp[$i];
+												if($tmpUrl->width==100 || $tmpUrl->height==100)
+												{
+													$url=$tmpUrl;
+													break;
+												}
+											}
+											$url=$url->url;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			} catch (Exception $e)
+			{
+				var_dump($e);
+			}
+		}
+		if(empty($url))
+		{
+			$url=HOSTNAME."/images/add_rsm_y.png";
+		}
+		return $url;
+	}
+
 }
 ?>

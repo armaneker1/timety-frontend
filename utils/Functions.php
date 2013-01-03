@@ -80,6 +80,61 @@ class UtilFunctions {
         return true;
     }
 
+    public static function checkDate($datestr) {
+        $datestr = str_replace("-", ".", $datestr);
+        $datestr = str_replace("/", ".", $datestr);
+        $result = $datestr;
+        if (!empty($datestr) && strlen($datestr) < 11 && strlen($datestr) > 5) {
+            $datestr = date_parse_from_format(DATE_FE_FORMAT, $datestr);
+            if (checkdate($datestr['month'], $datestr['day'], $datestr['year'])) {
+                $result = $datestr['year'] . "-";
+                if (strlen($datestr['month']) == 1) {
+                    $result = $result . "0" . $datestr['month'] . "-";
+                } else {
+                    $result = $result . $datestr['month'] . "-";
+                }
+
+                if (strlen($datestr['day']) == 1) {
+                    $result = $result . "0" . $datestr['day'];
+                } else {
+                    $result = $result . $datestr['day'];
+                }
+                return $result;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static function checkTime($timestr) {
+        $timestr = str_replace(":", ".", $timestr);
+        $timestr = str_replace(":", "-", $timestr);
+        $result = $timestr;
+        if (!empty($timestr) && strlen($timestr) < 6 && strlen($timestr) > 2) {
+            $timestr = date_parse_from_format(TIME_FE_FORMAT, $timestr);
+            if ($timestr['hour'] < 24 && $timestr['hour'] > -1 && $timestr['minute'] > -1 && $timestr['minute'] < 60) {
+
+                if (strlen($timestr['hour']) == 1) {
+                    $result = "0" . $timestr['hour'] . ":";
+                } else {
+                    $result = $timestr['hour'] . ":";
+                }
+
+
+                if (strlen($timestr['minute']) == 1) {
+                    $result = $result . "0" . $timestr['minute'];
+                } else {
+                    $result = $result . $timestr['minute'];
+                }
+                return $result;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
 }
 
 ?>

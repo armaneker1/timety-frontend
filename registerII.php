@@ -300,7 +300,7 @@ else
 									{
 										$val=$interests[$i];
 										$url=HOSTNAME."images/add_rsm_y.png";
-										$url=$userFuctions->getSocialElementPhoto($val->id, $val->socialType);
+										$url=ImageUtil::getSocialElementPhoto($val->id, $val->socialType);
 										$val->photoUrl=$url;
 											
 										/*

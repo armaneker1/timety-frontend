@@ -13,7 +13,7 @@ $res->success=false;
 if(!empty($eventId))
 {
    $userFunc=new UserFuctions();
-   $result=$userFunc->getEventById($_POST["eventId"]);
+   $result=EventUtil::getEventById($_POST["eventId"]);
    $result->getHeaderImage();
    if(!empty($result))
    {

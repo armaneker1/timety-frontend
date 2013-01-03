@@ -49,7 +49,7 @@ class DBUtils{
 	{
 		if(!empty($datestr))
 		{
-			$datestr=UserFuctions::checkDate($datestr);
+			$datestr=UtilFunctions::checkDate($datestr);
 			return $datestr;
 		}
 		return "";

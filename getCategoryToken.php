@@ -32,7 +32,7 @@ try {
 			$val=new Interest();
 			for ($i=0; $i< sizeof($array);$i++) {
 				$val=$array[$i];
-				$obj=array('id'=>$val->id,'label'=>$val->name,'value'=>'','photoUrl'=>$userFunctions->getSocialElementPhoto($val->id, $val->socialType));
+				$obj=array('id'=>$val->id,'label'=>$val->name,'value'=>'','photoUrl'=>ImageUtil::getSocialElementPhoto($val->id, $val->socialType));
 				array_push($result, $obj);
 			}
 		}

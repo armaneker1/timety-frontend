@@ -28,13 +28,13 @@ if (isset($_SESSION['id'])) {
 	
 		$startDate=$_POST["te_event_date"];
 		$startTime=$_POST["te_event_time"];
-		$startDate=UserFuctions::checkDate($startDate);
+		$startDate=UtilFunctions::checkDate($startDate);
 		if(!$startDate)
 		{
 			$error=true;
 			echo "date1 error";
 		}
-		$startTime=UserFuctions::checkTime($startTime);
+		$startTime=UtilFunctions::checkTime($startTime);
 		if(!$startTime)
 		{
 			$error=true;
@@ -43,13 +43,13 @@ if (isset($_SESSION['id'])) {
 	
 		$endDate=$_POST["te_event_date2"];
 		$endTime=$_POST["te_event_time2"];
-		$endDate=UserFuctions::checkDate($endDate);
+		$endDate=UtilFunctions::checkDate($endDate);
 		if(!$endDate)
 		{
 			$error=true;
 			echo "date2 error";
 		}else{
-			$endTime=UserFuctions::checkTime($endTime);
+			$endTime=UtilFunctions::checkTime($endTime);
 			if(!$endTime)
 			{
 				$error=true;
@@ -86,7 +86,7 @@ if (isset($_SESSION['id'])) {
 			$event->privacy=0;
 		if(!$error)
 		{
-			$userFunc->createEvent($event, $user);
+			EventUtil::createEvent($event, $user);
 		}
 	}
 	
