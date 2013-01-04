@@ -615,7 +615,7 @@ if (empty($user)) {
                                         <?php  if(empty($user)) { ?>
                                             <div class="slide_item">
                                                <div class="akt_tkvm">
-                                                   <a href="signin.php"  class="add_event_link">Click Here to Add Event</a>
+                                                   <a href="<?=HOSTNAME?>login"  class="add_event_link">Click Here to Add Event</a>
                                                </div>
                                             </div>
                                         <?php } else {  
