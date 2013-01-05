@@ -17,8 +17,10 @@ class ReminderUtil {
             $dif = 60 * 60;
             $unit = "hour";
         }
-        $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE  reminderValue>0 AND startDateTime>now() AND reminderType='" . $type_ . "' AND reminderUnit='" . $unit . "' AND  startDateTime-now()>" . $dif;
-
+        $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE  reminderValue>0 AND startDateTime>now() AND reminderType='" . $type_ . "' AND reminderUnit='" . $unit . "' AND  startDateTime-now()<" . $dif;
+        
+        
+        
         return $SQL;
     }
 
