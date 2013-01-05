@@ -2,9 +2,9 @@
 /*
  * Dependencies
  */
-require_once '/../apis/facebook/facebook.php';
-require_once '/../apis/twitter/twitteroauth.php';
-require_once '/../apis/foursquare/FoursquareAPI.php'; 
+require_once __DIR__ .'/../apis/facebook/facebook.php';
+require_once __DIR__ .'/../apis/twitter/twitteroauth.php';
+require_once __DIR__ .'/../apis/foursquare/FoursquareAPI.php'; 
 
 require_once __DIR__ . '/../config/dbconfig.php';
 require_once __DIR__ . '/../config/constant.php';

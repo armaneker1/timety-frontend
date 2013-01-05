@@ -161,7 +161,8 @@ CREATE TABLE IF NOT EXISTS `timete_lost_pass` (
 CREATE TABLE IF NOT EXISTS `timete_settings` (
   `key_` varchar(255) DEFAULT NULL,
   `value_` varchar(500) DEFAULT NULL,
-  KEY `key` (`key_`,`value_`)
+  KEY `key` (`key_`,`value_`),
+  KEY `key_` (`key_`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin5;
 
 --

@@ -1,7 +1,6 @@
-var TIMETY_HOSTNAME='http://'+window.location.hostname+'/timety/';
-var TIMETY_HOSTNAME_WWW='http://'+window.location.hostname+'/timety/';
-//var TIMETY_HOSTNAME='http://'+window.location.hostname+'/';
-//var TIMETY_HOSTNAME_WWW='http://'+window.location.hostname+'/';
+var TIMETY_SUBFOLDER='/timety/';
+var TIMETY_HOSTNAME='http://'+window.location.hostname+TIMETY_SUBFOLDER;
+var TIMETY_HOSTNAME_WWW='http://'+window.location.hostname+TIMETY_SUBFOLDER;
 
 var TIMETY_PAGE_AJAX_SESSION=TIMETY_HOSTNAME+'session.php';
 
