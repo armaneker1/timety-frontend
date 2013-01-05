@@ -1533,13 +1533,29 @@ class Neo4jFuctions {
 
     public static function getEventAttendanceCount($eventId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in.dedup.count()";
+        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('".REL_EVENTS_JOINS."').dedup.count()";
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         $result = $query->getResultSet();
         foreach ($result as $row) {
             return $row[0];
         }
         return 0;
+    }
+    
+    public static function getEventCreator($eventId) {
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('".REL_EVENTS_JOINS."').dedup.filter{it.".PROP_JOIN_CREATE."=true}.outV.dedup";
+        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+        $result = $query->getResultSet();
+        foreach ($result as $row) {
+            $usr=new User();
+            $usr->createFromNeo4j($row[0]);
+            if(!empty($usr) && !empty($usr->id))
+            {
+             return $usr;
+            }
+        }
+        return null;
     }
 
     public static function getEventAttendanceCount_Cypher($eventId) {

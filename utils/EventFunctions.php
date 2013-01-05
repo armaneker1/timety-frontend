@@ -79,6 +79,17 @@ class EventUtil {
         }
         return $event;
     }
+    
+    public static function updateEventReminder($eventId,$value)
+    {
+        if(!empty($eventId) && !empty($value))
+        {
+            $eventId=  DBUtils::mysql_escape($eventId);
+            $value=  DBUtils::mysql_escape($value);
+            $SQL="UPDATE ".TBL_EVENTS." SET reminderSent=".$value." WHERE id=".$eventId;
+            mysql_query($SQL);
+        }
+    }
 
     public static function getEventById($id) {
         if (!empty($id)) {
