@@ -5,7 +5,7 @@ jQuery(document).ready(function(){
     jQuery.sessionphp.get("id", function(userId){
         if(userId)
         {
-            setTimeout(checkNotifications, 3000, userId);    
+            setTimeout(checkNotifications, 5000, userId);    
         }
     });
 });
@@ -45,5 +45,5 @@ function checkNotifications(userId)
             }
         }
     },"json");
-setTimeout(checkNotifications, 3000, userId);    
+setTimeout(checkNotifications, 5000, userId);    
 }
