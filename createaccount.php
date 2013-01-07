@@ -20,8 +20,13 @@ if (array_key_exists("login", $_GET)) {
 
 $msgs = array();
 $uname = null;
+$unameError=null;
 $uemail = null;
+$uemailError=null;
 $upass = null;
+$upassError=null;
+$upass2 = null;
+$upass2Error=null;
 
 try {
     if (array_key_exists("te_username", $_POST)) {
@@ -31,49 +36,44 @@ try {
             $uemail = $_POST["te_email"];
         if (isset($_POST["te_password"]))
             $upass = $_POST["te_password"];
+        if (isset($_POST["te_repassword"]))
+            $upass2 = $_POST["te_repassword"];
         $param = true;
         try {
             if (empty($uname)) {
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = "User name empty";
-                array_push($msgs, $m);
+                $unameError="User name empty";
                 $param = false;
             } else {
                 if (!UserUtils::checkUserName($uname)) {
-                    $m = new HtmlMessage();
-                    $m->type = "e";
-                    $m->message = "User Name already taken";
-                    array_push($msgs, $m);
+                    $unameError="User Name already taken";
                     $param = false;
                 }
             }
+           
             if (empty($uemail)) {
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = "Email empty";
-                array_push($msgs, $m);
+                $uemailError="Email empty";
                 $param = false;
             } else {
                 if (!UtilFunctions::check_email_address($uemail)) {
-                    $m = new HtmlMessage();
-                    $m->type = "e";
-                    $m->message = "Email is not valid";
-                    array_push($msgs, $m);
+                    $uemailError="Email is not valid";
                     $param = false;
                 } else if (!UserUtils::checkEmail($uemail)) {
-                    $m = new HtmlMessage();
-                    $m->type = "e";
-                    $m->message = "Email already taken";
-                    array_push($msgs, $m);
+                    $uemailError="Email already taken";
                     $param = false;
                 }
             }
+
             if (empty($upass)) {
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = "Password empty";
-                array_push($msgs, $m);
+                $upassError="Password empty";
+                $param = false;
+            }
+            if (empty($upass2)) {
+                $upass2Error="Re-Password empty";
+                $param = false;
+            }
+
+            if ($upass != $upass2) {
+                $upass2Error="Passwords not match";
                 $param = false;
             }
 
@@ -120,7 +120,7 @@ $upass = null;
 
             function validateUserNameNoEffect(field2) {
                 var field = document.getElementById($(field2).attr('id'));
-                jQuery.post("<?=PAGE_AJAX_CHECKUSERNAME?>", {
+                jQuery.post("<?= PAGE_AJAX_CHECKUSERNAME ?>", {
                     u : field.value
                 }, function(data) {
                     field.setAttribute("suc", (!!(data.success)));
@@ -130,7 +130,7 @@ $upass = null;
 
             function validateEmailNoEffect(field2) {
                 var field = document.getElementById($(field2).attr('id'));
-                jQuery.post("<?=PAGE_AJAX_CHECKEMAIL?>", {
+                jQuery.post("<?= PAGE_AJAX_CHECKEMAIL ?>", {
                     e : field.value
                 }, function(data) {
                     field.setAttribute("suc", (!!(data.success)));
@@ -160,31 +160,39 @@ $upass = null;
                         rules : 'required|valid_email|callback_check_email'
                     } ],
                 function(errors, event) {
+                    //empty messages
+                    jQuery(".create_acco_popup").text("");
+                    jQuery(".create_acco_popup").attr("style","display:none;");
+                    
                     var SELECTOR_ERRORS = $('#msg');
-                    $('#te_username_span').attr('class', 'onay icon_bg');
-                    $('#te_username').attr('class', 'user_inpt username  icon_bg onay_brdr');
+                    SELECTOR_ERRORS.empty();
+                    
+                    jQuery('#te_username_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_username').attr('class', 'user_inpt username  icon_bg onay_brdr');
                                 
                                 
-                    $('#te_password_span').attr('class', 'onay icon_bg');
-                    $('#te_password').attr('class', 'user_inpt icon_bg password onay_brdr');
+                    jQuery('#te_password_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_password').attr('class', 'user_inpt icon_bg password onay_brdr');
                                 
                                 
-                    $('#te_repassword_span').attr('class', 'onay icon_bg');
-                    $('#te_repassword').attr('class', 'user_inpt icon_bg password onay_brdr');
+                    jQuery('#te_repassword_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_repassword').attr('class', 'user_inpt icon_bg password onay_brdr');
                                 
                                 
-                    $('#te_email_span').attr('class', 'onay icon_bg');
-                    $('#te_email').attr('class', 'user_inpt icon_bg email onay_brdr');
+                    jQuery('#te_email_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_email').attr('class', 'user_inpt icon_bg email onay_brdr');
                                 
                     if (errors.length > 0) {
-                        SELECTOR_ERRORS.empty();
                         for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
-                            SELECTOR_ERRORS.append(errors[i].message + '<br />');
-                            $('#' + errors[i].id + '_span').attr('class',
-                            'sil icon_bg');
-                            $('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
+                            //SELECTOR_ERRORS.append(errors[i].message + '<br />');
+                            jQuery('#' + errors[i].id + '_span').attr('class','sil icon_bg');
+                            jQuery('#' + errors[i].id + '_span_msg').css({
+                                display : 'block'
+                            });
+                            jQuery('#' + errors[i].id + '_span_msg').text(errors[i].message);
+                            jQuery('#' + errors[i].id + '_span_msg').append(jQuery("<div class='kok'></div>"));
+                            jQuery('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
                         }
-                        SELECTOR_ERRORS.fadeIn(200);
                     } else {
                         SELECTOR_ERRORS.css({
                             display : 'none'
@@ -225,27 +233,80 @@ $upass = null;
                         <input name="te_username" type="text"
                                class="user_inpt username  icon_bg" id="te_username"
                                value="<?= $uname ?>" placeholder="User Name"
-                               onkeyup="validateUserNameNoEffect(this)" /> <span
-                               id='te_username_span'></span> <br /> <input name="te_password"
+                               onkeyup="validateUserNameNoEffect(this)" /> 
+                        <?php 
+                                $display="none";
+                                $class="";
+                                if(!empty($unameError))
+                                {
+                                    $display="block";
+                                    $class="sil icon_bg";
+                                }
+                         ?>
+                        <span id='te_username_span' class="<?=$class?>">
+                            <div class="create_acco_popup" id="te_username_span_msg" style="display:<?=$display?>;"><?=$unameError?><div class="kok"></div></div>
+                        </span> <br /> 
+                        
+                        <input name="te_password"
                                type="password" class="user_inpt password icon_bg"
-                               id="te_password" value="" placeholder="Password" /> <span
-                               id='te_password_span'></span> <br /> <input name="te_repassword"
+                               id="te_password" value="" placeholder="Password" /> 
+                        <?php 
+                                $display="none";
+                                $class="";
+                                if(!empty($upassError))
+                                {
+                                    $display="block";
+                                    $class="sil icon_bg";
+                                }
+                         ?>
+                        <span  id='te_password_span' class="<?=$class?>">
+                            <div class="create_acco_popup" id="te_password_span_msg" style="display:<?=$display?>;"><?=$upassError?><div class="kok"></div></div>
+                        </span> <br /> 
+                        
+                        <input name="te_repassword"
                                type="password" class="user_inpt password icon_bg"
                                id="te_repassword" value="" placeholder="Confirm Password" /> <br />
-                        <span id='te_repassword_span'></span> <input name="te_email"
-                                                                     type="text" placeholder="Email" class="user_inpt email icon_bg"
-                                                                     id="te_email" onkeyup="validateEmailNoEffect(this)"
-                                                                     value="<?= $uemail ?>" /> <br /> <span id='te_email_span'></span>
+                        <?php 
+                                $display="none";
+                                $class="";
+                                if(!empty($upass2Error))
+                                {
+                                    $display="block";
+                                    $class="sil icon_bg";
+                                }
+                         ?>
+                        <span id='te_repassword_span' class="<?=$class?>">
+                            <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?=$display?>;"><?=$upass2Error?><div class="kok"></div></div>
+                        </span> <br/>
+                        
+                        <input name="te_email"
+                               type="text" placeholder="Email" class="user_inpt email icon_bg"
+                               id="te_email" onkeyup="validateEmailNoEffect(this)"
+                               value="<?= $uemail ?>" /> 
+                        <?php 
+                                $display="none";
+                                $class="";
+                                if(!empty($uemailError))
+                                {
+                                    $display="block";
+                                    $class="sil icon_bg";
+                                }
+                        ?>
+                        <span id='te_email_span' class="<?=$class?>"> 
+                            <div class="create_acco_popup" id="te_email_span_span_msg" style="display:<?=$display?>;"><?=$uemailError?><div class="kok"></div></div>
+                        </span> <br />
+                        
                         <button type="submit" class="reg_btn reg_btn_width" name=""
                                 value="" onclick="jQuery('.php_errors').remove();">Register</button>
-                        <br></br>
+                        <br/>
+                        
                         <div class="ts_box" style="font-size: 12px;">
                             <span style="color: red; display: none;" id="msg"></span>
                             <?php
                             if (!empty($msgs)) {
                                 $ms = "";
                                 foreach ($msgs as $m) {
-                                    $ms = $ms . "<span class='php_errors' style='color: red;'>" . $m->message . "</span><p/>";
+                                        $ms = $ms . "<span class='php_errors' style='color: red;'>" . $m->message . "</span><p/>";
                                 }
                                 echo $ms;
                             }

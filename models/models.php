@@ -337,6 +337,7 @@ class HtmlMessage {
 
     public $type;
     public $message;
+    public $element;
 
 }
 

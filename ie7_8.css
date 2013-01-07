@@ -705,12 +705,13 @@ body {
 }
 
 .sil {
-	background-position: right -108px;
-	height: 30px;
-	width: 20px;
-	display: block;
-	float: left;
-	background-repeat: no-repeat;
+                background-position: right -108px;
+                height: 30px;
+                width: 20px;
+                display: block;
+                float: left;
+                background-repeat: no-repeat;
+                position: relative;
 }
 .onay {
 	background-position: right -237px;
@@ -1335,7 +1336,7 @@ body {
 }
 
 .cerceve {
-	#padding: 3px;
+	/*padding: 3px;*/
 	outline: 1px solid #bebebe;
 	background-color: #FFF;
 	height: 59px;
@@ -2363,3 +2364,28 @@ body {
 	margin: 20px;
 }
 
+.create_acco_popup {
+                background-color: #d02e2e;
+                /*height: 37px;*/
+                height: auto;
+                width: 180px;
+                position: absolute;
+                z-index: 1000;
+                border-radius: 5px;
+                /* [disabled]right: -130px; */
+                /*top: -55px;*/
+                bottom: 28px;
+                font-family: Arial;
+                font-size: 11px;
+                color: #FFF;
+                padding: 10px;
+}
+.kok {
+                background-image: url(images/kok.png);
+                height: 20px;
+                width: 38px;
+                position: absolute;
+                bottom: -10px;
+                 /*left: 5px;*/
+                left: 0px;
+}
