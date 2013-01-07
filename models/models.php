@@ -81,6 +81,15 @@ class User {
         }
         return 0;
     }
+    
+     public function getUserNotifications() {
+        $array = InviteUtil::getEventInvitesByUserId($this->id);
+        if (!empty($array)) {
+            return $array;
+        }
+        return null;
+    }
+
 
 }
 

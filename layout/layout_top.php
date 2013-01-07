@@ -45,6 +45,7 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->stat
                 <script type="text/javascript">
                     jQuery("#add_event_button").click(openCreatePopup);
                 </script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
             <?php } else { ?>
                 <script type="text/javascript">
                     function  to_home() {
@@ -52,6 +53,8 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->stat
                     }
                     jQuery("#add_event_button").click(to_home);
                 </script>
+                
+                
 <?php } ?>
 <?php
 if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
@@ -85,7 +88,7 @@ if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
-                <div class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
+                <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
         <?php if ($user->getUserNotificationCount()) { ?>
                         <div class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
         <?php } ?>
@@ -97,9 +100,9 @@ if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
-                <div class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
+                <div class="avatar" id="te_avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
                 <?php if ($user->getUserNotificationCount()) { ?>
-                        <div class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
+                        <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
         <?php } ?>
                 </div>
 
