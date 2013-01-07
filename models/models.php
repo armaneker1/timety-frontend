@@ -75,6 +75,10 @@ class User {
     }
 
     public function getUserNotificationCount() {
+        $array = InviteUtil::getEventInvitesByUserId($this->id);
+        if (!empty($array)) {
+            return sizeof($array);
+        }
         return 0;
     }
 
@@ -275,13 +279,10 @@ class Event {
     }
 
     public function getCreator() {
-        if(empty($this->creator) || empty($this->creator->id))
-        {
-            $this->creator=Neo4jFuctions::getEventCreator($this->id);
+        if (empty($this->creator) || empty($this->creator->id)) {
+            $this->creator = Neo4jFuctions::getEventCreator($this->id);
             return $this->creator;
-        }
-        else
-        {
+        } else {
             return $this->creator;
         }
     }
