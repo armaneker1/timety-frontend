@@ -247,7 +247,7 @@ class Neo4jFuctions {
                                             if (!empty($emailUser)) {
                                                 $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                             }
-                                            $res = UserUtils::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
+                                            $res = MailUtil::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
                                         }
                                     }
                                 }
@@ -1323,7 +1323,7 @@ class Neo4jFuctions {
     public static function getAllOtherEvents($userId, $pageNumber = 0, $pageItemCount = 15, $date, $query_ = "") {
         $date = date(DATETIME_DB_FORMAT, $date);
         $array = array();
-        $query = "SELECT * FROM " . TBL_EVENTS . " WHERE startDateTime>'" . $date . "'";
+        $query = "SELECT * FROM " . TBL_EVENTS . " WHERE privacy=1 AND startDateTime>'" . $date . "'";
         if (!empty($query_)) {
             $query = $query . " AND ( title LIKE '" . $query_ . "' OR description LIKE '" . $query_ . "') ";
         }
