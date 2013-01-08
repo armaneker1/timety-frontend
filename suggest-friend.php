@@ -210,7 +210,7 @@ else
 					?>
 			<li><img src="<?php echo $friend->getUserPic();?>" width="30"
 				height="30" border="0" align="absmiddle" class="follow_res" /><span
-				class="follow_ad"><?php echo $friend->firstName." ".$friend->lastName." (".$friend->userName.")";?>
+                                class="follow_ad"><?php $texxt=$friend->firstName." ".$friend->lastName." (".$friend->userName.")";  if(strlen($texxt)>30){$texxt=substr($texxt, 0, 30); } echo $texxt; ?>
 			</span> <?php if(strlen($key)<=0) { ?>
 				<button type="button" name="" value="" class="follow_btn"
 					id="foll_<?php echo $friend->id;?>"

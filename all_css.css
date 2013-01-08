@@ -974,6 +974,10 @@ body {
 }
 .follow_ad {
 	float: left;
+        width: 195px;
+        overflow: hidden;
+        word-wrap: normal;
+        max-height: 48px;
 }
 .temizle {
 	clear: both;
