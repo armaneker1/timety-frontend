@@ -37,7 +37,7 @@ class Neo4jFuctions {
             foreach ($result as $row) {
                 $event = new Event();
                 $event->id = $row['event']->getProperty(PROP_EVENT_ID);
-                $event->name = $row['event']->getProperty(PROP_EVENT_TITLE);
+                $event->title = $row['event']->getProperty(PROP_EVENT_TITLE);
                 array_push($array, $event);
             }
             return $array;

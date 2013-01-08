@@ -116,7 +116,7 @@ function showNotifications(userId)
                     var elm=dataJSON[i];
                     var element=jQuery("<li>");
                     element.attr("id", "li_notf_"+elm.id);
-                    var title=elm.name.length>30 ? elm.name.substring(0, 30) : elm.name;
+                    var title=elm.title.length>30 ? elm.title.substring(0, 30) : elm.title;
                     title=title+"...";
                     element.append("<a style=\"color:#C2C2C2;float:left;\" href=\""+TIMETY_HOSTNAME+"event/"+elm.id+"\">"+title+"</a>");
                     

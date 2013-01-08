@@ -79,6 +79,8 @@ class User {
         if (!empty($array)) {
             return sizeof($array);
         }
+        /* Test */
+        return 2;
         return 0;
     }
     
@@ -87,6 +89,9 @@ class User {
         if (!empty($array)) {
             return $array;
         }
+         /* Test */
+        array_push($array, EventUtil::getEventById(1000053));
+        return $array;
         return null;
     }
 
