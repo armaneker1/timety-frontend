@@ -67,6 +67,7 @@ define('PAGE_AJAX_GETTAG',PAGE_AJAX_FOLDER.'getTag.php');
 define('PAGE_AJAX_GETPEOPLEORGROUP',PAGE_AJAX_FOLDER.'getPeopleOrGroup.php');
 define('PAGE_AJAX_GETEVENT',PAGE_AJAX_FOLDER.'getEvent.php');
 define('PAGE_AJAX_GETNOTFCOUNT',PAGE_AJAX_FOLDER.'getNotificationsCount.php');
+define('PAGE_AJAX_GETNOTF',PAGE_AJAX_FOLDER.'getNotifications.php');
 
 
 

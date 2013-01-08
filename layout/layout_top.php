@@ -90,7 +90,7 @@ if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty
                 </div>
                 <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
         <?php if ($user->getUserNotificationCount()) { ?>
-                        <div class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
+                        <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
         <?php } ?>
                 </div>
         <?php } else {
