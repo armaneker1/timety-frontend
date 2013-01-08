@@ -2,9 +2,9 @@
 session_start();
 header("Content-Type: text/html; charset=utf8");
 
-require_once __DIR__.'/utils/Functions.php';
+require_once __DIR__.'/../utils/Functions.php';
 
-var_dump(UtilFunctions::startsWith("http://ssadsd","http"));
+var_dump(Neo4jFuctions::removeEventInvite(1000007,1000053));
 
 
 /*var_dump(strtotime("now"));

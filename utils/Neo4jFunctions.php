@@ -89,6 +89,14 @@ class Neo4jFuctions {
                     $usr->relateTo($event, REL_EVENTS_REJECTS)->setProperty(PROP_JOIN_CREATE, 0)->save();
                     $result->success = true;
                     $result->error = false;
+                } else if ($resp == 2) {
+                    $usr->relateTo($event, REL_EVENTS_MAYBE)->setProperty(PROP_JOIN_CREATE, 0)->save();
+                    $result->success = true;
+                    $result->error = false;
+                }else if ($resp == 3) {
+                    $usr->relateTo($event, REL_EVENTS_IGNORE)->setProperty(PROP_JOIN_CREATE, 0)->save();
+                    $result->success = true;
+                    $result->error = false;
                 } else {
                     $result->success = false;
                     $result->error = true;
@@ -317,21 +325,21 @@ class Neo4jFuctions {
         }
     }
 
-    function removeEventInvite($uid, $eventId) {
+    public static function removeEventInvite($uid, $eventId) {
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $uid . "') " .
                     "MATCH (user) <-[r:" . REL_EVENTS_INVITES . "]- (event) " .
-                    "WHERE event." . PROP_EVENT_ID . "=" . $eventId . " " .
+                    "WHERE event." . PROP_EVENT_ID . "=" . $eventId . " OR  event." . PROP_EVENT_ID . "='" . $eventId ."'".
                     "DELETE  r";
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
+            error_log("Error".$e->getMessage());
         }
     }
 
-    function sendInivitationToGroup($groupId, $eventId) {
+    public static function sendInivitationToGroup($groupId, $eventId) {
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START group=node:" . IND_GROUP_INDEX . "('" . PROP_GROUP_ID . ":" . $groupId . "'), event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .

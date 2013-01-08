@@ -122,9 +122,9 @@ function showNotifications(userId)
                     
                     element.append("<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>");
                     
-                    var yesElm=jQuery("<a style=\"color:#C2C2C2;float:right;\" href=\"#\" onclick=\"var event = arguments[0] || window.event;return responseEvent(event,"+userId+","+elm.id+","+1+");\">Yes |&nbsp;</a>");
-                    var maybeElm=jQuery("<a style=\"color:#C2C2C2;float:right;\" href=\"#\" onclick=\"var event = arguments[0] || window.event;return responseEvent(event,"+userId+","+elm.id+","+2+");\">Maybe |&nbsp;</a>");
-                    var noElm=jQuery("<a style=\"color:#C2C2C2;float:right;\" href=\"#\" onclick=\"var event = arguments[0] || window.event;return responseEvent(event,"+userId+","+elm.id+","+3+");\">Ignore</a>");
+                    var yesElm=jQuery("<a class=\"notf_answer_class\" style=\"color:#C2C2C2;float:right;\" href=\"#\" onclick=\"var event = arguments[0] || window.event;return responseEvent(event,"+userId+","+elm.id+","+1+");\">Yes |&nbsp;</a>");
+                    var maybeElm=jQuery("<a class=\"notf_answer_class\" style=\"color:#C2C2C2;float:right;\" href=\"#\" onclick=\"var event = arguments[0] || window.event;return responseEvent(event,"+userId+","+elm.id+","+2+");\">Maybe |&nbsp;</a>");
+                    var noElm=jQuery("<a class=\"notf_answer_class\" style=\"color:#C2C2C2;float:right;\" href=\"#\" onclick=\"var event = arguments[0] || window.event;return responseEvent(event,"+userId+","+elm.id+","+3+");\">Ignore</a>");
                     
                     element.append(noElm);
                     element.append(maybeElm);
@@ -152,6 +152,24 @@ function responseEvent(event,userId,eventId,type)
         {
             liElement.children().hide();
             liElement.append(loader);
+            jQuery.post(TIMETY_PAGE_AJAX_RESPONSETOEVENTINVITES, {
+		e : eventId,
+		u : userId, 
+		r :type
+            }, function(data) {
+                    loader.remove();
+                    liElement.children(".notf_answer_class").remove();
+                    var result=jQuery("<span>");
+                    if (data.success) {
+                        result.css("color", "green");
+                        result.text("Success");
+                    }else{
+                        result.css("color", "red");
+                        result.text("Error");
+                    }
+                    liElement.append(result);
+                    liElement.children().show();
+            }, "json");
         }else
         {
             jQuery("#my_timety_notf").hide();
@@ -164,3 +182,6 @@ function responseEvent(event,userId,eventId,type)
     }
     return false;
 }
+
+
+
