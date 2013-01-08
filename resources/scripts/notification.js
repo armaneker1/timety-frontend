@@ -108,7 +108,7 @@ function showNotifications(userId)
         },
         success: function(data){
             var dataJSON = jQuery.parseJSON(data);
-            if(!dataJSON.error)
+            if(dataJSON && !dataJSON.error)
             {
                 loader.remove();
                 for(var i=0;i<dataJSON.length;i++)
