@@ -72,9 +72,11 @@ function dropJoinEvent(userId,eventId)
                             {
                                 jQuery('#boot_msg').empty();
                                 jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success">joined event<a class="close" data-dismiss="alert"><img src="'+ TIMETY_HOSTNAME + 'images/close.png"></img></a></div>');   
+                                addToMyTimety(eventId,userId);
                             }
                         },
                         error : function(error_data){
+                            console.log(error_data);
                 }},"json");
     }
 }

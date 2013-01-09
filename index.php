@@ -659,7 +659,7 @@ if (empty($user)) {
                                                         $evtDesc = substr($evtDesc, 0, 100) . "...";
                                                      }
                                                  ?>   
-                                                    <div class="akt_tkvm">
+                                                    <div class="akt_tkvm" id="<?=$evt->id?>">
                                                         <h1><?=$evt->title?></h1>
                                                         <p><?=$evt->startDateTime?></p>
                                                         <p><?=$evtDesc?></p>
