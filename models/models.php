@@ -169,7 +169,9 @@ class Event {
             $this->location = $result['location'];
             $this->description = $result['description'];
             $this->startDateTime = $result['startDateTime'];
+            $this->startDateTimeLong=strtotime($result['startDateTime']);
             $this->endDateTime = $result['endDateTime'];
+            $this->endDateTimeLong=strtotime($result['endDateTime']);
             $this->reminderType = $result['reminderType'];
             $this->reminderUnit = $result['reminderUnit'];
             $this->reminderValue = $result['reminderValue'];

@@ -599,7 +599,7 @@ if (!empty($prm_event)) {
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <div id="slides" style="overflow: hidden">
+                                <div id="slides" style="overflow: hidden;max-height: 120px;">
                                      <div id="slides_container">
 <?php if (empty($user)) { ?>
                                             <div class="slide_item">
@@ -632,7 +632,7 @@ if (!empty($prm_event)) {
                                                         $evtDesc = substr($evtDesc, 0, 100) . "...";
                                                     }
                                                     ?>   
-                                                    <div class="akt_tkvm" id="<?= $evt->id ?>">
+                                                    <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>">
                                                         <h1><?=$j." - ".$i." "?> <?= $evt->title ?></h1>
                                                         <p><?= $evt->startDateTime ?></p>
                                                         <p><?= $evtDesc ?></p>
@@ -648,6 +648,7 @@ if (!empty($prm_event)) {
                                             function resizeSlide()
                                             {
                                                 jQuery("#slides").width(jQuery(".main_event").width());
+                                                if(slide_handler) slide_handler.lemmonSlider('destroy');
                                                 slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
                                             }
                                             jQuery(window).resize(resizeSlide);   
