@@ -1,0 +1,368 @@
+1,Arts & Entertainment,Aquarium,,Local Business or Place,Airport,332; 335-346
+2,,Arcade,,,Arts/Entertainment/Nightlife,38; 261
+3,,Art Gallery,,,Attractions/Things to Do,
+4,,Bowling Alley,,,Automotive,187; 357; 370-371
+5,,Casino,,,Bank/Financial Services,
+6,,Comedy Club,,,Bar,7; 15; 122; 200-218
+7,,General Entertainment,,,Book Store,266
+8,,Historic Site,,,Business Services,
+9,,Movie Theater,Indie Movie Theater,,Church/Religious Organization,
+10,,,Multiple,,Club,5; 6; 7; 20; 34; 164; 200-218
+11,,Museum,Art Museum,,Community/Government,
+12,,,History Museum,,Concert Venue,15; 19; 161
+13,,,Planetarium,,Education,
+14,,,Science Museum,,Event Planning/Event Services,
+15,,Music Venue,Concert Hall,,Food/Grocery,
+16,,,Jazz Club,,Health/Medical/Pharmacy,325
+17,,,Piano Bar,,Home Imporvement,
+18,,,Rock Club,,Hospital/Clinic,175-181
+19,,Performing Arts Venue,Concert Hall,,Hotel,5; 7; 347-354
+20,,,Dance Studio,,Landmark,
+21,,,Indie Theater,,Library,
+22,,,Opera House,,Local Business,325
+23,,,Theater,,Movie Theatre,9; 10
+24,,Pool Hall,,,Museum/Art Gallery,3;11;12;13;14
+25,,Racetrack,,,Outdoor Gear/Sporting Goods,
+26,,Stadium,Baseball Stadium,,Pet Services,37; 160; 319
+27,,,Basketball Stadium,,Professional Services,
+28,,,Cricket Ground,,Public Places,87; 139; 140; 143; 144; 151
+29,,,Football Stadium,,Real Estate,
+30,,,Hockey Arena,,Restaurant/Cafe,74-159
+31,,,Soccer Stadium,,School,38-73; 194-199
+32,,,Tennis,,Shopping/Retail,2; 279-287; 301; 308; 312; 318; 319; 321; 323; 324; 326
+33,,,Track Stadium,,Spas/Beauty/Personel Care,
+34,,Strip Club,,,Sports Venue,4; 24; 25; 26; 27; 28; 29; 30; 31; 32; 33
+35,,Theme Park,,,Sports/Recreation/Activities,26; 27; 28; 29; 30; 31; 32; 33
+36,,Water Park,,,Tour/Sightseeing,
+37,,Zoo,,,Transit Stop,
+38,College & University,College Academic Building,College Arts Building,,Transportation,
+39,,,College Communications Building,,University,38-73
+40,,,College Engineering Building,Company; Organization or Institution,Aerospace/Defense,
+41,,,College History Building,,Automobiles and Parts,262; 270; 271
+42,,,College Math Building,,Bank/Financial Institution,263
+43,,,College Science Building,,Biotechnology,
+44,,,College Technology Building,,Cause,
+45,,College Administrative Building,,,Chemicals,
+46,,College Auditorium,,,Church/Religious Organization,
+47,,College Bookstore,,,Community Organizaton,65
+48,,College Cafeteria,,,Company,
+49,,College Classroom,,,Comuters/Technology,44
+50,,College Gym,,,Consulting/Business Services,
+51,,College Lab,,,Education,38-73
+52,,College Library,,,Energy/Utility,
+53,,College Quad,,,Engineering/Construction,40
+54,,College Rec Center,,,Farming/Agriculture,
+55,,College Residence Hall,,,Food/Beverages,297-298
+56,,College Stadium,College Baseball Diamond,,Government Organization,
+57,,,College Basketball Court,,Health/Beauty,
+58,,,College Cricket Pitch,,Health/Medical/Pharmaceuticals,
+59,,,College Football Field,,Industrials,
+60,,,College Hockey Rink,,Insurance Company,
+61,,,College Soccer Field,,Internet/Software,
+62,,,College Tennis Court,,Legal/Law,
+63,,,College Track,,Media/News/Publishing,
+64,,College Theater,,,Mining/Materials,
+65,,Community College,,,Non-Governmental Organization (NGO),1
+66,,Fraternity House (Dernek),,,Non-Profis Organization,
+67,,General College & University,,,Organization,4; 7
+68,,Law School,,,Political Organization,
+69,,Medical School,,,Political Party,7;
+70,,Sorority House,,,Retail and Consumer Merchandise,
+71,,Student Center,,,School,38-73; 194-199
+72,,Trade School,,,Small Business,
+73,,University,,,Telecommunication,
+74,Food,African Restaurant,,,Transport/Freight,
+75,,American Restaurant,,,Travel/Leisure,332; 335-346; 355-365
+76,,Arepa Restaurant,,,University,38-73; 194-199
+77,,Argentinian Restaurant,,Brand or Product,App Page,
+78,,Asian Restaurant,,,Appliances,
+79,,Australian Restaurant,,,Baby Goods/Kid Goods,
+80,,BBQ Joint,,,Bags/Luggage,
+81,,Bagel Shop,,,Building Materials,162
+82,,Bakery,,,Camera/Photo,268
+83,,Brazilian Restaurant,,,Cars,187; 357; 370-371
+84,,Breakfast Spot,,,Clothing,272-278; 280
+85,,Brewery,,,Commercials Equipment,
+86,,Burger Joint,,,Computers,
+87,,Burrito Place,,,Drugs,
+88,,Cafe,,,Electronics,
+89,,Cajun/Creole Restaurant,,,Food/Beverages,74-159
+90,,Caribbean Restaurant,,,Furniture,
+91,,Chinese Restaurant,,,Games/Toys,7; 25; 331; 299
+92,,Coffee Shop,,,Health/Beauty,
+93,,Cuban Restaurant,,,Home Decor,
+94,,Cupcake Shop,,,Household Supplies,
+95,,Deli/Bodega,,,Jewelry/Watches,
+96,,Dessert Shop,,,Kitchen/Cooking,
+97,,Dim Sum Restaurant,,,Movie/Music,7; 9; 10; 15; 16; 17; 18; 268
+98,,Diner,,,Musical Instrument,7; 197
+99,,Distillery,,,Office Supplies,183-186
+100,,Donut Shop,,,Outdoor Gear/Sporting Goods,
+101,,Dumpling Restaurant,,,Partio/Garden,
+102,,Eastern European Restaurant,,,Pet Supplies,37; 160; 319
+103,,Ethiopian Restaurant,,,Product/Service,
+104,,Falafel Restaurant,,,Software,
+105,,Fast Food Restaurant,,,Tools/Equipment,
+106,,Filipino Restaurant,,,Vitamins/Supplements,
+107,,Fish & Chips Shop,,,Website,
+108,,Food Court,,,Wine/Spirits,200-218
+109,,Food Truck,,Artist; Band or Public Figure,Actor/Director,
+110,,French Restaurant,,,Artist,
+111,,Fried Chicken Joint,,,Athlete,
+112,,Gastropub,,,Author,
+113,,German Restaurant,,,Business Person,
+114,,Gluten-free Restaurant,,,Chef,
+115,,Greek Restaurant,,,Coach,
+116,,Hot Dog Joint,,,Comedian,
+117,,Ice Cream Shop,,,Dancer,20
+118,,Indian Restaurant,,,Doctor,
+119,,Indonesian Restaurant,,,Editor,
+120,,Italian Restaurant,,,Entertainer,
+121,,Japanese Restaurant,,,Fictional Character,
+122,,Juice Bar,,,Government Official,
+123,,Korean Restaurant,,,Journalist,
+124,,Latin American Restaurant,,,Lawyer,
+125,,Mac & Cheese Joint,,,Monarch,
+126,,Malaysian Restaurant,,,Musician/Band,
+127,,Mediterranean Restaurant,,,News Personality,
+128,,Mexican Restaurant,,,Politician,
+129,,Middle Eastern Restaurant,,,Producer,
+130,,Molecular Gastronomy Restaurant,,,Public Figure,
+131,,Mongolian Restaurant,,,Teacher,
+132,,Moroccan Restaurant,,,Writer,
+133,,New American Restaurant,,Entertainment,Album,7
+134,,Peruvian Restaurant,,,Amateur Sports Team,4
+135,,Pizza Place,,,Book,7
+136,,Portuguese Restaurant,,,Book Store,7
+137,,Ramen / Noodle House,,,Concert Tour,7
+138,,Restaurant,,,Concert Venue,7; 15; 19
+139,,Salad Place,,,Fictional Character,7
+140,,Sandwich Place,,,Library,7
+141,,Scandinavian Restaurant,,,Magazine,7
+142,,Seafood Restaurant,,,Movie,7; 9; 10; 268
+143,,Snack Place,,,Movie Theatre,7; 9; 10
+144,,Soup Place,,,Music Award,7; 197
+145,,South American Restaurant,,,Music Chart,7; 15; 16; 17; 18; 197
+146,,Southern / Soul Food Restaurant,,,Music Video,7; 15; 16; 17; 18; 197
+147,,Spanish Restaurant,Paella Restaurant,,Musical Instrument,7; 15; 16; 17; 18; 197; 319
+148,,Steakhouse,,,Playlist,7; 15; 16; 17; 18
+149,,Sushi Restaurant,,,Professional Sports Team,7; 302-306
+150,,Swiss Restaurant,,,Radio Station,7
+151,,Taco Place,,,Record Label,7
+152,,Tapas Restaurant,,,School Sports Team,7
+153,,Tea Room,,,Song,7; 200-218
+154,,Thai Restaurant,,,Sports league,24
+155,,Turkish Restaurant,,,Sport Venue,4; 24; 25; 26; 27; 28; 29; 30; 31; 32; 33; 56; 57; 58; 59; 60; 61; 62; 63; 219;220; 246-257; 302-306
+156,,Vegetarian / Vegan Restaurant,,,Studio,283
+157,,Vietnamese Restaurant,,,TV Channel,7
+158,,Winery,,,TV Network,7
+159,,Wings Joint,,,TV Show,7
+160,Professional & Other Places,Animal Shelter,,,TV/Movie Award,7
+161,,Auditorium,,Cause or Community,,
+162,,Building,,,,
+163,,Convention Center,Meeting Room,,,
+164,,Event Space,,,,
+165,,Factory,,,,
+166,,Fair,,,,
+167,,Funeral Home,,,,
+168,,Government Building,Capitol Building,,,
+169,,,City Hall,,,
+170,,,Courthouse,,,
+171,,,Fire Station,,,
+172,,,Monument / Landmark,,,
+173,,,Police Station,,,
+174,,Library,,,,
+175,,Medical Center,Dentist’s Office,,,
+176,,,Doctor’s Office,,,
+177,,,Emergency Room,,,
+178,,,Hospital,,,
+179,,,Laboratory,,,
+180,,,Optical Shop,,,
+181,,,Veterinarian,,,
+182,,Military Base,,,,
+183,,Office,Cafeteria,,,
+184,,,Conference Room,,,
+185,,,Coworking Space,,,
+186,,,Tech Startup,,,
+187,,Parking,,,,
+188,,Post Office,,,,
+189,,Religious Center,Church,,,
+190,,,Mosque,,,
+191,,,Shrine,,,
+192,,,Synagogue,,,
+193,,,Temple,,,
+194,,School,Elementary School,,,
+195,,,High School,,,
+196,,,Middle School,,,
+197,,,Music School,,,
+198,,,Nursery School,,,
+199,,Voting Booth,,,,
+200,Nightlife Spot,Bar,,,,
+201,,Beer Garden,,,,
+202,,Brewery,,,,
+203,,Cocktail Bar,,,,
+204,,Dive Bar,,,,
+205,,Gay Bar,,,,
+206,,Hookah Bar,,,,
+207,,Hotel Bar,,,,
+208,,Karaoke Bar,,,,
+209,,Lounge,,,,
+210,,Nightclub,,,,
+211,,Other Nightlife,,,,
+212,,Pub,,,,
+213,,Sake Bar,,,,
+214,,Speakeasy,,,,
+215,,Sports Bar,,,,
+216,,Strip Club,,,,
+217,,Whisky Bar,,,,
+218,,Wine Bar,,,,
+219,Great Outdoors,Baseball Field,,,,
+220,,Basketball Court,,,,
+221,,Beach,Surf Spot,,,
+222,,Bridge,,,,
+223,,Campground,,,,
+224,,Cemetery,,,,
+225,,Dog Run,,,,
+226,,Farm,,,,
+227,,Field,,,,
+228,,Garden Center,,,,
+229,,Garden,,,,
+230,,Golf Course,,,,
+231,,Harbor / Marina,,,,
+232,,Hiking Trail,,,,
+233,,Hot Spring,,,,
+234,,Lake,,,,
+235,,Lighthouse,,,,
+236,,Mountain,,,,
+237,,Neighborhood,,,,
+238,,Other Great Outdoors,,,,
+239,,Park,,,,
+240,,Playground,,,,
+241,,Plaza,,,,
+242,,Pool,,,,
+243,,River,,,,
+244,,Scenic Lookout,,,,
+245,,Sculpture Garden,,,,
+246,,Ski Area,Apres Ski Bar,,,
+247,,,Ski Chairlift,,,
+248,,,Ski Chalet,,,
+249,,,Ski Lodge,,,
+250,,,Ski Trail,,,
+251,,Sport,Hockey Field,,,
+252,,,Skate Park,,,
+253,,,Skating Rink,,,
+254,,,Soccer Field,,,
+255,,,Tennis Court,,,
+256,,,Volleyball Court,,,
+257,,Stable,,,,
+258,,Vineyard,,,,
+259,,Well,,,,
+260,Shops & Service,Antique Shop,,,,
+261,,Arts & Crafts Store,,,,
+262,,Automotive Shop,,,,
+263,,Bank,,,,
+264,,Bike Shop,,,,
+265,,Board Shop,,,,
+266,,Bookstore,,,,
+267,,Bridal Shop,,,,
+268,,Camera Store,,,,
+269,,Candy Store,,,,
+270,,Car Dealership,,,,
+271,,Car Wash,,,,
+272,,Clothing Store,Accessories Store,,,
+273,,,Boutique,,,
+274,,,Kids Store,,,
+275,,,Lingerie Store,,,
+276,,,Men’s Store,,,
+277,,,Shoe Store,,,
+278,,,Women’s Store,,,
+279,,Convenience Store,,,,
+280,,Cosmetics Shop,,,,
+281,,Daycare,,,,
+282,,Department Store,,,,
+283,,Design Studio,,,,
+284,,Drugstore / Pharmacy,,,,
+285,,Electronics Store,,,,
+286,,Flea Market,,,,
+287,,Flower Shop,,,,
+288,,Food & Drink Shop,Butcher,,,
+289,,,Cheese Shop,,,
+290,,,Deli or Bodega,,,
+291,,,Farmers Market,,,
+292,,,Fish Market,,,
+293,,,Food Court,,,
+294,,,Gourmet Shop,,,
+295,,,Grocery Store,,,
+296,,,Liquor Store,,,
+297,,,Wine Shop,,,
+298,,Furniture / Home Store,,,,
+299,,Gaming Cafe,,,,
+300,,Gas Station / Garage,,,,
+301,,Gift Shop,,,,
+302,,Gym / Fitness Center,Gym Pool,,,
+303,,,Gym,,,
+304,,,Martial Arts Dojo,,,
+305,,,Track,,,
+306,,,Yoga Studio,,,
+307,,Hardware Store,,,,
+308,,Hobby Shop,,,,
+309,,Internet Cafe,,,,
+310,,Jewelry Store,,,,
+311,,Laundry Service,,,,
+312,,Mall,,,,
+313,,Miscellaneous Shop,,,,
+314,,Mobile Phone Shop,,,,
+315,,Music Store,,,,
+316,,Nail Salon,,,,
+317,,Newsstand,,,,
+318,,Paper / Office Supplies Store,,,,
+319,,Pet Store,,,,
+320,,Photography Lab,,,,
+321,,Record Shop,,,,
+322,,Recycling Facility,,,,
+323,,Salon / Barbershop,,,,
+324,,Smoke Shop,,,,
+325,,Spa or Massage,,,,
+326,,Sporting Goods Shop,,,,
+327,,Storage Facility,,,,
+328,,Tanning Salon,,,,
+329,,Tattoo Parlor,,,,
+330,,Thrift / Vintage Store,,,,
+331,,Toy / Game Store,,,,
+332,,Travel Agency,,,,
+333,,Video Game Store,,,,
+334,,Video Store,,,,
+335,Travel & Transport,Airport,Airport Food Court,,,
+336,,,Airport Gate,,,
+337,,,Airport Lounge,,,
+338,,,Airport Terminal,,,
+339,,,Airport Tram,,,
+340,,,Plane,,,
+341,,Bike Rental / Bike Share,,,,
+342,,Bus Station,Bus Line,,,
+343,,Embassy/Consulate,,,,
+344,,Ferry,Boat or Ferry,,,
+345,,,Pier,,,
+346,,General Travel,,,,
+347,,Hotel,Bed & Breakfast,,,
+348,,,Boarding House,,,
+349,,,Hostel,,,
+350,,,Hotel Bar,,,
+351,,,Hotel Pool,,,
+352,,,Motel,,,
+353,,,Resort,,,
+354,,,Roof Deck,,,
+355,,Light Rail,,,,
+356,,Moving Target,,,,
+357,,Rental Car Location,,,,
+358,,Rest Area,,,,
+359,,Road,,,,
+360,,Subway,,,,
+361,,Taxi,,,,
+362,,Tourist Information Center,,,,
+363,,Train Station,Platform,,,
+364,,,Train,,,
+365,,Travel Lounge,,,,
+366,Residence,Home (private),,,,
+367,,Housing Development,,,,
+368,,Residential Building (Apartment/Condo),,,,

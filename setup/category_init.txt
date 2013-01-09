@@ -1,0 +1,167 @@
+Local Business or Place	Local Business or Place
+Local Business or Place	Airport
+Local Business or Place	Arts/Entertainment/Nightlife
+Local Business or Place	Attractions/Things to Do
+Local Business or Place	Automotive
+Local Business or Place	Bank/Financial Services
+Local Business or Place	Bar
+Local Business or Place	Book Store
+Local Business or Place	Business Services
+Local Business or Place	Church/Religious Organization
+Local Business or Place	Club
+Local Business or Place	Community/Government
+Local Business or Place	Concert Venue
+Local Business or Place	Education
+Local Business or Place	Event Planning/Event Services
+Local Business or Place	Food/Grocery
+Local Business or Place	Health/Medical/Pharmacy
+Local Business or Place	Home Imporvement
+Local Business or Place	Hospital/Clinic
+Local Business or Place	Hotel
+Local Business or Place	Landmark
+Local Business or Place	Library
+Local Business or Place	Local Business
+Local Business or Place	Movie Theatre
+Local Business or Place	Museum/Art Gallery
+Local Business or Place	Outdoor Gear/Sporting Goods
+Local Business or Place	Pet Services
+Local Business or Place	Professional Services
+Local Business or Place	Public Places
+Local Business or Place	Real Estate
+Local Business or Place	Restaurant/Cafe
+Local Business or Place	School
+Local Business or Place	Shopping/Retail
+Local Business or Place	Spas/Beauty/Personel Care
+Local Business or Place	Sports Venue
+Local Business or Place	Sports/Recreation/Activities
+Local Business or Place	Tour/Sightseeing
+Local Business or Place	Transit Stop
+Local Business or Place	Transportation
+Local Business or Place	University
+Company, Organization or Institution	Company, Organization or Institution
+Company, Organization or Institution	Aerospace/Defense
+Company, Organization or Institution	Automobiles and Parts
+Company, Organization or Institution	Bank/Financial Institution
+Company, Organization or Institution	Biotechnology
+Company, Organization or Institution	Cause
+Company, Organization or Institution	Chemicals
+Company, Organization or Institution	Church/Religious Organization
+Company, Organization or Institution	Community Organizaton
+Company, Organization or Institution	Company
+Company, Organization or Institution	Comuters/Technology
+Company, Organization or Institution	Consulting/Business Services
+Company, Organization or Institution	Education
+Company, Organization or Institution	Energy/Utility
+Company, Organization or Institution	Engineering/Construction
+Company, Organization or Institution	Farming/Agriculture
+Company, Organization or Institution	Food/Beverages
+Company, Organization or Institution	Government Organization
+Company, Organization or Institution	Health/Beauty
+Company, Organization or Institution	Health/Medical/Pharmaceuticals
+Company, Organization or Institution	Industrials
+Company, Organization or Institution	Insurance Company
+Company, Organization or Institution	Internet/Software
+Company, Organization or Institution	Legal/Law
+Company, Organization or Institution	Media/News/Publishing
+Company, Organization or Institution	Mining/Materials
+Company, Organization or Institution	Non-Governmental Organization (NGO)
+Company, Organization or Institution	Non-Profis Organization
+Company, Organization or Institution	Organization
+Company, Organization or Institution	Political Organization
+Company, Organization or Institution	Political Party
+Company, Organization or Institution	Retail and Consumer Merchandise
+Company, Organization or Institution	School
+Company, Organization or Institution	Small Business
+Company, Organization or Institution	Telecommunication
+Company, Organization or Institution	Transport/Freight
+Company, Organization or Institution	Travel/Leisure
+Company, Organization or Institution	University
+Brand or Product	Brand or Product
+Brand or Product	App Page
+Brand or Product	Appliances
+Brand or Product	Baby Goods/Kid Goods
+Brand or Product	Bags/Luggage
+Brand or Product	Building Materials
+Brand or Product	Camera/Photo
+Brand or Product	Cars
+Brand or Product	Clothing
+Brand or Product	Commercials Equipment
+Brand or Product	Computers
+Brand or Product	Drugs
+Brand or Product	Electronics
+Brand or Product	Food/Beverages
+Brand or Product	Furniture
+Brand or Product	Games/Toys
+Brand or Product	Health/Beauty
+Brand or Product	Home Decor
+Brand or Product	Household Supplies
+Brand or Product	Jewelry/Watches
+Brand or Product	Kitchen/Cooking
+Brand or Product	Movie/Music
+Brand or Product	Musical Instrument
+Brand or Product	Office Supplies
+Brand or Product	Outdoor Gear/Sporting Goods
+Brand or Product	Partio/Garden
+Brand or Product	Pet Supplies
+Brand or Product	Product/Service
+Brand or Product	Software
+Brand or Product	Tools/Equipment
+Brand or Product	Vitamins/Supplements
+Brand or Product	Website
+Brand or Product	Wine/Spirits
+Artist, Band or Public Figure	Artist, Band or Public Figure
+Artist, Band or Public Figure	Actor/Director
+Artist, Band or Public Figure	Artist
+Artist, Band or Public Figure	Athlete
+Artist, Band or Public Figure	Author
+Artist, Band or Public Figure	Business Person
+Artist, Band or Public Figure	Chef
+Artist, Band or Public Figure	Coach
+Artist, Band or Public Figure	Comedian
+Artist, Band or Public Figure	Dancer
+Artist, Band or Public Figure	Doctor
+Artist, Band or Public Figure	Editor
+Artist, Band or Public Figure	Entertainer
+Artist, Band or Public Figure	Fictional Character
+Artist, Band or Public Figure	Government Official
+Artist, Band or Public Figure	Journalist
+Artist, Band or Public Figure	Lawyer
+Artist, Band or Public Figure	Monarch
+Artist, Band or Public Figure	Musician/Band
+Artist, Band or Public Figure	News Personality
+Artist, Band or Public Figure	Politician
+Artist, Band or Public Figure	Producer
+Artist, Band or Public Figure	Public Figure
+Artist, Band or Public Figure	Teacher
+Artist, Band or Public Figure	Writer
+Entertainment	Entertainment
+Entertainment	Album
+Entertainment	Amateur Sports Team
+Entertainment	Book
+Entertainment	Book Store
+Entertainment	Concert Tour
+Entertainment	Concert Venue
+Entertainment	Fictional Character
+Entertainment	Library
+Entertainment	Magazine
+Entertainment	Movie
+Entertainment	Movie Theatre
+Entertainment	Music Award
+Entertainment	Music Chart
+Entertainment	Music Video
+Entertainment	Musical Instrument
+Entertainment	Playlist
+Entertainment	Professional Sports Team
+Entertainment	Radio Station
+Entertainment	Record Label
+Entertainment	School Sports Team
+Entertainment	Song
+Entertainment	Sports league
+Entertainment	Sport Venue
+Entertainment	Studio
+Entertainment	TV Channel
+Entertainment	TV Network
+Entertainment	TV Show
+Entertainment	TV/Movie Award
+Cause or Community	Cause or Community
+Tag	Tag
