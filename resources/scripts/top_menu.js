@@ -13,11 +13,35 @@ jQuery(document).ready(function(){
 function openMyTimety()
 {
     var ul=jQuery("#populer_top_menu_ul");
-    if(ul)
+    if(ul.children().length<1)
     {
-            
-    }
-    jQuery('#populer_top_menu').fadeIn(200);
+        var loader=jQuery("<li>");
+        loader.append(jQuery('<img src="images/loader.gif" style="height: 22px;">'));
+        ul.append(loader);
+        
+        jQuery.sessionphp.get("id", function(userId){
+            if(userId)
+            {
+                jQuery.ajax({
+                    type: 'GET',
+                    url: TIMETY_PAGE_AJAX_GETUSERSUBSCRIBES,
+                    data: {
+                        'userId':userId
+                    },
+                    success: function(data){ 
+                         var dataJSON = jQuery.parseJSON(data);
+                         if(!dataJSON.error)
+                         {
+                             
+                         }
+                         loader.remove();
+                    }
+                },"json");
+            }
+        });
+        
+}
+jQuery('#populer_top_menu').fadeIn(200);
 }
 
 
