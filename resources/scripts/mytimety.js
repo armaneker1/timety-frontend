@@ -2,7 +2,7 @@ function addToMyTimety(eventId,userId)
 {
     if(userId)
     {
-        var event=jQuery('.akt_tkvm[id="'+eventId+'_1"]');
+        var event=jQuery('.akt_tkvm[id="'+eventId+'"]');
         if(!event.length)
         {
             jQuery.ajax({
