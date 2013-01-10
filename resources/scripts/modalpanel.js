@@ -676,15 +676,11 @@ function joinEvent(button,eventId)
                         'userId':userId
                     },
                     success: function(data){
-                        if(data.error)
-                        {
+                        if(data.error) {
                             jQuery(button).removeAttr("disabled"); 
-                            jQuery('#boot_msg').empty();
-                            jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-error">An Error Occured<a class="close" data-dismiss="alert"><img src="'+TIMETY_HOSTNAME+'images/close.png"></img></a></div>');
-                        }else
-                        {
-                            jQuery('#boot_msg').empty();
-                            jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success">joined event<a class="close" data-dismiss="alert"><img src="'+TIMETY_HOSTNAME+'images/close.png"></img></a></div>');   
+                            getInfo(true,'Something went wrong :( Try again.','error',4000);
+                        }else {
+                            getInfo(true,'Whoa! Have fun!','info',4000);
                             addToMyTimety(eventId,userId);
                         }
                     },
