@@ -21,17 +21,17 @@ jQuery(document).ready( function() {
     
     jQuery('*').click( function(e) {
         if(e.target.className != "search_btn" 
-            && e.target.className != "add_event_input" 
+            && e.target.className != "search_event_input" 
             && e.target.className != "searchbtn" 
             && e.target.className != "search_bar"
             && e.target.className != "cbtn icon_bg"){
-                jQuery(inputText).fadeOut('fast' ,function() {jQuery('.add_event_input').val("");});
+                jQuery(inputText).fadeOut('fast' ,function() {jQuery('.search_event_input').val("");});
                 jQuery(searchBtn).fadeOut('fast');
         }
     });
     
     jQuery('.cbtn').click( function() {
-        jQuery('.add_event_input').val("");
+        jQuery('.search_event_input').val("");
     });
 
     jQuery('.searchbtn').click( function() {  

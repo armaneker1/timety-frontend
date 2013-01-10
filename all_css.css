@@ -2384,6 +2384,20 @@ body {
                 outline: none;
 }
 
+.search_event_input {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 16px;
+                font-weight: bold;
+                color: #b1b1b1;
+                background-color: transparent;
+                border-top-style: none;
+                border-right-style: none;
+                border-bottom-style: none;
+                border-left-style: none;
+                width: 400px;
+                outline: none;
+}
+
 .drop_event_here {
 	background-image: url(images/p_bg.png);
 	background-repeat: repeat;
@@ -2583,3 +2597,15 @@ body {
            padding-bottom: 10px;
 }
 /*popup son kısım*/
+
+/* Loader gif style*/
+.loader {
+            background-image: url(images/loader.gif);
+            background-repeat: no-repeat;
+            margin-left: 50%;
+            top: 10px;
+            height: 31px;
+            width: 30px;
+            position: fixed;
+            z-index: 750;
+        }
