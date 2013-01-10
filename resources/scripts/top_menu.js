@@ -14,13 +14,12 @@ jQuery(document).ready(function(){
 
 function seacrhCategory(val)
 {
-    if(!val)
+    var input = jQuery('#populer_top_menu_search_input');
+    if(typeof(val)!='string')
     {
        val=input.val();
     }
-    
-    var input = jQuery('#populer_top_menu_search_input');
-    if(input.val().length>2)
+    if(val.length>0)
     {
         getLoader(true);
         jQuery('#populer_top_menu_search_ul').children().remove();
@@ -31,20 +30,21 @@ function seacrhCategory(val)
                     type: 'GET',
                     url: TIMETY_PAGE_AJAX_GETCATEGORY,
                     data: {
-                        'term':input.val()
+                        'term':val
                     },
                     success: function(data){ 
                         var dataJSON = jQuery.parseJSON(data);
                         if(!dataJSON.error)
                         {
                             var ul=jQuery('#populer_top_menu_search_ul');
-                            for(var i=0;i<dataJSON.length;i++)
+                            for(var i=0;i<dataJSON.length && i<10;i++)
                             {
                                 var item=dataJSON[i];
                                 var existItem=jQuery("#cat_id"+item.id);
                                 if(!existItem.length)
                                 {
                                     var liItem=jQuery("<li>");
+                                    liItem.attr("title",item.label);
                                     liItem.attr("id","cat_id"+item.id);
                                     var buttonItem=jQuery("<button type=\"button\"></button>");
                                     buttonItem.addClass("ekle");
@@ -58,7 +58,12 @@ function seacrhCategory(val)
                                     });
 
                                     var spanItem=jQuery("<span>");
-                                    spanItem.text(item.label);
+                                    var text=item.label;
+                                    if(text.length>25)
+                                    {
+                                        text=text.substr(0, 25);
+                                    }
+                                    spanItem.text(text);
 
                                     liItem.append(buttonItem);
                                     liItem.append(spanItem);
@@ -105,19 +110,26 @@ function openMyTimety()
                                 var item=dataJSON[i];
                                 var liItem=jQuery("<li>");
                                 liItem.attr("id","cat_id"+item.id);
+                                liItem.attr("title",item.category);
                                 var buttonItem=jQuery("<button type=\"button\"></button>");
                                 buttonItem.addClass("kapat");
                                 buttonItem.addClass("icon_bg");
                                 buttonItem.data("userId", userId);
                                 buttonItem.data("catId", item.id);
                                 buttonItem.data("elementId", "cat_id"+item.id);
+                                buttonItem.data("catText", item.category);
                                 
                                 buttonItem.click(function(){
                                     unsubscribe(this);
                                 });
                                  
                                 var spanItem=jQuery("<span>");
-                                spanItem.text(item.category);
+                                var text=item.category;
+                                if(text.length>25)
+                                {
+                                     text=text.substr(0, 25);
+                                }
+                                spanItem.text(text);
                                  
                                 liItem.append(buttonItem);
                                 liItem.append(spanItem);
@@ -131,6 +143,7 @@ function openMyTimety()
         });
         
     }
+    seacrhCategory('*');
     jQuery('#populer_top_menu').fadeIn(100);
 }
 
@@ -189,6 +202,7 @@ function subscribe(button)
                 jQuery(element).remove();
                 var ul=jQuery("#populer_top_menu_ul");
                 var liItem=jQuery("<li>");
+                liItem.attr("title",catText);
                 liItem.attr("id",elementId);
                 var buttonItem=jQuery("<button type=\"button\"></button>");
                 buttonItem.addClass("kapat");
@@ -196,12 +210,18 @@ function subscribe(button)
                 buttonItem.data("userId", userId);
                 buttonItem.data("catId", catId);
                 buttonItem.data("elementId", elementId);
+                buttonItem.data("catText", catText);
 
                 buttonItem.click(function(){
                     unsubscribe(this);
                 });
                 var spanItem=jQuery("<span>");
-                spanItem.text(catText);
+                var text=catText;
+                if(text.length>25)
+                {
+                     text=text.substr(0, 25);
+                }
+                spanItem.text(text);
                 liItem.append(buttonItem);
                 liItem.append(spanItem);
                 ul.append(liItem);
