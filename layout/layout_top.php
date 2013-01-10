@@ -21,6 +21,11 @@ if (isset($_SESSION['id'])) {
 }
 ?>
 <div class="u_bg"></div>
+
+<!--Loader image-->
+<div class="loader" style="display: none"></div>
+
+
 <div id="top_blm">
     <div id="top_blm_sol">
         <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timete.png" width="82" height="36" border="0" /></a></div>
@@ -29,10 +34,9 @@ if (isset($_SESSION['id'])) {
             <input type="button" name="" value="" id="search_event_button" class="search_btn" onclick="return false;"/>
             
             <!-- search button start -->
+            
                 <div class="search_bar" style="display: none">
-                    <input name="" type="text" id="searchText" class="add_event_input" placeholder="search for events..." />
-                    <!--<button type="button" name="" value="" class="kbtn icon_bg"></button>
-                    <button type="button" name="" value="" class="tbtn icon_bg"></button>-->
+                    <input name="" type="text" id="searchText" class="search_event_input" placeholder="search for events..." />
                     <button type="button" name="" value="" class="cbtn icon_bg"></button>                    
                 </div>
                 <button type="button" name="" value="" class="searchbtn" style="display: none; cursor: pointer">Search</button>
