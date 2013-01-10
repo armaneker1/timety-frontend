@@ -8,6 +8,7 @@ define('NEO4J_URL',  SettingsUtil::getSetting(SETTINGS_NEO4J_HOST));
 define('NEO4J_PORT',SettingsUtil::getSetting(SETTINGS_NEO4J_PORT));
 
 define('REL_INTERESTS','INTERESTS');
+define('REL_SUBSCRIBES','SUBSCRIBES');
 define('REL_USER_ROOT','USER_ROOT');
 define('REL_USER','USER');
 define('REL_CATEGORY_ROOT','CATEGORY_ROOT');
@@ -44,28 +45,28 @@ define('PROP_ROOT_CAT', 'CATEGORY_ROOT');
 define('PROP_ROOT_GROUP', 'GROUP_ROOT');
 
 
-define('PROP_USER_ID', 'id');
+define('PROP_USER_ID', 'user_id');
 define('PROP_USER_USERNAME', 'username');
 define('PROP_USER_FIRSTNAME', 'firstName');
 define('PROP_USER_LASTNAME', 'lastName');
 define('PROP_USER_TYPE', 'type');
 define('PROP_USER_CM_INVITED', 'invited');
 
-define('PROP_CATEGORY_ID', 'id');
+define('PROP_CATEGORY_ID', 'category_id');
 define('PROP_CATEGORY_NAME', 'name');
 define('PROP_CATEGORY_SOCIALTYPE', 'socialType');
 
 define('CATEGORY_TAG_CONSTANT', 'tag');
 
 
-define('PROP_OBJECT_ID', 'id');
+define('PROP_OBJECT_ID', 'object_id');
 define('PROP_OBJECT_NAME', 'name');
 define('PROP_OBJECT_SOCIALTYPE', 'socialType');
 
 define('PROP_INTEREST_WEIGHT', 'INTEREST_WEIGHT');
 
-define('PROP_GROUP_ID', 'GROUP_ID');
-define('PROP_GROUP_NAME', 'GROUP_NAME');
+define('PROP_GROUP_ID', 'group_id');
+define('PROP_GROUP_NAME', 'name');
 
 define('PROP_JOIN_CREATE', 'CREATOR');
 
@@ -73,7 +74,7 @@ define('PROP_EVENTS_ACC_TYPE', 'ACOUNT_TYPE');
 define('PROP_GROUPS_EVENT', 'GROUPS_INVITED');
 
 
-define('PROP_EVENT_ID', 'id');
+define('PROP_EVENT_ID', 'event_id');
 define('PROP_EVENT_TITLE', 'title');
 define('PROP_EVENT_LOCATION', 'location');
 define('PROP_EVENT_DESCRIPTION', 'description');

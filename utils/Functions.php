@@ -24,12 +24,14 @@ require_once __DIR__ . '/InterestFunctions.php';
 require_once __DIR__ . '/InviteFunctions.php';
 require_once __DIR__ . '/LostPassFunctions.php';
 require_once __DIR__ . '/MailFunctions.php';
-require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/ReminderFunctions.php';
 require_once __DIR__ . '/SessionFunctions.php';
 require_once __DIR__ . '/SettingFunctions.php';
 require_once __DIR__ . '/SocialFriendFunctions.php';
 require_once __DIR__ . '/UserFunctions.php';
+require_once __DIR__ . '/UserSettingsFunctions.php';
+
+require_once __DIR__ . '/Neo4jFunctions.php';
 
 class UtilFunctions {
 

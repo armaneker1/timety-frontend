@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `timete_events` (
   `addsocial_gg` int(11) NOT NULL,
   `addsocial_fq` int(11) NOT NULL,
   `addsocial_tw` int(11) NOT NULL,
+ `reminderSent` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_index` (`id`) USING BTREE,
   KEY `reminderSent` (`reminderSent`)

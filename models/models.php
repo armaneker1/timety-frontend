@@ -125,6 +125,16 @@ class CateforyRef {
             $this->priority = $result[3];
         }
     }
+    
+    function createNeo4j($result) {
+          if (!empty($result)) {
+            $this->id = $result->getProperty(PROP_CATEGORY_ID);
+            $this->category=$result->getProperty(PROP_CATEGORY_NAME);
+            $this->socialType=$result->getProperty(PROP_CATEGORY_SOCIALTYPE);
+        }
+    }
+    
+    
 
     function getCategoryName() {
         if (empty($this->subCategory)) {
@@ -137,6 +147,7 @@ class CateforyRef {
     public $category;
     public $subCategory;
     public $priority;
+    public $socialType;
 
 }
 
@@ -169,7 +180,9 @@ class Event {
             $this->location = $result['location'];
             $this->description = $result['description'];
             $this->startDateTime = $result['startDateTime'];
+            $this->startDateTimeLong=strtotime($result['startDateTime']);
             $this->endDateTime = $result['endDateTime'];
+            $this->endDateTimeLong=strtotime($result['endDateTime']);
             $this->reminderType = $result['reminderType'];
             $this->reminderUnit = $result['reminderUnit'];
             $this->reminderValue = $result['reminderValue'];
