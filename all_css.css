@@ -2387,24 +2387,27 @@ body {
 
 /*popup baslangic*/
 .my_timete_popup_container {
-           min-width: 230px;
+           min-width: 280px;
            min-height: 70px;
            position: absolute;
            z-index: 999;
            right: 220px;
-           top: 4px;
+           height: auto;
+           top: 0px;
 }
+
 
 .my_timete_popup {
            background-image: url(images/p_bg.png);
            background-repeat: repeat;
            width: 204px;
-           position: absolute;
+           position: relative;
            z-index: 1000;
            top: 4px;
-           right: 65px;
+           right: -13px;
            border-radius: 5px;
            padding-top: 10px;
+           padding-bottom: 1px;
 }
  
 .my_timete_popup ul {
