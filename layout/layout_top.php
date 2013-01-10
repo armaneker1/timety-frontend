@@ -96,9 +96,11 @@ if (isset($_SESSION['id'])) {
                             <div id="populer_top_menu" class="my_timete_popup_container clearfix" style="display: none;">
                                 <div  class="my_timete_popup" >
                                     <div class="kck_detay_ok"></div>
-                                        <ul id="populer_top_menu_ul">
-                                        </ul>
-                                    <div class="ara_kutu"><input type="text" class="ara_input" value="" placeholder="search" /><button type="button" name="" value="" class="ara icon_bg"></button></div>
+                                    <ul id="populer_top_menu_ul">
+                                    </ul>
+                                    <div class="ara_kutu"><input type="text" id="populer_top_menu_search_input" class="ara_input" value="" placeholder="search" /><button id="populer_top_menu_search_button" type="button" name="" value="" class="ara icon_bg"></button></div>
+                                    <ul id="populer_top_menu_search_ul" style="margin-bottom: 2px;">
+                                    </ul>
                                 </div>
                             </div>
 

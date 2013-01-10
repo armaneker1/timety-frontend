@@ -625,6 +625,10 @@ class Neo4jFuctions {
     }
 
     function searchCategoryList($query) {
+        if($query=="*")
+        {
+            $query="";
+        }
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "START root=node:" . IND_ROOT_INDEX . "('" . PROP_ROOT_ID . ":" . PROP_ROOT_CAT . "') " .
