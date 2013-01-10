@@ -2452,7 +2452,6 @@ body {
            min-width: 280px;
            min-height: 70px;
            position: absolute;
-           z-index: 999;
            right: 222px;
            height: auto;
            top: 8px;
@@ -2470,6 +2469,7 @@ body {
            border-radius: 5px;
            padding-top: 10px;
            padding-bottom: 1px;
+           margin-bottom: 10px;
 }
  
 .my_timete_popup ul {
