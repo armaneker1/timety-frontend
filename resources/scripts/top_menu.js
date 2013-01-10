@@ -8,7 +8,69 @@ jQuery(document).ready(function(){
             setTimeout(closeMyTimety,10);
         }
         );
+            
+    jQuery('#populer_top_menu_search_button').click(seacrhCategory);
 });
+
+function seacrhCategory()
+{
+    var input = jQuery('#populer_top_menu_search_input');
+    if(input.val().length>2)
+    {
+        getLoader(true);
+        jQuery('#populer_top_menu_search_ul').children().remove();
+        jQuery.sessionphp.get("id", function(userId){
+            if(userId)
+            {
+                jQuery.ajax({
+                    type: 'GET',
+                    url: TIMETY_PAGE_AJAX_GETCATEGORY,
+                    data: {
+                        'term':input.val()
+                    },
+                    success: function(data){ 
+                        var dataJSON = jQuery.parseJSON(data);
+                        if(!dataJSON.error)
+                        {
+                            var ul=jQuery('#populer_top_menu_search_ul');
+                            for(var i=0;i<dataJSON.length;i++)
+                            {
+                                var item=dataJSON[i];
+                                var existItem=jQuery("#cat_id"+item.id);
+                                if(!existItem.length)
+                                {
+                                    var liItem=jQuery("<li>");
+                                    liItem.attr("id","cat_id"+item.id);
+                                    var buttonItem=jQuery("<button type=\"button\"></button>");
+                                    buttonItem.addClass("ekle");
+                                    buttonItem.addClass("icon_bg");
+                                    buttonItem.data("userId", userId);
+                                    buttonItem.data("catId", item.id);
+                                    buttonItem.data("catText", item.label);
+                                    buttonItem.data("elementId", "cat_id"+item.id);
+                                    buttonItem.click(function(){
+                                        subscribe(this);
+                                    });
+
+                                    var spanItem=jQuery("<span>");
+                                    spanItem.text(item.label);
+
+                                    liItem.append(buttonItem);
+                                    liItem.append(spanItem);
+                                    ul.append(liItem);   
+                                }
+                            }
+                        }else
+                        {
+                            input.val("");
+                        }
+                        getLoader(false);
+                    }
+                },"json");
+            }
+        });
+    }
+}
 
 function openMyTimety()
 {
@@ -92,6 +154,53 @@ function unsubscribe(button)
             }else
             {
                 jQuery(element).removeAttr("disabled");
+            }
+        }
+    },"json");
+}
+
+function subscribe(button)
+{
+    var ul=jQuery('#populer_top_menu_search_ul');
+    button=jQuery(button);
+    userId= button.data("userId");
+    catId=  button.data("catId");
+    catText=  button.data("catText");
+    elementId= button.data("elementId");
+                                
+    element=jQuery("#"+elementId);
+    element.attr("disabled", "disabled");
+    jQuery.ajax({
+        type: 'GET',
+        url: TIMETY_PAGE_AJAX_SUBSCRIBEUSER,
+        data: {
+            'userId':userId,
+            'categoryId':catId
+        },
+        success: function(data){ 
+            var dataJSON = jQuery.parseJSON(data);
+            if(!dataJSON.error)
+            {
+                jQuery(element).remove();
+                var ul=jQuery("#populer_top_menu_ul");
+                var liItem=jQuery("<li>");
+                liItem.attr("id",elementId);
+                var buttonItem=jQuery("<button type=\"button\"></button>");
+                buttonItem.addClass("kapat");
+                buttonItem.addClass("icon_bg");
+                buttonItem.data("userId", userId);
+                buttonItem.data("catId", catId);
+                buttonItem.data("elementId", elementId);
+
+                buttonItem.click(function(){
+                    unsubscribe(this);
+                });
+                var spanItem=jQuery("<span>");
+                spanItem.text(catText);
+                liItem.append(buttonItem);
+                liItem.append(spanItem);
+                ul.append(liItem);
+                ul.append(liItem);
             }
         }
     },"json");
