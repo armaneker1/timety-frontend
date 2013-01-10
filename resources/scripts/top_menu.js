@@ -1,6 +1,6 @@
 //document ready
 jQuery(document).ready(function(){ 
-    jQuery('#top_menu_popoler').hover(
+    jQuery('#top_menu_populer').hover(
         function () {
             setTimeout(openMyTimety,200);
         }, 
@@ -32,7 +32,10 @@ function openMyTimety()
                          var dataJSON = jQuery.parseJSON(data);
                          if(!dataJSON.error)
                          {
-                             
+                             for(var i=0;i<dataJSON.length;i++)
+                             {
+                                 var item=dataJSON[i];
+                             }
                          }
                          loader.remove();
                     }
