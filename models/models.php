@@ -125,6 +125,16 @@ class CateforyRef {
             $this->priority = $result[3];
         }
     }
+    
+    function createNeo4j($result) {
+          if (!empty($result)) {
+            $this->id = $result->getProperty(PROP_CATEGORY_ID);
+            $this->category=$result->getProperty(PROP_CATEGORY_NAME);
+            $this->socialType=$result->getProperty(PROP_CATEGORY_SOCIALTYPE);
+        }
+    }
+    
+    
 
     function getCategoryName() {
         if (empty($this->subCategory)) {
@@ -137,6 +147,7 @@ class CateforyRef {
     public $category;
     public $subCategory;
     public $priority;
+    public $socialType;
 
 }
 

@@ -1,5 +1,3 @@
-
-
 //document ready
 jQuery(document).ready(function(){ 
     jQuery('#top_menu_popoler').hover(

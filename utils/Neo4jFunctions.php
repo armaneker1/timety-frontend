@@ -22,6 +22,11 @@ function loader($sClass) {
 
 spl_autoload_register('loader');
 
+/*
+ * Neo4j Function Files
+ */
+require_once __DIR__ . '/Neo4jUserSettings.php';
+
 class Neo4jFuctions {
 
     function getEventInvitesByUserId($userId) {

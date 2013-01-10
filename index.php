@@ -250,7 +250,7 @@ if (empty($user)) {
         <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js"></script>
 
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/createEvent.js"></script>
-        <script language="javascript" src="<?= HOSTNAME ?>test/lemmon-slider.js"></script>
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.js"></script>
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
             <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
 <?php
