@@ -12,8 +12,13 @@ jQuery(document).ready(function(){
     jQuery('#populer_top_menu_search_button').click(seacrhCategory);
 });
 
-function seacrhCategory()
+function seacrhCategory(val)
 {
+    if(!val)
+    {
+       val=input.val();
+    }
+    
     var input = jQuery('#populer_top_menu_search_input');
     if(input.val().length>2)
     {
