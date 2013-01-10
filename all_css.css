@@ -2388,10 +2388,10 @@ body {
 /*popup baslangic*/
 .my_timete_popup_container {
            min-width: 230px;
-           min-height: 50px;
+           min-height: 70px;
            position: absolute;
            z-index: 999;
-           right: 270px;
+           right: 220px;
            top: 4px;
 }
 
@@ -2402,7 +2402,7 @@ body {
            position: absolute;
            z-index: 1000;
            top: 4px;
-           right: 15px;
+           right: 65px;
            border-radius: 5px;
            padding-top: 10px;
 }
@@ -2426,7 +2426,7 @@ body {
            border-bottom-style: solid;
            border-bottom-color: #343434;
            box-shadow: 0px 1px 0px #545454;
-          
+           float: none;
 }
 .my_timete_popup ul li:hover {
            background-color:rgba(20,20,20,0.46);

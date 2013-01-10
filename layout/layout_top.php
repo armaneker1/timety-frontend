@@ -90,10 +90,10 @@ if (isset($_SESSION['id'])) {
                             <div id="populer_top_menu" class="my_timete_popup_container" style="display: none;">
                                 <div  class="my_timete_popup" >
                                     <div class="kck_detay_ok"></div>
-                                    <ul>
+                                    <ul id="populer_top_menu_ul">
                                         <li>  <button type="button" name="" value="" class="kapat icon_bg"></button> Music</li>
                                     </ul>
-                                    <div class="ara_kutu"><input type="text" class="ara_input" value="search" /><button type="button" name="" value="" class="ara icon_bg"></button></div>
+                                    <div class="ara_kutu"><input type="text" class="ara_input" value="" placeholder="search" /><button type="button" name="" value="" class="ara icon_bg"></button></div>
                                 </div>
                             </div>
                        </li>

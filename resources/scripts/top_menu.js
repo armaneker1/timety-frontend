@@ -4,10 +4,10 @@
 jQuery(document).ready(function(){ 
     jQuery('#top_menu_popoler').hover(
         function () {
-            setTimeout(openMyTimety,400);
+            setTimeout(openMyTimety,200);
         }, 
         function () {
-            //setTimeout(closeMyTimety,400);
+            setTimeout(closeMyTimety,200);
         }
         );
 });
