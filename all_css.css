@@ -2599,7 +2599,7 @@ body {
 }
 /*popup son kısım*/
 
-/* Loader gif style*/
+/* Loader gif style */
 .loader {
             background-image: url(images/loader.gif);
             background-repeat: no-repeat;
@@ -2609,4 +2609,43 @@ body {
             width: 30px;
             position: fixed;
             z-index: 750;
-        }
+}
+
+/* information pop up */
+
+.info_popup_open {
+            height: 30px;
+            width: 218px;
+            position: absolute;
+            z-index: 1000;
+            font-family: arial;
+            font-size: 11px;
+            line-height: 30px;
+            color: #FFF;
+            padding-left: 10px;
+            border-radius: 2px;
+            /*cursor:pointer;*/
+            margin-left: 45%;
+            margin-top: 10px;
+}
+
+.info_popup_open p{
+            margin-right: 25px;
+            text-align: center;
+}
+
+.info_popup_close {
+            background-color: transparent;
+            background-image: url(images/info_close.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 11px;
+            width: 11px;
+            position: absolute;
+            right: 5px;
+            border-top-style: none;
+            border-right-style: none;
+            border-bottom-style: none;
+            border-left-style: none;
+            top: 10px;
+}

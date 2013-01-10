@@ -54,6 +54,7 @@
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/bootstrap.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/bootbox.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/loader.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/infopopup.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/index.js"></script>
 <script language="javascript" src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 <!-- Scripts -->

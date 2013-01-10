@@ -1,5 +1,6 @@
 /* 
- * 
+ * This javascript show/hides the site loader animation
+ * when called with true/false
  */
 
 function getLoader(show){
