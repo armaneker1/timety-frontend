@@ -10,5 +10,4 @@ require_once __DIR__.'/../utils/Functions.php';
 //var_dump(Neo4jUserSettingsUtil::getUserSubscribeCategory(1000006,146));
 
 
-var_dump(Neo4jUserSettingsUtil::test(152));
 ?>

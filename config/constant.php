@@ -68,6 +68,9 @@ define('PAGE_AJAX_GETPEOPLEORGROUP',PAGE_AJAX_FOLDER.'getPeopleOrGroup.php');
 define('PAGE_AJAX_GETEVENT',PAGE_AJAX_FOLDER.'getEvent.php');
 define('PAGE_AJAX_GETNOTFCOUNT',PAGE_AJAX_FOLDER.'getNotificationsCount.php');
 define('PAGE_AJAX_GETNOTF',PAGE_AJAX_FOLDER.'getNotifications.php');
+define('PAGE_AJAX_GETUSERSUBSCRIBES',PAGE_AJAX_FOLDER.'getUserSubscribes.php');
+define('PAGE_AJAX_SUBSCRIBEUSER',PAGE_AJAX_FOLDER.'subscribeUser.php');
+define('PAGE_AJAX_UNSUBSCRIBEUSER',PAGE_AJAX_FOLDER.'unsubscribeUser.php');
 
 
 
