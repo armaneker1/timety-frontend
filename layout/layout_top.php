@@ -32,23 +32,24 @@ if (isset($_SESSION['id'])) {
         <div class="t_bs">
             <input type="button" name="" value="" id="add_event_button" class="add_event_btn" id="main_dropable" onclick="return false;"/>
             <input type="button" name="" value="" id="search_event_button" class="search_btn" onclick="return false;"/>
-            
+
             <!-- search button start -->
-            
-                <div class="search_bar" style="display: none">
-                    <input name="" type="text" id="searchText" class="search_event_input" placeholder="search for events..." />
-                    <button type="button" name="" value="" class="cbtn icon_bg"></button>                    
-                </div>
-                <button type="button" name="" value="" class="searchbtn" style="display: none; cursor: pointer">Search</button>
+
+            <div class="search_bar" style="display: none">
+                <input name="" type="text" id="searchText" class="search_event_input" placeholder="search for events..." />
+                <button type="button" name="" value="" class="cbtn icon_bg"></button>                    
+            </div>
+            <button type="button" name="" value="" class="searchbtn" style="display: none; cursor: pointer">Search</button>
 
             <!-- search button end -->
-<?php
-if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
-    ?>
+            <?php
+            if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
+                ?>
                 <script type="text/javascript">
                     jQuery("#add_event_button").click(openCreatePopup);
                 </script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu.js"></script>
             <?php } else { ?>
                 <script type="text/javascript">
                     function  to_home() {
@@ -56,24 +57,24 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->stat
                     }
                     jQuery("#add_event_button").click(to_home);
                 </script>
-                
-                
-<?php } ?>
-<?php
-if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
-    ?>
+
+
+            <?php } ?>
+            <?php
+            if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
+                ?>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.js"></script>
             <?php } ?>
         </div>
     </div>
     <div id="top_blm_sag">
-            <?php
-            if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
-                if ($user->status > 2) {
-                    ?>
+        <?php
+        if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
+            if ($user->status > 2) {
+                ?>
 
                 <script>
-                    
+                            
                     function changeChannel(item){
                         page_wookmark=0;
                         jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
@@ -87,43 +88,58 @@ if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty
                     <ul>
                         <li class="t_m_line"><a href="#" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timete</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img></li>
                         <li class="t_m_line"><a href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a></li>
-                        <li class="t_m_line"><a href="#" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a></li>
+                        <li id="top_menu_populer" class="t_m_line"><a href="#" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a>
+                            <div id="populer_top_menu" class="my_timete_popup_container clearfix" style="display: none;">
+                                <div  class="my_timete_popup" >
+                                    <div class="kck_detay_ok"></div>
+                                    <ul id="populer_top_menu_ul">
+                                        <li>  <button type="button" name="" value="" class="kapat icon_bg"></button> Music</li>
+                                        <li>  <button type="button" name="" value="" class="kapat icon_bg"></button> Music</li>
+                                        <li>  <button type="button" name="" value="" class="kapat icon_bg"></button> Music</li>
+                                        <li>  <button type="button" name="" value="" class="kapat icon_bg"></button> Music</li>
+                                        <li>  <button type="button" name="" value="" class="kapat icon_bg"></button> Music</li>
+                                    </ul>
+                                    <div class="ara_kutu"><input type="text" class="ara_input" value="" placeholder="search" /><button type="button" name="" value="" class="ara icon_bg"></button></div>
+                                </div>
+                            </div>
+
+                        </li>
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
                 <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
-        <?php if ($user->getUserNotificationCount()) { ?>
+                    <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-        <?php } ?>
+                    <?php } ?>
                 </div>
-        <?php } else {
-        ?>
+            <?php } else {
+                ?>
                 <div class="top_menu">
                     <ul>
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
                 <div class="avatar" id="te_avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
-                <?php if ($user->getUserNotificationCount()) { ?>
+                    <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-        <?php } ?>
+                    <?php } ?>
                 </div>
 
-    <?php
-    }
-} else {
+                <?php
+            }
+        } else {
 
-    $signin_class = "";
-    $create_class = "";
+            $signin_class = "";
+            $create_class = "";
 
-    if (!empty($sign_page_type) && $sign_page_type == "createaccount") {
-        $create_class = "cr_acc_hover";
-    }
+            if (!empty($sign_page_type) && $sign_page_type == "createaccount") {
+                $create_class = "cr_acc_hover";
+            }
 
-    if (!empty($sign_page_type) && $sign_page_type == "signin") {
-        $signin_class = "sgn_in_hover";
-    }
-    ?>
+            if (!empty($sign_page_type) && $sign_page_type == "signin") {
+                $signin_class = "sgn_in_hover";
+            }
+            ?>
             <div class="t_account"><a href="<?= PAGE_SIGNUP ?>" class="cr_acc <?= $create_class ?>">create account</a><a href="<?= PAGE_LOGIN ?>" class="sgn_in <?= $signin_class ?>">sign-in </a></div>
 
         <?php } ?>
