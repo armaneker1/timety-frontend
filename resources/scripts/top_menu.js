@@ -15,70 +15,79 @@ jQuery(document).ready(function(){
 function seacrhCategory(val)
 {
     var input = jQuery('#populer_top_menu_search_input');
+    var loaderShow=true;
     if(typeof(val)!='string')
     {
-       val=input.val();
+        val=input.val();
+    }else
+    {
+        loaderShow=false;
     }
     if(val.length>0)
     {
-        getLoader(true);
-        jQuery('#populer_top_menu_search_ul').children().remove();
-        jQuery.sessionphp.get("id", function(userId){
-            if(userId)
-            {
-                jQuery.ajax({
-                    type: 'GET',
-                    url: TIMETY_PAGE_AJAX_GETCATEGORY,
-                    data: {
-                        'term':val
-                    },
-                    success: function(data){ 
-                        var dataJSON = jQuery.parseJSON(data);
-                        if(!dataJSON.error)
-                        {
-                            var ul=jQuery('#populer_top_menu_search_ul');
-                            for(var i=0;i<dataJSON.length && i<10;i++)
+        if(loaderShow)
+            getLoader(true);
+        if(loaderShow || jQuery('#populer_top_menu_search_ul').children().length<1)
+        {
+            jQuery('#populer_top_menu_search_ul').children().remove();
+            jQuery.sessionphp.get("id", function(userId){
+                if(userId)
+                {
+                    jQuery.ajax({
+                        type: 'GET',
+                        url: TIMETY_PAGE_AJAX_GETCATEGORY,
+                        data: {
+                            'term':val
+                        },
+                        success: function(data){ 
+                            var dataJSON = jQuery.parseJSON(data);
+                            if(!dataJSON.error)
                             {
-                                var item=dataJSON[i];
-                                var existItem=jQuery("#cat_id"+item.id);
-                                if(!existItem.length)
+                                var ul=jQuery('#populer_top_menu_search_ul');
+                                for(var i=0;i<dataJSON.length && i<10;i++)
                                 {
-                                    var liItem=jQuery("<li>");
-                                    liItem.attr("title",item.label);
-                                    liItem.attr("id","cat_id"+item.id);
-                                    var buttonItem=jQuery("<button type=\"button\"></button>");
-                                    buttonItem.addClass("ekle");
-                                    buttonItem.addClass("icon_bg");
-                                    buttonItem.data("userId", userId);
-                                    buttonItem.data("catId", item.id);
-                                    buttonItem.data("catText", item.label);
-                                    buttonItem.data("elementId", "cat_id"+item.id);
-                                    buttonItem.click(function(){
-                                        subscribe(this);
-                                    });
-
-                                    var spanItem=jQuery("<span>");
-                                    var text=item.label;
-                                    if(text.length>25)
+                                    var item=dataJSON[i];
+                                    var existItem=jQuery("#cat_id"+item.id);
+                                    if(!existItem.length)
                                     {
-                                        text=text.substr(0, 25);
-                                    }
-                                    spanItem.text(text);
+                                        var liItem=jQuery("<li>");
+                                        liItem.attr("title",item.label);
+                                        liItem.attr("id","cat_id"+item.id);
+                                        var buttonItem=jQuery("<button type=\"button\"></button>");
+                                        buttonItem.addClass("ekle");
+                                        buttonItem.addClass("icon_bg");
+                                        buttonItem.data("userId", userId);
+                                        buttonItem.data("catId", item.id);
+                                        buttonItem.data("catText", item.label);
+                                        buttonItem.data("elementId", "cat_id"+item.id);
+                                        buttonItem.click(function(){
+                                            subscribe(this);
+                                        });
 
-                                    liItem.append(buttonItem);
-                                    liItem.append(spanItem);
-                                    ul.append(liItem);   
+                                        var spanItem=jQuery("<span>");
+                                        var text=item.label;
+                                        if(text.length>25)
+                                        {
+                                            text=text.substr(0, 25);
+                                        }
+                                        spanItem.text(text);
+
+                                        liItem.append(buttonItem);
+                                        liItem.append(spanItem);
+                                        ul.append(liItem);   
+                                    }
                                 }
+                            }else
+                            {
+                                input.val("");
                             }
-                        }else
-                        {
-                            input.val("");
+                            if(loaderShow)
+                                getLoader(false);
                         }
-                        getLoader(false);
-                    }
-                },"json");
-            }
-        });
+                    },"json");
+                }
+            });
+        }
     }
 }
 
@@ -127,7 +136,7 @@ function openMyTimety()
                                 var text=item.category;
                                 if(text.length>25)
                                 {
-                                     text=text.substr(0, 25);
+                                    text=text.substr(0, 25);
                                 }
                                 spanItem.text(text);
                                  
@@ -219,7 +228,7 @@ function subscribe(button)
                 var text=catText;
                 if(text.length>25)
                 {
-                     text=text.substr(0, 25);
+                    text=text.substr(0, 25);
                 }
                 spanItem.text(text);
                 liItem.append(buttonItem);
