@@ -262,11 +262,7 @@ if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSIO
     ?>
                 <script>
                     jQuery(document).ready(function() {
-                        jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success"><?= $m->message ?><a class="close" data-dismiss="alert"><img src="<?=HOSTNAME?>images/close.png"></img></a></div>');
-                        function clearMsg(){
-                            jQuery('#boot_msg').empty();
-                        }
-                        setTimeout(clearMsg, 3000);
+                        getInfo(true,'<?= $m->message ?>','info',4000);
                     });
                 </script>
 <?php } ?>
@@ -280,7 +276,7 @@ if (!empty($msgs)) {
     ?>
                 <script>
                     jQuery(document).ready(function() {
-                        jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-error"><?= $txt ?><a style="right:0;float:right;top:0;" class="close" data-dismiss="alert"><img src="images/close.png"></img></a></div>');
+                        getInfo(true,'<?= $txt ?>','error',4000);
                     });
                 </script>
             <?php } ?>
