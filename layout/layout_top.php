@@ -22,9 +22,13 @@ if (isset($_SESSION['id'])) {
 ?>
 <div class="u_bg"></div>
 
-<!--Loader image-->
+<!--Loader animation-->
 <div class="loader" style="display: none"></div>
 
+<!--information popup-->
+<div class="info_popup_open" style="display: none">
+    <button class="info_popup_close" style="cursor: pointer"></button>
+</div>
 
 <div id="top_blm">
     <div id="top_blm_sol">

@@ -758,6 +758,28 @@ body {
     border-left-style: none;
     cursor:pointer;
 }
+
+.searchbtn {
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #6a6a6a;
+    padding-right: 13px;
+    padding-left: 13px;
+    border-radius: 5px;
+    border: 1px solid #cecece;
+    margin: 0px;
+    background-color: #eaeaea;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 38px;
+}
+
+.searchbtn:hover {
+    background-image: url(images/addevnt_hover.png);
+    background-repeat: repeat-x;
+}
+
 .addbtn {
     font-family: Arial;
     font-size: 11px;
@@ -2242,6 +2264,26 @@ body {
     color: #959595;
     margin-bottom: 20px;
 }
+.search_bar {
+                /* [disabled]width: 400px; */
+                line-height: 36px;
+                border: 1px solid #cecece;
+                background-color: #eaeaea;
+                margin: 0px;
+                border-radius: 5px;
+                height: 36px;
+                vertical-align: middle;
+                font-family: Arial;
+                font-size: 16px;
+                font-weight: bold;
+                color: #b1b1b1;
+                padding-top: 0px;
+                padding-right: 0px;
+                padding-bottom: 0px;
+                padding-left: 5px;
+                margin-left: 6px;
+                display: inline-block;
+}
 
 .add_event {
     /* [disabled]width: 400px; */
@@ -2348,6 +2390,19 @@ body {
     width: 400px;
 }
 
+.search_event_input {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #b1b1b1;
+    background-color: transparent;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    width: 400px;
+    outline: none;
+}
 
 .drop_event_here {
     background-image: url(images/p_bg.png);
@@ -2546,3 +2601,55 @@ body {
     padding-bottom: 10px;
 }
 /*popup son kısım*/
+
+
+/* Loader gif style */
+.loader {
+            background-image: url(images/loader.gif);
+            background-repeat: no-repeat;
+            margin-left: 50%;
+            top: 10px;
+            height: 31px;
+            width: 30px;
+            position: fixed;
+            z-index: 750;
+}
+
+/* information pop up */
+
+.info_popup_open {
+            height: 30px;
+            width: 218px;
+            position: absolute;
+            z-index: 1000;
+            font-family: arial;
+            font-size: 11px;
+            line-height: 30px;
+            color: #FFF;
+            padding-left: 10px;
+            border-radius: 2px;
+            /*cursor:pointer;*/
+            margin-left: 45%;
+            margin-top: 10px;
+}
+
+.info_popup_open p{
+            margin-right: 25px;
+            text-align: center;
+}
+
+.info_popup_close {
+            background-color: transparent;
+            background-image: url(images/info_close.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 11px;
+            width: 11px;
+            position: absolute;
+            right: 5px;
+            border-top-style: none;
+            border-right-style: none;
+            border-bottom-style: none;
+            border-left-style: none;
+            top: 10px;
+}
