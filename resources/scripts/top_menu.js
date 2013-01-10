@@ -5,7 +5,7 @@ jQuery(document).ready(function(){
             setTimeout(openMyTimety,200);
         }, 
         function () {
-            setTimeout(closeMyTimety,200);
+            setTimeout(closeMyTimety,10);
         }
         );
 });
@@ -29,27 +29,76 @@ function openMyTimety()
                         'userId':userId
                     },
                     success: function(data){ 
-                         var dataJSON = jQuery.parseJSON(data);
-                         if(!dataJSON.error)
-                         {
-                             for(var i=0;i<dataJSON.length;i++)
-                             {
-                                 var item=dataJSON[i];
-                             }
-                         }
-                         loader.remove();
+                        var dataJSON = jQuery.parseJSON(data);
+                        if(!dataJSON.error)
+                        {
+                            var ul=jQuery("#populer_top_menu_ul");
+                            for(var i=0;i<dataJSON.length;i++)
+                            {
+                                var item=dataJSON[i];
+                                var liItem=jQuery("<li>");
+                                liItem.attr("id","cat_id"+item.id);
+                                var buttonItem=jQuery("<button type=\"button\"></button>");
+                                buttonItem.addClass("kapat");
+                                buttonItem.addClass("icon_bg");
+                                buttonItem.data("userId", userId);
+                                buttonItem.data("catId", item.id);
+                                buttonItem.data("elementId", "cat_id"+item.id);
+                                
+                                buttonItem.click(function(){
+                                    unsubscribe(this);
+                                });
+                                 
+                                var spanItem=jQuery("<span>");
+                                spanItem.text(item.category);
+                                 
+                                liItem.append(buttonItem);
+                                liItem.append(spanItem);
+                                ul.append(liItem);
+                            }
+                        }
+                        loader.remove();
                     }
                 },"json");
             }
         });
         
-}
-jQuery('#populer_top_menu').fadeIn(200);
+    }
+    jQuery('#populer_top_menu').fadeIn(100);
 }
 
+
+function unsubscribe(button)
+{
+    button=jQuery(button);
+    userId= button.data("userId");
+    catId=  button.data("catId");
+    elementId= button.data("elementId");
+                                
+    element=jQuery("#"+elementId);
+    element.attr("disabled", "disabled");
+    jQuery.ajax({
+        type: 'GET',
+        url: TIMETY_PAGE_AJAX_UNSUBSCRIBEUSER,
+        data: {
+            'userId':userId,
+            'categoryId':catId
+        },
+        success: function(data){ 
+            var dataJSON = jQuery.parseJSON(data);
+            if(!dataJSON.error)
+            {
+                jQuery(element).remove();
+            }else
+            {
+                jQuery(element).removeAttr("disabled");
+            }
+        }
+    },"json");
+}
 
 
 function closeMyTimety()
 {
-    jQuery('#populer_top_menu').fadeOut(200);
+    jQuery('#populer_top_menu').hide();
 }
