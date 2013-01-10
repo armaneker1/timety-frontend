@@ -12,6 +12,11 @@ jQuery(document).ready(function(){
 
 function openMyTimety()
 {
+    var ul=jQuery("#populer_top_menu_ul");
+    if(ul)
+    {
+            
+    }
     jQuery('#populer_top_menu').fadeIn(200);
 }
 
