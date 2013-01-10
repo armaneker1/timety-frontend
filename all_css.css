@@ -129,6 +129,7 @@ p,h1,h2,h3,h4,h5{
 	padding-left: 5px;
 }
 .top_menu_ul_li_a {
+                position: relative;
                 font-family: Arial;
                 font-size: 12px;
                 font-weight: bold;
@@ -138,7 +139,6 @@ p,h1,h2,h3,h4,h5{
                 padding-left: 11px;
                 height: 25px;
                 display: block;
- 
 }
 .top_menu_ul_li_a:hover {
                 font-family: Arial;
@@ -2455,6 +2455,7 @@ body {
            right: 222px;
            height: auto;
            top: 8px;
+           background-color: rgba(255,0,0,0.4);
 }
 
 

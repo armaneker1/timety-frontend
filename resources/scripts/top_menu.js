@@ -94,7 +94,6 @@ function seacrhCategory(val)
 function openMyTimety()
 {
     jQuery('#populer_top_menu_a').css({"z-index":"2"});
-    jQuery('#populer_top_menu_a').css({"position":"absolute"});
     var ul=jQuery("#populer_top_menu_ul");
     if(ul.children().length<1)
     {
@@ -247,5 +246,4 @@ function closeMyTimety()
 {
     jQuery('#populer_top_menu').hide();
     jQuery('#populer_top_menu_a').css({"z-index":"0"});
-    jQuery('#populer_top_menu_a').css({"position":"initial"});
 }

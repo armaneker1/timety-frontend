@@ -90,8 +90,12 @@ if (isset($_SESSION['id'])) {
                 </script>
                 <div class="top_menu">
                     <ul>
-                        <li class="t_m_line"><a href="#" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timete</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img></li>
-                        <li class="t_m_line"><a href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a></li>
+                        <li class="t_m_line">
+                            <a href="#" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timete</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
+                        </li>
+                        <li class="t_m_line">
+                            <a href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a>
+                        </li>
                         <li id="top_menu_populer" class="t_m_line">
                             <a id="populer_top_menu_a" href="#" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a>
                             <div id="populer_top_menu" class="my_timete_popup_container" style="display: none;">
