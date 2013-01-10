@@ -10,6 +10,10 @@ function wookmarkFiller(options,clear)
     var channel = jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
     var searchText = jQuery('#searchText').val() || '';
     var dateSelected = null;
+    
+    //Start loader animation
+    getLoader(true);
+    
     jQuery.sessionphp.get('id',function(data){
         if(data) userId =data;
         if(post_wookmark) {
@@ -60,6 +64,9 @@ function wookmarkFiller(options,clear)
                 handler = jQuery('.main_event .main_event_box');
                 handler.wookmark(options);
                 makeMeDraggable();
+                
+                //Stop loader animation
+                getLoader(false);
             //}
             //setTimeout(tm,100);
             }

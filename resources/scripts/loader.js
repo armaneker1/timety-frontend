@@ -4,9 +4,9 @@
 
 function getLoader(show){
     if(show) {
-        jQuery('.loader').fadeIn('slow');
+        jQuery('.loader').fadeIn('fast');
     }
     else {
-        jQuery('.loader').fadeOut('slow');
+        jQuery('.loader').fadeOut('fast');
     }
 }
