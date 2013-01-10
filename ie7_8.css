@@ -2396,14 +2396,23 @@ body {
 }
 
 /*popup baslangic*/
+.my_timete_popup_container {
+           min-width: 230px;
+           min-height: 50px;
+           position: absolute;
+           z-index: 999;
+           right: 270px;
+           top: 4px;
+}
+
 .my_timete_popup {
            background-image: url(images/p_bg.png);
            background-repeat: repeat;
            width: 204px;
            position: absolute;
            z-index: 1000;
-           right: 400px;
-           top: 20px;
+           top: 4px;
+           right: 15px;
            border-radius: 5px;
            padding-top: 10px;
 }
