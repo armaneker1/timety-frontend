@@ -64,14 +64,10 @@ function dropJoinEvent(userId,eventId)
                         },
                         success: function(data){
                             data = jQuery.parseJSON(data);
-                            if(data.error)
-                            {
-                                jQuery('#boot_msg').empty();
-                                jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-error">An Error Occured<a class="close" data-dismiss="alert"><img src="'+ TIMETY_HOSTNAME + 'images/close.png"></img></a></div>');
-                            }else
-                            {
-                                jQuery('#boot_msg').empty();
-                                jQuery('#boot_msg').append('<div style="width:100%;" class="alert alert-success">joined event<a class="close" data-dismiss="alert"><img src="'+ TIMETY_HOSTNAME + 'images/close.png"></img></a></div>');   
+                            if(data.error) {
+                                getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            }else {
+                                getInfo(true,'Whoa! Have fun!','info',4000);
                                 addToMyTimety(eventId,userId);
                             }
                         },
