@@ -8,7 +8,7 @@ function wookmarkFiller(options,clear)
     var page = page_wookmark;
     var userId = -1;
     var channel = jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
-    var searchText = jQuery('#hiddenSearch').val() || '';
+    var searchText = jQuery('#searchText').val() || '';
     var dateSelected = null;
     jQuery.sessionphp.get('id',function(data){
         if(data) userId =data;

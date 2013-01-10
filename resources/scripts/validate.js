@@ -15,7 +15,7 @@
 
     var defaults = {
         messages: {
-            required: 'The %s field is required.',
+            required: 'Please use at least 3 characters.',
             matches: 'The %s field does not match the %s field.',
             valid_email: 'The %s field must contain a valid email address.',
             valid_emails: 'The %s field must contain all valid email addresses.',
