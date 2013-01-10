@@ -2037,6 +2037,7 @@ body {
     width: 9px;
     position: absolute;
     right: -8px;
+    top:6px;
 }
 .genel_detay_yeni {
     width: 660px;
@@ -2401,9 +2402,9 @@ body {
     min-height: 70px;
     position: absolute;
     z-index: 999;
-    right: 220px;
+    right: 222px;
     height: auto;
-    top: 0px;
+    top: 8px;
 }
 
 
