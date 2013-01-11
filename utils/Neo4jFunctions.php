@@ -1198,13 +1198,13 @@ class Neo4jFuctions {
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             $array1 = Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
-            //var_dump($array1);
+            //var_dump(sizeof($array1));
             /*
               echo  $teg."array 1 mysql<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             $array2 = Neo4jFuctions::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
-            //var_dump($array2);
+            //var_dump(sizeof($array2));
             /*
               echo  $teg."array 2 gremlin<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
@@ -1241,6 +1241,7 @@ class Neo4jFuctions {
             } else if (!empty($array2)) {
                 $array = $array2;
             }
+            //var_dump(sizeof($array));
             /*
               echo  $teg."end merge array<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
@@ -1283,7 +1284,6 @@ class Neo4jFuctions {
         }
 
         $images = ImageUtil::getAllHeaderImageList($eventIds);
-        
         $tmparray = array();
         $img = new Image();
         if (!empty($images)) {
@@ -1342,10 +1342,10 @@ class Neo4jFuctions {
         $array = array();
         $query = "SELECT * FROM " . TBL_EVENTS . " WHERE privacy=1 AND startDateTime>'" . $date . "'";
         if (!empty($query_)) {
-            $query = $query . " AND ( title LIKE '" . $query_ . "' OR description LIKE '" . $query_ . "') ";
+            $query = $query . " AND ( title LIKE '%" . $query_ . "%' OR description LIKE '%" . $query_ . "%') ";
         }
         $query = $query . " ORDER BY startDateTime LIMIT " . $pageNumber . " , " . $pageItemCount . " ";
-        //echo $query;
+        //echo "<p/>".$query."<p/>";
         /*
           $teg="<p/>getAllOtherEvents - ";
           echo  $teg."start uery mysql<p/>";

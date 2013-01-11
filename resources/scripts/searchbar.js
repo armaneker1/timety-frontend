@@ -14,6 +14,7 @@ jQuery(document).ready( function() {
     
     jQuery('#searchText').keypress(function(e) {
         if(e.keyCode == 13) {    
+            page_wookmark=0;
             wookmarkFiller(document.optionsWookmark, true);
             inputText.blur();
         }
@@ -35,12 +36,14 @@ jQuery(document).ready( function() {
     });
 
     jQuery('.searchbtn').click( function() {  
+            page_wookmark=0;
             wookmarkFiller(document.optionsWookmark, true,true);
     });
     
     jQuery('searchbtn').click(function(e) {
         if(e.keyCode == 13)
-        {    
+        {  
+            page_wookmark=0;
             wookmarkFiller(document.optionsWookmark, true,true);
             inputText.blur();
         }

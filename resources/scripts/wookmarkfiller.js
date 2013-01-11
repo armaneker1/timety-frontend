@@ -36,7 +36,14 @@ function wookmarkFiller(options,clear,loader)
             },
             success: function(data){
                 jQuery('#hiddenSearch').val('');
-                var dataJSON = jQuery.parseJSON(data);
+                var dataJSON =null;
+                try{
+                    dataJSON= jQuery.parseJSON(data);
+                }catch(e) {
+                    console.log(e);
+                    console.log(data);
+                }
+                
                 if(dataJSON)
                 {
                     page_wookmark++;
@@ -46,6 +53,13 @@ function wookmarkFiller(options,clear,loader)
                     localStorage.clear();
                     jQuery('.main_event').html('');
                 }
+                if(!dataJSON)
+                {
+                    if(loader)
+                        getLoader(false);
+                    return;
+                }
+                
                 jQuery.each(dataJSON,function(i,e){
                     localStorage.setItem('event_' + e.id,JSON.stringify(e));
                 });
@@ -102,9 +116,9 @@ function wookmarkHTML(dataArray)
         //jQuery(imgDiv).attr('onclick','return openModalPanel('+data.id+');');
 
         //IMG tag
-         var img = document.createElement('img');
-         jQuery(img).attr('eventid',data.id);  
-         jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
+        var img = document.createElement('img');
+        jQuery(img).attr('eventid',data.id);  
+        jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
         if(data.headerImage)
         {
             jQuery(img).attr('src',TIMETY_HOSTNAME+data.headerImage.url);
@@ -114,7 +128,7 @@ function wookmarkHTML(dataArray)
                 jQuery(img).attr('width',186);
             if(data.headerImage.height && data.headerImage.height!=0)
                 jQuery(img).attr('height',data.headerImage.height);
-            //jQuery(img).attr('heigh',219);
+        //jQuery(img).attr('heigh',219);
         }else
         {
             jQuery(img).attr('width',186);
