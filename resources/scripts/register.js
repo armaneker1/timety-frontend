@@ -78,7 +78,6 @@ function checkInterestReady(location, spinner, userId, check) {
 
 function inviteUser(emailE,id)
 {
-    jQuery('.alert').remove();
     email=jQuery("#"+emailE)[0].value;
     jQuery("#"+emailE)[0].value="";
     if(validateEmailRegex(email))
@@ -87,23 +86,21 @@ function inviteUser(emailE,id)
         while (node.hasChildNodes()) {
             node.removeChild(node.lastChild);
         }
-        jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='"+TIMETY_HOSTNAME+"images/close.png'></img></a></div>");
+        getInfo(true, "Invitation sent", "info", 4000);
         jQuery.post(TIMETY_PAGE_AJAX_INVITEEMAIL, {
             e : email,
             u :id
         }, function(data) {
             console.log(data);
             if (data.success) {
-            //jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
-            //alert("Invitation sended");
             } else {
-                //alert("Invitation couldn't send");
-                jQuery('#boot_msg').append("<div class=\"alert alert-error\">"+data.error+"<a class=\"close\" data-dismiss=\"alert\"><img src='images/close.png'></img></a></div>");
+                console.log(data.error);
+                getInfo(true, "Failed to sent invitation", "info", 4000);
             }
         }, "json");
     } else 
-{
-        jQuery('#boot_msg').append("<div class=\"alert alert-error\">Email is invalid<a class=\"close\" data-dismiss=\"alert\"><img src='"+TIMETY_HOSTNAME+"images/close.png'></img></a></div>");
+    {
+        getInfo(true, "Enter valid email addrress", "error", 4000);
     }
     return false;
 }
