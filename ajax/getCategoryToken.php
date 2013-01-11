@@ -16,11 +16,6 @@ $userId=null;
 if(isset($_GET["u"]))
     $userId=$_GET["u"];
 
-for($i=0;$i<10000000;$i++)
-{
-    echo $i;
-}
-
 try {
 
 	if(!empty( $query) && !empty( $catId) && !empty( $userId))

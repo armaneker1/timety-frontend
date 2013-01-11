@@ -26,7 +26,7 @@ function checkOpenPopup() {
 			}, 1500);
 		}else
 		{
-			$('#spinner').hide();
+			jQuery('#spinner').hide();
 		}
 	}
 }
@@ -80,8 +80,8 @@ function checkInterestReady(location, spinner, userId, check) {
 function inviteUser(emailE,id)
 {
 	jQuery('.alert').remove();
-	email=$("#"+emailE)[0].value;
-	$("#"+emailE)[0].value="";
+	email=jQuery("#"+emailE)[0].value;
+	jQuery("#"+emailE)[0].value="";
 	if(validateEmailRegex(email))
 	{
                 var node=document.getElementById("boot_msg");
@@ -89,7 +89,7 @@ function inviteUser(emailE,id)
                     node.removeChild(node.lastChild);
                 }
                 jQuery('#boot_msg').append("<div class=\"alert alert-success\">Invitation sent<a class=\"close\" data-dismiss=\"alert\"><img src='"+TIMETY_HOSTNAME+"images/close.png'></img></a></div>");
-		$.post(TIMETY_PAGE_AJAX_INVITEEMAIL, {
+		jQuery.post(TIMETY_PAGE_AJAX_INVITEEMAIL, {
 			e : email,
                         u :id
 		}, function(data) {
