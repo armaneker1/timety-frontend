@@ -602,8 +602,8 @@ if (empty($user)) {
                                                 for ($i = 0; $i < sizeof($events); $i++) {
                                                     $evt = $events[$i];
                                                     $evtDesc = $evt->description;
-                                                    if (strlen($evtDesc) > 100) {
-                                                        $evtDesc = substr($evtDesc, 0, 100) . "...";
+                                                    if (strlen($evtDesc) > 55) {
+                                                        $evtDesc = substr($evtDesc, 0, 55) . "...";
                                                     }
                                                     ?>   
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>">
@@ -648,8 +648,8 @@ if (empty($user)) {
                 </li>
             </ul>
         </div>
-        <div class="main_sag">
-            <ul id="timeline">
+        <div class="main_sag" style="height: 1000px;top: -120px;">
+            <ul id="timeline" style="display: none">
                 <li><a href="#" class="krmz_list">00:00</a></li>
                 <li><a href="#">00:30</a></li>
                 <li><a href="#" class="yesil_list">01:00</a></li>
