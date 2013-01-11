@@ -199,9 +199,9 @@ else
                                     <?php if(!$fq)  echo "onclick=\"jQuery('#spinner').show();openPopup('fq');checkOpenPopup();\"";?>
                                             class="googl_plus<?php if($fq) echo '_aktiv';?> back_btn sosyal_icon"></button>
                                 <?php } ?>
-                                <button style="visibility: hidden;" id="addSocialReturnButton" type="button"
+                                <button style="display: none;" id="addSocialReturnButton" type="button"
 					onclick="socialWindowButtonCliked=true;checkInterestReady('<?php echo PAGE_LIKES;?>','#spinner','<?php echo $user->id;?>',true);"></button>
-                                <button style="visibility: hidden;" id="addSocialErrorReturnButton" type="button" errorText=""
+                                <button style="display: none;" id="addSocialErrorReturnButton" type="button" errorText=""
 					onclick="socialWindowButtonCliked=true;jQuery('#spinner').hide();showRegisterError(this);"></button>
 			</div>
 		</div>
