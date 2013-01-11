@@ -1,5 +1,5 @@
 function openModalPanel(id,custom) {
-   /*
+    /*
     *Clear dropale
     */
     jQuery(".main_dropable_").css('display','none');    
@@ -14,7 +14,7 @@ function openModalPanel(id,custom) {
         if (!data) return;
         if(!addUrlEventId(event_id))
         {
-             return false;    
+            return false;    
         }
     }else
     {
@@ -59,25 +59,56 @@ function openModalPanel(id,custom) {
     var gdySolP2Img = document.createElement('img');
     if(data.headerImage && data.headerImage.url)
     {
-        var myImage = new Image();
-        myImage.src = TIMETY_HOSTNAME+data.headerImage.url;
-        var width=myImage.width;
-        var height=myImage.height;
+        var width=0;
+        var height=0;
         
-        if(560>width)
-        {
-             console.log("smaller");
-        }else
-        {
-             console.log("bigger");
-             height=(560/width)*height;
-             width=560;
-        }
+        var myImage = new Image();
+        myImage.src=TIMETY_HOSTNAME+data.headerImage.url;
+        myImage.onload=function(){
+            var width=0;
+            var height=0;
+            width=myImage.width;
+            height=myImage.height;
+            if(width<10)
+            {
+                if(data.headerImage.width)
+                    width=data.headerImage.width; 
+            }
+            if(height<10)
+            {
+                if(data.headerImage.height)
+                    height=data.headerImage.height; 
+            }
+
+            if(560>width)
+            {
+            //console.log("smaller");
+            }else
+            {
+                //console.log("bigger");
+                height=(560/width)*height;
+                width=560;
+            }
+
+            if(width<10 && height<10)
+            {
+                width=250;
+                height=250;
+            } 
+            myImage.src = TIMETY_HOSTNAME+data.headerImage.url;
+            jQuery(gdySolP2DIV).css('height',height);
+            jQuery(gdySolP2Img).attr('width', width);
+            //jQuery(gdySolP2Img).attr('height', height);
+            jQuery(gdySolP2Img).attr('src', TIMETY_HOSTNAME+data.headerImage.url); 
+        };
+        
+        width=30;
+        height=30;
         
         jQuery(gdySolP2DIV).css('height',height);
         jQuery(gdySolP2Img).attr('width', width);
         //jQuery(gdySolP2Img).attr('height', height);
-        jQuery(gdySolP2Img).attr('src', TIMETY_HOSTNAME+data.headerImage.url);   
+        jQuery(gdySolP2Img).attr('src', TIMETY_HOSTNAME+"images/loader.gif");   
     }else
     {
         //jQuery(gdySolP2Img).attr('width', 560);
@@ -111,12 +142,15 @@ function openModalPanel(id,custom) {
     jQuery(zmn.children()[0]).css('cursor','pointer');
     // add Join butonu ekle
     jQuery(zmn.children()[0]).bind("click",  function(){ 
-        joinEvent(zmn.children()[0], event_id) });
+        joinEvent(zmn.children()[0], event_id)
+    });
     // add Join butonu ekle
     jQuery(face.children()[0]).addClass('face');
     jQuery(face.children()[0]).bind("click",shareThisFacebook);
     jQuery(tweet.children()[0]).addClass('tweet');
-    jQuery(tweet.children()[0]).bind("click",function() { shareThisTwitter(data.title); });
+    jQuery(tweet.children()[0]).bind("click",function() {
+        shareThisTwitter(data.title);
+    });
     jQuery(gplus.children()[0]).addClass('googl_plus');
     jQuery(gplus.children()[0]).bind("click",shareThisGoogle);
 
@@ -206,7 +240,7 @@ function openModalPanel(id,custom) {
      */
     
     
-     //add  Images
+    //add  Images
     jQuery(gdy_altDIV).append(gdy_satirDIV_images);
     
     
@@ -260,7 +294,7 @@ function openModalPanel(id,custom) {
                 for(var i=0;i<data.length;i++)
                 {
                     var gdy_altDIVOrtaIMGDIV_users=document.createElement('div');
-                   jQuery(gdy_altDIVOrtaIMGDIV_users).addClass('gdy_alt_rsm');
+                    jQuery(gdy_altDIVOrtaIMGDIV_users).addClass('gdy_alt_rsm');
                     jQuery(gdy_altDIVOrtaIMGDIV_users).attr('style', 'width:64px;height:54px;text-align:center;overflow:hidden;margin-left:0px;');
 
                     var imgOrta_users = document.createElement('img');
@@ -298,10 +332,10 @@ function openModalPanel(id,custom) {
                 jQuery(gdy_altDIVSagP2_users).append(gdy_altDIVSagP2AImg_users);
                 jQuery(gdy_altDIVSag_users).append(gdy_altDIVSagP2_users);
 
-                 jQuery(gdy_satirDIV_users).append(gdy_altDIVSag_users);
-                 jQuery(gdy_satirDIV_users).insertBefore(loader);
-             }
-             loadGifHandler();
+                jQuery(gdy_satirDIV_users).append(gdy_altDIVSag_users);
+                jQuery(gdy_satirDIV_users).insertBefore(loader);
+            }
+            loadGifHandler();
         }
     });
      
@@ -397,65 +431,65 @@ function openModalPanel(id,custom) {
             
             
             jQuery.sessionphp.get('id',function(id){
-                        var userId = id;
-                        if(userId!=null && userId>0)
-                        {    
-                            var writeComments_DIV=document.createElement("div");
-                            jQuery(writeComments_DIV).addClass("class","gdy_satir");
-                            jQuery(writeComments_DIV).addClass("class","modal_invisable");
+                var userId = id;
+                if(userId!=null && userId>0)
+                {    
+                    var writeComments_DIV=document.createElement("div");
+                    jQuery(writeComments_DIV).addClass("class","gdy_satir");
+                    jQuery(writeComments_DIV).addClass("class","modal_invisable");
 
-                            var writeComments_DIV_sol=document.createElement("div");
-                            jQuery(writeComments_DIV_sol).addClass("gdy_alt_sol");
+                    var writeComments_DIV_sol=document.createElement("div");
+                    jQuery(writeComments_DIV_sol).addClass("gdy_alt_sol");
 
-                            var writeComments_DIV_sol_img=document.createElement("img");
-                            jQuery(writeComments_DIV_sol_img).attr("src",TIMETY_HOSTNAME+"images/yz.png");
-                            jQuery(writeComments_DIV_sol_img).attr("width",22);
-                            jQuery(writeComments_DIV_sol_img).attr("height",23);
-                            jQuery(writeComments_DIV_sol_img).attr("align","middle");
+                    var writeComments_DIV_sol_img=document.createElement("img");
+                    jQuery(writeComments_DIV_sol_img).attr("src",TIMETY_HOSTNAME+"images/yz.png");
+                    jQuery(writeComments_DIV_sol_img).attr("width",22);
+                    jQuery(writeComments_DIV_sol_img).attr("height",23);
+                    jQuery(writeComments_DIV_sol_img).attr("align","middle");
 
-                            jQuery(writeComments_DIV_sol).append(writeComments_DIV_sol_img);
+                    jQuery(writeComments_DIV_sol).append(writeComments_DIV_sol_img);
 
-                            jQuery(writeComments_DIV).append(writeComments_DIV_sol);
-
-
-                            var writeComments_DIV_orta = document.createElement("div");
-                            jQuery(writeComments_DIV_orta).addClass("gdy_alt_orta");
-                            jQuery(writeComments_DIV_orta).addClass("bggri");
-
-                            var writeComments_DIV_orta_input=document.createElement("input");
-                            jQuery(writeComments_DIV_orta_input).attr("name","");
-                            jQuery(writeComments_DIV_orta_input).attr("type","text");
-                            jQuery(writeComments_DIV_orta_input).addClass("gdyorum");
-                            jQuery(writeComments_DIV_orta_input).attr("id","sendComment");
-                            jQuery(writeComments_DIV_orta_input).attr("eventId",event_id);
-                            jQuery(writeComments_DIV_orta_input).attr("placeholder","Your message...");
-                            jQuery(writeComments_DIV_orta_input).keyup(function(event){
-                                if(event.keyCode==13)
-                                {
-                                    sendComment();
-                                }
-                            });
-
-                            jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_input);
-
-                            var writeComments_DIV_orta_button=document.createElement("button");
-                            jQuery(writeComments_DIV_orta_button).addClass("gdy_send");
-                            jQuery(writeComments_DIV_orta_button).attr("type","button");
-                            jQuery(writeComments_DIV_orta_button).attr("onclick","sendComment()");
-                            jQuery(writeComments_DIV_orta_button).text("Send");
+                    jQuery(writeComments_DIV).append(writeComments_DIV_sol);
 
 
+                    var writeComments_DIV_orta = document.createElement("div");
+                    jQuery(writeComments_DIV_orta).addClass("gdy_alt_orta");
+                    jQuery(writeComments_DIV_orta).addClass("bggri");
 
-                            jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_button);
-
-
-                            jQuery(writeComments_DIV).append(writeComments_DIV_orta);
-
-
-                            jQuery(gdy_altDIV).append(writeComments_DIV);
+                    var writeComments_DIV_orta_input=document.createElement("input");
+                    jQuery(writeComments_DIV_orta_input).attr("name","");
+                    jQuery(writeComments_DIV_orta_input).attr("type","text");
+                    jQuery(writeComments_DIV_orta_input).addClass("gdyorum");
+                    jQuery(writeComments_DIV_orta_input).attr("id","sendComment");
+                    jQuery(writeComments_DIV_orta_input).attr("eventId",event_id);
+                    jQuery(writeComments_DIV_orta_input).attr("placeholder","Your message...");
+                    jQuery(writeComments_DIV_orta_input).keyup(function(event){
+                        if(event.keyCode==13)
+                        {
+                            sendComment();
                         }
+                    });
+
+                    jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_input);
+
+                    var writeComments_DIV_orta_button=document.createElement("button");
+                    jQuery(writeComments_DIV_orta_button).addClass("gdy_send");
+                    jQuery(writeComments_DIV_orta_button).attr("type","button");
+                    jQuery(writeComments_DIV_orta_button).attr("onclick","sendComment()");
+                    jQuery(writeComments_DIV_orta_button).text("Send");
+
+
+
+                    jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_button);
+
+
+                    jQuery(writeComments_DIV).append(writeComments_DIV_orta);
+
+
+                    jQuery(gdy_altDIV).append(writeComments_DIV);
+                }
                         
-                        loadGifHandler();
+                loadGifHandler();
             });
          
             loadGifHandler();
@@ -497,7 +531,9 @@ function closeModalPanel() {
         var detailModalPanelBackground = document.getElementById('div_follow_trans');
         jQuery(detailModalPanelBackground).attr('onclick','return false;');
         jQuery(detailModalPanelBackground).css('display','none');
-    }catch(e){console.log(e);}
+    }catch(e){
+        console.log(e);
+    }
     document.body.style.overflow = "scroll";
     return false;
 } 
@@ -514,15 +550,15 @@ function addUrlEventId(event_id)
         {
             if(jQuery.inArray("event",url_)<0)
             {
-                  window.History.pushState(null, null, "event/"+event_id);  
+                window.History.pushState(null, null, "event/"+event_id);  
             }else
             {
-                  path="";
-                  for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
-                  {
-                         path=path+"/"+url_[i];
-                  }
-                  window.History.pushState(null, null, path+"/"+"event/"+event_id);  
+                path="";
+                for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
+                {
+                    path=path+"/"+url_[i];
+                }
+                window.History.pushState(null, null, path+"/"+"event/"+event_id);  
             }
         }
     }
@@ -545,12 +581,12 @@ function remUrlEventId()
         {
             if(jQuery.inArray("event",url_)>=0)
             {
-                  var path="";
-                  for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
-                  {
-                         path=path+"/"+url_[i];
-                  }
-                  window.History.pushState(null, null, path+"/");  
+                var path="";
+                for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
+                {
+                    path=path+"/"+url_[i];
+                }
+                window.History.pushState(null, null, path+"/");  
             }
         }
     }
@@ -671,31 +707,32 @@ function sendComment(){
 
 function joinEvent(button,eventId)
 {
-        jQuery(button).attr("disabled", "disabled");
-        jQuery.sessionphp.get('id',function(user___id){
-                var userId = user___id;
-                if(eventId && userId)
-                {
-                   jQuery.ajax({
-                    type: 'POST',
-                    url: TIMETY_PAGE_AJAX_JOINEVENT,
-                    data: {
-                        'eventId':eventId,
-                        'userId':userId
-                    },
-                    success: function(data){
-                        if(data.error) {
-                            jQuery(button).removeAttr("disabled"); 
-                            getInfo(true,'Something went wrong :( Try again.','error',4000);
-                        }else {
-                            getInfo(true,'Whoa! Have fun!','info',4000);
-                            addToMyTimety(eventId,userId);
-                        }
-                    },
-                    error : function(error_data){
-                            console.log(error_data);
-                            jQuery(button).removeAttr("disabled"); 
-                    }},"json");
-                }     
-        });
+    jQuery(button).attr("disabled", "disabled");
+    jQuery.sessionphp.get('id',function(user___id){
+        var userId = user___id;
+        if(eventId && userId)
+        {
+            jQuery.ajax({
+                type: 'POST',
+                url: TIMETY_PAGE_AJAX_JOINEVENT,
+                data: {
+                    'eventId':eventId,
+                    'userId':userId
+                },
+                success: function(data){
+                    if(data.error) {
+                        jQuery(button).removeAttr("disabled"); 
+                        getInfo(true,'Something went wrong :( Try again.','error',4000);
+                    }else {
+                        getInfo(true,'Whoa! Have fun!','info',4000);
+                        addToMyTimety(eventId,userId);
+                    }
+                },
+                error : function(error_data){
+                    console.log(error_data);
+                    jQuery(button).removeAttr("disabled"); 
+                }
+            },"json");
+        }     
+    });
 }
