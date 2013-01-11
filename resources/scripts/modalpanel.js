@@ -484,12 +484,14 @@ function loadGifHandler()
 
 
 function closeModalPanel() {
-    remUrlEventId();
-    var genelDetayYeni = document.getElementById('genel_detay_yeni');
-    jQuery(genelDetayYeni).remove();
-    var detailModalPanelBackground = document.getElementById('div_follow_trans');
-    jQuery(detailModalPanelBackground).attr('onclick','return false;');
-    jQuery(detailModalPanelBackground).css('display','none');
+    try{
+        remUrlEventId();
+        var genelDetayYeni = document.getElementById('genel_detay_yeni');
+        jQuery(genelDetayYeni).remove();
+        var detailModalPanelBackground = document.getElementById('div_follow_trans');
+        jQuery(detailModalPanelBackground).attr('onclick','return false;');
+        jQuery(detailModalPanelBackground).css('display','none');
+    }catch(e){console.log(e);}
     document.body.style.overflow = "scroll";
     return false;
 } 

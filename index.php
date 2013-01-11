@@ -241,7 +241,7 @@ if (empty($user)) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-<?php include('layout/layout_header.php'); ?>
+        <?php include('layout/layout_header.php'); ?>
         <title>Timety</title>
 
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
@@ -253,27 +253,27 @@ if (empty($user)) {
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.js"></script>
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
             <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
-<?php
-if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
-    $m = new HtmlMessage();
-    $m = json_decode($_SESSION[INDEX_MSG_SESSION_KEY]);
+            <?php
+            if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
+                $m = new HtmlMessage();
+                $m = json_decode($_SESSION[INDEX_MSG_SESSION_KEY]);
 
-    $_SESSION[INDEX_MSG_SESSION_KEY] = '';
-    ?>
+                $_SESSION[INDEX_MSG_SESSION_KEY] = '';
+                ?>
                 <script>
                     jQuery(document).ready(function() {
                         getInfo(true,'<?= $m->message ?>','info',4000);
                     });
                 </script>
-<?php } ?>
+            <?php } ?>
 
-<?php
-if (!empty($msgs)) {
-    $txt = "";
-    foreach ($msgs as $msg) {
-        $txt = $txt . $msg->message . "<br/>";
-    }
-    ?>
+            <?php
+            if (!empty($msgs)) {
+                $txt = "";
+                foreach ($msgs as $msg) {
+                    $txt = $txt . $msg->message . "<br/>";
+                }
+                ?>
                 <script>
                     jQuery(document).ready(function() {
                         getInfo(true,'<?= $txt ?>','error',4000);
@@ -283,10 +283,10 @@ if (!empty($msgs)) {
 
 
 
-<?php if (!empty($user)) { ?>
+            <?php if (!empty($user)) { ?>
                 <script>
                     jQuery(document).ready(function() {
-                        
+                                
                         jQuery(function(){          
                             var uploader = new qq.FileUploader({
                                 element: document.getElementById('te_event_image_div'),
@@ -310,14 +310,14 @@ if (!empty($msgs)) {
                         );
                         });
                     });
-                    
-                    
-                    
+                            
+                            
+                            
                     jQuery(document).ready(function() {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-    		      
+            		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -331,7 +331,7 @@ if (!empty($msgs)) {
                     });
                 </script>
 
-<?php } ?>
+            <?php } ?>
 
             <script language="javascript">
                 var handler = null;
@@ -386,16 +386,16 @@ if (!empty($msgs)) {
                     SyntaxHighlighter.all();*/
                     // Basic date picker with default settings
                     jQuery( ".date1" ).datepicker({
-                            changeMonth: true,
-                            changeYear: true,
-                            dateFormat: "dd.mm.yy",
-                            beforeShow : function(dateInput,datePicker) {
-                                    setTimeout(showDate,5);
-                            },
-                            onChangeMonthYear: function(dateInput,datePicker) {
-                                    setTimeout(showDate,5);
-                            }
-                     });
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: "dd.mm.yy",
+                        beforeShow : function(dateInput,datePicker) {
+                            setTimeout(showDate,5);
+                        },
+                        onChangeMonthYear: function(dateInput,datePicker) {
+                            setTimeout(showDate,5);
+                        }
+                    });
                     jQuery('.timepicker-default').timepicker();
                 });
             </SCRIPT>
@@ -410,18 +410,18 @@ if (!empty($msgs)) {
             <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-facebook.css" rel="stylesheet" type="text/css" />
             <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
 
-<?php
-if (!empty($user)) {
-    $var_cat = "[]";
-    $var_tag = "[]";
-    $var_usr = "[]";
-    if (!empty($user) && isset($_POST["te_event_title"]) && !empty($event)) {
-        $nf = new Neo4jFuctions();
-        $var_cat = $nf->getCategoryListByIdList($event->categories);
-        $var_usr = $nf->getUserGroupListByIdList($event->attendance);
-        $var_tag = $nf->getTagListListByIdList($event->tags);
-    }
-    ?>
+            <?php
+            if (!empty($user)) {
+                $var_cat = "[]";
+                $var_tag = "[]";
+                $var_usr = "[]";
+                if (!empty($user) && isset($_POST["te_event_title"]) && !empty($event)) {
+                    $nf = new Neo4jFuctions();
+                    $var_cat = $nf->getCategoryListByIdList($event->categories);
+                    $var_usr = $nf->getUserGroupListByIdList($event->attendance);
+                    $var_tag = $nf->getTagListListByIdList($event->tags);
+                }
+                ?>
                 <script>
                     jQuery(document).ready(function() {
                         jQuery( "#te_event_category" ).tokenInput("<?= PAGE_AJAX_GETCATEGORY ?>",{ 
@@ -440,8 +440,8 @@ if (!empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });	
-                        
-                        
+                                
+                                
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "facebook",
                             userId :"<?= $user->id ?>",
@@ -478,7 +478,7 @@ if (!empty($user)) {
                         });
                     });
                 </script>
-<?php } ?>
+            <?php } ?>
             <!--auto complete-->
             <!--Placeholder-->
             <script>
@@ -489,21 +489,34 @@ if (!empty($user)) {
             <!--Placeholder-->
 
 
+            <!--Placeholder-->
+            <script>
+                jQuery(document).keyup(function(event){
+                    if(event.keyCode==27)
+                    {
+                        closeCreatePopup();
+                        closeModalPanel();
+                    }
+                });
+            </script>
+            <!--Placeholder-->
+
+
 
             <!-- Open Event Popup -->
-<?php
-$prm_event = null;
-if (isset($_GET["eventId"]) && !empty($_GET["eventId"])) {
-    $prm_event = EventUtil::getEventById($_GET["eventId"]);
-}
+            <?php
+            $prm_event = null;
+            if (isset($_GET["eventId"]) && !empty($_GET["eventId"])) {
+                $prm_event = EventUtil::getEventById($_GET["eventId"]);
+            }
 
-if (!empty($prm_event)) {
-    $prm_event->getHeaderImage();
-    $hdr_img = HOSTNAME . "images/timete.png";
-    if (!empty($prm_event->headerImage)) {
-        $hdr_img = HOSTNAME . $prm_event->headerImage->url;
-    }
-    ?>
+            if (!empty($prm_event)) {
+                $prm_event->getHeaderImage();
+                $hdr_img = HOSTNAME . "images/timete.png";
+                if (!empty($prm_event->headerImage)) {
+                    $hdr_img = HOSTNAME . $prm_event->headerImage->url;
+                }
+                ?>
 
                 <meta property="og:title" content="<?= $prm_event->title ?>"/>
                 <meta property="og:image" content="<?= $hdr_img ?>"/>
@@ -530,9 +543,9 @@ if (!empty($prm_event)) {
                 </script>
 
 
-    <?php
-} else {
-    ?>
+                <?php
+            } else {
+                ?>
                 <meta property="og:title" content="Timety"/>
                 <meta property="og:image" content="<?= HOSTNAME ?>images/logo_fb.jpeg"/>
                 <meta property="og:site_name" content="Timety"/>
@@ -545,7 +558,7 @@ if (!empty($prm_event)) {
             <!-- Open Event Popup -->
     </head>
     <body class="bg">
-<?php include('layout/layout_top.php'); ?>
+        <?php include('layout/layout_top.php'); ?>
         <div class="main_sol" style="width:91%;">
             <div class="ust_blm">
                 <div class="trh_gn">
@@ -562,22 +575,22 @@ if (!empty($prm_event)) {
                         <tr>
                             <td colspan="2">
                                 <div id="slides" style="overflow: hidden;max-height: 120px;">
-                                     <div id="slides_container">
-<?php if (empty($user)) { ?>
+                                    <div id="slides_container">
+                                        <?php if (empty($user)) { ?>
                                             <div class="slide_item">
                                                 <div class="akt_tkvm">
                                                     <a href="<?= HOSTNAME ?>login"  class="add_event_link">Click Here to Add Event</a>
                                                 </div>
                                             </div>
-<?php
-} else {
-    $userId = -1;
-    if (!empty($user)) {
-        $userId = $user->id;
-    }
-    $events = InterestUtil::getEvents($userId, 0, 15, null, null, 2);
-    if (empty($events)) {
-        ?>
+                                            <?php
+                                        } else {
+                                            $userId = -1;
+                                            if (!empty($user)) {
+                                                $userId = $user->id;
+                                            }
+                                            $events = InterestUtil::getEvents($userId, 0, 15, null, null, 2);
+                                            if (empty($events)) {
+                                                ?>
                                                 <div class="slide_item">
                                                     <div class="akt_tkvm">
                                                         <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
@@ -598,23 +611,25 @@ if (!empty($prm_event)) {
                                                         <p><?= $evt->startDateTime ?></p>
                                                         <p><?= $evtDesc ?></p>
                                                     </div>
-                                                <?php }
+                                                    <?php
                                                 }
-                                        } ?>
-
-                                     </div>
-                                    <script>
-                                            var slide_handler;
-                                            function resizeSlide()
-                                            {
-                                                jQuery("#slides").width(jQuery(".main_event").width());
-                                                if(slide_handler) slide_handler.lemmonSlider('destroy');
-                                                slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
                                             }
-                                            jQuery(window).resize(resizeSlide);   
-                                            jQuery('document').ready(resizeSlide);
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <script>
+                                        var slide_handler;
+                                        function resizeSlide()
+                                        {
+                                            jQuery("#slides").width(jQuery(".main_event").width());
+                                            if(slide_handler) slide_handler.lemmonSlider('destroy');
+                                            slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
+                                        }
+                                        jQuery(window).resize(resizeSlide);   
+                                        jQuery('document').ready(resizeSlide);
                                                 
-                                        </script>
+                                    </script>
                                 </div>
                             </td>
                         </tr>
@@ -645,5 +660,5 @@ if (!empty($prm_event)) {
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
     </body>
-<?php include('layout/template_createevent.php'); ?>
+    <?php include('layout/template_createevent.php'); ?>
 </html>

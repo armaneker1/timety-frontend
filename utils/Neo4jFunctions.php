@@ -1655,7 +1655,7 @@ class Neo4jFuctions {
                         "MATCH  event-[r]-()" .
                         "DELETE  r,event";
                 $query = new Cypher\Query($client, $query, null);
-                $result = $query->getResultSet();
+                $query->getResultSet();
             } catch (Exception $e) {
                 echo "Error" . $e->getMessage();
             }
