@@ -28,6 +28,7 @@ $cat2Index = new Index($client, Index::TypeNode, IND_CATEGORY_LEVEL2);
 /*
  * Events
  */
+ var_dump("Events");
 $query = "START events=node:EVENT_INDEX('id:**') RETURN events";
 $query = new Cypher\Query($client, $query, null);
 $result = $query->getResultSet();
@@ -35,7 +36,8 @@ if (!empty($result)) {
     foreach ($result as $row) {
         if (!empty($row) && !empty($row['events'])) {
             $id = $row['events']->getProperty("id");
-            if (!empty($id)) {
+            var_dump($id);
+            if (!empty($id) || $id==0) {
                 $evnt = $eventIndex->findOne("id", $id);
                 if (!empty($evnt)) {
                     $eventIndex->remove($evnt, "id",$id);
@@ -53,6 +55,7 @@ if (!empty($result)) {
 /*
  * Users
  */
+ var_dump("Users");
 $query = "START users=node:USER_INDEX('id:**') RETURN users";
 $query = new Cypher\Query($client, $query, null);
 $result = $query->getResultSet();
@@ -60,7 +63,8 @@ if (!empty($result)) {
     foreach ($result as $row) {
         if (!empty($row) && !empty($row['users'])) {
             $id = $row['users']->getProperty("id");
-            if (!empty($id)) {
+             var_dump($id);
+            if (!empty($id)|| $id==0) {
                 $usr = $userIndex->findOne("id", $id);
                 if (!empty($usr)) {
                     $userIndex->remove($usr, "id",$id);
@@ -78,6 +82,7 @@ if (!empty($result)) {
 /*
  * Groups
  */
+ var_dump("Groups");
 $query = "START groups=node:GROUP_INDEX('id:**') RETURN groups";
 $query = new Cypher\Query($client, $query, null);
 $result = $query->getResultSet();
@@ -85,7 +90,8 @@ if (!empty($result)) {
     foreach ($result as $row) {
         if (!empty($row) && !empty($row['groups'])) {
             $id = $row['groups']->getProperty("id");
-            if (!empty($id)) {
+             var_dump($id);
+            if (!empty($id)|| $id==0) {
                 $grp = $groupIndex->findOne("id", $id);
                 if (!empty($usr)) {
                     $groupIndex->remove($grp, "id",$id);
@@ -103,6 +109,7 @@ if (!empty($result)) {
 /*
  * Objects
  */
+ var_dump("Objects");
 $query = "START objects=node:OBJECT_INDEX('id:**') RETURN objects";
 $query = new Cypher\Query($client, $query, null);
 $result = $query->getResultSet();
@@ -110,7 +117,8 @@ if (!empty($result)) {
     foreach ($result as $row) {
         if (!empty($row) && !empty($row['objects'])) {
             $id = $row['objects']->getProperty("id");
-            if (!empty($id)) {
+             var_dump($id);
+            if (!empty($id)|| $id==0) {
                 $obj = $objectIndex->findOne("id", $id);
                 if (!empty($obj)) {
                     $objectIndex->remove($obj, "id",$id);
@@ -129,6 +137,7 @@ if (!empty($result)) {
 /*
  * Category1
  */
+ var_dump("Category1");
 $query = "START cats=node:CATEGORY_LEVEL1('id:**') RETURN cats";
 $query = new Cypher\Query($client, $query, null);
 $result = $query->getResultSet();
@@ -136,7 +145,8 @@ if (!empty($result)) {
     foreach ($result as $row) {
         if (!empty($row) && !empty($row['cats'])) {
             $id = $row['cats']->getProperty("id");
-            if (!empty($id)) {
+             var_dump($id);
+            if (!empty($id)|| $id==0) {
                 $cat = $cat1Index->findOne("id", $id);
                 if (!empty($cat)) {
                     $cat1Index->remove($cat, "id",$id);
@@ -154,6 +164,7 @@ if (!empty($result)) {
 /*
  * Category2
  */
+ var_dump("Category2");
 $query = "START cats=node:CATEGORY_LEVEL2('id:**') RETURN cats";
 $query = new Cypher\Query($client, $query, null);
 $result = $query->getResultSet();
@@ -161,7 +172,8 @@ if (!empty($result)) {
     foreach ($result as $row) {
         if (!empty($row) && !empty($row['cats'])) {
             $id = $row['cats']->getProperty("id");
-            if (!empty($id)) {
+             var_dump($id);
+            if (!empty($id)|| $id==0) {
                 $cat = $cat2Index->findOne("id", $id);
                 if (!empty($cat)) {
                     $cat2Index->remove($cat, "id",$id);
