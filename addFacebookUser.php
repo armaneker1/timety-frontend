@@ -42,7 +42,7 @@ if(isset($_SESSION['id']))
                     }else
                     {
                         $success=FALSE;
-                        $errortext="This Facebook account already registered";
+                        $errortext="Facebook account exists!";
                     }
 		} catch (Exception $e) {
 			echo 'Error -> '.$e->getMessage();

@@ -36,7 +36,7 @@ if (isset($_SESSION['id']) && !empty($_GET['oauth_verifier']) && !empty($_SESSIO
                 }else
                 {
                     $success=FALSE;
-                    $errortext="This Twitter account already registered";
+                    $errortext="Twitter account exist!";
                 }
 	}
 } else {
