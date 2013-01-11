@@ -30,8 +30,11 @@ require_once __DIR__ . '/SettingFunctions.php';
 require_once __DIR__ . '/SocialFriendFunctions.php';
 require_once __DIR__ . '/UserFunctions.php';
 require_once __DIR__ . '/UserSettingsFunctions.php';
+require_once __DIR__ . '/HttpAuthFunctions.php';
 
 require_once __DIR__ . '/Neo4jFunctions.php';
+
+HttpAuthUtils::checkHttpAuth();
 
 class UtilFunctions {
 
