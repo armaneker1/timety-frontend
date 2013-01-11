@@ -1,4 +1,4 @@
 timety-frontend
 ===============
 
-Timety project front end repository
+Timety project front end repository 
