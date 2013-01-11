@@ -85,7 +85,7 @@ if (isset($_SESSION['id'])) {
                         jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
                         jQuery(item).removeClass('top_menu_ul_li_a');
                         jQuery(item).addClass('top_menu_ul_li_a_selected');
-                        wookmarkFiller(document.optionsWookmark,true);
+                        wookmarkFiller(document.optionsWookmark,true,true);
                     }    
                 </script>
                 <div class="top_menu">
