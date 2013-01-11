@@ -7,7 +7,7 @@ function wookmarkFiller(options,clear,loader)
     clear  = typeof clear !== 'undefined' ? clear : false;
     loader = typeof loader !== 'undefined' ? loader : false;
     
-    var pager = 15;
+    var pager = 40;
     var page = page_wookmark;
     var userId = -1;
     var channel = jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
