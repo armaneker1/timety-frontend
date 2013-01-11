@@ -1424,9 +1424,14 @@ class Neo4jFuctions {
         $pgEnd = $pgStart + $pageItemCount - 1;
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
-                ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')" .
-                ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
+                ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+        if(!empty($query_) || $query_==0)
+        {
+            $query = $query. ".filter{it.title.matches('.*(?i)".$query_.".*')} ";
+        }
+        $query = $query. ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
                 ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
+        //echo $query;
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         /*
           $teg="<p/>getPopularEventsByLike-   ";
