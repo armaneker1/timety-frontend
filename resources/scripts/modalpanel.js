@@ -429,6 +429,12 @@ function openModalPanel(id,custom) {
                             jQuery(writeComments_DIV_orta_input).attr("id","sendComment");
                             jQuery(writeComments_DIV_orta_input).attr("eventId",event_id);
                             jQuery(writeComments_DIV_orta_input).attr("placeholder","Your message...");
+                            jQuery(writeComments_DIV_orta_input).keyup(function(event){
+                                if(event.keyCode==13)
+                                {
+                                    sendComment();
+                                }
+                            });
 
                             jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_input);
 
