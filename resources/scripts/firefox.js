@@ -3,7 +3,6 @@ jQuery(document).ready(function(){
     {
         jQuery(".roll").css("margin-left",-31);
         jQuery(".add_like_span_div_disable").css("left",61);
-        
     }
 });
 

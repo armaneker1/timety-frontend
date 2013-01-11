@@ -1,0 +1,87 @@
+/************** Skin 2 *********************/
+.yer {
+	/*display:inline-block !important;*/
+	text-align:left;
+	font-size:12px;
+	position:relative;
+	width:61px!important;
+	background-image: url(images/ackapabg.png);
+	background-repeat: repeat-x;
+	border-radius: 5px;
+	font-family: arial;
+}
+#yer p {
+	float: left;
+	margin-right: 12px;
+}
+
+.yer .ddTitle {
+	padding:0 3px;
+	text-indent:0;
+	cursor:default;
+	overflow:hidden;
+	height:22px;
+	background-color: transparent;
+	background-image: url(images/a_ok.png);
+	background-repeat: no-repeat;
+	background-position: 90%;
+	z-index: 1;
+	font-size: 14px;
+	font-weight: bold;
+	color: #666666;
+}
+
+.yer .ddTitle span.ddTitleText {
+	text-indent:1px;
+	overflow:hidden;
+	line-height:25px;
+	font-size:12px;
+	color:#666666;
+}
+.yer .ddChild {
+	position:absolute;
+	display:none;
+	margin:0;
+	width:auto;
+	overflow-x:hidden !important;
+	background-color:#ececec;
+	font-size:12px;
+	width:59px!important;
+	top:19px!important;
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-right-color: #c9c9c9;
+	border-left-color: #c9c9c9;
+	border-radius: 0px 0px 5px 5px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #c9c9c9;
+}
+.yer .ddChild .opta a, .yer .ddChild .opta a:visited {padding-left:10px}
+.yer .ddChild a {
+	display:block;
+	padding:3px 3px 3px 3px;
+	text-decoration:none;
+	color:#666666;
+	overflow:hidden;
+	white-space:nowrap;
+	cursor:pointer;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #cecece;
+}
+.yer .ddChild a:hover {
+	color: #FFFFFF;
+	background-color: #6eafbf;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) inset;
+}
+.yer .ddChild a.selected {
+	color: #FFFFFF;
+	background-color: #6eafbf;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) inset;
+}
+
+/*.yer .borderTop{border-top:1px solid #c3c3c3  !important;}
+.yer .noBorderTop{border-top:none 0  !important}*/
