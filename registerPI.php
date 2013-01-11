@@ -347,6 +347,7 @@ if (empty($birhtdate)) {
                            default="<?php echo $email ?>" onblur="validateEmailNoEffect(this);"
                            value="<?php echo $email ?>" /> <br /> <span id='te_email_span'></span>
                     <input name="te_birthdate" type="text" placeholder="Birthdate (dd.MM.yyyy)"
+                           autocomplete='off'
                            class="user_inpt" id="te_birthdate" value="<?php echo $birhtdate ?>"/> <br /> <span
                            id='te_birthdate_span'></span> <input name="te_hometown"
                            type="text" placeholder="Hometown" class="user_inpt"
