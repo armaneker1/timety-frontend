@@ -6,3 +6,9 @@
     position:absolute;
     left:103px;
 }
+
+.ui-autocomplete-loading {
+	background: white url('images/ui-anim_basic_16x16.gif') right center 
+	no-repeat !important;
+        background-position-x: 585px !important;
+}
