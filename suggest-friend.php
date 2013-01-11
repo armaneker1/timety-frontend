@@ -191,9 +191,9 @@ else
 			<?php if(!$fq)  echo "onclick=\"$('#spinner').show();openPopup('fq');checkOpenPopup();\"";?>
 				class="googl_plus<?php if($fq) echo '_aktiv';?> back_btn sosyal_icon"></button>
 
-			<button style="visibility: hidden;" id="addSocialReturnButton"
+			<button style="display: none;" id="addSocialReturnButton"
 				onclick="$('#spinner').show();setTimeout(function() { window.location='<?php echo PAGE_WHO_TO_FOLLOW;?>'; $('#spinner').hide();},1000);"></button>
-                        <button style="visibility: hidden;" id="addSocialErrorReturnButton" type="button" errorText=""
+                        <button style="display: none;" id="addSocialErrorReturnButton" type="button" errorText=""
 					onclick="socialWindowButtonCliked=true;jQuery('#spinner').hide();showRegisterError(this);"></button>
 		</div>
 		<div style="display: block; min-height: 20px;">

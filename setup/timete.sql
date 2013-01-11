@@ -183,7 +183,11 @@ INSERT INTO `timete_settings` (`key_`, `value_`) VALUES
 ('neo4j_port', '7878'),
 ('system_mail_addrress', '{"email": "keklikhasan@gmail.com",  "name": "Hasan Keklik"},{"email": "arman.eker@gmail.com",  "name": "Arman Eker"}'),
 ('twitter_app_id', 'rCru0bxvpM90eZVlD6Tg'),
-('twitter_app_secret', 'Wxa9A63WFPOSlJLlVuaWBTSLPSYPAxmxVxoG1YfnlE');
+('twitter_app_secret', 'Wxa9A63WFPOSlJLlVuaWBTSLPSYPAxmxVxoG1YfnlE'),
+('http.admin.user', 'admin'),
+('http.admin.user.pass', 'admin1234'),
+('http.guest.user', 'guest'),
+('http.guest.user.pass', 'guest1234');
 
 -- --------------------------------------------------------
 

@@ -31,7 +31,21 @@ if (!isset($_SESSION['id'])) {
             $m->type = "e";
             $m->message = "User name can not be empty";
             array_push($msgs, $m);
+        }else
+        {
+            if(!UserUtils::checkUserName($username))
+            {
+                if($username!=$_POST['te_default_username'])
+                {
+                    $m = new HtmlMessage();
+                    $m->type = "e";
+                    $m->message = "User name already taken";
+                    array_push($msgs, $m);
+                }
+            }
         }
+        
+        
         $name = $_POST['te_firstname'];
         if (empty($name)) {
             $m = new HtmlMessage();
@@ -60,11 +74,13 @@ if (!isset($_SESSION['id'])) {
                 array_push($msgs, $m);
                 $param = false;
             } else if (!UserUtils::checkEmail($email)) {
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = "Email already taken";
-                array_push($msgs, $m);
-                $param = false;
+                if ($_POST['te_default_email'] != $email) {
+                    $m = new HtmlMessage();
+                    $m->type = "e";
+                    $m->message = "Email already taken";
+                    array_push($msgs, $m);
+                    $param = false;
+                }
             }
         }
 
@@ -224,17 +240,17 @@ if (empty($birhtdate)) {
             $(function() {
                 $.Placeholder.init();
                 jQuery( "#te_birthdate" ).datepicker({
-                            changeMonth: true,
-                            changeYear: true,
-                            dateFormat: "dd.mm.yy",
-                            maxDate: new Date(),
-                            yearRange: "1923:2012",
-                            beforeShow : function(dateInput,datePicker) {
-                                    setTimeout(showDate,5);
-                            },
-                            onChangeMonthYear: function(dateInput,datePicker) {
-                                    setTimeout(showDate,5);
-                            }
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: "dd.mm.yy",
+                    maxDate: new Date(),
+                    yearRange: "1923:2012",
+                    beforeShow : function(dateInput,datePicker) {
+                        setTimeout(showDate,5);
+                    },
+                    onChangeMonthYear: function(dateInput,datePicker) {
+                        setTimeout(showDate,5);
+                    }
                 });
                         
                 var validator = new FormValidator(
@@ -306,7 +322,7 @@ if (empty($birhtdate)) {
                 jQuery.post("<?= PAGE_AJAX_CHECKUSERNAME ?>", {
                     u : field.value
                 }, function(data) {
-                    field.setAttribute("suc", ((($(field2).attr('default')) == field.value) || (!!(data.success))));
+                    field.setAttribute("suc", (($(field2).attr('default') == field.value) || !!(data.success)));
                 }, "json");
             }
 
@@ -315,7 +331,7 @@ if (empty($birhtdate)) {
                 $.post("<?= PAGE_AJAX_CHECKEMAIL ?>", {
                     e : field.value
                 }, function(data) {
-                    field.setAttribute("suc", ((($(field2).attr('default')) == field.value) || (!!(data.success))));
+                    field.setAttribute("suc", (($(field2).attr('default')) == field.value) || (!!(data.success)));
                 }, "json");
             }
         </script>
@@ -347,6 +363,7 @@ if (empty($birhtdate)) {
                            default="<?php echo $email ?>" onblur="validateEmailNoEffect(this);"
                            value="<?php echo $email ?>" /> <br /> <span id='te_email_span'></span>
                     <input name="te_birthdate" type="text" placeholder="Birthdate (dd.MM.yyyy)"
+                           autocomplete='off'
                            class="user_inpt" id="te_birthdate" value="<?php echo $birhtdate ?>"/> <br /> <span
                            id='te_birthdate_span'></span> <input name="te_hometown"
                            type="text" placeholder="Hometown" class="user_inpt"
@@ -363,6 +380,8 @@ if (empty($birhtdate)) {
                                onkeyup="validatePassword(this,$('#te_password'),true)" /> <span
                                id='te_repassword_span'></span> <br />
                            <?php } ?>
+                    <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>
+                    <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $username ?>" ></input>
                     <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?= $userProfilePic ?>" ></input>
                     <button type="submit" class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
                 </form>

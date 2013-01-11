@@ -54,16 +54,7 @@ if (isset($_SESSION['id'])) {
                 </script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu.js"></script>
-            <?php } else { ?>
-                <script type="text/javascript">
-                    function  to_home() {
-                        window.location="<?= PAGE_LOGIN ?>";
-                    }
-                    jQuery("#add_event_button").click(to_home);
-                </script>
-
-
-            <?php } ?>
+            <?php }?>
             <?php
             if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
                 ?>
