@@ -21,6 +21,12 @@ define("SETTINGS_SYSTEM_ADMIN_MAIL_ADDRRESS", "system_mail_addrress");
 define("SETTINGS_NEO4J_HOST", "neo4j_hostname");
 define("SETTINGS_NEO4J_PORT", "neo4j_port");
 
+define("SETTINGS_GUEST_USER", "http.guest.user");
+define("SETTINGS_GUEST_USER_PASS", "http.guest.user.pass");
+
+define("SETTINGS_ADMIN_USER", "http.admin.user");
+define("SETTINGS_ADMIN_USER_PASS", "http.admin.user.pass");
+
 class SettingsUtil {
 
     public static function getSetting($param = null) {

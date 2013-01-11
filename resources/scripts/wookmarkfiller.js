@@ -2,8 +2,11 @@ var post_wookmark=null;
 var page_wookmark=0;
 localStorage.clear();
 
-function wookmarkFiller(options,clear)
+function wookmarkFiller(options,clear,loader)
 {
+    clear  = typeof clear !== 'undefined' ? clear : false;
+    loader = typeof loader !== 'undefined' ? loader : false;
+    
     var pager = 15;
     var page = page_wookmark;
     var userId = -1;
@@ -12,7 +15,8 @@ function wookmarkFiller(options,clear)
     var dateSelected = null;
     
     //Start loader animation
-    getLoader(true);
+    if(loader)
+        getLoader(true);
     
     jQuery.sessionphp.get('id',function(data){
         if(data) userId =data;
@@ -66,7 +70,8 @@ function wookmarkFiller(options,clear)
                 makeMeDraggable();
                 
                 //Stop loader animation
-                getLoader(false);
+                if(loader)
+                    getLoader(false);
             //}
             //setTimeout(tm,100);
             }

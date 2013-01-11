@@ -35,13 +35,13 @@ jQuery(document).ready( function() {
     });
 
     jQuery('.searchbtn').click( function() {  
-            wookmarkFiller(document.optionsWookmark, true);
+            wookmarkFiller(document.optionsWookmark, true,true);
     });
     
     jQuery('searchbtn').click(function(e) {
         if(e.keyCode == 13)
         {    
-            wookmarkFiller(document.optionsWookmark, true);
+            wookmarkFiller(document.optionsWookmark, true,true);
             inputText.blur();
         }
     });

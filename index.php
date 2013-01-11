@@ -370,69 +370,35 @@ if (!empty($msgs)) {
                         }
                     };
                     jQuery(document).bind('scroll', onScroll);
-					
-                    /*
-                     * Drag Drop
-                     */							
-                    /*jQuery('.main_draggable').each(function() { 
-                        jQuery(this).draggable({ revert: "invalid",
-                            revertDuration : 250,
-                            cursor : 'move', 
-                            cursorAt: { top: Math.round(36 /  2), 
-                                left: Math.round(40 /  2)}, 
-                            helper:'clone',
-                            opacity: 0.9,
-                            zIndex:110,
-                            drag: function(event, ui) {
-                                ui.helper.width(40);
-                                ui.helper.height(36);
-                            } ,
-                            start: function(event, ui) {
-                                ui.helper.bind("click.prevent", function(event) { event.preventDefault(); });
-                            } ,
-                            stop: function (event, ui) {
-                                setTimeout(function(){ui.helper.unbind("click.prevent");}, 300);
-                            }
-                        }); 
-                    }); 		
-							
-                    jQuery("#main_dropable2").droppable( { 
-                        accept:  function(){
-                            jQuery(this).height(50);
-                            jQuery(this).width(50);
-                        },
-                        drop: function(dropElem) {
-                            alert(dropElem.className);
-                        }
-                    });*/
                 });
             </script>
 
 
             <!--takvim-->
-            <script type="text/javascript" src="<?= HOSTNAME ?>js/takvim/XRegExp.js"></script>  
-            <script type="text/javascript" src="<?= HOSTNAME ?>js/takvim/shCore.js"></script>
-            <script type="text/javascript" src="<?= HOSTNAME ?>js/takvim/glDatePicker.js"></script>
             <SCRIPT type="text/javascript">
                 jQuery.noConflict();
                 jQuery(document).ready(function()
                 {
-                    SyntaxHighlighter.defaults["brush"] = "js";
+                    /*SyntaxHighlighter.defaults["brush"] = "js";
                     SyntaxHighlighter.defaults["ruler"] = false;
                     SyntaxHighlighter.defaults["toolbar"] = false;
                     SyntaxHighlighter.defaults["gutter"] = false;
-                    SyntaxHighlighter.all();
+                    SyntaxHighlighter.all();*/
                     // Basic date picker with default settings
-                    //jQuery(".date1").glDatePicker();
                     jQuery( ".date1" ).datepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        dateFormat: "dd.mm.yy"
-                    });
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: "dd.mm.yy",
+                            beforeShow : function(dateInput,datePicker) {
+                                    setTimeout(showDate,5);
+                            },
+                            onChangeMonthYear: function(dateInput,datePicker) {
+                                    setTimeout(showDate,5);
+                            }
+                     });
                     jQuery('.timepicker-default').timepicker();
                 });
             </SCRIPT>
-            <link href="<?= HOSTNAME ?>js/takvim/takvim.css" rel="stylesheet" type="text/css" />
             <!--takvim-->
             <!--saat-->
             <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js"></script>

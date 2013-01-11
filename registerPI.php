@@ -223,22 +223,19 @@ if (empty($birhtdate)) {
         <script type="text/javascript">
             $(function() {
                 $.Placeholder.init();
-                        
-                        
                 jQuery( "#te_birthdate" ).datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    dateFormat: "dd.mm.yy",
-                    maxDate: new Date(),
-                    yearRange: "1923:2012"
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: "dd.mm.yy",
+                            maxDate: new Date(),
+                            yearRange: "1923:2012",
+                            beforeShow : function(dateInput,datePicker) {
+                                    setTimeout(showDate,5);
+                            },
+                            onChangeMonthYear: function(dateInput,datePicker) {
+                                    setTimeout(showDate,5);
+                            }
                 });
-                /*jQuery("#te_birthdate").glDatePicker({
-                    allowOld : true,
-                    position : "fixed",
-                    showLeftTopCss:true,
-                    endDate: (new Date())
-                });*/
-                        
                         
                 var validator = new FormValidator(
                 'registerPI',

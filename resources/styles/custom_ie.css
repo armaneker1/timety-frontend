@@ -312,6 +312,7 @@ span.rollover:hover {
 }
 
 .top_menu_ul_li_a_selected {
+                position: relative;
                 font-family: Arial;
                 font-size: 12px;
                 font-weight: bold;

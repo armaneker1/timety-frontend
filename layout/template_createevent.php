@@ -108,7 +108,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 				<div class="ts_sorta">
 					<INPUT id="te_event_start_date" name="te_event_start_date"
                                                 value="<?php if($showPopup && isset($_POST["te_event_start_date"])) {echo $_POST["te_event_start_date"];}?>"
-						class=" date1 gldp ts_sorta_inpt" type="text">
+						class="date1 gldp ts_sorta_inpt" type="text">
 				</div>
 				<div class="ts_sag"></div>
 			</div>
