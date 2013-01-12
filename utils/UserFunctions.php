@@ -270,7 +270,7 @@ class UserUtils {
 
     public static function addUserInfoNeo4j($user) {
         $n = new Neo4jFuctions();
-        $n->addUserInfo($user->id, $user->firstName, $user->lastName, $user->type);
+        $n->addUserInfo($user->id, $user->firstName, $user->lastName, $user->type,$user->userName);
     }
 
     //Social Provider Functions

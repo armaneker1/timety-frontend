@@ -259,7 +259,7 @@ if (empty($birhtdate)) {
                     {
                         name : 'te_username',
                         display : 'username',
-                        rules : 'required|alpha_numeric|min_length[6]|callback_check_username'
+                        rules : 'required|min_length[6]|callback_check_username'
                     }, {
                         name : 'te_firstname',
                         display : 'firstname',
