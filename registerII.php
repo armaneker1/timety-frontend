@@ -173,9 +173,8 @@ if (!empty($providers)) {
 ?>
         <div class="add_timete_ekr">
             <div class="add_timete_ols">
-                <p class="find_friends">
-                    Make your Timety<span class="add_t_k"> Select that you want to add
-                        Timety</span>
+                <p class="find_friends">What are your interests?<span class="add_t_k"> Select some! When you visit Timety you will find
+                        events you are interested in.</span>
                 </p>
                 <div class="add_t_btn">
                     <!--<button type="button" name="" value=""
