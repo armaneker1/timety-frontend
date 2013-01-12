@@ -1198,13 +1198,13 @@ class Neo4jFuctions {
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             $array1 = Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
-            //var_dump($array1);
+            //var_dump(sizeof($array1));
             /*
               echo  $teg."array 1 mysql<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             $array2 = Neo4jFuctions::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
-            //var_dump($array2);
+            //var_dump(sizeof($array2));
             /*
               echo  $teg."array 2 gremlin<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
@@ -1241,6 +1241,7 @@ class Neo4jFuctions {
             } else if (!empty($array2)) {
                 $array = $array2;
             }
+            //var_dump(sizeof($array));
             /*
               echo  $teg."end merge array<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
@@ -1283,7 +1284,6 @@ class Neo4jFuctions {
         }
 
         $images = ImageUtil::getAllHeaderImageList($eventIds);
-        
         $tmparray = array();
         $img = new Image();
         if (!empty($images)) {
@@ -1342,10 +1342,10 @@ class Neo4jFuctions {
         $array = array();
         $query = "SELECT * FROM " . TBL_EVENTS . " WHERE privacy=1 AND startDateTime>'" . $date . "'";
         if (!empty($query_)) {
-            $query = $query . " AND ( title LIKE '" . $query_ . "' OR description LIKE '" . $query_ . "') ";
+            $query = $query . " AND ( title LIKE '%" . $query_ . "%' OR description LIKE '%" . $query_ . "%') ";
         }
         $query = $query . " ORDER BY startDateTime LIMIT " . $pageNumber . " , " . $pageItemCount . " ";
-        //echo $query;
+        //echo "<p/>".$query."<p/>";
         /*
           $teg="<p/>getAllOtherEvents - ";
           echo  $teg."start uery mysql<p/>";
@@ -1424,9 +1424,14 @@ class Neo4jFuctions {
         $pgEnd = $pgStart + $pageItemCount - 1;
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
-                ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')" .
-                ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
+                ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+        if(!empty($query_) || $query_==0)
+        {
+            $query = $query. ".filter{it.title.matches('.*(?i)".$query_.".*')} ";
+        }
+        $query = $query. ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
                 ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
+        //echo $query;
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         /*
           $teg="<p/>getPopularEventsByLike-   ";
@@ -1650,7 +1655,7 @@ class Neo4jFuctions {
                         "MATCH  event-[r]-()" .
                         "DELETE  r,event";
                 $query = new Cypher\Query($client, $query, null);
-                $result = $query->getResultSet();
+                $query->getResultSet();
             } catch (Exception $e) {
                 echo "Error" . $e->getMessage();
             }

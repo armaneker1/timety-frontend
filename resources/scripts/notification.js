@@ -92,9 +92,11 @@ function showNotifications(userId)
     notfPopup.css("top","8px");
     notfPopup.css("min-width","204px");
     notfPopup.css("width","auto");
+    notfPopup.css("position","absolute");
     notfPopup.show();
     var loader=jQuery("<li>");
-    loader.append(jQuery('<img src="images/loader.gif" style="height: 22px;">'));
+    loader.css("text-align","center");
+    loader.append(jQuery('<img src="'+TIMETY_HOSTNAME+'images/ajax-loader.gif" style="height: 22px;">'));
     notfUl.append(loader);
     
     if(post_notifications) {
@@ -146,29 +148,30 @@ function responseEvent(event,userId,eventId,type)
     event.stopPropagation();
     if(userId && eventId && type)
     {
-        var loader=jQuery('<img src="images/loader.gif" style="height: 22px;">');
+        var loader=jQuery('<img src="'+TIMETY_HOSTNAME+'images/ajax-loader.gif" style="height: 22px;">');
         var liElement=jQuery("#li_notf_"+eventId);
+        liElement.css("text-align","center");
         if(liElement.length)
         {
             liElement.children().hide();
             liElement.append(loader);
             jQuery.post(TIMETY_PAGE_AJAX_RESPONSETOEVENTINVITES, {
-		e : eventId,
-		u : userId, 
-		r :type
+                e : eventId,
+                u : userId, 
+                r :type
             }, function(data) {
-                    loader.remove();
-                    liElement.children(".notf_answer_class").remove();
-                    var result=jQuery("<span>");
-                    if (data.success) {
-                        result.css("color", "green");
-                        result.text("Success");
-                    }else{
-                        result.css("color", "red");
-                        result.text("Error");
-                    }
-                    liElement.append(result);
-                    liElement.children().show();
+                loader.remove();
+                liElement.children(".notf_answer_class").remove();
+                var result=jQuery("<span>");
+                if (data.success) {
+                    result.css("color", "green");
+                    result.text("Success");
+                }else{
+                    result.css("color", "red");
+                    result.text("Error");
+                }
+                liElement.append(result);
+                liElement.children().show();
             }, "json");
         }else
         {

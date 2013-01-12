@@ -29,9 +29,9 @@ function addToMyTimety(eventId,userId)
                         divT.append(divTp1);
                         
                         var desc=dataJSON.description;
-                        if(desc.length>100)
+                        if(desc.length>55)
                         {
-                            desc=dataJSON.description.substring(0,100);
+                            desc=dataJSON.description.substring(0,55);
                         }
                         var divTp2=jQuery("<p>");
                         divTp2.text(desc);

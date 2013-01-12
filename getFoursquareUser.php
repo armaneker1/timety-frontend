@@ -46,7 +46,7 @@ else if(isset($_GET['add']))
                                 }else
                                 {
                                     $success=FALSE;
-                                    $errortext="This Foursquare account already registered";
+                                    $errortext="Foursquare account exists!";
                                 }
 
 			} catch (Exception $e) {

@@ -55,6 +55,15 @@ if (isset($_SESSION['id'])) {
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu.js"></script>
             <?php }?>
+            <?php if(empty($user->id)){ ?>
+                <script type="text/javascript">
+                    function  to_home() {
+                        window.location="<?= PAGE_LOGIN ?>";
+                    }
+                    jQuery("#add_event_button").click(to_home);
+                </script>
+            <?php } ?>    
+                
             <?php
             if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
                 ?>
@@ -76,7 +85,7 @@ if (isset($_SESSION['id'])) {
                         jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
                         jQuery(item).removeClass('top_menu_ul_li_a');
                         jQuery(item).addClass('top_menu_ul_li_a_selected');
-                        wookmarkFiller(document.optionsWookmark,true);
+                        wookmarkFiller(document.optionsWookmark,true,true);
                     }    
                 </script>
                 <div class="top_menu">

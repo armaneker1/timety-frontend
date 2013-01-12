@@ -98,7 +98,8 @@ function openMyTimety()
     if(ul.children().length<1)
     {
         var loader=jQuery("<li>");
-        loader.append(jQuery('<img src="images/loader.gif" style="height: 22px;">'));
+        loader.css("text-align","center");
+        loader.append(jQuery('<img src="'+TIMETY_HOSTNAME+'images/ajax-loader.gif" style="height: 22px;">'));
         ul.append(loader);
         
         jQuery.sessionphp.get("id", function(userId){
