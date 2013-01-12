@@ -1877,6 +1877,7 @@ body {
 .ea_alt_btn {
 	display: inline-block;
 	float: right;
+        margin-bottom: 5px;
 }
 .kucuk_detay {
 	background-image: url(images/p_bg.png);

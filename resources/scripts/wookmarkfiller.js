@@ -12,6 +12,10 @@ function wookmarkFiller(options,clear,loader)
     var userId = -1;
     var channel = jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
     var searchText = jQuery('#searchText').val() || '';
+    if(searchText==jQuery('#searchText').attr('placeholder'))
+    {
+       searchText='';
+    }
     var dateSelected = null;
     
     //Start loader animation
