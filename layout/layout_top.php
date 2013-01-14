@@ -53,7 +53,7 @@ if (isset($_SESSION['id'])) {
                     jQuery("#add_event_button").click(openCreatePopup);
                 </script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js"></script>
             <?php }?>
             <?php if(empty($user->id)){ ?>
                 <script type="text/javascript">
