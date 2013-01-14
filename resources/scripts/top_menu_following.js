@@ -19,6 +19,10 @@ function seacrhFriend(val)
     if(typeof(val)!='string')
     {
         val=input.val();
+        if(val=="search")
+        {
+            val="";
+        }
     }else
     {
         loaderShow=false;

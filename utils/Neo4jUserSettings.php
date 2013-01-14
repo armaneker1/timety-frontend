@@ -21,7 +21,10 @@ class Neo4jUserSettingsUtil {
             foreach ($result as $row) {
                 $cat = new CateforyRef();
                 $cat->createNeo4j($row[0]);
-                array_push($array, $cat);
+                if(!empty($cat) && !empty($cat->id))
+                {
+                  array_push($array, $cat);
+                }
             }
             return $array;
         } else {
@@ -97,7 +100,10 @@ class Neo4jUserSettingsUtil {
             foreach ($result as $row) {
                 $usr = new User();
                 $usr->createFromNeo4j($row[0]);
-                array_push($array, $usr);
+                if(!empty($usr) && !empty($usr->id))
+                {
+                    array_push($array, $usr);
+                }
             }
             return $array;
         } else {

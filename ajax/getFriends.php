@@ -21,7 +21,7 @@ $res->success = false;
 try {
     $array = array();
     $result = array();
-    if (!empty($userId) && ($query == "?-1" || empty($query))) {
+    if (!empty($userId) && $query == "?-1") {
         $array = UserSettingsUtil::getUserSubscribeFriends($userId);
     } elseif (!empty($userId)) {
         if ($query == "*") {
