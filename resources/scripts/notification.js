@@ -79,7 +79,7 @@ function showNotifications(userId)
         notfPopup.addClass("my_timete_popup");
         notfPopup.append(jQuery('<div class="kck_detay_ok" style=\"right:10px;\"></div>'));
         notfUl=jQuery("<ul>");
-        
+        notfUl.attr("style", "width:250px;");
         notfPopup.append(notfUl);
         notfPopupContainer.append(notfPopup);
         jQuery("body").append(notfPopupContainer);
