@@ -2347,6 +2347,13 @@ body {
 }
 
 /*popup baslangic*/
+.my_timety_notfication_container{
+    position: absolute;
+    right:-45px;
+    height: auto;
+    top: 45px;
+}
+
 .my_timete_popup_following_container {
     min-width: 230px;
     min-height: 70px;

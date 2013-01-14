@@ -57,25 +57,32 @@ function checkNotifications(userId)
 
 function closeNotifications()
 {
-    jQuery("#my_timety_notf").hide();
+    jQuery("#li_notf_no_new_notf").remove();
+    jQuery("#my_timety_notf_container").hide();
     jQuery("body").unbind('click.notfs',closeNotifications);
 }
 
 function showNotifications(userId)
 {
     jQuery("body").bind("click.notfs",closeNotifications);
+    var notfPopupContainer=jQuery("#my_timety_notf_container");
     var notfPopup=jQuery("#my_timety_notf");
     var notfUl=jQuery("#my_timety_notf ul");
-    if(!notfPopup.length)
+    if(!notfPopupContainer.length)
     {
+        notfPopupContainer=jQuery("<div>");
+        notfPopupContainer.attr("id", "my_timety_notf_container");
+        notfPopupContainer.addClass("my_timety_notfication_container");
+        notfPopupContainer.attr("onclick", "return false;");
         notfPopup=jQuery("<div>");
         notfPopup.attr("id", "my_timety_notf");
         notfPopup.addClass("my_timete_popup");
-        notfPopup.append(jQuery('<div class="kck_detay_ok"></div>'));
+        notfPopup.append(jQuery('<div class="kck_detay_ok" style=\"right:10px;\"></div>'));
         notfUl=jQuery("<ul>");
         
         notfPopup.append(notfUl);
-        jQuery("body").append(notfPopup);
+        notfPopupContainer.append(notfPopup);
+        jQuery("body").append(notfPopupContainer);
     }else
     {
         if(!notfUl.length)
@@ -93,7 +100,7 @@ function showNotifications(userId)
     notfPopup.css("min-width","204px");
     notfPopup.css("width","auto");
     notfPopup.css("position","absolute");
-    notfPopup.show();
+    notfPopupContainer.show();
     var loader=jQuery("<li>");
     loader.css("text-align","center");
     loader.append(jQuery('<img src="'+TIMETY_HOSTNAME+'images/ajax-loader.gif" style="height: 22px;">'));
@@ -110,9 +117,9 @@ function showNotifications(userId)
         },
         success: function(data){
             var dataJSON = jQuery.parseJSON(data);
+            loader.remove();
             if(dataJSON && !dataJSON.error)
             {
-                loader.remove();
                 for(var i=0;i<dataJSON.length;i++)
                 {
                     var elm=dataJSON[i];
@@ -136,7 +143,14 @@ function showNotifications(userId)
                 }   
             }else
             {
-                notfPopup.hide();
+                element=jQuery("<li>");
+                element.attr("id", "li_notf_no_new_notf");
+                title="No new notification";
+                element.append("<a style=\"color:#C2C2C2;float:left;\" href=\"#\" onclick=\"return false;\">"+title+"</a>");
+                    
+                element.append("<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+                    
+                notfUl.append(element);
             }
         }
     },"json");
