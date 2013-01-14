@@ -761,21 +761,21 @@ body {
     cursor:pointer;
 }
 .searchbtn {
-                background-image: url(images/addevnt_hover.png);
-                background-repeat: repeat-x;
-                font-family: Arial;
-                font-size: 11px;
-                font-weight: bold;
-                color: #6a6a6a;
-                padding-right: 13px;
-                padding-left: 13px;
-                border-radius: 5px;
-                border: 1px solid #cecece;
-                margin: 0px;
-                background-color: #eaeaea;
-                padding-top: 0px;
-                padding-bottom: 0px;
-                height: 38px;
+    background-image: url(images/addevnt_hover.png);
+    background-repeat: repeat-x;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #6a6a6a;
+    padding-right: 13px;
+    padding-left: 13px;
+    border-radius: 5px;
+    border: 1px solid #cecece;
+    margin: 0px;
+    background-color: #eaeaea;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 38px;
 }
 /*
 .searchbtn:hover {
@@ -784,20 +784,20 @@ body {
 }
 */ 
 .searchbtn:active {
-                font-family: Arial;
-                font-size: 11px;
-                font-weight: bold;
-                color: #6a6a6a;
-                padding-right: 13px;
-                padding-left: 13px;
-                border-radius: 5px;
-                border: 1px solid #cecece;
-                margin: 0px;
-                background-color: #eaeaea;
-                padding-top: 0px;
-                padding-bottom: 0px;
-                height: 38px;
-                background-image: none;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #6a6a6a;
+    padding-right: 13px;
+    padding-left: 13px;
+    border-radius: 5px;
+    border: 1px solid #cecece;
+    margin: 0px;
+    background-color: #eaeaea;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 38px;
+    background-image: none;
 }
 
 .addbtn {
@@ -820,38 +820,37 @@ body {
     background-image: url(images/addevnt_hover.png);
     background-repeat: repeat-x;
 }
- 
 /* 
 .search_btn:hover{
                
                 background-image: url(images/search_hover.png);
                 background-repeat: no-repeat;
-                }*/
+}*/
 .search_btn{
-                line-height: 39px;
-                background-repeat: no-repeat;
-                width: 42px;
-                float: left;
-                height: 39px;
-                background-image: url(images/search_hover.png);
-                border-top-style: none;
-                border-right-style: none;
-                border-bottom-style: none;
-                border-left-style: none;
-                cursor: pointer;
+    line-height: 39px;
+    background-repeat: no-repeat;
+    width: 42px;
+    float: left;
+    height: 39px;
+    background-image: url(images/search_hover.png);
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    cursor: pointer;
 }
 
 .search_btn:active{
-                line-height: 39px;
-                background-repeat: no-repeat;
-                width: 42px;
-                float: left;
-                height: 39px;
-                background-image: url(images/search.png);
-                border-top-style: none;
-                border-right-style: none;
-                border-bottom-style: none;
-                border-left-style: none;                  
+    line-height: 39px;
+    background-repeat: no-repeat;
+    width: 42px;
+    float: left;
+    height: 39px;
+    background-image: url(images/search.png);
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;                  
 }
 
 .bs {
