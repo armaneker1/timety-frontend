@@ -314,8 +314,8 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 					class="googl_plus back_btn sosyal_icon"></button>
 			</div>
 			<div class="ea_alt_btn">
-				<a href="#" class="dugme" onclick="closeCreatePopup();return false;"returnfalse;">Cancel</a>
-				<button class="dugme" type="submit">Add Event</button>
+				<a href="#" class="dugme dugme_esit" onclick="closeCreatePopup();return false;"returnfalse;">Cancel</a>
+				<button class="dugme dugme_esit" type="submit">Add Event</button>
 			</div>
 		</div>
 		<input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php if($showPopup && $event->allday==1) {echo "true";} else {echo "false";}?>"></input> 

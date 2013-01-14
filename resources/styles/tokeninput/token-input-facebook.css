@@ -33,9 +33,11 @@ li.token-input-token-facebook {
     overflow: hidden; 
     height: auto !important; 
     height: 15px;
-    #margin: 3px;
-    #padding: 1px 3px;
-    background-color: #F0F0F0;
+    /*margin: 3px;
+    #padding: 1px 3px;*/
+    /*background-color: #F0F0F0;*/
+    background-image: url(images/dugme_bg.png);
+    background-repeat: repeat-x;
     color: #000;
     cursor: default;
     font-size: 11px;
@@ -48,10 +50,10 @@ li.token-input-token-facebook {
 }
 
 li.token-input-token-facebook p {
-    #display: inline;
-    #padding: 0;
-    #margin: 0;
-    background-color: #f0f0f0;
+    /*display: inline;
+    padding: 0;
+    margin: 0;
+    background-color: #f0f0f0;*/
 	font-family: arial;
 	font-size: 12px;
 	font-weight: bold;
