@@ -6,6 +6,7 @@ jQuery(document).ready(function(){
         jQuery.sessionphp.get("id", function(userId){
             if(userId)
             {
+                closeOtherNotf();
                 showNotifications(userId);  
             }
         });
@@ -19,6 +20,13 @@ jQuery(document).ready(function(){
     });
 });
 
+function closeOtherNotf()
+{
+    jQuery('#populer_top_menu').stop();
+    jQuery('#populer_top_menu').hide();
+    jQuery('#following_top_menu').stop();
+    jQuery('#following_top_menu').hide();
+}
 
 function checkNotifications(userId)
 {

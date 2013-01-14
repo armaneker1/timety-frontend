@@ -2,15 +2,24 @@
 jQuery(document).ready(function(){ 
     jQuery('#top_menu_populer').hover(
         function () {
-            setTimeout(openMyTimety,200);
+            closeOtherPoppular();
+            openMyTimety();
         }, 
         function () {
-            setTimeout(closeMyTimety,10);
+            closeMyTimety();
         }
         );
             
     jQuery('#populer_top_menu_search_button').click(seacrhCategory);
 });
+
+function closeOtherPoppular()
+{
+    jQuery('#my_timety_notf_container').stop();
+    jQuery('#my_timety_notf_container').hide();
+    jQuery('#following_top_menu').stop();
+    jQuery('#following_top_menu').hide();
+}
 
 function seacrhCategory(val)
 {

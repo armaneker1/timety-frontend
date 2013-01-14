@@ -2,15 +2,25 @@
 jQuery(document).ready(function(){ 
     jQuery('#top_menu_following').hover(
         function () {
-            setTimeout(openMyFollowing,200);
+            closeOtherFollowing();
+            openMyFollowing();
         }, 
         function () {
-            setTimeout(closeMyFollowing,10);
+            closeMyFollowing();
         }
         );
             
     jQuery('#following_top_menu_search_button').click(seacrhFriend);
 });
+
+function closeOtherFollowing()
+{
+    jQuery('#my_timety_notf_container').stop();
+    jQuery('#my_timety_notf_container').hide();
+    jQuery('#populer_top_menu').stop();
+    jQuery('#populer_top_menu').hide();
+}
+
 
 function seacrhFriend(val)
 {
