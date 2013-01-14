@@ -69,14 +69,24 @@ function seacrhFriend(val)
 
                                         var spanItem=jQuery("<span>");
                                         var text=item.username;
-                                        if(text.length>25)
+                                        if(text.length>20)
                                         {
-                                            text=text.substr(0, 25);
+                                            text=text.substr(0, 20);
                                         }
                                         spanItem.text(text);
 
+                                        var aItem=jQuery("<a>");
+                                        aItem.attr("style","float:right;margin-top:6px;margin-right:4px;");
+                                        aItem.attr("href","#");
+                                        aItem.attr("onclick","return false;");
+                                        var aImgItem=jQuery('<img width="21" height="21" border="0" align="absmiddle" style="margin-left:5px">');
+                                        aImgItem.attr("src",item.userPicture);
+                                        aItem.append(aImgItem);
+                                            
+                                            
                                         liItem.append(buttonItem);
                                         liItem.append(spanItem);
+                                        liItem.append(aItem);
                                         ul.append(liItem);   
                                     }
                                 }
@@ -96,7 +106,9 @@ function seacrhFriend(val)
 
 function openMyFollowing()
 {
-    jQuery('#following_top_menu_a').css({"z-index":"2"});
+    jQuery('#following_top_menu_a').css({
+        "z-index":"2"
+    });
     var ul=jQuery("#following_top_menu_ul");
     if(ul.children().length<1)
     {
@@ -138,14 +150,23 @@ function openMyFollowing()
                                  
                                 var spanItem=jQuery("<span>");
                                 var text=item.username;
-                                if(text.length>25)
+                                if(text.length>20)
                                 {
-                                    text=text.substr(0, 25);
+                                    text=text.substr(0, 20);
                                 }
                                 spanItem.text(text);
                                  
+                                var aItem=jQuery("<a>");
+                                aItem.attr("style","float:right;margin-top:6px;margin-right:4px;");
+                                aItem.attr("href","#");
+                                aItem.attr("onclick","return false;");
+                                var aImgItem=jQuery('<img width="21" height="21" border="0" align="absmiddle" style="margin-left:5px">');
+                                aImgItem.attr("src",item.userPicture);
+                                aItem.append(aImgItem);
+                                 
                                 liItem.append(buttonItem);
                                 liItem.append(spanItem);
+                                liItem.append(aItem);
                                 ul.append(liItem);
                             }
                         }
@@ -229,13 +250,23 @@ function followUser(button)
                 });
                 var spanItem=jQuery("<span>");
                 var text=item.username;
-                if(text.length>25)
+                if(text.length>20)
                 {
-                    text=text.substr(0, 25);
+                    text=text.substr(0, 20);
                 }
                 spanItem.text(text);
+                
+                var aItem=jQuery("<a>");
+                aItem.attr("style","float:right;margin-top:6px;margin-right:4px;");
+                aItem.attr("href","#");
+                aItem.attr("onclick","return false;");
+                var aImgItem=jQuery('<img width="21" height="21" border="0" align="absmiddle" style="margin-left:5px">');
+                aImgItem.attr("src",item.userPicture);
+                aItem.append(aImgItem);
+                
                 liItem.append(buttonItem);
                 liItem.append(spanItem);
+                liItem.append(aItem);
                 ul.append(liItem);
                 ul.append(liItem);
             }
@@ -247,5 +278,7 @@ function followUser(button)
 function closeMyFollowing()
 {
     jQuery('#following_top_menu').hide();
-    jQuery('#following_top_menu_a').css({"z-index":"0"});
+    jQuery('#following_top_menu_a').css({
+        "z-index":"0"
+    });
 }
