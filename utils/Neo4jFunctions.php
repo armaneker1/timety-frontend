@@ -1160,8 +1160,9 @@ class Neo4jFuctions {
         } else if ($type == 3) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query_ = $query;
+            //REL_FOLLOWS -> REL_USER_SUBSCRIBES yapildi
             $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
-                    "MATCH (user)-[:" . REL_FOLLOWS . "]->(friend)-[r:" . REL_EVENTS_JOINS . "]->(event)  " .
+                    "MATCH (user)-[:" . REL_USER_SUBSCRIBES . "]->(friend)-[r:" . REL_EVENTS_JOINS . "]->(event)  " .
                     "WHERE (event." . PROP_EVENT_PRIVACY . "='true') AND (event." . PROP_EVENT_START_DATE . ">" . $date . ") ";
             if (!empty($query_)) {
                 $query = $query . " AND (event." . PROP_EVENT_TITLE . " =~ '.*(?i)" . $query_ . ".*' OR " .

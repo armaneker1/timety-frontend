@@ -11,6 +11,12 @@ jQuery(document).ready(function(){
         );
             
     jQuery('#following_top_menu_search_button').click(seacrhFriend);
+    jQuery('#following_top_menu_search_input').keypress(function(event){
+        if(event.keyCode == 13)
+        {
+            seacrhFriend(); 
+        }
+    });
 });
 
 function closeOtherFollowing()
@@ -37,80 +43,77 @@ function seacrhFriend(val)
     {
         loaderShow=false;
     }
-    if(val.length>0)
+    if(loaderShow)
+        getLoader(true);
+    if(loaderShow || jQuery('#following_top_menu_search_ul').children().length<1)
     {
-        if(loaderShow)
-            getLoader(true);
-        if(loaderShow || jQuery('#following_top_menu_search_ul').children().length<1)
-        {
-            jQuery('#following_top_menu_search_ul').children().remove();
-            jQuery.sessionphp.get("id", function(userId){
-                if(userId)
-                {
-                    jQuery.ajax({
-                        type: 'GET',
-                        url: TIMETY_PAGE_AJAX_GETFRIENDS,
-                        data: {
-                            'term':val,
-                            'userId':userId
-                        },
-                        success: function(data){ 
-                            var dataJSON = jQuery.parseJSON(data);
-                            if(!dataJSON.error)
+        jQuery('#following_top_menu_search_ul').children().remove();
+        jQuery.sessionphp.get("id", function(userId){
+            if(userId)
+            {
+                jQuery.ajax({
+                    type: 'GET',
+                    url: TIMETY_PAGE_AJAX_GETFRIENDS,
+                    data: {
+                        'term':val,
+                        'userId':userId
+                    },
+                    success: function(data){ 
+                        var dataJSON = jQuery.parseJSON(data);
+                        if(!dataJSON.error)
+                        {
+                            var ul=jQuery('#following_top_menu_search_ul');
+                            for(var i=0;i<dataJSON.length && i<10;i++)
                             {
-                                var ul=jQuery('#following_top_menu_search_ul');
-                                for(var i=0;i<dataJSON.length && i<10;i++)
+                                var item=dataJSON[i];
+                                var existItem=jQuery("#friend_id"+item.id);
+                                if(!existItem.length)
                                 {
-                                    var item=dataJSON[i];
-                                    var existItem=jQuery("#friend_id"+item.id);
-                                    if(!existItem.length)
+                                    var liItem=jQuery("<li>");
+                                    liItem.attr("title",item.fullName);
+                                    liItem.attr("id","friend_id"+item.id);
+                                    var buttonItem=jQuery("<button type=\"button\"></button>");
+                                    buttonItem.addClass("ekle");
+                                    buttonItem.addClass("icon_bg");
+                                    buttonItem.data("userId", userId);
+                                    buttonItem.data("item", item);
+                                    buttonItem.click(function(){
+                                        followUser(this);
+                                    });
+
+                                    var spanItem=jQuery("<span>");
+                                    var text=item.username;
+                                    if(text.length>20)
                                     {
-                                        var liItem=jQuery("<li>");
-                                        liItem.attr("title",item.fullName);
-                                        liItem.attr("id","friend_id"+item.id);
-                                        var buttonItem=jQuery("<button type=\"button\"></button>");
-                                        buttonItem.addClass("ekle");
-                                        buttonItem.addClass("icon_bg");
-                                        buttonItem.data("userId", userId);
-                                        buttonItem.data("item", item);
-                                        buttonItem.click(function(){
-                                            followUser(this);
-                                        });
-
-                                        var spanItem=jQuery("<span>");
-                                        var text=item.username;
-                                        if(text.length>20)
-                                        {
-                                            text=text.substr(0, 20);
-                                        }
-                                        spanItem.text(text);
-
-                                        var aItem=jQuery("<a>");
-                                        aItem.attr("style","float:right;margin-top:6px;margin-right:4px;");
-                                        aItem.attr("href","#");
-                                        aItem.attr("onclick","return false;");
-                                        var aImgItem=jQuery('<img width="21" height="21" border="0" align="absmiddle" style="margin-left:5px">');
-                                        aImgItem.attr("src",item.userPicture);
-                                        aItem.append(aImgItem);
-                                            
-                                            
-                                        liItem.append(buttonItem);
-                                        liItem.append(spanItem);
-                                        liItem.append(aItem);
-                                        ul.append(liItem);   
+                                        text=text.substr(0, 20);
                                     }
+                                    spanItem.text(text);
+
+                                    var aItem=jQuery("<a>");
+                                    aItem.attr("style","float:right;margin-top:6px;margin-right:4px;");
+                                    aItem.attr("href","#");
+                                    aItem.attr("onclick","return false;");
+                                    var aImgItem=jQuery('<img width="21" height="21" border="0" align="absmiddle" style="margin-left:5px">');
+                                    aImgItem.attr("src",item.userPicture);
+                                    aItem.append(aImgItem);
+                                            
+                                            
+                                    liItem.append(buttonItem);
+                                    liItem.append(spanItem);
+                                    liItem.append(aItem);
+                                    ul.append(liItem);   
                                 }
-                            }else
-                            {
-                                input.val("");
                             }
-                            if(loaderShow)
-                                getLoader(false);
+                        }else
+                        {
+                            //input.val("");
                         }
-                    },"json");
-                }
-            });
-        }
+                        if(loaderShow)
+                            getLoader(false);
+                    }
+                },"json");
+            }
+        });
     }
 }
 
@@ -214,6 +217,43 @@ function unfollowUser(button)
             if(!dataJSON.error)
             {
                 jQuery(element).remove();
+                var ul=jQuery("#following_top_menu_search_ul");
+                var liItem=jQuery("<li>");
+                liItem.attr("title",item.fullName);
+                liItem.attr("id",elementId);
+                var buttonItem=jQuery("<button type=\"button\"></button>");
+                buttonItem.addClass("kapat");
+                buttonItem.addClass("icon_bg");
+                buttonItem.data("userId", userId);
+                buttonItem.data("item", item);
+
+                buttonItem.click(function(){
+                    followUser(this);
+                });
+                var spanItem=jQuery("<span>");
+                var text=item.username;
+                if(text.length>20)
+                {
+                    text=text.substr(0, 20);
+                }
+                spanItem.text(text);
+                
+                var aItem=jQuery("<a>");
+                aItem.attr("style","float:right;margin-top:6px;margin-right:4px;");
+                aItem.attr("href","#");
+                aItem.attr("onclick","return false;");
+                var aImgItem=jQuery('<img width="21" height="21" border="0" align="absmiddle" style="margin-left:5px">');
+                aImgItem.attr("src",item.userPicture);
+                aItem.append(aImgItem);
+                
+                liItem.append(buttonItem);
+                liItem.append(spanItem);
+                liItem.append(aItem);
+                ul.append(liItem);
+                ul.append(liItem);
+                
+                page_wookmark=0;
+                wookmarkFiller(document.optionsWookmark,true,true);
             }else
             {
                 jQuery(element).removeAttr("disabled");
@@ -256,7 +296,7 @@ function followUser(button)
                 buttonItem.data("item", item);
 
                 buttonItem.click(function(){
-                    unsubscribe(this);
+                    unfollowUser(this);
                 });
                 var spanItem=jQuery("<span>");
                 var text=item.username;
@@ -279,6 +319,9 @@ function followUser(button)
                 liItem.append(aItem);
                 ul.append(liItem);
                 ul.append(liItem);
+                
+                page_wookmark=0;
+                wookmarkFiller(document.optionsWookmark,true,true);
             }
         }
     },"json");
