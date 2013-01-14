@@ -37,7 +37,7 @@ if (isset($_SESSION['id'])) {
             <input type="button" name="" value="" id="add_event_button" class="add_event_btn" id="main_dropable" onclick="return false;"/>
             <input type="button" name="" value="" id="search_event_button" class="search_btn" onclick="return false;"/>
 
-            <!-- search button start -->
+<!-- search button start -->
 
             <div class="search_bar" style="display: none">
                 <input name="" type="text" id="searchText" class="search_event_input" placeholder="search for events..." />
@@ -45,7 +45,7 @@ if (isset($_SESSION['id'])) {
             </div>
             <button type="button" name="" value="" class="searchbtn" style="display: none; cursor: pointer">Search</button>
 
-            <!-- search button end -->
+<!-- search button end -->
             <?php
             if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
                 ?>
