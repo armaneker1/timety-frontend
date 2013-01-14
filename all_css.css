@@ -362,6 +362,7 @@ p,h1,h2,h3,h4,h5{
 }
 .m_e_baslik {
 	font-size: 12px;
+        font-weight: bold;
 	color: #6a6a6a;
 	text-align: center;
 	padding-top: 10px;
@@ -760,6 +761,8 @@ body {
                 cursor:pointer;
                 }
 .searchbtn {
+                background-image: url(images/addevnt_hover.png);
+                background-repeat: repeat-x;
                 font-family: Arial;
                 font-size: 11px;
                 font-weight: bold;
@@ -774,13 +777,28 @@ body {
                 padding-bottom: 0px;
                 height: 38px;
 }
-
+/*
 .searchbtn:hover {
                 background-image: url(images/addevnt_hover.png);
                 background-repeat: repeat-x;
 }
- 
-
+*/ 
+.searchbtn:active {
+                font-family: Arial;
+                font-size: 11px;
+                font-weight: bold;
+                color: #6a6a6a;
+                padding-right: 13px;
+                padding-left: 13px;
+                border-radius: 5px;
+                border: 1px solid #cecece;
+                margin: 0px;
+                background-color: #eaeaea;
+                padding-top: 0px;
+                padding-bottom: 0px;
+                height: 38px;
+                background-image: none;
+}
 
 .addbtn {
                 font-family: Arial;
@@ -803,13 +821,27 @@ body {
                 background-repeat: repeat-x;
 }
  
- 
+/* 
 .search_btn:hover{
                
                 background-image: url(images/search_hover.png);
                 background-repeat: no-repeat;
-                }
+                }*/
 .search_btn{
+                line-height: 39px;
+                background-repeat: no-repeat;
+                width: 42px;
+                float: left;
+                height: 39px;
+                background-image: url(images/search_hover.png);
+                border-top-style: none;
+                border-right-style: none;
+                border-bottom-style: none;
+                border-left-style: none;
+                cursor: pointer;
+}
+
+.search_btn:active{
                 line-height: 39px;
                 background-repeat: no-repeat;
                 width: 42px;
@@ -819,9 +851,8 @@ body {
                 border-top-style: none;
                 border-right-style: none;
                 border-bottom-style: none;
-                border-left-style: none;
-                              
-                }
+                border-left-style: none;                  
+}
 
 .bs {
 	margin-right: 10px;
