@@ -1,6 +1,6 @@
 <?php
 session_start();
-header("Content-Type: text/html; charset=utf8");
+header("charset=utf8;Content-Type: text/html;");
 
 require_once __DIR__ . '/utils/Functions.php';
 
@@ -259,7 +259,7 @@ if (empty($birhtdate)) {
                     {
                         name : 'te_username',
                         display : 'username',
-                        rules : 'required|alpha_numeric|min_length[6]|callback_check_username'
+                        rules : 'required|min_length[6]|callback_check_username'
                     }, {
                         name : 'te_firstname',
                         display : 'firstname',

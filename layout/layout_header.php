@@ -1,4 +1,4 @@
-<?php header('Content-type: text/html; charset=utf-8'); ?>
+<?php header("charset=utf8;Content-Type: text/html;"); ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 

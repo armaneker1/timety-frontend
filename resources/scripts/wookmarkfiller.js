@@ -12,6 +12,10 @@ function wookmarkFiller(options,clear,loader)
     var userId = -1;
     var channel = jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
     var searchText = jQuery('#searchText').val() || '';
+    if(searchText==jQuery('#searchText').attr('placeholder'))
+    {
+       searchText='';
+    }
     var dateSelected = null;
     
     //Start loader animation
@@ -26,6 +30,8 @@ function wookmarkFiller(options,clear,loader)
         post_wookmark = jQuery.ajax({
             type: 'GET',
             url: TIMETY_PAGE_AJAX_GETEVENTS,
+            dataType:'json',
+            contentType: "application/json",
             data: {
                 'userId':userId,
                 'pageNumber':page,
@@ -38,7 +44,15 @@ function wookmarkFiller(options,clear,loader)
                 jQuery('#hiddenSearch').val('');
                 var dataJSON =null;
                 try{
-                    dataJSON= jQuery.parseJSON(data);
+                   // 
+                   if(typeof data == "string")
+                   {
+                       dataJSON= jQuery.parseJSON(data);
+                   }
+                   else
+                   {
+                       dataJSON=data;   
+                   }
                 }catch(e) {
                     console.log(e);
                     console.log(data);
@@ -66,8 +80,12 @@ function wookmarkFiller(options,clear,loader)
                 
                 var IDs = [];
                 jQuery.each(jQuery('.m_e_img'),function(i,e){
-                    var t = jQuery(e).attr('onclick').split('(')[1].split(')')[0];
-                    IDs.push(t);
+                    try{
+                        var t = jQuery(e).attr('onclick').split('(')[1].split(')')[0];
+                        IDs.push(t);
+                    }catch(e){
+                        console.log(e);
+                    }
                 });
 
                 dataJSON = jQuery.grep(dataJSON, function(e,i){
@@ -89,7 +107,7 @@ function wookmarkFiller(options,clear,loader)
             //}
             //setTimeout(tm,100);
             }
-        });
+        },"json");
     });
 }
 
@@ -106,123 +124,222 @@ function wookmarkHTML(dataArray)
         }
     }
     jQuery.each(dataArray, function(i, data) { 
-        //whole html    
-        var result = document.createElement('div');
-        jQuery(result).addClass('main_event_box');
-        jQuery(result).attr('date',data.endDateTime);
-        // img DIV
-        var imgDiv = document.createElement('div');
-        jQuery(imgDiv).addClass('m_e_img');    
-        //jQuery(imgDiv).attr('onclick','return openModalPanel('+data.id+');');
-
-        //IMG tag
-        var img = document.createElement('img');
-        jQuery(img).attr('eventid',data.id);  
-        jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
-        if(data.headerImage)
+        
+        if(!data.ad)
         {
-            jQuery(img).attr('src',TIMETY_HOSTNAME+data.headerImage.url);
-            if(data.headerImage.width && data.headerImage.width!=0)
-                jQuery(img).attr('width',data.headerImage.width);
-            else
+            //whole html    
+            var result = document.createElement('div');
+            jQuery(result).addClass('main_event_box');
+            jQuery(result).attr('date',data.endDateTime);
+            // img DIV
+            var imgDiv = document.createElement('div');
+            jQuery(imgDiv).addClass('m_e_img');    
+            //jQuery(imgDiv).attr('onclick','return openModalPanel('+data.id+');');
+
+            //IMG tag
+            var img = document.createElement('img');
+            jQuery(img).attr('eventid',data.id);  
+            jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
+            if(data.headerImage)
+            {
+                jQuery(img).attr('src',TIMETY_HOSTNAME+data.headerImage.url);
+                if(data.headerImage.width && data.headerImage.width!=0)
+                    jQuery(img).attr('width',data.headerImage.width);
+                else
+                    jQuery(img).attr('width',186);
+                if(data.headerImage.height && data.headerImage.height!=0)
+                    jQuery(img).attr('height',data.headerImage.height);
+            //jQuery(img).attr('heigh',219);
+            }else
+            {
                 jQuery(img).attr('width',186);
-            if(data.headerImage.height && data.headerImage.height!=0)
-                jQuery(img).attr('height',data.headerImage.height);
-        //jQuery(img).attr('heigh',219);
+                jQuery(img).attr('heigh',219);
+            }
+            jQuery(img).addClass('main_draggable');
+
+            //binding DIV with Image
+            jQuery(imgDiv).append(img);
+            jQuery(result).append(imgDiv);
+
+            //content DIV
+            var contentDIV = document.createElement('div');
+            jQuery(contentDIV).addClass('m_e_metin');
+
+            //title
+            var titleDIV = document.createElement('div');
+            jQuery(titleDIV).addClass('m_e_baslik');
+            jQuery(titleDIV).append(data.title);
+            jQuery(contentDIV).append(titleDIV);
+            
+            //description
+            var descriptionDIV = document.createElement('div');
+            jQuery(descriptionDIV).addClass('m_e_ackl');
+            jQuery(descriptionDIV).append(data.description);
+            jQuery(contentDIV).append(descriptionDIV);
+
+            //durum
+            var durumDIV = document.createElement('div');
+            jQuery(durumDIV).addClass('m_e_drm');
+            var durumUL = document.createElement('ul');
+
+            //li mavi
+            var liMavi = document.createElement('li');
+            var liMaviA = document.createElement('a');
+            var liMaviAImg = document.createElement('img');
+            jQuery(liMaviAImg).attr('src',TIMETY_HOSTNAME+'images/usr.png');
+            jQuery(liMaviAImg).attr('width',18);
+            jQuery(liMaviAImg).attr('heigh',18);
+            jQuery(liMaviAImg).attr('align','absmiddle');
+            jQuery(liMaviAImg).attr('border',0);
+            jQuery(liMaviA).attr('href','#');
+            jQuery(liMaviA).addClass('mavi_link');
+            jQuery(liMavi).addClass('m_e_cizgi');
+            jQuery(liMaviA).append(liMaviAImg);
+            jQuery(liMaviA).append(data.attendancecount);
+            jQuery(liMavi).append(liMaviA);
+            jQuery(durumUL).append(liMavi);
+
+            //li turuncu
+            var liTuruncu = document.createElement('li');
+            var liTuruncuA = document.createElement('a');
+            var liTuruncuAImg = document.createElement('img');
+            jQuery(liTuruncuAImg).attr('src',TIMETY_HOSTNAME+'images/comm.png');
+            jQuery(liTuruncuAImg).attr('width',18);
+            jQuery(liTuruncuAImg).attr('heigh',18);
+            jQuery(liTuruncuAImg).attr('align','absmiddle');
+            jQuery(liTuruncuAImg).attr('border',0);
+            jQuery(liTuruncuA).attr('href','#');
+            jQuery(liTuruncuA).addClass('turuncu_link');
+            jQuery(liTuruncu).addClass('m_e_cizgi');
+            jQuery(liTuruncuA).append(liTuruncuAImg);
+            jQuery(liTuruncuA).append(data.commentCount);
+            jQuery(liTuruncu).append(liTuruncuA);
+            jQuery(durumUL).append(liTuruncu);
+
+            //li yesil
+            var liYesil = document.createElement('li');
+            var liYesilA = document.createElement('a');
+            var liYesilAImg = document.createElement('img');
+            jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
+            jQuery(liYesilAImg).attr('width',18);
+            jQuery(liYesilAImg).attr('heigh',18);
+            jQuery(liYesilAImg).attr('align','absmiddle');
+            jQuery(liYesilAImg).attr('border',0);
+            jQuery(liYesilA).attr('href','#');
+            jQuery(liYesilA).addClass('yesil_link');
+            jQuery(liYesilA).append(liYesilAImg);
+            jQuery(liYesilA).append(data.remainingtime);
+            jQuery(liYesil).append(liYesilA);
+            jQuery(durumUL).append(liYesil);
+
+            if(!!(data.location)){
+                var durumAlt = document.createElement('div');
+                jQuery(durumAlt).addClass('m_e_alt');
+                jQuery(durumAlt).append(data.location);
+            }
+
+            jQuery(durumDIV).append(durumUL);
+            jQuery(contentDIV).append(durumDIV);
+            jQuery(result).append(contentDIV);
+            //jQuery(result).append(durumAlt);    
+            
+            jQuery('.main_event').append(result);
         }else
         {
-            jQuery(img).attr('width',186);
-            jQuery(img).attr('heigh',219);
-        }
-        jQuery(img).addClass('main_draggable');
-
-        //binding DIV with Image
-        jQuery(imgDiv).append(img);
-        jQuery(result).append(imgDiv);
-
-        //content DIV
-        var contentDIV = document.createElement('div');
-        jQuery(contentDIV).addClass('m_e_metin');
-
-        //title
-        var titleDIV = document.createElement('div');
-        jQuery(titleDIV).addClass('m_e_baslik');
-        jQuery(titleDIV).append(data.title);
-        jQuery(contentDIV).append(titleDIV);
+            result = document.createElement('div');
+            jQuery(result).addClass('main_event_box');
             
-        //description
-        var descriptionDIV = document.createElement('div');
-        jQuery(descriptionDIV).addClass('m_e_ackl');
-        jQuery(descriptionDIV).append(data.description);
-        jQuery(contentDIV).append(descriptionDIV);
+            // img DIV
+            imgDiv = document.createElement('div');
+            jQuery(imgDiv).addClass('m_e_img');    
 
-        //durum
-        var durumDIV = document.createElement('div');
-        jQuery(durumDIV).addClass('m_e_drm');
-        var durumUL = document.createElement('ul');
-
-        //li mavi
-        var liMavi = document.createElement('li');
-        var liMaviA = document.createElement('a');
-        var liMaviAImg = document.createElement('img');
-        jQuery(liMaviAImg).attr('src',TIMETY_HOSTNAME+'images/usr.png');
-        jQuery(liMaviAImg).attr('width',18);
-        jQuery(liMaviAImg).attr('heigh',18);
-        jQuery(liMaviAImg).attr('align','absmiddle');
-        jQuery(liMaviAImg).attr('border',0);
-        jQuery(liMaviA).attr('href','#');
-        jQuery(liMaviA).addClass('mavi_link');
-        jQuery(liMavi).addClass('m_e_cizgi');
-        jQuery(liMaviA).append(liMaviAImg);
-        jQuery(liMaviA).append(data.attendancecount);
-        jQuery(liMavi).append(liMaviA);
-        jQuery(durumUL).append(liMavi);
-
-        //li turuncu
-        var liTuruncu = document.createElement('li');
-        var liTuruncuA = document.createElement('a');
-        var liTuruncuAImg = document.createElement('img');
-        jQuery(liTuruncuAImg).attr('src',TIMETY_HOSTNAME+'images/comm.png');
-        jQuery(liTuruncuAImg).attr('width',18);
-        jQuery(liTuruncuAImg).attr('heigh',18);
-        jQuery(liTuruncuAImg).attr('align','absmiddle');
-        jQuery(liTuruncuAImg).attr('border',0);
-        jQuery(liTuruncuA).attr('href','#');
-        jQuery(liTuruncuA).addClass('turuncu_link');
-        jQuery(liTuruncu).addClass('m_e_cizgi');
-        jQuery(liTuruncuA).append(liTuruncuAImg);
-        jQuery(liTuruncuA).append(data.commentCount);
-        jQuery(liTuruncu).append(liTuruncuA);
-        jQuery(durumUL).append(liTuruncu);
-
-        //li yesil
-        var liYesil = document.createElement('li');
-        var liYesilA = document.createElement('a');
-        var liYesilAImg = document.createElement('img');
-        jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
-        jQuery(liYesilAImg).attr('width',18);
-        jQuery(liYesilAImg).attr('heigh',18);
-        jQuery(liYesilAImg).attr('align','absmiddle');
-        jQuery(liYesilAImg).attr('border',0);
-        jQuery(liYesilA).attr('href','#');
-        jQuery(liYesilA).addClass('yesil_link');
-        jQuery(liYesilA).append(liYesilAImg);
-        jQuery(liYesilA).append(data.remainingtime);
-        jQuery(liYesil).append(liYesilA);
-        jQuery(durumUL).append(liYesil);
-
-        if(!!(data.location)){
-            var durumAlt = document.createElement('div');
-            jQuery(durumAlt).addClass('m_e_alt');
-            jQuery(durumAlt).append(data.location);
-        }
-
-        jQuery(durumDIV).append(durumUL);
-        jQuery(contentDIV).append(durumDIV);
-        jQuery(result).append(contentDIV);
-        //jQuery(result).append(durumAlt);    
+            //IMG tag
+            img = document.createElement('img');
+            jQuery(img).attr('onclick','window.open("'+data.url+'","_blank");return false;');
+            if(data.img)
+            {
+                jQuery(img).attr('src',TIMETY_HOSTNAME+data.img);
+                if(data.imgWidth && data.imgWidth!=0)
+                    jQuery(img).attr('width',data.imgWidth);
+                else
+                    jQuery(img).attr('width',186);
+                if(data.imgHeight && data.imgHeight!=0)
+                    jQuery(img).attr('height',data.imgHeight);
+            }else
+            {
+                jQuery(img).attr('width',186);
+                jQuery(img).attr('heigh',275);
+            }
+            //binding DIV with Image
+            jQuery(imgDiv).append(img);
+            jQuery(result).append(imgDiv);
             
-        jQuery('.main_event').append(result);
+            
+            contentDIV = document.createElement('div');
+            jQuery(contentDIV).addClass('m_e_metin');
+            
+             //durum
+            durumDIV = document.createElement('div');
+            jQuery(durumDIV).addClass('m_e_drm');
+            durumUL = document.createElement('ul');
+
+            //li mavi
+            liMavi = document.createElement('li');
+            liMaviA = document.createElement('a');
+            liMaviAImg = document.createElement('img');
+            jQuery(liMaviAImg).attr('src',TIMETY_HOSTNAME+'images/usr.png');
+            jQuery(liMaviAImg).attr('width',18);
+            jQuery(liMaviAImg).attr('heigh',18);
+            jQuery(liMaviAImg).attr('align','absmiddle');
+            jQuery(liMaviAImg).attr('border',0);
+            jQuery(liMaviA).attr('href','#');
+            jQuery(liMaviA).addClass('mavi_link');
+            jQuery(liMavi).addClass('m_e_cizgi');
+            jQuery(liMaviA).append(liMaviAImg);
+            jQuery(liMaviA).append(data.people);
+            jQuery(liMavi).append(liMaviA);
+            jQuery(durumUL).append(liMavi);
+
+            //li turuncu
+            liTuruncu = document.createElement('li');
+            liTuruncuA = document.createElement('a');
+            liTuruncuAImg = document.createElement('img');
+            jQuery(liTuruncuAImg).attr('src',TIMETY_HOSTNAME+'images/comm.png');
+            jQuery(liTuruncuAImg).attr('width',18);
+            jQuery(liTuruncuAImg).attr('heigh',18);
+            jQuery(liTuruncuAImg).attr('align','absmiddle');
+            jQuery(liTuruncuAImg).attr('border',0);
+            jQuery(liTuruncuA).attr('href','#');
+            jQuery(liTuruncuA).addClass('turuncu_link');
+            jQuery(liTuruncu).addClass('m_e_cizgi');
+            jQuery(liTuruncuA).append(liTuruncuAImg);
+            jQuery(liTuruncuA).append(data.comment);
+            jQuery(liTuruncu).append(liTuruncuA);
+            jQuery(durumUL).append(liTuruncu);
+
+            //li yesil
+            liYesil = document.createElement('li');
+            liYesilA = document.createElement('a');
+            liYesilAImg = document.createElement('img');
+            jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
+            jQuery(liYesilAImg).attr('width',18);
+            jQuery(liYesilAImg).attr('heigh',18);
+            jQuery(liYesilAImg).attr('align','absmiddle');
+            jQuery(liYesilAImg).attr('border',0);
+            jQuery(liYesilA).attr('href','#');
+            jQuery(liYesilA).addClass('yesil_link');
+            jQuery(liYesilA).append(liYesilAImg);
+            jQuery(liYesilA).append(data.time);
+            jQuery(liYesil).append(liYesilA);
+            jQuery(durumUL).append(liYesil);
+            
+            
+            jQuery(durumDIV).append(durumUL);
+            jQuery(contentDIV).append(durumDIV);
+            jQuery(result).append(contentDIV);
+            
+            jQuery('.main_event').append(result);
+        }
     });
     
 }

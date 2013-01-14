@@ -1,5 +1,7 @@
 <?php
 session_start();
+header("charset=utf8;Content-Type: text/html;");
+
 $debug = false;
 
 if (array_key_exists("debug", $_GET)) {

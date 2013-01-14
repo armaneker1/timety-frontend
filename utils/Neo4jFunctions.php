@@ -501,7 +501,7 @@ class Neo4jFuctions {
         }
     }
 
-    function addUserInfo($userId, $firstName, $lastName, $type = USER_TYPE_NORMAL) {
+    function addUserInfo($userId, $firstName, $lastName, $type = USER_TYPE_NORMAL,$userName=null) {
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
@@ -510,6 +510,10 @@ class Neo4jFuctions {
                 $usr->setProperty(PROP_USER_LASTNAME, $lastName);
                 $usr->setProperty(PROP_USER_FIRSTNAME, $firstName);
                 $usr->setProperty(PROP_USER_TYPE, $type);
+                if(!empty($userName))
+                {
+                    $usr->setProperty(PROP_USER_USERNAME,$userName);
+                }
                 $usr->save();
                 return true;
             }
