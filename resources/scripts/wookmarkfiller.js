@@ -30,6 +30,8 @@ function wookmarkFiller(options,clear,loader)
         post_wookmark = jQuery.ajax({
             type: 'GET',
             url: TIMETY_PAGE_AJAX_GETEVENTS,
+            dataType:'json',
+            contentType: "application/json",
             data: {
                 'userId':userId,
                 'pageNumber':page,
@@ -42,7 +44,15 @@ function wookmarkFiller(options,clear,loader)
                 jQuery('#hiddenSearch').val('');
                 var dataJSON =null;
                 try{
-                    dataJSON= jQuery.parseJSON(data);
+                   // 
+                   if(typeof data == "string")
+                   {
+                       dataJSON= jQuery.parseJSON(data);
+                   }
+                   else
+                   {
+                       dataJSON=data;   
+                   }
                 }catch(e) {
                     console.log(e);
                     console.log(data);
@@ -97,7 +107,7 @@ function wookmarkFiller(options,clear,loader)
             //}
             //setTimeout(tm,100);
             }
-        });
+        },"json");
     });
 }
 

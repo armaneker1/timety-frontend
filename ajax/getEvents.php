@@ -1,10 +1,9 @@
 <?php
 
 session_start();
-header("Content-Type: text/html; charset=utf8");
+header("charset=utf8;Content-Type: text/html;");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
 $userId = null;
 if (isset($_GET["userId"]))
     $userId = $_GET["userId"];

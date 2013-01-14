@@ -1,0 +1,3 @@
+START user=node:USER_INDEX('user_id:6618317'), object=node:OBJECT_INDEX('object_id:146595108732526')
+CREATE  user-[r:INTERESTS]-object
+SET r.INTEREST_WEIGHT = 10
