@@ -2454,7 +2454,16 @@ body {
 }
 
 /*popup baslangic*/
-.my_timete_popup_container {
+.my_timete_popup_following_container {
+    min-width: 230px;
+    min-height: 70px;
+    position: absolute;
+    right:210px;
+    height: auto;
+    top: 33px;
+}
+
+.my_timete_popup_popular_container {
            min-width: 230px;
            min-height: 70px;
            position: absolute;

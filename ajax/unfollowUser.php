@@ -24,7 +24,6 @@ try {
 } catch (Exception $e) {
 	$result->error=$e->getMessage();
 }
-
 $json_response = json_encode($result);
 echo $json_response;
 ?>

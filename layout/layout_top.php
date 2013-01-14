@@ -54,6 +54,7 @@ if (isset($_SESSION['id'])) {
                 </script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.js"></script>
             <?php }?>
             <?php if(empty($user->id)){ ?>
                 <script type="text/javascript">
@@ -93,22 +94,37 @@ if (isset($_SESSION['id'])) {
                         <li class="t_m_line">
                             <a href="#" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timete</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
                         </li>
-                        <li class="t_m_line">
-                            <a href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a>
+                        <li id="top_menu_following" class="t_m_line">
+                            <a id="following_top_menu_a" href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a>
+                            <div id="following_top_menu" class="my_timete_popup_following_container" style="display: none;">
+                                <div  class="my_timete_popup" >
+                                    <div class="kck_detay_ok"></div>
+                                    <ul id="following_top_menu_ul">
+                                    </ul>
+                                    <div class="ara_kutu">
+                                        <input type="text" id="following_top_menu_search_input" class="ara_input" value="" placeholder="search" />
+                                        <button id="following_top_menu_search_button" type="button" name="" value="" class="ara icon_bg"></button>
+                                    </div>
+                                    <ul id="following_top_menu_search_ul" style="margin-bottom: 2px;">
+                                    </ul>
+                                </div>
+                            </div>
                         </li>
                         <li id="top_menu_populer" class="t_m_line">
                             <a id="populer_top_menu_a" href="#" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a>
-                            <div id="populer_top_menu" class="my_timete_popup_container" style="display: none;">
+                            <div id="populer_top_menu" class="my_timete_popup_popular_container" style="display: none;">
                                 <div  class="my_timete_popup" >
                                     <div class="kck_detay_ok"></div>
                                     <ul id="populer_top_menu_ul">
                                     </ul>
-                                    <div class="ara_kutu"><input type="text" id="populer_top_menu_search_input" class="ara_input" value="" placeholder="search" /><button id="populer_top_menu_search_button" type="button" name="" value="" class="ara icon_bg"></button></div>
+                                    <div class="ara_kutu">
+                                        <input type="text" id="populer_top_menu_search_input" class="ara_input" value="" placeholder="search" />
+                                        <button id="populer_top_menu_search_button" type="button" name="" value="" class="ara icon_bg"></button>
+                                    </div>
                                     <ul id="populer_top_menu_search_ul" style="margin-bottom: 2px;">
                                     </ul>
                                 </div>
                             </div>
-
                         </li>
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>

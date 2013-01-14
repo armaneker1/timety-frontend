@@ -1,39 +1,57 @@
-<?php 
+<?php
+
 session_start();
 header("charset=utf8;Content-Type: text/html;");
 
-require_once __DIR__.'/../utils/Functions.php';
+require_once __DIR__ . '/../utils/Functions.php';
 
-$query=null;
-if(isset($_GET["term"]))
-    $query=$_GET["term"];
+$userId = null;
+if (isset($_GET["userId"]))
+    $userId = $_GET["userId"];
 
-$userId=null;
-if(isset($_GET["u"]))
-    $userId=$_GET["u"];
+$res = new Result();
+$res->error = true;
+$res->success = false;
 
 try {
-	if(!empty($query) && !empty( $userId))
-	{
-		//noramlly get neo4j
-		$array=array();
-		$result=array();
-		//methoddan interestleri getir
-		$array=SocialFriendUtil::getFriendList($userId, $query);
-		//id nin basına isaret cak ; ile ayır
-		if(!empty($array) && sizeof($array)>0)
-		{
-			$val=new User();
-			for ($i=0; $i< sizeof($array);$i++) {
-				$val=$array[$i];
-				$val->label=$val->firstName." ".$val->lastName;
-				array_push($result, $val);
-			}
-		}
-		$json_response = json_encode($result);
-		echo $json_response;
-	}
+    if (!empty($userId)) {
+        $array = array();
+        $result = array();
+        $array = SocialFriendUtil::getUserFollowList($userId);
+        if (!empty($array) && sizeof($array) > 0) {
+            $val = new User();
+            for ($i = 0; $i < sizeof($array); $i++) {
+                if (!empty($array[$i]) || $array[$i] == 0) {
+                    $val = \UserUtils::getUserById($array[$i]);
+                    $obj = new stdClass();
+                    $obj->id = $val->id;
+                    $obj->fullName = $val->firstName . " " . $val->lastName;
+                    $obj->username = $val->userName;
+                    $obj->userPicture = $val->getUserPic();
+                    array_push($result, $obj);
+                }
+            }
+        }
+
+        if (!empty($result) && sizeof($result) > 0) {
+            $json_response = json_encode($result);
+            echo $json_response;
+        } else {
+            $res->error = true;
+            $res->success = false;
+            $res->param = "No result";
+            $json_response = json_encode($res);
+            echo $json_response;
+        }
+    } else {
+        $res->error = true;
+        $res->success = false;
+        $res->param = "user Id null";
+        $res->param = $e->getMessage();
+    }
 } catch (Exception $e) {
-	echo $e->getMessage();
+    $res->error = true;
+    $res->success = false;
+    $res->param = $e->getMessage();
 }
 ?>
