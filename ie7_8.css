@@ -2057,11 +2057,11 @@ body {
 .kck_detay_ok {
     background-image: url(images/sag_ok.png);
     background-repeat: no-repeat;
-    height: 13px;
-    width: 9px;
+    height: 9px;
+    width: 13px;
     position: absolute;
-    right: -8px;
-    top:6px;
+    right: 94px;
+    top:-9px;
 }
 .genel_detay_yeni {
     width: 660px;
@@ -2455,27 +2455,27 @@ body {
 
 /*popup baslangic*/
 .my_timete_popup_container {
-    min-width: 280px;
-    min-height: 70px;
-    position: absolute;
-    right: 222px;
-    height: auto;
-    top: 8px;
+           min-width: 230px;
+           min-height: 70px;
+           position: absolute;
+           right:129px;
+           height: auto;
+           top: 33px;
 }
 
 
 .my_timete_popup {
-    background-image: url(images/p_bg.png);
-    background-repeat: repeat;
-    width: 204px;
-    position: relative;
-    z-index: 1000;
-    top: 4px;
-    right: -13px;
-    border-radius: 5px;
-    padding-top: 10px;
-    padding-bottom: 1px;
-    margin-bottom: 10px;
+           background-image: url(images/p_bg.png);
+           background-repeat: repeat;
+           width: 204px;
+           position: relative;
+           z-index: 1000;
+           top: 16px;
+           right: -13px;
+           border-radius: 5px;
+           padding-top: 10px;
+           padding-bottom: 1px;
+           margin-bottom: 10px;
 }
 
 .my_timete_popup ul {
