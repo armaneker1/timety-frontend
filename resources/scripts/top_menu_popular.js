@@ -107,7 +107,7 @@ function openMyTimety()
             {
                 jQuery.ajax({
                     type: 'GET',
-                    url: TIMETY_PAGE_AJAX_GETUSERSUBSCRIBES,
+                    url: TIMETY_PAGE_AJAX_GETUSERCATSUBSCRIBES,
                     data: {
                         'userId':userId
                     },
@@ -148,13 +148,13 @@ function openMyTimety()
                             }
                         }
                         loader.remove();
+                        seacrhCategory('*');
                     }
                 },"json");
             }
         });
         
     }
-    seacrhCategory('*');
     jQuery('#populer_top_menu').fadeIn(100);
 }
 
@@ -170,7 +170,7 @@ function unsubscribe(button)
     element.attr("disabled", "disabled");
     jQuery.ajax({
         type: 'GET',
-        url: TIMETY_PAGE_AJAX_UNSUBSCRIBEUSER,
+        url: TIMETY_PAGE_AJAX_UNSUBSCRIBEUSERCAT,
         data: {
             'userId':userId,
             'categoryId':catId
@@ -201,7 +201,7 @@ function subscribe(button)
     element.attr("disabled", "disabled");
     jQuery.ajax({
         type: 'GET',
-        url: TIMETY_PAGE_AJAX_SUBSCRIBEUSER,
+        url: TIMETY_PAGE_AJAX_SUBSCRIBEUSERCAT,
         data: {
             'userId':userId,
             'categoryId':catId

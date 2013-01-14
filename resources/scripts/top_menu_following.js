@@ -35,9 +35,10 @@ function seacrhFriend(val)
                 {
                     jQuery.ajax({
                         type: 'GET',
-                        url: TIMETY_PAGE_AJAX_GETCATEGORY,
+                        url: TIMETY_PAGE_AJAX_GETFRIENDS,
                         data: {
-                            'term':val
+                            'term':val,
+                            'userId':userId
                         },
                         success: function(data){ 
                             var dataJSON = jQuery.parseJSON(data);
@@ -47,25 +48,23 @@ function seacrhFriend(val)
                                 for(var i=0;i<dataJSON.length && i<10;i++)
                                 {
                                     var item=dataJSON[i];
-                                    var existItem=jQuery("#cat_id"+item.id);
+                                    var existItem=jQuery("#friend_id"+item.id);
                                     if(!existItem.length)
                                     {
                                         var liItem=jQuery("<li>");
-                                        liItem.attr("title",item.label);
-                                        liItem.attr("id","cat_id"+item.id);
+                                        liItem.attr("title",item.fullName);
+                                        liItem.attr("id","friend_id"+item.id);
                                         var buttonItem=jQuery("<button type=\"button\"></button>");
                                         buttonItem.addClass("ekle");
                                         buttonItem.addClass("icon_bg");
                                         buttonItem.data("userId", userId);
-                                        buttonItem.data("catId", item.id);
-                                        buttonItem.data("catText", item.label);
-                                        buttonItem.data("elementId", "cat_id"+item.id);
+                                        buttonItem.data("item", item);
                                         buttonItem.click(function(){
-                                            subscribe(this);
+                                            followUser(this);
                                         });
 
                                         var spanItem=jQuery("<span>");
-                                        var text=item.label;
+                                        var text=item.username;
                                         if(text.length>25)
                                         {
                                             text=text.substr(0, 25);
@@ -109,7 +108,8 @@ function openMyFollowing()
                     type: 'GET',
                     url: TIMETY_PAGE_AJAX_GETFRIENDS,
                     data: {
-                        'userId':userId
+                        'userId':userId,
+                        'term':'?-1'
                     },
                     success: function(data){ 
                         var dataJSON = jQuery.parseJSON(data);
@@ -146,13 +146,13 @@ function openMyFollowing()
                             }
                         }
                         loader.remove();
+                        seacrhFriend('*');
                     }
                 },"json");
             }
         });
         
     }
-    seacrhCategory('*');
     jQuery('#following_top_menu').fadeIn(100);
 }
 
@@ -168,8 +168,8 @@ function unfollowUser(button)
     var element=jQuery("#"+elementId);
     element.attr("disabled", "disabled");
     jQuery.ajax({
-        type: 'POST',
-        url: TIMETY_PAGE_AJAX_UNFOLLOWUSER,
+        type: 'GET',
+        url: TIMETY_PAGE_AJAX_UNSUBSCRIBEUSERFRIEND,
         data: {
             'fuser':userId,
             'tuser':friendId
@@ -199,8 +199,8 @@ function followUser(button)
     var element=jQuery("#"+elementId);
     element.attr("disabled", "disabled");
     jQuery.ajax({
-        type: 'POST',
-        url: TIMETY_PAGE_AJAX_FOLLOWUSER,
+        type: 'GET',
+        url: TIMETY_PAGE_AJAX_SUBSCRIBEUSERFRIEND,
         data: {
             'fuser':userId,
             'tuser':friendId
