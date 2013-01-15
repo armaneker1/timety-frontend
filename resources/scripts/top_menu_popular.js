@@ -36,7 +36,11 @@ function seacrhCategory(val)
         val=input.val();
         if(val=="search")
         {
-            val="";
+            val="*";
+        }
+        if(val=="")
+        {
+            val="*";
         }
     }else
     {
@@ -62,7 +66,7 @@ function seacrhCategory(val)
                         if(!dataJSON.error)
                         {
                             var ul=jQuery('#populer_top_menu_search_ul');
-                            for(var i=0;i<dataJSON.length && i<10;i++)
+                            for(var i=0;i<dataJSON.length;i++)
                             {
                                 var item=dataJSON[i];
                                 var existItem=jQuery("#cat_id"+item.id);
@@ -140,21 +144,21 @@ function openMyTimety()
                                 var item=dataJSON[i];
                                 var liItem=jQuery("<li>");
                                 liItem.attr("id","cat_id"+item.id);
-                                liItem.attr("title",item.category);
+                                liItem.attr("title",item.name);
                                 var buttonItem=jQuery("<button type=\"button\"></button>");
                                 buttonItem.addClass("kapat");
                                 buttonItem.addClass("icon_bg");
                                 buttonItem.data("userId", userId);
                                 buttonItem.data("catId", item.id);
                                 buttonItem.data("elementId", "cat_id"+item.id);
-                                buttonItem.data("catText", item.category);
+                                buttonItem.data("catText", item.name);
                                 
                                 buttonItem.click(function(){
                                     unsubscribe(this);
                                 });
                                  
                                 var spanItem=jQuery("<span>");
-                                var text=item.category;
+                                var text=item.name;
                                 if(text.length>25)
                                 {
                                     text=text.substr(0, 25);

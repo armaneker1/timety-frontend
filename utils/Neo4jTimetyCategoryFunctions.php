@@ -25,6 +25,10 @@ class Neo4jTimetyCategoryUtil {
     }
 
     public static function getTimetyList($query_) {
+        if($query_=="*")
+        {
+            $query_=null;
+        }
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_TIMETY_CAT . "']]" .

@@ -147,7 +147,7 @@ class Neo4jFuctions {
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
-            $categoryIndex = new Index($client, Index::TypeNode, IND_CATEGORY_LEVEL2);
+            $timetyCategoryIndex = new Index($client, Index::TypeNode, IND_TIMETY_CATEGORY);
             $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
             $groupIndex = new Index($client, Index::TypeNode, IND_GROUP_INDEX);
             $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
@@ -174,7 +174,7 @@ class Neo4jFuctions {
                 if (is_array($cats) && sizeof($cats) > 0) {
                     foreach ($cats as $cat) {
                         if (!empty($cat)) {
-                            $catTmp = $categoryIndex->findOne(PROP_CATEGORY_ID, $cat);
+                            $catTmp = $timetyCategoryIndex->findOne(PROP_TIMETY_CAT_ID, $cat);
                             if (!empty($catTmp)) {
                                 $catTmp->relateTo($evnt, REL_EVENTS)->setProperty(PROP_EVENTS_ACC_TYPE, $user->type)->save();
                             } else {
