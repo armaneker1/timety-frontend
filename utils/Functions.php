@@ -34,6 +34,9 @@ require_once __DIR__ . '/HttpAuthFunctions.php';
 
 require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/Neo4jTimetyCategoryFunctions.php';
+require_once __DIR__ . '/Neo4jRecommendationFunctions.php';
+
+
 
 HttpAuthUtils::checkHttpAuth();
 

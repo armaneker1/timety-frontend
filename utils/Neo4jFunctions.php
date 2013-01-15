@@ -1200,7 +1200,8 @@ class Neo4jFuctions {
               echo  $teg."Date type 1<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
-            $array1 = Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
+            //$array1 = Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
+            $array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
             //var_dump(sizeof($array1));
             /*
               echo  $teg."array 1 mysql<p/>";
