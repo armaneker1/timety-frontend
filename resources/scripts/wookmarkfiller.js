@@ -342,7 +342,7 @@ function wookmarkHTML(dataArray)
             
             jQuery('.main_event').append(result);
         }
-    });
+    }); 
     
 }
 
