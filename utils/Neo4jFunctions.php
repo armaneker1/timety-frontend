@@ -98,7 +98,7 @@ class Neo4jFuctions {
                     $usr->relateTo($event, REL_EVENTS_MAYBE)->setProperty(PROP_JOIN_CREATE, 0)->save();
                     $result->success = true;
                     $result->error = false;
-                }else if ($resp == 3) {
+                } else if ($resp == 3) {
                     $usr->relateTo($event, REL_EVENTS_IGNORE)->setProperty(PROP_JOIN_CREATE, 0)->save();
                     $result->success = true;
                     $result->error = false;
@@ -335,12 +335,12 @@ class Neo4jFuctions {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $uid . "') " .
                     "MATCH (user) <-[r:" . REL_EVENTS_INVITES . "]- (event) " .
-                    "WHERE event." . PROP_EVENT_ID . "=" . $eventId . " OR  event." . PROP_EVENT_ID . "='" . $eventId ."'".
+                    "WHERE event." . PROP_EVENT_ID . "=" . $eventId . " OR  event." . PROP_EVENT_ID . "='" . $eventId . "'" .
                     "DELETE  r";
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
         } catch (Exception $e) {
-            error_log("Error".$e->getMessage());
+            error_log("Error" . $e->getMessage());
         }
     }
 
@@ -501,7 +501,7 @@ class Neo4jFuctions {
         }
     }
 
-    function addUserInfo($userId, $firstName, $lastName, $type = USER_TYPE_NORMAL,$userName=null) {
+    function addUserInfo($userId, $firstName, $lastName, $type = USER_TYPE_NORMAL, $userName = null) {
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
@@ -510,9 +510,8 @@ class Neo4jFuctions {
                 $usr->setProperty(PROP_USER_LASTNAME, $lastName);
                 $usr->setProperty(PROP_USER_FIRSTNAME, $firstName);
                 $usr->setProperty(PROP_USER_TYPE, $type);
-                if(!empty($userName))
-                {
-                    $usr->setProperty(PROP_USER_USERNAME,$userName);
+                if (!empty($userName)) {
+                    $usr->setProperty(PROP_USER_USERNAME, $userName);
                 }
                 $usr->save();
                 return true;
@@ -629,9 +628,8 @@ class Neo4jFuctions {
     }
 
     function searchCategoryList($query) {
-        if($query=="*")
-        {
-            $query="";
+        if ($query == "*") {
+            $query = "";
         }
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -1430,11 +1428,10 @@ class Neo4jFuctions {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
                 ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
-        if(!empty($query_) || $query_==0)
-        {
-            $query = $query. ".filter{it.title.matches('.*(?i)".$query_.".*')} ";
+        if (!empty($query_) || $query_ == 0) {
+            $query = $query . ".filter{it.title.matches('.*(?i)" . $query_ . ".*')} ";
         }
-        $query = $query. ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
+        $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
                 ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
         //echo $query;
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
@@ -1560,7 +1557,7 @@ class Neo4jFuctions {
 
     public static function getEventAttendanceCount($eventId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('".REL_EVENTS_JOINS."').dedup.count()";
+        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('" . REL_EVENTS_JOINS . "').dedup.count()";
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         $result = $query->getResultSet();
         foreach ($result as $row) {
@@ -1568,18 +1565,17 @@ class Neo4jFuctions {
         }
         return 0;
     }
-    
+
     public static function getEventCreator($eventId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('".REL_EVENTS_JOINS."').dedup.filter{it.".PROP_JOIN_CREATE."=true}.outV.dedup";
+        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_JOINS . "').dedup.filter{it." . PROP_JOIN_CREATE . "=true}.outV.dedup";
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         $result = $query->getResultSet();
         foreach ($result as $row) {
-            $usr=new User();
+            $usr = new User();
             $usr->createFromNeo4j($row[0]);
-            if(!empty($usr) && !empty($usr->id))
-            {
-             return $usr;
+            if (!empty($usr) && !empty($usr->id)) {
+                return $usr;
             }
         }
         return null;
@@ -1656,11 +1652,15 @@ class Neo4jFuctions {
         if (!empty($eventId)) {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .
-                        "MATCH  event-[r]-()" .
-                        "DELETE  r,event";
-                $query = new Cypher\Query($client, $query, null);
-                $query->getResultSet();
+                $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
+                $evnt = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
+                if (!empty($evnt)) {
+                    $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .
+                            "MATCH  event-[r]-()" .
+                            "DELETE  r,event";
+                    $query = new Cypher\Query($client, $query, null);
+                    $query->getResultSet();
+                }
             } catch (Exception $e) {
                 echo "Error" . $e->getMessage();
             }

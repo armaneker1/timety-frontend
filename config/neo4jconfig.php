@@ -31,6 +31,9 @@ define('REL_EVENTS_REJECTS', 'EVENTS_REJECTS');
 define('REL_EVENTS_INVITES', 'EVENTS_INVITES');
 define('REL_EVENTS_USER_SEES', 'EVENTS_USER_SEES');
 define('REL_EVENTS_GROUP_SEES', 'REL_EVENTS_GROUP_SEES');
+define('REL_TIMETY_CATEGORY_ROOT', 'TIMETY_CATEGORY_ROOT');
+define('REL_TIMETY_CATEGORY', 'TIMETY_CATEGORY');
+
 
 define('IND_USER_INDEX', 'USER_INDEX');
 define('IND_CATEGORY_LEVEL1', 'CATEGORY_LEVEL1');
@@ -39,11 +42,14 @@ define('IND_OBJECT_INDEX', 'OBJECT_INDEX');
 define('IND_GROUP_INDEX', 'GROUP_INDEX');
 define('IND_ROOT_INDEX', 'ROOT_INDEX');
 define('IND_EVENT_INDEX', 'EVENT_INDEX');
+define('IND_TIMETY_CATEGORY', 'TIMETY_CATEGORY_INDEX');
 
 define('PROP_ROOT_ID', 'root_id');
 define('PROP_ROOT_USR', 'USER_ROOT');
 define('PROP_ROOT_CAT', 'CATEGORY_ROOT');
 define('PROP_ROOT_GROUP', 'GROUP_ROOT');
+define('PROP_ROOT_TIMETY_CAT', 'TIMETY_CATEGORY_ROOT');
+
 
 
 define('PROP_USER_ID', 'user_id');
@@ -58,6 +64,9 @@ define('PROP_CATEGORY_NAME', 'name');
 define('PROP_CATEGORY_SOCIALTYPE', 'socialType');
 
 define('CATEGORY_TAG_CONSTANT', 'tag');
+
+define('PROP_TIMETY_CAT_ID', 'timety_category_id');
+define('PROP_TIMETY_CAT_NAME', 'name');
 
 
 define('PROP_OBJECT_ID', 'object_id');

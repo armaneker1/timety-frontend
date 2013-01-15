@@ -425,4 +425,18 @@ class Comment {
 
 }
 
+
+class TimetyCategory {
+   
+    function createNeo4j($result) {
+          if (!empty($result)) {
+            $this->id = $result->getProperty(PROP_TIMETY_CAT_ID);
+            $this->name=$result->getProperty(PROP_TIMETY_CAT_NAME);
+        }
+    }
+  
+    public $id;
+    public $name;
+}
+
 ?>
