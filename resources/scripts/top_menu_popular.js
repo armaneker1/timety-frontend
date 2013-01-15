@@ -139,6 +139,18 @@ function openMyTimety()
                         if(!dataJSON.error)
                         {
                             var ul=jQuery("#populer_top_menu_ul");
+                            //add all categroy
+                            var addAllli=jQuery("<li>");
+                            var addAlllabel=jQuery("<label class=\"label_check c_on\" for=\"allcategories_\"></label>");
+                            addAlllabel.click(check_it);                            
+                            var addAllinput=jQuery("<input name=\"sample-check-01\" id=\"allcategories_\" value=\"1\" type=\"checkbox\">");
+                            addAllinput.click(checkAllCategories);
+                            var addAllspan=jQuery("<span>All Categories</span>");
+                            addAlllabel.append(addAllinput);
+                            addAlllabel.append(addAllspan);
+                            addAllli.append(addAlllabel);
+                            ul.append(addAllli);
+                            //
                             for(var i=0;i<dataJSON.length;i++)
                             {
                                 var item=dataJSON[i];
@@ -209,7 +221,7 @@ function unsubscribe(button)
                 liItem.attr("title",catText);
                 liItem.attr("id",elementId);
                 var buttonItem=jQuery("<button type=\"button\"></button>");
-                buttonItem.addClass("kapat");
+                buttonItem.addClass("ekle");
                 buttonItem.addClass("icon_bg");
                 buttonItem.data("userId", userId);
                 buttonItem.data("catId", catId);

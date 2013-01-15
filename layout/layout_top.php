@@ -37,7 +37,7 @@ if (isset($_SESSION['id'])) {
             <input type="button" name="" value="" id="add_event_button" class="add_event_btn" id="main_dropable" onclick="return false;"/>
             <input type="button" name="" value="" id="search_event_button" class="search_btn" onclick="return false;"/>
 
-<!-- search button start -->
+            <!-- search button start -->
 
             <div class="search_bar" style="display: none">
                 <input name="" type="text" id="searchText" class="search_event_input" placeholder="search for events..." />
@@ -45,7 +45,7 @@ if (isset($_SESSION['id'])) {
             </div>
             <button type="button" name="" value="" class="searchbtn" style="display: none; cursor: pointer">Search</button>
 
-<!-- search button end -->
+            <!-- search button end -->
             <?php
             if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
                 ?>
@@ -55,8 +55,8 @@ if (isset($_SESSION['id'])) {
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.js"></script>
-            <?php }?>
-            <?php if(empty($user->id)){ ?>
+            <?php } ?>
+            <?php if (empty($user->id)) { ?>
                 <script type="text/javascript">
                     function  to_home() {
                         window.location="<?= PAGE_LOGIN ?>";
@@ -64,7 +64,7 @@ if (isset($_SESSION['id'])) {
                     jQuery("#add_event_button").click(to_home);
                 </script>
             <?php } ?>    
-                
+
             <?php
             if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
                 ?>
@@ -79,7 +79,7 @@ if (isset($_SESSION['id'])) {
                 ?>
 
                 <script>
-                            
+                                    
                     function changeChannel(item){
                         page_wookmark=0;
                         jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');

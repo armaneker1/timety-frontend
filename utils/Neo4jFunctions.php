@@ -1077,7 +1077,7 @@ class Neo4jFuctions {
      * $pageItemCount default 15
      */
 
-    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1) {
+    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1,$popular_all=1) {
         /*
           $teg="<p/>getEvents-   ";
           echo  $teg."Started<p/>";
@@ -1201,7 +1201,9 @@ class Neo4jFuctions {
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             //$array1 = Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
-            $array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
+            //all 1
+            //subscribed category =0
+            $array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query,$popular_all);
             //var_dump(sizeof($array1));
             /*
               echo  $teg."array 1 mysql<p/>";

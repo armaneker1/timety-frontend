@@ -10,24 +10,33 @@ use Everyman\Neo4j\Transport,
 
 class Neo4jRecommendationUtils {
 
-    public static function getAllOtherEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query_ = "") {
-         if ($userId == -1) {
+    public static function getAllOtherEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query_ = "", $type = 1) {
+        if ($userId == -1) {
             $userId = "*";
         }
         $array = array();
         $pgStart = $pageNumber * $pageItemCount;
         $pgEnd = $pgStart + $pageItemCount - 1;
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
-                ".out('" . REL_SUBSCRIBES . "').dedup.out('" . REL_EVENTS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+        $query = "";
+        if ($type == 0) {
+            //subscribed catagory
+            $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
+                    ".out('" . REL_SUBSCRIBES . "').dedup.out('" . REL_EVENTS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+        } else {
+            // all
+            $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_TIMETY_CAT . "']]" .
+                   ".out('" . REL_TIMETY_CATEGORY . "').dedup.out('" . REL_EVENTS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+        }
+        
         if (!empty($query_) || $query_ == 0) {
             $query = $query . ".filter{it.title.matches('.*(?i)" . $query_ . ".*')} ";
         }
         $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
                 ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
         //echo $query;
-        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
-        $result = $query->getResultSet();
+        $queryRes = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+        $result = $queryRes->getResultSet();
         foreach ($result as $row) {
             $evt = new Event();
             $evt->createNeo4j($row[0]);

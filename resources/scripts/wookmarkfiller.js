@@ -1,5 +1,6 @@
 var post_wookmark=null;
 var page_wookmark=0;
+var allCategories=1;
 localStorage.clear();
 
 function wookmarkFiller(options,clear,loader)
@@ -14,7 +15,7 @@ function wookmarkFiller(options,clear,loader)
     var searchText = jQuery('#searchText').val() || '';
     if(searchText==jQuery('#searchText').attr('placeholder'))
     {
-       searchText='';
+        searchText='';
     }
     var dateSelected = null;
     
@@ -38,21 +39,22 @@ function wookmarkFiller(options,clear,loader)
                 'pageItemCount':pager,
                 'date':dateSelected,
                 'query':searchText,
-                'type':channel
+                'type':channel,
+                'popular_all':allCategories
             },
             success: function(data){
                 jQuery('#hiddenSearch').val('');
                 var dataJSON =null;
                 try{
-                   // 
-                   if(typeof data == "string")
-                   {
-                       dataJSON= jQuery.parseJSON(data);
-                   }
-                   else
-                   {
-                       dataJSON=data;   
-                   }
+                    // 
+                    if(typeof data == "string")
+                    {
+                        dataJSON= jQuery.parseJSON(data);
+                    }
+                    else
+                    {
+                        dataJSON=data;   
+                    }
                 }catch(e) {
                     console.log(e);
                     console.log(data);
@@ -278,7 +280,7 @@ function wookmarkHTML(dataArray)
             contentDIV = document.createElement('div');
             jQuery(contentDIV).addClass('m_e_metin');
             
-             //durum
+            //durum
             durumDIV = document.createElement('div');
             jQuery(durumDIV).addClass('m_e_drm');
             durumUL = document.createElement('ul');
@@ -342,4 +344,26 @@ function wookmarkHTML(dataArray)
         }
     });
     
+}
+
+
+var checkAllCategories=function(){
+    var ch=jQuery(this).data("ch");
+    if(ch==1)
+    {
+        if(this.value==1)
+            allCategories=1;
+        else
+            allCategories=0;
+        page_wookmark=0;
+        wookmarkFiller(document.optionsWookmark,true,true);
+        jQuery(this).data("ch",0);
+    }else
+    {
+        jQuery(this).data("ch",1); 
+        if(this.value==1) 
+            this.value=0; 
+        else 
+            this.value=1;
+    }
 }

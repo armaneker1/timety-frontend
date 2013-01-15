@@ -28,12 +28,16 @@ $type = null;
 if (isset($_GET["type"]))
     $type = $_GET["type"];
 
+$popular_all = "1";
+if (isset($_GET["popular_all"]))
+    $popular_all = $_GET["popular_all"];
+
 $res = new Result();
 $res->error = true;
 $res->success = false;
 
 if ($userId != null && $pageNumber != "" && $pageItemCount != null && $type != null) {
-    $result = Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type);
+    $result = Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type,$popular_all);
     if (!empty($result)) {
         if ($type == 1 && $pageNumber==0) {
             $evtAd = new Event();
