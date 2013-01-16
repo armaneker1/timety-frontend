@@ -154,8 +154,20 @@ function openMyFollowing()
                         var dataJSON = jQuery.parseJSON(data);
                         if(!dataJSON.error)
                         {
-                            dataJSON.sort(compareFriends);
                             var ul=jQuery("#following_top_menu_ul");
+                            //add all categroy
+                            var addAllli=jQuery("<li>");
+                            var addAlllabel=jQuery("<label class=\"label_check c_on\" for=\"allfriends_\"></label>");
+                            addAlllabel.click(check_it);                            
+                            var addAllinput=jQuery("<input name=\"sample-check-01\" id=\"allfriends_\" value=\"1\" type=\"checkbox\">");
+                            addAllinput.click(checkAllFriends);
+                            var addAllspan=jQuery("<span>All Friends</span>");
+                            addAlllabel.append(addAllinput);
+                            addAlllabel.append(addAllspan);
+                            addAllli.append(addAlllabel);
+                            ul.append(addAllli);
+                            //
+                            dataJSON.sort(compareFriends);
                             for(var i=0;i<dataJSON.length;i++)
                             {
                                 var item=dataJSON[i];

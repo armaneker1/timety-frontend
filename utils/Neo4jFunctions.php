@@ -1077,7 +1077,7 @@ class Neo4jFuctions {
      * $pageItemCount default 15
      */
 
-    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1,$popular_all=1) {
+    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1, $all = 1) {
         /*
           $teg="<p/>getEvents-   ";
           echo  $teg."Started<p/>";
@@ -1156,25 +1156,10 @@ class Neo4jFuctions {
                 array_push($array, $evt);
             }
         } else if ($type == 3) {
-            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-            $query_ = $query;
-            //REL_FOLLOWS -> REL_USER_SUBSCRIBES yapildi
-            $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
-                    "MATCH (user)-[:" . REL_USER_SUBSCRIBES . "]->(friend)-[r:" . REL_EVENTS_JOINS . "]->(event)  " .
-                    "WHERE (event." . PROP_EVENT_PRIVACY . "='true') AND (event." . PROP_EVENT_START_DATE . ">" . $date . ") ";
-            if (!empty($query_)) {
-                $query = $query . " AND (event." . PROP_EVENT_TITLE . " =~ '.*(?i)" . $query_ . ".*' OR " .
-                        "event." . PROP_EVENT_DESCRIPTION . " =~ '.*(?i)" . $query_ . ".*') ";
-            }
-            $query = $query . "RETURN event, count(*) ORDER BY event." . PROP_EVENT_START_DATE . " ASC SKIP " . $pageNumber . " LIMIT " . $pageItemCount;
-            $query = new Cypher\Query($client, $query, null);
-            $result = $query->getResultSet();
-            foreach ($result as $row) {
-                $evt = new Event();
-                $evt->createNeo4j($row['event']);
-                $eventIds = $eventIds . $evt->id . ",";
-                array_push($array, $evt);
-            }
+            $resultArray = Neo4jRecommendationUtils::getFollowingFriendsEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            $array=$resultArray[0];
+            $eventIds=$resultArray[1];
+            
         } else if ($type == 2) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query_ = $query;
@@ -1203,7 +1188,7 @@ class Neo4jFuctions {
             //$array1 = Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
             //all 1
             //subscribed category =0
-            $array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query,$popular_all);
+            $array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
             //var_dump(sizeof($array1));
             /*
               echo  $teg."array 1 mysql<p/>";

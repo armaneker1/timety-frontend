@@ -1,6 +1,7 @@
 var post_wookmark=null;
 var page_wookmark=0;
 var allCategories=1;
+var allFriends=1;
 localStorage.clear();
 
 function wookmarkFiller(options,clear,loader)
@@ -28,6 +29,14 @@ function wookmarkFiller(options,clear,loader)
         if(post_wookmark) {
             post_wookmark.abort();
         }
+        var allParameter=1;
+        if(channel==1)
+        {
+           allParameter=allCategories;
+        }else if(channel==3)
+        {
+           allParameter=allFriends;     
+        }
         post_wookmark = jQuery.ajax({
             type: 'GET',
             url: TIMETY_PAGE_AJAX_GETEVENTS,
@@ -40,7 +49,7 @@ function wookmarkFiller(options,clear,loader)
                 'date':dateSelected,
                 'query':searchText,
                 'type':channel,
-                'popular_all':allCategories
+                'popular_all':allParameter
             },
             success: function(data){
                 jQuery('#hiddenSearch').val('');
@@ -355,6 +364,27 @@ var checkAllCategories=function(){
             allCategories=1;
         else
             allCategories=0;
+        page_wookmark=0;
+        wookmarkFiller(document.optionsWookmark,true,true);
+        jQuery(this).data("ch",0);
+    }else
+    {
+        jQuery(this).data("ch",1); 
+        if(this.value==1) 
+            this.value=0; 
+        else 
+            this.value=1;
+    }
+}
+
+var checkAllFriends=function(){
+    var ch=jQuery(this).data("ch");
+    if(ch==1)
+    {
+        if(this.value==1)
+            allFriends=1;
+        else
+            allFriends=0;
         page_wookmark=0;
         wookmarkFiller(document.optionsWookmark,true,true);
         jQuery(this).data("ch",0);
