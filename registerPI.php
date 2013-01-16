@@ -9,12 +9,24 @@ $visible = false;
 $msgs = array();
 
 $username = "";
+$usernameError = null;
 $name = "";
+$nameError = null;
 $lastname = "";
+$ulastnameError = null;
 $email = "";
+$emailError = null;
 $birhtdate = "";
+$birhtdateError = null;
 $hometown = "";
+$hometownError = null;
 $userProfilePic = "";
+
+$upassError = null;
+$upass2Error = null;
+$param = true;
+
+
 
 
 if (!isset($_SESSION['id'])) {
@@ -27,79 +39,54 @@ if (!isset($_SESSION['id'])) {
         }
         $username = $_POST['te_username'];
         if (empty($username)) {
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "User name can not be empty";
-            array_push($msgs, $m);
-        }else
-        {
-            if(!UserUtils::checkUserName($username))
-            {
-                if($username!=$_POST['te_default_username'])
-                {
-                    $m = new HtmlMessage();
-                    $m->type = "e";
-                    $m->message = "User name already taken";
-                    array_push($msgs, $m);
-                }
-            }
-        }
-        
-        
-        $name = $_POST['te_firstname'];
-        if (empty($name)) {
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "First name can not be empty";
-            array_push($msgs, $m);
-        }
-        $lastname = $_POST['te_lastname'];
-        if (empty($lastname)) {
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Last name can not be empty";
-            array_push($msgs, $m);
-        }
-        $email = $_POST['te_email'];
-        if (empty($email)) {
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Email can not be empty";
-            array_push($msgs, $m);
+            $usernameError = "User name can not be empty";
+            $param = false;
         } else {
-            if (!UtilFunctions::check_email_address($email)) {
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = "Email is not valid";
-                array_push($msgs, $m);
-                $param = false;
-            } else if (!UserUtils::checkEmail($email)) {
-                if ($_POST['te_default_email'] != $email) {
-                    $m = new HtmlMessage();
-                    $m->type = "e";
-                    $m->message = "Email already taken";
-                    array_push($msgs, $m);
+            if (!UserUtils::checkUserName($username)) {
+                if ($username != $_POST['te_default_username']) {
+                    $usernameError = "User name already taken";
                     $param = false;
                 }
             }
         }
 
 
+        $name = $_POST['te_firstname'];
+        if (empty($name)) {
+            $nameError = "First name can not be empty";
+            $param = false;
+        }
+        $lastname = $_POST['te_lastname'];
+        if (empty($lastname)) {
+            $lastname = "Last name can not be empty";
+            $param = false;
+        }
+        $email = $_POST['te_email'];
+        if (empty($email)) {
+            $emailError = "Email can not be empty";
+            $param = false;
+        } else {
+            if (!UtilFunctions::check_email_address($email)) {
+                $emailError = "Email is not valid";
+                $param = false;
+            } else if (!UserUtils::checkEmail($email)) {
+                if ($_POST['te_default_email'] != $email) {
+                    $emailError = "Email already taken";
+                    $param = false;
+                }
+            }
+        }
 
         $birhtdate = $_POST['te_birthdate'];
         if (!UtilFunctions::checkDate($birhtdate)) {
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Birthdate is not valid";
-            array_push($msgs, $m);
+            $birhtdateError = "Birthdate is not valid";
+            $param = false;
         }
 
         $hometown = $_POST['te_hometown'];
         if (empty($hometown)) {
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Hometown can not be empty";
-            array_push($msgs, $m);
+            $hometownError = "Hometown can not be empty";
+            $param = false;
         }
         if (isset($_POST['te_password'])) {
             $visible = true;
@@ -107,20 +94,16 @@ if (!isset($_SESSION['id'])) {
             $repassword = $_POST['te_repassword'];
 
             if (empty($password)) {
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = "Password can not be empty";
-                array_push($msgs, $m);
+                $upassError = "Password can not be empty";
+                $param = false;
             }
 
             if (empty($repassword) || $repassword != $password) {
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = "Passwords doesn't macth";
-                array_push($msgs, $m);
+                $upass2Error = "Passwords doesn't macth";
+                $param = false;
             }
         }
-        if (sizeof($msgs) <= 0) {
+        if (sizeof($msgs) <= 0 && $param) {
             $user = UserUtils::getUserById($_SESSION['id']);
             if ($user != null) {
                 $user->userName = $username;
@@ -227,8 +210,9 @@ if (!isset($_SESSION['id'])) {
         }
     }
 }
+
 if (empty($birhtdate)) {
-    $birhtdate = "01.01.1980";
+    //$birhtdate = "01.01.1980";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -263,11 +247,11 @@ if (empty($birhtdate)) {
                     }, {
                         name : 'te_firstname',
                         display : 'firstname',
-                        rules : 'required|min_length[3]|alpha_turkish'
+                        rules : 'required|min_length[3]'
                     }, {
                         name : 'te_lastname',
                         display : 'lastname',
-                        rules : 'required|min_length[3]|alpha_turkish'
+                        rules : 'required|min_length[3]'
                     }, {
                         name : 'te_email',
                         display : 'email',
@@ -278,24 +262,38 @@ if (empty($birhtdate)) {
                         rules : 'required|min_length[3]'
                     } ],
                 function(errors, event) {
-                    var SELECTOR_ERRORS = $('#msg');
-                    $('#te_username_span').attr('class', '');
-                    $('#te_firstname_span').attr('class', '');
-                    $('#te_lastname_span').attr('class', '');
-                    $('#te_email_span').attr('class', '');
-                    $('#te_hometown_span').attr('class', '');
-						
-                    $('#te_username').attr('class', 'user_inpt icon_bg username');
-                    $('#te_firstname').attr('class', 'user_inpt');
-                    $('#te_lastname').attr('class', 'user_inpt');
-                    $('#te_email').attr('class', 'user_inpt icon_bg email');
-                    $('#te_hometown').attr('class', 'user_inpt');
+                    //empty messages
+                    jQuery(".create_acco_popup").text("");
+                    jQuery(".create_acco_popup").attr("style","display:none;");
+                    
+                    var SELECTOR_ERRORS = jQuery('#msg');
+                    SELECTOR_ERRORS.empty();
+                    
+                    jQuery('#te_username_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_username').attr('class', 'user_inpt username icon_bg onay_brdr');
+                    
+                    jQuery('#te_firstname_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_firstname').attr('class', 'user_inpt icon_bg onay_brdr');
+                    
+                    jQuery('#te_lastname_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_lastname').attr('class', 'user_inpt  icon_bg onay_brdr');
+                    
+                    $('#te_email_span').attr('class', 'onay icon_bg');
+                    $('#te_email').attr('class', 'user_inpt icon_bg email onay_brdr');
+                    
+                    $('#te_hometown_span').attr('class', 'onay icon_bg');
+                    $('#te_hometown').attr('class', 'user_inpt icon_bg onay_brdr');
+              
                     if (errors.length > 0) {
                         SELECTOR_ERRORS.empty();
                         for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
-                            SELECTOR_ERRORS.append(errors[i].message + '<br />');
-                            $('#' + errors[i].id + '_span').attr('class', 'sil icon_bg');
-                            $('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
+                            jQuery('#' + errors[i].id + '_span').attr('class','sil icon_bg');
+                            jQuery('#' + errors[i].id + '_span_msg').css({
+                                display : 'block'
+                            });
+                            jQuery('#' + errors[i].id + '_span_msg').text(errors[i].message);
+                            jQuery('#' + errors[i].id + '_span_msg').append(jQuery("<div class='kok'></div>"));
+                            jQuery('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
                         }
                         SELECTOR_ERRORS.fadeIn(200);
                     } else {
@@ -306,34 +304,24 @@ if (empty($birhtdate)) {
                 });
                 validator.registerCallback('check_email', function(value) {
                     var result = $('#te_email').attr('suc');
-                    return result;
+                    if(result===true || result=="true")
+                    {
+                        return true; 
+                    }
+                    return false;
                 }).setMessage('check_email',
                 'That email is already taken. Please choose another.');
 
                 validator.registerCallback('check_username', function(value) {
                     var result = $('#te_username').attr('suc');
-                    return result;
+                    if(result===true || result=="true")
+                    {
+                        return true; 
+                    }
+                    return false;
                 }).setMessage('check_username',
                 'That username is already taken. Please choose another.');
             });
-
-            function validateUserNameNoEffect(field2) {
-                var field = document.getElementById($(field2).attr('id'));
-                jQuery.post("<?= PAGE_AJAX_CHECKUSERNAME ?>", {
-                    u : field.value
-                }, function(data) {
-                    field.setAttribute("suc", (($(field2).attr('default') == field.value) || !!(data.success)));
-                }, "json");
-            }
-
-            function validateEmailNoEffect(field2) {
-                var field = document.getElementById($(field2).attr('id'));
-                $.post("<?= PAGE_AJAX_CHECKEMAIL ?>", {
-                    e : field.value
-                }, function(data) {
-                    field.setAttribute("suc", (($(field2).attr('default')) == field.value) || (!!(data.success)));
-                }, "json");
-            }
         </script>
         <title>Timety Personal Info</title>
 
@@ -391,9 +379,9 @@ if (empty($birhtdate)) {
                     if (!empty($msgs)) {
                         $ms = "";
                         foreach ($msgs as $m) {
-                            $ms = $ms . "<span class='php_errors' style='color: red;'>" . $m->message . "</span><p/>";
+                            $ms = $ms . "<p>" . $m->message . "</p>";
                         }
-                        echo $ms;
+                        echo "<script>jQuery(document).ready(function(){ getInfo(true,'" . $ms . "','error',4000); });</script>";
                     }
                     ?>
                 </div>
