@@ -250,7 +250,6 @@ function unfollowUser(button)
                 liItem.append(spanItem);
                 liItem.append(aItem);
                 ul.append(liItem);
-                ul.append(liItem);
                 
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
@@ -317,7 +316,6 @@ function followUser(button)
                 liItem.append(buttonItem);
                 liItem.append(spanItem);
                 liItem.append(aItem);
-                ul.append(liItem);
                 ul.append(liItem);
                 
                 page_wookmark=0;

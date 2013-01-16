@@ -1,3 +1,11 @@
+function compareCategory(a,b) {
+    if (a.label < b.label)
+        return -1;
+    else if (a.label > b.label)
+        return 1;
+    return 0;
+}
+
 //document ready
 jQuery(document).ready(function(){ 
     jQuery('#top_menu_populer').hover(
@@ -65,6 +73,7 @@ function seacrhCategory(val)
                         var dataJSON = jQuery.parseJSON(data);
                         if(!dataJSON.error)
                         {
+                            dataJSON.sort(compareCategory);
                             var ul=jQuery('#populer_top_menu_search_ul');
                             for(var i=0;i<dataJSON.length;i++)
                             {
@@ -101,7 +110,7 @@ function seacrhCategory(val)
                             }
                         }else
                         {
-                            //input.val("");
+                        //input.val("");
                         }
                         if(loaderShow)
                             getLoader(false);
@@ -151,6 +160,7 @@ function openMyTimety()
                             addAllli.append(addAlllabel);
                             ul.append(addAllli);
                             //
+                            dataJSON.sort(compareCategory);
                             for(var i=0;i<dataJSON.length;i++)
                             {
                                 var item=dataJSON[i];
@@ -240,8 +250,31 @@ function unsubscribe(button)
                 spanItem.text(text);
                 liItem.append(buttonItem);
                 liItem.append(spanItem);
-                ul.append(liItem);
-                ul.append(liItem);
+                /*
+                 * insert item wright place
+                 */
+                var list=ul.children();
+                var added=false;
+                for(var i=0;i<list.length;i++)
+                {
+                    var itm=list.get(i);
+                    if(itm && itm.title)
+                    {
+                        if(itm.title>catText)
+                        {
+                            added=true;
+                            liItem.insertBefore(itm);
+                            break;
+                        }
+                    }
+                }
+                if(!added)
+                {
+                    ul.append(liItem);
+                }
+                /*
+                 * 
+                 */
                 
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
@@ -300,9 +333,31 @@ function subscribe(button)
                 spanItem.text(text);
                 liItem.append(buttonItem);
                 liItem.append(spanItem);
-                ul.append(liItem);
-                ul.append(liItem);
-                
+                /*
+                 * insert item wright place
+                 */
+                var list=ul.children();
+                var added=false;
+                for(var i=0;i<list.length;i++)
+                {
+                    var itm=list.get(i);
+                    if(itm && itm.title)
+                    {
+                        if(itm.title>catText)
+                        {
+                            added=true;
+                            liItem.insertBefore(itm);
+                            break;
+                        }
+                    }
+                }
+                if(!added)
+                {
+                    ul.append(liItem);
+                }
+                /*
+                 * 
+                 */
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
             }
