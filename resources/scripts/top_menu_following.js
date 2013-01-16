@@ -1,3 +1,11 @@
+function compareFriends(a,b) {
+    if (a.username < b.username)
+        return -1;
+    else if (a.username > b.username)
+        return 1;
+    return 0;
+}
+
 //document ready
 jQuery(document).ready(function(){ 
     jQuery('#top_menu_following').hover(
@@ -62,6 +70,7 @@ function seacrhFriend(val)
                         var dataJSON = jQuery.parseJSON(data);
                         if(!dataJSON.error)
                         {
+                            dataJSON.sort(compareFriends);
                             var ul=jQuery('#following_top_menu_search_ul');
                             for(var i=0;i<dataJSON.length && i<10;i++)
                             {
@@ -71,6 +80,7 @@ function seacrhFriend(val)
                                 {
                                     var liItem=jQuery("<li>");
                                     liItem.attr("title",item.fullName);
+                                    liItem.attr("username",item.username);
                                     liItem.attr("id","friend_id"+item.id);
                                     var buttonItem=jQuery("<button type=\"button\"></button>");
                                     buttonItem.addClass("ekle");
@@ -144,6 +154,7 @@ function openMyFollowing()
                         var dataJSON = jQuery.parseJSON(data);
                         if(!dataJSON.error)
                         {
+                            dataJSON.sort(compareFriends);
                             var ul=jQuery("#following_top_menu_ul");
                             for(var i=0;i<dataJSON.length;i++)
                             {
@@ -151,6 +162,7 @@ function openMyFollowing()
                                 var liItem=jQuery("<li>");
                                 liItem.attr("id","friend_id"+item.id);
                                 liItem.attr("title",item.fullName);
+                                liItem.attr("username",item.username);
                                 var buttonItem=jQuery("<button type=\"button\"></button>");
                                 buttonItem.addClass("kapat");
                                 buttonItem.addClass("icon_bg");
@@ -220,6 +232,7 @@ function unfollowUser(button)
                 var ul=jQuery("#following_top_menu_search_ul");
                 var liItem=jQuery("<li>");
                 liItem.attr("title",item.fullName);
+                liItem.attr("username",item.username);
                 liItem.attr("id",elementId);
                 var buttonItem=jQuery("<button type=\"button\"></button>");
                 buttonItem.addClass("kapat");
@@ -249,7 +262,31 @@ function unfollowUser(button)
                 liItem.append(buttonItem);
                 liItem.append(spanItem);
                 liItem.append(aItem);
-                ul.append(liItem);
+                /*
+                 * insert item wright place
+                 */
+                var list=ul.children();
+                var added=false;
+                for(var i=0;i<list.length;i++)
+                {
+                    var itm=list.get(i);
+                    if(itm && jQuery(itm).attr("username"))
+                    {
+                        if(jQuery(itm).attr("username")>item.username)
+                        {
+                            added=true;
+                            liItem.insertBefore(itm);
+                            break;
+                        }
+                    }
+                }
+                if(!added)
+                {
+                    ul.append(liItem);
+                }
+                /*
+                 * 
+                 */
                 
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
@@ -287,6 +324,7 @@ function followUser(button)
                 var ul=jQuery("#following_top_menu_ul");
                 var liItem=jQuery("<li>");
                 liItem.attr("title",item.fullName);
+                liItem.attr("username",item.username);
                 liItem.attr("id",elementId);
                 var buttonItem=jQuery("<button type=\"button\"></button>");
                 buttonItem.addClass("kapat");
@@ -316,7 +354,31 @@ function followUser(button)
                 liItem.append(buttonItem);
                 liItem.append(spanItem);
                 liItem.append(aItem);
-                ul.append(liItem);
+                /*
+                 * insert item wright place
+                 */
+                var list=ul.children();
+                var added=false;
+                for(var i=0;i<list.length;i++)
+                {
+                    var itm=list.get(i);
+                    if(itm && jQuery(itm).attr("username"))
+                    {
+                        if(jQuery(itm).attr("username")>item.username)
+                        {
+                            added=true;
+                            liItem.insertBefore(itm);
+                            break;
+                        }
+                    }
+                }
+                if(!added)
+                {
+                    ul.append(liItem);
+                }
+                /*
+                 * 
+                 */
                 
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
