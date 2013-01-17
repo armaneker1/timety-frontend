@@ -257,6 +257,10 @@ if (empty($birhtdate)) {
                         display : 'email',
                         rules : 'required|valid_email|callback_check_email'
                     }, {
+                        name : 'te_birthdate',
+                        display : 'birthdate',
+                        rules : 'requiredcal|back_check_birthdate'
+                    }, {
                         name : 'te_hometown',
                         display : 'hometown',
                         rules : 'required|min_length[3]'
@@ -273,19 +277,21 @@ if (empty($birhtdate)) {
                     jQuery('#te_username').attr('class', 'user_inpt username icon_bg onay_brdr');
                     
                     jQuery('#te_firstname_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_firstname').attr('class', 'user_inpt icon_bg onay_brdr');
+                    jQuery('#te_firstname').attr('class', 'user_inpt onay_brdr');
                     
                     jQuery('#te_lastname_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_lastname').attr('class', 'user_inpt  icon_bg onay_brdr');
+                    jQuery('#te_lastname').attr('class', 'user_inpt  onay_brdr');
                     
-                    $('#te_email_span').attr('class', 'onay icon_bg');
-                    $('#te_email').attr('class', 'user_inpt icon_bg email onay_brdr');
+                    jQuery('#te_email_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_email').attr('class', 'user_inpt icon_bg email onay_brdr');
                     
-                    $('#te_hometown_span').attr('class', 'onay icon_bg');
-                    $('#te_hometown').attr('class', 'user_inpt icon_bg onay_brdr');
+                    Query('#te_birthdate_span').attr('class', 'onay icon_bg');
+                    jQuery$('#te_birthdate').attr('class', 'user_inpt onay_brdr');
+                    
+                    jQuery('#te_hometown_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_hometown').attr('class', 'user_inpt onay_brdr');
               
                     if (errors.length > 0) {
-                        SELECTOR_ERRORS.empty();
                         for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
                             jQuery('#' + errors[i].id + '_span').attr('class','sil icon_bg');
                             jQuery('#' + errors[i].id + '_span_msg').css({
@@ -303,7 +309,7 @@ if (empty($birhtdate)) {
                     }
                 });
                 validator.registerCallback('check_email', function(value) {
-                    var result = $('#te_email').attr('suc');
+                    var result = jQuery('#te_email').attr('suc');
                     if(result===true || result=="true")
                     {
                         return true; 
@@ -313,7 +319,7 @@ if (empty($birhtdate)) {
                 'That email is already taken. Please choose another.');
 
                 validator.registerCallback('check_username', function(value) {
-                    var result = $('#te_username').attr('suc');
+                    var result = jQuery('#te_username').attr('suc');
                     if(result===true || result=="true")
                     {
                         return true; 
@@ -321,10 +327,30 @@ if (empty($birhtdate)) {
                     return false;
                 }).setMessage('check_username',
                 'That username is already taken. Please choose another.');
+                
+                validator.registerCallback('check_birthdate', function(value) {
+                    return validateInputDate(jQuery('#te_birthdate'),true,false);
+                }).setMessage('check_birthdate',
+                'Enter valid date');
             });
         </script>
         <title>Timety Personal Info</title>
-
+        <script>
+            function setLocation(result,status)
+            {
+                if(status=="OK")
+                {
+                    jQuery("#te_hometown").val(result);
+                }else
+                {
+                    console.log(result);
+                }
+            }
+            
+            jQuery(document).ready(function(){
+                getCityLocation(setLocation);
+            });
+        </script>
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
@@ -333,41 +359,187 @@ if (empty($birhtdate)) {
             <div class="personel_info">
                 <form action="" method="post" style="margin-left: 48px"
                       name="registerPI">
-                    <input name="te_username" type="text"
-                           class="user_inpt username icon_bg" id="te_username"
-                           value="<?php echo $username ?>" placeholder="User Name"
-                           default="<?php echo $username ?>"
-                           onkeyup="validateUserNameNoEffect(this);"
-                           onblur="validateUserNameNoEffect(this)" /> <span
-                           id='te_username_span'></span> <br /> <input name="te_firstname"
-                           type="text" class="user_inpt" id="te_firstname"
-                           value="<?php echo $name ?>" placeholder="First Name" /> <br /> <span
-                           id='te_firstname_span'></span> <input name="te_lastname"
-                           type="text" class="user_inpt" id="te_lastname"
-                           value="<?php echo $lastname ?>" placeholder="Last Name" /> <br /> <span
-                           id='te_lastname_span'></span> <input name="te_email" type="text"
-                           placeholder="Email" class="user_inpt email icon_bg" id="te_email"
-                           onkeyup="validateEmailNoEffect(this);"
-                           default="<?php echo $email ?>" onblur="validateEmailNoEffect(this);"
-                           value="<?php echo $email ?>" /> <br /> <span id='te_email_span'></span>
-                    <input name="te_birthdate" type="text" placeholder="Birthdate (dd.MM.yyyy)"
-                           autocomplete='off'
-                           class="user_inpt" id="te_birthdate" value="<?php echo $birhtdate ?>"/> <br /> <span
-                           id='te_birthdate_span'></span> <input name="te_hometown"
-                           type="text" placeholder="Hometown" class="user_inpt"
-                           id="te_hometown" value="<?php echo $hometown ?>" /> <br /> <span
-                           id='te_hometown_span'></span>
-                           <?php if ($visible) { ?>
-                        <input name="te_password" type="password"
-                               class="user_inpt password icon_bg" id="te_password" value=""
-                               placeholder="Password"
-                               onkeyup="validatePassword(this,$('#te_repassword'))" /> <span
-                               id='te_password_span'></span> <br /> <input name="te_repassword"
-                               type="password" class="user_inpt password icon_bg"
-                               id="te_repassword" value="" placeholder="Re-Password"
-                               onkeyup="validatePassword(this,$('#te_password'),true)" /> <span
-                               id='te_repassword_span'></span> <br />
-                           <?php } ?>
+                    <input 
+                        name="te_username" 
+                        type="text"
+                        class="user_inpt username icon_bg" 
+                        id="te_username"
+                        value="<?php echo $username ?>" 
+                        placeholder="User Name"
+                        suc="true"
+                        default="<?php echo $username ?>"
+                        onkeyup="validateUserName(this,true,false)"
+                        onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,true,true) }" /> 
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($usernameError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
+                    <span id='te_username_span' class="<?= $class ?>">
+                        <div class="create_acco_popup" id="te_username_span_msg" style="display:<?= $display ?>;"><?= $usernameError ?><div class="kok"></div></div>
+                    </span> <br /> 
+
+
+                    <input 
+                        name="te_firstname"
+                        type="text" 
+                        class="user_inpt" 
+                        id="te_firstname"
+                        value="<?php echo $name ?>" 
+                        placeholder="First Name"
+                        onkeyup="validateInput(this,true,false,3)"
+                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($nameError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
+                    <span id='te_firstname_span' class="<?= $class ?>">
+                        <div class="create_acco_popup" id="te_firstname_span_msg" style="display:<?= $display ?>;"><?= $nameError ?><div class="kok"></div></div>
+                    </span><br /> 
+
+
+                    <input 
+                        name="te_lastname"
+                        type="text" 
+                        class="user_inpt" 
+                        id="te_lastname"
+                        value="<?php echo $lastname ?>" 
+                        placeholder="Last Name" 
+                        onkeyup="validateInput(this,true,false,3)"
+                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($ulastnameError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
+                    <span id='te_lastname_span' class="<?= $class ?>">
+                        <div class="create_acco_popup" id="te_lastname_span_msg" style="display:<?= $display ?>;"><?= $ulastnameError ?><div class="kok"></div></div>
+                    </span> <br />
+
+
+                    <input 
+                        name="te_email" 
+                        type="text"
+                        suc="true"
+                        placeholder="Email" 
+                        class="user_inpt email icon_bg" 
+                        id="te_email"
+                        default="<?php echo $email ?>" 
+                        value="<?php echo $email ?>" 
+                        onkeyup="validateEmail(this,true,false)"
+                        onblur="if(onBlurFirstPreventTwo(this)) { validateEmail(this,true,true) }"/> 
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($emailError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
+                    <span id='te_email_span' class="<?= $class ?>">
+                        <div class="create_acco_popup" id="te_email_span_msg" style="display:<?= $display ?>;"><?= $emailError ?><div class="kok"></div></div>
+                    </span><br /> 
+
+                    <input 
+                        name="te_birthdate" 
+                        type="text" 
+                        placeholder="Birthdate (dd.MM.yyyy)"
+                        autocomplete='off'
+                        class="user_inpt" 
+                        id="te_birthdate" 
+                        value="<?php echo $birhtdate ?>"
+                        onkeyup="validateInputDate(this,true,false)"
+                        onblur="if(onBlurFirstPreventTwo(this)) { validateInputDate(this,true,true) }" 
+                        onchange="resetInputWarning(this);validateInputDate(this,true,true)"/> 
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($birhtdateError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
+                    <span id='te_birthdate_span' class="<?= $class ?>">
+                        <div class="create_acco_popup" id="te_birthdate_span_msg" style="display:<?= $display ?>;"><?= $birhtdateError ?><div class="kok"></div></div>
+                    </span><br />
+
+
+                    <input 
+                        name="te_hometown"
+                        type="text" 
+                        placeholder="Hometown" 
+                        class="user_inpt"
+                        id="te_hometown" 
+                        value="<?php echo $hometown ?>"
+                        onkeyup="validateInput(this,true,false,3)"
+                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($hometownError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
+                    <span id='te_hometown_span' class="<?= $class ?>">
+                        <div class="create_acco_popup" id="te_hometown_span_msg" style="display:<?= $display ?>;"><?= $hometownError ?><div class="kok"></div></div>
+                    </span><br />
+
+
+                    <?php if ($visible) { ?>
+                        <input 
+                            name="te_password" 
+                            type="password"
+                            class="user_inpt password icon_bg" 
+                            id="te_password" 
+                            value=""
+                            placeholder="Password"
+                            onkeyup="validatePassword(this,$('#te_repassword'),false,false);"
+                            onblur="validatePassword(this,$('#te_repassword'),false,true);" />
+                            <?php
+                            $display = "none";
+                            $class = "";
+                            if (!empty($upassError)) {
+                                $display = "block";
+                                $class = "sil icon_bg";
+                            }
+                            ?>
+                        <span id='te_password_span' class="<?= $class ?>">
+                            <div class="create_acco_popup" id="te_password_span_msg" style="display:<?= $display ?>;"><?= $upassError ?><div class="kok"></div></div>
+                        </span> <br /> 
+
+                        <input 
+                            name="te_repassword"
+                            type="password" 
+                            class="user_inpt password icon_bg"
+                            id="te_repassword" 
+                            value="" 
+                            placeholder="Re-Password"
+                            onkeyup="validatePassword(this,$('#te_password'),true)" />
+                            <?php
+                            $display = "none";
+                            $class = "";
+                            if (!empty($upass2Error)) {
+                                $display = "block";
+                                $class = "sil icon_bg";
+                            }
+                            ?>
+                        <span id='te_repassword_span' class="<?= $class ?>">
+                            <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?= $display ?>;"><?= $upass2Error ?><div class="kok"></div></div>
+                        </span> <br />
+                    <?php } ?>
+
+
                     <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>
                     <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $username ?>" ></input>
                     <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?= $userProfilePic ?>" ></input>

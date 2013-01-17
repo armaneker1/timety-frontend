@@ -91,11 +91,15 @@ function setInputWarning(field, inputClassName, isValid, removeIconBG,setMsg) {
 
 function resetInputWarning(field)
 {
+    var span = jQuery('#' + jQuery(field).attr('id') + '_span');
+    span.hide();
+    var span_msg = jQuery('#' + jQuery(field).attr('id') + '_span_msg');
+    span_msg.hide();
+    span_msg.text("");
+    span.attr("class", "");
+    span.show();
     jQuery(field).removeClass("fail_brdr");
     jQuery(field).removeClass("onay_brdr");
-    var span = jQuery('#' + jQuery(field).attr('id') + '_span');
-    span.attr("class", "");
-    
 }
 
 function validatePassword(field2, fieldEqual, isSync,setMsg) {
@@ -132,7 +136,7 @@ function validatePassword(field2, fieldEqual, isSync,setMsg) {
             
         }else
         {
-           setMsg=false;
+            setMsg=false;
         }
     }
     setInputWarning(field, cssClassAttr, result,false,setMsg);
@@ -243,6 +247,54 @@ function validatePlaceHolder(field2, InputWarning,setMsg) {
         setInputWarning(field, undefined, result, true,setMsg);
     return result;
 }
+
+function validateInput(field2,InputWarning,setMsg,length)
+{
+    var field = document.getElementById(jQuery(field2).attr('id'));
+    if(field.value == null || field.value == "" || validatePlaceHolder(field, true))
+    {
+        resetInputWarning(field);
+        return false;
+    }
+    var result=true;
+    if(length>0 && field.value.length<length)
+    {
+        result=false;
+    }
+    if(setMsg)
+    {
+        setMsg=result ? false : "Please use at least 3 characters.";
+    }
+    if (InputWarning)
+        setInputWarning(field, undefined, result, true,setMsg);
+    return result;
+}
+
+function validateInputDate(field2,InputWarning,setMsg)
+{
+    var field = document.getElementById(jQuery(field2).attr('id'));
+    if(field.value == null || field.value == "" || validatePlaceHolder(field, true))
+    {
+        resetInputWarning(field);
+        jQuery(field).attr("suc",false);
+        return false;
+    }
+    var result=true;
+    if(length>0 && field.value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/))
+    {
+        result=false;
+    }
+    
+    if(setMsg)
+    {
+        setMsg=result ? false : "Enter valid date.";
+    }
+    if (InputWarning)
+        setInputWarning(field, undefined, result, true,setMsg);
+    jQuery(field).attr("suc",result);
+    return result;
+}
+
 
 function checkFormPI(userName, firstName, lastName, email, birthdate, hometown,
     password, rePassword, visible) {

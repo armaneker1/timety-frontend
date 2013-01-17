@@ -219,8 +219,10 @@ $upass = null;
                 <div class="account_sag">
                     <form action="" method="post" name="registerPI">
                         <input name="te_username" type="text"
-                               class="user_inpt username  icon_bg" id="te_username"
-                               value="<?= $uname ?>" placeholder="User Name"
+                               class="user_inpt username  icon_bg" 
+                               id="te_username"
+                               value="<?= $uname ?>" 
+                               placeholder="User Name"
                                onkeyup="validateUserName(this,true,false)"
                                onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,true,true) }"/> 
                                <?php
@@ -271,7 +273,8 @@ $upass = null;
 
                         <input name="te_email"
                                type="text" placeholder="Email" class="user_inpt email icon_bg"
-                               id="te_email" onkeyup="validateEmail(this,true,false)"
+                               id="te_email" 
+                               onkeyup="validateEmail(this,true,false)"
                                onblur="if(onBlurFirstPreventTwo(this)) { validateEmail(this,true,true) }"
                                value="<?= $uemail ?>" /> 
                                <?php

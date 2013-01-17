@@ -6,7 +6,14 @@ require_once __DIR__.'/../utils/Functions.php';
 
 $result=new Result();
 try {
-	$query=$_POST["e"];
+	$query="";
+        if(isset($_POST["e"]))
+        {
+            $query=$_POST["e"];
+        }else if(isset($_GET["e"]))
+        {
+             $query=$_GET["e"];
+        }
 	$result->success=false;
 	try {
 		if(!empty( $query))
