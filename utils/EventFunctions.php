@@ -7,8 +7,7 @@ class EventUtil {
             $eventDB = EventUtil::addEventToDB($event);
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
-                $n = new Neo4jFuctions();
-                $n->createEvent($event, $user);
+                Neo4jEventUtils::createEvent($event, $user);
             }
         }
     }

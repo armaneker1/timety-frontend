@@ -365,8 +365,10 @@ if (empty($user)) {
                         // Check if we're within 100 pixels of the bottom edge of the broser window.
                         var closeToBottom = (jQuery(window).scrollTop() + jQuery(window).height() > jQuery(document).height() - 100);
                         if(closeToBottom) {
-                            // Get the first then items from the grid, clone them, and add them to the bottom of the grid.
-                            wookmarkFiller(optionsWookmark);
+                            if(post_wookmark==null) {
+                                // Get the first then items from the grid, clone them, and add them to the bottom of the grid.
+                                wookmarkFiller(optionsWookmark);
+                            }
                         }
                     };
                     jQuery(document).bind('scroll', onScroll);

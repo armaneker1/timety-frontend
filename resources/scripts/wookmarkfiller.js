@@ -28,14 +28,15 @@ function wookmarkFiller(options,clear,loader)
         if(data) userId =data;
         if(post_wookmark) {
             post_wookmark.abort();
+            post_wookmark=null;
         }
         var allParameter=1;
         if(channel==1)
         {
-           allParameter=allCategories;
+            allParameter=allCategories;
         }else if(channel==3)
         {
-           allParameter=allFriends;     
+            allParameter=allFriends;     
         }
         post_wookmark = jQuery.ajax({
             type: 'GET',
@@ -72,6 +73,10 @@ function wookmarkFiller(options,clear,loader)
                 if(dataJSON)
                 {
                     page_wookmark++;
+                }
+                if(post_wookmark) {
+                    post_wookmark.abort();
+                    post_wookmark=null;
                 }
                 if(clear) {
                     page_wookmark=0;
