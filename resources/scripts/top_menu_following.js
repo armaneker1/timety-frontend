@@ -247,7 +247,7 @@ function unfollowUser(button)
                 liItem.attr("username",item.username);
                 liItem.attr("id",elementId);
                 var buttonItem=jQuery("<button type=\"button\"></button>");
-                buttonItem.addClass("kapat");
+                buttonItem.addClass("ekle");
                 buttonItem.addClass("icon_bg");
                 buttonItem.data("userId", userId);
                 buttonItem.data("item", item);

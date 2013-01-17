@@ -63,8 +63,10 @@ class Neo4jRecommendationUtils {
                     "event." . PROP_EVENT_DESCRIPTION . " =~ '.*(?i)" . $query_ . ".*') ";
         }
         $query = $query . "RETURN event, count(*) ORDER BY event." . PROP_EVENT_START_DATE . " ASC SKIP " . $pageNumber . " LIMIT " . $pageItemCount;
+        //echo $query."<p/>";
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
+        //echo sizeof($result)."<p/>";
         foreach ($result as $row) {
             $evt = new Event();
             $evt->createNeo4j($row['event']);
