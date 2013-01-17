@@ -27,6 +27,8 @@ define("SETTINGS_GUEST_USER_PASS", "http.guest.user.pass");
 define("SETTINGS_ADMIN_USER", "http.admin.user");
 define("SETTINGS_ADMIN_USER_PASS", "http.admin.user.pass");
 
+define("SETTINGS_GOOGLE_MAPS_API_KEY", "google.maps.api.key");
+
 class SettingsUtil {
 
     public static function getSetting($param = null) {

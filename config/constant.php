@@ -77,6 +77,6 @@ define('PAGE_AJAX_UNSUBSCRIBEUSERFRIEND',PAGE_AJAX_FOLDER.'unsubscribeUserFriend
 
 
 
-define('GOOGLE_MAPS_API_KEY','AIzaSyBEqRYW2dtiN3V6n2MLaP58MiZkoGG__Ek');
+define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));
 
 ?>
