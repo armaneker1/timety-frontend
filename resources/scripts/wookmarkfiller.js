@@ -165,14 +165,23 @@ function wookmarkHTML(dataArray)
             jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
             if(data.headerImage)
             {
-                jQuery(img).attr('src',TIMETY_HOSTNAME+data.headerImage.url);
+                var param="";
                 if(data.headerImage.width && data.headerImage.width!=0)
-                    jQuery(img).attr('width',data.headerImage.width);
+                {
+                    jQuery(img).attr('width',data.headerImage.width); 
+                    param=param+"&w="+data.headerImage.width;
+                }   
                 else
+                {
                     jQuery(img).attr('width',186);
+                } 
                 if(data.headerImage.height && data.headerImage.height!=0)
+                {
                     jQuery(img).attr('height',data.headerImage.height);
-            //jQuery(img).attr('heigh',219);
+                    param=param+"&h="+data.headerImage.height;
+                     
+                }
+                jQuery(img).attr('src',TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.headerImage.url+param);
             }else
             {
                 jQuery(img).attr('width',186);

@@ -81,15 +81,14 @@ class User {
         }
         return 0;
     }
-    
-     public function getUserNotifications() {
+
+    public function getUserNotifications() {
         $array = InviteUtil::getEventInvitesByUserId($this->id);
         if (!empty($array)) {
             return $array;
         }
         return null;
     }
-
 
 }
 
@@ -125,16 +124,14 @@ class CateforyRef {
             $this->priority = $result[3];
         }
     }
-    
+
     function createNeo4j($result) {
-          if (!empty($result)) {
+        if (!empty($result)) {
             $this->id = $result->getProperty(PROP_CATEGORY_ID);
-            $this->category=$result->getProperty(PROP_CATEGORY_NAME);
-            $this->socialType=$result->getProperty(PROP_CATEGORY_SOCIALTYPE);
+            $this->category = $result->getProperty(PROP_CATEGORY_NAME);
+            $this->socialType = $result->getProperty(PROP_CATEGORY_SOCIALTYPE);
         }
     }
-    
-    
 
     function getCategoryName() {
         if (empty($this->subCategory)) {
@@ -180,9 +177,9 @@ class Event {
             $this->location = $result['location'];
             $this->description = $result['description'];
             $this->startDateTime = $result['startDateTime'];
-            $this->startDateTimeLong=strtotime($result['startDateTime']);
+            $this->startDateTimeLong = strtotime($result['startDateTime']);
             $this->endDateTime = $result['endDateTime'];
-            $this->endDateTimeLong=strtotime($result['endDateTime']);
+            $this->endDateTimeLong = strtotime($result['endDateTime']);
             $this->reminderType = $result['reminderType'];
             $this->reminderUnit = $result['reminderUnit'];
             $this->reminderValue = $result['reminderValue'];
@@ -332,6 +329,10 @@ class Image {
     public $height = null;
 
     public function getUrl() {
+        if(!UtilFunctions::startsWith($this->url, "http"))
+        {
+            $this->url = ImageUtil::getImageUrl($this->url);
+        }
         return $this->url;
     }
 
@@ -344,8 +345,6 @@ class Group {
 
 }
 
-;
-
 class Result {
 
     public $success;
@@ -353,8 +352,6 @@ class Result {
     public $param = array();
 
 }
-
-;
 
 class HtmlMessage {
 
@@ -425,18 +422,18 @@ class Comment {
 
 }
 
-
 class TimetyCategory {
-   
+
     function createNeo4j($result) {
-          if (!empty($result)) {
+        if (!empty($result)) {
             $this->id = $result->getProperty(PROP_TIMETY_CAT_ID);
-            $this->name=$result->getProperty(PROP_TIMETY_CAT_NAME);
+            $this->name = $result->getProperty(PROP_TIMETY_CAT_NAME);
         }
     }
-  
+
     public $id;
     public $name;
+
 }
 
 ?>

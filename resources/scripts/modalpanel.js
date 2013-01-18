@@ -65,6 +65,7 @@ function openModalPanel(id,custom) {
         var myImage = new Image();
         myImage.src=TIMETY_HOSTNAME+data.headerImage.url;
         myImage.onload=function(){
+            var param="";
             var width=0;
             var height=0;
             width=myImage.width;
@@ -80,12 +81,8 @@ function openModalPanel(id,custom) {
                     height=data.headerImage.height; 
             }
 
-            if(560>width)
+            if(560<width)
             {
-            //console.log("smaller");
-            }else
-            {
-                //console.log("bigger");
                 height=(560/width)*height;
                 width=560;
             }
@@ -95,11 +92,12 @@ function openModalPanel(id,custom) {
                 width=250;
                 height=250;
             } 
-            myImage.src = TIMETY_HOSTNAME+data.headerImage.url;
+            
             jQuery(gdySolP2DIV).css('height',height);
             jQuery(gdySolP2Img).attr('width', width);
-            //jQuery(gdySolP2Img).attr('height', height);
-            jQuery(gdySolP2Img).attr('src', TIMETY_HOSTNAME+data.headerImage.url); 
+            param=param+"&h="+height;
+            param=param+"&w="+width;
+            jQuery(gdySolP2Img).attr('src', TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.headerImage.url+param); 
         };
         
         width=30;
@@ -107,11 +105,9 @@ function openModalPanel(id,custom) {
         
         jQuery(gdySolP2DIV).css('height',height);
         jQuery(gdySolP2Img).attr('width', width);
-        //jQuery(gdySolP2Img).attr('height', height);
         jQuery(gdySolP2Img).attr('src', TIMETY_HOSTNAME+"images/loader.gif");   
     }else
     {
-        //jQuery(gdySolP2Img).attr('width', 560);
         jQuery(gdySolP2Img).attr('height', 295);
     }
     jQuery(gdySolP2Img).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
@@ -199,8 +195,7 @@ function openModalPanel(id,custom) {
         jQuery(gdy_altDIVOrtaIMGDIV_images).attr('style', 'width:64px;height:54px;text-align:center;overflow:hidden;margin-left:0px;');
          
         var imgOrta_images = document.createElement('img');
-        jQuery(imgOrta_images).attr('src',TIMETY_HOSTNAME+data.images[0].url);
-        //jQuery(imgOrta).attr('width', 62);
+        jQuery(imgOrta_images).attr('src',TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.images[0].url+"&h=52");
         jQuery(imgOrta_images).attr('height', 52);
         jQuery(imgOrta_images).attr('style', 'margin-left:0px;');
         jQuery(imgOrta_images).addClass('gdy_alt_rsm');
