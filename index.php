@@ -642,7 +642,7 @@ if (empty($user)) {
 
             </div>
         </div>
-        <div class="main_sag_header">
+        <div class="main_sag_header" style="z-index: 10">
             <ul id="timeline_header">
                 <li class="scrl_btn"><input type="button" id="prev_button"
                                             class="solscrl prev-page" /> <input type="button" id="next_button"
