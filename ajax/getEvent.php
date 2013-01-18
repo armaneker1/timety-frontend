@@ -7,6 +7,8 @@ require_once __DIR__.'/../utils/Functions.php';
 $eventId=null;
 if(isset($_POST["eventId"]))
     $eventId=$_POST["eventId"];
+if(isset($_GET["eventId"]))
+    $eventId=$_GET["eventId"];
 
     
 $res=new Result();

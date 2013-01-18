@@ -25,16 +25,15 @@ class Neo4jRecommendationUtils {
                     ".out('" . REL_SUBSCRIBES . "').dedup.out('" . REL_EVENTS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
         } else {
             // all
-            $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_TIMETY_CAT . "']]" .
-                    ".out('" . REL_TIMETY_CATEGORY . "').dedup.out('" . REL_EVENTS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+            $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_EVENT . "']]" .
+                    ".out('" . REL_EVENT . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
         }
-
-        if (!empty($query_) || $query_ == 0) {
+        if (!empty($query_)) {
             $query = $query . ".filter{it.title.matches('.*(?i)" . $query_ . ".*')} ";
         }
         $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
                 ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
-        //echo $query;
+        //echo "Other<p/> ".$query."<p/>";
         $queryRes = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         $result = $queryRes->getResultSet();
         foreach ($result as $row) {
@@ -45,10 +44,32 @@ class Neo4jRecommendationUtils {
         return $array;
     }
 
+    public static function getPopularEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query_) {
+        $array = array();
+        $pgStart = $pageNumber * $pageItemCount;
+        $pgEnd = $pgStart + $pageItemCount - 1;
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
+                ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+        if (!empty($query_)) {
+            $query = $query . ".filter{it.title.matches('.*(?i)" . $query_ . ".*')} ";
+        }
+        $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
+                ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
+        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+        $result = $query->getResultSet();
+        foreach ($result as $row) {
+            $evt = new Event();
+            $evt->createNeo4j($row[0]);
+            array_push($array, $evt);
+        }
+        return $array;
+    }
+
     public static function getFollowingFriendsEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query_ = "", $all = 1) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $eventIds="";
-        $array=array();
+        $eventIds = "";
+        $array = array();
         //default all following 
         $relationType = REL_FOLLOWS;
         if ($all == 0) {
@@ -63,15 +84,17 @@ class Neo4jRecommendationUtils {
                     "event." . PROP_EVENT_DESCRIPTION . " =~ '.*(?i)" . $query_ . ".*') ";
         }
         $query = $query . "RETURN event, count(*) ORDER BY event." . PROP_EVENT_START_DATE . " ASC SKIP " . $pageNumber . " LIMIT " . $pageItemCount;
+        //echo $query."<p/>";
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
+        //echo sizeof($result)."<p/>";
         foreach ($result as $row) {
             $evt = new Event();
             $evt->createNeo4j($row['event']);
             $eventIds = $eventIds . $evt->id . ",";
             array_push($array, $evt);
         }
-        $tmpArray=array();
+        $tmpArray = array();
         array_push($tmpArray, $array);
         array_push($tmpArray, $eventIds);
         return $tmpArray;

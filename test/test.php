@@ -5,8 +5,36 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
 
+function getEventById($id) {
+    if (!empty($id)) {
+        $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id;
+        $query = mysql_query($SQL) or die(mysql_error());
+        $result = mysql_fetch_array($query);
+        $event = new Event();
+        $event->create($result, TRUE);
+        if (!empty($event->id)) {
+            return $event;
+        } else {
+            return null;
+        }
+    } else {
+        return null;
+    }
+}
 
-echo "Hasan";
+$eventId = null;
+if (isset($_POST["eventId"]))
+    $eventId = $_POST["eventId"];
+if (isset($_GET["eventId"]))
+    $eventId = $_GET["eventId"];
+
+$res = getEventById($eventId);
+
+//$json_response = json_encode($res);
+//echo $json_response;
+
+var_dump(UtilFunctions::getTimeDiffString("2013-01-17 23:14:00", "2013-01-17 22:00:00"));
+
 /* var_dump(strtotime("now"));
 
   $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
