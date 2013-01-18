@@ -210,6 +210,7 @@ function openMyTimety()
 function unsubscribe(button)
 {
     button=jQuery(button);
+    button.attr("disabled","disabled");
     userId= button.data("userId");
     catId=  button.data("catId");
     catText=  button.data("catText");
@@ -281,10 +282,8 @@ function unsubscribe(button)
                 
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
-            }else
-            {
-                jQuery(element).removeAttr("disabled");
             }
+            button.removeAttr("disabled");
         }
     },"json");
 }
@@ -293,6 +292,7 @@ function subscribe(button)
 {
     var ul=jQuery('#populer_top_menu_search_ul');
     button=jQuery(button);
+    button.attr("disabled","disabled");
     userId= button.data("userId");
     catId=  button.data("catId");
     catText=  button.data("catText");
@@ -364,6 +364,7 @@ function subscribe(button)
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
             }
+            button.removeAttr("disabled");
         }
     },"json");
 }

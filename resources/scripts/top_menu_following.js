@@ -9,9 +9,7 @@ function compareFriends(a,b) {
 //document ready
 jQuery(document).ready(function(){ 
     allFriends=1;
-    /*
-     *Disable for now
-    jQuery('#top_menu_following').hover(
+   /* jQuery('#top_menu_following').hover(
         function () {
             closeOtherFollowing();
             openMyFollowing();
@@ -27,8 +25,7 @@ jQuery(document).ready(function(){
         {
             seacrhFriend(); 
         }
-    });
-    */
+    });*/
 });
 
 function closeOtherFollowing()
@@ -230,13 +227,13 @@ function openMyFollowing()
 function unfollowUser(button)
 {
     button=jQuery(button);
+    button.attr("disabled","disabled");
     var item=button.data("item");
     var userId= button.data("userId");
     var friendId= item.id;
     var elementId= "friend_id"+item.id;
                                 
     var element=jQuery("#"+elementId);
-    element.attr("disabled", "disabled");
     jQuery.ajax({
         type: 'GET',
         url: TIMETY_PAGE_AJAX_UNSUBSCRIBEUSERFRIEND,
@@ -310,10 +307,8 @@ function unfollowUser(button)
                 
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
-            }else
-            {
-                jQuery(element).removeAttr("disabled");
             }
+            button.removeAttr("disabled");
         }
     },"json");
 }
@@ -322,13 +317,13 @@ function followUser(button)
 {
     var ul=jQuery('#following_top_menu_search_ul');
     button=jQuery(button);
+    button.attr("disabled","disabled");
     var item=button.data("item");
     var userId= button.data("userId");
     var friendId= item.id;
     var elementId= "friend_id"+item.id;
                                 
     var element=jQuery("#"+elementId);
-    element.attr("disabled", "disabled");
     jQuery.ajax({
         type: 'GET',
         url: TIMETY_PAGE_AJAX_SUBSCRIBEUSERFRIEND,
@@ -403,6 +398,7 @@ function followUser(button)
                 page_wookmark=0;
                 wookmarkFiller(document.optionsWookmark,true,true);
             }
+            button.removeAttr("disabled");
         }
     },"json");
 }
