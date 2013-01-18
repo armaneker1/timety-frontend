@@ -56,7 +56,6 @@ class Neo4jRecommendationUtils {
         }
         $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
                 ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
-        //echo "Like<p/> ".$query."<p/>";
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         $result = $query->getResultSet();
         foreach ($result as $row) {

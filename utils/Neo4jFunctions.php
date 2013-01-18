@@ -142,7 +142,6 @@ class Neo4jFuctions {
         }
         return $result;
     }
-    
 
     public static function removeEventInvite($uid, $eventId) {
         try {
@@ -971,9 +970,8 @@ class Neo4jFuctions {
             }
         } else if ($type == 3) {
             $resultArray = Neo4jRecommendationUtils::getFollowingFriendsEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
-            $array=$resultArray[0];
-            $eventIds=$resultArray[1];
-            
+            $array = $resultArray[0];
+            $eventIds = $resultArray[1];
         } else if ($type == 2) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query_ = $query;
@@ -1044,7 +1042,13 @@ class Neo4jFuctions {
                     $array = $array1;
                 }
             } else if (!empty($array2)) {
-                $array = $array2;
+                foreach ($array2 as $evt) {
+                    if (!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys)) {
+                        $evt->title = $evt->title . "(*)";
+                        array_push($array, $evt);
+                        array_push($dublicateKeys, $evt->id);
+                    }
+                }
             }
             //var_dump(sizeof($array));
             /*
@@ -1219,8 +1223,6 @@ class Neo4jFuctions {
         }
         return $array;
     }
-
-    
 
     public static function getPopularEventsByLike_Cypher($userId, $pageNumber, $pageItemCount, $date, $query_) {
         /*
