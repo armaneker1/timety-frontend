@@ -8,6 +8,9 @@ function compareFriends(a,b) {
 
 //document ready
 jQuery(document).ready(function(){ 
+    allFriends=1;
+    /*
+     *Disable for now
     jQuery('#top_menu_following').hover(
         function () {
             closeOtherFollowing();
@@ -25,6 +28,7 @@ jQuery(document).ready(function(){
             seacrhFriend(); 
         }
     });
+    */
 });
 
 function closeOtherFollowing()
@@ -116,7 +120,7 @@ function seacrhFriend(val)
                             }
                         }else
                         {
-                            //input.val("");
+                        //input.val("");
                         }
                         if(loaderShow)
                             getLoader(false);
@@ -135,10 +139,12 @@ function openMyFollowing()
     var ul=jQuery("#following_top_menu_ul");
     if(ul.children().length<1)
     {
+        /*
         var loader=jQuery("<li>");
         loader.css("text-align","center");
         loader.append(jQuery('<img src="'+TIMETY_HOSTNAME+'images/ajax-loader.gif" style="height: 22px;">'));
         ul.append(loader);
+        */
         
         jQuery.sessionphp.get("id", function(userId){
             if(userId)
@@ -151,22 +157,22 @@ function openMyFollowing()
                         'term':'?-1'
                     },
                     success: function(data){ 
+                        var ul=jQuery("#following_top_menu_ul");
+                        //add all categroy
+                        var addAllli=jQuery("<li>");
+                        var addAlllabel=jQuery("<label class=\"label_check c_on\" for=\"allfriends_\"></label>");
+                        addAlllabel.click(check_it);                            
+                        var addAllinput=jQuery("<input name=\"sample-check-01\" id=\"allfriends_\" value=\"1\" type=\"checkbox\">");
+                        addAllinput.click(checkAllFriends);
+                        var addAllspan=jQuery("<span>All Friends</span>");
+                        addAlllabel.append(addAllinput);
+                        addAlllabel.append(addAllspan);
+                        addAllli.append(addAlllabel);
+                        ul.append(addAllli);
+                        //
                         var dataJSON = jQuery.parseJSON(data);
                         if(!dataJSON.error)
                         {
-                            var ul=jQuery("#following_top_menu_ul");
-                            //add all categroy
-                            var addAllli=jQuery("<li>");
-                            var addAlllabel=jQuery("<label class=\"label_check c_on\" for=\"allfriends_\"></label>");
-                            addAlllabel.click(check_it);                            
-                            var addAllinput=jQuery("<input name=\"sample-check-01\" id=\"allfriends_\" value=\"1\" type=\"checkbox\">");
-                            addAllinput.click(checkAllFriends);
-                            var addAllspan=jQuery("<span>All Friends</span>");
-                            addAlllabel.append(addAllinput);
-                            addAlllabel.append(addAllspan);
-                            addAllli.append(addAlllabel);
-                            ul.append(addAllli);
-                            //
                             dataJSON.sort(compareFriends);
                             for(var i=0;i<dataJSON.length;i++)
                             {
@@ -207,7 +213,9 @@ function openMyFollowing()
                                 ul.append(liItem);
                             }
                         }
+                        /*
                         loader.remove();
+                        */
                         seacrhFriend('*');
                     }
                 },"json");

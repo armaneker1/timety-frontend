@@ -129,11 +129,12 @@ function openMyTimety()
     var ul=jQuery("#populer_top_menu_ul");
     if(ul.children().length<1)
     {
+        /*
         var loader=jQuery("<li>");
         loader.css("text-align","center");
         loader.append(jQuery('<img src="'+TIMETY_HOSTNAME+'images/ajax-loader.gif" style="height: 22px;">'));
         ul.append(loader);
-        
+        */
         jQuery.sessionphp.get("id", function(userId){
             if(userId)
             {
@@ -144,22 +145,22 @@ function openMyTimety()
                         'userId':userId
                     },
                     success: function(data){ 
+                        var ul=jQuery("#populer_top_menu_ul");
+                        //add all categroy
+                        var addAllli=jQuery("<li>");
+                        var addAlllabel=jQuery("<label class=\"label_check c_on\" for=\"allcategories_\"></label>");
+                        addAlllabel.click(check_it);                            
+                        var addAllinput=jQuery("<input name=\"sample-check-01\" id=\"allcategories_\" value=\"1\" type=\"checkbox\">");
+                        addAllinput.click(checkAllCategories);
+                        var addAllspan=jQuery("<span>All Categories</span>");
+                        addAlllabel.append(addAllinput);
+                        addAlllabel.append(addAllspan);
+                        addAllli.append(addAlllabel);
+                        ul.append(addAllli);
+                        //
                         var dataJSON = jQuery.parseJSON(data);
                         if(!dataJSON.error)
                         {
-                            var ul=jQuery("#populer_top_menu_ul");
-                            //add all categroy
-                            var addAllli=jQuery("<li>");
-                            var addAlllabel=jQuery("<label class=\"label_check c_on\" for=\"allcategories_\"></label>");
-                            addAlllabel.click(check_it);                            
-                            var addAllinput=jQuery("<input name=\"sample-check-01\" id=\"allcategories_\" value=\"1\" type=\"checkbox\">");
-                            addAllinput.click(checkAllCategories);
-                            var addAllspan=jQuery("<span>All Categories</span>");
-                            addAlllabel.append(addAllinput);
-                            addAlllabel.append(addAllspan);
-                            addAllli.append(addAlllabel);
-                            ul.append(addAllli);
-                            //
                             dataJSON.sort(compareCategory);
                             for(var i=0;i<dataJSON.length;i++)
                             {
@@ -192,7 +193,9 @@ function openMyTimety()
                                 ul.append(liItem);
                             }
                         }
+                        /*
                         loader.remove();
+                        */
                         seacrhCategory('*');
                     }
                 },"json");
