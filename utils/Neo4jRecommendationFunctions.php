@@ -28,8 +28,7 @@ class Neo4jRecommendationUtils {
             $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_EVENT . "']]" .
                     ".out('" . REL_EVENT . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
         }
-
-        if (!empty($query_) || $query_ == 0) {
+        if (!empty($query_)) {
             $query = $query . ".filter{it.title.matches('.*(?i)" . $query_ . ".*')} ";
         }
         $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
@@ -52,7 +51,7 @@ class Neo4jRecommendationUtils {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
                 ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
-        if (!empty($query_) || $query_ == 0) {
+        if (!empty($query_)) {
             $query = $query . ".filter{it.title.matches('.*(?i)" . $query_ . ".*')} ";
         }
         $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
