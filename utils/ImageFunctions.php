@@ -2,6 +2,24 @@
 
 class ImageUtil {
 
+    public static function getImageUrl($url, $width = null, $height = null) {
+        if (!UtilFunctions::startsWith($url, "http")) {
+            if (!UtilFunctions::startsWith($url, "/")) {
+                $url="/".$url;
+            }
+        }
+        $url=PAGE_AJAX_GETIMAGEURL."?src=".basename(dirname(dirname(__FILE__))).$url;
+        if(!empty($width))
+        {
+            $url=$url."&w=".$width;
+        }
+        if(!empty($height))
+        {
+            $url=$url."&h=".$height;
+        }
+        return $url;
+    }
+
     public static function getAllHeaderImageList($idListString) {
         if (!empty($idListString)) {
             $idListString = DBUtils::mysql_escape($idListString);

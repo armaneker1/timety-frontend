@@ -39,6 +39,7 @@ define('PAGE_FORGOT_PASSWORD', HOSTNAME.'forgot-password');
 define('PAGE_NEW_PASSWORD', HOSTNAME.'new-password');
 define('PAGE_CONFIRM', HOSTNAME.'confirm-user');
 define('PAGE_EVENT', HOSTNAME.'event/');
+define('PAGE_AJAX_GETIMAGEURL',HOSTNAME.'getImage.php');
 
 define('PAGE_FB_LOGIN', HOSTNAME.'login-facebook.php');
 define('PAGE_FQ_LOGIN', HOSTNAME.'login-foursquare.php');
