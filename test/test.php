@@ -22,6 +22,36 @@ function getEventById($id) {
     }
 }
 
+ function getTimeDiffString($datestart, $dateend) {
+        try {
+            $start_date = new DateTime($datestart, new DateTimeZone('GMT'));
+            $end_date = new DateTime($dateend, new DateTimeZone('GMT'));
+            $since_start = $start_date->diff($end_date);
+            var_dump($since_start);
+            $result = null;
+            if ($since_start->y > 0 && empty($result))
+                $result = $since_start->y . 'y';
+            if ($since_start->m > 0 && empty($result))
+                $result = $since_start->m . 'mo';
+            if ($since_start->d > 0 && empty($result))
+                $result = $since_start->d . 'd';
+            if ($since_start->h > 0 && empty($result))
+                $result = $since_start->h . 'h';
+            if ($since_start->i > 0 && empty($result))
+                $result = $since_start->i . 'm';
+
+            if (!empty($result)) {
+                return $result;
+            } else {
+                return "~m";
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return "~m";
+        }
+    }
+
+
 $eventId = null;
 if (isset($_POST["eventId"]))
     $eventId = $_POST["eventId"];
@@ -33,7 +63,7 @@ $res = getEventById($eventId);
 //$json_response = json_encode($res);
 //echo $json_response;
 
-var_dump(UtilFunctions::getTimeDiffString("2013-01-17 23:14:00", "2013-01-17 22:00:00"));
+var_dump(getTimeDiffString(date(DATETIME_DB_FORMAT), $res->startDateTime));
 
 /* var_dump(strtotime("now"));
 

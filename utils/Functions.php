@@ -79,8 +79,8 @@ class UtilFunctions {
                 $result = $since_start->d . 'd';
             if ($since_start->h > 0 && empty($result))
                 $result = $since_start->h . 'h';
-            if ($since_start->m > 0 && empty($result))
-                $result = $since_start->m . 'm';
+            if ($since_start->i > 0 && empty($result))
+                $result = $since_start->i . 'm';
 
             if (!empty($result)) {
                 return $result;
