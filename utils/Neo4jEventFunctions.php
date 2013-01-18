@@ -25,6 +25,7 @@ class Neo4jEventUtils {
     }
 
     public static function createEvent(Event $event, User $user) {
+        $n=new Neo4jEventUtils();
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
@@ -64,7 +65,7 @@ class Neo4jEventUtils {
                             } else {
                                 $tags = explode(";", $cat);
                                 if (sizeof($tags) == 2) {
-                                    $tag = $this->addTag(null, $tags[1], "usercustomtag");
+                                    $tag = $n->addTag(null, $tags[1], "usercustomtag");
                                     if (!empty($tag)) {
                                         $tag = $objectIndex->findOne(PROP_OBJECT_ID, strtolower($tag));
                                         if (!empty($tag)) {
@@ -94,7 +95,7 @@ class Neo4jEventUtils {
                             } else {
                                 $tags_ = explode(";", $tag);
                                 if (sizeof($tags_) == 2) {
-                                    $tag_ = $this->addTag(null, $tags_[1], "usercustomtag");
+                                    $tag_ = $n->addTag(null, $tags_[1], "usercustomtag");
                                     if (!empty($tag_)) {
                                         $tag_ = $objectIndex->findOne(PROP_OBJECT_ID, strtolower($tag_));
                                         if (!empty($tag_)) {
@@ -163,7 +164,7 @@ class Neo4jEventUtils {
                                     $grp = $groupIndex->findOne(PROP_GROUP_ID, $id);
                                     if (!empty($grp)) {
                                         $evnt->relateTo($grp, REL_EVENTS_INVITES)->setProperty(PROP_GROUPS_EVENT, 1)->save();
-                                        $this->sendInivitationToGroup($id, $eventId);
+                                        $n->sendInivitationToGroup($id, $eventId);
                                     }
                                 }
                             }

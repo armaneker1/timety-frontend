@@ -70,7 +70,6 @@ class UtilFunctions {
             $start_date = new DateTime($datestart, new DateTimeZone('GMT'));
             $end_date = new DateTime($dateend, new DateTimeZone('GMT'));
             $since_start = $start_date->diff($end_date);
-
             $result = null;
             if ($since_start->y > 0 && empty($result))
                 $result = $since_start->y . 'y';
@@ -82,7 +81,6 @@ class UtilFunctions {
                 $result = $since_start->h . 'h';
             if ($since_start->m > 0 && empty($result))
                 $result = $since_start->m . 'm';
-
 
             if (!empty($result)) {
                 return $result;
