@@ -2212,7 +2212,7 @@ body {
     text-decoration: underline;
 }
 .gdyorum {
-    height: 40px;
+    height: 27px;
     width: 460px;
     float: left;
     margin-right: 10px;
@@ -2220,6 +2220,7 @@ body {
     font-size: 11px;
     color: #676666;
     padding-left: 5px;
+    margin-top: 5px;
 }
 
 .gdy_alt_orta h1 {
@@ -2281,7 +2282,39 @@ body {
 .gdy_alt_sag p {
     margin-top: 3px;
 }
+/* Event detail Comment bar (row) - start*/
+.gdy_alt_orta_yorum {
+    float: left;
+    height: 64px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #CCC;
+    padding-top: 10px;
+    text-align: left;
+    min-width: 507px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
 
+.gdy_alt_sol_yorum {
+    background-color: #f9f9f9;
+    float: left;
+    height: 54px;
+    width: 54px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-color: #CCC;
+    border-bottom-color: #CCC;
+    border-left-color: #CCC;
+    text-align: center;
+    padding-top: 20px;
+}
+
+/* Event detail Comment bar (row) - end*/
 
 .sosyal_btn {
     clear: both;
