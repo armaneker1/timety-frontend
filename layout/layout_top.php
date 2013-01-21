@@ -130,7 +130,7 @@ if (isset($_SESSION['id'])) {
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
-                <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
+                <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo PAGE_AJAX_GETIMAGEURL."?src=".$user->getUserPic()."&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
                     <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
                     <?php } ?>
