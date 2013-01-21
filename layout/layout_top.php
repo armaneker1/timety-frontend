@@ -51,6 +51,7 @@ if (isset($_SESSION['id'])) {
                 ?>
                 <script type="text/javascript">
                     jQuery("#add_event_button").click(openCreatePopup);
+                    jQuery("#add_event_button").click(btnClickStartAddEvent);
                 </script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js"></script>

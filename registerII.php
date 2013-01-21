@@ -55,10 +55,11 @@ if (!isset($_SESSION['id'])) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-<?php include('layout/layout_header.php'); ?>
+        <?php include('layout/layout_header.php'); ?>
+            
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js"></script>
-
+            
         <script language="javascript"
         src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.js"></script>
         <script language="javascript"
@@ -68,19 +69,19 @@ if (!isset($_SESSION['id'])) {
         <script language="javascript"
         src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
         <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
-
+            
             <script type="text/javascript">
-			
+                
                 jQuery(function(){
                     jQuery.Placeholder.init();
-				
+                    
                     // resize
                     jQuery("#add_like_ul").bind('DOMSubtreeModified',function(){
                         jQuery("#foot_add_ktg_sol").height(jQuery("#foot_add_footer").height()); 
                     });
-				 
+                    
                     checkSessionStorage(<?php echo $user->id; ?>);
-				 
+                    
                     jQuery('div[id^="catULDIV_"]').each(function () {
                         jQuery(this).slides({
                             preload: false,
@@ -93,7 +94,7 @@ if (!isset($_SESSION['id'])) {
                             childrenWidth : 680
                         }); 
                     });
-
+                    
                     jQuery( "#add_like_autocomplete" ).autocomplete({ 
                         source: "<?= PAGE_AJAX_GETCATEGORYTOKEN ?>?u=<?php echo $user->id; ?>&c=*", 
                         minLength: 2,
@@ -106,9 +107,9 @@ if (!isset($_SESSION['id'])) {
                             return false;
                         }
                     });
-
-
-				 
+                    
+                    
+                    
                     // OPACITY OF BUTTON SET TO 0%
                     jQuery(".roll").css("opacity","0");
                     // ON MOUSE OVER
@@ -127,7 +128,7 @@ if (!isset($_SESSION['id'])) {
                     });  	   
                 });
             </script>
-
+                
             <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
             <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
             <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
@@ -140,37 +141,39 @@ if (!isset($_SESSION['id'])) {
                     });
                 });
             </script>
-
+                
             <title>Timety Personal Information</title>
-
+                
     </head>
     <body class="bg"
-          onload="checkInterestReady('<?= PAGE_LIKES ?>','#spinner','<?php if (!empty($user)) {
+          onload="checkInterestReady('<?= PAGE_LIKES ?>','#spinner','<?php
+        if (!empty($user)) {
             echo $user->id;
         } else {
             echo "";
-        } ?>',false);">
-<?php include('layout/layout_top.php'); ?>
-        <div class="follow_trans"></div>
-<?php
-$fb = false;
-$tw = false;
-$fq = false;
-if (!empty($user)) {
-    $providers = $user->socialProviders;
-}
-if (!empty($providers)) {
-    foreach ($user->socialProviders as $provider) {
-        if ($provider->oauth_provider == FACEBOOK_TEXT) {
-            $fb = true;
-        } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
-            $fq = true;
-        } else if ($provider->oauth_provider == TWITTER_TEXT) {
-            $tw = true;
         }
-    }
-}
-?>
+        ?>',false);">
+        <?php include('layout/layout_top.php'); ?>
+        <div class="follow_trans"></div>
+        <?php
+        $fb = false;
+        $tw = false;
+        $fq = false;
+        if (!empty($user)) {
+            $providers = $user->socialProviders;
+        }
+        if (!empty($providers)) {
+            foreach ($user->socialProviders as $provider) {
+                if ($provider->oauth_provider == FACEBOOK_TEXT) {
+                    $fb = true;
+                } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
+                    $fq = true;
+                } else if ($provider->oauth_provider == TWITTER_TEXT) {
+                    $tw = true;
+                }
+            }
+        }
+        ?>
         <div class="add_timete_ekr">
             <div class="add_timete_ols">
                 <p class="find_friends">What are your interests?<span class="add_t_k"> Select some! When you visit Timety you will find
@@ -180,16 +183,16 @@ if (!empty($providers)) {
                     <!--<button type="button" name="" value=""
                             class="zmn back_btn sosyal_icon" /> -->
                     <button type="button" name="" value=""
-        <?php if (!$fb) echo "onclick=\"jQuery('#spinner').show();openPopup('fb');checkOpenPopup();\""; ?>
+                            <?php if (!$fb) echo "onclick=\"jQuery('#spinner').show();openPopup('fb');checkOpenPopup();\""; ?>
                             class="face<?php if ($fb) echo '_aktiv'; ?> back_btn sosyal_icon"></button>  
-        <?php if ($tw) { ?>
+                    <?php if ($tw) { ?>
                         <button type="button" name="" value=""
-    <?php if (!$tw) echo "onclick=\"jQuery('#spinner').show();openPopup('tw');checkOpenPopup();\""; ?>
+                                <?php if (!$tw) echo "onclick=\"jQuery('#spinner').show();openPopup('tw');checkOpenPopup();\""; ?>
                                 class="tweet<?php if ($tw) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
-<?php } ?>
-<?php if ($fq) { ?>
+                    <?php } ?>
+                    <?php if ($fq) { ?>
                         <button type="button" name="" value=""
-    <?php if (!$fq) echo "onclick=\"jQuery('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
+                                <?php if (!$fq) echo "onclick=\"jQuery('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
                                 class="googl_plus<?php if ($fq) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
 <?php } ?>
                     <button style="display: none;" id="addSocialReturnButton" type="button"
@@ -200,23 +203,25 @@ if (!empty($providers)) {
             </div>
             <div style="display: block; min-height: 20px;">
                 <div class="add_t_ek" id="spinner" style="display: none;background-image: none;padding-left: 0px;">
-                    <img src="<?=HOSTNAME?>images/loader.gif" style="height: 20px;">
-                    <span class="bold">Loading...</span>
+                    <img src="<?= HOSTNAME ?>images/loader.gif" style="height: 20px;">
+                        <span class="bold">Loading...</span>
                 </div>
             </div>
             <form action="" method="post">
-                            <?php
-                            for ($k = 0; $k < sizeof($categoryList); $k++) {
-                                $cat = new CateforyRef();
-                                $cat = $categoryList[$k];
-                                ?>
+                <?php
+                for ($k = 0; $k < sizeof($categoryList); $k++) {
+                    $cat = new CateforyRef();
+                    $cat = $categoryList[$k];
+                    ?>
                     <div class="add_kategori" style="min-width: 850px;">
                         <div
-                            class="<?php if (($k % 2) == 0) {
-                                    echo "add_kategori_a";
-                                } else {
-                                    echo "add_kategori_k";
-                                } ?>  add_bg">
+                            class="<?php
+                    if (($k % 2) == 0) {
+                        echo "add_kategori_a";
+                    } else {
+                        echo "add_kategori_k";
+                    }
+                    ?>  add_bg">
                             <div class="add_ktg_sol">
                                 <ol class="on_off" style="margin-top: 40px;margin-left: 8px;">
                                     <li><input class="on_off_check_box_style" type="checkbox"  cat_id="<?php echo $cat->id; ?>" id="checkbox_on_off_<?php echo $cat->id; ?>" checked="checked"/>
@@ -225,7 +230,7 @@ if (!empty($providers)) {
                             </div>
                             <!-- add_kag_sag -->
                             <div id="add_like_span_body_div_<?php echo $cat->id; ?>" class="add_ktg_sag">
-
+                                    
                                 <p style="width: 120px;">
                                     <a href="#" class="add_ktg_link"><?php echo $cat->getCategoryName(); ?>
                                     </a> <span class="add_say" style="display: none">(<?php echo sizeof($categoryList); ?>)
@@ -236,47 +241,47 @@ if (!empty($providers)) {
                                      class="category">
                                     <div class="slides_container" id="catUL_<?php echo $cat->id; ?>"
                                          style="padding-top: 0px;">
-    <?php
-    $item_count = 8;
-    $interests = InterestUtil::getUserOtherInterestsByCategory($user->id, $cat->id, 16);
-    if (!empty($interests) && sizeof($interests) > 0) {
+                                             <?php
+                                             $item_count = 8;
+                                             $interests = InterestUtil::getUserOtherInterestsByCategory($user->id, $cat->id, 16);
+                                             if (!empty($interests) && sizeof($interests) > 0) {
 
-        $resultHTML = "<div>";
-        $val = new Interest();
-        $size = sizeof($interests);
-        for ($i = 0; $i < sizeof($interests); $i++) {
-            $val = $interests[$i];
-            $url = HOSTNAME . "images/add_rsm_y.png";
-            $url = ImageUtil::getSocialElementPhoto($val->id, $val->socialType);
-            $val->photoUrl = $url;
+                                                 $resultHTML = "<div>";
+                                                 $val = new Interest();
+                                                 $size = sizeof($interests);
+                                                 for ($i = 0; $i < sizeof($interests); $i++) {
+                                                     $val = $interests[$i];
+                                                     $url = HOSTNAME . "images/add_rsm_y.png";
+                                                     $url = ImageUtil::getSocialElementPhoto($val->id, $val->socialType);
+                                                     $val->photoUrl = $url;
 
-            /*
-             * JS
-             */
-            $className = "add_czg";
-            $classNameEnd = "add_czg_end";
-            $isClassed = "";
-            if (!(($i + 1) % $item_count == 0) && !($i == ($size - 1))) {
-                $isClassed = "class=\"" . $className . "\"";
-            } else {
-                $isClassed = "class=\"" . $classNameEnd . "\"";
-            }
-            $HTML1 = "<div " . $isClassed . " id='interest_item_" . $val->id . "' style='height: 80px;width:67px;overflow: hidden;'><span  class='roll' item_id='i_interest_item_" . $val->id . "' title='" . $val->name . "' onclick='return selectItemSpan(this,document.getElementById(\"i_interest_item_" . $val->id . "\"));' ></span>";
-            $HTML2 = "<img id='i_interest_item_" . $val->id . "' int_id='" . $val->id . "' status='false' cat_id='" . $cat->id . "' title='" . $val->name . "'"
-                    . "onclick='return selectItem(this)' style='cursor: pointer;' src='" . $val->photoUrl . "'  class='cerceve'>";
-            $HTML4 = "</img>" . substr($val->name, 0, 15) . "...</div>";
-            $resultHTML = $resultHTML . $HTML1 . $HTML2 . $HTML4;
-            if (($i + 1) % $item_count == 0 && ($i + 1) != sizeof($interests)) {
-                $resultHTML = $resultHTML . "</div><div>";
-            }
-        }
-        $resultHTML = $resultHTML . "</div>";
-        echo $resultHTML;
-    }
-    ?>
+                                                     /*
+                                                      * JS
+                                                      */
+                                                     $className = "add_czg";
+                                                     $classNameEnd = "add_czg_end";
+                                                     $isClassed = "";
+                                                     if (!(($i + 1) % $item_count == 0) && !($i == ($size - 1))) {
+                                                         $isClassed = "class=\"" . $className . "\"";
+                                                     } else {
+                                                         $isClassed = "class=\"" . $classNameEnd . "\"";
+                                                     }
+                                                     $HTML1 = "<div " . $isClassed . " id='interest_item_" . $val->id . "' style='height: 80px;width:67px;overflow: hidden;'><span  class='roll' item_id='i_interest_item_" . $val->id . "' title='" . $val->name . "' onclick='return selectItemSpan(this,document.getElementById(\"i_interest_item_" . $val->id . "\"));' ></span>";
+                                                     $HTML2 = "<img id='i_interest_item_" . $val->id . "' int_id='" . $val->id . "' status='false' cat_id='" . $cat->id . "' title='" . $val->name . "'"
+                                                             . "onclick='return selectItem(this)' style='cursor: pointer;' src='" . $val->photoUrl . "'  class='cerceve'>";
+                                                     $HTML4 = "</img>" . substr($val->name, 0, 15) . "...</div>";
+                                                     $resultHTML = $resultHTML . $HTML1 . $HTML2 . $HTML4;
+                                                     if (($i + 1) % $item_count == 0 && ($i + 1) != sizeof($interests)) {
+                                                         $resultHTML = $resultHTML . "</div><div>";
+                                                     }
+                                                 }
+                                                 $resultHTML = $resultHTML . "</div>";
+                                                 echo $resultHTML;
+                                             }
+                                             ?>
                                     </div>
                                 </div>
-                                             <?php if ($item_count < $size) { ?>
+    <?php if ($item_count < $size) { ?>
                                     <div style="position: absolute; right: 5px; z-index: 1000">
                                         <input type="button"
                                                id="prev_button_catULDIV_<?php echo $cat->id; ?>" class="solscrl"
@@ -285,7 +290,7 @@ if (!empty($providers)) {
                                                class="sagscrl"
                                                style="position: absolute; right: 0; margin-top: 35px;" />
                                     </div>
-                                             <?php } ?>
+    <?php } ?>
                             </div>
                             <!-- add_kag_sag -->
                             <div id="add_like_span_div_<?php echo $cat->id; ?>" class="add_ktg_sag add_like_span_div_enable"></div>
@@ -301,19 +306,19 @@ if (!empty($providers)) {
                          id="foot_add_footer">
                         <div class="add_dgm">
                             <ul id="add_like_ul">
-
+                                
                             </ul>
                         </div>
                         <div class="add_like">
                             <input name="add_like_autocomplete" type="text"
                                    class="user_inpt like_add" id="add_like_autocomplete" value="" placeholder="Add Like">
                                 <button type="button" name="" value="" class="invite_btn"
-                                        onclick="addNewLike('add_like_autocomplete');">add</button> <input
-                                        type="hidden" id="type" name="type" value="1" /> <input
-                                        type="hidden" id="add_ineterest" name="add_ineterest" /> <input
-                                        type="submit" value="Next" onclick="registerIIBeforeSubmit();"
+                                        onclick="addNewLike('add_like_autocomplete');">add</button> 
+                                <input type="hidden" id="type" name="type" value="1" /> 
+                                <input type="hidden" id="add_ineterest" name="add_ineterest" /> 
+                                <input type="submit" value="Next" onclick="registerIIBeforeSubmit();"
                                         class="invite_btn">
-
+                                            
                                     </div>
                                     </div>
                                     <div class="temizle"></div>

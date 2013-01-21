@@ -33,6 +33,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
     <?php if($event->addsocial_gg==1) { echo "jQuery('#te_event_addsocial_gg_c').click();"; } ?>
     <?php if($event->addsocial_fq==1) { echo "jQuery('#te_event_addsocial_fq_c').click();"; } ?>
     <?php if($event->addsocial_tw==1) { echo "jQuery('#te_event_addsocial_tw_c').click();"; } ?>
+
 });
 </script>
 <?php  } ?>
@@ -315,7 +316,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 			</div>
 			<div class="ea_alt_btn">
 				<a href="#" class="dugme dugme_esit" onclick="closeCreatePopup();return false;"returnfalse;">Cancel</a>
-				<button class="dugme dugme_esit" type="submit">Add Event</button>
+				<button class="dugme dugme_esit" type="submit" id="addEvent">Add Event</button>
 			</div>
 		</div>
 		<input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php if($showPopup && $event->allday==1) {echo "true";} else {echo "false";}?>"></input> 

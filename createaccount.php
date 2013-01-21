@@ -112,8 +112,9 @@ $upass = null;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"> 
-    <head>
+    <head>       
         <?php include('layout/layout_header.php'); ?>
+        
         <title>Timety Signup</title>
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
         <script type="text/javascript">
@@ -141,6 +142,7 @@ $upass = null;
                         rules : 'required|valid_email|callback_check_email'
                     } ],
                 function(errors, event) {
+                    
                     //empty messages
                     jQuery(".create_acco_popup").text("");
                     jQuery(".create_acco_popup").attr("style","display:none;");
@@ -174,6 +176,7 @@ $upass = null;
                             jQuery('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
                         }
                     } else {
+                        btnClickCreateAccount();
                         SELECTOR_ERRORS.css({
                             display : 'none'
                         });
