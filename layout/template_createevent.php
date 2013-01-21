@@ -69,9 +69,9 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 				<div class="eam_bg_orta">
 					<input name="te_event_title" type="text" class="eam_inpt"
 						id="te_event_title" value="<?php if($showPopup) {echo $event->title;}?>" placeholder="title" />
-					<div class="left" style="width: 110px;">
-						<p id="on_off_text" style="position: absolute;">private</p>
-						<ol class="on_off" style="position: absolute; margin-left: 65px;">
+					<div class="left" >
+						<p id="on_off_text" >private</p>
+						<ol class="on_off">
 							<li style="width: 48px; height: 17px;"><input type="checkbox"
 								id="on_off" name="te_event_privacy"
                                                                 tabindex="-1"
@@ -83,26 +83,74 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 				</div>
 				<div class="eam_bg_sag"></div>
 			</div>
-			<div class="eam_bg">
-				<div class="eam_bg_sol"></div>
-				<div class="eam_bg_orta">
-					<input name="te_event_location" type="text" class="eam_inpt"
-						id="te_event_location" value="<?php if($showPopup) {echo $event->location;}?>" placeholder="location" />
-					<div class="left">
-						<p>
-							<a href="#" class="link_btn"></a>
-						</p>
-						<p>
-							<a href="#" class="camera_btn"></a>
-						</p>
-						<p>
-							<a href="#" class="fill_btn"></a>
-						</p>
-					</div>
-				</div>
-				<div class="eam_bg_sag"></div>
-			</div>
+                        <div class="akare">
+                            <div class="akare_kapat">
+                                <span class="sil icon_bg">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="akare">
+                            <div class="akare_kapat">
+                                <span class="sil icon_bg">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="akare">
+                            <div class="akare_kapat">
+                                <span class="sil icon_bg">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="akare">
+                            <div class="akare_kapat">
+                                <span class="sil icon_bg">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="akare">
+                            <div class="akare_kapat">
+                                <span class="sil icon_bg">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="akare">
+                            <div class="akare_kapat">
+                                <span class="sil icon_bg">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="akare">
+                            <div class="akare_kapat">
+                                <span class="sil icon_bg">
+                                </span>
+                            </div>
+                        </div>
 		</div>
+                <div class="eam_bg">
+                    <div class="eam_bg_sol"></div>
+                    <div class="eam_bg_orta">
+                        <input name="te_event_location" type="text" class="eam_inpt" style="width: 435px;"
+                               id="te_event_location" value="<?php if ($showPopup) {echo $event->location; } ?>" placeholder="location" />
+                        <div class="left">
+                            <div class="link_atac" style="display: none;">
+                                <input type="text" class="link_atac_adrs" value="https://docs.google.com/viewer?a=v&amp;pid"/>
+                                <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Add</a>
+                                <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Close</a>
+                            </div>
+                            <p>
+                                <a style="cursor: pointer" onclick="jQuery('.link_atac').show();return false;" class="link_btn"></a>
+                            </p>
+                            <p>
+                                <a style="cursor: pointer" class="camera_btn"></a>
+                            </p>
+                            <p>
+                                <a style="cursor: pointer" class="fill_btn"></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="eam_bg_sag"></div>
+                </div>
+                
 		<div class="eam_dates">
 			<div class="ts_box">
 				<div class="ts_sol"></div>

@@ -410,6 +410,7 @@ if (empty($user)) {
 
             <!--auto complete-->
             <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input.css" rel="stylesheet" type="text/css" />
+            <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css" rel="stylesheet" type="text/css" />
             <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-facebook.css" rel="stylesheet" type="text/css" />
             <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
 
@@ -428,7 +429,7 @@ if (empty($user)) {
                 <script>
                     jQuery(document).ready(function() {
                         jQuery( "#te_event_category" ).tokenInput("<?= PAGE_AJAX_GETCATEGORY ?>",{ 
-                            theme: "facebook",
+                            theme: "custom",
                             userId :"<?= $user->id ?>",
                             queryParam : "term",
                             minChars : 2,
@@ -436,6 +437,9 @@ if (empty($user)) {
                             preventDuplicates : true,
                             input_width:70,
                             propertyToSearch: "label",
+                            resultsFormatter:function(item) {
+                                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                            },
                             add_maunel:false,
                             onAdd: function() {
                                 return true;
@@ -446,7 +450,7 @@ if (empty($user)) {
                                 
                                 
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
-                            theme: "facebook",
+                            theme: "custom",
                             userId :"<?= $user->id ?>",
                             queryParam : "term",
                             minChars : 2,
@@ -454,6 +458,9 @@ if (empty($user)) {
                             preventDuplicates : true,
                             input_width:70,
                             propertyToSearch: "label",
+                            resultsFormatter:function(item) {
+                                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                            },
                             add_maunel:true,
                             onAdd: function() {
                                 return true;
@@ -463,7 +470,7 @@ if (empty($user)) {
                         });	
 
                         jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP ?>",{ 
-                            theme: "facebook",
+                            theme: "custom",
                             userId :"<?= $user->id ?>",
                             queryParam : "term",
                             minChars : 2,
@@ -473,6 +480,9 @@ if (empty($user)) {
                             add_maunel:true,
                             add_mauel_validate_function : validateEmailRegex,
                             propertyToSearch: "label",
+                            resultsFormatter:function(item) {
+                                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                            },
                             onAdd: function() {
                                 return true;
                             },

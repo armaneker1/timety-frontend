@@ -68,7 +68,7 @@ if (!isset($_SESSION['id'])) {
         src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.position.js"></script>
         <script language="javascript"
         src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
-        <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet">
+        <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css" rel="stylesheet">
             
             <script type="text/javascript">
                 
