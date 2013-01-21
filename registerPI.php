@@ -219,10 +219,11 @@ if (empty($birhtdate)) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php include('layout/layout_header.php'); ?>
+
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
         <script type="text/javascript">
-            $(function() {
-                $.Placeholder.init();
+            jQuery(function() {
+                jQuery.Placeholder.init();
                 jQuery( "#te_birthdate" ).datepicker({
                     changeMonth: true,
                     changeYear: true,
@@ -285,8 +286,8 @@ if (empty($birhtdate)) {
                     jQuery('#te_email_span').attr('class', 'onay icon_bg');
                     jQuery('#te_email').attr('class', 'user_inpt icon_bg email onay_brdr');
                     
-                    Query('#te_birthdate_span').attr('class', 'onay icon_bg');
-                    jQuery$('#te_birthdate').attr('class', 'user_inpt onay_brdr');
+                    jQuery('#te_birthdate_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_birthdate').attr('class', 'user_inpt onay_brdr');
                     
                     jQuery('#te_hometown_span').attr('class', 'onay icon_bg');
                     jQuery('#te_hometown').attr('class', 'user_inpt onay_brdr');
@@ -303,6 +304,8 @@ if (empty($birhtdate)) {
                         }
                         SELECTOR_ERRORS.fadeIn(200);
                     } else {
+                        //Mixpanel track event btnClickPersonelInfo function 
+                        btnClickPersonelInfo(jQuery('#te_birthdate').val(),"",jQuery('#te_hometown').val())
                         SELECTOR_ERRORS.css({
                             display : 'none'
                         });

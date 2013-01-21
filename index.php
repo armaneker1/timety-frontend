@@ -242,8 +242,8 @@ if (empty($user)) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php include('layout/layout_header.php'); ?>
+        
         <title>Timety</title>
-
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
@@ -263,6 +263,7 @@ if (empty($user)) {
                 <script>
                     jQuery(document).ready(function() {
                         getInfo(true,'<?= $m->message ?>','info',4000);
+                        btnClickFinishAddEvent();
                     });
                 </script>
             <?php } ?>

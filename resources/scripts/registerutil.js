@@ -8,151 +8,158 @@ var isRed = 'rgb(33, 206, 0)';
  
 // auto complete and add /remove interest
 function insertItem(elementId, item) {
-	item = item.item;
-	addItem(item);
-	var d=document.getElementById("a_interest_item_" + item.id);
-	if(!d){
-		var HTML1 = "<li id=\"a_interest_item_" + item.id + "\" title=\""
-				+ item.label + "\">";
-		var HTML2 = "<a href=\"#\" onclick=\"removeItem('" + item.id
-				+ "','1');return false;\" class=\"add_like_btn\">";
-		var HTML3 = item.label + "</a></li>";
-		jQuery("#" + elementId).append(jQuery(HTML1 + HTML2 + HTML3));
-	}
+    item = item.item;
+    addItem(item);
+    var d=document.getElementById("a_interest_item_" + item.id);
+    if(!d){
+        var HTML1 = "<li id=\"a_interest_item_" + item.id + "\" title=\""
+        + item.label + "\">";
+        var HTML2 = "<a href=\"#\" onclick=\"removeItem('" + item.id
+        + "','1');return false;\" class=\"add_like_btn\">";
+        var HTML3 = item.label + "</a></li>";
+        jQuery("#" + elementId).append(jQuery(HTML1 + HTML2 + HTML3));
+    }
 }
 
 function addItem(item) {
-	if (findItemAdd(item)<0) {
-		var interests=getInterests();
-		if (interests == null) {
-			interests = new Array();
-		}
-		interests[interests.length] = item;
-		saveIneterests(interests);
-	}
+    if (findItemAdd(item)<0) {
+        var interests=getInterests();
+        if (interests == null) {
+            interests = new Array();
+        }
+        interests[interests.length] = item;
+        saveIneterests(interests);
+    }
 }
 
 function removeItem(item,rm) {
-	var interests=getInterests();
-	if (interests == null) {
-		interests = new Array();
-	}
+    var interests=getInterests();
+    if (interests == null) {
+        interests = new Array();
+    }
 
-	var res = findItemAddById(item);
-	var indx = res.indx;
-	item = res.obj;
-	interests = removeByIndex(interests, indx);
-	saveIneterests(interests);
+    var res = findItemAddById(item);
+    var indx = res.indx;
+    item = res.obj;
+    interests = removeByIndex(interests, indx);
+    saveIneterests(interests);
 
-	if((rm+'')=='1')
-	{
-		var element = document.getElementById("a_interest_item_" + item.id);
-		element.parentNode.removeChild(element);
-	}
+    if((rm+'')=='1')
+    {
+        var element = document.getElementById("a_interest_item_" + item.id);
+        element.parentNode.removeChild(element);
+    }
 }
 
 function findItemAdd(item) {
-	var interests=getInterests();
-	if (interests != null) {
-		for ( var i = 0; i < interests.length; i++) {
-			if (interests[i] != null && interests[i]['id'] == item.id)
-				return i;
-		}
-	}
-	return -1;
+    var interests=getInterests();
+    if (interests != null) {
+        for ( var i = 0; i < interests.length; i++) {
+            if (interests[i] != null && interests[i]['id'] == item.id)
+                return i;
+        }
+    }
+    return -1;
 }
 
 function findItemAddById(itemId) {
-	var interests=getInterests();
-	if (interests != null) {
-		for ( var i = 0; i < interests.length; i++) {
-			if (interests[i] != null && (interests[i]['id']+'') == (itemId+'')) {
-				var res = new Object();
-				res.indx = i;
-				res.obj = interests[i];
-				return res;
-			}
-		}
-	}
-	return null;
+    var interests=getInterests();
+    if (interests != null) {
+        for ( var i = 0; i < interests.length; i++) {
+            if (interests[i] != null && (interests[i]['id']+'') == (itemId+'')) {
+                var res = new Object();
+                res.indx = i;
+                res.obj = interests[i];
+                return res;
+            }
+        }
+    }
+    return null;
 }
 
 function findCategoryAddById(itemId) {
-	var cats=getInterestCats();
-	if (cats != null) {
-		for ( var i = 0; i < cats.length; i++) {
-			if (cats[i] != null && (cats[i]['id']+'') == (itemId+'')) {
-				var res = new Object();
-				res.indx = i;
-				res.obj = cats[i];
-				return res;
-			}
-		}
-	}
-	return null;
+    var cats=getInterestCats();
+    if (cats != null) {
+        for ( var i = 0; i < cats.length; i++) {
+            if (cats[i] != null && (cats[i]['id']+'') == (itemId+'')) {
+                var res = new Object();
+                res.indx = i;
+                res.obj = cats[i];
+                return res;
+            }
+        }
+    }
+    return null;
 }
 
 function removeByIndex(array, index) {
-	if (index >= 0)
-		array.splice(index, 1);
-	return array;
+    if (index >= 0)
+        array.splice(index, 1);
+    return array;
 }
 
 function registerIIBeforeSubmit() {
-	var interests = getInterests();
-	var values= new Array();
-	var indx=0;
-	var cats = getInterestCats();
-	if(cats==null)
-	{
-		cats=new Array();
-	}
-	for ( var i = 0; i < interests.length; i++) {
-		if (interests[i] != null && interests[i]['id']!=null) {
-			var res=true;
-			for(var j = 0; j < cats.length; j++)
-			{	
-				if('checkbox_on_off_'+interests[i]['cat_id']==''+cats[j]['id'])
-				{
-					if(cats[j]['cat_id']+''=='false')
-					{
-						res=false;
-					}
-				} 
-			}
-			if(res)
-			{
-				values[indx]=interests[i];
-				indx++;
-			}
-		}
-	}
-	document.getElementById(ELM_ADD_KEY).value = values.toJSON();
-	sessionStorage.clear();
+    var interests = getInterests();
+    var values= new Array();
+    var indx=0;
+    var cats = getInterestCats();
+    if(cats==null)
+    {
+        cats=new Array();
+    }
+    if(interests)
+    {
+        for ( var i = 0; i < interests.length; i++) {
+            if (interests[i] != null && interests[i]['id']!=null) {
+                var res=true;
+                for(var j = 0; j < cats.length; j++)
+                {	
+                    if('checkbox_on_off_'+interests[i]['cat_id']==''+cats[j]['id'])
+                    {
+                        if(cats[j]['cat_id']+''=='false')
+                        {
+                            res=false;
+                        }
+                    } 
+                }
+                if(res)
+                {
+                    values[indx]=interests[i];
+                    indx++;
+                }
+            }
+        }
+    }
+    //Mixpanel implementation
+    btnClickPersonelLikes();
+    //Mixpanel implementation end
+        
+    document.getElementById(ELM_ADD_KEY).value = values.toJSON();
+    sessionStorage.clear();
 }
 
 function saveIneterests(interests)
 {
-	sessionStorage.setItem(INTEREST_ADD_KEY+USERIDS_ADD_KEY, interests.toJSON());
+    sessionStorage.setItem(INTEREST_ADD_KEY+USERIDS_ADD_KEY, interests.toJSON());
 }
 
 function getInterests()
 {
-	var interests = sessionStorage.getItem(INTEREST_ADD_KEY+USERIDS_ADD_KEY);
-	interests = JSON.parse(interests);
-	return interests;
+    var interests = sessionStorage.getItem(INTEREST_ADD_KEY+USERIDS_ADD_KEY);
+    interests = JSON.parse(interests);
+    return interests;
 }
 
 function saveIneterestCats(cats)
 {
-	sessionStorage.setItem(INTEREST_CAT_ADD_KEY+USERIDS_ADD_KEY, cats.toJSON());
+    sessionStorage.setItem(INTEREST_CAT_ADD_KEY+USERIDS_ADD_KEY, cats.toJSON());
 }
 
 function getInterestCats()
 {
-	var cats = sessionStorage.getItem(INTEREST_CAT_ADD_KEY+USERIDS_ADD_KEY);
-	cats = JSON.parse(cats);
-	return cats;
+    var cats = sessionStorage.getItem(INTEREST_CAT_ADD_KEY+USERIDS_ADD_KEY);
+    cats = JSON.parse(cats);
+    return cats;
 }
 
 
@@ -161,48 +168,50 @@ function getInterestCats()
  */
 
 function selectItem(tile){
-	if(tile.getAttribute('status')==='true')
-	{
-		tile.setAttribute('status','false');
-		jQuery(tile).css('border-color','white');
-		removeItem(tile.getAttribute('int_id'),'0');
-	}
-	else{
-		tile.setAttribute('status','true');
-		jQuery(tile).css('border-color',isRed);
-		var item=new Object();
-		item.id=tile.getAttribute('int_id');
-		item.label=tile.title;
-		item.image='1';
-		item.cat=tile.getAttribute('cat_id');
-		if (findItemAdd(item)) {
-			addItem(item);
-		}
-	}
-	return false;
+    if(tile.getAttribute('status')==='true')
+    {
+        tile.setAttribute('status','false');
+        jQuery(tile).css('border-color','white');
+        removeItem(tile.getAttribute('int_id'),'0');
+    }
+    else{
+        tile.setAttribute('status','true');
+        jQuery(tile).css('border-color',isRed);
+        var item=new Object();
+        item.id=tile.getAttribute('int_id');
+        item.label=tile.title;
+        item.image='1';
+        item.cat=tile.getAttribute('cat_id');
+        if (findItemAdd(item)) {
+            addItem(item);
+        }
+    }
+    return false;
 };
 
 function selectItemSpan(span,tile){
-	jQuery(span).css({ opacity: 0 });
-	if(tile.getAttribute('status')==='true')
-	{
-		tile.setAttribute('status','false');
-		jQuery(tile).css('border-color','white');
-		removeItem(tile.getAttribute('int_id'),'0');
-	}
-	else{
-		tile.setAttribute('status','true');
-		jQuery(tile).css('border-color',isRed);
-		var item=new Object();
-		item.id=tile.getAttribute('int_id');
-		item.label=tile.title;
-		item.image='1';
-		item.cat=tile.getAttribute('cat_id');
-		if (findItemAdd(item)) {
-			addItem(item);
-		}
-	}
-	return false;
+    jQuery(span).css({
+        opacity: 0
+    });
+    if(tile.getAttribute('status')==='true')
+    {
+        tile.setAttribute('status','false');
+        jQuery(tile).css('border-color','white');
+        removeItem(tile.getAttribute('int_id'),'0');
+    }
+    else{
+        tile.setAttribute('status','true');
+        jQuery(tile).css('border-color',isRed);
+        var item=new Object();
+        item.id=tile.getAttribute('int_id');
+        item.label=tile.title;
+        item.image='1';
+        item.cat=tile.getAttribute('cat_id');
+        if (findItemAdd(item)) {
+            addItem(item);
+        }
+    }
+    return false;
 };
 
 
@@ -212,130 +221,130 @@ function selectItemSpan(span,tile){
 
 function checkSessionStorage(user_id)
 {
-	if(user_id)
-	{
-		USERIDS_ADD_KEY=user_id+"";
-	}
-	var interests=getInterests();
-	if (interests != null) {
-		for ( var i = 0; i < interests.length; i++) {
-			if (interests[i] != null && interests[i]['image'] == '1')
-			{
-				try {
-					var element=document.getElementById('i_interest_item_'+interests[i]['id']);
-					if(element)
-					{
-						element.setAttribute('status','true');
-						jQuery(element).css('border-color',isRed);
-					}
-				} catch (e) {
-					console.log(e);
-				}
-			}else{
-				try {
-					//if(interests[i]['new_']=='1')
-					//{
-					//	removeItem(interests[i]['id'], '1');
-					//}else{
-						var item=new Object();
-						item.item=interests[i];
-						insertItem('add_like_ul',item);
-					//}
-				} catch (e) {
-					console.log(e);
-				}
-			}
-		}
-	}
-	var cats=getInterestCats();
-	if(cats!=null)
-	{
-		for ( var i = 0; i < cats.length; i++) {
-			if(cats[i] !=null && cats[i]['id'] !=null && cats[i]['val'] !=null)
-			{
-				var element=null;
-				element=document.getElementById(cats[i]['id']);
-				if(element)
-				{
-					if(cats[i]['val']+'' =='true')
-					{
-						element.checked=true;
-					}else
-					{
-						element.removeAttribute("checked");
-					}
-					changeCheckBoxStatus(cats[i]['id']);
-				}
-			}
-		}
-	}
+    if(user_id)
+    {
+        USERIDS_ADD_KEY=user_id+"";
+    }
+    var interests=getInterests();
+    if (interests != null) {
+        for ( var i = 0; i < interests.length; i++) {
+            if (interests[i] != null && interests[i]['image'] == '1')
+            {
+                try {
+                    var element=document.getElementById('i_interest_item_'+interests[i]['id']);
+                    if(element)
+                    {
+                        element.setAttribute('status','true');
+                        jQuery(element).css('border-color',isRed);
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+            }else{
+                try {
+                    //if(interests[i]['new_']=='1')
+                    //{
+                    //	removeItem(interests[i]['id'], '1');
+                    //}else{
+                    var item=new Object();
+                    item.item=interests[i];
+                    insertItem('add_like_ul',item);
+                //}
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        }
+    }
+    var cats=getInterestCats();
+    if(cats!=null)
+    {
+        for ( var i = 0; i < cats.length; i++) {
+            if(cats[i] !=null && cats[i]['id'] !=null && cats[i]['val'] !=null)
+            {
+                var element=null;
+                element=document.getElementById(cats[i]['id']);
+                if(element)
+                {
+                    if(cats[i]['val']+'' =='true')
+                    {
+                        element.checked=true;
+                    }else
+                    {
+                        element.removeAttribute("checked");
+                    }
+                    changeCheckBoxStatus(cats[i]['id']);
+                }
+            }
+        }
+    }
 }
 
 function addNewLike(field)
 {
-	if(field)
-		{
-			var f=document.getElementById(field);
-			if(f)
-			{
-				if(f.value && f.value.trim()!="" && f.getAttribute('placeholder')!=f.value.trim())
-					{
-						//var d = new Date();
-						//var n = d.getMilliseconds();
-						var item=new Object();
-						item.item=new Object();
-						item.item.id='new_'+f.value.trim().toLowerCase();
-						item.item.label=f.value.trim();
-						item.item.new_='1';
-						insertItem('add_like_ul',item);
-					}
-			}
-			f.value="";
-		}
+    if(field)
+    {
+        var f=document.getElementById(field);
+        if(f)
+        {
+            if(f.value && f.value.trim()!="" && f.getAttribute('placeholder')!=f.value.trim())
+            {
+                //var d = new Date();
+                //var n = d.getMilliseconds();
+                var item=new Object();
+                item.item=new Object();
+                item.item.id='new_'+f.value.trim().toLowerCase();
+                item.item.label=f.value.trim();
+                item.item.new_='1';
+                insertItem('add_like_ul',item);
+            }
+        }
+        f.value="";
+    }
 }
 
 
 function changeCheckBoxStatus(checkbox)
 {
-	var item=new Object();
-	var element=null;
+    var item=new Object();
+    var element=null;
     var cats=null;
     element=document.getElementById(checkbox);
     if(element)
     {
-    	item.id=checkbox;
-    	item.val=element.checked;
-	    cats=getInterestCats();
-	    if(cats!=null)
-	    {
-		    item2=findCategoryAddById(checkbox);
-		    if(item2)
-		    {
-		    	cats[item2.indx]=item;
-		    }else
-		    {
-		    	cats[cats.length]=item;
-		    }
-	    }
-	    else
-	    {
-	    	cats=new Array();
-	    	cats[0]=item;
-	    }
-	    saveIneterestCats(cats);
+        item.id=checkbox;
+        item.val=element.checked;
+        cats=getInterestCats();
+        if(cats!=null)
+        {
+            item2=findCategoryAddById(checkbox);
+            if(item2)
+            {
+                cats[item2.indx]=item;
+            }else
+            {
+                cats[cats.length]=item;
+            }
+        }
+        else
+        {
+            cats=new Array();
+            cats[0]=item;
+        }
+        saveIneterestCats(cats);
     }
     var body=document.getElementById('add_like_span_body_div_'+element.getAttribute('cat_id'));
     var span=document.getElementById('add_like_span_div_'+element.getAttribute('cat_id'));
     if(body && span)
     {
-	    if(element.checked)
-	    {
-	    	jQuery(body).css("opacity", "1");
-	    	span.className="add_ktg_sag add_like_span_div_enable";
-	    }else
-	    {
-	    	jQuery(body).css("opacity", "0.3");
-	    	span.className="add_ktg_sag add_like_span_div_disable";
-	    }
+        if(element.checked)
+        {
+            jQuery(body).css("opacity", "1");
+            span.className="add_ktg_sag add_like_span_div_enable";
+        }else
+        {
+            jQuery(body).css("opacity", "0.3");
+            span.className="add_ktg_sag add_like_span_div_disable";
+        }
     }
 }

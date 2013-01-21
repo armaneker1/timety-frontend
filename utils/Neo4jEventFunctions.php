@@ -25,7 +25,7 @@ class Neo4jEventUtils {
     }
 
     public static function createEvent(Event $event, User $user) {
-        $n=new Neo4jEventUtils();
+        $n=new Neo4jFuctions();
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);

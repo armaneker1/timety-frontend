@@ -117,22 +117,30 @@ if (!isset($_SESSION['id'])) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-<?php include('layout/layout_header.php'); ?>
+        <?php include('layout/layout_header.php'); ?>
+        
         <title>Timety Friend Suggest</title>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
         <script type="text/javascript">
-            $(function(){
+            jQuery(function(){
                 $.Placeholder.init();
             });
+            
+            jQuery(document).ready(function(){
+                jQuery(".invite_btn").click(function(){
+                    btnClickFollowPeople();
+                });
+            });
+            
         </script>
     </head>
     <body class="bg">
-<?php include('layout/layout_top.php'); ?>
+        <?php include('layout/layout_top.php'); ?>
         <div class="follow_trans"></div>
         <div class="follow_ekr">
             <div class="f_friend">
                 <p class="find_friends">Find Friends</p>
-<?php
+                <?php
 $fb = false;
 $tw = false;
 $fq = false;
