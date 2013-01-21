@@ -468,7 +468,7 @@ function openModalPanel(id,custom) {
                     /*
                      *
                      */
-                    var myCommentUsrImage = new Image();
+                    var myCommentUsrImage = new Image(); 
                     myCommentUsrImage.src=e.userPic;
                     var param="";
                     var width=0;
