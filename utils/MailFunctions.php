@@ -104,7 +104,6 @@ class MailUtil {
             }
 
             if (!empty($tos) && sizeof($tos) > 0) {
-
                 $ses = new SimpleEmailService(AWS_SES_API_KEY, AWS_SES_API_SECRET);
                 $ses->enableVerifyPeer(false);
                 $m = new SimpleEmailServiceMessage();
