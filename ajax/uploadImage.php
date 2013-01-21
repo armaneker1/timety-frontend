@@ -43,7 +43,7 @@ if (isset($_GET['type']) && $_GET['type'] == 1) {
     else if($size>=(1024*1024) && $size<(3096*1024))
     {
         $quality=30;
-    }else
+    }else if($size>=(3096*1024))
     {
         $quality=10;
     }
