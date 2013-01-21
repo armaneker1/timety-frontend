@@ -501,15 +501,15 @@ function openModalPanel(id,custom) {
                     }
                     param=param+"&h="+height;
                     param=param+"&w="+width;
-                    //jQuery(gdy_altDIVOrtaIMGDIV_users).css("background","url('"+ TIMETY_PAGE_GET_IMAGE_URL+myUsrImage.getAttribute("src")+param+"')");
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("style","background-position:center center !important;background-repeat:no-repeat no-repeat !important;");
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).css("background","url('"+ TIMETY_PAGE_GET_IMAGE_URL+myCommentUsrImage.getAttribute("src")+param+"')");
                     /*
                      *
                      */
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
+                    //jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
                     
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).css("width",56);
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).css("height",31);
                     jQuery(commentItem_gdy_alt_solDIV_IMG).css("margin-top","-7px");
                     
                     jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
