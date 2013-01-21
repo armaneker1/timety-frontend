@@ -70,7 +70,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 					<input name="te_event_title" type="text" class="eam_inpt"
 						id="te_event_title" value="<?php if($showPopup) {echo $event->title;}?>" placeholder="title" />
 					<div class="left" >
-						<p id="on_off_text" >private</p>
+                                            <p id="on_off_text" style="width: 46px;">private</p>
 						<ol class="on_off">
 							<li style="width: 48px; height: 17px;"><input type="checkbox"
 								id="on_off" name="te_event_privacy"
@@ -375,7 +375,7 @@ if(!empty($user) && isset($_POST["te_event_title"]) && !empty($event))
 		<input type="hidden" name="te_event_addsocial_tw" id="te_event_addsocial_tw" value="false"></input>
 		<input type="hidden" name="te_event_addsocial_fq" id="te_event_addsocial_fq" value="false"></input>
                 <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?=$_random_session_id?>"></input>
-                <input type="hidden" name="upload_image" id="upload_image" value="<?php  if ($showPopup && isset($_POST["upload_image"]) && $_POST["upload_image"] != '0') {echo $_POST["upload_image"];} else {echo "0";}?>"></input>
+                <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php  if ($showPopup && isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {echo $_POST["upload_image_header"];} else {echo "0";}?>"></input>
 	</form>
 </div>
 

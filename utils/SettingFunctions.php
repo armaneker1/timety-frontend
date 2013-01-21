@@ -20,6 +20,9 @@ define("SETTINGS_MAIL_APP_KEY", "mail_app_key");
 define("SETTINGS_SYSTEM_ADMIN_MAIL_ADDRRESS", "system_mail_addrress");
 define("SETTINGS_NEO4J_HOST", "neo4j_hostname");
 define("SETTINGS_NEO4J_PORT", "neo4j_port");
+define("SETTINGS_AWS_SES_API_KEY", "aws_ses_mail_api_key");
+define("SETTINGS_AWS_SES_API_SECRET", "aws_ses_mail_api_secret");
+define("SETTINGS_AWS_SES_API_FROM", "aws_ses_mail_api_from");
 
 define("SETTINGS_GUEST_USER", "http.guest.user");
 define("SETTINGS_GUEST_USER_PASS", "http.guest.user.pass");

@@ -87,7 +87,7 @@ if (empty($user)) {
             array_push($msgs, $m);
         }
 
-        if (!isset($_POST["upload_image"]) || $_POST["upload_image"] == '0') {
+        if (!isset($_POST["upload_image_header"]) || $_POST["upload_image_header"] == '0') {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
@@ -299,7 +299,7 @@ if (empty($user)) {
                                 },
                                 sizeLimit : 10*1024*1024,
                                 multiple:false,
-                                onComplete: function(id, fileName, responseJSON){fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON); },
+                                onComplete: function(id, fileName, responseJSON){fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON,'upload_image_header'); },
                                 messages: {
                                     typeError: "{file} has invalid extension. Only {extensions} are allowed.",
                                     sizeError: "{file} is too large, maximum file size is {sizeLimit}.",

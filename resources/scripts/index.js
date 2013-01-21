@@ -76,23 +76,57 @@ function selectCheckBox(elem,id) {
 }
 
 
-function fileUploadOnComplete(id, fileName, responseJSON)
+function fileUploadOnComplete(id, fileName, responseJSON,image_input)
 {
-    console.log(responseJSON);
     var div=document.getElementById(id);
     if(div)
     {
         while (div.hasChildNodes()) {
             div.removeChild(div.lastChild);
         }
-        var img=document.createElement("img");
-        img.src=fileName;
-        img.width=100;
-        img.height=99;
+        var img=document.createElement("div");
+        jQuery(img).attr("style", "width:99px;height:99px;background-repeat: no-repeat !important;background-position: center center !important;");
+        var myUsrImage = new Image();
+        myUsrImage.src=fileName;
+        var param="";
+        var width=0;
+        var height=0;
+        width=myUsrImage.width;
+        height=myUsrImage.height;
+                       
+        if(width>height)
+        {
+            if(width>100)
+            {
+                height=(100/width)*height;
+                width=100;
+            }
+        }else
+        {
+            if(height>100)
+            {
+                width=(100/height)*width;
+                height=100;
+            }
+        }
+        if(width==0)
+        {
+            width=100;
+        }
+        if(height==0)
+        {
+            height=100;
+        }
+                        
+        param=param+"&h="+height;
+        param=param+"&w="+width;
+                       
+        jQuery(img).css("background","url('"+ TIMETY_PAGE_GET_IMAGE_URL+myUsrImage.getAttribute("src")+param+"')");
+        
         div.appendChild(img);
     }
     
-    var inpt=document.getElementById("upload_image");
+    var inpt=document.getElementById(image_input);
     if(inpt)
     {
         inpt.value=fileName;

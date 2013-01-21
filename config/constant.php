@@ -7,6 +7,7 @@ require_once __DIR__.'/../utils/SettingFunctions.php';
 define('HOSTNAME','http://'.SettingsUtil::getSetting(SETTINGS_HOSTNAME));
 define('HOSTNAME_WWW','http://www.'.SettingsUtil::getSetting(SETTINGS_HOSTNAME));
 define('UPLOAD_FOLDER','uploads/');
+define('EMAIL_TEMPLATE_FOLDER',__DIR__.'/../emailTemplate/');
 
 define('USER_TYPE_NORMAL', 0);
 define('USER_TYPE_VERIFIED', 1);
