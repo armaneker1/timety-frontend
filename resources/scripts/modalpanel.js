@@ -547,6 +547,7 @@ function openModalPanel(id,custom) {
                 if(userId!=null && userId>0)
                 {    
                     var writeComments_DIV=document.createElement("div");
+                    jQuery(writeComments_DIV).attr("id","write_comment");
                     jQuery(writeComments_DIV).addClass("gdy_satir");
                     jQuery(writeComments_DIV).addClass("modal_invisable");
 
@@ -599,8 +600,7 @@ function openModalPanel(id,custom) {
 
                     jQuery(writeComments_DIV).append(writeComments_DIV_orta);
 
-
-                    jQuery(gdy_altDIV).append(writeComments_DIV);
+                    jQuery(writeComments_DIV).insertAfter(jQuery("#modal_panel_users"));
                 }
                         
                 loadGifHandler();
@@ -757,7 +757,7 @@ function openAllComments(all_comments)
 
                 jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
 
-                jQuery(commentItemDIV).insertAfter(jQuery("#modal_panel_users"));
+                jQuery(commentItemDIV).insertAfter(jQuery("#write_comment"));
             }
         }
     });
@@ -813,7 +813,7 @@ function sendComment(){
 
                 jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
 
-                jQuery(commentItemDIV).insertAfter(jQuery("#modal_panel_users"));
+                jQuery(commentItemDIV).insertAfter(jQuery("#write_comment"));
                 jQuery("#sendComment").val('');
             }
         });
