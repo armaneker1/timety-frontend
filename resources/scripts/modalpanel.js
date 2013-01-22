@@ -1,3 +1,5 @@
+var lastCommentId=-1;
+
 function openModalPanel(id,custom) {
     /*
      *Clear dropale
@@ -426,23 +428,20 @@ function openModalPanel(id,custom) {
         type: 'POST',
         url: TIMETY_PAGE_AJAX_GETCOMMENTS,
         data: {
-            'eventId':id
+            'eventId':id,
+            'lastComment':'*',
+            'count':'3'
         },
         success: function(data){
             data= JSON.parse(data); 
-            if(!data.error)
+            if(!data.error && data.array)
             {   
-                var comments;
-                if(data.length > 3 )
-                    comments = data.slice(0,3);
-                else
-                    comments=data;
-                
-                //jQuery.each(comments,function(i,e)
+                var comments=data.array;
                 
                 for(var i=0;i<comments.length;i++)
                 {
                     var e=comments[i];
+                    lastCommentId=e.id;
                     var commentItemDIV=document.createElement('div');
                     jQuery(commentItemDIV).addClass("gdy_satir");
                     jQuery(commentItemDIV).addClass("comment_classs");
@@ -524,7 +523,7 @@ function openModalPanel(id,custom) {
                 }
                 
                
-                if(data.length > 3 )
+                if(data.count)
                 {    
                     var all_CommentsDIV=document.createElement("div");
                     jQuery(all_CommentsDIV).addClass("tumyorumlar");
@@ -532,8 +531,13 @@ function openModalPanel(id,custom) {
                     
                     var all_CommentsDIV_a=document.createElement('a');
                     jQuery(all_CommentsDIV_a).attr("href", "#");
-                    jQuery(all_CommentsDIV_a).attr("onclick", "return openAllComments(this);");
-                    jQuery(all_CommentsDIV_a).text("See all "+(data.length-3)+" comment(s)...");
+                    jQuery(all_CommentsDIV_a).attr("onclick", "return openNextComments(this,5);");
+                    var next=5;
+                    if(data.count<5)
+                    {
+                        next=data.count;
+                    }
+                    jQuery(all_CommentsDIV_a).text("See "+next+" Next comments ("+(data.count)+")...");
                     jQuery(all_CommentsDIV).append(all_CommentsDIV_a);
                     
                     jQuery(gdy_altDIV).append(all_CommentsDIV);
@@ -707,57 +711,79 @@ function remUrlEventId()
 }
 
 
-function openAllComments(all_comments)
+function openNextComments(all_comments,count)
 {
     var eventId = jQuery("#sendComment").attr('eventId');
     jQuery.ajax({
         type: 'POST',
         url: TIMETY_PAGE_AJAX_GETCOMMENTS,
         data: {
-            'eventId':eventId
+            'eventId':eventId,
+            'lastComment':lastCommentId,
+            'count':count
         },
         success: function(data){
-            jQuery(all_comments).remove();
+            //jQuery(all_comments).remove();
+            //jQuery(".tumyorumlar").remove();
             data= JSON.parse(data); 
-            jQuery(".tumyorumlar").remove();
-            for(var i=data.length-1;i>=0;i--)
+            if(!data.error && data.array)
             {
-                var e=data[i];
-                var commentItemDIV=document.createElement('div');
-                jQuery(commentItemDIV).addClass("gdy_satir");
-                jQuery(commentItemDIV).addClass("comment_classs");
+                lastCommentId=data.array[data.array.length-1].id;
+                for(var i=data.array.length-1;i>=0;i--)
+                {
+                    var e=data.array[i];
+                    var commentItemDIV=document.createElement('div');
+                    jQuery(commentItemDIV).addClass("gdy_satir");
+                    jQuery(commentItemDIV).addClass("comment_classs");
 
 
-                var commentItem_gdy_alt_solDIV=document.createElement("div");
-                jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol_yorum");
+                    var commentItem_gdy_alt_solDIV=document.createElement("div");
+                    jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol_yorum");
 
-                var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
+                    var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
+                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
 
-                jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
+                    jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
 
-                jQuery(commentItemDIV).append(commentItem_gdy_alt_solDIV);
+                    jQuery(commentItemDIV).append(commentItem_gdy_alt_solDIV);
 
-                var commentItem_gdy_alt_ortaDIV=document.createElement("div");
-                jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum");
-                jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum_bggri"); 
-                jQuery(commentItem_gdy_alt_ortaDIV).addClass("bggri");
+                    var commentItem_gdy_alt_ortaDIV=document.createElement("div");
+                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum");
+                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum_bggri"); 
+                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("bggri");
 
 
-                var commentItem_gdy_alt_ortaDIV_h1=document.createElement("h1");
-                jQuery(commentItem_gdy_alt_ortaDIV_h1).text(e.userName+":");
-                jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_h1);
+                    var commentItem_gdy_alt_ortaDIV_h1=document.createElement("h1");
+                    jQuery(commentItem_gdy_alt_ortaDIV_h1).text(e.userName+":");
+                    jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_h1);
 
-                var commentItem_gdy_alt_ortaDIV_p=document.createElement("p");
-                jQuery(commentItem_gdy_alt_ortaDIV_p).text(e.comment);
-                jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_p);
+                    var commentItem_gdy_alt_ortaDIV_p=document.createElement("p");
+                    jQuery(commentItem_gdy_alt_ortaDIV_p).text(e.comment);
+                    jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_p);
 
-                jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
+                    jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
 
-                jQuery(commentItemDIV).insertAfter(jQuery("#write_comment"));
+                    jQuery(commentItemDIV).insertAfter(jQuery("#write_comment"));
+                }
+            }
+            
+            if(data.count)
+            {
+                jQuery(".tumyorumlar").children().remove();
+                var next=5;
+                if(data.count<5)
+                {
+                    next=data.count;
+                }
+                var cmmentsA=jQuery("<a href=\"#\" onclick=\"return openNextComments(this,5);\"></a>");
+                jQuery(cmmentsA).text("See "+next+" Next comments ("+(data.count)+")...");
+                jQuery(".tumyorumlar").append(cmmentsA);
+            }else
+            {
+                jQuery(all_comments).remove();    
             }
         }
     });

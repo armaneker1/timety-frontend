@@ -1,39 +1,49 @@
-<?php 
+<?php
+
 session_start();
 header("charset=utf8;Content-Type: text/html;");
 
-require_once __DIR__.'/../utils/Functions.php';
+require_once __DIR__ . '/../utils/Functions.php';
 
-$eventId=null;
-if(isset($_POST["eventId"]))
-    $eventId=$_POST["eventId"];
+$eventId = null;
+if (isset($_POST["eventId"]))
+    $eventId = $_POST["eventId"];
 
-$res=new Result();
-$res->error=true;
-$res->success=false;
+$lastCommentId = null;
+if (isset($_POST["lastComment"]))
+    $lastCommentId = $_POST["lastComment"];
+
+$count = null;
+if (isset($_POST["count"]))
+    $count = $_POST["count"];
+
+$res = new Result();
+$res->error = true;
+$res->success = false;
 
 try {
-    if(!empty( $eventId))
-    {
-        $array =  CommentUtil::getCommentListByEvent($eventId);
-        if(!empty($array))
-	{ 
-           $json_response = json_encode($array);
-           echo $json_response;
-        }
-        else
-        {
+    if (!empty($eventId)) {
+        $array = CommentUtil::getCommentListByEvent($eventId, $lastCommentId, $count);
+        if (!empty($array)) {
+            $obj = new stdClass();
+            $c = (int) CommentUtil::getCommentListSizeByEvent($eventId, $lastCommentId);
+            //echo $c."pppp";
+            $c = $c - sizeof($array);
+            //echo $c."ppppp";
+            $obj->count = $c;
+            $obj->array = $array;
+            $json_response = json_encode($obj);
+            echo $json_response;
+        } else {
             $json_response = json_encode($res);
             echo $json_response;
         }
-     }
-      else
-        {
-            $json_response = json_encode($res);
-            echo $json_response;
-        }
+    } else {
+        $json_response = json_encode($res);
+        echo $json_response;
+    }
 } catch (Exception $e) {
-    $res->error=$e->getMessage();
+    $res->error = $e->getMessage();
     $json_response = json_encode($res);
     echo $json_response;
 }

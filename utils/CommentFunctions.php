@@ -20,10 +20,21 @@ class CommentUtil {
         }
     }
 
-    public static function getCommentListByEvent($eventId) {
+    public static function getCommentListByEvent($eventId, $lastCommentId, $count) {
         if (!empty($eventId)) {
             $eventId = DBUtils::mysql_escape($eventId);
-            $SQL = "SELECT * from " . TBL_COMMENT . " WHERE event_id=$eventId ORDER BY datetime DESC";
+            $lastCommentId = DBUtils::mysql_escape($lastCommentId);
+            $count = DBUtils::mysql_escape($count);
+
+            $SQL = "SELECT * from " . TBL_COMMENT . " WHERE event_id=$eventId";
+            if (!empty($lastCommentId) && $lastCommentId != "*") {
+                $SQL = $SQL . " AND  id<" . $lastCommentId . " ";
+            }
+            $SQL = $SQL . " ORDER BY datetime DESC ";
+            if (!empty($count)) {
+                $SQL = $SQL . " LIMIT 0," . $count;
+            }
+            //echo "<p/>".$SQL."<p/>";
             $query = mysql_query($SQL) or die(mysql_error());
             $array = array();
             if (!empty($query)) {
@@ -47,10 +58,14 @@ class CommentUtil {
         }
     }
 
-    public static function getCommentListSizeByEvent($eventId) {
+    public static function getCommentListSizeByEvent($eventId, $lastCommentId) {
         if (!empty($eventId)) {
             $eventId = DBUtils::mysql_escape($eventId);
             $SQL = "SELECT count(id) as count_comment from " . TBL_COMMENT . " WHERE event_id=$eventId ";
+            if (isset($lastCommentId) && !empty($lastCommentId) && $lastCommentId != "*") {
+                $SQL = $SQL . " AND  id<" . $lastCommentId . " ";
+            }
+            //echo "<p/>".$SQL."<p/>";
             $query = mysql_query($SQL) or die(mysql_error());
             if (!empty($query)) {
                 mysql_num_rows($query);
@@ -65,6 +80,8 @@ class CommentUtil {
         }
         return 0;
     }
+    
+   
 
     public static function insert(Comment $comment) {
         if (!empty($comment)) {
