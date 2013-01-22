@@ -156,6 +156,7 @@ function validateUserName(field2, dbCheck,setMsg) {
     }
         
     var result = !(field.value.length < 3) ;
+    result=result && /^[a-z0-9_.]+$/i.test(jQuery(field).val());
     if (!dbCheck) {
         if(setMsg)
         {
