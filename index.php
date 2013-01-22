@@ -96,6 +96,40 @@ if (empty($user)) {
         } else {
             $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
         }
+        
+        /*
+         * Images
+         */
+        if(empty($event->images))
+        {
+            $event->images=[null,null,null,null,null,null,null];
+        }
+        
+        if (isset($_POST["event_image_1_input"]) && !empty($_POST["event_image_1_input"])) {
+           $event->images[0]="ImageEvent_1_" . $_random_session_id . ".png";
+        }
+        if (isset($_POST["event_image_2_input"]) && !empty($_POST["event_image_2_input"])) {
+           $event->images[1]="ImageEvent_2_" . $_random_session_id . ".png";
+        }
+        if (isset($_POST["event_image_3_input"]) && !empty($_POST["event_image_3_input"])) {
+           $event->images[2]="ImageEvent_3_" . $_random_session_id . ".png";
+        }
+        if (isset($_POST["event_image_4_input"]) && !empty($_POST["event_image_4_input"])) {
+           $event->images[3]="ImageEvent_4_" . $_random_session_id . ".png";
+        }
+        if (isset($_POST["event_image_5_input"]) && !empty($_POST["event_image_5_input"])) {
+           $event->images[4]="ImageEvent_5_" . $_random_session_id . ".png";
+        }
+        if (isset($_POST["event_image_6_input"]) && !empty($_POST["event_image_6_input"])) {
+           $event->images[5]="ImageEvent_6_" . $_random_session_id . ".png";
+        }
+        if (isset($_POST["event_image_7_input"]) && !empty($_POST["event_image_7_input"])) {
+           $event->images[6]="ImageEvent_7_" . $_random_session_id . ".png";
+        }
+        
+        /*
+         * Images
+         */
 
         $startDate = $_POST["te_event_start_date"];
         $startTime = $_POST["te_event_start_time"];

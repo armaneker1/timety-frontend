@@ -139,7 +139,7 @@ if ($showPopup) {
             
             <!-- Image 2 -->
                 <div class="akare" style="z-index: -10" id="event_image_2">
-                    <?php if (!$showPopup || empty($event->images[0])) { ?>
+                    <?php if (!$showPopup || empty($event->images[1])) { ?>
                     <a href="#" >click here to add image</a>
                     <?php } else { ?>
                                         <script>
@@ -160,7 +160,7 @@ if ($showPopup) {
             
             <!-- Image 3 -->
             <div class="akare" style="z-index: -10" id="event_image_3">
-                <?php if (!$showPopup || empty($event->images[0])) { ?>
+                <?php if (!$showPopup || empty($event->images[2])) { ?>
                 <a href="#" >click here to add image</a>
                 <?php } else { ?>
                                     <script>
@@ -181,7 +181,7 @@ if ($showPopup) {
             
            <!-- Image 4 -->
             <div class="akare" style="z-index: -10" id="event_image_4">
-                <?php if (!$showPopup || empty($event->images[0])) { ?>
+                <?php if (!$showPopup || empty($event->images[3])) { ?>
                 <a href="#" >click here to add image</a>
                 <?php } else { ?>
                                     <script>
@@ -203,7 +203,7 @@ if ($showPopup) {
             
              <!-- Image 5 -->
             <div class="akare" style="z-index: -10" id="event_image_5">
-                <?php if (!$showPopup || empty($event->images[0])) { ?>
+                <?php if (!$showPopup || empty($event->images[4])) { ?>
                 <a href="#" >click here to add image</a>
                 <?php } else { ?>
                                     <script>
@@ -224,7 +224,7 @@ if ($showPopup) {
             
             <!-- Image 6 -->
             <div class="akare" style="z-index: -10" id="event_image_6">
-                <?php if (!$showPopup || empty($event->images[0])) { ?>
+                <?php if (!$showPopup || empty($event->images[5])) { ?>
                 <a href="#" >click here to add image</a>
                 <?php } else { ?>
                                     <script>
@@ -245,7 +245,7 @@ if ($showPopup) {
             
              <!-- Image 7 -->
             <div class="akare" style="z-index: -10" id="event_image_7">
-                <?php if (!$showPopup || empty($event->images[0])) { ?>
+                <?php if (!$showPopup || empty($event->images[6])) { ?>
                 <a href="#" >click here to add image</a>
                 <?php } else { ?>
                                     <script>
@@ -536,11 +536,14 @@ if ($showPopup) {
         <input type="hidden" name="te_event_addsocial_tw" id="te_event_addsocial_tw" value="false"></input>
         <input type="hidden" name="te_event_addsocial_fq" id="te_event_addsocial_fq" value="false"></input>
         <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?= $_random_session_id ?>"></input>
-        <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php if ($showPopup && isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {
-    echo $_POST["upload_image_header"];
-} else {
-    echo "0";
-} ?>"></input>
+        <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php if ($showPopup && isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') { echo $_POST["upload_image_header"];} else {echo "0";} ?>"></input>
+        <input type="hidden" name="event_image_1_input" id="event_image_1_input" value="<?php if ($showPopup && isset($_POST["event_image_1_input"]) && $_POST["event_image_1_input"] != '0') { echo $_POST["event_image_1_input"];} else {echo "0";} ?>"></input>
+        <input type="hidden" name="event_image_2_input" id="event_image_2_input" value="<?php if ($showPopup && isset($_POST["event_image_2_input"]) && $_POST["event_image_2_input"] != '0') { echo $_POST["event_image_2_input"];} else {echo "0";} ?>"></input>
+        <input type="hidden" name="event_image_3_input" id="event_image_3_input" value="<?php if ($showPopup && isset($_POST["event_image_3_input"]) && $_POST["event_image_3_input"] != '0') { echo $_POST["event_image_3_input"];} else {echo "0";} ?>"></input>
+        <input type="hidden" name="event_image_4_input" id="event_image_4_input" value="<?php if ($showPopup && isset($_POST["event_image_4_input"]) && $_POST["event_image_4_input"] != '0') { echo $_POST["event_image_4_input"];} else {echo "0";} ?>"></input>
+        <input type="hidden" name="event_image_5_input" id="event_image_5_input" value="<?php if ($showPopup && isset($_POST["event_image_5_input"]) && $_POST["event_image_5_input"] != '0') { echo $_POST["event_image_5_input"];} else {echo "0";} ?>"></input>
+        <input type="hidden" name="event_image_6_input" id="event_image_6_input" value="<?php if ($showPopup && isset($_POST["event_image_6_input"]) && $_POST["event_image_6_input"] != '0') { echo $_POST["event_image_6_input"];} else {echo "0";} ?>"></input>
+        <input type="hidden" name="event_image_7_input" id="event_image_7_input" value="<?php if ($showPopup && isset($_POST["event_image_7_input"]) && $_POST["event_image_7_input"] != '0') { echo $_POST["event_image_7_input"];} else {echo "0";} ?>"></input>
     </form>
 </div>
 

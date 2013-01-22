@@ -177,7 +177,7 @@
             sizeLimit : 10*1024*1024,
             multiple:false,
             onComplete: function(id, fileName, responseJSON){
-                fileUploadOnComplete('event_image_7', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEvent_7_" . $_random_session_id . ".png" ?>', responseJSON,'event_image_76_input',50,50); 
+                fileUploadOnComplete('event_image_7', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEvent_7_" . $_random_session_id . ".png" ?>', responseJSON,'event_image_7_input',50,50); 
             },
             messages: {
                 typeError: "{file} has invalid extension. Only {extensions} are allowed.",
