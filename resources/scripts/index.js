@@ -54,6 +54,22 @@ function validateInt(evt) {
     }
 }
 
+function selectCategory1(val,id)
+{
+    if(val)
+        jQuery('#te_event_category1_label').text(val);
+    jQuery('#te_event_category1_hidden').val(id);
+    //jQuery('[id^="te_event_category2_"]').removeAttr("disabled");
+    //jQuery("#te_event_category2_"+id).attr("disabled", "disabled");
+}
+
+function selectCategory2(val,id)
+{
+    if(val)
+        jQuery('#te_event_category2_label').text(val);
+    jQuery('#te_event_category2_hidden').val(id);
+}
+
 function selectReminderUnit(val)
 {
     if(val)

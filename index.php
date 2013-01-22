@@ -4,7 +4,6 @@ header("charset=utf8;Content-Type: text/html;");
 
 require_once __DIR__ . '/utils/Functions.php';
 
-
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
 
@@ -245,7 +244,17 @@ if (empty($user)) {
         else
             $event->privacy = "false";
 
-        $event->categories = $_POST["te_event_category"];
+        $event->categories="";
+        if(isset($_POST["te_event_category1"]))
+        {
+            $event->categories=$_POST["te_event_category1"];
+        }
+        
+        if(isset($_POST["te_event_category2"]))
+        {
+            $event->categories=$event->categories.",".$_POST["te_event_category2"];
+        }
+        
         $event->tags = $_POST["te_event_tag"];
         $event->attendance = $_POST["te_event_people"];
         if (!$error) {
@@ -434,7 +443,7 @@ if (empty($user)) {
                 ?>
                 <script>
                     jQuery(document).ready(function() {
-                        jQuery( "#te_event_category" ).tokenInput("<?= PAGE_AJAX_GETCATEGORY ?>",{ 
+                       /* jQuery( "#te_event_category" ).tokenInput("<?= PAGE_AJAX_GETCATEGORY ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
                             queryParam : "term",
@@ -452,7 +461,7 @@ if (empty($user)) {
                             },
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
-                        });	
+                        });*/
                                             
                                             
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 

@@ -706,7 +706,7 @@ class Neo4jFuctions {
         $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
                 "MATCH (user) -[:" . REL_FOLLOWS . "]-> (follow) WHERE ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND follow." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $query . ".*/ ) OR ( HAS (follow." . PROP_USER_LASTNAME . ") AND  follow." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $query . ".*/ ) " .
                 "RETURN follow, count(*)";
-        echo $query;
+        //echo $query;
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         $array = array();
