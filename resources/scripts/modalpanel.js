@@ -57,6 +57,7 @@ function openModalPanel(id,custom) {
     var gdySolP2DIV=document.createElement('div');
     jQuery(gdySolP2DIV).attr('style', 'width:560px;max-width:560px;height:295px;text-align:center;');
     var gdySolP2Img = document.createElement('img');
+    gdySolP2Img.id="image_view";
     if(data.headerImage && data.headerImage.url)
     {
         var width=0;
@@ -68,30 +69,8 @@ function openModalPanel(id,custom) {
             var param="";
             var width=0;
             var height=0;
-            width=myImage.width;
-            height=myImage.height;
-            if(width<10)
-            {
-                if(data.headerImage.width)
-                    width=data.headerImage.width; 
-            }
-            if(height<10)
-            {
-                if(data.headerImage.height)
-                    height=data.headerImage.height; 
-            }
-
-            if(560<width)
-            {
-                height=(560/width)*height;
-                width=560;
-            }
-
-            if(width<10 && height<10)
-            {
-                width=250;
-                height=250;
-            } 
+            width=data.headerImage.width;
+            height=data.headerImage.height;
             
             jQuery(gdySolP2DIV).css('height',height);
             jQuery(gdySolP2Img).attr('width', width);
@@ -188,6 +167,7 @@ function openModalPanel(id,custom) {
     var gdy_altDIVOrta_images = document.createElement('div');
     jQuery(gdy_altDIVOrta_images).addClass('gdy_alt_orta');
    
+   
     for(var i=0;i<data.images.length;i++)
     {
         var gdy_altDIVOrtaIMGDIV_images=document.createElement('div');
@@ -196,6 +176,8 @@ function openModalPanel(id,custom) {
          
         if(data.images[i].url)
         {
+            jQuery(gdy_altDIVOrtaIMGDIV_images).attr("id","images_"+data.images[i].id);
+            jQuery(gdy_altDIVOrtaIMGDIV_images).data("img",data.images[i]);
             try{
                 /*
                  *Calculate width height
@@ -226,7 +208,10 @@ function openModalPanel(id,custom) {
                 /*
                  *Calculate width height
                  */
-                jQuery(gdy_altDIVOrtaIMGDIV_images).css("background","url('"+TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.images[0].url+param+"')");
+                jQuery(gdy_altDIVOrtaIMGDIV_images).click(function(){
+                    setPopupImage("image_view",jQuery(this).data("img"));
+                });
+                jQuery(gdy_altDIVOrtaIMGDIV_images).css("background","url('"+TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.images[i].url+param+"')");
             //jQuery(imgOrta_images).attr('src',TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.images[0].url+param);
             }catch(exp)
             {
@@ -234,7 +219,7 @@ function openModalPanel(id,custom) {
             }
         }else
         {
-            jQuery(imgOrta_images).attr('src',TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER);
+            jQuery(gdy_altDIVOrtaIMGDIV_images).css("background","url('"+TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+"')");
         }
         
         //jQuery(imgOrta_images).addClass('gdy_alt_rsm_img');
@@ -245,6 +230,9 @@ function openModalPanel(id,custom) {
 
     jQuery(gdy_satirDIV_images).append(gdy_altDIVOrta_images);
     //add gdy_altDIVOrta_images
+    
+    //get all other images
+    getImages(gdy_altDIVOrta_images,event_id);
 
     
     var gdy_altDIVSag_images = document.createElement('div');
@@ -863,4 +851,100 @@ function joinEvent(button,eventId)
             },"json");
         }     
     });
+}
+
+
+
+function getImages(gdy_altDIVOrta_images,event_id)
+{
+    
+    jQuery.ajax({
+        type: "POST",
+        url: TIMETY_PAGE_AJAX_GETEVENTIMAGES,
+        data: {
+            "eventId":event_id
+        },
+        success: function(data){
+            data= JSON.parse(data); 
+            if(!data.error)
+            {
+                for(var i=0;i<data.length;i++)
+                {
+                    var tmp=jQuery("#images_"+data[i].id);
+                    if(data[i].url && !tmp.length)
+                    {
+                        
+                        var gdy_altDIVOrtaIMGDIV_images=document.createElement('div');
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).addClass('gdy_alt_rsm');
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).attr('style', 'width:64px;height:51px;text-align:center;overflow:hidden;margin-left:0px;background-repeat: no-repeat !important;background-position: center center !important;');
+         
+                    
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).attr("id","images_"+data[i].id);
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).data("img",data[i]);
+                        try{
+                            width=0;
+                            height=0;
+                            width=data[i].width;
+                            height=data[i].height;
+
+                            if(width>height)
+                            {
+                                if(width>64)
+                                {
+                                    height=(64/width)*height;
+                                    width=64;
+                                }
+                            }else
+                            {
+                                if(height>51)
+                                {
+                                    width=(51/height)*width;
+                                    height=51;
+                                }
+                            }
+                
+                            var param="&h="+height;
+                            param=param+"&w="+width;
+                            jQuery(gdy_altDIVOrtaIMGDIV_images).css("background","url('"+TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data[i].url+param+"')");
+                        }catch(exp)
+                        {
+                            console.log(exp);
+                        }
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).click(function(){
+                            setPopupImage("image_view",jQuery(this).data("img"));
+                        });
+                        jQuery(gdy_altDIVOrta_images).append(gdy_altDIVOrtaIMGDIV_images);
+                    }
+                }   
+            }
+        }
+    });
+}
+
+
+function setPopupImage(imageDivId,data)
+{
+    var imgElement=jQuery("#"+imageDivId);
+    if(imgElement)
+    {
+        var width=0;
+        var height=0;
+        width=data.width;
+        height=data.height;
+
+        if(width>height)
+        {
+            if(width>560)
+            {
+                height=(560/width)*height;
+                width=560;
+            }
+        }
+        jQuery(imgElement).attr("width",width);
+        jQuery(imgElement).attr("height",height);
+        var param="&h="+height;
+        param=param+"&w="+width;
+        jQuery(imgElement).attr("src",TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.url+param);
+        jQuery(imgElement).parent().css("height",height);
+    }
 }

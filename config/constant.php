@@ -76,6 +76,7 @@ define('PAGE_AJAX_UNSUBSCRIBEUSERCAT',PAGE_AJAX_FOLDER.'unsubscribeUserCategory.
 define('PAGE_AJAX_GETFRIENDS',PAGE_AJAX_FOLDER.'getFriends.php');
 define('PAGE_AJAX_SUBSCRIBEUSERFRIEND',PAGE_AJAX_FOLDER.'subscribeUserFriend.php');
 define('PAGE_AJAX_UNSUBSCRIBEUSERFRIEND',PAGE_AJAX_FOLDER.'unsubscribeUserFriend.php');
+define('PAGE_AJAX_GETEVENTIMAGES',PAGE_AJAX_FOLDER.'getEventImages.php');
 
 
 
