@@ -41,8 +41,6 @@ if(!empty($query) && !empty( $userId))
 				array_push($result, $val);
 			}
 		}*/
-		
-		
 		$json_response = json_encode($result);
 		echo $json_response;
 	}

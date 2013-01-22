@@ -96,37 +96,34 @@ if (empty($user)) {
         } else {
             $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
         }
-        
+
         /*
          * Images
          */
-        if(empty($event->images))
-        {
-            $event->images=[null,null,null,null,null,null,null];
-        }
-        
+        $event->images = [null, null, null, null, null, null, null];
+
         if (isset($_POST["event_image_1_input"]) && !empty($_POST["event_image_1_input"])) {
-           $event->images[0]="ImageEvent_1_" . $_random_session_id . ".png";
+            $event->images[0] = "ImageEvent_1_" . $_random_session_id . ".png";
         }
         if (isset($_POST["event_image_2_input"]) && !empty($_POST["event_image_2_input"])) {
-           $event->images[1]="ImageEvent_2_" . $_random_session_id . ".png";
+            $event->images[1] = "ImageEvent_2_" . $_random_session_id . ".png";
         }
         if (isset($_POST["event_image_3_input"]) && !empty($_POST["event_image_3_input"])) {
-           $event->images[2]="ImageEvent_3_" . $_random_session_id . ".png";
+            $event->images[2] = "ImageEvent_3_" . $_random_session_id . ".png";
         }
         if (isset($_POST["event_image_4_input"]) && !empty($_POST["event_image_4_input"])) {
-           $event->images[3]="ImageEvent_4_" . $_random_session_id . ".png";
+            $event->images[3] = "ImageEvent_4_" . $_random_session_id . ".png";
         }
         if (isset($_POST["event_image_5_input"]) && !empty($_POST["event_image_5_input"])) {
-           $event->images[4]="ImageEvent_5_" . $_random_session_id . ".png";
+            $event->images[4] = "ImageEvent_5_" . $_random_session_id . ".png";
         }
         if (isset($_POST["event_image_6_input"]) && !empty($_POST["event_image_6_input"])) {
-           $event->images[5]="ImageEvent_6_" . $_random_session_id . ".png";
+            $event->images[5] = "ImageEvent_6_" . $_random_session_id . ".png";
         }
         if (isset($_POST["event_image_7_input"]) && !empty($_POST["event_image_7_input"])) {
-           $event->images[6]="ImageEvent_7_" . $_random_session_id . ".png";
+            $event->images[6] = "ImageEvent_7_" . $_random_session_id . ".png";
         }
-        
+
         /*
          * Images
          */
@@ -258,7 +255,7 @@ if (empty($user)) {
                 $m->type = "s";
                 $m->message = "Event created successfully.";
                 $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
-                error_log("redirected " . $_random_session_id, 0);
+                error_log("redirected " . $_random_session_id);
                 exit(header('Location: ' . HOSTNAME));
             } catch (Exception $e) {
                 $error = true;
@@ -318,16 +315,17 @@ if (empty($user)) {
 
 
 
-            <?php if (!empty($user)) {
-                
+            <?php
+            if (!empty($user)) {
+
                 include('layout/eventImageUpload.php');
-             ?>
+                ?>
                 <script>          
                     jQuery(document).ready(function() {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                    		      
+                        		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -340,7 +338,7 @@ if (empty($user)) {
                         }, 2500);
                     });
                 </script>
-            <?php } ?>
+<?php } ?>
 
             <script language="javascript">
                 var handler = null;
@@ -455,8 +453,8 @@ if (empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });	
-                                        
-                                        
+                                            
+                                            
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
@@ -499,7 +497,7 @@ if (empty($user)) {
                         });
                     });
                 </script>
-            <?php } ?>
+<?php } ?>
             <!--auto complete-->
             <!--Placeholder-->
             <script>
@@ -575,11 +573,11 @@ if (empty($user)) {
                 <meta property="og:url " content="<?= HOSTNAME ?>"/>
                 <meta property="fb:app_id  " content="<?= FB_APP_ID ?>"/>
 
-            <?php } ?>
+<?php } ?>
             <!-- Open Event Popup -->
     </head>
     <body class="bg">
-        <?php include('layout/layout_top.php'); ?>
+<?php include('layout/layout_top.php'); ?>
         <div class="main_sol" style="width:91%;">
             <div class="ust_blm">
                 <div class="trh_gn">
@@ -597,7 +595,7 @@ if (empty($user)) {
                             <td colspan="2">
                                 <div id="slides" style="overflow: hidden;max-height: 120px;">
                                     <div id="slides_container">
-                                        <?php if (empty($user)) { ?>
+<?php if (empty($user)) { ?>
                                             <div class="slide_item">
                                                 <div class="akt_tkvm">
                                                     <a href="<?= HOSTNAME ?>login"  class="add_event_link">Click Here to Add Event</a>
@@ -681,5 +679,5 @@ if (empty($user)) {
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
     </body>
-    <?php include('layout/template_createevent.php'); ?>
+<?php include('layout/template_createevent.php'); ?>
 </html>

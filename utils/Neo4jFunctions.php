@@ -704,8 +704,9 @@ class Neo4jFuctions {
     function getFriendList($userId, $query) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
-                "MATCH (user) -[:" . REL_FOLLOWS . "]-> (follow) WHERE follow." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $query . ".*/ or follow." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $query . ".*/ " .
+                "MATCH (user) -[:" . REL_FOLLOWS . "]-> (follow) WHERE ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND follow." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $query . ".*/ ) OR ( HAS (follow." . PROP_USER_LASTNAME . ") AND  follow." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $query . ".*/ ) " .
                 "RETURN follow, count(*)";
+        echo $query;
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         $array = array();

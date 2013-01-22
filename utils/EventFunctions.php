@@ -25,7 +25,6 @@ class EventUtil {
          * Image'ler eklenecek
          */
         if (!empty($event) && !empty($images)) {
-            $images = explode(",", $images);
             if (sizeof($images) > 0) {
                 foreach ($images as $image) {
                     if (!empty($image)) {
@@ -38,7 +37,7 @@ class EventUtil {
                         }
 
                         $img = new Image();
-                        $img->url = $image;
+                        $img->url = UPLOAD_FOLDER . "events/" . $event->id . "/" . $image;
                         $img->header = 0;
                         $img->eventId = $event->id;
                         $size = ImageUtil::getSize($img->url);
