@@ -1,0 +1,8 @@
+.akare a{
+    cursor: pointer;
+    text-align: center;
+    font-size: 7px;
+    position: absolute;
+    top: 20px;
+    left: -1px;
+}

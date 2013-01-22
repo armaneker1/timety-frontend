@@ -242,7 +242,7 @@ if (empty($user)) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php include('layout/layout_header.php'); ?>
-        
+
         <title>Timety</title>
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
@@ -284,41 +284,16 @@ if (empty($user)) {
 
 
 
-            <?php if (!empty($user)) { ?>
-                <script>
-                    jQuery(document).ready(function() {
-                                
-                        jQuery(function(){          
-                            var uploader = new qq.FileUploader({
-                                element: document.getElementById('te_event_image_div'),
-                                action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                                debug: true,
-                                allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-                                params: {
-                                    imageName:'<?= "ImageEventHeader" . $_random_session_id . ".png" ?>'
-                                },
-                                sizeLimit : 10*1024*1024,
-                                multiple:false,
-                                onComplete: function(id, fileName, responseJSON){fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON,'upload_image_header'); },
-                                messages: {
-                                    typeError: "{file} has invalid extension. Only {extensions} are allowed.",
-                                    sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-                                    minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-                                    emptyError: "{file} is empty, please select files again without it.",
-                                    onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
-                                }
-                            }
-                        );
-                        });
-                    });
-                            
-                            
-                            
+            <?php if (!empty($user)) {
+                
+                include('layout/eventImageUpload.php');
+             ?>
+                <script>          
                     jQuery(document).ready(function() {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-            		      
+                    		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -331,7 +306,6 @@ if (empty($user)) {
                         }, 2500);
                     });
                 </script>
-
             <?php } ?>
 
             <script language="javascript">
@@ -438,7 +412,7 @@ if (empty($user)) {
                             input_width:70,
                             propertyToSearch: "label",
                             resultsFormatter:function(item) {
-                                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
                             },
                             add_maunel:false,
                             onAdd: function() {
@@ -447,8 +421,8 @@ if (empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });	
-                                
-                                
+                                        
+                                        
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
@@ -459,7 +433,7 @@ if (empty($user)) {
                             input_width:70,
                             propertyToSearch: "label",
                             resultsFormatter:function(item) {
-                                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
                             },
                             add_maunel:true,
                             onAdd: function() {
@@ -481,7 +455,7 @@ if (empty($user)) {
                             add_mauel_validate_function : validateEmailRegex,
                             propertyToSearch: "label",
                             resultsFormatter:function(item) {
-                                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
                             },
                             onAdd: function() {
                                 return true;

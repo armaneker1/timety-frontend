@@ -19,10 +19,10 @@ if (isset($_GET['type']) && $_GET['type'] == 1) {
     if (isset($_GET['imageName'])) {
         $imgName = $_GET['imageName'];
     }
-    
-    $source_url=__DIR__ . '/../uploads/' . $imgName;
+
+    $source_url = __DIR__ . '/../uploads/' . $imgName;
     $info = getimagesize($source_url);
-  
+
     if ($info['mime'] == 'image/jpeg')
         $image = imagecreatefromjpeg($source_url);
     elseif ($info['mime'] == 'image/gif')
@@ -30,24 +30,17 @@ if (isset($_GET['type']) && $_GET['type'] == 1) {
     elseif ($info['mime'] == 'image/png')
         $image = imagecreatefrompng($source_url);
 
-    $size=filesize($source_url);
-    $quality=100;
-    if($size>=(100*1024) && $size<(512*1024))
-    {
-         $quality=60;
+    $size = filesize($source_url);
+    $quality = 100;
+    if ($size >= (100 * 1024) && $size < (512 * 1024)) {
+        $quality = 60;
+    } else if ($size >= (512 * 1024) && $size < (1024 * 1024)) {
+        $quality = 40;
+    } else if ($size >= (1024 * 1024) && $size < (3096 * 1024)) {
+        $quality = 30;
+    } else if ($size >= (3096 * 1024)) {
+        $quality = 10;
     }
-    else if($size>=(512*1024) && $size<(1024*1024))
-    {
-        $quality=40;
-    }
-    else if($size>=(1024*1024) && $size<(3096*1024))
-    {
-        $quality=30;
-    }else if($size>=(3096*1024))
-    {
-        $quality=10;
-    }
-    echo $quality;
     imagejpeg($image, $source_url, $quality);
     echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 }
