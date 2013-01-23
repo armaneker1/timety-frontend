@@ -31,7 +31,7 @@ class Neo4jRecommendationUtils {
         if (!empty($query_)) {
             $query = $query . ".filter{it.title.matches('.*(?i)" . $query_ . ".*')} ";
         }
-        $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
+        $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').filter{it.".PROP_JOIN_TYPE."==".TYPE_JOIN_YES." ||  it.".PROP_JOIN_TYPE."==".TYPE_JOIN_MAYBE."}.inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
                 ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
         //echo "Other<p/> ".$query."<p/>";
         $queryRes = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
@@ -54,7 +54,7 @@ class Neo4jRecommendationUtils {
         if (!empty($query_)) {
             $query = $query . ".filter{it.title.matches('.*(?i)" . $query_ . ".*')} ";
         }
-        $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
+        $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}.filter{it.inE('" . REL_EVENTS_JOINS . "').filter{it.".PROP_JOIN_TYPE."==".TYPE_JOIN_YES." ||  it.".PROP_JOIN_TYPE."==".TYPE_JOIN_MAYBE."}.inV.dedup." . PROP_USER_ID . "!='" . $userId . "'}" .
                 ".sort{it." . PROP_EVENT_START_DATE . "}._()[" . $pgStart . ".." . $pgEnd . "]";
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         $result = $query->getResultSet();
@@ -78,7 +78,7 @@ class Neo4jRecommendationUtils {
         }
         $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
                 "MATCH (user)-[:" . $relationType . "]->(friend)-[r:" . REL_EVENTS_JOINS . "]->(event)  " .
-                "WHERE (event." . PROP_EVENT_PRIVACY . "='true') AND (event." . PROP_EVENT_START_DATE . ">" . $date . ") ";
+                "WHERE (HAS (r." .PROP_JOIN_TYPE. ") AND (r.".PROP_JOIN_TYPE."=".TYPE_JOIN_YES." OR r.".PROP_JOIN_TYPE."=".TYPE_JOIN_MAYBE.")) AND (event." . PROP_EVENT_PRIVACY . "='true') AND (event." . PROP_EVENT_START_DATE . ">" . $date . ") ";
         if (!empty($query_)) {
             $query = $query . " AND (event." . PROP_EVENT_TITLE . " =~ '.*(?i)" . $query_ . ".*' OR " .
                     "event." . PROP_EVENT_DESCRIPTION . " =~ '.*(?i)" . $query_ . ".*') ";
