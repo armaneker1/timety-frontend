@@ -30,6 +30,7 @@ function unfollowUser(fromUserId, toUSerId, button) {
     }, "json");
 }
 
+
 function onBlurFirstPreventTwo(input)
 {
     var first =jQuery(input).data("firstRun");

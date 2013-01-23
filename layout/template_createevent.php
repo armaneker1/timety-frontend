@@ -118,7 +118,7 @@ if ($showPopup) {
             <?php } else { ?>
                 <script>
                 jQuery(document).ready(function(){
-                    setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,100);
+                    setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,106);
                 });
                 </script>
             <?php } ?>

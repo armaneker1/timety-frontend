@@ -77,7 +77,7 @@ define('PAGE_AJAX_GETFRIENDS',PAGE_AJAX_FOLDER.'getFriends.php');
 define('PAGE_AJAX_SUBSCRIBEUSERFRIEND',PAGE_AJAX_FOLDER.'subscribeUserFriend.php');
 define('PAGE_AJAX_UNSUBSCRIBEUSERFRIEND',PAGE_AJAX_FOLDER.'unsubscribeUserFriend.php');
 define('PAGE_AJAX_GETEVENTIMAGES',PAGE_AJAX_FOLDER.'getEventImages.php');
-
+define('PAGE_AJAX_REMOVE_TEMPFILE',PAGE_AJAX_FOLDER.'removeTempFile.php');
 
 
 define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));

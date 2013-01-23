@@ -8,7 +8,9 @@ function openCreatePopup() {
          * Show Popup
          */
     jQuery("#div_follow_trans").css("display", "block");
+    jQuery("#div_follow_trans").attr('onclick','closeCreatePopup()');
     jQuery("#div_event_add_ekr").css("display", "block");
+    
 	
     /*
          * Create Checkbox
@@ -36,6 +38,7 @@ function closeCreatePopup() {
     try{
         jQuery("#div_follow_trans").css("display", "none");
         jQuery("#div_event_add_ekr").css("display", "none");
+        jQuery("#div_follow_trans").attr('onclick','return false;');
     }catch(e) {
         console.log(e);
     }

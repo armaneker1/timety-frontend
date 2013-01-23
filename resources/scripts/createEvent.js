@@ -139,6 +139,43 @@ function fileUploadOnComplete(id, fileName, responseJSON,image_input,width,heigh
         if(inpt)
             inpt.value="0";
     }
+    
+    var uploadDiv=jQuery("#"+id+"_div");
+    if(uploadDiv)
+    {
+        var remDiv=jQuery("#"+id+"_rem");
+        if(remDiv.length>0)
+        {
+            remDiv.remove();
+        }
+        
+        remDiv=jQuery("<div id=\""+id+"_rem\" class=\"akare_kapat\"></div>");
+        var remButton=jQuery("<span class=\"sil icon_bg\"></span>");
+        jQuery(remButton).click(function(){
+            removeUploadFile(id,fileName,image_input);
+        });
+        jQuery(remDiv).append(remButton);
+        jQuery(uploadDiv).append(remDiv);
+    }
+}
+
+function removeUploadFile(id,fileName,image_input)
+{
+    var inpt=document.getElementById(image_input);
+    if(inpt)
+    {
+        inpt.value="0";
+    }
+    var imageDiv=jQuery("#"+id);
+    imageDiv.children().remove();
+    jQuery(imageDiv).append("<a href=\"#\">click here to add image</a>");
+    var uploadDiv=jQuery("#"+id+"_rem");
+    uploadDiv.remove();
+     jQuery.post(TIMETY_PAGE_AJAX_REMOVE_TEMPFILE, { 
+        'tempFile' : fileName
+    }, function(data) {
+        
+    }, "json");
 }
 
 function setUploadImage(id, fileName,mWidth,mHeight)
