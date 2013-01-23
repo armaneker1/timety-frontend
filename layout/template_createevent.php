@@ -484,12 +484,12 @@ if ($showPopup) {
             </div>
             <div class="eam_bg_sag"></div>
         </div>
-        <div class="eam_bg">
+        <div class="eam_bg" style="height: 158px;">
             <div class="desc_ust"></div>
             <div class="desc_sol"></div>
             <div class="desc_orta">
                 <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
-                          style="font-size: 16px;resize: none;"
+                          style="font-size: 16px;resize: none;height: 128px;margin-top: 0px;"
                        value=""
                        id="te_event_description" placeholder="description" ></textarea>
                       <?php

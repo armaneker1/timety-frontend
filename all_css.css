@@ -2861,10 +2861,12 @@ body {
 .desc_metin {
                 font-family: Arial;
                 font-size: 13px;
-                color: #636363;
-                height: 102px;
+                color: #aeaeae;
+                height: 110px;
                 width: 555px;
                 padding: 10px;
+                background-image: url(images/dbg.png) ;
+                background-repeat: repeat;
 }
  
 .desc_orta {
