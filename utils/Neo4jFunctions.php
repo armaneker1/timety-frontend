@@ -87,19 +87,19 @@ class Neo4jFuctions {
         if (!empty($event) && !empty($usr)) {
             try {
                 if ($resp == 1) {
-                    $usr->relateTo($event, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, 0)->save();
+                    Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_YES);
                     $result->success = true;
                     $result->error = false;
                 } else if ($resp == 0) {
-                    $usr->relateTo($event, REL_EVENTS_REJECTS)->setProperty(PROP_JOIN_CREATE, 0)->save();
+                    Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_NO);
                     $result->success = true;
                     $result->error = false;
                 } else if ($resp == 2) {
-                    $usr->relateTo($event, REL_EVENTS_MAYBE)->setProperty(PROP_JOIN_CREATE, 0)->save();
+                    Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_MAYBE);
                     $result->success = true;
                     $result->error = false;
                 } else if ($resp == 3) {
-                    $usr->relateTo($event, REL_EVENTS_IGNORE)->setProperty(PROP_JOIN_CREATE, 0)->save();
+                    Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_IGNORE);
                     $result->success = true;
                     $result->error = false;
                 } else {
