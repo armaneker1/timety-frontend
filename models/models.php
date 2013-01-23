@@ -191,6 +191,7 @@ class Event {
             $this->addsocial_fq = $result['addsocial_fq'];
             $this->addsocial_tw = $result['addsocial_tw'];
             $this->reminderSent = $result['reminderSent'];
+            $this->attach_link = $result['attach_link'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -232,6 +233,7 @@ class Event {
         $this->addsocial_fq = $tmp->addsocial_fq;
         $this->addsocial_tw = $tmp->addsocial_tw;
         $this->reminderSent = $tmp->reminderSent;
+        $this->attach_link=$tmp->attach_link;
     }
 
     public function setAdditionalData() {
@@ -258,6 +260,7 @@ class Event {
     public $addsocial_gg;
     public $addsocial_fq;
     public $addsocial_tw;
+    public $attach_link;
     public $reminderSent = 0;
     /*
      * Additional Data

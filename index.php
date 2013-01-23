@@ -250,6 +250,12 @@ if (empty($user)) {
             $event->categories=$_POST["te_event_category1"];
         }
         
+        $event->attach_link="";
+        if(isset($_POST["te_event_attach_link"]))
+        {
+            $event->attach_link=$_POST["te_event_attach_link"];
+        }
+        
         if(isset($_POST["te_event_category2"]))
         {
             $event->categories=$event->categories.",".$_POST["te_event_category2"];

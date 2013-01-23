@@ -305,16 +305,20 @@ if ($showPopup) {
                 }
                 ?>" placeholder="location" />
                 <div class="left">
-                    <div class="link_atac" style="display: none;">
-                        <input type="text" class="link_atac_adrs" value=""/>
+                    <div class="link_atac" style="display: none;left: -195px !important;">
+                        <input type="text" name="te_event_attach_link" id="te_event_attach_link" class="link_atac_adrs" value="<?php
+                                if ($showPopup) {
+                                    echo $event->attach_link;
+                                }
+                                ?>"/>
                         <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Add</a>
                         <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Close</a>
                     </div>
-                    <p>
-                        <a style="cursor: pointer" onclick="jQuery('.link_atac').show();return false;" class="link_btn"></a>
+                    <p style="border-left: none !important;">
+                        <a style="background: none !important;" class="camera_btn"></a>
                     </p>
                     <p>
-                        <a style="cursor: pointer" class="camera_btn"></a>
+                        <a style="cursor: pointer" onclick="jQuery('.link_atac').show();return false;" class="link_btn"></a>
                     </p>
                     <p>
                         <a style="cursor: pointer" class="fill_btn"></a>
@@ -481,17 +485,20 @@ if ($showPopup) {
             <div class="eam_bg_sag"></div>
         </div>
         <div class="eam_bg">
-            <div class="eam_bg_sol"></div>
-            <div class="eam_bg_orta">
-                <input name="te_event_description" type="text" class="eam_inpt_b"
-                       value="<?php
+            <div class="desc_ust"></div>
+            <div class="desc_sol"></div>
+            <div class="desc_orta">
+                <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
+                          style="font-size: 16px;resize: none;"
+                       value=""
+                       id="te_event_description" placeholder="description" ></textarea>
+                      <?php
                            if ($showPopup && isset($_POST["te_event_description"])) {
-                               echo $_POST["te_event_description"];
-                           }
-                ?>"
-                       id="te_event_description" placeholder="description" />
+                               echo "<script>jQuery('#te_event_description').val('".$_POST["te_event_description"]."')</script>";
+                      }?> 
             </div>
-            <div class="eam_bg_sag"></div>
+            <div class="desc_sol"></div>
+            <div class="desc_ust"></div>
         </div>
         <div class="eam_remain">
             <h2>reminder</h2>
