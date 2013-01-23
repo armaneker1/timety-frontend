@@ -198,7 +198,7 @@ class Event {
         }
     }
 
-    public function createNeo4j($result, $additionalData = TRUE) {
+    public function createNeo4j($result, $additionalData = TRUE,$userId=-1) {
         if (!empty($result)) {
             $this->id = $result->getProperty(PROP_EVENT_ID);
             $this->title = $result->getProperty(PROP_EVENT_TITLE);
@@ -211,7 +211,7 @@ class Event {
             $this->privacy = $result->getProperty(PROP_EVENT_PRIVACY);
         }
         if (!empty($additionalData) && $additionalData) {
-            $this->setAdditionalData();
+            $this->setAdditionalData($userId);
         }
     }
 
@@ -236,12 +236,15 @@ class Event {
         $this->attach_link=$tmp->attach_link;
     }
 
-    public function setAdditionalData() {
+    public function setAdditionalData($userId=-1) {
         //$this->getImages();
         //$this->getHeaderImage();
         $this->commentCount = CommentUtil::getCommentListSizeByEvent($this->id,null);
         $this->remainingtime = UtilFunctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
         $this->attendancecount = Neo4jFuctions::getEventAttendanceCount($this->id);
+        //get creator id
+        $this->creatorId= Neo4jEventUtils::getEventCreatorId($this->id);
+        $this->userRelation= Neo4jEventUtils::getEventUserRelationCypher($this->id,$userId);
     }
 
     public $id;
@@ -276,6 +279,8 @@ class Event {
     public $startDateTimeLong;
     public $endDateTimeLong;
     public $creator;
+    public $creatorId;
+    public $userRelation;
 
     public function getImages() {
         if (empty($this->images)) {

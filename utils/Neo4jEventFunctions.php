@@ -287,6 +287,129 @@ class Neo4jEventUtils {
         }
     }
 
+    public static function getEventCreatorId($eventId) {
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_JOINS . "').dedup.filter{it." . PROP_JOIN_CREATE . "==true && (it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_YES . " ||  it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_MAYBE . ")}.outV.dedup.user_id";
+        //echo $query;
+        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+        $result = $query->getResultSet();
+        foreach ($result as $row) {
+            return $row[0];
+        }
+        return null;
+    }
+
+    public static function getEventUserRelationGremlin($eventId, $userId) {
+        $result = new stdClass();
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $result->joinType = TYPE_JOIN_NO;
+        $result->like = FALSE;
+        $result->reshare = FALSE;
+        if (!empty($eventId) && !empty($userId)) {
+            try {
+                $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_JOINS . "').filter{it.outV.has('" . PROP_USER_ID . "','" . $userId . "')!=null}." . PROP_JOIN_TYPE;
+                //echo $query;
+                $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                foreach ($nresult as $row) {
+                    $result->joinType = $row[0];
+                    break;
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+
+            try {
+                $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_LIKE . "').filter{it.outV.has('" . PROP_USER_ID . "','" . $userId . "')!=null}";
+                //echo $query;
+                $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                foreach ($nresult as $row) {
+                    if (!empty($row[0])) {
+                        $result->like = 1;
+                    }
+                    break;
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+            try {
+                $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_RESHARE . "').filter{it.outV.has('" . PROP_USER_ID . "','" . $userId . "')!=null}";
+                //echo $query;
+                $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                foreach ($nresult as $row) {
+                    if (!empty($row[0])) {
+                        $result->reshare = 1;
+                    }
+                    break;
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+        }
+        return $result;
+    }
+
+    public static function getEventUserRelationCypher($eventId, $userId) {
+        $result = new stdClass();
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $result->joinType = TYPE_JOIN_NO;
+        $result->like = FALSE;
+        $result->reshare = FALSE;
+        if (!empty($eventId) && !empty($userId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
+                        " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                        " MATCH  event-[r:" . REL_EVENTS_JOINS . "]-user" .
+                        " RETURN r.".PROP_JOIN_TYPE;
+                //echo $query;
+                $query = new Cypher\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                foreach ($nresult as $row) {
+                    $result->joinType = $row[0];
+                    break;
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
+                        " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                        " MATCH  event-[r:" . REL_EVENTS_LIKE . "]-user" .
+                        " RETURN r.".PROP_JOIN_TYPE;
+                //echo $query;
+                $query = new Cypher\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                foreach ($nresult as $row) {
+                    $result->like = $row[0];
+                    break;
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
+                        " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                        " MATCH  event-[r:" . REL_EVENTS_RESHARE . "]-user" .
+                        " RETURN r.".PROP_JOIN_TYPE;
+                //echo $query;
+                $query = new Cypher\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                foreach ($nresult as $row) {
+                    $result->reshare = $row[0];
+                    break;
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+        }
+        return $result;
+    }
+
 }
 
 ?>

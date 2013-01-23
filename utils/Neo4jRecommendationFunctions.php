@@ -38,7 +38,7 @@ class Neo4jRecommendationUtils {
         $result = $queryRes->getResultSet();
         foreach ($result as $row) {
             $evt = new Event();
-            $evt->createNeo4j($row[0]);
+            $evt->createNeo4j($row[0],TRUE,$userId);
             array_push($array, $evt);
         }
         return $array;
@@ -60,7 +60,7 @@ class Neo4jRecommendationUtils {
         $result = $query->getResultSet();
         foreach ($result as $row) {
             $evt = new Event();
-            $evt->createNeo4j($row[0]);
+            $evt->createNeo4j($row[0],TRUE,$userId);
             array_push($array, $evt);
         }
         return $array;
@@ -90,7 +90,7 @@ class Neo4jRecommendationUtils {
         //echo sizeof($result)."<p/>";
         foreach ($result as $row) {
             $evt = new Event();
-            $evt->createNeo4j($row['event']);
+            $evt->createNeo4j($row['event'],TRUE,$userId);
             $eventIds = $eventIds . $evt->id . ",";
             array_push($array, $evt);
         }

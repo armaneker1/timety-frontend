@@ -60,6 +60,9 @@ define('REL_FOLLOWS', 'FOLLOWS');
 define('REL_EVENTS_JOINS', 'EVENTS_JOINS');
 define('REL_EVENTS_INVITES', 'EVENTS_INVITES');
 
+define('REL_EVENTS_LIKE', 'EVENTS_LIKE');
+define('REL_EVENTS_RESHARE', 'EVENTS_RESHARE');
+
 
 /*
  * Root node props
