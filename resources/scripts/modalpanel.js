@@ -342,7 +342,7 @@ function getComments(event_id)
                     var userNameElem=jQuery(commentItemDIV).find("#comment_user");
                     var commentElem=jQuery(commentItemDIV).find("#comment_text");
                     setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, e.userPic,56);
-                    jQuery(userNameElem).text(e.userName+" : ");
+                    jQuery(userNameElem).text(e.userName);
                     jQuery(commentElem).text(e.comment);
                     jQuery(commentItemDIV).show();
                 }
@@ -354,7 +354,7 @@ function getComments(event_id)
                     jQuery(tumyorumlar).show();
                     var tumyorumlarA=jQuery("#tumyorumlar #tumyorumlar_text");
                     jQuery(tumyorumlarA).unbind("click");
-                    jQuery(tumyorumlarA).attr("onclick", "return openNextComments(this,5);");
+                    jQuery(tumyorumlarA).attr("onclick", "return openNextComments(5);");
                     var next=5;
                     if(data.count<5)
                     {
@@ -533,7 +533,7 @@ function openNextComments(count)
                     var userNameElem=jQuery(commentItemDIV).find("#comment_user");
                     var commentElem=jQuery(commentItemDIV).find("#comment_text");
                     setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, e.userPic,56);
-                    jQuery(userNameElem).text(e.userName+" : ");
+                    jQuery(userNameElem).text(e.userName);
                     jQuery(commentElem).text(e.comment);
                     jQuery(commentItemDIV).show();
                 }
@@ -590,7 +590,7 @@ function sendComment(){
                             var userNameElem=jQuery(commentItemDIV).find("#comment_user");
                             var commentElem=jQuery(commentItemDIV).find("#comment_text");
                             setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, data.userPic,56);
-                            jQuery(userNameElem).text(data.userName+" : ");
+                            jQuery(userNameElem).text(data.userName);
                             jQuery(commentElem).text(data.comment);
                             jQuery(commentItemDIV).show();
                             jQuery("#sendComment").val("");
