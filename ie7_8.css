@@ -2218,7 +2218,7 @@ body {
                 text-decoration: underline;
 }
 .gdyorum {
-                height: 40px;
+                height: 26px;
                 width: 460px;
                 float: left;
                 margin-right: 10px;
@@ -2226,6 +2226,7 @@ body {
                 font-size: 11px;
                 color: #676666;
                 padding-left: 5px;
+                margin-top: 0px;
 }
 
 .gdy_alt_orta h1 {
@@ -2346,7 +2347,7 @@ body {
     border-right-width: 1px;
     border-right-style: solid;
     border-right-color: #CCC;
-    padding-right: 4px;
+    padding-right: 5px;
 }
 
 /* Event detail Comment bar (row) - end*/

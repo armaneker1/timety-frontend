@@ -1,4 +1,14 @@
 var lastCommentId=-1;
+var sending=false;
+
+jQuery(document).ready(function(){
+    jQuery("#sendComment").keyup(function(event){
+        if(event.keyCode==13)
+        {
+            sendComment();
+        }
+    });
+});
 
 /*
  * Function List
@@ -29,7 +39,7 @@ function setImageBackGroundLoader(div)
 
 
 
-function setImageBackGroundCenter(div,defWidth,defHeight,width,height,url)
+function setImageBackGroundCenter(div,defWidth,defHeight,width,height,url,afterWidth)
 {
     if(div && div.length)
     {
@@ -55,7 +65,7 @@ function setImageBackGroundCenter(div,defWidth,defHeight,width,height,url)
                 myImage.src=TIMETY_HOSTNAME+url;
             }
             myImage.onload=function(){
-                onloadImage(url,defWidth,defHeight,div,myImage);
+                onloadImage(url,defWidth,defHeight,div,myImage,afterWidth);
             };
         }catch(exp)
         {
@@ -64,7 +74,7 @@ function setImageBackGroundCenter(div,defWidth,defHeight,width,height,url)
     }
 }
 
-function onloadImage(url,defWidth,defHeight,div,myImage){
+function onloadImage(url,defWidth,defHeight,div,myImage,afterWidth){
     var param="";
     var cWidth=myImage.width;
     var cHeight=myImage.height;
@@ -92,7 +102,12 @@ function onloadImage(url,defWidth,defHeight,div,myImage){
         }
                     
         jQuery(div).attr('height',cHeight);
-        jQuery(div).attr('width', cWidth);
+        if(afterWidth && afterWidth>0)
+        {
+            jQuery(div).css('width', afterWidth+"px");
+        }else{
+            jQuery(div).css('width', cWidth+"px");
+        }
         param=param+"&h="+cHeight;
         param=param+"&w="+cWidth;
         if(url.indexOf('http')!=0)
@@ -271,13 +286,117 @@ function openModalPanel(event_id,custom) {
          */
         jQuery("#gdy_images_div").children().remove();
         getImages(jQuery("#gdy_images_div"),event_id);
+        /*
+         * Set Users
+         */
+        jQuery("#gdy_users_div").children().remove();
+        getUsers(jQuery("#gdy_users_div"),event_id);
         
+        /*
+         *Set Comments
+         */
+        getComments(event_id);
         //show popup
         jQuery(detailModalPanel).show();
     }else
     {
         closeModalPanel();
     }
+}
+
+function getComments(event_id)
+{
+    sending=false;
+    jQuery("[id*='tmp_comment_template_']").remove();
+    jQuery.sessionphp.get('id',function(id){
+        var userId = id;
+        if(userId!=null && userId>0)
+        {    
+            jQuery("#write_comment").show();
+            jQuery("#sendComment").attr("eventid", event_id);
+        }
+    });
+    
+    jQuery.ajax({
+        type: 'POST',
+        url: TIMETY_PAGE_AJAX_GETCOMMENTS,
+        data: {
+            'eventId':event_id,
+            'lastComment':'*',
+            'count':'3'
+        },
+        success: function(data){
+            data= JSON.parse(data); 
+            if(!data.error && data.array)
+            {   
+                var comments=data.array;
+                for(var i=0;i<comments.length;i++)
+                {
+                    var e=comments[i];
+                    lastCommentId=e.id;
+                    
+                    var commentItemDIV=jQuery("#comment_template").clone();
+                    jQuery(commentItemDIV).attr("id","tmp_comment_template_"+e.id);
+                    jQuery(commentItemDIV).insertBefore(jQuery("#tumyorumlar"));
+                    var imageDiv=jQuery(commentItemDIV).find("#comment_user_img");
+                    var userNameElem=jQuery(commentItemDIV).find("#comment_user");
+                    var commentElem=jQuery(commentItemDIV).find("#comment_text");
+                    setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, e.userPic,56);
+                    jQuery(userNameElem).text(e.userName+" : ");
+                    jQuery(commentElem).text(e.comment);
+                    jQuery(commentItemDIV).show();
+                }
+                
+               
+                if(data.count)
+                {    
+                    var tumyorumlar=jQuery("#tumyorumlar");
+                    jQuery(tumyorumlar).show();
+                    var tumyorumlarA=jQuery("#tumyorumlar #tumyorumlar_text");
+                    jQuery(tumyorumlarA).unbind("click");
+                    jQuery(tumyorumlarA).attr("onclick", "return openNextComments(this,5);");
+                    var next=5;
+                    if(data.count<5)
+                    {
+                        next=data.count;
+                    }
+                    jQuery(tumyorumlarA).text("See "+next+" Next comments ("+(data.count)+")...");
+                }
+            }
+        }
+    });
+}
+
+
+function getUsers(gdy_altDIVOrta_users,event_id)
+{
+    jQuery.ajax({
+        type: 'POST',
+        url: TIMETY_PAGE_AJAX_GETEVENTATTENDANCES,
+        data: {
+            'eventId':event_id
+        },
+        success: function(data){
+            data= JSON.parse(data); 
+            if(!data.error)
+            {
+                jQuery("#gdy_users_count").text(data.length);
+                for(var i=0;i<data.length;i++)
+                {
+                    var tmp=jQuery("#users_"+data[i].id);
+                    if(data[i].pic && !tmp.length)
+                    {
+                        var imageDiv=document.createElement('div');
+                        jQuery(imageDiv).addClass('gdy_alt_rsm');
+                        jQuery(imageDiv).attr("id","users_"+data[i].id);
+                        jQuery(imageDiv).data("img",data[i]);
+                        jQuery(gdy_altDIVOrta_users).append(imageDiv);
+                        setImageBackGroundCenter(jQuery("#users_"+data[i].id), 64, 52, 0, 0, data[i].pic);
+                    }
+                }
+            }
+        }
+    });
 }
 
 
@@ -293,6 +412,7 @@ function getImages(gdy_altDIVOrta_images,event_id)
             data= JSON.parse(data); 
             if(!data.error)
             {
+                jQuery("#gdy_images_count").text(data.length);
                 for(var i=0;i<data.length;i++)
                 {
                     var tmp=jQuery("#images_"+data[i].id);
@@ -302,7 +422,6 @@ function getImages(gdy_altDIVOrta_images,event_id)
                         jQuery(imageDiv).addClass('gdy_alt_rsm');
                         jQuery(imageDiv).attr("id","images_"+data[i].id);
                         jQuery(imageDiv).data("img",data[i]);
-                        //jQuery(imageDiv).attr('style', 'width:64px;height:51px;text-align:center;overflow:hidden;margin-left:0px;background-repeat: no-repeat !important;background-position: center !important;');
                         jQuery(gdy_altDIVOrta_images).append(imageDiv);
                         setImageBackGroundCenter(jQuery("#images_"+data[i].id), 64, 51, 0, 0, data[i].url);
                         jQuery(imageDiv).click(function(){
@@ -315,645 +434,6 @@ function getImages(gdy_altDIVOrta_images,event_id)
     });
 }
 
-function openModalPanel2(id,custom) {
-    /*
-     *Clear dropale
-     */
-    jQuery(".main_dropable_").css('display','none');    
-    var event_id=null;
-    var data = null;
-    
-    if(!custom)
-    {
-        event_id=id;
-        data = JSON.parse(localStorage.getItem('event_' + event_id));
-        data.images=JSON.parse(data.images);
-        if (!data) return;
-        if(!addUrlEventId(event_id))
-        {
-            return false;    
-        }
-    }else
-    {
-        data = JSON.parse(custom);
-        event_id=data.id;
-        if (!data) return;
-    }
-    
-    var detailModalPanelBackground = document.getElementById('div_follow_trans');
-    jQuery(detailModalPanelBackground).attr('onclick','closeModalPanel()');
-   
-    var detailModalPanel = document.createElement("div");
-    /////
-    jQuery(detailModalPanel).attr('id', 'genel_detay_yeni');
-    //stop click background when click this div
-    jQuery(detailModalPanel).on('click',function(e){
-        e.stopPropagation();
-        e.preventDefault();
-        return false;
-    });
-    jQuery(detailModalPanel).addClass('genel_detay_yeni');
-    
-    //gdy_sol
-    var gdy_solDIV = document.createElement('div');
-    jQuery(gdy_solDIV).addClass('gdy_sol');
-
-    var gdySolH1 = document.createElement('h1');
-    jQuery(gdySolH1).addClass('gdy_baslik');
-    jQuery(gdySolH1).append(data.title);
-
-    var gdySolH2 = document.createElement('h2');
-    jQuery(gdySolH2).addClass('gdy_zaman');
-    jQuery(gdySolH2).append(data.startDateTime);
-
-    var gdySolP = document.createElement('p');
-    jQuery(gdySolP).addClass('gdy_metin');
-    jQuery(gdySolP).append(data.description);
-
-    var gdySolP2 = document.createElement('p');
-    var gdySolP2DIV=document.createElement('div');
-    jQuery(gdySolP2DIV).attr('style', 'width:560px;max-width:560px;height:295px;text-align:center;');
-    var gdySolP2Img = document.createElement('img');
-    gdySolP2Img.id="image_view";
-    if(data.headerImage && data.headerImage.url)
-    {
-        var width=0;
-        var height=0;
-        
-        var myImage = new Image();
-        myImage.src=TIMETY_HOSTNAME+data.headerImage.url;
-        myImage.onload=function(){
-            var param="";
-            var width=0;
-            var height=0;
-            width=data.headerImage.width;
-            height=data.headerImage.height;
-            
-            jQuery(gdySolP2DIV).css('height',height);
-            jQuery(gdySolP2Img).attr('width', width);
-            param=param+"&h="+height;
-            param=param+"&w="+width;
-            jQuery(gdySolP2Img).attr('src', TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.headerImage.url+param); 
-        };
-        
-        width=30;
-        height=30;
-        
-        jQuery(gdySolP2DIV).css('height',height);
-        jQuery(gdySolP2Img).attr('width', width);
-        jQuery(gdySolP2Img).attr('src', TIMETY_HOSTNAME+"images/loader.gif");   
-    }else
-    {
-        jQuery(gdySolP2Img).attr('height', 295);
-    }
-    jQuery(gdySolP2Img).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
-
-    jQuery(gdySolP2DIV).append(gdySolP2Img);
-    jQuery(gdySolP2).append(gdySolP2DIV);
-    jQuery(gdy_solDIV).append(gdySolH1);
-    jQuery(gdy_solDIV).append(gdySolH2);
-    jQuery(gdy_solDIV).append(gdySolP);
-    jQuery(gdy_solDIV).append(gdySolP2);
-    jQuery(detailModalPanel).append(gdy_solDIV);
-
-    //gdy_sag
-    var gdy_sagDIV = document.createElement('div');
-    jQuery(gdy_sagDIV).addClass('gdy_sag');
-
-    var socialDIV = document.createElement('div');
-    jQuery(socialDIV).addClass('sosyal_btn');
-    var socialDIVBtn = document.createElement('button');
-    jQuery(socialDIVBtn).attr('type', 'button');
-    jQuery(socialDIVBtn).addClass('back_btn sosyal_icon');
-    jQuery(socialDIV).append(socialDIVBtn);
-    var zmn = jQuery(socialDIV).clone();
-    var face = jQuery(socialDIV).clone();
-    var tweet = jQuery(socialDIV).clone();
-    var gplus = jQuery(socialDIV).clone();
-    jQuery(zmn.children()[0]).addClass('zmn');
-    jQuery(zmn.children()[0]).css('cursor','pointer');
-    // add Join butonu ekle
-    jQuery(zmn.children()[0]).bind("click",  function(){ 
-        joinEvent(zmn.children()[0], event_id)
-    });
-    // add Join butonu ekle
-    jQuery(face.children()[0]).addClass('face');
-    jQuery(face.children()[0]).bind("click",shareThisFacebook);
-    jQuery(tweet.children()[0]).addClass('tweet');
-    jQuery(tweet.children()[0]).bind("click",function() {
-        shareThisTwitter(data.title);
-    });
-    jQuery(gplus.children()[0]).addClass('googl_plus');
-    jQuery(gplus.children()[0]).bind("click",shareThisGoogle);
-
-    
-    jQuery(gdy_sagDIV).append(zmn);
-    jQuery(gdy_sagDIV).append(face);
-    jQuery(gdy_sagDIV).append(tweet);
-    jQuery(gdy_sagDIV).append(gplus);
-
-    jQuery(detailModalPanel).append(gdy_sagDIV);
-
-
-    //gdy_alt
-    var gdy_altDIV = document.createElement('div');
-    jQuery(gdy_altDIV).addClass('gdy_alt');
-
-
-    /*
-     * Images
-     */
-    var gdy_satirDIV_images = document.createElement('div');
-    jQuery(gdy_satirDIV_images).addClass('gdy_satir');
-
-    //add gdy_satirAltSolDIV_images
-    var gdy_satirAltSolDIV_images = document.createElement('div');
-    jQuery(gdy_satirAltSolDIV_images).addClass('gdy_alt_sol');
-
-    var gdy_satirAltSolDIVImg_images = document.createElement('img');
-    jQuery(gdy_satirAltSolDIVImg_images).attr('src', TIMETY_HOSTNAME+'images/rsm.png');
-    jQuery(gdy_satirAltSolDIVImg_images).attr('width', 27);
-    jQuery(gdy_satirAltSolDIVImg_images).attr('height', 24);
-    jQuery(gdy_satirAltSolDIVImg_images).attr('align', 'middle');
-    jQuery(gdy_satirAltSolDIV_images).append(gdy_satirAltSolDIVImg_images);
-    
-    jQuery(gdy_satirDIV_images).append(gdy_satirAltSolDIV_images);
-    //add gdy_satirAltSolDIV_images
-
-    //add gdy_altDIVOrta_images
-    var gdy_altDIVOrta_images = document.createElement('div');
-    jQuery(gdy_altDIVOrta_images).addClass('gdy_alt_orta');
-   
-   
-    for(var i=0;i<data.images.length;i++)
-    {
-        var gdy_altDIVOrtaIMGDIV_images=document.createElement('div');
-        jQuery(gdy_altDIVOrtaIMGDIV_images).addClass('gdy_alt_rsm');
-        jQuery(gdy_altDIVOrtaIMGDIV_images).attr('style', 'width:64px;height:51px;text-align:center;overflow:hidden;margin-left:0px;background-repeat: no-repeat !important;background-position: center center !important;');
-         
-        if(data.images[i].url)
-        {
-            jQuery(gdy_altDIVOrtaIMGDIV_images).attr("id","images_"+data.images[i].id);
-            jQuery(gdy_altDIVOrtaIMGDIV_images).data("img",data.images[i]);
-            try{
-                /*
-                 *Calculate width height
-                 */
-                width=0;
-                height=0;
-                width=data.images[i].width;
-                height=data.images[i].height;
-
-                if(width>height)
-                {
-                    if(width>64)
-                    {
-                        height=(64/width)*height;
-                        width=64;
-                    }
-                }else
-                {
-                    if(height>51)
-                    {
-                        width=(51/height)*width;
-                        height=51;
-                    }
-                }
-                
-                var param="&h="+height;
-                param=param+"&w="+width;
-                /*
-                 *Calculate width height
-                 */
-                jQuery(gdy_altDIVOrtaIMGDIV_images).click(function(){
-                    setPopupImage("image_view",jQuery(this).data("img"));
-                });
-                jQuery(gdy_altDIVOrtaIMGDIV_images).css("background","url('"+TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.images[i].url+param+"')");
-            //jQuery(imgOrta_images).attr('src',TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.images[0].url+param);
-            }catch(exp)
-            {
-                console.log(exp);
-            }
-        }else
-        {
-            jQuery(gdy_altDIVOrtaIMGDIV_images).css("background","url('"+TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+"')");
-        }
-        
-        //jQuery(imgOrta_images).addClass('gdy_alt_rsm_img');
-        
-        //jQuery(gdy_altDIVOrtaIMGDIV_images).append(imgOrta_images);
-        jQuery(gdy_altDIVOrta_images).append(gdy_altDIVOrtaIMGDIV_images);
-    }
-
-    jQuery(gdy_satirDIV_images).append(gdy_altDIVOrta_images);
-    //add gdy_altDIVOrta_images
-    
-    //get all other images
-    getImages(gdy_altDIVOrta_images,event_id);
-
-    
-    var gdy_altDIVSag_images = document.createElement('div');
-    jQuery(gdy_altDIVSag_images).addClass('gdy_alt_sag');
-
-    var gdy_altDIVSagP_images = document.createElement('p');
-    jQuery(gdy_altDIVSagP_images).append(data.images.length);
-
-    jQuery(gdy_altDIVSag_images).append(gdy_altDIVSagP_images);
-    
-    var gdy_altDIVSagP2_images = document.createElement('p');
-    var gdy_altDIVSagP2A_images = document.createElement('a');
-    jQuery(gdy_altDIVSagP2A_images).attr('href', '#');
-
-    var gdy_altDIVSagP2AImg_images = document.createElement('img');
-    jQuery(gdy_altDIVSagP2AImg_images).attr('src', TIMETY_HOSTNAME+'images/bendedok.png');
-    jQuery(gdy_altDIVSagP2AImg_images).attr('width', 12);
-    jQuery(gdy_altDIVSagP2AImg_images).attr('height', 13);
-    
-    jQuery(gdy_altDIVSagP2_images).append(gdy_altDIVSagP2AImg_images);
-    
-    jQuery(gdy_altDIVSag_images).append(gdy_altDIVSagP2_images);
-    
-    jQuery(gdy_satirDIV_images).append(gdy_altDIVSag_images);
-    /*
-     * Images
-     */
-    
-    
-    //add  Images
-    jQuery(gdy_altDIV).append(gdy_satirDIV_images);
-    
-    
-    //add loader
-    var loader=jQuery('<div id="modal_loader" status="0" class="gdy_satir" style="width: 100%;"><divc class="gdy_alt_sol" style="width: 100%;text-align: center;"><img src="'+TIMETY_HOSTNAME+'images/loader.gif" height="" class="" style="position:relative;margin-left:auto;margin-right:auto;"></divc></div>');
-    jQuery(gdy_altDIV).append(loader);
-    
-    
-    jQuery(detailModalPanel).append(gdy_altDIV);
-    jQuery('#div_follow_trans').css('display','block');
-    jQuery(detailModalPanel).insertAfter(jQuery('#div_follow_trans'));
-    jQuery(detailModalPanelBackground).append(detailModalPanel);
-    document.body.style.overflow = "hidden";
-    
-    /*
-     * Users
-     */ 
-    jQuery.ajax({
-        type: 'POST',
-        url: TIMETY_PAGE_AJAX_GETEVENTATTENDANCES,
-        data: {
-            'eventId':id
-        },
-        success: function(data){
-            data= JSON.parse(data); 
-            if(!data.error)
-            {
-                var gdy_satirDIV_users= document.createElement('div');
-                jQuery(gdy_satirDIV_users).attr("id", "modal_panel_users");
-                jQuery(gdy_satirDIV_users).addClass('gdy_satir');
-                jQuery(gdy_satirDIV_users).addClass('modal_invisable');
-
-                //add gdy_satirAltSolDIV_users
-                var gdy_satirAltSolDIV_users = document.createElement('div');
-                jQuery(gdy_satirAltSolDIV_users).addClass('gdy_alt_sol');
-
-                var gdy_satirAltSolDIVImg_users = document.createElement('img');
-                jQuery(gdy_satirAltSolDIVImg_users).attr('src', TIMETY_HOSTNAME+'images/klnc.png');
-                jQuery(gdy_satirAltSolDIVImg_users).attr('width', 27);
-                jQuery(gdy_satirAltSolDIVImg_users).attr('height', 24);
-                jQuery(gdy_satirAltSolDIVImg_users).attr('align', 'middle');
-                jQuery(gdy_satirAltSolDIV_users).append(gdy_satirAltSolDIVImg_users);
-
-                jQuery(gdy_satirDIV_users).append(gdy_satirAltSolDIV_users);
-                //add gdy_satirAltSolDIV_users
-
-                //add gdy_altDIVOrta_users
-                var gdy_altDIVOrta_users = document.createElement('div');
-                jQuery(gdy_altDIVOrta_users).addClass('gdy_alt_orta');
-
-                for(var i=0;i<data.length;i++)
-                {
-                    var gdy_altDIVOrtaIMGDIV_users=document.createElement('div');
-                    jQuery(gdy_altDIVOrtaIMGDIV_users).addClass('gdy_alt_rsm');
-                    jQuery(gdy_altDIVOrtaIMGDIV_users).attr('style', 'width:64px;height:52px;text-align:center;overflow:hidden;margin-left:0px;background-repeat: no-repeat !important;background-position: center center !important;');
-                    jQuery(gdy_altDIVOrtaIMGDIV_users).attr('title',data[i].userName);
-                    /*
-                     *size
-                     */
-                    var myUsrImage = new Image();
-                    myUsrImage.src=data[i].pic;
-                    //myUsrImage.onload=function(){
-                    var param="";
-                    var width=0;
-                    var height=0;
-                    width=myUsrImage.width;
-                    height=myUsrImage.height;
-                       
-                    if(width>height)
-                    {
-                        if(width>64)
-                        {
-                            height=(64/width)*height;
-                            width=64;
-                        }
-                    }else
-                    {
-                        if(height>52)
-                        {
-                            width=(52/height)*width;
-                            height=52;
-                        }
-                    }
-                    if(width==0)
-                    {
-                        width=52;
-                    }
-                    if(height==0)
-                    {
-                        width=64;
-                    }
-                        
-                    param=param+"&h="+height;
-                    param=param+"&w="+width;
-                       
-                    jQuery(gdy_altDIVOrtaIMGDIV_users).css("background","url('"+ TIMETY_PAGE_GET_IMAGE_URL+myUsrImage.getAttribute("src")+param+"')");
-                    //jQuery(gdySolP2Img).attr('src', TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.headerImage.url+param); 
-                    //};
-                    /*
-                     *size
-                     */
-                    //jQuery(gdy_altDIVOrtaIMGDIV_users).css("background","url('"+data[i].pic+"')");
-                   
-                    //var imgOrta_users = document.createElement('img');
-                    //jQuery(imgOrta_users).attr('src',data[i].pic);
-                    //jQuery(imgOrta_users).attr('title',data[i].userName);
-                    //jQuery(imgOrta).attr('width', 62);
-                    //jQuery(imgOrta_users).attr('height', 52);
-                    //jQuery(imgOrta_users).attr('style', 'margin-left:0px;');
-                    //jQuery(imgOrta_users).addClass('gdy_alt_rsm');
-
-                    //jQuery(gdy_altDIVOrtaIMGDIV_users).append(imgOrta_users);
-                    jQuery(gdy_altDIVOrta_users).append(gdy_altDIVOrtaIMGDIV_users);
-                }
-
-                jQuery(gdy_satirDIV_users).append(gdy_altDIVOrta_users);
-                //add gdy_altDIVOrta_images
-
-                var gdy_altDIVSag_users= document.createElement('div');
-                jQuery(gdy_altDIVSag_users).addClass('gdy_alt_sag');
-
-                var gdy_altDIVSagP_users = document.createElement('p');
-                jQuery(gdy_altDIVSagP_users).append(data.length);
-
-                jQuery(gdy_altDIVSag_users).append(gdy_altDIVSagP_users);
-
-                var gdy_altDIVSagP2_users = document.createElement('p');
-                var gdy_altDIVSagP2A_users = document.createElement('a');
-                jQuery(gdy_altDIVSagP2A_users).attr('href', '#');
-
-                var gdy_altDIVSagP2AImg_users = document.createElement('img');
-                jQuery(gdy_altDIVSagP2AImg_users).attr('src', TIMETY_HOSTNAME+'images/bendedok.png');
-                jQuery(gdy_altDIVSagP2AImg_users).attr('width', 12);
-                jQuery(gdy_altDIVSagP2AImg_users).attr('height', 13);
-
-                jQuery(gdy_altDIVSagP2_users).append(gdy_altDIVSagP2AImg_users);
-                jQuery(gdy_altDIVSag_users).append(gdy_altDIVSagP2_users);
-
-                jQuery(gdy_satirDIV_users).append(gdy_altDIVSag_users);
-                jQuery(gdy_satirDIV_users).insertBefore(loader);
-            }
-            loadGifHandler();
-        }
-    });
-     
-     
-    /*
-     * Users
-     */
-
-    
-   
-    ///////////////////////
-    //
-    //
-    //  Get Comments
-    //
-    //
-    //    
-    jQuery.ajax({
-        type: 'POST',
-        url: TIMETY_PAGE_AJAX_GETCOMMENTS,
-        data: {
-            'eventId':id,
-            'lastComment':'*',
-            'count':'3'
-        },
-        success: function(data){
-            data= JSON.parse(data); 
-            if(!data.error && data.array)
-            {   
-                var comments=data.array;
-                
-                for(var i=0;i<comments.length;i++)
-                {
-                    var e=comments[i];
-                    lastCommentId=e.id;
-                    var commentItemDIV=document.createElement('div');
-                    jQuery(commentItemDIV).addClass("gdy_satir");
-                    jQuery(commentItemDIV).addClass("comment_classs");
-                    jQuery(commentItemDIV).addClass("modal_invisable");
-                    
-                    
-                    var commentItem_gdy_alt_solDIV=document.createElement("div");
-                    jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol_yorum");
-                    
-                    var commentItem_gdy_alt_solDIV_IMG=document.createElement("div");
-                    /*
-                     *
-                     */
-                    var myCommentUsrImage = new Image(); 
-                    myCommentUsrImage.src=e.userPic;
-                    var param="";
-                    var width=0;
-                    var height=0;
-                    width=myCommentUsrImage.width;
-                    height=myCommentUsrImage.height;
-                       
-                    if(width>height)
-                    {
-                        if(width>32)
-                        {
-                            height=(32/width)*height;
-                            width=32;
-                        }
-                    }else
-                    {
-                        if(height>31)
-                        {
-                            width=(31/height)*width;
-                            height=31;
-                        }
-                    }
-                    if(width==0)
-                    {
-                        width=32;
-                    }
-                    if(height==0)
-                    {
-                        width=31;
-                    }
-                    param=param+"&h="+height;
-                    param=param+"&w="+width;
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("style","background-position:center center !important;background-repeat:no-repeat no-repeat !important;");
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).css("background","url('"+ TIMETY_PAGE_GET_IMAGE_URL+myCommentUsrImage.getAttribute("src")+param+"')");
-                    /*
-                     *
-                     */
-                    //jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
-                    
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).css("width",56);
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).css("height",31);
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).css("margin-top","-7px");
-                    
-                    jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
-                    
-                    jQuery(commentItemDIV).append(commentItem_gdy_alt_solDIV);
-                    
-                    var commentItem_gdy_alt_ortaDIV=document.createElement("div");
-                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum");
-                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum_bggri");
-                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("bggri");
-                    
-                    
-                    var commentItem_gdy_alt_ortaDIV_h1=document.createElement("h1");
-                    jQuery(commentItem_gdy_alt_ortaDIV_h1).text(e.userName+":");
-                    jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_h1);
-                    
-                    var commentItem_gdy_alt_ortaDIV_p=document.createElement("p");
-                    jQuery(commentItem_gdy_alt_ortaDIV_p).text(e.comment);
-                    jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_p);
-                    
-                    jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
-                    
-                    jQuery(gdy_altDIV).append(commentItemDIV);
-                }
-                
-               
-                if(data.count)
-                {    
-                    var all_CommentsDIV=document.createElement("div");
-                    jQuery(all_CommentsDIV).addClass("tumyorumlar");
-                    jQuery(all_CommentsDIV).addClass("modal_invisable");
-                    
-                    var all_CommentsDIV_a=document.createElement('a');
-                    jQuery(all_CommentsDIV_a).attr("href", "#");
-                    jQuery(all_CommentsDIV_a).attr("onclick", "return openNextComments(this,5);");
-                    var next=5;
-                    if(data.count<5)
-                    {
-                        next=data.count;
-                    }
-                    jQuery(all_CommentsDIV_a).text("See "+next+" Next comments ("+(data.count)+")...");
-                    jQuery(all_CommentsDIV).append(all_CommentsDIV_a);
-                    
-                    jQuery(gdy_altDIV).append(all_CommentsDIV);
-                }
-            }
-            
-            /* ETKINLIK DETAY YORUM KISMI */
-            
-            jQuery.sessionphp.get('id',function(id){
-                var userId = id;
-                if(userId!=null && userId>0)
-                {    
-                    var writeComments_DIV=document.createElement("div");
-                    jQuery(writeComments_DIV).attr("id","write_comment");
-                    jQuery(writeComments_DIV).addClass("gdy_satir");
-                    jQuery(writeComments_DIV).addClass("modal_invisable");
-
-                    var writeComments_DIV_sol=document.createElement("div");
-                    jQuery(writeComments_DIV_sol).addClass("gdy_alt_sol_yorum");
-
-                    var writeComments_DIV_sol_img=document.createElement("img");
-                    jQuery(writeComments_DIV_sol_img).attr("src",TIMETY_HOSTNAME+"images/yz.png");
-                    jQuery(writeComments_DIV_sol_img).attr("width",22);
-                    jQuery(writeComments_DIV_sol_img).attr("height",23);
-                    jQuery(writeComments_DIV_sol_img).attr("align","middle");
-                    jQuery(writeComments_DIV_sol_img).css("margin-top","-5px");
-
-                    jQuery(writeComments_DIV_sol).append(writeComments_DIV_sol_img);
-
-                    jQuery(writeComments_DIV).append(writeComments_DIV_sol);
-
-
-                    var writeComments_DIV_orta = document.createElement("div");
-                    jQuery(writeComments_DIV_orta).addClass("gdy_alt_orta_yorum");
-                    jQuery(writeComments_DIV_orta).addClass("gdy_alt_orta_yorum_bggri_sendbtn");
-                    jQuery(writeComments_DIV_orta).addClass("bggri");
-
-                    var writeComments_DIV_orta_input=document.createElement("input");
-                    jQuery(writeComments_DIV_orta_input).attr("name","");
-                    jQuery(writeComments_DIV_orta_input).attr("type","text");
-                    jQuery(writeComments_DIV_orta_input).addClass("gdyorum");
-                    jQuery(writeComments_DIV_orta_input).attr("id","sendComment");
-                    jQuery(writeComments_DIV_orta_input).attr("eventId",event_id);
-                    jQuery(writeComments_DIV_orta_input).attr("placeholder","Your message...");
-                    jQuery(writeComments_DIV_orta_input).keyup(function(event){
-                        if(event.keyCode==13)
-                        {
-                            sendComment();
-                        }
-                    });
-
-                    jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_input);
-
-                    var writeComments_DIV_orta_button=document.createElement("button");
-                    jQuery(writeComments_DIV_orta_button).addClass("gdy_send");
-                    jQuery(writeComments_DIV_orta_button).attr("type","button");
-                    jQuery(writeComments_DIV_orta_button).attr("onclick","sendComment()");
-                    jQuery(writeComments_DIV_orta_button).text("Send");
-
-
-
-                    jQuery(writeComments_DIV_orta).append(writeComments_DIV_orta_button);
-
-
-                    jQuery(writeComments_DIV).append(writeComments_DIV_orta);
-
-                    jQuery(writeComments_DIV).insertAfter(jQuery("#modal_panel_users"));
-                }
-                        
-                loadGifHandler();
-            });
-         
-            loadGifHandler();
-        }
-    });
-    //////////////////////////
-    
-    return false;
-}
-
-function loadGifHandler()
-{
-    var loader=document.getElementById("modal_loader");
-    if(loader)
-    {
-        var status= parseInt(jQuery(loader).attr("status"));
-        status++;
-        if(status==3)
-        {
-            jQuery(loader).remove();
-            jQuery(".modal_invisable").removeClass("modal_invisable");  
-        }else
-        {
-            jQuery(loader).attr("status",status);
-        }
-    }else
-    {
-        jQuery(loader).remove();
-        jQuery(".modal_invisable").removeClass("modal_invisable");
-    }
-}
 
 
 function closeModalPanel() {
@@ -975,8 +455,8 @@ function addUrlEventId(event_id)
 {
     if (history.pushState) {
         /*
-         * Url rewrite
-         */
+             * Url rewrite
+             */
         var url_=window.location.href.split("/");
         if(url_)
         {
@@ -1006,8 +486,8 @@ function remUrlEventId()
 {
     if (history.pushState) {
         /*
-         * Url rewrite
-         */
+             * Url rewrite
+             */
         var url_=window.location.href.split("/");
         if(url_)
         {
@@ -1025,7 +505,7 @@ function remUrlEventId()
 }
 
 
-function openNextComments(all_comments,count)
+function openNextComments(count)
 {
     var eventId = jQuery("#sendComment").attr('eventId');
     jQuery.ajax({
@@ -1037,8 +517,6 @@ function openNextComments(all_comments,count)
             'count':count
         },
         success: function(data){
-            //jQuery(all_comments).remove();
-            //jQuery(".tumyorumlar").remove();
             data= JSON.parse(data); 
             if(!data.error && data.array)
             {
@@ -1046,58 +524,36 @@ function openNextComments(all_comments,count)
                 for(var i=data.array.length-1;i>=0;i--)
                 {
                     var e=data.array[i];
-                    var commentItemDIV=document.createElement('div');
-                    jQuery(commentItemDIV).addClass("gdy_satir");
-                    jQuery(commentItemDIV).addClass("comment_classs");
-
-
-                    var commentItem_gdy_alt_solDIV=document.createElement("div");
-                    jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol_yorum");
-
-                    var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",e.userPic);
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
-                    jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
-
-                    jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
-
-                    jQuery(commentItemDIV).append(commentItem_gdy_alt_solDIV);
-
-                    var commentItem_gdy_alt_ortaDIV=document.createElement("div");
-                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum");
-                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum_bggri"); 
-                    jQuery(commentItem_gdy_alt_ortaDIV).addClass("bggri");
-
-
-                    var commentItem_gdy_alt_ortaDIV_h1=document.createElement("h1");
-                    jQuery(commentItem_gdy_alt_ortaDIV_h1).text(e.userName+":");
-                    jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_h1);
-
-                    var commentItem_gdy_alt_ortaDIV_p=document.createElement("p");
-                    jQuery(commentItem_gdy_alt_ortaDIV_p).text(e.comment);
-                    jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_p);
-
-                    jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
-
-                    jQuery(commentItemDIV).insertAfter(jQuery("#write_comment"));
+                    lastCommentId=e.id;
+                    
+                    var commentItemDIV=jQuery("#comment_template").clone();
+                    jQuery(commentItemDIV).attr("id","tmp_comment_template_"+e.id);
+                    jQuery(commentItemDIV).insertBefore(jQuery("#tumyorumlar"));
+                    var imageDiv=jQuery(commentItemDIV).find("#comment_user_img");
+                    var userNameElem=jQuery(commentItemDIV).find("#comment_user");
+                    var commentElem=jQuery(commentItemDIV).find("#comment_text");
+                    setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, e.userPic,56);
+                    jQuery(userNameElem).text(e.userName+" : ");
+                    jQuery(commentElem).text(e.comment);
+                    jQuery(commentItemDIV).show();
                 }
             }
-            
+            var tumyorumlar=jQuery("#tumyorumlar");
             if(data.count)
             {
-                jQuery(".tumyorumlar").children().remove();
+                jQuery(tumyorumlar).show();
+                var tumyorumlarA=jQuery("#tumyorumlar #tumyorumlar_text");
+                jQuery(tumyorumlarA).unbind("click");
+                jQuery(tumyorumlarA).attr("onclick", "return openNextComments(5);");
                 var next=5;
                 if(data.count<5)
                 {
                     next=data.count;
                 }
-                var cmmentsA=jQuery("<a href=\"#\" onclick=\"return openNextComments(this,5);\"></a>");
-                jQuery(cmmentsA).text("See "+next+" Next comments ("+(data.count)+")...");
-                jQuery(".tumyorumlar").append(cmmentsA);
+                jQuery(tumyorumlarA).text("See "+next+" Next comments ("+(data.count)+")...");
             }else
             {
-                jQuery(all_comments).remove();    
+                jQuery(tumyorumlar).hide();    
             }
         }
     });
@@ -1105,59 +561,45 @@ function openNextComments(all_comments,count)
 
 
 function sendComment(){
-    jQuery.sessionphp.get('id',function(id){
-        var userId = id;
-        var comment = jQuery("#sendComment").val();
-        var eventId = jQuery("#sendComment").attr('eventId');
-        jQuery.ajax({
-            type: "POST",
-            url: TIMETY_PAGE_AJAX_ADDCOMMENTS,
-            data: {
-                "eventId":eventId,
-                "userId":userId,
-                "comment":comment
-            },
-            success: function(data){
-                data= JSON.parse(data); 
-                
-                var commentItemDIV=document.createElement('div');
-                jQuery(commentItemDIV).addClass("gdy_satir");
-                jQuery(commentItemDIV).addClass("comment_classs");
-
-                var commentItem_gdy_alt_solDIV=document.createElement("div");
-                jQuery(commentItem_gdy_alt_solDIV).addClass("gdy_alt_sol_yorum");
-
-                var commentItem_gdy_alt_solDIV_IMG=document.createElement("img");
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("src",data.userPic);
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("width",32);
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("height",31);
-                jQuery(commentItem_gdy_alt_solDIV_IMG).attr("align","middle");
-
-                jQuery(commentItem_gdy_alt_solDIV).append(commentItem_gdy_alt_solDIV_IMG);
-
-                jQuery(commentItemDIV).append(commentItem_gdy_alt_solDIV);
-
-                var commentItem_gdy_alt_ortaDIV=document.createElement("div");
-                jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum");
-                jQuery(commentItem_gdy_alt_ortaDIV).addClass("gdy_alt_orta_yorum_bggri"); 
-                jQuery(commentItem_gdy_alt_ortaDIV).addClass("bggri");
-
-
-                var commentItem_gdy_alt_ortaDIV_h1=document.createElement("h1");
-                jQuery(commentItem_gdy_alt_ortaDIV_h1).text(data.userName+":");
-                jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_h1);
-
-                var commentItem_gdy_alt_ortaDIV_p=document.createElement("p");
-                jQuery(commentItem_gdy_alt_ortaDIV_p).text(data.comment);
-                jQuery(commentItem_gdy_alt_ortaDIV).append(commentItem_gdy_alt_ortaDIV_p);
-
-                jQuery(commentItemDIV).append(commentItem_gdy_alt_ortaDIV);
-
-                jQuery(commentItemDIV).insertAfter(jQuery("#write_comment"));
-                jQuery("#sendComment").val('');
+    if(!sending)
+    {
+        jQuery.sessionphp.get('id',function(id){
+            var userId = id;
+            var comment = jQuery("#sendComment").val();
+            var eventId = jQuery("#sendComment").attr('eventId');
+            if(comment && comment.length>1 && eventId && userId)
+            {
+                sending=true;
+                jQuery.ajax({
+                    type: "POST",
+                    url: TIMETY_PAGE_AJAX_ADDCOMMENTS,
+                    data: {
+                        "eventId":eventId,
+                        "userId":userId,
+                        "comment":comment
+                    },
+                    success: function(data){
+                        sending=false;
+                        data= JSON.parse(data); 
+                        if(!data.error)
+                        {
+                            var commentItemDIV=jQuery("#comment_template").clone();
+                            jQuery(commentItemDIV).attr("id","tmp_comment_template_"+data.id);
+                            jQuery(commentItemDIV).insertAfter(jQuery("#comment_template"));
+                            var imageDiv=jQuery(commentItemDIV).find("#comment_user_img");
+                            var userNameElem=jQuery(commentItemDIV).find("#comment_user");
+                            var commentElem=jQuery(commentItemDIV).find("#comment_text");
+                            setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, data.userPic,56);
+                            jQuery(userNameElem).text(data.userName+" : ");
+                            jQuery(commentElem).text(data.comment);
+                            jQuery(commentItemDIV).show();
+                            jQuery("#sendComment").val("");
+                        }
+                    }
+                });
             }
         });
-    });
+    }
 }
 
 

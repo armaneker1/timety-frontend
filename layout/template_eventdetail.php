@@ -7,13 +7,13 @@
     });
 </script>
 
-<div class="genel_detay_yeni" id="genel_detay_yeni" style="display: none;">
+<div class="genel_detay_yeni" id="genel_detay_yeni" style="display: none;padding-bottom: 45px;">
     <div class="gdy_sol">
         <h1 class="gdy_baslik" id="gdy_event_title">Event Title</h1>
         <h2 class="gdy_zaman"  id="gdy_event_date">Event Date</h2>
         <p class="gdy_metin"   id="gdy_event_description">Event Description</p>
         <div class="gdy_resim">
-            <img id="big_image_header" src="<?=HOSTNAME?>images/loader.gif" width="30" height="30" border="0" />
+            <img id="big_image_header" src="<?= HOSTNAME ?>images/loader.gif" width="30" height="30" border="0" />
         </div>
         <div class="gdy_bgln">
             <div class="bgln_rsm">
@@ -25,7 +25,7 @@
             <button class="gdy_btn" id="button_reshare">Reshare</button>
             <button class="gdy_btn" id="button_maybe">Maybe</button>
             <button class="gdy_btn_mavi" id="button_join">
-                <img src="images/ti.png" width="17" height="18" class="gdy_btn_res" />Join</button>
+                <img src="<?= HOSTNAME ?>images/ti.png" width="17" height="18" class="gdy_btn_res" />Join</button>
         </div>
     </div>
     <div class="gdy_sag">
@@ -42,83 +42,53 @@
     <div class="gdy_alt">
         <div class="gdy_satir" id="gdy_images_div_container">
             <div class="gdy_alt_sol">
-                <img src="<?=HOSTNAME?>images/rsm.png" width="27" height="24" align="middle" />
+                <img src="<?= HOSTNAME ?>images/rsm.png" width="27" height="24" align="middle" />
             </div>
             <div class="gdy_alt_orta" id="gdy_images_div">
-                <img class="gdy_alt_rsm" src="images/r6.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r6.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r6.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r6.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r6.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r6.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r6.png" width="62" height="52" />
             </div>
             <div class="gdy_alt_sag">
                 <p id="gdy_images_count">5</p>
                 <p><a href="#">
-                        <img src="images/bendedok.png" width="12" height="13" border="0" />
+                        <img src="<?= HOSTNAME ?>images/bendedok.png" width="12" height="13" border="0" />
                     </a>
                 </p>
             </div>
         </div>
-        <div class="gdy_satir">
+        <div class="gdy_satir" id="gdy_users_div_container">
             <div class="gdy_alt_sol">
-                <img src="images/klnc.png" width="22" height="20" align="middle" />
+                <img src="<?= HOSTNAME ?>images/klnc.png" width="22" height="20" align="middle" />
             </div>
-            <div class="gdy_alt_orta">
-                <img class="gdy_alt_rsm" src="images/r7.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r7.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r7.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r7.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r7.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r7.png" width="62" height="52" />
-                <img class="gdy_alt_rsm" src="images/r7.png" width="62" height="52" />
+            <div class="gdy_alt_orta" id="gdy_users_div">
             </div>
             <div class="gdy_alt_sag">
-                <p>8</p>
+                <p id="gdy_users_count">8</p>
                 <p><a href="#">
-                        <img src="images/bendedok.png" width="12" height="13" border="0" />
+                        <img src="<?= HOSTNAME ?>images/bendedok.png" width="12" height="13" border="0" />
                     </a>
                 </p>
             </div>
         </div>
-        <div class="gdy_satir">
-            <div class="gdy_alt_sol">
-                <img src="images/ekl.png" width="32" height="31" align="middle" />
+        <div id="write_comment" class="gdy_satir" style="display: none;">
+            <div class="gdy_alt_sol_yorum">
+                <img src="<?= HOSTNAME ?>images/yz.png" width="22" height="23" align="middle" style="margin-top: -5px;">
             </div>
-            <div class="gdy_alt_orta">
-                <h1>Me: </h1>
-                <p> Etiam ullamcorper. Supendisse a pellentesque dui, non felis. 
-                    Maecenas malesuada elit lectus
-                    malesuada ultricies. Lorem ipsum dolor sit amet </p>
+            <div class="gdy_alt_orta_yorum gdy_alt_orta_yorum_bggri_sendbtn bggri">
+                <input name="" type="text" class="gdyorum" id="sendComment" eventid="" placeholder="Your message...">
+                <button class="gdy_send" type="button" onclick="sendComment()">Send</button>
             </div>
-
         </div>
-        <div class="gdy_satir">
-            <div class="gdy_alt_sol">
-                <img src="images/ekl.png" width="32" height="31" align="middle" />
+        <div class="gdy_satir comment_classs" id="comment_template" style="display: none;">
+            <div class="gdy_alt_sol_yorum">
+                <div style="width:56px;height:31px;margin-top: -7px;" id="comment_user_img"></div>
             </div>
-            <div class="gdy_alt_orta bggri">
-                <h1>Me: </h1>
-                <p> Etiam ullamcorper. Supendisse a pellentesque dui, non felis. 
-                    Maecenas malesuada elit lectus
-                    malesuada ultricies. Lorem ipsum dolor sit amet </p>
+            <div class="gdy_alt_orta_yorum gdy_alt_orta_yorum_bggri bggri">
+                <h1 id="comment_user"></h1>
+                <p  id="comment_text"></p>
             </div>
-
         </div>
-        <div class="tumyorumlar">
-            <a href="#">See all 4 comments...</a>
-        </div>
-        <div class="gdy_satir">
-            <div class="gdy_alt_sol">
-                <img src="images/yz.png" width="22" height="23" align="middle" />
-            </div>
-            <div class="gdy_alt_orta bggri">
-                <input name="" type="text" class="gdyorum" value="Your message..." />
-                <button type="button" name="" value="" class="gdy_send"> Send</button>
 
-            </div>
-
+        <div class="tumyorumlar" id="tumyorumlar" style="display: none">
+            <a href="#" id="tumyorumlar_text">See all 4 comments...</a>
         </div>
     </div>
 </div>

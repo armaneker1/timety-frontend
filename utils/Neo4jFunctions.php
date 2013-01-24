@@ -1145,9 +1145,10 @@ class Neo4jFuctions {
         if (!empty($eventId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":*" . $eventId . "*') " .
-                    "MATCH (event)<-[r:" . REL_EVENTS_JOINS . "]->(usr)  " .
+                    "MATCH (event)<-[r:" . REL_EVENTS_JOINS . "]-(usr)  " .
                     " WHERE (HAS (r." . PROP_JOIN_TYPE . ") AND (r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_YES . " OR r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_MAYBE . ")) " .
                     "RETURN usr,count(*) ";
+            //echo $query;
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
             foreach ($result as $row) {
