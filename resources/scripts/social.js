@@ -8,7 +8,7 @@ function shareThisFacebook()
 }
 
 
-function shareThisTwitter(header)
+function shareThisTwitter()
 {
     var u=location.href;
     window.open('http://twitter.com/share?url='+encodeURIComponent(u)+'&text='+header+' by @mytimety&count=horiztonal','sharertw','toolbar=0,status=0,width=626,height=436');
@@ -20,5 +20,16 @@ function shareThisGoogle()
 {
     var u=location.href;
     window.open('https://plus.google.com/share?url='+encodeURIComponent(u),'sharergg','toolbar=0,status=0,width=626,height=436');
+    return false;
+}
+
+
+function reshareEvent()
+{
+    return false;
+}
+
+function responseEvent()
+{
     return false;
 }

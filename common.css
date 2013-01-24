@@ -9,3 +9,18 @@
 .event_add_ekr{
     top:55px !important;
 }
+.gdy_resim{
+    max-width: 561px;
+    text-align: center;
+}
+
+.gdy_bg_loader{
+    background: url(images/loader.gif);
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+.gdy_creator_img{
+    width: 48px;
+    height: 48px;
+}

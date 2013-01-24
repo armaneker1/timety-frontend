@@ -289,7 +289,7 @@ class Neo4jEventUtils {
 
     public static function getEventCreatorId($eventId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_JOINS . "').dedup.filter{it." . PROP_JOIN_CREATE . "==true && (it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_YES . " ||  it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_MAYBE . ")}.outV.dedup.user_id";
+        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_JOINS . "').dedup.filter{it." . PROP_JOIN_CREATE . "==true || it." . PROP_JOIN_CREATE . "==1 || it." . PROP_JOIN_CREATE . "=='1'}.outV.dedup.user_id";
         //echo $query;
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
         $result = $query->getResultSet();
@@ -408,6 +408,28 @@ class Neo4jEventUtils {
             }
         }
         return $result;
+    }
+    
+     public static function getEventCreatorIdCypher($eventId) {
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        if (!empty($eventId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .
+                        " MATCH  event-[r:" . REL_EVENTS_JOINS . "]-user" .
+                        " WHERE ( r." . PROP_JOIN_CREATE."=1 OR r.". PROP_JOIN_CREATE."='1')".
+                        " RETURN user.user_id";
+                //echo $query;
+                $query = new Cypher\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                foreach ($nresult as $row) {
+                    return $row[0];
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+        }
+        return null;
     }
 
 }

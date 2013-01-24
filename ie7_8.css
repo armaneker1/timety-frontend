@@ -2112,30 +2112,30 @@ body {
     width: 660px;
     margin-right: auto;
     margin-left: auto;
-    position: static;
+    position: absolute;
     left: 0px;
     right: 0px;
     z-index: 600;
-    margin-top: 50px;
+    top: 100px;
 }
 .gdy_sol {
     float: left;
     height: auto;
-    width: 561px;
+    width: 562px;
     position: relative;
-    background-image: url(images/abbg.png);
-    background-repeat: repeat;
     display: block;
     border: 5px solid #FFF;
     box-shadow: 0px 0px 1px #999;
-    padding: 20px;
+    background-color: #f1f1f1;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
 }
 .gdy_sag {
     float: left;
-    width: 44px;
+    width: 40px;
     position: relative;
-    background-image: url(images/abbg.png);
-    background-repeat: repeat;
     border-top-width: 5px;
     border-right-width: 5px;
     border-bottom-width: 5px;
@@ -2149,143 +2149,146 @@ body {
     top: 10px;
     padding-top: 2px;
     padding-bottom: 2px;
-}
-.gdy_alt {
-    clear: both;
-    height: auto;
-    /* [disabled]width: 611px; */
-    background-color: #FFF;
-    position: relative;
-    border-top-width: 1px;
-    border-top-style: solid;
-    border-top-color: #CCC;
-    display: table;
-    min-width: 609px;
-}
-.gdy_alt_orta {
-    float: left;
-    height: 64px;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #CCC;
-    padding-top: 10px;
-    text-align: left;
-    min-width: 507px;
-    padding-right: 5px;
-    padding-left: 5px;
-}
-.gdy_alt_orta p {
-    width: 543px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    color: #676666;
-}
-.bggri {
     background-color: #f1f1f1;
 }
+.gdy_alt {
+                clear: both;
+                height: auto;
+                /* [disabled]width: 611px; */
+                background-color: #FFF;
+                position: relative;
+                border-top-width: 1px;
+                border-top-style: solid;
+                border-top-color: #CCC;
+                display: table;
+                min-width: 610px;
+}
+.gdy_alt_orta {
+                float: left;
+                height: 64px;
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                border-bottom-color: #CCC;
+                padding-top: 10px;
+                text-align: left;
+                min-width: 507px;
+                padding-right: 5px;
+                padding-left: 5px;
+}
+.gdy_alt_orta p {
+                width: 543px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+                color: #676666;
+}
+.bggri {
+                background-color: #f1f1f1;
+}
 .tumyorumlar {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #4d94c2;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #CCC;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 11px;
+                color: #4d94c2;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 10px;
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                border-bottom-color: #CCC;
 }
 .gdy_send {
-    background-color: #4b92c1;
-    line-height: 32px;
-    text-align: center;
-    height: 32px;
-    width: 56px;
-    border: 1px solid #5897c3;
-    cursor:pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    color: #FFF;
-    /*margin-top: 5px;*/
-    margin-right: 10px;
-    margin-bottom: 5px;
-    box-shadow: inset 0px 2px 5px #84c4dd;
+                background-color: #4a91c0;
+                line-height: 32px;
+                text-align: center;
+                height: 32px;
+                width: 56px;
+                border: 1px solid #5897c3;
+                cursor:pointer;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 11px;
+                font-weight: bold;
+                color: #FFF;
+               /* margin-top: 5px;*/
+                margin-right: 10px;
+                margin-bottom: 5px;
+                background-image: url(images/gdy_btn_mavi.png);
+                background-repeat: repeat-x;
 }
 .tumyorumlar a {
-    color: #4d94c2;
-    text-decoration: underline;
+                color: #4d94c2;
+                text-decoration: underline;
 }
 .gdyorum {
-    height: 27px;
-    width: 460px;
-    float: left;
-    margin-right: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #676666;
-    padding-left: 5px;
-    /*margin-top: 5px;*/
+                height: 40px;
+                width: 460px;
+                float: left;
+                margin-right: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 11px;
+                color: #676666;
+                padding-left: 5px;
 }
 
 .gdy_alt_orta h1 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    color: #202020;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 11px;
+                font-weight: bold;
+                color: #202020;
+}
+ 
+.gdy_satir {
+                display: table;
 }
 
-.gdy_satir {
-    display: table;
-}
 .gdy_alt_sol {
-    background-color: #f9f9f9;
-    float: left;
-    height: 54px;
-    width: 54px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: solid;
-    border-right-color: #CCC;
-    border-bottom-color: #CCC;
-    border-left-color: #CCC;
-    text-align: center;
-    padding-top: 20px;
+                background-color: #f9f9f9;
+                float: left;
+                height: 54px;
+                width: 54px;
+                border-right-width: 1px;
+                border-bottom-width: 1px;
+                border-left-width: 1px;
+                border-right-style: solid;
+                border-bottom-style: solid;
+                border-left-style: solid;
+                border-right-color: #CCC;
+                border-bottom-color: #CCC;
+                border-left-color: #CCC;
+                text-align: center;
+                padding-top: 20px;
 }
 .gdy_alt_rsm {
-    height: 52px;
-    width: 62px;
-    border: 1px solid #c7c7c7;
-    float: left;
-    margin-right: 4px;
-    margin-left: 4px;
+                height: 52px;
+                width: 62px;
+                border: 1px solid #c7c7c7;
+                float: left;
+                margin-right: 4px;
+                margin-left: 4px;
 }
 .gdy_alt_sag {
-    background-color: #f9f9f9;
-    float: right;
-    height: 54px;
-    width: 16px;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #CCC;
-    border-right-width: 1px;
-    border-left-width: 1px;
-    border-right-style: solid;
-    border-left-style: solid;
-    border-right-color: #CCC;
-    border-left-color: #CCC;
-    padding-top: 20px;
-    padding-right: 10px;
-    padding-left: 10px;
-    font-size: 13px;
-    color: #717171;
-    text-align: center;
+                background-color: #f9f9f9;
+                float: right;
+                height: 54px;
+                width: 17px;
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                border-bottom-color: #CCC;
+                border-right-width: 1px;
+                border-left-width: 1px;
+                border-right-style: solid;
+                border-left-style: solid;
+                border-right-color: #CCC;
+                border-left-color: #CCC;
+                padding-top: 20px;
+                padding-right: 10px;
+                padding-left: 10px;
+                font-size: 13px;
+                color: #717171;
+                text-align: center;
 }
 .gdy_alt_sag p {
-    margin-top: 3px;
+                margin-top: 3px;
 }
+ 
 /* Event detail Comment bar (row) - start*/
 .gdy_alt_orta_yorum {
     float: left;
@@ -2354,25 +2357,107 @@ body {
     padding-bottom: 3px;
 }
 .gdy_baslik {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    color: #666666;
-    margin-bottom: 5px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+                font-weight: bold;
+                color: #666666;
+                margin-bottom: 5px;
 }
 .gdy_zaman {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    color: #959595;
-    font-weight: normal;
-    margin-bottom: 5px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 16px;
+                color: #959595;
+                font-weight: normal;
+                margin-bottom: 5px;
 }
 .gdy_metin  {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    color: #959595;
-    margin-bottom: 20px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 13px;
+                color: #959595;
+                margin-bottom: 20px;
 }
+
+.gdy_resim {
+                border: 1px solid #d2d2d2;
+                background-image: url(images/gdy_cbg.png);
+                background-repeat: repeat;
+                width: 561px;
+                text-align: center;
+}
+.gdy_bgln {
+                width: 563px;
+                height: 52px;
+                margin-top: 10px;
+}
+.bgln_rsm {
+                display: inline-block;
+                float: left;
+                background-color: #FFF;
+                padding: 2px;
+                border: 1px solid #c8c8c9;
+}
+.bgln_user {
+                margin-left: 5px;
+                display: inline-block;
+                float: left;
+                width: 160px;
+}
+.bgln_user h1 {
+                font-family: arial;
+                font-size: 14px;
+                font-weight: bold;
+                color: #666666;
+                padding-top: 12px;
+}
+.gdy_btn {
+                background-color: transparent;
+                background-image: url(images/dugme_bg.png);
+                background-repeat: repeat-x;
+                border: 1px solid #c3c3c3;
+                font-family: arial;
+                font-size: 12px;
+                font-weight: bold;
+                color: #6d6d6d;
+                height: 27px;
+                width: 111px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 1px rgba(58,58,58,0.25);
+                vertical-align: middle;
+                margin-top: 12px;
+                cursor:pointer;
+}
+.gdy_btn_res {
+                margin-left: -20px;
+                position: absolute;
+                left: 25px;
+}
+ 
+.gdy_btn_mavi {
+                background-color: transparent;
+                background-image: url(images/gdy_btn_mavi.png);
+                background-repeat: repeat-x;
+                border: 1px solid #5897c3;
+                font-family: arial;
+                font-size: 12px;
+                font-weight: bold;
+                color: #FFFFFF;
+                height: 27px;
+                width: 111px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 1px rgba(58,58,58,0.25);
+                vertical-align: middle;
+                margin-top: 12px;
+                cursor:pointer;
+                position: relative;
+}
+ 
+.bgln_user p {
+                font-family: arial;
+                font-size: 11px;
+                font-style: italic;
+                color: #959595;
+}
+
 .search_bar {
     /* [disabled]width: 400px; */
     line-height: 36px;
@@ -2861,160 +2946,160 @@ body {
 
 /*
  *  for auto complete 
- */
- .drp {
-                height: auto;
-                width: 583px;
-                position: absolute;
-                z-index: 1000;
-                top: 48px;
-                border-bottom-width: 1px;
-                border-bottom-style: solid;
-                border-bottom-color: #d4d4d4;
-                /* [disabled]display: none; */
+*/
+.drp {
+    height: auto;
+    width: 583px;
+    position: absolute;
+    z-index: 1000;
+    top: 48px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #d4d4d4;
+    /* [disabled]display: none; */
 }
 .ykl {
-                display: inline-block;
-                float: left;
-                height: 27px;
-                width: 42px;
-                background-color: #FFF;
-                border-top-width: 1px;
-                border-bottom-width: 1px;
-                border-left-width: 1px;
-                border-top-style: solid;
-                border-bottom-style: solid;
-                border-left-style: solid;
-                border-top-color: #d4d4d4;
-                border-bottom-color: #d4d4d4;
-                border-left-color: #d4d4d4;
-                text-align: center;
-                padding-top: 10px;
+    display: inline-block;
+    float: left;
+    height: 27px;
+    width: 42px;
+    background-color: #FFF;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #d4d4d4;
+    border-bottom-color: #d4d4d4;
+    border-left-color: #d4d4d4;
+    text-align: center;
+    padding-top: 10px;
 }
 .drsp_ek {
-                height: 37px;
-                /*width: 523px;*/
-                background-color: #FFF;
-                border-top-width: 1px;
-                border-right-width: 1px;
-                border-bottom-width: 1px;
-                border-left-width: 1px;
-                border-top-style: solid;
-                border-right-style: solid;
-                border-left-style: solid;
-                border-top-color: #d4d4d4;
-                border-right-color: #d4d4d4;
-                border-left-color: #d4d4d4;
-                line-height: 37px;
-                font-family: Arial;
-                font-size: 13px;
-                color: #676666;
-                padding-left: 15px;
-              /*  display: inline-block;
-                float: right; */
+    height: 37px;
+    /*width: 523px;*/
+    background-color: #FFF;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-top-color: #d4d4d4;
+    border-right-color: #d4d4d4;
+    border-left-color: #d4d4d4;
+    line-height: 37px;
+    font-family: Arial;
+    font-size: 13px;
+    color: #676666;
+    padding-left: 15px;
+    /*  display: inline-block;
+      float: right; */
 }
 .drsp_sag {
-                float: right;
-                margin-right: 10px;
-                text-align: center;
-                width: 26px;
+    float: right;
+    margin-right: 10px;
+    text-align: center;
+    width: 26px;
 }
 .drp_add_btn {
-                background-color: #b8b8b8;
-                border-top-width: 1px;
-                border-right-width: 1px;
-                border-bottom-width: 1px;
-                border-left-width: 1px;
-                border-top-style: solid;
-                border-right-style: solid;
-                border-bottom-style: solid;
-                border-left-style: solid;
-                border-top-color: #9f9f9f;
-                border-right-color: #b0b0b0;
-                border-bottom-color: #b0b0b0;
-                border-left-color: #b0b0b0;
-                border-radius: 5px;
-                font-family: Arial;
-                font-size: 11px;
-                font-weight: bold;
-                color: #FFF;
-                padding-top: 2px;
-                padding-right: 4px;
-                padding-bottom: 2px;
-                padding-left: 4px;
-                margin-top: 8px;
-                margin-right: 0px;
-                margin-bottom: 0px;
-                margin-left: 0px;
-                cursor:pointer;
+    background-color: #b8b8b8;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #9f9f9f;
+    border-right-color: #b0b0b0;
+    border-bottom-color: #b0b0b0;
+    border-left-color: #b0b0b0;
+    border-radius: 5px;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFF;
+    padding-top: 2px;
+    padding-right: 4px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    margin-top: 8px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    cursor:pointer;
 }
- 
+
 .drsp_ek_hover {
-                height: 37px;
-               /* width: 523px; */
-                background-color: #f2f2f2;
-                border-top-width: 1px;
-                border-right-width: 1px;
-                border-bottom-width: 1px;
-                border-left-width: 1px;
-                border-top-style: solid;
-                border-right-style: solid;
-                border-left-style: solid;
-                border-top-color: #d4d4d4;
-                border-right-color: #d4d4d4;
-                border-left-color: #d4d4d4;
-                line-height: 37px;
-                font-family: Arial;
-                font-size: 13px;
-                color: #676666;
-                padding-left: 15px;
-                box-shadow: inset 1px 1px 0px #FFF;
-             /*   display: inline-block;
-                float: right; */
+    height: 37px;
+    /* width: 523px; */
+    background-color: #f2f2f2;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-top-color: #d4d4d4;
+    border-right-color: #d4d4d4;
+    border-left-color: #d4d4d4;
+    line-height: 37px;
+    font-family: Arial;
+    font-size: 13px;
+    color: #676666;
+    padding-left: 15px;
+    box-shadow: inset 1px 1px 0px #FFF;
+    /*   display: inline-block;
+       float: right; */
 }
 .eam_description {
-                clear: both;
-                width: 583px;
-                margin-bottom: 8px;
-                margin-left: 8px;
+    clear: both;
+    width: 583px;
+    margin-bottom: 8px;
+    margin-left: 8px;
 }
 .desc_ust {
-                background-image: url(images/eam_solbg.png);
-                background-repeat: repeat-x;
-                height: 3px;
-                clear: both;
+    background-image: url(images/eam_solbg.png);
+    background-repeat: repeat-x;
+    height: 3px;
+    clear: both;
 }
 .desc_sol {
-                background-image: url(images/eam_sagbg.png);
-                background-repeat: repeat-y;
-                display: inline-block;
-                float: left;
-                height: 150px;
-                width: 4px;
+    background-image: url(images/eam_sagbg.png);
+    background-repeat: repeat-y;
+    display: inline-block;
+    float: left;
+    height: 150px;
+    width: 4px;
 }
 .desc_menu {
-                background-image: url(images/desc_menubg.png);
-                background-repeat: repeat-x;
-                height: 26px;
-                width: 575px;
-                border-bottom-width: 1px;
-                border-bottom-style: solid;
-                border-bottom-color: #b8b8b8;
+    background-image: url(images/desc_menubg.png);
+    background-repeat: repeat-x;
+    height: 26px;
+    width: 575px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #b8b8b8;
 }
 .desc_metin {
-                font-family: Arial;
-                font-size: 13px;
-                color: #aeaeae;
-                height: 110px;
-                width: 555px;
-                padding: 10px;
-                background-image: url(images/dbg.png) ;
-                background-repeat: repeat;
+    font-family: Arial;
+    font-size: 13px;
+    color: #aeaeae;
+    height: 110px;
+    width: 555px;
+    padding: 10px;
+    background-image: url(images/dbg.png) ;
+    background-repeat: repeat;
 }
- 
+
 .desc_orta {
-                float: left;
-                height: 150px;
-                width: 575px;
-                display: inline-block;
+    float: left;
+    height: 150px;
+    width: 575px;
+    display: inline-block;
 }

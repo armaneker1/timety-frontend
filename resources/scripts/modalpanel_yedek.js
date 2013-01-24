@@ -1,321 +1,6 @@
 var lastCommentId=-1;
 
-/*
- * Function List
- */
-
-function getDataFromLocalStorage(event_id)
-{
-    return  JSON.parse(localStorage.getItem('event_' + event_id));
-}
-
-/*
- * show black background
- */
-function showBackGround()
-{
-    var detailModalPanelBackground = document.getElementById('div_follow_trans');
-    jQuery(detailModalPanelBackground).attr('onclick','closeModalPanel()');
-    jQuery(detailModalPanelBackground).show();
-    document.body.style.overflow = "hidden";
-}
-
-function setImageBackGroundLoader(div)
-{
-    jQuery(div).addClass('gdy_bg_loader');
-    jQuery(div).css('background', "url("+TIMETY_HOSTNAME+"images/loader.gif)"); 
-    jQuery(div).css('background-repeat', 'no-repeat');
-}
-
-
-
-function setImageBackGroundCenter(div,defWidth,defHeight,width,height,url)
-{
-    if(div && div.length)
-    {
-        if(defHeight<1 && defWidth<1)
-        {
-            defHeight=30;
-            defWidth=30;
-        }
-        try{
-            //set loader
-            setImageBackGroundLoader(div);
-            jQuery(div).css('width',defWidth+"px");
-            jQuery(div).css('height',defHeight+"px");
-            /*
-             *Calculate width height
-             */
-            var myImage = new Image();
-            if(url.indexOf('http')==0)
-            {
-                myImage.src=url;  
-            }else
-            {
-                myImage.src=TIMETY_HOSTNAME+url;
-            }
-            myImage.onload=function(){
-                onloadImage(url,defWidth,defHeight,div,myImage);
-            };
-        }catch(exp)
-        {
-            console.log(exp);
-        }
-    }
-}
-
-function onloadImage(url,defWidth,defHeight,div,myImage){
-    var param="";
-    var cWidth=myImage.width;
-    var cHeight=myImage.height;
-                
-    if(cWidth<1 && cHeight<1)
-    { 
-        cWidth=width;
-        cHeight=height;
-    }
-    if(cWidth>0 && cHeight>0){
-        if(cWidth>cHeight)
-        {
-            if(cWidth>defWidth)
-            {
-                cHeight=(defWidth/cWidth)*cHeight;
-                cWidth=defWidth;  
-            }
-        }else
-        {
-            if(cHeight>defHeight)
-            {
-                cWidth=(defHeight/cHeight)*cWidth;
-                cHeight=defHeight;  
-            }
-        }
-                    
-        jQuery(div).attr('height',cHeight);
-        jQuery(div).attr('width', cWidth);
-        param=param+"&h="+cHeight;
-        param=param+"&w="+cWidth;
-        if(url.indexOf('http')!=0)
-        {
-            url=TIMETY_SUBFOLDER+url; 
-        }
-        jQuery(div).css('background', "url("+TIMETY_PAGE_GET_IMAGE_URL+url+param+")"); 
-        jQuery(div).css('background-repeat', 'no-repeat');
-    }
-}
-
-function setHeaderImage(headerImage,data)
-{
-    if(headerImage && data && data.url)
-    {
-        var myImage = new Image();
-        myImage.src=TIMETY_HOSTNAME+data.url;
-        myImage.onload=function(){
-            var param="";
-            var width=0;
-            var height=0;
-            width=myImage.width;
-            height=myImage.height;
-            if(width<1 && height<1)
-            { 
-                width=data.width;
-                height=data.height;
-            }
-            if(width>0 && height>0){
-                if(width>561)
-                {
-                    height=(561/width)*height;
-                    width=561;
-                }
-                jQuery(headerImage).attr('height',height);
-                jQuery(headerImage).attr('width', width);
-                param=param+"&h="+height;
-                param=param+"&w="+width;
-            }else
-            {
-                jQuery(headerImage).css('max-width','560px');    
-            }
-            jQuery(headerImage).attr('src', TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.url+param); 
-        };
-    }
-}
-
-function openModalPanel(event_id,custom) {
-    /*
-     *Clear dropable
-     */
-    jQuery(".main_dropable_").css('display','none'); 
-    /*
-     * get event data 
-     */
-    var data = null;
-    if(!custom)
-    {
-        /*
-         * get local data 
-         */
-        data = getDataFromLocalStorage(event_id);
-        try{
-            data.images=JSON.parse(data.images);
-        }catch(exp){
-            console.log(exp);
-        }
-        if (!data) {
-            closeModalPanel();
-            return;
-        }
-        // set url 
-        if(!addUrlEventId(event_id))
-        {
-            closeModalPanel();
-            return false;    
-        }
-    }else
-    {
-        // event page 
-        data = JSON.parse(custom);
-        event_id=data.id;
-        if (!data) {
-            closeModalPanel();
-            return;
-        }
-    }
-    
-    // set background
-    showBackGround();
-    // modal panel
-    var detailModalPanel=jQuery("#genel_detay_yeni");
-    if(detailModalPanel)
-    {
-        //stop click background when click this div
-        jQuery(detailModalPanel).on('click',function(e){
-            e.stopPropagation();
-            e.preventDefault();
-            return false;
-        });
-        //set event title
-        jQuery("#gdy_event_title").text(data.title);
-        //set event date
-        jQuery("#gdy_event_date").text(data.startDateTime);
-        //set event description
-        jQuery("#gdy_event_description").text(data.description);
-        //set Header Image
-        var headerImage=jQuery("#big_image_header");
-        /* loader */
-        jQuery(headerImage).attr('src', TIMETY_HOSTNAME+"images/loader.gif");  
-        jQuery(headerImage).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
-        jQuery(headerImage).css('min-height','30px');
-        jQuery(headerImage).css('min-width', '30px');
-        jQuery(headerImage).attr('height',30);
-        jQuery(headerImage).attr('width', 30);
-        if(headerImage && data.headerImage && data.headerImage.url)
-        {
-            setHeaderImage(headerImage, data.headerImage);
-        }
-        jQuery("#name_creator").text("");
-        setImageBackGroundLoader(jQuery("#image_creator"));
-        if(data.creatorId)
-        {
-            //set Event Creator
-            jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
-                'userId':data.creatorId
-            }, function(data){
-                jQuery("#name_creator").text(data.firstName+" "+data.lastName);
-                setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.userPicture);
-            }, "json");
-        }else
-        {
-        // do something show empty image          
-        }
-        
-        //set button actions
-        var liked=false;
-        var reshared=false;
-        var joinedType=0;
-        if(data.userRelation)
-        {
-            liked=data.userRelation.like;
-            reshared=data.userRelation.reshare;
-            joinedType=data.userRelation.joinType;
-        }
-        //like not yet
-        if(liked)
-        {}else{}
-        //maybe join 
-        jQuery("#button_maybe").removeAttr("disabled");
-        jQuery("#button_maybe").click(responseEvent);
-        jQuery("#button_join").removeAttr("disabled");
-        jQuery("#button_join").click(responseEvent);
-        if(joinedType==1 || joinedType=='1')
-        {
-            jQuery("#button_join").attr("disabled", "disabled"); 
-            jQuery("#button_join").unbind("click");
-        }else if(joinedType==2 || joinedType=='2')
-        {
-            jQuery("#button_maybe").attr("disabled", "disabled"); 
-            jQuery("#button_maybe").unbind("click");
-        }
-        //reshare
-        if(reshared)
-        {
-            jQuery("#button_reshare").attr("disabled", "disabled"); 
-            jQuery("#button_reshare").unbind('click'); 
-        }else
-        {
-            jQuery("#button_reshare").removeAttr("disabled");
-            jQuery("#button_reshare").click(reshareEvent);
-        }
-        
-        /*
-         * Set Images
-         */
-        jQuery("#gdy_images_div").children().remove();
-        getImages(jQuery("#gdy_images_div"),event_id);
-        
-        //show popup
-        jQuery(detailModalPanel).show();
-    }else
-    {
-        closeModalPanel();
-    }
-}
-
-
-function getImages(gdy_altDIVOrta_images,event_id)
-{
-    jQuery.ajax({
-        type: "POST",
-        url: TIMETY_PAGE_AJAX_GETEVENTIMAGES,
-        data: {
-            "eventId":event_id
-        },
-        success: function(data){
-            data= JSON.parse(data); 
-            if(!data.error)
-            {
-                for(var i=0;i<data.length;i++)
-                {
-                    var tmp=jQuery("#images_"+data[i].id);
-                    if(data[i].url && !tmp.length)
-                    {
-                        var imageDiv=document.createElement('div');
-                        jQuery(imageDiv).addClass('gdy_alt_rsm');
-                        jQuery(imageDiv).attr("id","images_"+data[i].id);
-                        jQuery(imageDiv).data("img",data[i]);
-                        //jQuery(imageDiv).attr('style', 'width:64px;height:51px;text-align:center;overflow:hidden;margin-left:0px;background-repeat: no-repeat !important;background-position: center !important;');
-                        jQuery(gdy_altDIVOrta_images).append(imageDiv);
-                        setImageBackGroundCenter(jQuery("#images_"+data[i].id), 64, 51, 0, 0, data[i].url);
-                        jQuery(imageDiv).click(function(){
-                            setHeaderImage(jQuery("#big_image_header"), jQuery(this).data('img'));
-                        });
-                    }
-                }   
-            }
-        }
-    });
-}
-
-function openModalPanel2(id,custom) {
+function openModalPanel(id,custom) {
     /*
      *Clear dropale
      */
@@ -959,7 +644,8 @@ function loadGifHandler()
 function closeModalPanel() {
     try{
         remUrlEventId();
-        jQuery('#genel_detay_yeni').hide();
+        var genelDetayYeni = document.getElementById('genel_detay_yeni');
+        jQuery(genelDetayYeni).remove();
         var detailModalPanelBackground = document.getElementById('div_follow_trans');
         jQuery(detailModalPanelBackground).attr('onclick','return false;');
         jQuery(detailModalPanelBackground).css('display','none');
@@ -1191,4 +877,100 @@ function joinEvent(button,eventId)
             },"json");
         }     
     });
+}
+
+
+
+function getImages(gdy_altDIVOrta_images,event_id)
+{
+    
+    jQuery.ajax({
+        type: "POST",
+        url: TIMETY_PAGE_AJAX_GETEVENTIMAGES,
+        data: {
+            "eventId":event_id
+        },
+        success: function(data){
+            data= JSON.parse(data); 
+            if(!data.error)
+            {
+                for(var i=0;i<data.length;i++)
+                {
+                    var tmp=jQuery("#images_"+data[i].id);
+                    if(data[i].url && !tmp.length)
+                    {
+                        
+                        var gdy_altDIVOrtaIMGDIV_images=document.createElement('div');
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).addClass('gdy_alt_rsm');
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).attr('style', 'width:64px;height:51px;text-align:center;overflow:hidden;margin-left:0px;background-repeat: no-repeat !important;background-position: center center !important;');
+         
+                    
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).attr("id","images_"+data[i].id);
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).data("img",data[i]);
+                        try{
+                            width=0;
+                            height=0;
+                            width=data[i].width;
+                            height=data[i].height;
+
+                            if(width>height)
+                            {
+                                if(width>64)
+                                {
+                                    height=(64/width)*height;
+                                    width=64;
+                                }
+                            }else
+                            {
+                                if(height>51)
+                                {
+                                    width=(51/height)*width;
+                                    height=51;
+                                }
+                            }
+                
+                            var param="&h="+height;
+                            param=param+"&w="+width;
+                            jQuery(gdy_altDIVOrtaIMGDIV_images).css("background","url('"+TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data[i].url+param+"')");
+                        }catch(exp)
+                        {
+                            console.log(exp);
+                        }
+                        jQuery(gdy_altDIVOrtaIMGDIV_images).click(function(){
+                            setPopupImage("image_view",jQuery(this).data("img"));
+                        });
+                        jQuery(gdy_altDIVOrta_images).append(gdy_altDIVOrtaIMGDIV_images);
+                    }
+                }   
+            }
+        }
+    });
+}
+
+
+function setPopupImage(imageDivId,data)
+{
+    var imgElement=jQuery("#"+imageDivId);
+    if(imgElement)
+    {
+        var width=0;
+        var height=0;
+        width=data.width;
+        height=data.height;
+
+        if(width>height)
+        {
+            if(width>560)
+            {
+                height=(560/width)*height;
+                width=560;
+            }
+        }
+        jQuery(imgElement).attr("width",width);
+        jQuery(imgElement).attr("height",height);
+        var param="&h="+height;
+        param=param+"&w="+width;
+        jQuery(imgElement).attr("src",TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.url+param);
+        jQuery(imgElement).parent().css("height",height);
+    }
 }
