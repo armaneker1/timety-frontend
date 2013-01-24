@@ -1092,6 +1092,19 @@ class Neo4jFuctions {
                 array_push($tmparray, $evt);
             }
         }
+        if ($type == 1 && $pageNumber==0) {
+            $evtAd = new Event();
+            $evtAd->ad = true;
+            $evtAd->id = -1;            
+            $evtAd->url = "http://www.thehobbit.com/";
+            $evtAd->img = "/images/ads.jpeg";
+            $evtAd->imgWidth = 186;
+            $evtAd->imgHeight = 275;
+            $evtAd->people = 2;
+            $evtAd->comment = 0;
+            $evtAd->time = "10d";
+            array_unshift($tmparray, $evtAd);
+        }
         return $tmparray;
     }
 

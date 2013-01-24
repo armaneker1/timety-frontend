@@ -244,23 +244,20 @@ if (empty($user)) {
         else
             $event->privacy = "false";
 
-        $event->categories="";
-        if(isset($_POST["te_event_category1"]))
-        {
-            $event->categories=$_POST["te_event_category1"];
+        $event->categories = "";
+        if (isset($_POST["te_event_category1"])) {
+            $event->categories = $_POST["te_event_category1"];
         }
-        
-        $event->attach_link="";
-        if(isset($_POST["te_event_attach_link"]))
-        {
-            $event->attach_link=$_POST["te_event_attach_link"];
+
+        $event->attach_link = "";
+        if (isset($_POST["te_event_attach_link"])) {
+            $event->attach_link = $_POST["te_event_attach_link"];
         }
-        
-        if(isset($_POST["te_event_category2"]))
-        {
-            $event->categories=$event->categories.",".$_POST["te_event_category2"];
+
+        if (isset($_POST["te_event_category2"])) {
+            $event->categories = $event->categories . "," . $_POST["te_event_category2"];
         }
-        
+
         $event->tags = $_POST["te_event_tag"];
         $event->attendance = $_POST["te_event_people"];
         if (!$error) {
@@ -340,7 +337,7 @@ if (empty($user)) {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                        		      
+                                            		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -353,7 +350,7 @@ if (empty($user)) {
                         }, 2500);
                     });
                 </script>
-<?php } ?>
+            <?php } ?>
 
             <script language="javascript">
                 var handler = null;
@@ -377,9 +374,7 @@ if (empty($user)) {
                     document.optionsWookmark = optionsWookmark;
 		
                     handler = jQuery('.main_event .main_event_box');
-                    handler.wookmark(optionsWookmark);
-					
-                    wookmarkFiller(document.optionsWookmark);		
+                    handler.wookmark(optionsWookmark);	
                     /*
                      * Endless scroll
                      */
@@ -449,7 +444,7 @@ if (empty($user)) {
                 ?>
                 <script>
                     jQuery(document).ready(function() {
-                       /* jQuery( "#te_event_category" ).tokenInput("<?= PAGE_AJAX_GETCATEGORY ?>",{ 
+                        /* jQuery( "#te_event_category" ).tokenInput("<?= PAGE_AJAX_GETCATEGORY ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
                             queryParam : "term",
@@ -468,8 +463,8 @@ if (empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });*/
-                                            
-                                            
+                                                                
+                                                                
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
@@ -512,7 +507,7 @@ if (empty($user)) {
                         });
                     });
                 </script>
-<?php } ?>
+            <?php } ?>
             <!--auto complete-->
             <!--Placeholder-->
             <script>
@@ -588,11 +583,11 @@ if (empty($user)) {
                 <meta property="og:url " content="<?= HOSTNAME ?>"/>
                 <meta property="fb:app_id  " content="<?= FB_APP_ID ?>"/>
 
-<?php } ?>
+            <?php } ?>
             <!-- Open Event Popup -->
     </head>
     <body class="bg">
-<?php include('layout/layout_top.php'); ?>
+        <?php include('layout/layout_top.php'); ?>
         <div class="main_sol" style="width:91%;">
             <div class="ust_blm">
                 <div class="trh_gn">
@@ -610,7 +605,7 @@ if (empty($user)) {
                             <td colspan="2">
                                 <div id="slides" style="overflow: hidden;max-height: 120px;">
                                     <div id="slides_container">
-<?php if (empty($user)) { ?>
+                                        <?php if (empty($user)) { ?>
                                             <div class="slide_item">
                                                 <div class="akt_tkvm">
                                                     <a href="<?= HOSTNAME ?>login"  class="add_event_link">Click Here to Add Event</a>
@@ -671,7 +666,107 @@ if (empty($user)) {
                 </div>
             </div>
             <div class="main_event">
-
+                <!-- event boxes -->
+                <?php
+                $user_id = null;
+                if (!empty($user)) {
+                    $user_id = $user->id;
+                }
+                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1);
+                if (!empty($main_pages_events) && sizeof($main_pages_events)) {
+                    $main_event = new Event();
+                    foreach ($main_pages_events as $main_event) {
+                        if (!empty($main_event) && !empty($main_event->id)) {
+                            if (!empty($main_event->ad) && $main_event->ad) {
+                                ?>
+                                <!-- event box -->
+                                <div class="main_event_box">
+                                    <div class="m_e_img">
+                                        <img  onclick="window.open('<?= $main_event->url ?>','_blank');return false;" src="<?= HOSTNAME . $main_event->img ?>" width="<?= $main_event->imgWidth ?>" height="<?= $main_event->imgHeight ?>"
+                                              class="main_draggable"/>
+                                    </div>
+                                    <div class="m_e_metin">
+                                        <div class="m_e_drm">
+                                            <ul>
+                                                <li class="m_e_cizgi"><a href="#" class="mavi_link"> <img
+                                                            src="<?= HOSTNAME ?>images/usr.png" width="18" height="18" border="0"
+                                                            align="absmiddle" /><?= $main_event->people ?>
+                                                    </a>
+                                                </li>
+                                                <li class="m_e_cizgi"><a href="#" class="turuncu_link"> <img
+                                                            src="<?= HOSTNAME ?>images/comm.png" width="19" height="18" border="0"
+                                                            align="absmiddle" /><?= $main_event->comment ?>
+                                                    </a>
+                                                </li>
+                                                <li><a href="#" class="yesil_link"> <img src="<?= HOSTNAME ?>images/zmn.png"
+                                                                                         width="19" height="18" border="0" align="absmiddle" /><?= $main_event->time ?>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            } else {
+                                $width = $main_event->headerImage->width;
+                                if (empty($width)) {
+                                    $width = 186;
+                                }
+                                $height = $main_event->headerImage->height;
+                                if (empty($height)) {
+                                    $height = 219;
+                                }
+                                ?>
+                                <!-- event box -->
+                                <div class="main_event_box" date="<?= $main_event->startDateTime ?>">
+                                    <div class="m_e_img">
+                                        <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $main_event->headerImage->url . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                             class="main_draggable"/>
+                                    </div>
+                                    <div class="m_e_metin">
+                                        <div class="m_e_baslik">
+                                            <?= $main_event->title ?>
+                                        </div>
+                                        <div class="m_e_ackl">
+                                            <?= $main_event->description ?>
+                                        </div>
+                                        <div class="m_e_drm">
+                                            <ul>
+                                                <li class="m_e_cizgi"><a href="#" class="mavi_link"> <img
+                                                            src="<?= HOSTNAME ?>images/usr.png" width="18" height="18" border="0"
+                                                            align="absmiddle" /><?= $main_event->attendancecount ?>
+                                                    </a>
+                                                </li>
+                                                <li class="m_e_cizgi"><a href="#" class="turuncu_link"> <img
+                                                            src="<?= HOSTNAME ?>images/comm.png" width="19" height="18" border="0"
+                                                            align="absmiddle" /><?= $main_event->commentCount ?>
+                                                    </a>
+                                                </li>
+                                                <li><a href="#" class="yesil_link"> <img src="<?= HOSTNAME ?>images/zmn.png"
+                                                                                         width="19" height="18" border="0" align="absmiddle" /><?= $main_event->remainingtime ?>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    var tmpDataJSON='<?php
+                            $json_response = json_encode($main_event);
+                            echo $json_response;
+                            ?>';
+                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                </script>
+                                <!-- event box -->
+                                <?php
+                            }
+                        }
+                    }
+                }
+                ?>
+                <!-- event boxes -->
             </div>
         </div>
         <div class="main_sag_header" style="z-index: 10">

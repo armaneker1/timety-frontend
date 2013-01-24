@@ -1,5 +1,5 @@
 var post_wookmark=null;
-var page_wookmark=0;
+var page_wookmark=1;
 var allCategories=1;
 var allFriends=1;
 localStorage.clear();
