@@ -294,6 +294,32 @@ function wookmarkHTML(dataArray)
             jQuery(titleDIV).append(data.title);
             jQuery(contentDIV).append(titleDIV);
             
+            
+            //Creator Div
+            var creatorDIV = document.createElement('div');
+            jQuery(creatorDIV).addClass('m_e_com');
+            var creatorDIVP=document.createElement('p');
+            jQuery(creatorDIV).append(creatorDIVP);
+            jQuery(contentDIV).append(creatorDIV);
+            jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
+                'userId':data.creatorId
+            }, function(data){
+                if(data && data.id)
+                {
+                    var url=data.userPicture;
+                    if(url==null || url=="" )
+                    {
+                       url=TIMETY_HOSTNAME+"images/anonymous.jpg"; 
+                    }
+                    if(url.indexOf("http")!=0)
+                    {
+                        url=TIMETY_HOSTNAME+url; 
+                    }
+                    jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
+                    jQuery(creatorDIVP).append(jQuery("<span>"+data.firstName+" "+data.lastName+"</span>"));
+                }
+            }, "json");
+            
             //description
             var descriptionDIV = document.createElement('div');
             jQuery(descriptionDIV).addClass('m_e_ackl');

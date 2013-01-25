@@ -733,6 +733,17 @@ if (empty($user)) {
                                         <div class="m_e_baslik">
                                             <?= $main_event->title ?>
                                         </div>
+                                        <div class="m_e_com">
+                                            <p>
+                                        <?php if(!empty($main_event->creatorId)){
+                                            $crt= UserUtils::getUserById($main_event->creatorId);
+                                            if(!empty($crt) && !empty($crt->id)){
+                                            ?>
+                                            <img src="<?=PAGE_GET_IMAGEURL.$crt->getUserPic()."&h=22&w=22"?>" width="22" height="22" align="absmiddle" />
+                                            <span> <?=$crt->getFullName()?></span>
+                                        <?php } } ?>
+                                            </p>
+                                        </div>
                                         <div class="m_e_ackl">
                                             <?= $main_event->description ?>
                                         </div>

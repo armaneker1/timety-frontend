@@ -103,6 +103,9 @@
     background-position:right top;
 }
 
+/*
+ * Main event 
+*/ 
 
 .main_event_box_img_blur{
     -webkit-filter: blur(3px); 
@@ -114,4 +117,17 @@
     -ms-filter: blur(3px);
     filter: url(blur.svg#blur);
     filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='3'); 
+}
+
+.m_e_com {
+    font-size: 11px;
+    color: #413f3f;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-image: url(images/u_line.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    padding-left: 5px;
+    font-family: arial;
+    min-height: 22px;
 }
