@@ -38,6 +38,25 @@ function setButtonStatus(button,status)
     }
 }
 
+function changeLocalData(eventId,type,value)
+{
+    var data=getDataFromLocalStorage(eventId);
+    if(data!=null)
+    {
+        if(type==0)
+        {
+            data.userRelation.joinType=value;
+        }else if(type==1)
+        {
+            data.userRelation.like=value;         
+        }else if(type==2)
+        {
+            data.userRelation.reshare=value;                   
+        }
+        localStorage.setItem('event_' + eventId,JSON.stringify(data));
+    }
+}
+
 
 function reshareEvent(button,eventId)
 {
@@ -68,6 +87,7 @@ function reshareEvent(button,eventId)
                             var msg='reverted reshared Event';
                             getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
+                            changeLocalData(eventId,2,false);
                         }
                     },
                     error : function(error_data){
@@ -93,6 +113,7 @@ function reshareEvent(button,eventId)
                             var msg='You reshared Event';
                             getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
+                            changeLocalData(eventId,2,true);
                         }
                     },
                     error : function(error_data){
@@ -147,6 +168,7 @@ function sendResponseEvent(button,eventId,type)
                             setButtonStatus(jQuery(button).parent().find("#div_maybe_btn"),false);
                             setButtonStatus(jQuery(button).parent().find("#div_join_btn"),false);
                             removeFromMyTimety(eventId);
+                            changeLocalData(eventId,0,0);
                         }else if(type==1)
                         {
                             //join
@@ -154,6 +176,7 @@ function sendResponseEvent(button,eventId,type)
                             addToMyTimety(eventId,userId);
                             setButtonStatus(button,true);
                             setButtonStatus(jQuery(button).parent().find("#div_maybe_btn"),false);
+                            changeLocalData(eventId,0,1);
                         }else if(type==2)
                         {
                             //maybe
@@ -161,6 +184,7 @@ function sendResponseEvent(button,eventId,type)
                             addToMyTimety(eventId,userId);
                             setButtonStatus(button,true);
                             setButtonStatus(jQuery(button).parent().find("#div_join_btn"),false);
+                            changeLocalData(eventId,0,2);
                         }else if(type==3)
                         {
                             //ignore
@@ -213,6 +237,7 @@ function likeEvent(button,eventId)
                             var msg='You unliked Event';
                             getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
+                            changeLocalData(eventId,1,false);
                         }
                     },
                     error : function(error_data){
@@ -236,6 +261,7 @@ function likeEvent(button,eventId)
                             var msg='You liked Event';
                             getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
+                            changeLocalData(eventId,1,true);
                         }
                     },
                     error : function(error_data){
