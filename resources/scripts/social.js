@@ -165,8 +165,10 @@ function sendResponseEvent(button,eventId,type)
                             //reject
                             msg='reject event';
                             //setButtonStatus(button,false);
-                            setButtonStatus(jQuery(button).parent().find("#div_maybe_btn"),false);
-                            setButtonStatus(jQuery(button).parent().find("#div_join_btn"),false);
+                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
+                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
+                            setButtonStatus(jQuery("#button_join"),false);
+                            setButtonStatus(jQuery("#button_maybe"),false);
                             removeFromMyTimety(eventId);
                             changeLocalData(eventId,0,0);
                         }else if(type==1)
@@ -175,7 +177,8 @@ function sendResponseEvent(button,eventId,type)
                             msg='Whoa! Have fun!';
                             addToMyTimety(eventId,userId);
                             setButtonStatus(button,true);
-                            setButtonStatus(jQuery(button).parent().find("#div_maybe_btn"),false);
+                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
+                            setButtonStatus(jQuery("#button_maybe"),false);
                             changeLocalData(eventId,0,1);
                         }else if(type==2)
                         {
@@ -183,7 +186,8 @@ function sendResponseEvent(button,eventId,type)
                             msg='Whoa! Have fun!';
                             addToMyTimety(eventId,userId);
                             setButtonStatus(button,true);
-                            setButtonStatus(jQuery(button).parent().find("#div_join_btn"),false);
+                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
+                            setButtonStatus(jQuery("#button_join"),false);
                             changeLocalData(eventId,0,2);
                         }else if(type==3)
                         {

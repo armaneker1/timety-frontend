@@ -265,29 +265,56 @@ function openModalPanel(event_id,custom) {
         //like not yet
         if(liked)
         {}else{}
-        //maybe join 
-        jQuery("#button_maybe").removeAttr("disabled");
-        jQuery("#button_maybe").click(responseEvent);
-        jQuery("#button_join").removeAttr("disabled");
-        jQuery("#button_join").click(responseEvent);
+        
+        var maybeButton=jQuery("#button_join");
+        var joinButton=jQuery("#button_maybe");
+        
+        //maybe 
+        jQuery(maybeButton).unbind("click");
+        jQuery(maybeButton).attr("class_aktif","tmp_aktif");
+        jQuery(maybeButton).attr("class_pass","tmp_pass");
+        jQuery(maybeButton).click(function(){
+            sendResponseEvent(this,data.id,2);
+            return false;
+        });
         if(joinedType==1 || joinedType=='1')
         {
-            jQuery("#button_join").attr("disabled", "disabled"); 
-            jQuery("#button_join").unbind("click");
-        }else if(joinedType==2 || joinedType=='2')
-        {
-            jQuery("#button_maybe").attr("disabled", "disabled"); 
-            jQuery("#button_maybe").unbind("click");
-        }
-        //reshare
-        if(reshared)
-        {
-            jQuery("#button_reshare").attr("disabled", "disabled"); 
-            jQuery("#button_reshare").unbind('click'); 
+            setButtonStatus(maybeButton,true);
         }else
         {
-            jQuery("#button_reshare").removeAttr("disabled");
-            jQuery("#button_reshare").click(reshareEvent);
+            setButtonStatus(maybeButton,false);
+        }
+        
+        //join 
+        jQuery(joinButton).unbind("click");
+        jQuery(joinButton).attr("class_aktif","tmp_aktif");
+        jQuery(joinButton).attr("class_pass","tmp_pass");
+        jQuery(joinButton).click(function(){
+            sendResponseEvent(this,data.id,1);
+            return false;
+        });
+        if(joinedType==2 || joinedType=='2')
+        {
+            setButtonStatus(joinedType,true);
+        }else
+        {
+            setButtonStatus(joinedType,false);
+        }
+        //reshare
+        var reshareButton=jQuery("#button_reshare");
+        jQuery(reshareButton).unbind("click");
+        jQuery(reshareButton).attr("class_aktif","tmp_aktif");
+        jQuery(reshareButton).attr("class_pass","tmp_pass");
+        jQuery(reshareButton).click(function(){
+            sendResponseEvent(this,data.id,1);
+            return false;
+        });
+        if(reshared)
+        {
+            setButtonStatus(reshareButton,true);
+        }else
+        {
+            setButtonStatus(reshareButton,false);
         }
         
         /*
