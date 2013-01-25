@@ -337,7 +337,7 @@ if (empty($user)) {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                            		      
+                                                		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -463,8 +463,8 @@ if (empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });*/
-                                                                
-                                                                
+                                                                    
+                                                                    
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
@@ -719,7 +719,14 @@ if (empty($user)) {
                                 ?>
                                 <!-- event box -->
                                 <div class="main_event_box" date="<?= $main_event->startDateTime ?>">
-                                    <div class="m_e_img">
+                                    <div class="m_e_img" id="div_img_event_<?=$main_event->id?>">
+                                        <div class="likeshare" style="display: none">
+                                            <button class="ls_btn like_btn"></button>
+                                            <button class="ls_btn maybe_btn"></button>
+                                            <button class="ls_btn share_btn"></button>
+                                            <button class="ls_btn join_btn"></button>
+                                            <!-- bind click event -->
+                                        </div>
                                         <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $main_event->headerImage->url . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                              class="main_draggable"/>
                                     </div>
@@ -755,9 +762,9 @@ if (empty($user)) {
                             $json_response = json_encode($main_event);
                             echo $json_response;
                             ?>';
-                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                 </script>
                                 <!-- event box -->
                                 <?php
@@ -789,5 +796,5 @@ if (empty($user)) {
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
     </body>
-<?php include('layout/template_createevent.php'); ?>
+    <?php include('layout/template_createevent.php'); ?>
 </html>

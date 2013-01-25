@@ -189,7 +189,31 @@ function wookmarkHTML(dataArray)
             }
             jQuery(img).addClass('main_draggable');
 
+            //like share 
+            var likeShareDiv = document.createElement('div');
+            jQuery(likeShareDiv).addClass('likeshare'); 
+            jQuery(likeShareDiv).css("display","none");  
+
+            var btnLike = document.createElement('button');
+            jQuery(btnLike).addClass('ls_btn like_btn'); 
+            var btnMaybe = document.createElement('button');
+            jQuery(btnMaybe).addClass('ls_btn maybe_btn'); 
+            var btnShare = document.createElement('button');
+            jQuery(btnShare).addClass('ls_btn share_btn'); 
+            var btnJoin = document.createElement('button');
+            jQuery(btnJoin).addClass('ls_btn join_btn'); 
+            // bind click event
+            
+            jQuery(likeShareDiv).append(btnLike);
+            jQuery(likeShareDiv).append(btnMaybe);
+            jQuery(likeShareDiv).append(btnShare);
+            jQuery(likeShareDiv).append(btnJoin);
+            
+            
+            jQuery(imgDiv).append(likeShareDiv);
+            
             //binding DIV with Image
+            jQuery(imgDiv).attr('id','div_img_event_'+data.id);
             jQuery(imgDiv).append(img);
             jQuery(result).append(imgDiv);
 

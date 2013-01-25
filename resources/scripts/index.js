@@ -1,3 +1,24 @@
+/*
+ * event box like share button hover
+ */
+jQuery(document).ready(function() {
+    jQuery("[id*='div_img_event_']").live("hover",function(ev){
+        if (ev.type == 'mouseenter') {
+            jQuery("#"+this.id+" .likeshare").show(); 
+            //jQuery("#"+this.id+" img").css("-webkit-filter","blur(2px)");
+            //jQuery("#"+this.id+" img").css("filter","url(#blur-effect-1)");
+            jQuery("#"+this.id+" img").addClass("main_event_box_img_blur");
+        }
+
+        if (ev.type == 'mouseleave') {
+            jQuery("#"+this.id+" .likeshare").hide(); 
+            //jQuery("#"+this.id+" img").css("-webkit-filter","");
+            //jQuery("#"+this.id+" img").css("filter","");
+            jQuery("#"+this.id+" img").removeClass("main_event_box_img_blur");
+        }
+    });
+});
+
 function openCreatePopup() {
     /*
          * Clean Popup
@@ -62,8 +83,8 @@ function selectCategory1(val,id)
     if(val)
         jQuery('#te_event_category1_label').text(val);
     jQuery('#te_event_category1_hidden').val(id);
-    //jQuery('[id^="te_event_category2_"]').removeAttr("disabled");
-    //jQuery("#te_event_category2_"+id).attr("disabled", "disabled");
+//jQuery('[id^="te_event_category2_"]').removeAttr("disabled");
+//jQuery("#te_event_category2_"+id).attr("disabled", "disabled");
 }
 
 function selectCategory2(val,id)

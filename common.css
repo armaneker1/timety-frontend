@@ -24,3 +24,58 @@
     width: 48px;
     height: 48px;
 }
+
+.ls_btn {
+    background-color: transparent;
+    background-image: url(images/likebtn.png);
+    background-repeat: no-repeat;
+    height: 41px;
+    width: 41px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+}
+.likeshare {
+    height: 50px;
+    width: 186px;
+    position: absolute;
+    z-index: 20;
+}
+
+.like_btn{
+    background-position:left top;
+}
+.like_btn:hover{
+    background-position:left bottom;
+}
+.maybe_btn {
+    background-position:-44px top;
+}
+.maybe_btn:hover{
+    background-position:-44px bottom;
+}
+.share_btn {
+    background-position:-89px top;
+}
+.share_btn:hover{
+    background-position:-89px bottom;
+}
+.join_btn {
+    background-position:right top;
+}
+.join_btn:hover{
+    background-position:right bottom;
+}
+
+.main_event_box_img_blur{
+    -webkit-filter: blur(3px); 
+    filter: url(#blur-effect-1);
+    filter: blur(3px); 
+    -webkit-filter: blur(3px); 
+    -moz-filter: blur(3px); 
+    -o-filter: blur(3px); 
+    -ms-filter: blur(3px);
+    filter: url(blur.svg#blur);
+    filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='3'); 
+}

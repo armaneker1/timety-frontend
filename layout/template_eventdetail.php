@@ -1,12 +1,3 @@
-<script>
-    jQuery(document).ready(function(){
-        //set share buttons
-        jQuery("#fb_share_button").click(shareThisFacebook);
-        jQuery("#tw_share_button").click(shareThisTwitter);
-        jQuery("#gg_share_button").click(shareThisGoogle);
-    });
-</script>
-
 <div class="genel_detay_yeni" id="genel_detay_yeni" style="display: none;padding-bottom: 45px;">
     <div class="gdy_sol">
         <h1 class="gdy_baslik" id="gdy_event_title">Event Title</h1>
@@ -22,21 +13,21 @@
             <div class="bgln_user">
                 <h1 id="name_creator">Event Creator</h1>
             </div>
-            <button class="gdy_btn" id="button_reshare">Reshare</button>
-            <button class="gdy_btn" id="button_maybe">Maybe</button>
-            <button class="gdy_btn_mavi" id="button_join">
+            <button type="button" class="gdy_btn" id="button_reshare">Reshare</button>
+            <button type="button" class="gdy_btn" id="button_maybe">Maybe</button>
+            <button type="button" class="gdy_btn_mavi" id="button_join">
                 <img src="<?= HOSTNAME ?>images/ti.png" width="17" height="18" class="gdy_btn_res" />Join</button>
         </div>
     </div>
     <div class="gdy_sag">
         <div class="sosyal_btn">
-            <button id="fb_share_button" type="button" name="" value="" class="face back_btn sosyal_icon"/>
+            <button id="fb_share_button" type="button" name="" value="" class="face back_btn sosyal_icon"></button>
         </div>
         <div class="sosyal_btn">
-            <button id="tw_share_button" type="button" name="" value="" class="tweet back_btn sosyal_icon"/>
+            <button id="tw_share_button" type="button" name="" value="" class="tweet back_btn sosyal_icon"></button>
         </div>
         <div class="sosyal_btn">
-            <button id="gg_share_button" type="button" name="" value="" class="googl_plus back_btn sosyal_icon"/>
+            <button id="gg_share_button" type="button" name="" value="" class="googl_plus back_btn sosyal_icon"></button>
         </div>
     </div>
     <div class="gdy_alt">

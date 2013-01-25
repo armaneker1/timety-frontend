@@ -242,6 +242,15 @@ function openModalPanel(event_id,custom) {
         {
         // do something show empty image          
         }
+        //set share butons
+        jQuery("#fb_share_button").unbind("click");
+        jQuery("#tw_share_button").unbind("click");
+        jQuery("#gg_share_button").unbind("click");
+        jQuery("#fb_share_button").click(shareThisFacebook);
+        jQuery("#tw_share_button").click(function(){
+            shareThisTwitter(data.title);
+        });
+        jQuery("#gg_share_button").click(shareThisGoogle);
         
         //set button actions
         var liked=false;
@@ -370,6 +379,7 @@ function getComments(event_id)
 
 function getUsers(gdy_altDIVOrta_users,event_id)
 {
+    jQuery("#gdy_users_count").text(1);
     jQuery.ajax({
         type: 'POST',
         url: TIMETY_PAGE_AJAX_GETEVENTATTENDANCES,
@@ -402,6 +412,7 @@ function getUsers(gdy_altDIVOrta_users,event_id)
 
 function getImages(gdy_altDIVOrta_images,event_id)
 {
+    jQuery("#gdy_images_count").text(1);
     jQuery.ajax({
         type: "POST",
         url: TIMETY_PAGE_AJAX_GETEVENTIMAGES,
