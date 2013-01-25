@@ -57,3 +57,9 @@ function addToMyTimety(eventId,userId)
         }
     }
 }
+
+
+function removeFromMyTimety(eventId)
+{
+    jQuery("#"+eventId).remove();
+}

@@ -146,6 +146,7 @@ function sendResponseEvent(button,eventId,type)
                             //setButtonStatus(button,false);
                             setButtonStatus(jQuery(button).parent().find("#div_maybe_btn"),false);
                             setButtonStatus(jQuery(button).parent().find("#div_join_btn"),false);
+                            removeFromMyTimety(eventId);
                         }else if(type==1)
                         {
                             //join
@@ -165,6 +166,7 @@ function sendResponseEvent(button,eventId,type)
                             //ignore
                             msg='Event ignored';
                             setButtonStatus(button,false);
+                            removeFromMyTimety(eventId);
                         }
                         getInfo(true,msg,'info',4000);
                     }
