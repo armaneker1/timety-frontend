@@ -36,6 +36,7 @@ require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/Neo4jTimetyCategoryFunctions.php';
 require_once __DIR__ . '/Neo4jRecommendationFunctions.php';
 require_once __DIR__ . '/Neo4jEventFunctions.php';
+require_once __DIR__ . '/Noe4jSocialFunctions.php';
 
 
 

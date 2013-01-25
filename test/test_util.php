@@ -13,5 +13,6 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
 
-var_dump(Neo4jEventUtils::getEventCreatorId(1000068));
+$main_pages_events = Neo4jFuctions::getEvents(20, 0, 3, null, null, 1, 1);
+var_dump($main_pages_events);
 ?>

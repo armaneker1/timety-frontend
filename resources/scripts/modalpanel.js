@@ -612,36 +612,3 @@ function sendComment(){
         });
     }
 }
-
-
-function joinEvent(button,eventId)
-{
-    jQuery(button).attr("disabled", "disabled");
-    jQuery.sessionphp.get('id',function(user___id){
-        var userId = user___id;
-        if(eventId && userId)
-        {
-            jQuery.ajax({
-                type: 'POST',
-                url: TIMETY_PAGE_AJAX_JOINEVENT,
-                data: {
-                    'eventId':eventId,
-                    'userId':userId
-                },
-                success: function(data){
-                    if(data.error) {
-                        jQuery(button).removeAttr("disabled"); 
-                        getInfo(true,'Something went wrong :( Try again.','error',4000);
-                    }else {
-                        getInfo(true,'Whoa! Have fun!','info',4000);
-                        addToMyTimety(eventId,userId);
-                    }
-                },
-                error : function(error_data){
-                    console.log(error_data);
-                    jQuery(button).removeAttr("disabled"); 
-                }
-            },"json");
-        }     
-    });
-}

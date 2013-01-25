@@ -721,11 +721,10 @@ if (empty($user)) {
                                 <div class="main_event_box" date="<?= $main_event->startDateTime ?>">
                                     <div class="m_e_img" id="div_img_event_<?=$main_event->id?>">
                                         <div class="likeshare" style="display: none">
-                                            <button class="ls_btn like_btn"></button>
-                                            <button class="ls_btn maybe_btn"></button>
-                                            <button class="ls_btn share_btn"></button>
-                                            <button class="ls_btn join_btn"></button>
-                                            <!-- bind click event -->
+                                            <button class="ls_btn <?php if($main_event->userRelation->like)  { echo "like_btn_aktif"; } else { echo "like_btn"; } ?>"          pressed="<?php if($main_event->userRelation->like)  { echo "true"; } else { echo "false"; } ?>"  onclick="likeEvent(this,<?=$main_event->id?>);return false;"></button>
+                                            <button class="ls_btn <?php if($main_event->userRelation->joinType==2)  { echo "maybe_btn_aktif"; } else { echo "maybe_btn"; } ?>" pressed="<?php if($main_event->userRelation->joinType==2)  { echo "true"; } else { echo "false"; } ?>" onclick="sendResponseEvent(this,<?=$main_event->id?>,2);return false;"></button>
+                                            <button class="ls_btn <?php if($main_event->userRelation->reshare)  { echo "share_btn_aktif"; } else { echo "share_btn"; } ?>" pressed="<?php if($main_event->userRelation->reshare)  { echo "true"; } else { echo "false"; } ?>" onclick="reshareEvent(this,<?=$main_event->id?>);return false;"></button>
+                                            <button class="ls_btn <?php if($main_event->userRelation->joinType==1)  { echo "join_btn_aktif"; } else { echo "join_btn"; } ?>" pressed="<?php if($main_event->userRelation->joinType==1)  { echo "true"; } else { echo "false"; } ?>"  onclick="sendResponseEvent(this,<?=$main_event->id?>,1);return false;"></button>
                                         </div>
                                         <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $main_event->headerImage->url . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                              class="main_draggable"/>

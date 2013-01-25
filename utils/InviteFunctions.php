@@ -21,7 +21,7 @@ class InviteUtil {
         $n = new Neo4jFuctions();
         return $n->responseToEventInvites($userId, $eventId, $resp);
     }
-
+    
 }
 
 ?>

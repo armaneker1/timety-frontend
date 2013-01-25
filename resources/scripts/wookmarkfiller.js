@@ -195,13 +195,68 @@ function wookmarkHTML(dataArray)
             jQuery(likeShareDiv).css("display","none");  
 
             var btnLike = document.createElement('button');
-            jQuery(btnLike).addClass('ls_btn like_btn'); 
+            jQuery(btnLike).addClass('ls_btn');
+            if(data.userRelation.like)
+            {
+                jQuery(btnLike).addClass('like_btn_aktif'); 
+                jQuery(btnLike).attr('press','true'); 
+            }else
+            {
+                jQuery(btnLike).addClass('like_btn'); 
+                jQuery(btnLike).attr('press','false'); 
+            }
+            jQuery(btnLike).click(function() {
+                likeEvent(this,data.id);
+                return false;
+            });
+            
             var btnMaybe = document.createElement('button');
-            jQuery(btnMaybe).addClass('ls_btn maybe_btn'); 
+            jQuery(btnMaybe).addClass('ls_btn'); 
+            if(data.userRelation.joinType==2)
+            {
+                jQuery(btnMaybe).addClass('maybe_btn_aktif'); 
+                jQuery(btnMaybe).attr('press','true'); 
+            }else
+            {
+                jQuery(btnMaybe).addClass('maybe_btn'); 
+                jQuery(btnMaybe).attr('press','false'); 
+            }
+            jQuery(btnMaybe).click(function() {
+                sendResponseEvent(this,data.id,2);
+                return false;
+            });
+            
             var btnShare = document.createElement('button');
-            jQuery(btnShare).addClass('ls_btn share_btn'); 
+            jQuery(btnShare).addClass('ls_btn'); 
+            if(data.userRelation.reshare)
+            {
+                jQuery(btnShare).addClass('share_btn_aktif'); 
+                jQuery(btnShare).attr('press','true'); 
+            }else
+            {
+                jQuery(btnShare).addClass('share_btn'); 
+                jQuery(btnShare).attr('press','false'); 
+            }
+            jQuery(btnShare).click(function() {
+                reshareEvent(this,data.id);
+                return false;
+            });
+            
             var btnJoin = document.createElement('button');
-            jQuery(btnJoin).addClass('ls_btn join_btn'); 
+            jQuery(btnJoin).addClass('ls_btn'); 
+            if(data.userRelation.joinType==1)
+            {
+                jQuery(btnJoin).addClass('join_btn_aktif'); 
+                jQuery(btnJoin).attr('press','true'); 
+            }else
+            {
+                jQuery(btnJoin).addClass('join_btn'); 
+                jQuery(btnJoin).attr('press','false'); 
+            }
+            jQuery(btnJoin).click(function() {
+                sendResponseEvent(this,data.id,1);
+                return false;
+            });
             // bind click event
             
             jQuery(likeShareDiv).append(btnLike);

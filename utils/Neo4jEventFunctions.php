@@ -379,12 +379,12 @@ class Neo4jEventUtils {
                 $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
                         " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
                         " MATCH  event-[r:" . REL_EVENTS_LIKE . "]-user" .
-                        " RETURN r.".PROP_JOIN_TYPE;
-                //echo $query;
+                        " RETURN r";
+                //echo $query."<p/>";
                 $query = new Cypher\Query($client, $query, null);
                 $nresult = $query->getResultSet();
                 foreach ($nresult as $row) {
-                    $result->like = $row[0];
+                    $result->like = true;
                     break;
                 }
             } catch (Exception $exc) {
@@ -395,12 +395,12 @@ class Neo4jEventUtils {
                 $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
                         " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
                         " MATCH  event-[r:" . REL_EVENTS_RESHARE . "]-user" .
-                        " RETURN r.".PROP_JOIN_TYPE;
+                        " RETURN r";
                 //echo $query;
                 $query = new Cypher\Query($client, $query, null);
                 $nresult = $query->getResultSet();
                 foreach ($nresult as $row) {
-                    $result->reshare = $row[0];
+                    $result->reshare =true;
                     break;
                 }
             } catch (Exception $exc) {

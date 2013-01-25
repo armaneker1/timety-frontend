@@ -7,15 +7,14 @@ require_once __DIR__.'/../utils/Functions.php';
 $userId=null;
 if(isset($_POST["userId"]))
     $userId=$_POST["userId"];
+if(isset($_GET["userId"]))
+    $userId=$_GET["userId"];
 
 $eventId=null;
 if(isset($_POST["eventId"]))
     $eventId=$_POST["eventId"];
-
-$type=null;
-if(isset($_POST["type"]))
-    $type=$_POST["type"];
-
+if(isset($_GET["eventId"]))
+    $eventId=$_GET["eventId"];
 
 $res=new Result();
 $res->error=true;
@@ -24,11 +23,7 @@ $res->success=false;
 try {
 	if(!empty( $eventId) && !empty( $userId))
 	{
-            if(empty($type) || $type<0 || $type>3)
-            {
-                $type=0;
-            }
-            $result= InviteUtil::responseToEventInvites($userId, $eventId, $type);
+            $result= SocialUtil::likeEvent($userId, $eventId);
             if(empty($result) || $result->error || !$result->success )
             {
                 $res->error=true;
