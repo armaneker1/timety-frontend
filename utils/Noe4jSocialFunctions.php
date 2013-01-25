@@ -35,6 +35,33 @@ class SocialUtil {
         return $result;
     }
 
+    public static function revertLikeEvent($userId, $eventId) {
+        $result = new Result();
+        $result->success = false;
+        $result->error = true;
+        if (!empty($userId) && !empty($eventId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
+                        " event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
+                        " MATCH (user) -[r:" . REL_EVENTS_LIKE . "]- (event) " .
+                        " DELETE  r";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+                $result->success = true;
+                $result->error = false;
+                SocialUtil::decLikeCount($userId, $eventId);
+            } catch (Exception $e) {
+                log("Error" + $e->getMessage());
+                $result->error = $e->getMessage();
+            }
+        } else {
+            $result->success = false;
+            $result->error = true;
+        }
+        return $result;
+    }
+
     public static function reshareEvent($userId, $eventId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
@@ -49,6 +76,33 @@ class SocialUtil {
                 if (!SocialUtil::checkReshare($userId, $eventId)) {
                     $usr->relateTo($event, REL_EVENTS_RESHARE)->save();
                 }
+                $result->success = true;
+                $result->error = false;
+                SocialUtil::decReshareCount($userId, $eventId);
+            } catch (Exception $e) {
+                log("Error" + $e->getMessage());
+                $result->error = $e->getMessage();
+            }
+        } else {
+            $result->success = false;
+            $result->error = true;
+        }
+        return $result;
+    }
+
+    public static function revertReshareEvent($userId, $eventId) {
+        $result = new Result();
+        $result->success = false;
+        $result->error = true;
+        if (!empty($userId) && !empty($eventId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
+                        " event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
+                        " MATCH (user) -[r:" . REL_EVENTS_RESHARE . "]- (event) " .
+                        " DELETE  r";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
                 $result->success = true;
                 $result->error = false;
                 SocialUtil::incReshareCount($userId, $eventId);
@@ -67,7 +121,15 @@ class SocialUtil {
         
     }
 
+    public static function decReshareCount($userId, $eventId) {
+        
+    }
+
     public static function incLikeCount($userId, $eventId) {
+        
+    }
+
+    public static function decLikeCount($userId, $eventId) {
         
     }
 

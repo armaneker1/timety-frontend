@@ -1,45 +1,53 @@
-<?php 
+<?php
+
 session_start();
 header("charset=utf8;Content-Type: text/html;");
 
-require_once __DIR__.'/../utils/Functions.php';
+require_once __DIR__ . '/../utils/Functions.php';
 
-$userId=null;
-if(isset($_POST["userId"]))
-    $userId=$_POST["userId"];
-if(isset($_GET["userId"]))
-    $userId=$_GET["userId"];
+$userId = null;
+if (isset($_POST["userId"]))
+    $userId = $_POST["userId"];
+if (isset($_GET["userId"]))
+    $userId = $_GET["userId"];
 
-$eventId=null;
-if(isset($_POST["eventId"]))
-    $eventId=$_POST["eventId"];
-if(isset($_GET["eventId"]))
-    $eventId=$_GET["eventId"];
+$eventId = null;
+if (isset($_POST["eventId"]))
+    $eventId = $_POST["eventId"];
+if (isset($_GET["eventId"]))
+    $eventId = $_GET["eventId"];
 
-$res=new Result();
-$res->error=true;
-$res->success=false;
+$revert = null;
+if (isset($_POST["revert"]))
+    $revert = $_POST["revert"];
+if (isset($_GET["revert"]))
+    $revert = $_GET["revert"];
+
+$res = new Result();
+$res->error = true;
+$res->success = false;
 
 try {
-	if(!empty( $eventId) && !empty( $userId))
-	{
-            $result= SocialUtil::likeEvent($userId, $eventId);
-            if(empty($result) || $result->error || !$result->success )
-            {
-                $res->error=true;
-                $res->success=false;
-                array_push($res->param,"An Error Occured");
-            }  else {
-                $res=new Result();
-                $res->error=false;
-                $res->success=true;
-            }
-	}else
-        {
-            array_push($res->param,"Parameters Invalid");
+    if (!empty($eventId) && !empty($userId)) {
+        if (!empty($revert) && $revert == 1) {
+            $result = SocialUtil::revertLikeEvent($userId, $eventId);
+        } else {
+            $result = SocialUtil::likeEvent($userId, $eventId);
         }
+        if (empty($result) || $result->error || !$result->success) {
+            $res->error = true;
+            $res->success = false;
+            array_push($res->param, "An Error Occured");
+        } else {
+            $res = new Result();
+            $res->error = false;
+            $res->success = true;
+        }
+    } else {
+        array_push($res->param, "Parameters Invalid");
+    }
 } catch (Exception $e) {
-      array_push($res->param,$e->getMessage());
+    array_push($res->param, $e->getMessage());
 }
 $json_response = json_encode($res);
 echo $json_response;

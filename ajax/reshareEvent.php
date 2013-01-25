@@ -16,6 +16,13 @@ if(isset($_POST["eventId"]))
 if(isset($_GET["eventId"]))
     $eventId=$_GET["eventId"];
 
+$revert=null;
+if(isset($_POST["revert"]))
+    $revert=$_POST["revert"];
+if(isset($_GET["revert"]))
+    $revert=$_GET["revert"];
+
+
 $res=new Result();
 $res->error=true;
 $res->success=false;
@@ -23,7 +30,12 @@ $res->success=false;
 try {
 	if(!empty( $eventId) && !empty( $userId))
 	{
-            $result= SocialUtil::reshareEvent($userId, $eventId);
+            if(!empty($revert) && $revert==1)
+            {
+             $result= SocialUtil::revertReshareEvent($userId, $eventId);   
+            }  else {
+             $result= SocialUtil::reshareEvent($userId, $eventId);   
+            }
             if(empty($result) || $result->error || !$result->success )
             {
                 $res->error=true;
