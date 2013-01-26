@@ -24,7 +24,7 @@ $res->success=false;
 try {
 	if(!empty( $eventId) && !empty( $userId))
 	{
-            if(empty($type) || $type<0 || $type>3)
+            if(empty($type) || $type<0 || $type>5)
             {
                 $type=0;
             }

@@ -85,18 +85,27 @@ class Neo4jFuctions {
             try {
                 if ($resp == 1) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_YES);
+                    SocialUtil::incJoinCountAsync($userId, $eventId);
                     $result->success = true;
                     $result->error = false;
-                } else if ($resp == 0) {
+                } else if ($resp == 0 || $resp == 5) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_NO);
+                    if($resp==5)
+                    {
+                         SocialUtil::decJoinCountAsync($userId, $eventId);
+                    }
                     $result->success = true;
                     $result->error = false;
                 } else if ($resp == 2) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_MAYBE);
                     $result->success = true;
                     $result->error = false;
-                } else if ($resp == 3) {
+                } else if ($resp == 3 || $resp == 4) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_IGNORE);
+                    if($resp==4)
+                    {
+                         SocialUtil::decJoinCountAsync($userId, $eventId);
+                    }
                     $result->success = true;
                     $result->error = false;
                 } else {

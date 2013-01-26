@@ -144,7 +144,7 @@ function sendResponseEvent(button,eventId,type)
         {
             if(jQuery(button).attr("pressed")=="true")
             {
-                type=0;
+                type=5;
             }
             jQuery.ajax({
                 type: 'POST',

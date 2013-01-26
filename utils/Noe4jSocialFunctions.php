@@ -76,9 +76,9 @@ class SocialUtil {
                 if (!SocialUtil::checkReshare($userId, $eventId)) {
                     $usr->relateTo($event, REL_EVENTS_RESHARE)->save();
                 }
+                SocialUtil::incReshareCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
-                SocialUtil::decReshareCountAsync($userId, $eventId);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -105,7 +105,7 @@ class SocialUtil {
                 $result = $query->getResultSet();
                 $result->success = true;
                 $result->error = false;
-                SocialUtil::incReshareCountAsync($userId, $eventId);
+                SocialUtil::decReshareCountAsync($userId, $eventId);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -125,6 +125,15 @@ class SocialUtil {
         SocialUtil::calcEventCounter($userId, $eventId, PROP_INTEREST_RESHARE_COUNT, -1);
     }
 
+    public static function incJoinCountAsync($userId, $eventId) {
+        SocialUtil::calcEventCounter($userId, $eventId, PROP_INTEREST_JOIN_COUNT, 1);
+    }
+
+    public static function decJoinCountAsync($userId, $eventId) {
+        SocialUtil::calcEventCounter($userId, $eventId, PROP_INTEREST_JOIN_COUNT, -1);
+    }
+    
+    
     public static function incLikeCountAsync($userId, $eventId) {
         SocialUtil::calcEventCounter($userId, $eventId, PROP_INTEREST_LIKE_COUNT, 1);
     }
