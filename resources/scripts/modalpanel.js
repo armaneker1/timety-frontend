@@ -266,8 +266,8 @@ function openModalPanel(event_id,custom) {
         if(liked)
         {}else{}
         
-        var maybeButton=jQuery("#button_join");
-        var joinButton=jQuery("#button_maybe");
+        var maybeButton=jQuery("#button_maybe");
+        var joinButton=jQuery("#button_join");
         
         //maybe 
         jQuery(maybeButton).unbind("click");
@@ -277,7 +277,7 @@ function openModalPanel(event_id,custom) {
             sendResponseEvent(this,data.id,2);
             return false;
         });
-        if(joinedType==1 || joinedType=='1')
+        if(joinedType==2 || joinedType=='2')
         {
             setButtonStatus(maybeButton,true);
         }else
@@ -293,12 +293,12 @@ function openModalPanel(event_id,custom) {
             sendResponseEvent(this,data.id,1);
             return false;
         });
-        if(joinedType==2 || joinedType=='2')
+        if(joinedType==1 || joinedType=='1')
         {
-            setButtonStatus(joinedType,true);
+            setButtonStatus(joinButton,true);
         }else
         {
-            setButtonStatus(joinedType,false);
+            setButtonStatus(joinButton,false);
         }
         //reshare
         var reshareButton=jQuery("#button_reshare");
