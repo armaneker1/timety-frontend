@@ -112,6 +112,10 @@ define('PROP_OBJECT_SOCIALTYPE', 'socialType');
  * interest props
  */
 define('PROP_INTEREST_WEIGHT', 'INTEREST_WEIGHT');
+define('PROP_INTEREST_LIKE_COUNT', 'LIKE_COUNT');
+define('PROP_INTEREST_RESHARE_COUNT', 'RESHARE_COUNT');
+define('PROP_INTEREST_JOIN_COUNT', 'JOIN_COUNT');
+
 
 /*
  * group porps

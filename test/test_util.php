@@ -13,6 +13,10 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
 
-$main_pages_events = Neo4jFuctions::getEvents(20, 0, 3, null, null, 1, 1);
-var_dump($main_pages_events);
+
+
+SocialUtil::calcEventCounter(20, 1000068, PROP_INTEREST_RESHARE_COUNT, 1);
+
+
+
 ?>

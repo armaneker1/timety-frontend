@@ -363,7 +363,7 @@ class Neo4jEventUtils {
                 $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
                         " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
                         " MATCH  event-[r:" . REL_EVENTS_JOINS . "]-user" .
-                        " RETURN r.".PROP_JOIN_TYPE;
+                        " RETURN r." . PROP_JOIN_TYPE;
                 //echo $query;
                 $query = new Cypher\Query($client, $query, null);
                 $nresult = $query->getResultSet();
@@ -400,7 +400,7 @@ class Neo4jEventUtils {
                 $query = new Cypher\Query($client, $query, null);
                 $nresult = $query->getResultSet();
                 foreach ($nresult as $row) {
-                    $result->reshare =true;
+                    $result->reshare = true;
                     break;
                 }
             } catch (Exception $exc) {
@@ -409,15 +409,15 @@ class Neo4jEventUtils {
         }
         return $result;
     }
-    
-     public static function getEventCreatorIdCypher($eventId) {
+
+    public static function getEventCreatorIdCypher($eventId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         if (!empty($eventId)) {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                 $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .
                         " MATCH  event-[r:" . REL_EVENTS_JOINS . "]-user" .
-                        " WHERE ( r." . PROP_JOIN_CREATE."=1 OR r.". PROP_JOIN_CREATE."='1')".
+                        " WHERE ( r." . PROP_JOIN_CREATE . "=1 OR r." . PROP_JOIN_CREATE . "='1')" .
                         " RETURN user.user_id";
                 //echo $query;
                 $query = new Cypher\Query($client, $query, null);
@@ -430,6 +430,22 @@ class Neo4jEventUtils {
             }
         }
         return null;
+    }
+
+    public static function getEventTags($eventId) {
+        $array = array();
+        if (!empty($eventId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('" . REL_TAGS . "')";
+            //echo $query;
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $nresult = $query->getResultSet();
+            foreach ($nresult as $row) {
+                $tag = $row[0];
+                array_push($array, $tag);
+            }
+        }
+        return $array;
     }
 
 }
