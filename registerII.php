@@ -203,8 +203,7 @@ if (!isset($_SESSION['id'])) {
             </div>
             <div style="display: block; min-height: 20px;">
                 <div class="add_t_ek" id="spinner" style="display: none;background-image: none;padding-left: 0px;">
-                    <img src="<?= HOSTNAME ?>images/loader.gif" style="height: 20px;">
-                        <span class="bold">Loading...</span>
+                    <img src="<?= HOSTNAME ?>images/loader.gif" style="height: 20px;">     
                 </div>
             </div>
             <form action="" method="post">
