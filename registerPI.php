@@ -484,7 +484,6 @@ if (empty($birhtdate)) {
                         class="user_inpt"
                         id="te_hometown" 
                         value="<?php echo $hometown ?>"
-                        onchange="validateInput(this,true,false,3)"
                         onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
                         <?php
@@ -506,6 +505,15 @@ if (empty($birhtdate)) {
                                 types: ['(cities)']
                             };
                             autocomplete = new google.maps.places.Autocomplete(input, options);
+                            google.maps.event.addListener(autocomplete, 'place_changed', 
+                            function() { 
+                                var place = autocomplete.getPlace(); 
+                                var point = place.geometry.location; 
+                                if(point) 
+                                {  
+                                } 
+                                validateInput(jQuery("#te_hometown"),true,true,3)
+                        });
                         });
                     </script>
                     
