@@ -7,7 +7,7 @@ $msgs=array();
 $email=null;
 
 $color="red";
-$msg="Something wrong ";
+$msg="Something wrong";
 
 if (array_key_exists("guid", $_GET)) {
         $guid="";
@@ -30,24 +30,24 @@ if (array_key_exists("guid", $_GET)) {
                     {
                         UserUtils::confirmUser($userId);
                         $color="green";
-                        $msg="Confirmation is completed";
+                        $msg="Registration completed.";
                     }
                     else
                     {
-                         $msg="User doesn't exist ";
+                         $msg="User doesn't exist";
                     }
                 }else
                 {
-                    $msg="User doesn't exist ";
+                    $msg="User doesn't exist";
                 }
             }
             else
             {
-                $msg="Parameters wrong ";
+                $msg="Something went wrong"; //parameters are wrong
             }
         }else
         {
-            $msg="Parameters wrong ";
+            $msg="Something went wrong"; //parameters are wrong
         }
 }
 
