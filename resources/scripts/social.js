@@ -80,6 +80,14 @@ function reshareEvent(button,eventId)
                         'revert':1
                     },
                     success: function(data){
+                        if(typeof data == "string")
+                        {
+                            data= jQuery.parseJSON(data);
+                        }
+                        else
+                        {
+                            data=data;   
+                        }
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
@@ -106,6 +114,14 @@ function reshareEvent(button,eventId)
                         'userId':userId
                     },
                     success: function(data){
+                        if(typeof data == "string")
+                        {
+                            data= jQuery.parseJSON(data);
+                        }
+                        else
+                        {
+                            data=data;   
+                        }
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
@@ -155,12 +171,20 @@ function sendResponseEvent(button,eventId,type)
                     'type':type
                 },
                 success: function(data){
+                    if(typeof data == "string")
+                        {
+                            data= jQuery.parseJSON(data);
+                        }
+                        else
+                        {
+                            data=data;   
+                        }
                     jQuery(button).removeAttr("disabled"); 
                     if(data.error) {
                         getInfo(true,'Something went wrong :( Try again.','error',4000);
                     }else {
                         var msg='Whoa! Have fun!';
-                        if(type==0)
+                        if(type==0 || type==5)
                         {
                             //reject
                             msg='reject event';
@@ -236,6 +260,14 @@ function likeEvent(button,eventId)
                         'revert':1
                     },
                     success: function(data){
+                        if(typeof data == "string")
+                        {
+                            data= jQuery.parseJSON(data);
+                        }
+                        else
+                        {
+                            data=data;   
+                        }
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
@@ -260,6 +292,14 @@ function likeEvent(button,eventId)
                         'userId':userId
                     },
                     success: function(data){
+                        if(typeof data == "string")
+                        {
+                            data= jQuery.parseJSON(data);
+                        }
+                        else
+                        {
+                            data=data;   
+                        }
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);

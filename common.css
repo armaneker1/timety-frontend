@@ -55,7 +55,7 @@
     background-position:left bottom;
 }
 .like_btn_aktif:hover{
-    background-position:left top;
+   /* background-position:left top;*/
 }
 
 
@@ -70,7 +70,7 @@
     background-position:-44px bottom;
 }
 .maybe_btn_aktif:hover{
-    background-position:-44px top;
+   /* background-position:-44px top;*/
 }
 
 
@@ -78,7 +78,7 @@
     background-position:-89px top;
 }
 .share_btn:hover{
-    background-position:-89px bottom;
+    background-position:-89px bottom; 
 }
 
 
@@ -86,7 +86,7 @@
     background-position:-89px bottom;
 }
 .share_btn_aktif:hover{
-    background-position:-89px top;
+  /*  background-position:-89px top; */
 }
 
 .join_btn {
@@ -100,7 +100,7 @@
     background-position:right bottom;
 }
 .join_btn_aktif:hover{
-    background-position:right top;
+  /*  background-position:right top; */
 }
 
 /*

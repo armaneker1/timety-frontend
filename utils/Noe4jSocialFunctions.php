@@ -43,7 +43,7 @@ class SocialUtil {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                 $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
-                        " event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
+                        " event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .
                         " MATCH (user) -[r:" . REL_EVENTS_LIKE . "]- (event) " .
                         " DELETE  r";
                 $query = new Cypher\Query($client, $query, null);
@@ -98,7 +98,7 @@ class SocialUtil {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
                 $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
-                        " event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
+                        " event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .
                         " MATCH (user) -[r:" . REL_EVENTS_RESHARE . "]- (event) " .
                         " DELETE  r";
                 $query = new Cypher\Query($client, $query, null);
