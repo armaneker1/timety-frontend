@@ -25,7 +25,10 @@ function getDataFromLocalStorage(event_id)
 function showBackGround()
 {
     var detailModalPanelBackground = document.getElementById('div_follow_trans');
-    jQuery(detailModalPanelBackground).attr('onclick','closeModalPanel()');
+    jQuery(detailModalPanelBackground).unbind('click');
+    jQuery(detailModalPanelBackground).bind('click',function(){
+        closeModalPanel();
+    });
     jQuery(detailModalPanelBackground).show();
     document.body.style.overflow = "hidden";
 }
@@ -479,8 +482,12 @@ function closeModalPanel() {
         remUrlEventId();
         jQuery('#genel_detay_yeni').hide();
         var detailModalPanelBackground = document.getElementById('div_follow_trans');
-        jQuery(detailModalPanelBackground).attr('onclick','return false;');
-        jQuery(detailModalPanelBackground).css('display','none');
+        
+        jQuery(detailModalPanelBackground).unbind('click');
+        jQuery(detailModalPanelBackground).bind('click',function(){
+            return false;
+        });
+        jQuery(detailModalPanelBackground).hide();
     }catch(e){
         console.log(e);
     }

@@ -28,15 +28,17 @@ function openCreatePopup() {
     /*
          * Show Popup
          */
-    jQuery("#div_follow_trans").css("display", "block");
-    jQuery("#div_follow_trans").attr('onclick','closeCreatePopup()');
-    jQuery("#div_event_add_ekr").css("display", "block");
+    jQuery("#div_follow_trans").show();
+    // jQuery("#div_follow_trans").attr('onclick','closeCreatePopup()');
+    jQuery("#div_event_add_ekr").show();
     
-     jQuery(jQuery("#div_event_add_ekr")).on('click',function(e){
-            e.stopPropagation();
-            e.preventDefault();
-            return false;
-        });
+    jQuery("#div_follow_trans").unbind('click');
+    jQuery(jQuery("#div_follow_trans")).bind('click',function(e){
+        if(e && e.target && e.target.id && e.target.id == "div_follow_trans")
+        {
+            closeCreatePopup();
+        }
+    });
 	
     /*
          * Create Checkbox
@@ -45,7 +47,7 @@ function openCreatePopup() {
         widthConstant : 3, 
         statusChange : changePublicPrivate
     });
-        
+    
     document.body.style.overflow = "hidden";
 }
 
@@ -62,9 +64,10 @@ function changePublicPrivate(elem) {
 
 function closeCreatePopup() {
     try{
-        jQuery("#div_follow_trans").css("display", "none");
-        jQuery("#div_event_add_ekr").css("display", "none");
-        jQuery("#div_follow_trans").attr('onclick','return false;');
+        jQuery("#div_follow_trans").hide();
+        jQuery("#div_event_add_ekr").hide();
+        jQuery("#div_follow_trans").unbind('click');
+        jQuery("#div_follow_trans").bind('click',function(){return false;});
     }catch(e) {
         console.log(e);
     }
