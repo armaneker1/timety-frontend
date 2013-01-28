@@ -368,7 +368,7 @@ if (empty($birhtdate)) {
                         class="user_inpt username icon_bg" 
                         id="te_username"
                         value="<?php echo $username ?>" 
-                        placeholder="User Name"
+                        placeholder="Username"
                         suc="true"
                         default="<?php echo $username ?>"
                         onkeyup="validateUserName(this,true,false)"
@@ -456,7 +456,7 @@ if (empty($birhtdate)) {
                     <input 
                         name="te_birthdate" 
                         type="text" 
-                        placeholder="Birthdate (dd.MM.yyyy)"
+                        placeholder="Birthday (dd.MM.yyyy)"
                         autocomplete='off'
                         class="user_inpt" 
                         id="te_birthdate" 
@@ -480,7 +480,7 @@ if (empty($birhtdate)) {
                     <input 
                         name="te_hometown"
                         type="text" 
-                        placeholder="Hometown" 
+                        placeholder="Location" 
                         class="user_inpt"
                         id="te_hometown" 
                         value="<?php echo $hometown ?>"
@@ -527,7 +527,7 @@ if (empty($birhtdate)) {
                             class="user_inpt password icon_bg"
                             id="te_repassword" 
                             value="" 
-                            placeholder="Re-Password"
+                            placeholder="Re-type password"
                             onkeyup="validatePassword(this,$('#te_password'),true)" />
                             <?php
                             $display = "none";
