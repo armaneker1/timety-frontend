@@ -39,12 +39,12 @@ if (!isset($_SESSION['id'])) {
         }
         $username = $_POST['te_username'];
         if (empty($username)) {
-            $usernameError = "User name can not be empty";
+            $usernameError = "Username cannot be empty";
             $param = false;
         } else {
             if (!UserUtils::checkUserName($username)) {
                 if ($username != $_POST['te_default_username']) {
-                    $usernameError = "User name already taken";
+                    $usernameError = "Username already taken";
                     $param = false;
                 }
             }
@@ -53,17 +53,17 @@ if (!isset($_SESSION['id'])) {
 
         $name = $_POST['te_firstname'];
         if (empty($name)) {
-            $nameError = "First name can not be empty";
+            $nameError = "Please enter first name";
             $param = false;
         }
         $lastname = $_POST['te_lastname'];
         if (empty($lastname)) {
-            $lastname = "Last name can not be empty";
+            $lastname = "Please enter your last name";
             $param = false;
         }
         $email = $_POST['te_email'];
         if (empty($email)) {
-            $emailError = "Email can not be empty";
+            $emailError = "Email cannot be empty";
             $param = false;
         } else {
             if (!UtilFunctions::check_email_address($email)) {
@@ -71,7 +71,7 @@ if (!isset($_SESSION['id'])) {
                 $param = false;
             } else if (!UserUtils::checkEmail($email)) {
                 if ($_POST['te_default_email'] != $email) {
-                    $emailError = "Email already taken";
+                    $emailError = "Email already exsts";
                     $param = false;
                 }
             }
@@ -79,13 +79,13 @@ if (!isset($_SESSION['id'])) {
 
         $birhtdate = $_POST['te_birthdate'];
         if (!UtilFunctions::checkDate($birhtdate)) {
-            $birhtdateError = "Birthdate is not valid";
+            $birhtdateError = "Birthday is not valid";
             $param = false;
         }
 
         $hometown = $_POST['te_hometown'];
         if (empty($hometown)) {
-            $hometownError = "Hometown can not be empty";
+            $hometownError = "Please enter location";
             $param = false;
         }
         if (isset($_POST['te_password'])) {
@@ -94,12 +94,12 @@ if (!isset($_SESSION['id'])) {
             $repassword = $_POST['te_repassword'];
 
             if (empty($password)) {
-                $upassError = "Password can not be empty";
+                $upassError = "Please enter password";
                 $param = false;
             }
 
             if (empty($repassword) || $repassword != $password) {
-                $upass2Error = "Passwords doesn't macth";
+                $upass2Error = "Passwords don't macth";
                 $param = false;
             }
         }
@@ -319,7 +319,7 @@ if (empty($birhtdate)) {
                     }
                     return false;
                 }).setMessage('check_email',
-                'That email is already taken. Please choose another.');
+                'Email already exists');
 
                 validator.registerCallback('check_username', function(value) {
                     var result = jQuery('#te_username').attr('suc');
@@ -329,7 +329,7 @@ if (empty($birhtdate)) {
                     }
                     return false;
                 }).setMessage('check_username',
-                'That username is already taken. Please choose another.');
+                'Username already exists');
                 
                 validator.registerCallback('check_birthdate', function(value) {
                     return validateInputDate(jQuery('#te_birthdate'),true,false);

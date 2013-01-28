@@ -58,7 +58,7 @@ try {
                     $uemailError = "Email is not valid";
                     $param = false;
                 } else if (!UserUtils::checkEmail($uemail)) {
-                    $uemailError = "Email already taken";
+                    $uemailError = "Email already exists";
                     $param = false;
                 }
             }
