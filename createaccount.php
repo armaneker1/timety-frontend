@@ -41,17 +41,17 @@ try {
         $param = true;
         try {
             if (empty($uname)) {
-                $unameError = "User name empty";
+                $unameError = "Username cannot be empty";
                 $param = false;
             } else {
                 if (!UserUtils::checkUserName($uname)) {
-                    $unameError = "User Name already taken";
+                    $unameError = "Username already exists";
                     $param = false;
                 }
             }
 
             if (empty($uemail)) {
-                $uemailError = "Email empty";
+                $uemailError = "Email cannot be empty";
                 $param = false;
             } else {
                 if (!UtilFunctions::check_email_address($uemail)) {
@@ -64,16 +64,16 @@ try {
             }
 
             if (empty($upass)) {
-                $upassError = "Password empty";
+                $upassError = "Password cannot be empty";
                 $param = false;
             }
             if (empty($upass2)) {
-                $upass2Error = "Re-Password empty";
+                $upass2Error = "Confirm your password";
                 $param = false;
             }
 
             if ($upass != $upass2) {
-                $upass2Error = "Passwords not match";
+                $upass2Error = "Passwords do not match";
                 $param = false;
             }
 
@@ -190,7 +190,7 @@ $upass = null;
                     }
                     return false;
                 })
-                .setMessage('check_email', 'That email is already taken. Please choose another.');
+                .setMessage('check_email', 'Email already exists');
 
                 validator.registerCallback('check_username', function(value) {
                     var result =jQuery('#te_username').attr('suc');
@@ -200,7 +200,7 @@ $upass = null;
                     }
                     return false;
                 })
-                .setMessage('check_username', 'That username is already taken. Please choose another.');
+                .setMessage('check_username', 'Username already exists');
 	
             });
         </script>
