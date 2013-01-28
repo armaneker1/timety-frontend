@@ -480,10 +480,11 @@ if (empty($birhtdate)) {
                     <input 
                         name="te_hometown"
                         type="text" 
-                        placeholder="Hometown" 
+                        placeholder="Location" 
                         class="user_inpt"
                         id="te_hometown" 
                         value="<?php echo $hometown ?>"
+                        onchange="validateInput(this,true,false,3)"
                         onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
                         <?php
