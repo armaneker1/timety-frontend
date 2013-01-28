@@ -229,7 +229,7 @@ if (empty($birhtdate)) {
                     changeYear: true,
                     dateFormat: "dd.mm.yy",
                     maxDate: new Date(),
-                    yearRange: "1923:2012",
+                    yearRange: "-20:+0",
                     beforeShow : function(dateInput,datePicker) {
                         setTimeout(showDate,5);
                     },

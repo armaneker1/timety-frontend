@@ -14,8 +14,52 @@ if (isset($_GET['finish'])) {
     UserUtils::updateUser($user->id, $user);
 
     $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
-    $res = MailUtil::sendEmail("Dear " . $user->firstName . " " . $user->lastName . " click to confirm your account <a href='" . PAGE_CONFIRM . "?guid=" . $confirm . "'>here</a> ", "Timety Account Confirmation", '{"email": "' . $user->email . '",  "name": "' . $user->firstName . ' ' . $user->lastName . '"}');
+    $res = MailUtil::sendEmail("Dear " . $user->firstName . " " . $user->lastName . " click to confirm your account <a href='" . HOSTNAME . "?guid=" . $confirm . "'>here</a> ", "Timety Account Confirmation", '{"email": "' . $user->email . '",  "name": "' . $user->firstName . ' ' . $user->lastName . '"}');
     header('Location: ' . HOSTNAME);
+}
+
+$confirm_msg="";
+$confirm_error=true;
+if (array_key_exists("guid", $_GET)) {
+        $guid="";
+	if(isset($_GET["guid"]))
+	{
+		$guid=$_GET["guid"];
+	}
+        $guid=base64_decode($_GET["guid"]);
+        if(!empty($guid))
+        {
+            $array= explode(";", $guid);
+            if(!empty($array) && sizeof($array)==3)
+            {
+                $userId=$array[0];
+                $userName=$array[1];
+                if(!empty($userId) && !empty($userName))
+                {
+                    $user=UserUtils::getUserById($userId);
+                    if(!empty($user) && $user->userName==$userName)
+                    {
+                        UserUtils::confirmUser($userId);
+                        $confirm_msg="Confirmation is completed";
+                        $confirm_error=false;
+                    }
+                    else
+                    {
+                         $confirm_msg="User doesn't exist ";
+                    }
+                }else
+                {
+                    $confirm_msg="User doesn't exist ";
+                }
+            }
+            else
+            {
+                $confirm_msg="Parameters wrong ";
+            }
+        }else
+        {
+            $confirm_msg="Parameters wrong ";
+        }
 }
 
 $user = null;
@@ -295,7 +339,23 @@ if (empty($user)) {
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/createEvent.js"></script>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.js"></script>
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
-            <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
+        <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
+        
+        <?php if(!empty($confirm_msg)){ 
+            $confirm_error='error';
+            if(!$confirm_error)
+            {
+                $confirm_error='info';
+            }
+            
+        ?>
+        <script>
+            jQuery(document).ready(function(){
+                getInfo(true,'<?=$confirm_msg ?>','<?=$confirm_error?>',4000);
+            });
+        </script>
+        <?php } ?>
+        
             <?php
             if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
                 $m = new HtmlMessage();

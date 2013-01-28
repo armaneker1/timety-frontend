@@ -19,7 +19,7 @@ if (array_key_exists("guid", $_GET)) {
         if(!empty($guid))
         {
             $array= explode(";", $guid);
-            if(!empty($array) && sizeof($array)==2)
+            if(!empty($array) && sizeof($array)==3)
             {
                 $userId=$array[0];
                 $userName=$array[1];
@@ -58,7 +58,7 @@ header("charset=utf8;Content-Type: text/html;");
 <head>
 <?php include('layout/layout_header.php'); ?>
 <script type="text/javascript">
-    setTimeout(function() {window.location="<?=HOSTNAME?>";}, 2000);
+    setTimeout(function() {window.location="<?=HOSTNAME?>";}, 2000000);
 </script>
 <title>Timety Confirm</title>
 </head>
