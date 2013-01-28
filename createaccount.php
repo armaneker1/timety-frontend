@@ -277,7 +277,7 @@ $upass = null;
                         <input name="te_email"
                                type="text" placeholder="Email" class="user_inpt email icon_bg"
                                id="te_email" 
-                               onkeyup="validateEmail(this,true,false)"
+                               onkeypress="validateEmail(this,true,false)"
                                onblur="if(onBlurFirstPreventTwo(this)) { validateEmail(this,true,true) }"
                                value="<?= $uemail ?>" /> 
                                <?php
