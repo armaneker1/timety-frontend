@@ -498,6 +498,18 @@ if (empty($birhtdate)) {
                         <div class="create_acco_popup" id="te_hometown_span_msg" style="display:<?= $display ?>;"><?= $hometownError ?><div class="kok"></div></div>
                     </span><br />
 
+                    <script>
+                        jQuery(document).ready(function(){
+                            var input = document.getElementById('te_hometown');
+                            var options = {
+                                types: ['(cities)']
+                            };
+                            autocomplete = new google.maps.places.Autocomplete(input, options);
+                        });
+                    </script>
+                    
+                    
+                    
 
                     <?php if ($visible) { ?>
                         <input 

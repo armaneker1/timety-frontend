@@ -32,6 +32,11 @@ function openCreatePopup() {
     jQuery("#div_follow_trans").attr('onclick','closeCreatePopup()');
     jQuery("#div_event_add_ekr").css("display", "block");
     
+     jQuery(jQuery("#div_event_add_ekr")).on('click',function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
+        });
 	
     /*
          * Create Checkbox

@@ -207,6 +207,7 @@ class Neo4jEventUtils {
             $usr = $userIndex->findOne(PROP_USER_ID, $user->id);
 
             Neo4jEventUtils::relateUserToEvent($usr, $evnt, 1, TYPE_JOIN_YES);
+            SocialUtil::incJoinCountAsync( $user->id, $eventId);
             //$usr->relateTo($evnt, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, 1)->setProperty(PROP_JOIN_TYPE,TYPE_JOIN_YES)->save();
             $n = new Neo4jFuctions();
             $n->removeEventInvite($user->id, $eventId);

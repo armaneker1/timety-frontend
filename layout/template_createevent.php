@@ -300,6 +300,15 @@ if ($showPopup) {
             <div class="eam_bg">
                 <div class="eam_bg_sol"></div>
                 <div class="eam_bg_orta">
+                    <script>
+                        jQuery(document).ready(function(){
+                            var input = document.getElementById('te_event_location');
+                            var options = {
+                                types: ['(cities)']
+                            };
+                            autocomplete = new google.maps.places.Autocomplete(input, options);
+                        });
+                    </script>
                     <input name="te_event_location" type="text" class="eam_inpt" style="width: 435px;"
                            id="te_event_location" value="<?php
                     if ($showPopup) {
