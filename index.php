@@ -99,7 +99,7 @@ if (empty($user)) {
         /*
          * Images
          */
-        $event->images = [null, null, null, null, null, null, null];
+        $event->images = array(null, null, null, null, null, null, null);
 
         if (isset($_POST["event_image_1_input"]) && !empty($_POST["event_image_1_input"])) {
             $event->images[0] = "ImageEvent_1_" . $_random_session_id . ".png";
