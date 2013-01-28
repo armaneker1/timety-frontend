@@ -68,4 +68,4 @@
 <script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/mixpanel.js"></script>
 <!-- Scripts -->
 
-<?php include ('/../config/analytics.php'); ?>
+<?php include ('config/analytics.php'); ?>
