@@ -132,7 +132,7 @@ function validatePassword(field2, fieldEqual, isSync,setMsg) {
                 setMsg=msg;  
             }else
             {
-                setMsg="Please use at least 6 characters.";
+                setMsg="Use at least 6 characters";
             }
             
         }else
@@ -161,7 +161,7 @@ function validateUserName(field2, dbCheck,setMsg) {
     if (!dbCheck) {
         if(setMsg)
         {
-            setMsg=result ? false :"Please use at least 3 characters.";
+            setMsg=result ? false :"Use at least 3 characters";
         }
         setInputWarning(field, cssClassAttr, result,false,setMsg);
         return result;
@@ -177,7 +177,7 @@ function validateUserName(field2, dbCheck,setMsg) {
                 field.setAttribute("suc", result);
                 if(setMsg)
                 {
-                    setMsg=result ? false : "Username already taken";
+                    setMsg=result ? false : "Username already exists";
                 }
                 setInputWarning(field, cssClassAttr, result,false,setMsg);
                 return result;
@@ -186,7 +186,7 @@ function validateUserName(field2, dbCheck,setMsg) {
         {
             if(setMsg)
             {
-                setMsg="Please use at least 3 characters.";
+                setMsg="Use at least 3 characters";
             }
             setInputWarning(field, cssClassAttr, result,false,setMsg);	
         }
@@ -208,7 +208,7 @@ function validateEmail(field2, dbCheck,setMsg) {
     if (!dbCheck) {
         if(setMsg)
         {
-            setMsg=result ? false : "Enter valid email";
+            setMsg=result ? false : "Email is not valid";
         }
         setInputWarning(field, cssClassAttr, result,false,setMsg);
     } else {
@@ -222,7 +222,7 @@ function validateEmail(field2, dbCheck,setMsg) {
                 field.setAttribute("suc", result);
                 if(setMsg)
                 {
-                    setMsg= result ? false : "Email already taken";
+                    setMsg= result ? false : "Email already exists";
                 }
                 setInputWarning(field, cssClassAttr, result,false,setMsg);
                 return result;
@@ -265,7 +265,7 @@ function validateInput(field2,InputWarning,setMsg,length)
     }
     if(setMsg)
     {
-        setMsg=result ? false : "Please use at least 3 characters.";
+        setMsg=result ? false : "Use at least 3 characters";
     }
     if (InputWarning)
         setInputWarning(field, undefined, result, true,setMsg);
@@ -289,7 +289,7 @@ function validateInputDate(field2,InputWarning,setMsg)
     
     if(setMsg)
     {
-        setMsg=result ? false : "Enter valid date.";
+        setMsg=result ? false : "Enter a valid date";
     }
     if (InputWarning)
         setInputWarning(field, undefined, result, true,setMsg);

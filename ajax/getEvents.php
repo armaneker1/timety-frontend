@@ -39,7 +39,7 @@ $res->success = false;
 if ($userId != null && $pageNumber != "" && $pageItemCount != null && $type != null) {
     $result = Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type,$popular_all);
     if (!empty($result)) {
-        if ($type == 1 && $pageNumber==0) {
+        if ($type == 1 && $pageNumber==0 && false) {
             $evtAd = new Event();
             $evtAd->ad = true;
             $evtAd->url = "http://www.thehobbit.com/";

@@ -1098,7 +1098,7 @@ class Neo4jFuctions {
                 array_push($tmparray, $evt);
             }
         }
-        if ($type == 1 && $pageNumber==0) {
+        if ($type == 1 && $pageNumber==0 && false) {
             $evtAd = new Event();
             $evtAd->ad = true;
             $evtAd->id = -1;            
