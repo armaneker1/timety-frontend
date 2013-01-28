@@ -131,3 +131,161 @@
     font-family: arial;
     min-height: 22px;
 }
+
+
+/* profil */
+.profil_box {
+                min-height: 80px;
+                width: 194px;
+                margin-right: 3px;
+                margin-left: 4px;
+                float: left;
+                margin-top: 4px;
+                margin-bottom: 4px;
+                background-image: url(images/m_ebg.png);
+                background-repeat: repeat;
+                border-top-width: 1px;
+                border-right-width: 1px;
+                border-left-width: 1px;
+                border-top-style: solid;
+                border-right-style: solid;
+                border-left-style: solid;
+                border-top-color: #bcbcbc;
+                border-right-color: #bcbcbc;
+                border-left-color: #bcbcbc;
+}
+.profil_resim {
+                border: 1px solid #cfcfcf;
+                clear: both;
+                background-color: #FFF;
+                padding: 4px;
+                margin-right: auto;
+                margin-left: auto;
+                width: 176px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+}
+.user_settings {
+                display: inline-block;
+                float: right;
+                margin-right: 5px;
+                width: 24px;
+                padding-top: 20px;
+}
+.profil_user {
+                height: 40px;
+}
+.profil_metin {
+                font-family: Arial;
+                font-size: 11px;
+                color: #959595;
+                width: 186px;
+                margin-right: auto;
+                margin-left: auto;
+                margin-bottom: 10px;
+}
+.profil_btn {
+                height: auto;
+                width: auto;
+}
+.profil_btn ul {
+                margin: 0px;
+                padding: 0px;
+                list-style-type: none;
+                border-top-width: 1px;
+                border-top-style: solid;
+                border-top-color: #cfcfcf;
+}
+.profil_btn ul li {
+                background-image: url(images/addbtn.png);
+                height: 37px;
+                background-position: left -1px;
+                background-repeat: repeat-x;
+                line-height: 37px;
+}
+.profil_btn ul li a {
+                font-family: arial;
+                font-size: 14px;
+                font-weight: bold;
+                color: #666666;
+                display: block;
+                text-decoration: none;
+                padding-left: 5px;
+}
+ 
+.prinpt {
+                font-family: arial;
+                font-size: 11px;
+                color: #FFF;
+                height: 22px;
+                width: 33px;
+                box-shadow: 0px 1px 0px #FFF;
+                float: right;
+                border-radius: 3px;
+                line-height: 22px;
+                text-decoration: none;
+                text-align: center;
+                margin-top: 5px;
+                margin-right: 5px;
+}
+.pcolor_mavi {
+                background-color: #6f93a6;
+                border-top-width: 1px;
+                border-right-width: 1px;
+                border-bottom-width: 1px;
+                border-left-width: 1px;
+                border-top-style: solid;
+                border-right-style: solid;
+                border-bottom-style: solid;
+                border-left-style: solid;
+                border-top-color: #607f90;
+                border-right-color: #6a8c9e;
+                border-bottom-color: #67899a;
+                border-left-color: #6a8c9e;
+}
+.pcolor_krmz {
+                background-color: #b35d5d;
+                border-top-width: 1px;
+                border-right-width: 1px;
+                border-bottom-width: 1px;
+                border-left-width: 1px;
+                border-top-style: solid;
+                border-right-style: solid;
+                border-bottom-style: solid;
+                border-left-style: solid;
+                border-top-color: #9b5151;
+                border-right-color: #ab5858;
+                border-bottom-color: #a65656;
+                border-left-color: #ab5858;
+}
+.pcolor_gri {
+                background-color: #9d9d9d;
+                border-top-width: 1px;
+                border-right-width: 1px;
+                border-bottom-width: 1px;
+                border-left-width: 1px;
+                border-top-style: solid;
+                border-right-style: solid;
+                border-bottom-style: solid;
+                border-left-style: solid;
+                border-top-color: #888888;
+                border-right-color: #969696;
+                border-bottom-color: #929292;
+                border-left-color: #969696;
+}
+.pcolor_yesil {
+                background-color: #7aa745;
+                border-top-width: 1px;
+                border-right-width: 1px;
+                border-bottom-width: 1px;
+                border-left-width: 1px;
+                border-top-style: solid;
+                border-right-style: solid;
+                border-bottom-style: solid;
+                border-left-style: solid;
+                border-top-color: #6a913b;
+                border-right-color: #749f41;
+                border-bottom-color: #719b40;
+                border-left-color: #749f41;
+}
+/* profil */

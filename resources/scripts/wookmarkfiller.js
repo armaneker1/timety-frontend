@@ -84,7 +84,7 @@ function wookmarkFiller(options,clear,loader)
                 if(clear) {
                     page_wookmark=0;
                     localStorage.clear();
-                    jQuery('.main_event').html('');
+                    jQuery('.main_event .main_event_box').not(jQuery(".profil_box")).remove();
                 }
                 
                 if(dataJSON.length>0)

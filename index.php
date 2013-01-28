@@ -666,6 +666,34 @@ if (empty($user)) {
                 </div>
             </div>
             <div class="main_event">
+                <!-- profil box -->
+                <?php  if(!empty($user) && !empty($user->id)) {?>
+                <div class="profil_box main_event_box">
+                    <div class="profil_user">
+                        <div class="bgln_user">
+                            <h1><?php echo $user->getFullName()?></h1>
+                            <p><!-- title --></p>
+                        </div>
+                        <div class="user_settings"><a href="#"><img src="<?=HOSTNAME?>images/settings.png" width="16" height="17" border="0" /></a></div>
+                    </div>
+                    <div class="profil_resim">
+                        <img src="<?php echo PAGE_GET_IMAGEURL.$user->getUserPic()."&h=176&w=176"; ?>" width="176" height="176" />
+                    </div>
+                    <div class="profil_metin">
+                        <!-- bio -->
+                    </div>
+                    <div class="profil_btn">
+                        <ul>
+                            <li><a href="#">Following <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserFollowingCount($user->id)?></p></a></li>
+                            <li><a href="#">Followers <p class="prinpt pcolor_krmz"><?= Neo4jUserUtil::getUserFollowersCount($user->id)?></p></a></li>
+                            <li><a href="#">Likes <p class="prinpt pcolor_yesil"><?= Neo4jUserUtil::getUserLikesCount($user->id)?></p></a></li>
+                            <li><a href="#">Reshare <p class="prinpt pcolor_gri"><?= Neo4jUserUtil::getUserResharesCount($user->id)?></p></a></li>
+                            <li><a href="#">Joined <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserJoinsCount($user->id,TYPE_JOIN_YES)?></p></a></li>
+                            <li><a href="#">Created Event <p class="prinpt pcolor_krmz"><?= Neo4jUserUtil::getUserCreatedCount($user->id)?></p></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <?php } ?>
                 <!-- event boxes -->
                 <?php
                 $user_id = null;
