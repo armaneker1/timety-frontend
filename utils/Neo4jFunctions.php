@@ -90,9 +90,8 @@ class Neo4jFuctions {
                     $result->error = false;
                 } else if ($resp == 0 || $resp == 5) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_NO);
-                    if($resp==5)
-                    {
-                         SocialUtil::decJoinCountAsync($userId, $eventId);
+                    if ($resp == 5) {
+                        SocialUtil::decJoinCountAsync($userId, $eventId);
                     }
                     $result->success = true;
                     $result->error = false;
@@ -102,9 +101,8 @@ class Neo4jFuctions {
                     $result->error = false;
                 } else if ($resp == 3 || $resp == 4) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_IGNORE);
-                    if($resp==4)
-                    {
-                         SocialUtil::decJoinCountAsync($userId, $eventId);
+                    if ($resp == 4) {
+                        SocialUtil::decJoinCountAsync($userId, $eventId);
                     }
                     $result->success = true;
                     $result->error = false;
@@ -676,8 +674,11 @@ class Neo4jFuctions {
     function searchInterests($query) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 
-        $query = "START object=node:" . IND_OBJECT_INDEX . "('" . PROP_OBJECT_NAME . ":*" . strtolower($query) . "*') " .
-                "RETURN object, count(*)";
+        $query = "START object=node:" . IND_OBJECT_INDEX . "('" . PROP_OBJECT_NAME . ":*') " .
+                " WHERE object.name=~/.*(?i)" . strtolower($query) . ".*/ " .
+                " RETURN object, count(*)";
+
+        //echo $query;
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         $array = array();
@@ -1098,10 +1099,10 @@ class Neo4jFuctions {
                 array_push($tmparray, $evt);
             }
         }
-        if ($type == 1 && $pageNumber==0 && false) {
+        if ($type == 1 && $pageNumber == 0 && false) {
             $evtAd = new Event();
             $evtAd->ad = true;
-            $evtAd->id = -1;            
+            $evtAd->id = -1;
             $evtAd->url = "http://www.thehobbit.com/";
             $evtAd->img = "/images/ads.jpeg";
             $evtAd->imgWidth = 186;
