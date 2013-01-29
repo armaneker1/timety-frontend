@@ -229,7 +229,7 @@ if (empty($birhtdate)) {
                     changeYear: true,
                     dateFormat: "dd.mm.yy",
                     maxDate: new Date(),
-                    yearRange: "-20:+0",
+                    yearRange: "-100:+0",
                     beforeShow : function(dateInput,datePicker) {
                         setTimeout(showDate,5);
                     },
