@@ -708,12 +708,20 @@ class Neo4jFuctions {
         return $array;
     }
 
-    function getFriendList($userId, $query) {
+    function getFriendList($userId, $query,$followers) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $rel="-[:" . REL_FOLLOWS . "]->";
+        if($followers==1 || $followers=="1")
+        {
+            $rel="<-[:" . REL_FOLLOWS . "]-";
+        }
         $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
-                "MATCH (user) -[:" . REL_FOLLOWS . "]-> (follow) WHERE ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND follow." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $query . ".*/ ) OR ( HAS (follow." . PROP_USER_LASTNAME . ") AND  follow." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $query . ".*/ ) " .
-                "RETURN follow, count(*)";
-        //echo $query;
+                " MATCH (user) ".$rel." (follow) ". 
+                " WHERE ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND follow." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $query . ".*/ ) ".
+                " OR ( HAS (follow." . PROP_USER_LASTNAME . ") AND  follow." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $query . ".*/ ) " .
+                " OR ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND HAS (follow." . PROP_USER_LASTNAME . ") AND  follow." . PROP_USER_FIRSTNAME . "+' '+follow." . PROP_USER_LASTNAME . "=~ /.*(?i)".$query.".*/ ) ".
+                " RETURN follow, count(*)";
+        //echo $query."<p/>";
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         $array = array();

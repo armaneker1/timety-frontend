@@ -18,48 +18,37 @@ if (isset($_GET['finish'])) {
     header('Location: ' . HOSTNAME);
 }
 
-$confirm_msg="";
-$confirm_error=true;
+$confirm_msg = "";
+$confirm_error = false;
 if (array_key_exists("guid", $_GET)) {
-        $guid="";
-	if(isset($_GET["guid"]))
-	{
-		$guid=$_GET["guid"];
-	}
-        $guid=base64_decode($_GET["guid"]);
-        if(!empty($guid))
-        {
-            $array= explode(";", $guid);
-            if(!empty($array) && sizeof($array)==3)
-            {
-                $userId=$array[0];
-                $userName=$array[1];
-                if(!empty($userId) && !empty($userName))
-                {
-                    $user=UserUtils::getUserById($userId);
-                    if(!empty($user) && $user->userName==$userName)
-                    {
-                        UserUtils::confirmUser($userId);
-                        $confirm_msg="Confirmation is completed";
-                        $confirm_error=false;
-                    }
-                    else
-                    {
-                         $confirm_msg="User doesn't exist ";
-                    }
-                }else
-                {
-                    $confirm_msg="User doesn't exist ";
+    $guid = "";
+    if (isset($_GET["guid"])) {
+        $guid = $_GET["guid"];
+    }
+    $guid = base64_decode($_GET["guid"]);
+    if (!empty($guid)) {
+        $array = explode(";", $guid);
+        if (!empty($array) && sizeof($array) == 3) {
+            $userId = $array[0];
+            $userName = $array[1];
+            if (!empty($userId) && !empty($userName)) {
+                $user = UserUtils::getUserById($userId);
+                if (!empty($user) && $user->userName == $userName) {
+                    UserUtils::confirmUser($userId);
+                    $confirm_msg = "Confirmation is completed";
+                    $confirm_error = true;
+                } else {
+                    $confirm_msg = "User doesn't exist ";
                 }
+            } else {
+                $confirm_msg = "User doesn't exist ";
             }
-            else
-            {
-                $confirm_msg="Parameters wrong ";
-            }
-        }else
-        {
-            $confirm_msg="Parameters wrong ";
+        } else {
+            $confirm_msg = "Parameters wrong ";
         }
+    } else {
+        $confirm_msg = "Parameters wrong ";
+    }
 }
 
 $user = null;
@@ -328,7 +317,7 @@ if (empty($user)) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <?php include('layout/layout_header.php'); ?>
+<?php include('layout/layout_header.php'); ?>
 
         <title>Timety</title>
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
@@ -339,23 +328,23 @@ if (empty($user)) {
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/createEvent.js"></script>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.js"></script>
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
-        <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
-        
-        <?php if(!empty($confirm_msg)){ 
-            $confirm_error='error';
-            if(!$confirm_error)
-            {
-                $confirm_error='info';
-            }
-            
-        ?>
-        <script>
-            jQuery(document).ready(function(){
-                getInfo(true,'<?=$confirm_msg ?>','<?=$confirm_error?>',4000);
-            });
-        </script>
-        <?php } ?>
-        
+            <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
+
+<?php
+if (!empty($confirm_msg)) {
+    if ($confirm_error) {
+        $confirm_error = 'info';
+    } else {
+        $confirm_error = 'error';
+    }
+    ?>
+                <script>
+                    jQuery(document).ready(function(){
+                        getInfo(true,'<?= $confirm_msg ?>','<?= $confirm_error ?>',4000);
+                    });
+                </script>
+            <?php } ?>
+
             <?php
             if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
                 $m = new HtmlMessage();
@@ -397,7 +386,7 @@ if (empty($user)) {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                		      
+                                                    		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -410,7 +399,7 @@ if (empty($user)) {
                         }, 2500);
                     });
                 </script>
-            <?php } ?>
+<?php } ?>
 
             <script language="javascript">
                 var handler = null;
@@ -490,18 +479,18 @@ if (empty($user)) {
             <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-facebook.css" rel="stylesheet" type="text/css" />
             <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
 
-            <?php
-            if (!empty($user)) {
-                $var_cat = "[]";
-                $var_tag = "[]";
-                $var_usr = "[]";
-                if (!empty($user) && isset($_POST["te_event_title"]) && !empty($event)) {
-                    $nf = new Neo4jFuctions();
-                    $var_cat = $nf->getCategoryListByIdList($event->categories);
-                    $var_usr = $nf->getUserGroupListByIdList($event->attendance);
-                    $var_tag = $nf->getTagListListByIdList($event->tags);
-                }
-                ?>
+<?php
+if (!empty($user)) {
+    $var_cat = "[]";
+    $var_tag = "[]";
+    $var_usr = "[]";
+    if (!empty($user) && isset($_POST["te_event_title"]) && !empty($event)) {
+        $nf = new Neo4jFuctions();
+        $var_cat = $nf->getCategoryListByIdList($event->categories);
+        $var_usr = $nf->getUserGroupListByIdList($event->attendance);
+        $var_tag = $nf->getTagListListByIdList($event->tags);
+    }
+    ?>
                 <script>
                     jQuery(document).ready(function() {
                         /* jQuery( "#te_event_category" ).tokenInput("<?= PAGE_AJAX_GETCATEGORY ?>",{ 
@@ -523,8 +512,8 @@ if (empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });*/
-                                                                    
-                                                                    
+                                                                        
+                                                                        
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
@@ -545,7 +534,7 @@ if (empty($user)) {
                             prePopulate : <?php echo $var_tag; ?>	
                         });	
 
-                        jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP ?>",{ 
+                        jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP."?followers=1" ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
                             queryParam : "term",
@@ -567,7 +556,7 @@ if (empty($user)) {
                         });
                     });
                 </script>
-            <?php } ?>
+<?php } ?>
             <!--auto complete-->
             <!--Placeholder-->
             <script>
@@ -593,19 +582,19 @@ if (empty($user)) {
 
 
             <!-- Open Event Popup -->
-            <?php
-            $prm_event = null;
-            if (isset($_GET["eventId"]) && !empty($_GET["eventId"])) {
-                $prm_event = EventUtil::getEventById($_GET["eventId"]);
-            }
+<?php
+$prm_event = null;
+if (isset($_GET["eventId"]) && !empty($_GET["eventId"])) {
+    $prm_event = EventUtil::getEventById($_GET["eventId"]);
+}
 
-            if (!empty($prm_event)) {
-                $prm_event->getHeaderImage();
-                $hdr_img = HOSTNAME . "images/timete.png";
-                if (!empty($prm_event->headerImage)) {
-                    $hdr_img = HOSTNAME . $prm_event->headerImage->url;
-                }
-                ?>
+if (!empty($prm_event)) {
+    $prm_event->getHeaderImage();
+    $hdr_img = HOSTNAME . "images/timete.png";
+    if (!empty($prm_event->headerImage)) {
+        $hdr_img = HOSTNAME . $prm_event->headerImage->url;
+    }
+    ?>
 
                 <meta property="og:title" content="<?= $prm_event->title ?>"/>
                 <meta property="og:image" content="<?= $hdr_img ?>"/>
@@ -632,9 +621,9 @@ if (empty($user)) {
                 </script>
 
 
-                <?php
-            } else {
-                ?>
+    <?php
+} else {
+    ?>
                 <meta property="og:title" content="Timety"/>
                 <meta property="og:image" content="<?= HOSTNAME ?>images/logo_fb.jpeg"/>
                 <meta property="og:site_name" content="Timety"/>
@@ -643,11 +632,11 @@ if (empty($user)) {
                 <meta property="og:url " content="<?= HOSTNAME ?>"/>
                 <meta property="fb:app_id  " content="<?= FB_APP_ID ?>"/>
 
-            <?php } ?>
+<?php } ?>
             <!-- Open Event Popup -->
     </head>
     <body class="bg">
-        <?php include('layout/layout_top.php'); ?>
+            <?php include('layout/layout_top.php'); ?>
         <div class="main_sol" style="width:91%;">
             <div class="ust_blm">
                 <div class="trh_gn">
@@ -665,21 +654,21 @@ if (empty($user)) {
                             <td colspan="2">
                                 <div id="slides" style="overflow: hidden;max-height: 120px;">
                                     <div id="slides_container">
-                                        <?php if (empty($user)) { ?>
+<?php if (empty($user)) { ?>
                                             <div class="slide_item">
                                                 <div class="akt_tkvm">
                                                     <a href="<?= HOSTNAME ?>login"  class="add_event_link">Click Here to Add Event</a>
                                                 </div>
                                             </div>
-                                            <?php
-                                        } else {
-                                            $userId = -1;
-                                            if (!empty($user)) {
-                                                $userId = $user->id;
-                                            }
-                                            $events = InterestUtil::getEvents($userId, 0, 15, null, null, 2);
-                                            if (empty($events)) {
-                                                ?>
+    <?php
+} else {
+    $userId = -1;
+    if (!empty($user)) {
+        $userId = $user->id;
+    }
+    $events = InterestUtil::getEvents($userId, 0, 15, null, null, 2);
+    if (empty($events)) {
+        ?>
                                                 <div class="slide_item">
                                                     <div class="akt_tkvm">
                                                         <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
@@ -727,46 +716,46 @@ if (empty($user)) {
             </div>
             <div class="main_event">
                 <!-- profil box -->
-                <?php  if(!empty($user) && !empty($user->id)) {?>
-                <div class="profil_box main_event_box">
-                    <div class="profil_user">
-                        <div class="bgln_user">
-                            <h1><?php echo $user->getFullName()?></h1>
-                            <p><!-- title --></p>
+<?php if (!empty($user) && !empty($user->id)) { ?>
+                    <div class="profil_box main_event_box">
+                        <div class="profil_user">
+                            <div class="bgln_user">
+                                <h1><?php echo $user->getFullName() ?></h1>
+                                <p><!-- title --></p>
+                            </div>
+                            <div class="user_settings"><a href="#"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>
                         </div>
-                        <div class="user_settings"><a href="#"><img src="<?=HOSTNAME?>images/settings.png" width="16" height="17" border="0" /></a></div>
+                        <div class="profil_resim">
+                            <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176"; ?>" width="176" height="176" />
+                        </div>
+                        <div class="profil_metin">
+                            <!-- bio -->
+                        </div>
+                        <div class="profil_btn">
+                            <ul>
+                                <li><a href="#">Following <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserFollowingCount($user->id) ?></p></a></li>
+                                <li><a href="#">Followers <p class="prinpt pcolor_krmz"><?= Neo4jUserUtil::getUserFollowersCount($user->id) ?></p></a></li>
+                                <li><a href="#">Likes <p class="prinpt pcolor_yesil"><?= Neo4jUserUtil::getUserLikesCount($user->id) ?></p></a></li>
+                                <li><a href="#">Reshare <p class="prinpt pcolor_gri"><?= Neo4jUserUtil::getUserResharesCount($user->id) ?></p></a></li>
+                                <li><a href="#">Joined <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserJoinsCount($user->id, TYPE_JOIN_YES) ?></p></a></li>
+                                <li><a href="#">Created Event <p class="prinpt pcolor_krmz"><?= Neo4jUserUtil::getUserCreatedCount($user->id) ?></p></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="profil_resim">
-                        <img src="<?php echo PAGE_GET_IMAGEURL.$user->getUserPic()."&h=176&w=176"; ?>" width="176" height="176" />
-                    </div>
-                    <div class="profil_metin">
-                        <!-- bio -->
-                    </div>
-                    <div class="profil_btn">
-                        <ul>
-                            <li><a href="#">Following <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserFollowingCount($user->id)?></p></a></li>
-                            <li><a href="#">Followers <p class="prinpt pcolor_krmz"><?= Neo4jUserUtil::getUserFollowersCount($user->id)?></p></a></li>
-                            <li><a href="#">Likes <p class="prinpt pcolor_yesil"><?= Neo4jUserUtil::getUserLikesCount($user->id)?></p></a></li>
-                            <li><a href="#">Reshare <p class="prinpt pcolor_gri"><?= Neo4jUserUtil::getUserResharesCount($user->id)?></p></a></li>
-                            <li><a href="#">Joined <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserJoinsCount($user->id,TYPE_JOIN_YES)?></p></a></li>
-                            <li><a href="#">Created Event <p class="prinpt pcolor_krmz"><?= Neo4jUserUtil::getUserCreatedCount($user->id)?></p></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <?php } ?>
+<?php } ?>
                 <!-- event boxes -->
-                <?php
-                $user_id = null;
-                if (!empty($user)) {
-                    $user_id = $user->id;
-                }
-                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1);
-                if (!empty($main_pages_events) && sizeof($main_pages_events)) {
-                    $main_event = new Event();
-                    foreach ($main_pages_events as $main_event) {
-                        if (!empty($main_event) && !empty($main_event->id)) {
-                            if (!empty($main_event->ad) && $main_event->ad) {
-                                ?>
+<?php
+$user_id = null;
+if (!empty($user)) {
+    $user_id = $user->id;
+}
+$main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1);
+if (!empty($main_pages_events) && sizeof($main_pages_events)) {
+    $main_event = new Event();
+    foreach ($main_pages_events as $main_event) {
+        if (!empty($main_event) && !empty($main_event->id)) {
+            if (!empty($main_event->ad) && $main_event->ad) {
+                ?>
                                 <!-- event box -->
                                 <div class="main_event_box">
                                     <div class="m_e_img">
@@ -794,46 +783,80 @@ if (empty($user)) {
                                         </div>
                                     </div>
                                 </div>
-                                <?php
-                            } else {
-                                $width = $main_event->headerImage->width;
-                                if (empty($width)) {
-                                    $width = 186;
-                                }
-                                $height = $main_event->headerImage->height;
-                                if (empty($height)) {
-                                    $height = 219;
-                                }
-                                ?>
+                <?php
+            } else {
+                $width = $main_event->headerImage->width;
+                if (empty($width)) {
+                    $width = 186;
+                }
+                $height = $main_event->headerImage->height;
+                if (empty($height)) {
+                    $height = 219;
+                }
+                ?>
                                 <!-- event box -->
                                 <div class="main_event_box" date="<?= $main_event->startDateTime ?>">
-                                    <div class="m_e_img" id="div_img_event_<?=$main_event->id?>">
+                                    <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
                                         <div class="likeshare" style="display: none">
-                                            <button id="div_like_btn" class="ls_btn <?php if($main_event->userRelation->like)  { echo "like_btn_aktif"; } else { echo "like_btn"; } ?>"  class_aktif="like_btn_aktif" class_pass="like_btn"      pressed="<?php if($main_event->userRelation->like)  { echo "true"; } else { echo "false"; } ?>"  onclick="likeEvent(this,<?=$main_event->id?>);return false;"></button>
-                                            <button id="div_maybe_btn" class="ls_btn <?php if($main_event->userRelation->joinType==2)  { echo "maybe_btn_aktif"; } else { echo "maybe_btn"; } ?>" class_aktif="maybe_btn_aktif" class_pass="maybe_btn" pressed="<?php if($main_event->userRelation->joinType==2)  { echo "true"; } else { echo "false"; } ?>" onclick="sendResponseEvent(this,<?=$main_event->id?>,2);return false;"></button>
-                                            <button id="div_share_btn" class="ls_btn <?php if($main_event->userRelation->reshare)  { echo "share_btn_aktif"; } else { echo "share_btn"; } ?>" class_aktif="share_btn_aktif" class_pass="share_btn" pressed="<?php if($main_event->userRelation->reshare)  { echo "true"; } else { echo "false"; } ?>" onclick="reshareEvent(this,<?=$main_event->id?>);return false;"></button>
-                                            <button id="div_join_btn" class="ls_btn <?php if($main_event->userRelation->joinType==1)  { echo "join_btn_aktif"; } else { echo "join_btn"; } ?>" class_aktif="join_btn_aktif" class_pass="join_btn" pressed="<?php if($main_event->userRelation->joinType==1)  { echo "true"; } else { echo "false"; } ?>"  onclick="sendResponseEvent(this,<?=$main_event->id?>,1);return false;"></button>
+                                            <button id="div_like_btn" class="ls_btn <?php if ($main_event->userRelation->like) {
+                    echo "like_btn_aktif";
+                } else {
+                    echo "like_btn";
+                } ?>"  class_aktif="like_btn_aktif" class_pass="like_btn"      pressed="<?php if ($main_event->userRelation->like) {
+                    echo "true";
+                } else {
+                    echo "false";
+                } ?>"  onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
+                                            <button id="div_maybe_btn" class="ls_btn <?php if ($main_event->userRelation->joinType == 2) {
+                    echo "maybe_btn_aktif";
+                } else {
+                    echo "maybe_btn";
+                } ?>" class_aktif="maybe_btn_aktif" class_pass="maybe_btn" pressed="<?php if ($main_event->userRelation->joinType == 2) {
+                    echo "true";
+                } else {
+                    echo "false";
+                } ?>" onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;"></button>
+                                            <button id="div_share_btn" class="ls_btn <?php if ($main_event->userRelation->reshare) {
+                    echo "share_btn_aktif";
+                } else {
+                    echo "share_btn";
+                } ?>" class_aktif="share_btn_aktif" class_pass="share_btn" pressed="<?php if ($main_event->userRelation->reshare) {
+                    echo "true";
+                } else {
+                    echo "false";
+                } ?>" onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></button>
+                                            <button id="div_join_btn" class="ls_btn <?php if ($main_event->userRelation->joinType == 1) {
+                    echo "join_btn_aktif";
+                } else {
+                    echo "join_btn";
+                } ?>" class_aktif="join_btn_aktif" class_pass="join_btn" pressed="<?php if ($main_event->userRelation->joinType == 1) {
+                    echo "true";
+                } else {
+                    echo "false";
+                } ?>"  onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"></button>
                                         </div>
                                         <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $main_event->headerImage->url . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                              class="main_draggable"/>
                                     </div>
                                     <div class="m_e_metin">
                                         <div class="m_e_baslik">
-                                            <?= $main_event->title ?>
+                <?= $main_event->title ?>
                                         </div>
                                         <div class="m_e_com">
                                             <p>
-                                        <?php if(!empty($main_event->creatorId)){
-                                            $crt= UserUtils::getUserById($main_event->creatorId);
-                                            if(!empty($crt) && !empty($crt->id)){
-                                            ?>
-                                            <img src="<?=PAGE_GET_IMAGEURL.$crt->getUserPic()."&h=22&w=22"?>" width="22" height="22" align="absmiddle" />
-                                            <span> <?=$crt->getFullName()?></span>
-                                        <?php } } ?>
+                <?php
+                if (!empty($main_event->creatorId)) {
+                    $crt = UserUtils::getUserById($main_event->creatorId);
+                    if (!empty($crt) && !empty($crt->id)) {
+                        ?>
+                                                        <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
+                                                        <span> <?= $crt->getFullName() ?></span>
+                    <?php }
+                } ?>
                                             </p>
                                         </div>
                                         <div class="m_e_ackl">
-                                            <?= $main_event->description ?>
+                <?= $main_event->description ?>
                                         </div>
                                         <div class="m_e_drm">
                                             <ul>
@@ -857,20 +880,20 @@ if (empty($user)) {
                                 </div>
                                 <script>
                                     var tmpDataJSON='<?php
-                            $json_response = json_encode($main_event);
-                            echo $json_response;
-                            ?>';
+                $json_response = json_encode($main_event);
+                echo $json_response;
+                ?>';
                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                 </script>
                                 <!-- event box -->
-                                <?php
-                            }
-                        }
-                    }
-                }
-                ?>
+                <?php
+            }
+        }
+    }
+}
+?>
                 <!-- event boxes -->
             </div>
         </div>
@@ -894,5 +917,5 @@ if (empty($user)) {
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
     </body>
-    <?php include('layout/template_createevent.php'); ?>
+<?php include('layout/template_createevent.php'); ?>
 </html>

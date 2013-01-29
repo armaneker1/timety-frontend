@@ -12,6 +12,10 @@ $userId=null;
 if(isset($_GET["u"]))
     $userId=$_GET["u"];
 
+$followers=null;
+if(isset($_GET["followers"]))
+    $followers=$_GET["followers"];
+
 try {
 if(!empty($query) && !empty( $userId))
 	{
@@ -19,7 +23,7 @@ if(!empty($query) && !empty( $userId))
 		$array=array();
 		$result=array();
 		//methoddan interestleri getir
-		$array=SocialFriendUtil::getFriendList($userId, $query);
+		$array=SocialFriendUtil::getFriendList($userId, $query,$followers);
 		if(!empty($array) && sizeof($array)>0)
 		{
 			$val=new User();

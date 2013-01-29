@@ -30,7 +30,7 @@ try {
 			$array=InterestUtil::searchInterests($query);
 		} else
 		{
-			$array=getUserInterestJSON::searchInterestsByCategory($catId,$query);
+			$array=InterestUtil::searchInterestsByCategory($catId,$query);
 		}
 		//id nin basına isaret cak ; ile ayır
 		if(!empty($array) && sizeof($array)>0)
