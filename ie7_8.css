@@ -902,7 +902,7 @@ body {
 .follow_ekr {
     background-image: url(images/bg.png);
     background-repeat: repeat;
-    width: 353px;
+    width: 370px;
     border: 5px solid #FFF;
     position: relative;
     z-index: 600;
@@ -911,7 +911,7 @@ body {
     margin-left: auto;
     left: 0px;
     right: 0px;
-    top: 100px;
+    top: 50px;
     padding: 20px;
 }
 .back_btn{
@@ -1045,7 +1045,7 @@ body {
     background-color: #FFF;
     background-position: 98% -204px;
     background-repeat: no-repeat;
-    width: 275px;
+    width: 292px;
 }
 .invite_btn {
     border: 1px solid #c3c3c3;

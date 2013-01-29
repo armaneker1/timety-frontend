@@ -118,7 +118,7 @@ if (!isset($_SESSION['id'])) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php include('layout/layout_header.php'); ?>
-        
+
         <title>Timety Friend Suggest</title>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
         <script type="text/javascript">
@@ -141,25 +141,25 @@ if (!isset($_SESSION['id'])) {
             <div class="f_friend">
                 <p class="find_friends">Find Friends</p>
                 <?php
-$fb = false;
-$tw = false;
-$fq = false;
-$providers = $user->socialProviders;
-if (!empty($providers)) {
-    foreach ($user->socialProviders as $provider) {
-        if ($provider->oauth_provider == FACEBOOK_TEXT) {
-            $fb = true;
-        } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
-            $fq = true;
-        } else if ($provider->oauth_provider == TWITTER_TEXT) {
-            $tw = true;
-        }
-    }
-}
-?>
+                $fb = false;
+                $tw = false;
+                $fq = false;
+                $providers = $user->socialProviders;
+                if (!empty($providers)) {
+                    foreach ($user->socialProviders as $provider) {
+                        if ($provider->oauth_provider == FACEBOOK_TEXT) {
+                            $fb = true;
+                        } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
+                            $fq = true;
+                        } else if ($provider->oauth_provider == TWITTER_TEXT) {
+                            $tw = true;
+                        }
+                    }
+                }
+                ?>
 
                 <button type="button" name="" value=""
-        <?php if (!$fb) echo "onclick=\"$('#spinner').show();openPopup('fb');checkOpenPopup();\""; ?>
+                <?php if (!$fb) echo "onclick=\"$('#spinner').show();openPopup('fb');checkOpenPopup();\""; ?>
                         class="face<?php if ($fb) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
 
                 <button type="button" name="" value=""
@@ -181,32 +181,79 @@ if (!empty($providers)) {
                         <span class="bold">Loading...</span>
                 </div>
             </div>
-            <ul>
-                <?php
-                $follow = SocialFriendUtil::getUserFollowList($user->id);
-                if (!empty($friendList)) {
+
+            <?php
+            $follow = SocialFriendUtil::getUserFollowList($user->id);
+            if (!empty($friendList)) {
+                ?>
+                <p class="find_friends" style="font-size: 16px;">People you know</p>
+                <ul class="suggest_friend_ul">
+                    <?php
                     foreach ($friendList as $friend) {
                         ?>
                         <li><img src="<?php echo $friend->getUserPic(); ?>" width="30"
                                  height="30" border="0" align="absmiddle" class="follow_res" /><span
-                                 class="follow_ad"><?php $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
-                        if (strlen($texxt) > 30) {
-                            $texxt = substr($texxt, 0, 30);
-                        } echo $texxt; ?>
+                                 class="follow_ad"><?php
+                $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
+                if (strlen($texxt) > 30) {
+                    $texxt = substr($texxt, 0, 30);
+                } echo $texxt;
+                        ?>
                             </span> <?php if (strlen($key) <= 0) { ?>
                                 <button type="button" name="" value="" class="follow_btn"
                                         id="foll_<?php echo $friend->id; ?>"
                                         onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-        <?php } else { ?>
+                                    <?php } else { ?>
                                 <button type="button" name="" value="" class="followed_btn"
                                         id="foll_<?php echo $friend->id; ?>"
                                         onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-        <?php } ?>
+                                    <?php } ?>
                         </li>
-    <?php }
-}
-?>
-            </ul>
+                    <?php }
+                    ?>
+                </ul>
+                <?php
+            }
+            ?>
+
+
+            <?php
+            $popular = SocialFriendUtil::getPopularUserList($user->id, 4);
+            if (!empty($popular) && sizeof($popular) > 0) {
+                ?>
+                <p class="find_friends" style="font-size: 16px;">People you might want to know</p>
+                <ul class="suggest_friend_ul" style="height: 200px;">
+                    <?php
+                    foreach ($popular as $friend) {
+                        ?>
+                        <li><img src="<?php echo $friend->getUserPic(); ?>" width="30"
+                                 height="30" border="0" align="absmiddle" class="follow_res" /><span
+                                 class="follow_ad"><?php
+                $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
+                if (strlen($texxt) > 30) {
+                    $texxt = substr($texxt, 0, 30);
+                } echo $texxt;
+                        ?>
+                                <!-- BUnlar ztn takip edilmediginden-->
+                            </span> <?php if (true) { ?>
+                                <button type="button" name="" value="" class="follow_btn"
+                                        id="foll_<?php echo $friend->id; ?>"
+                                        onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
+                                    <?php } else { ?>
+                                <button type="button" name="" value="" class="followed_btn"
+                                        id="foll_<?php echo $friend->id; ?>"
+                                        onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
+                                    <?php } ?>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+                <?php
+            }
+            ?>
+
+            <p class="find_friends" style="font-size: 16px;">Invite People</p>
             <div class="invite">
                 <input name="te_invite_email" type="text" id="te_invite_email"
                        class="user_inpt invite_friends icon_bg" id="textfield4" value=""
