@@ -18,7 +18,7 @@ class Neo4jEventUtils {
         if (empty($root_events)) {
             $root_events = $client->makeNode();
             $root_events->setProperty(PROP_ROOT_ID, PROP_ROOT_EVENT)->save();
-            $client->getReferenceNode()->relateTo($root_events, PROP_ROOT_EVENT)->save();
+            $client->getReferenceNode()->relateTo($root_events, REL_EVENT_ROOT)->save();
             $rootIndex->add($root_events, PROP_ROOT_ID, PROP_ROOT_EVENT);
             $rootIndex->save();
         }
