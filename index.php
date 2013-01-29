@@ -7,14 +7,14 @@ require_once __DIR__ . '/utils/Functions.php';
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
 
-if (isset($_GET['finish'])) {
+if (isset($_GET['finish']) && isset($_SESSION['id'])) {
     $user = new User();
     $user = UserUtils::getUserById($_SESSION['id']);
     $user->status = 3;
     UserUtils::updateUser($user->id, $user);
 
     $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
-    $params=[['name',$user->firstName],['link',HOSTNAME . "?guid=" . $confirm],['email_address',$user->email]];
+    $params=array(array('name',$user->firstName),array('link',HOSTNAME . "?guid=" . $confirm),array('email_address',$user->email));
     MailUtil::sendSESMailFromFile("confirm_mail.html", $params, $user->email, "Please confirm your email");
     //$res = MailUtil::sendEmail("Dear " . $user->firstName . " " . $user->lastName . " click to confirm your account <a href='" . HOSTNAME . "?guid=" . $confirm . "'>here</a> ", "Timety Account Confirmation", '{"email": "' . $user->email . '",  "name": "' . $user->firstName . ' ' . $user->lastName . '"}');
     header('Location: ' . HOSTNAME);

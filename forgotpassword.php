@@ -44,8 +44,7 @@ if (array_key_exists("te_email", $_POST)) {
 			if(!empty($lss))
 			{
 				$lost=base64_encode($lss->id.";".$userId.";".$guid);
-                                
-                                $params=[['name',$user->firstName],['link',PAGE_NEW_PASSWORD . "?guid=" . $lost],['email_address',$user->email]];
+                                $params=array(array('name',$user->firstName),array('link',PAGE_NEW_PASSWORD . "?guid=" . $lost),array('email_address',$user->email));
                                 MailUtil::sendSESMailFromFile("reset_password.html", $params, $user->email, "Please confirm your email");
                                 
                                 
