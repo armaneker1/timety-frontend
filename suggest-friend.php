@@ -216,7 +216,6 @@ if (!isset($_SESSION['id'])) {
             }
             ?>
 
-
             <?php
             $popular = SocialFriendUtil::getPopularUserList($user->id, 4);
             if (!empty($popular) && sizeof($popular) > 0) {
@@ -228,22 +227,24 @@ if (!isset($_SESSION['id'])) {
                         ?>
                         <li><img src="<?php echo $friend->getUserPic(); ?>" width="30"
                                  height="30" border="0" align="absmiddle" class="follow_res" /><span
-                                 class="follow_ad"><?php
-                $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
-                if (strlen($texxt) > 30) {
-                    $texxt = substr($texxt, 0, 30);
-                } echo $texxt;
-                        ?>
+                                 class="follow_ad">
+                                     <?php
+                                     $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
+                                     if (strlen($texxt) > 30) {
+                                         $texxt = substr($texxt, 0, 30);
+                                     }
+                                     echo $texxt;
+                                     ?>
                                 <!-- BUnlar ztn takip edilmediginden-->
                             </span> <?php if (true) { ?>
                                 <button type="button" name="" value="" class="follow_btn"
                                         id="foll_<?php echo $friend->id; ?>"
                                         onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-                                    <?php } else { ?>
+        <?php } else { ?>
                                 <button type="button" name="" value="" class="followed_btn"
                                         id="foll_<?php echo $friend->id; ?>"
                                         onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-                                    <?php } ?>
+                        <?php } ?>
                         </li>
                         <?php
                     }
@@ -252,7 +253,6 @@ if (!isset($_SESSION['id'])) {
                 <?php
             }
             ?>
-
             <p class="find_friends" style="font-size: 16px;">Invite People</p>
             <div class="invite">
                 <input name="te_invite_email" type="text" id="te_invite_email"

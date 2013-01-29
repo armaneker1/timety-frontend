@@ -6,14 +6,14 @@ class SocialFriendUtil {
         $neo = new Neo4jFuctions();
         return $neo->getUserFollowList($userId);
     }
-    
-    public static function getPopularUserList($userId,$limit) {
-        return Neo4jUserUtil::getPopularUserList($userId,$limit);
+
+    public static function getPopularUserList($userId, $limit) {
+        return Neo4jUserUtil::getPopularUserList($userId, $limit);
     }
 
-    public static function getFriendList($userId, $query,$followers) {
+    public static function getFriendList($userId, $query, $followers) {
         $neo = new Neo4jFuctions();
-        return $neo->getFriendList($userId, $query,$followers);
+        return $neo->getFriendList($userId, $query, $followers);
     }
 
     public static function followUser($fromUserId, $toUserId) {
@@ -55,8 +55,8 @@ class SocialFriendUtil {
         }
         return $array;
     }
-    
-    public static function getUserSuggestListFromIds(array $friends) {
+
+    public static function getUserSuggestListFromIds(array $friends, $limit) {
         $array = array();
         $usr_ids = "";
         foreach ($friends as $friend) {
@@ -65,7 +65,15 @@ class SocialFriendUtil {
             }
             $usr_ids = $usr_ids . $friend;
         }
-        $SQL = "SELECT * from " . TBL_USERS . "  WHERE id IN  (" . $usr_ids . ")";
+        if (!empty($usr_ids)) {
+            $SQL = "SELECT * from " . TBL_USERS . "  WHERE id IN  (" . $usr_ids . ")";
+        } else {
+            if(empty($limit))
+            {
+                $limit=4;
+            }
+            $SQL = "SELECT * from " . TBL_USERS . "  LIMIT 0," . $limit;
+        }
         $query = mysql_query($SQL) or die(mysql_errno());
         $num = mysql_num_rows($query);
         if (!empty($query) && $num > 0) {

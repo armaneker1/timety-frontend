@@ -24,11 +24,10 @@ class Neo4jUserUtil {
         //echo $query;
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
-        
         foreach ($result as $row) {
             array_push($array, $row['user']->getProperty(PROP_USER_ID));
         }
-        return SocialFriendUtil::getUserSuggestListFromIds($array);
+        return SocialFriendUtil::getUserSuggestListFromIds($array,$limit);
         
     }
 
