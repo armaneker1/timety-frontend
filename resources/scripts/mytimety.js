@@ -40,6 +40,7 @@ function addToMyTimety(eventId,userId)
                         
                         var slides=jQuery("#slides_container");
                         var slideItems=slides.children();
+                        var inserted=false;
                         for(var i=0;i<slideItems.length;i++)
                         {
                             var time=jQuery(slideItems[i]).attr("time")+"";
@@ -47,8 +48,14 @@ function addToMyTimety(eventId,userId)
                             if(time>time2)
                             {
                                 divT.insertBefore(slideItems[i]);
+                                inserted=true;
                                 break;
                             }
+                        }
+                        if(!inserted)
+                        {
+                           slides.append(divT);
+                           inserted=true;
                         }
                         resizeSlide();
                     }
