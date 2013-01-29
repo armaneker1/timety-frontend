@@ -14,8 +14,11 @@ if (isset($_GET['finish'])) {
     UserUtils::updateUser($user->id, $user);
 
     $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
-    $res = MailUtil::sendEmail("Dear " . $user->firstName . " " . $user->lastName . " click to confirm your account <a href='" . HOSTNAME . "?guid=" . $confirm . "'>here</a> ", "Timety Account Confirmation", '{"email": "' . $user->email . '",  "name": "' . $user->firstName . ' ' . $user->lastName . '"}');
+    $params=[['name',$user->firstName],['link',HOSTNAME . "?guid=" . $confirm],['email_address',$user->email]];
+    MailUtil::sendSESMailFromFile("confirm_mail.html", $params, $user->email, "Please confirm your email");
+    //$res = MailUtil::sendEmail("Dear " . $user->firstName . " " . $user->lastName . " click to confirm your account <a href='" . HOSTNAME . "?guid=" . $confirm . "'>here</a> ", "Timety Account Confirmation", '{"email": "' . $user->email . '",  "name": "' . $user->firstName . ' ' . $user->lastName . '"}');
     header('Location: ' . HOSTNAME);
+    exit();
 }
 
 $confirm_msg = "";

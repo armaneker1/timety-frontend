@@ -44,8 +44,13 @@ if (array_key_exists("te_email", $_POST)) {
 			if(!empty($lss))
 			{
 				$lost=base64_encode($lss->id.";".$userId.";".$guid);
-				MailUtil::sendEmail("to reset your password please click <a href='".PAGE_NEW_PASSWORD."?guid=".$lost."'>here</a> ","Timety Password Reminder",
-						'{"email": "'.$user->email.'",  "name": "'.$user->firstName." ".$user->lastName.'"}');
+                                
+                                $params=[['name',$user->firstName],['link',PAGE_NEW_PASSWORD . "?guid=" . $lost],['email_address',$user->email]];
+                                MailUtil::sendSESMailFromFile("reset_password.html", $params, $user->email, "Please confirm your email");
+                                
+                                
+				//MailUtil::sendEmail("to reset your password please click <a href='".PAGE_NEW_PASSWORD."?guid=".$lost."'>here</a> ","Timety Password Reminder",
+                                //    		'{"email": "'.$user->email.'",  "name": "'.$user->firstName." ".$user->lastName.'"}');
 					
 				$m=new HtmlMessage();
 				$m->type="s";
