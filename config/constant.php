@@ -21,6 +21,7 @@ define('DATETIME_DB_FORMAT', 'Y-m-d H:i:s');
 define('DATETIME_DB_FORMAT2', 'Y-m-d H:i:s.u');
 define('TIME_FE_FORMAT', 'H:i');
 define('DATE_FE_FORMAT', 'd.m.Y H:i');
+define('DATE_FE_FORMAT_D', 'd.m.Y');
 define('DATE_FORMAT', 'Y-m-d');
 
 //SESSION constant

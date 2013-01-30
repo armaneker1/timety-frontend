@@ -130,7 +130,7 @@ class UtilFunctions {
         $datestr = str_replace("/", ".", $datestr);
         $result = $datestr;
         if (!empty($datestr) && strlen($datestr) < 11 && strlen($datestr) > 5) {
-            $datestr = date_parse_from_format(DATE_FE_FORMAT, $datestr);
+            $datestr = date_parse_from_format(DATE_FE_FORMAT_D, $datestr);
             if (checkdate($datestr['month'], $datestr['day'], $datestr['year'])) {
                 $result = $datestr['year'] . "-";
                 if (strlen($datestr['month']) == 1) {
