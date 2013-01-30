@@ -838,8 +838,10 @@ if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     echo "false";
                 } ?>"  onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"></button>
                                         </div>
-                                        <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $main_event->headerImage->url . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
-                                             class="main_draggable"/>
+                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;">
+                                            <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $main_event->headerImage->url . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                                 class="main_draggable" />
+                                        </div>
                                     </div>
                                     <div class="m_e_metin">
                                         <div class="m_e_baslik">

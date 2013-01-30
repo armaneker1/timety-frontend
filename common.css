@@ -299,3 +299,9 @@
 }
 
 /*  suggest friend */
+
+
+.main_draggable {
+	padding: 4px;
+        margin: -4px;
+}

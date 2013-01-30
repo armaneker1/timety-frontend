@@ -160,6 +160,7 @@ function wookmarkHTML(dataArray)
             //jQuery(imgDiv).attr('onclick','return openModalPanel('+data.id+');');
 
             //IMG tag
+            var imgDivEdge=jQuery('<div style="overflow: hidden;"></div>');
             var img = document.createElement('img');
             jQuery(img).attr('eventid',data.id);  
             jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
@@ -169,15 +170,18 @@ function wookmarkHTML(dataArray)
                 if(data.headerImage.width && data.headerImage.width!=0)
                 {
                     jQuery(img).attr('width',data.headerImage.width); 
+                    jQuery(imgDivEdge).css('width',data.headerImage.width+'px');
                     param=param+"&w="+data.headerImage.width;
                 }   
                 else
                 {
                     jQuery(img).attr('width',186);
                 } 
+                
                 if(data.headerImage.height && data.headerImage.height!=0)
                 {
                     jQuery(img).attr('height',data.headerImage.height);
+                    jQuery(imgDivEdge).css('height',data.headerImage.height+'px');
                     param=param+"&h="+data.headerImage.height;
                      
                 }
@@ -281,7 +285,8 @@ function wookmarkHTML(dataArray)
             
             //binding DIV with Image
             jQuery(imgDiv).attr('id','div_img_event_'+data.id);
-            jQuery(imgDiv).append(img);
+            jQuery(imgDivEdge).append(img);
+            jQuery(imgDiv).append(imgDivEdge);
             jQuery(result).append(imgDiv);
 
             //content DIV
