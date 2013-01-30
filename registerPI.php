@@ -155,7 +155,7 @@ if (!isset($_SESSION['id'])) {
                 $provider = new SocialProvider();
                 for ($i = 0; $i < sizeof($socialProviders); $i++) {
                     $provider = $socialProviders[$i];
-                    if ($provider->oauth_provider == 'facebook') {
+                    if ($provider->oauth_provider == FACEBOOK_TEXT) {
                         $facebook = new Facebook(array(
                                     'appId' => FB_APP_ID,
                                     'secret' => FB_APP_SECRET,
@@ -170,7 +170,7 @@ if (!isset($_SESSION['id'])) {
                         $birhtdate = "";
                         if (isset($fbUser['hometown']))
                             $hometown = $fbUser['hometown']['name'];
-                    } elseif ($provider->oauth_provider == 'twitter') {
+                    } elseif ($provider->oauth_provider == TWITTER_TEXT) {
                         $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);
                         $user_info = $twitteroauth->get('account/verify_credentials');
                         if (isset($user_info->error)) {
@@ -185,7 +185,7 @@ if (!isset($_SESSION['id'])) {
                             $hometown = $user_info->location;
                             $userProfilePic = $user_info->profile_image_url;
                         }
-                    } elseif ($provider->oauth_provider == 'foursquare') {
+                    } elseif ($provider->oauth_provider == FOURSQUARE_TEXT) {
                         $foursquare = new FoursquareAPI(FQ_CLIENT_ID, FQ_CLIENT_SECRET);
                         $foursquare->SetAccessToken($provider->oauth_token);
                         $res = $foursquare->GetPrivate("users/self");
@@ -198,6 +198,32 @@ if (!isset($_SESSION['id'])) {
                         $birhtdate = "";
                         $hometown = $user->homeCity;
                         $userProfilePic = $user->photo;
+                    } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
+                        $google = new Google_Client();
+                        $google->setApplicationName(GG_APP_NAME);
+                        $google->setClientId(GG_CLIENT_ID);
+                        $google->setClientSecret(GG_CLIENT_SECRET);
+                        $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
+                        $google->setDeveloperKey(GG_DEVELOPER_KEY);
+                        $plus = new Google_PlusService($google);
+                        $google->setAccessToken($provider->oauth_token);
+                        $me = $plus->people->get('me');
+                        if (!empty($me)) {
+                            if (!empty($me['name'])) {
+                                if (!empty($me['name']['givenName'])) {
+                                    $name = $me['name']['givenName'];
+                                }
+                                if (!empty($me['name']['familyName'])) {
+                                    $lastname = $me['name']['familyName'];
+                                }
+                            }
+                            $email = "";
+                            $birhtdate = "";
+                            $hometown = "";
+                            if (!empty($me['image']) && sizeof($me['image']) > 0) {
+                                $userProfilePic = $me['image']['url'];
+                            }
+                        }
                     }
                 }
             } else {
@@ -513,12 +539,12 @@ if (empty($birhtdate)) {
                                 {  
                                 } 
                                 validateInput(jQuery("#te_hometown"),true,true,3)
-                        });
+                            });
                         });
                     </script>
-                    
-                    
-                    
+
+
+
 
                     <?php if ($visible) { ?>
                         <input 

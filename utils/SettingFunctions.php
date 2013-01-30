@@ -32,6 +32,12 @@ define("SETTINGS_ADMIN_USER_PASS", "http.admin.user.pass");
 
 define("SETTINGS_GOOGLE_MAPS_API_KEY", "google.maps.api.key");
 
+define("SETTINGS_GG_APP_NAME", "google_app_name");
+define("SETTINGS_GG_APP_CLIENT_ID", "google_app_client_id");
+define("SETTINGS_GG_APP_CLIENT_SECRET", "google_app_client_secret");
+define("SETTINGS_GG_APP_DEVELOPER_KEY", "google_app_developer_key");
+define("SETTINGS_GG_APP_SCOPE", "google_app_scope");
+
 class SettingsUtil {
 
     public static function getSetting($param = null) {

@@ -16,6 +16,8 @@ if (array_key_exists("login", $_GET)) {
         header("Location: " . PAGE_FB_LOGIN);
     } else if ($oauth_provider == FOURSQUARE_TEXT) {
         header("Location: " . PAGE_FQ_LOGIN);
+    }else if ($oauth_provider == GOOGLE_PLUS_TEXT) {
+        header("Location: " . PAGE_FQ_LOGIN);
     }
 }
 $uname = null;

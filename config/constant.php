@@ -46,6 +46,7 @@ define('PAGE_GET_IMAGEURL_SUBFOLDER','timety/');
 define('PAGE_FB_LOGIN', HOSTNAME.'login-facebook.php');
 define('PAGE_FQ_LOGIN', HOSTNAME.'login-foursquare.php');
 define('PAGE_TW_LOGIN', HOSTNAME.'login-twitter.php');
+define('PAGE_GG_LOGIN', HOSTNAME.'login-google.php');
 
 
 define('PAGE_AJAX_FOLDER',HOSTNAME.'ajax/');
