@@ -16,7 +16,7 @@ if (array_key_exists("login", $_GET)) {
     } else if ($oauth_provider == FOURSQUARE_TEXT) {
         header("Location: " . PAGE_FQ_LOGIN);
     }else if ($oauth_provider == GOOGLE_PLUS_TEXT) {
-        header("Location: " . PAGE_FQ_LOGIN);
+        header("Location: " . PAGE_GG_LOGIN);
     }
 }
 
@@ -213,12 +213,12 @@ $upass = null;
             <div class="create_acco_ust">Create Account</div>
             <div class="create_acco_alt">
                 <div class="account_sol">
-                    <a href="?login&oauth_provider=foursquare"><img
+                    <a href="?login&oauth_provider=<?=GOOGLE_PLUS_TEXT?>"><img
                             src="<?= HOSTNAME ?>images/google.png" width="251" height="42" border="0"
                             class="user_account" /> </a> <a
-                        href="?login&oauth_provider=facebook"><img src="<?= HOSTNAME ?>images/face.png"
+                        href="?login&oauth_provider=<?=FACEBOOK_TEXT?>"><img src="<?= HOSTNAME ?>images/face.png"
                                                                width="251" height="42" border="0" class="user_account" /> </a> <a
-                        href="?login&oauth_provider=twitter"><img src="<?= HOSTNAME ?>images/twitter.png"
+                        href="?login&oauth_provider=<?=TWITTER_TEXT?>"><img src="<?= HOSTNAME ?>images/twitter.png"
                                                               width="251" height="42" border="0" class="user_account" /> </a>
                 </div>
                 <div class="account_sag">
