@@ -104,8 +104,12 @@ function wookmarkFiller(options,clear,loader)
                 var IDs = [];
                 jQuery.each(jQuery('.m_e_img'),function(i,e){
                     try{
-                        var t = jQuery(e).attr('onclick').split('(')[1].split(')')[0];
-                        IDs.push(t);
+                        var img=jQuery(e).find("img");
+                        if(img)
+                        {
+                            var t = jQuery(img).attr('eventid');
+                            if(t) IDs.push(t);
+                        }
                     }catch(e){
                         console.log(e);
                     }
@@ -314,7 +318,7 @@ function wookmarkHTML(dataArray)
                     var url=data.userPicture;
                     if(url==null || url=="" )
                     {
-                       url=TIMETY_HOSTNAME+"images/anonymous.jpg"; 
+                        url=TIMETY_HOSTNAME+"images/anonymous.jpg"; 
                     }
                     if(url.indexOf("http")!=0)
                     {
