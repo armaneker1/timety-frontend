@@ -54,7 +54,6 @@ class Neo4jUserSettingsUtil {
             $timetyCategoryIndex = new Index($client, Index::TypeNode, IND_TIMETY_CATEGORY);
             $user = $userIndex->findOne(PROP_USER_ID, $userId);
             $cat = $timetyCategoryIndex->findOne(PROP_TIMETY_CAT_ID, $categoryId);
-
             if (!empty($user) && !empty($cat)) {
                 $cat_tmp = Neo4jUserSettingsUtil::getUserSubscribeCategory($userId, $categoryId);
                 if (empty($cat_tmp) || empty($cat_tmp->id)) {
