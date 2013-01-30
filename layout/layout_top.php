@@ -32,7 +32,7 @@ if (isset($_SESSION['id'])) {
 
 <div id="top_blm">
     <div id="top_blm_sol">
-        <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timete.png" width="82" height="36" border="0" /></a></div>
+        <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="82" height="36" border="0" /></a></div>
         <div class="t_bs">
             <input type="button" name="" value="" id="add_event_button" class="add_event_btn" id="main_dropable" onclick="return false;"/>
             <input type="button" name="" value="" id="search_event_button" class="search_btn" onclick="return false;"/>
@@ -93,7 +93,7 @@ if (isset($_SESSION['id'])) {
                 <div class="top_menu">
                     <ul>
                         <li class="t_m_line">
-                            <a href="#" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timete</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
+                            <a href="#" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timety</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
                         </li>
                         <li id="top_menu_following" class="t_m_line">
                             <a id="following_top_menu_a" href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a>

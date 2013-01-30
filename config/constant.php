@@ -26,6 +26,7 @@ define('DATE_FORMAT', 'Y-m-d');
 
 //SESSION constant
 define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
+define('INDEX_POST_SESSION_KEY', 'index_post_session');
 
 
 
