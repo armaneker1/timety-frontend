@@ -12,6 +12,9 @@ function openPopup(type) {
     } else if (type == 'fq') {
         socialWindow=window.open(TIMETY_PAGE_SOCIAL_FQ_LOGIN+'?type=1', 'fq_sign',
             'status=1,toolbar=0,location=0,menubar=0,height=460,width=420');
+    } else if (type == 'gg') {
+        socialWindow=window.open(TIMETY_PAGE_SOCIAL_GG_LOGIN+'?type=1', 'gq_sign',
+            'status=1,toolbar=0,location=0,menubar=0,height=460,width=420');
     }
     socialWindowOpen=true;
 }

@@ -37,7 +37,7 @@ if (isset($_GET['error'])) {
                 $userName = $me['displayName'];
                 $userName = strtolower($userName);
                 $userName = str_replace(" ", "", $userName);
-                if (isset($_GET['add'])) {
+                if (isset($_SESSION["gg_type_social"]) && $_SESSION["gg_type_social"]=="add") {
                     if (isset($_SESSION['id'])) {
                         $l_user = UserUtils::getUserById($_SESSION['id']);
                         try {
@@ -52,7 +52,7 @@ if (isset($_GET['error'])) {
                                 UserUtils::updateSocialProvider($provider);
                             } else {
                                 $success = FALSE;
-                                $errortext = "Foursquare account exists!";
+                                $errortext = "Google account exists!";
                             }
                         } catch (Exception $e) {
                             $errortext = 'Error -> ' . $e->getMessage();

@@ -86,31 +86,31 @@ if (!isset($_SESSION['id'])) {
                         array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
                     }
                 } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
-                   /* $google = new Google_Client();
-                    $google->setApplicationName(GG_APP_NAME);
-                    $google->setClientId(GG_CLIENT_ID);
-                    $google->setClientSecret(GG_CLIENT_SECRET);
-                    $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
-                    $google->setDeveloperKey(GG_DEVELOPER_KEY);
-                    $plus = new Google_PlusService($google);
-                    $google->setAccessToken($provider->oauth_token);
-                    $me = $plus->people->get('me');
-                    var_dump($me);
-                    foreach ($friends_fq as $friend) {
-                        $id = "";
-                        $name = "";
-                        $l_name = "";
-                        if (property_exists($friend, 'id')) {
-                            $id = $friend->id;
-                        }
-                        if (property_exists($friend, 'firstName')) {
-                            $name = $friend->firstName;
-                        }
-                        if (property_exists($friend, 'lastName')) {
-                            $l_name = $friend->lastName;
-                        }
-                        array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
-                    }*/
+                    /* $google = new Google_Client();
+                      $google->setApplicationName(GG_APP_NAME);
+                      $google->setClientId(GG_CLIENT_ID);
+                      $google->setClientSecret(GG_CLIENT_SECRET);
+                      $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
+                      $google->setDeveloperKey(GG_DEVELOPER_KEY);
+                      $plus = new Google_PlusService($google);
+                      $google->setAccessToken($provider->oauth_token);
+                      $me = $plus->people->get('me');
+                      var_dump($me);
+                      foreach ($friends_fq as $friend) {
+                      $id = "";
+                      $name = "";
+                      $l_name = "";
+                      if (property_exists($friend, 'id')) {
+                      $id = $friend->id;
+                      }
+                      if (property_exists($friend, 'firstName')) {
+                      $name = $friend->firstName;
+                      }
+                      if (property_exists($friend, 'lastName')) {
+                      $l_name = $friend->lastName;
+                      }
+                      array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
+                      } */
                 }
                 $friendsId = array();
                 if (!empty($friends)) {
@@ -170,6 +170,7 @@ if (!isset($_SESSION['id'])) {
                 $fb = false;
                 $tw = false;
                 $fq = false;
+                $gg = false;
                 $providers = $user->socialProviders;
                 if (!empty($providers)) {
                     foreach ($user->socialProviders as $provider) {
@@ -179,6 +180,8 @@ if (!isset($_SESSION['id'])) {
                             $fq = true;
                         } else if ($provider->oauth_provider == TWITTER_TEXT) {
                             $tw = true;
+                        } else if ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
+                            $gg = true;
                         }
                     }
                 }
@@ -192,6 +195,10 @@ if (!isset($_SESSION['id'])) {
                 <?php if (!$tw) echo "onclick=\"$('#spinner').show();openPopup('tw');checkOpenPopup();\""; ?>
                         class="tweet<?php if ($tw) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
 
+                <button type="button" name="" value=""
+                <?php if (!$gg) echo "onclick=\"$('#spinner').show();openPopup('gg');checkOpenPopup();\""; ?>
+                        class="googl_plus<?php if ($gg) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
+                        
                 <button type="button" name="" value=""
                 <?php if (!$fq) echo "onclick=\"$('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
                         class="googl_plus<?php if ($fq) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
@@ -247,7 +254,7 @@ if (!isset($_SESSION['id'])) {
             if (!empty($popular) && sizeof($popular) > 0) {
                 ?>
                 <p class="find_friends" style="font-size: 16px;">People you might want to know</p>
-                <ul class="suggest_friend_ul" style="height: 200px;">
+                <ul class="suggest_friend_ul" style="max-height: 200px !important;">
                     <?php
                     foreach ($popular as $friend) {
                         ?>
