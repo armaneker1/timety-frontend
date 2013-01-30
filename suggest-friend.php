@@ -28,7 +28,7 @@ if (!isset($_SESSION['id'])) {
             $friendList = array();
             foreach ($socialProviders as $provider) {
                 $friends = array();
-                if ($provider->oauth_provider == 'facebook') {
+                if ($provider->oauth_provider == FACEBOOK_TEXT) {
                     $facebook = new Facebook(array(
                                 'appId' => FB_APP_ID,
                                 'secret' => FB_APP_SECRET,
@@ -47,7 +47,7 @@ if (!isset($_SESSION['id'])) {
                         $name = $friend['name'];
                         array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
                     }
-                } elseif ($provider->oauth_provider == 'twitter') {
+                } elseif ($provider->oauth_provider == TWITTER_TEXT) {
                     $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);
                     $friends_tw = $twitteroauth->get('statuses/followers');
                     if (isset($friends_tw->error)) {
@@ -63,7 +63,7 @@ if (!isset($_SESSION['id'])) {
                             array_push($friends, array('id' => $id, 'name' => '', 'lastName' => ''));
                         }
                     }
-                } elseif ($provider->oauth_provider == 'foursquare') {
+                } elseif ($provider->oauth_provider == FOURSQUARE_TEXT) {
                     $foursquare = new FoursquareAPI(FQ_CLIENT_ID, FQ_CLIENT_SECRET);
                     $foursquare->SetAccessToken($provider->oauth_token);
                     $res = $foursquare->GetPrivate("users/self/friends");
@@ -85,6 +85,32 @@ if (!isset($_SESSION['id'])) {
                         }
                         array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
                     }
+                } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
+                   /* $google = new Google_Client();
+                    $google->setApplicationName(GG_APP_NAME);
+                    $google->setClientId(GG_CLIENT_ID);
+                    $google->setClientSecret(GG_CLIENT_SECRET);
+                    $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
+                    $google->setDeveloperKey(GG_DEVELOPER_KEY);
+                    $plus = new Google_PlusService($google);
+                    $google->setAccessToken($provider->oauth_token);
+                    $me = $plus->people->get('me');
+                    var_dump($me);
+                    foreach ($friends_fq as $friend) {
+                        $id = "";
+                        $name = "";
+                        $l_name = "";
+                        if (property_exists($friend, 'id')) {
+                            $id = $friend->id;
+                        }
+                        if (property_exists($friend, 'firstName')) {
+                            $name = $friend->firstName;
+                        }
+                        if (property_exists($friend, 'lastName')) {
+                            $l_name = $friend->lastName;
+                        }
+                        array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
+                    }*/
                 }
                 $friendsId = array();
                 if (!empty($friends)) {
@@ -240,11 +266,11 @@ if (!isset($_SESSION['id'])) {
                                 <button type="button" name="" value="" class="follow_btn"
                                         id="foll_<?php echo $friend->id; ?>"
                                         onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-        <?php } else { ?>
+                                    <?php } else { ?>
                                 <button type="button" name="" value="" class="followed_btn"
                                         id="foll_<?php echo $friend->id; ?>"
                                         onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-                        <?php } ?>
+                                    <?php } ?>
                         </li>
                         <?php
                     }
