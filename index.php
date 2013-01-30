@@ -882,13 +882,10 @@ if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                                     </div>
                                 </div>
                                 <script>
-                                    var tmpDataJSON='<?php
-                $json_response = json_encode($main_event);
-                echo $json_response;
-                ?>';
-                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                    var tmpDataJSON='<?php $json_response = json_encode($main_event);  echo str_replace('"','\\"',$json_response); ?>';
+                                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                 </script>
                                 <!-- event box -->
                 <?php
