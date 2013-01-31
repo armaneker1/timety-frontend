@@ -15,7 +15,7 @@ require_once __DIR__ . '/../utils/Functions.php';
 
 
 
-SocialUtil::calcEventCounter(20, 1000068, PROP_INTEREST_RESHARE_COUNT, 1);
+var_dump(SocialUtil::getUserFriendRecommendation(6618333));
 
 
 

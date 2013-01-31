@@ -298,6 +298,97 @@ class SocialUtil {
         return $result;
     }
 
+    public static function getUserFriendRecommendation($userId) {
+        $user = UserUtils::getUserById($_SESSION['id']);
+        $friendList=array();
+        $friendIdList=array();
+        if (!empty($user)) {
+            $socialProviders = $user->socialProviders;
+            if (!empty($socialProviders)) {
+                $provider = new SocialProvider();
+                $friendList = array();
+                foreach ($socialProviders as $provider) {
+                    $friends = array();
+                    if ($provider->oauth_provider == FACEBOOK_TEXT) {
+                        $facebook = new Facebook(array(
+                                    'appId' => FB_APP_ID,
+                                    'secret' => FB_APP_SECRET,
+                                    'cookie' => true
+                                ));
+
+                        $facebook->setAccessToken($provider->oauth_token);
+                        $friends_fb = array();
+                        $friends_fb = $facebook->api('/me/friends');
+                        $friends_fb = $friends_fb['data'];
+                        foreach ($friends_fb as $friend) {
+                            $id = "";
+                            $id = $friend['id'];
+                            array_push($friends, $id);
+                        }
+                    } elseif ($provider->oauth_provider == TWITTER_TEXT) {
+                        $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);
+                        $friends_tw = $twitteroauth->get('statuses/followers');
+                        if (isset($friends_tw->error)) {
+                            $friends_tw = null;
+                        } else {
+                            foreach ($friends_tw as $friend) {
+                                $id = "";
+                                if (property_exists($friend, 'id')) {
+                                    $id = $friend->id;
+                                }
+                                array_push($friends, $id);
+                            }
+                        }
+                    } elseif ($provider->oauth_provider == FOURSQUARE_TEXT) {
+                        $foursquare = new FoursquareAPI(FQ_CLIENT_ID, FQ_CLIENT_SECRET);
+                        $foursquare->SetAccessToken($provider->oauth_token);
+                        $res = $foursquare->GetPrivate("users/self/friends");
+                        $details = json_decode($res);
+                        $res = $details->response;
+                        $friends_fq = $res->friends->items;
+                        foreach ($friends_fq as $friend) {
+                            $id = "";
+                            if (property_exists($friend, 'id')) {
+                                $id = $friend->id;
+                            }
+                            array_push($friends, $id);
+                        }
+                    } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
+                        /* $google = new Google_Client();
+                          $google->setApplicationName(GG_APP_NAME);
+                          $google->setClientId(GG_CLIENT_ID);
+                          $google->setClientSecret(GG_CLIENT_SECRET);
+                          $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
+                          $google->setDeveloperKey(GG_DEVELOPER_KEY);
+                          $plus = new Google_PlusService($google);
+                          $google->setAccessToken($provider->oauth_token);
+                          $me = $plus->people->get('me');
+                          var_dump($me);
+                          foreach ($friends_fq as $friend) {
+                          $id = "";
+                          if (property_exists($friend, 'id')) {
+                          $id = $friend->id;
+                          }
+                          array_push($friends, $id);
+                          } */
+                    }
+                    if (!empty($friends)) {
+                        $friends = SocialFriendUtil::getUserSuggestList($user->id, $friends, $provider->oauth_provider);
+                        foreach ($friends as $fr)
+                        {
+                            $key = array_search($fr->id, $friendIdList);
+                            if (strlen($key) <= 0) {
+                                array_push($friendList, $fr);
+                                array_push($friendIdList, $fr->id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $friendList;
+    }
+
 }
 
 ?>
