@@ -1,4 +1,4 @@
-<div class="genel_detay_yeni" id="genel_detay_yeni" style="display: none;padding-bottom: 45px;">
+<div class="genel_detay_yeni" id="genel_detay_yeni" style="position: fixed; display: none;padding-bottom: 45px;">
     <div class="gdy_sol">
         <h1 class="gdy_baslik" id="gdy_event_title">Event Title</h1>
         <h2 class="gdy_zaman"  id="gdy_event_date">Event Date</h2>

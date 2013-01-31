@@ -21,16 +21,8 @@ $res->success = false;
 try {
     $array = array();
     $result = array();
-    if (!empty($userId) && $query == "?-1") {
-        $array = UserSettingsUtil::getUserSubscribeFriends($userId);
-    } elseif (!empty($userId) && $query == "?-2") {
-        $array = Neo4jUserUtil::getUserFollowList($userId);
-    } elseif (!empty($userId)) {
-        if ($query == "*") {
-            $query = "";
-        }
-        $array = SocialFriendUtil::getFriendList($userId, $query);
-    }
+
+    $array = Neo4jUserUtil::getUserFollowerList($userId);
 
     if (!empty($array) && sizeof($array) > 0) {
         $val = new User();
@@ -42,6 +34,7 @@ try {
                 $obj->fullName = $val->firstName . " " . $val->lastName;
                 $obj->username = $val->userName;
                 $obj->userPicture = $val->getUserPic();
+                $obj->followed = SocialUtil::checkFollowStatus($userId, $val->id);
                 array_push($result, $obj);
             }
         }

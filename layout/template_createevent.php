@@ -90,8 +90,14 @@ if ($showPopup) {
 }
 ?>;">
      <?php include('layout/template_eventdetail.php'); ?>
+     <?php if(!empty($user)) { 
+                include('layout/template_following.php');  ?>
+        
+        <script language="javascript" src="<?=HOSTNAME?>resources/scripts/profile_friends.js"></script>   
+              
+     <?php  }?>
 
-    <div class="event_add_ekr" id="div_event_add_ekr" style="display: <?php
+    <div class="event_add_ekr" id="div_event_add_ekr" style="position: fixed;display: <?php
      if ($showPopup) {
          echo "block";
      } else {

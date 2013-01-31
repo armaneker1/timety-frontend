@@ -16,7 +16,7 @@ $result=new Result();
 try {
 	if(!empty( $fromUserId) && !empty( $toUserId))
 	{
-		$result=SocialFriendUtil::followUser($fromUserId, $toUserId);
+		$result=  SocialUtil::followUser($fromUserId, $toUserId);
 	}
 } catch (Exception $e) {
 	$result->error=$e->getMessage();

@@ -85,6 +85,7 @@ define('PAGE_AJAX_REMOVE_TEMPFILE',PAGE_AJAX_FOLDER.'removeTempFile.php');
 define('PAGE_AJAX_GET_USER_INFO',PAGE_AJAX_FOLDER.'getUserInfo.php');
 define('PAGE_AJAX_RESHARE_EVENT',PAGE_AJAX_FOLDER.'reshareEvent.php');
 define('PAGE_AJAX_LIKE_EVENT',PAGE_AJAX_FOLDER.'likeEvent.php');
+define('PAGE_AJAX_GET_FOLLOWERS',PAGE_AJAX_FOLDER.'getFollowers.php');
 
 define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));
 

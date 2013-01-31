@@ -239,7 +239,7 @@ if (!isset($_SESSION['id'])) {
                                     <?php } else { ?>
                                 <button type="button" name="" value="" class="followed_btn"
                                         id="foll_<?php echo $friend->id; ?>"
-                                        onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
+                                        onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">unfollow</button>
                                     <?php } ?>
                         </li>
                     <?php }

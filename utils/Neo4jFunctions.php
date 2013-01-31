@@ -692,6 +692,7 @@ class Neo4jFuctions {
         return $array;
     }
 
+    // deprecated
     function getUserFollowList($userId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 

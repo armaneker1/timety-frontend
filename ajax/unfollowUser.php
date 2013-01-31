@@ -16,7 +16,7 @@ $result=new Result();
 try {
 	if(!empty( $fromUserId) && !empty( $toUserId))
 	{
-		$result=SocialFriendUtil::unfollowUser($fromUserId, $toUserId);
+		$result=SocialUtil::unfollowUser($fromUserId, $toUserId);
 	}else 
 	{
 		$result->error="User not exists";

@@ -89,7 +89,7 @@ function seacrhFriend(val)
                                     buttonItem.data("userId", userId);
                                     buttonItem.data("item", item);
                                     buttonItem.click(function(){
-                                        followUser(this);
+                                        followSubUser(this);
                                     });
 
                                     var spanItem=jQuery("<span>");
@@ -185,7 +185,7 @@ function openMyFollowing()
                                 buttonItem.data("item", item);
                                 
                                 buttonItem.click(function(){
-                                    unfollowUser(this);
+                                    unfollowSubUser(this);
                                 });
                                  
                                 var spanItem=jQuery("<span>");
@@ -224,7 +224,7 @@ function openMyFollowing()
 }
 
 
-function unfollowUser(button)
+function unfollowSubUser(button)
 {
     button=jQuery(button);
     button.attr("disabled","disabled");
@@ -258,7 +258,7 @@ function unfollowUser(button)
                 buttonItem.data("item", item);
 
                 buttonItem.click(function(){
-                    followUser(this);
+                    followSubUser(this);
                 });
                 var spanItem=jQuery("<span>");
                 var text=item.username;
@@ -313,7 +313,7 @@ function unfollowUser(button)
     },"json");
 }
 
-function followUser(button)
+function followSubUser(button)
 {
     var ul=jQuery('#following_top_menu_search_ul');
     button=jQuery(button);
@@ -348,7 +348,7 @@ function followUser(button)
                 buttonItem.data("item", item);
 
                 buttonItem.click(function(){
-                    unfollowUser(this);
+                    unfollowSubUser(this);
                 });
                 var spanItem=jQuery("<span>");
                 var text=item.username;

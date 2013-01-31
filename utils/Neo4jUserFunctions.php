@@ -7,28 +7,64 @@ use Everyman\Neo4j\Transport,
     Everyman\Neo4j\Node,
     Everyman\Neo4j\Cypher;
 
-
 class Neo4jUserUtil {
 
-    public static function getPopularUserList($userId,$limit) {
+    public static function getUserFollowList($userId) {
+        $array = array();
+        if (!empty($userId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+
+            $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
+                    "MATCH (user) -[:" . REL_FOLLOWS . "]-> (follow) " .
+                    "RETURN follow, count(*)";
+            $query = new Cypher\Query($client, $query, null);
+            $result = $query->getResultSet();
+            foreach ($result as $row) {
+                $usr = new User();
+                $usr->createFromNeo4j($row['follow']);
+                array_push($array, $usr);
+            }
+        }
+        return $array;
+    }
+
+    public static function getUserFollowerList($userId) {
+        $array = array();
+        if (!empty($userId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+
+            $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
+                    "MATCH (user) <-[:" . REL_FOLLOWS . "]- (follow) " .
+                    "RETURN follow, count(*)";
+            $query = new Cypher\Query($client, $query, null);
+            $result = $query->getResultSet();
+            foreach ($result as $row) {
+                $usr = new User();
+                $usr->createFromNeo4j($row['follow']);
+                array_push($array, $usr);
+            }
+        }
+        return $array;
+    }
+
+    public static function getPopularUserList($userId, $limit) {
         if (empty($limit)) {
             $limit = 5;
         }
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*') " .
-                " MATCH (user) <-[:" . REL_FOLLOWS. "]- (followers) " .
-                " WITH user,count(followers) as numFollowers ".
+                " MATCH (user) <-[:" . REL_FOLLOWS . "]- (followers) " .
+                " WITH user,count(followers) as numFollowers " .
                 " RETURN  user, numFollowers" .
-                " ORDER BY numFollowers DESC LIMIT ".$limit;
+                " ORDER BY numFollowers DESC LIMIT " . $limit;
         //echo $query;
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         foreach ($result as $row) {
             array_push($array, $row['user']->getProperty(PROP_USER_ID));
         }
-        return SocialFriendUtil::getUserSuggestListFromIds($array,$limit);
-        
+        return SocialFriendUtil::getUserSuggestListFromIds($array, $limit);
     }
 
     public static function getUserFollowingCount($userId) {
