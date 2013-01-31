@@ -206,6 +206,7 @@ function openModalPanel(event_id,custom) {
     if(detailModalPanel)
     {
         //stop click background when click this div
+        jQuery(detailModalPanel).unbind('click');
         jQuery(detailModalPanel).on('click',function(e){
             e.stopPropagation();
             e.preventDefault();
