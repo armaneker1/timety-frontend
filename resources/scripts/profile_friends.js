@@ -1,3 +1,13 @@
+function addSocialReturnButton()
+{
+    jQuery('#spinner').show();
+    setTimeout(function() { 
+        //restart but add param to open same screen
+        window.location=TIMETY_HOSTNAME+"?findfriends=1";
+        jQuery('#spinner').hide();
+    },1000);
+}
+
 function openFollowing(userId,type)
 {
     if(userId!=null && userId>0)
@@ -8,8 +18,13 @@ function openFollowing(userId,type)
         jQuery("#profile_friends_fb_button").hide();
         jQuery("#profile_friends_tw_button").hide();
         jQuery("#profile_friends_gg_button").hide();
-        jQuery("#profile_friends_fq_button").hide();
+        //jQuery("#profile_friends_fq_button").hide();
         jQuery("#profile_friends_ul_list").hide();
+        jQuery("#profile_friends_find").show();
+        jQuery("#profile_friends_find").unbind("click");
+        jQuery("#profile_friends_find").bind("click",function(){
+            openFollowing(userId,3);
+        });
     
         /*
          * clear screen
@@ -69,10 +84,91 @@ function openFollowing(userId,type)
             /*
              * social buttons
              */
+            jQuery("#profile_friends_fb_button").removeClass("face_aktiv");
+            jQuery("#profile_friends_fb_button").addClass("face");
             jQuery("#profile_friends_fb_button").show();
+            jQuery("#profile_friends_fb_button").bind("click",function(){
+                jQuery('#spinner').show();
+                openPopup('fb');
+                checkOpenPopup();
+            });
+            jQuery("#profile_friends_tw_button").removeClass("tweet_aktiv");
+            jQuery("#profile_friends_tw_button").addClass("tweet");
             jQuery("#profile_friends_tw_button").show();
+            jQuery("#profile_friends_tw_button").bind("click",function(){
+                jQuery('#spinner').show();
+                openPopup('tw');
+                checkOpenPopup();
+            });
+            jQuery("#profile_friends_gg_button").removeClass("googl_plus_aktiv");
+            jQuery("#profile_friends_gg_button").addClass("googl_plus");
             jQuery("#profile_friends_gg_button").show();
-            jQuery("#profile_friends_fq_button").show();
+            jQuery("#profile_friends_gg_button").bind("click",function(){
+                jQuery('#spinner').show();
+                openPopup('gg');
+                checkOpenPopup();
+            });
+            //jQuery("#profile_friends_fq_button").removeClass("googl_plus_aktiv");
+            //jQuery("#profile_friends_fq_button").addClass("googl_plus");
+            //jQuery("#profile_friends_fq_button").show();
+            //jQuery("#profile_friends_fq_button").bind("click",function(){
+            // jQuery('#spinner').show();openPopup('fq');checkOpenPopup();
+            //});
+            jQuery("#profile_friends_find").hide();
+            /*
+             * get user social providers
+             */
+            jQuery.ajax({
+                type: 'POST',
+                url: TIMETY_PAGE_AJAX_GET_USER_SOCAIL_PROVIDERS,
+                data: {
+                    'userId':userId
+                },
+                success: function(data){
+                    try{
+                        if(typeof data == "string"){
+                            data= jQuery.parseJSON(data);
+                        }
+                    }catch(e) {
+                        console.log(e);
+                        console.log(data);
+                    }
+                        
+                    if(!data.error) {   
+                        for(var i=0;i<data.length;i++) {
+                            if(data[i].oauth_provider==FACEBOOK_TEXT){
+                                jQuery("#profile_friends_fb_button").removeClass("face");
+                                jQuery("#profile_friends_fb_button").addClass("face_aktiv");
+                                jQuery("#profile_friends_fb_button").unbind("click");
+                                jQuery("#profile_friends_fb_button").bind("click",function(){
+                                    return false;
+                                });
+                            }else  if(data[i].oauth_provider==TWITTER_TEXT){
+                                jQuery("#profile_friends_tw_button").removeClass("tweet");
+                                jQuery("#profile_friends_tw_button").addClass("tweet_aktiv");
+                                jQuery("#profile_friends_tw_button").unbind("click");
+                                jQuery("#profile_friends_tw_button").bind("click",function(){
+                                    return false;
+                                });
+                            }else  if(data[i].oauth_provider==GOOGLE_PLUS_TEXT){
+                                jQuery("#profile_friends_gg_button").removeClass("googl_plus");
+                                jQuery("#profile_friends_gg_button").addClass("googl_plus_aktiv");
+                                jQuery("#profile_friends_gg_button").unbind("click");
+                                jQuery("#profile_friends_gg_button").bind("click",function(){
+                                    return false;
+                                });
+                            }else  if(data[i].oauth_provider==FOURSQUARE_TEXT){
+                            //jQuery("#profile_friends_fq_button").removeClass("googl_plus");
+                            //jQuery("#profile_friends_fq_button").addClass("googl_plus_aktiv");
+                            //jQuery("#profile_friends_fq_button").unbind("click");
+                            //jQuery("#profile_friends_fq_button").bind("click",function(){return false;});
+                            }
+                        }
+                    }
+                    jQuery('#spinner').show();
+                }
+            });
+            
         }else
         {
             return false;
@@ -103,7 +199,7 @@ function openFollowing(userId,type)
         /*
          * show Panel
          */
-        jQuery("#profile_following").show();
+        jQuery("#profile_friends").show();
         
     /*
          * show Panel
@@ -117,7 +213,7 @@ function closeFollowing()
     /*
      * hide Panel
      */
-    jQuery("#profile_following").hide();
+    jQuery("#profile_friends").hide();
     /*
      * hide Panel
      */

@@ -62,6 +62,7 @@
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/index.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/jquery.dd.js"></script>
 <script language="javascript"  src="<?=HOSTNAME?>resources/scripts/dateutil.js"></script>
+<script language="javascript"  src="<?=HOSTNAME?>resources/scripts/register.js"></script>
 <script language="javascript" src="<?=HOSTNAME?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAPS_API_KEY?>&sensor=true&libraries=places"></script>
 <script type="text/javascript" src="<?=HOSTNAME?>resources/scripts/google.maps.api.js"></script>

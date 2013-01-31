@@ -350,7 +350,7 @@ if (empty($user)) {
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/createEvent.js"></script>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.js"></script>
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
-            <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
+        <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
 
             <?php
             if (!empty($confirm_msg)) {
@@ -602,8 +602,25 @@ if (empty($user)) {
             </script>
             <!--Placeholder-->
 
-
-
+           <!-- Open find friends -->
+           <?php 
+           if(!empty($user) && isset($_GET['findfriends']) && ($_GET['findfriends']==1 || $_GET['findfriends']=='1'))
+           {
+               $_SESSION['findfriends']=1;
+               header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+               exit(-1);
+           }
+           if(!empty($user) && isset($_SESSION['findfriends']) && ($_SESSION['findfriends']==1 || $_SESSION['findfriends']=='1'))
+           {
+               $_SESSION['findfriends']=0;
+               ?>
+           <script>
+               jQuery(document).ready(function(){
+                   openFollowing(<?=$user->id?>,3);
+               });
+           </script>
+           <?php } ?>
+           <!-- Open find friends -->
             <!-- Open Event Popup -->
             <?php
             $prm_event = null;
