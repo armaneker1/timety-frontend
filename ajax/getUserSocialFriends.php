@@ -28,10 +28,13 @@ try {
                 if (!empty($follow) && !empty($val->id)) {
                     $key = in_array($val->id, $follow);
                 }
-                $val->id = "u_" . $val->id;
-                $val->label = $val->firstName . " " . $val->lastName . " (" . $val->userName . ")";
-                $val->isFriend = $key;
-                array_push($result, $val);
+                $obj = new stdClass();
+                $obj->id = $val->id;
+                $obj->fullName = $val->firstName . " " . $val->lastName;
+                $obj->username = $val->userName;
+                $obj->userPicture = $val->getUserPic();
+                $obj->followed = $key;
+                array_push($result, $obj);
             }
         }
         $json_response = json_encode($result);

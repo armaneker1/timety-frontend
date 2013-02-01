@@ -284,9 +284,9 @@ class SocialUtil {
         $result = new Result();
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-            $query = "START fuser=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $fromUserId . "') " .
+            $query = "START fuser=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $fromUserId . "'), " .
+                     " tuser=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $toUserId . "') " .
                     "MATCH (fuser) -[r:" . REL_FOLLOWS . "]-> (tuser) " .
-                    "WHERE tuser." . PROP_USER_ID . "=" . $toUserId . " " .
                     "DELETE  r";
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();

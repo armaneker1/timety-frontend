@@ -8,7 +8,7 @@ function addSocialReturnButton()
     },1000);
 }
 
-function openFollowing(userId,type)
+function openFriendsPopup(userId,type)
 {
     if(userId!=null && userId>0)
     { 
@@ -23,7 +23,7 @@ function openFollowing(userId,type)
         jQuery("#profile_friends_find").show();
         jQuery("#profile_friends_find").unbind("click");
         jQuery("#profile_friends_find").bind("click",function(){
-            openFollowing(userId,3);
+            openFriendsPopup(userId,3);
         });
     
         /*
@@ -169,6 +169,61 @@ function openFollowing(userId,type)
                 }
             });
             
+            /*
+             * get user social friends
+             */
+            jQuery.ajax({
+                type: 'GET',
+                url: TIMETY_PAGE_AJAX_GET_USER_SOCIAL_FRIENDS,
+                data: {
+                    'u':userId,
+                    'term':null
+                },
+                success: function(data){
+                    try{
+                        if(typeof data == "string"){
+                            data= jQuery.parseJSON(data);
+                        }
+                    }catch(e) {
+                        console.log(e);
+                        console.log(data);
+                    }
+                        
+                    if(!data.error) {   
+                        fillFriendsUL(userId,data,type);    
+                    }
+                    jQuery('#spinner').show();
+                }
+            });
+            
+            /*
+             * get user peole
+             */
+            jQuery.ajax({
+                type: 'GET',
+                url: TIMETY_PAGE_AJAX_GET_USER_FRIEND_RECOMMENDATIONS,
+                data: {
+                    'u':userId,
+                    'term':null,
+                    'limit':10
+                },
+                success: function(data){
+                    try{
+                        if(typeof data == "string"){
+                            data= jQuery.parseJSON(data);
+                        }
+                    }catch(e) {
+                        console.log(e);
+                        console.log(data);
+                    }
+                        
+                    if(!data.error) {   
+                        
+                    }
+                    jQuery('#spinner').show();
+                }
+            });
+            
         }else
         {
             return false;
@@ -182,7 +237,7 @@ function openFollowing(userId,type)
         jQuery(friendsBackground).bind('click',function(e){
             if(e && e.target && e.target.id && e.target.id == "div_follow_trans")
             {
-                closeFollowing();
+                closeFriendsPopup();
             }
         });
         jQuery(friendsBackground).show();
@@ -208,7 +263,7 @@ function openFollowing(userId,type)
     
 }
 
-function closeFollowing()
+function closeFriendsPopup()
 {
     /*
      * hide Panel

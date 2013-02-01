@@ -24,12 +24,14 @@ try {
         if (!empty($friendList) && sizeof($friendList) > 0) {
             $val = new User();
             for ($i = 0; $i < sizeof($friendList); $i++) {
-
                 $val = $friendList[$i];
-                $val->id = "u_" . $val->id;
-                $val->label = $val->firstName . " " . $val->lastName . " (" . $val->userName . ")";
-                $val->isFriend = false;
-                array_push($result, $val);
+                $obj = new stdClass();
+                $obj->id = $val->id;
+                $obj->fullName = $val->firstName . " " . $val->lastName;
+                $obj->username = $val->userName;
+                $obj->userPicture = $val->getUserPic();
+                $obj->followed = false;
+                array_push($result, $obj);
             }
         }
         $json_response = json_encode($result);

@@ -45,9 +45,24 @@
                     onclick="unfollowUser(-1,-1,this);">follow</button>
         </li>
     </ul>
+    
+    
+    
+    <p class="find_friends" id="profile_friends2_p_list" style="font-size: 16px;display: none;">People you might want to know</p>
+    <ul class="suggest_friend_ul"  id="profile_friends2_ul_list" style="min-height: 100px;display: none;">
+        <li  id="profile_friends2_li_template" style="display: none;">
+            <img src="<?= HOSTNAME ?>images/anonymous.jpg" width="30"
+                 height="30" border="0" align="absmiddle" class="follow_res" />
+            <span class="follow_ad">
+            </span> 
+            <button type="button" name="" value="" class="followed_btn"
+                    id="foll_id"
+                    onclick="followUser(-1,-1,this);">follow</button>
+        </li>
+    </ul>
 
     <div class="invite" style="margin-top: 10px;height:40px;max-height: 50px;margin-right: 3px;">
         <button type="button" name="" value="" class="invite_btn" style="float: right;"
-                onclick="closeFollowing();return false;">Close</button>
+                onclick="closeFriendsPopup();return false;">Close</button>
     </div>
 </div>

@@ -616,7 +616,7 @@ if (empty($user)) {
                ?>
            <script>
                jQuery(document).ready(function(){
-                   openFollowing(<?=$user->id?>,3);
+                   openFriendsPopup(<?=$user->id?>,3);
                });
            </script>
            <?php } ?>
@@ -773,8 +773,8 @@ if (empty($user)) {
                         </div>
                         <div class="profil_btn">
                             <ul>
-                                <li onclick="openFollowing(<?=$user->id?>,1);"><a href="#">Following <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserFollowingCount($user->id) ?></p></a></li>
-                                <li onclick="openFollowing(<?=$user->id?>,2);"><a href="#">Followers <p class="prinpt pcolor_krmz"><?= Neo4jUserUtil::getUserFollowersCount($user->id) ?></p></a></li>
+                                <li onclick="openFriendsPopup(<?=$user->id?>,1);"><a href="#">Following <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserFollowingCount($user->id) ?></p></a></li>
+                                <li onclick="openFriendsPopup(<?=$user->id?>,2);"><a href="#">Followers <p class="prinpt pcolor_krmz"><?= Neo4jUserUtil::getUserFollowersCount($user->id) ?></p></a></li>
                                 <li><a href="#">Likes <p class="prinpt pcolor_yesil"><?= Neo4jUserUtil::getUserLikesCount($user->id) ?></p></a></li>
                                 <li><a href="#">Reshare <p class="prinpt pcolor_gri"><?= Neo4jUserUtil::getUserResharesCount($user->id) ?></p></a></li>
                                 <li><a href="#">Joined <p class="prinpt pcolor_mavi"><?= Neo4jUserUtil::getUserJoinsCount($user->id, TYPE_JOIN_YES) ?></p></a></li>
