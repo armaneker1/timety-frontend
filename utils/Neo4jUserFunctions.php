@@ -67,9 +67,9 @@ class Neo4jUserUtil {
             } else {
                 $query = $query . " AND ";
             }
-            $query = $query . "  ( HAS (user." . PROP_USER_FIRSTNAME . ") AND user." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $term . ".*/ ) " .
+            $query = $query . " ( ( HAS (user." . PROP_USER_FIRSTNAME . ") AND user." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $term . ".*/ ) " .
                     " OR ( HAS (user." . PROP_USER_LASTNAME . ") AND  user." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $term . ".*/ ) " .
-                    " OR ( HAS (user." . PROP_USER_FIRSTNAME . ") AND HAS (user." . PROP_USER_LASTNAME . ") AND  user." . PROP_USER_FIRSTNAME . "+' '+user." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $term . ".*/ ) ";
+                    " OR ( HAS (user." . PROP_USER_FIRSTNAME . ") AND HAS (user." . PROP_USER_LASTNAME . ") AND  user." . PROP_USER_FIRSTNAME . "+' '+user." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $term . ".*/ ) )";
         }
         $query = $query .
                 " WITH user,count(followers) as numFollowers " .

@@ -15,6 +15,15 @@ function openFriendsPopup(userId,type)
         /*
          * clear screen
          */
+        //input button
+        jQuery("#search_people_div").hide();
+        
+        //
+        jQuery("#profile_friends2_p_list").hide();
+        jQuery("#profile_friends2_ul_list").hide();
+        jQuery("#profile_friends_p_list").hide();
+        jQuery("#profile_friends2_ul_list").children().remove();
+        
         jQuery("#profile_friends_fb_button").hide();
         jQuery("#profile_friends_tw_button").hide();
         jQuery("#profile_friends_gg_button").hide();
@@ -78,6 +87,12 @@ function openFriendsPopup(userId,type)
             }
         }else if(type==3)
         {
+            jQuery("#search_people_div").show();
+            jQuery("#profile_friends_p_list").hide();
+            jQuery("#profile_friends2_p_list").hide();
+            jQuery("#profile_friends2_ul_list").hide();
+            jQuery("#profile_friends2_ul_list").children().remove();
+
             //find friends
             //set header 
             jQuery("#profile_friends_header").text("Find Friends");
@@ -165,9 +180,20 @@ function openFriendsPopup(userId,type)
                             }
                         }
                     }
-                    jQuery('#spinner').show();
+                    jQuery('#spinner').hide();
                 }
             });
+            /*
+             *Seacrh term
+             */
+            var people_search_input=jQuery("#people_search_input");
+            var searchterm=null;
+            if(people_search_input && people_search_input.length>0){
+                if(jQuery(people_search_input).val()!=jQuery(people_search_input).attr("placeholder") && jQuery(people_search_input).val().length>0)
+                {
+                    searchterm =jQuery(people_search_input).val();
+                }
+            }
             
             /*
              * get user social friends
@@ -177,7 +203,7 @@ function openFriendsPopup(userId,type)
                 url: TIMETY_PAGE_AJAX_GET_USER_SOCIAL_FRIENDS,
                 data: {
                     'u':userId,
-                    'term':null
+                    'term':searchterm
                 },
                 success: function(data){
                     try{
@@ -190,9 +216,19 @@ function openFriendsPopup(userId,type)
                     }
                         
                     if(!data.error) {   
-                        fillFriendsUL(userId,data,type);    
+                        if(data.length>0){
+                            fillFriendsUL(userId,data,type,null,true); 
+                        }else {
+                            jQuery("#profile_friends_p_list").hide();
+                            jQuery("#profile_friends_ul_list").hide();
+                        }
                     }
-                    jQuery('#spinner').show();
+                    else
+                    {
+                        jQuery("#profile_friends_p_list").hide();
+                        jQuery("#profile_friends_ul_list").hide();
+                    }
+                    jQuery('#spinner').hide();
                 }
             });
             
@@ -204,7 +240,7 @@ function openFriendsPopup(userId,type)
                 url: TIMETY_PAGE_AJAX_GET_USER_FRIEND_RECOMMENDATIONS,
                 data: {
                     'u':userId,
-                    'term':null,
+                    'term':searchterm,
                     'limit':10
                 },
                 success: function(data){
@@ -217,10 +253,20 @@ function openFriendsPopup(userId,type)
                         console.log(data);
                     }
                         
-                    if(!data.error) {   
-                        
+                    if(!data.error) {  
+                        if(data.length){
+                            fillFriendsUL(userId,data,type,jQuery("#profile_friends2_ul_list"));   
+                        }else
+                        {
+                            jQuery("#profile_friends2_p_list").hide();
+                            jQuery("#profile_friends2_ul_list").hide();
+                        }
+                    }else
+                    {
+                        jQuery("#profile_friends2_p_list").hide();
+                        jQuery("#profile_friends2_ul_list").hide();
                     }
-                    jQuery('#spinner').show();
+                    jQuery('#spinner').hide();
                 }
             });
             
@@ -290,62 +336,86 @@ function closeFriendsPopup()
 }
 
 
-function fillFriendsUL(userId,data,type){
+function fillFriendsUL(userId,data,type,customList,justFollow){
     if(userId && data && data.length>0 && (type==1 || type==2 || type==3))
     {
         var list=jQuery("#profile_friends_ul_list");
-        var template=jQuery(list).find("#profile_friends_li_template");
+        if(customList) {
+            list=customList;
+        }
+        var template=jQuery(jQuery("#profile_friends_ul_list")).find("#profile_friends_li_template");
         /*
          * clear list
          */
         list.children().not(template).remove();
         for(var i=0;i<data.length;i++)
         {
+            var addedd=0;
             if(data[i] && data[i].id)
             {
-                var item=template.clone();
-                /*
+                var add=true;
+                if(justFollow && data[i].followed) {
+                    add=false;
+                }
+                if(add){
+                    var item=template.clone();
+                    /*
                  * fill item
                  */
-                var img=jQuery(item).find("img");
-                if(img && img.length>0) {
-                    jQuery(img).attr('src',data[i].userPicture);
-                }
-                var span=jQuery(item).find("span");
-                if(span && span.length>0) {
-                    var text=data[i].fullName+" ("+data[i].username+")";
-                    if(text.length>30) {
-                        text=text.substring(0, 30);
+                    var img=jQuery(item).find("img");
+                    if(img && img.length>0) {
+                        jQuery(img).attr('src',data[i].userPicture);
                     }
-                    jQuery(span).text(text);
-                }
-                var button=jQuery(item).find("button");
-                if(button && button.length>0) {
-                    jQuery(button).attr('id','foll_'+data[i].id);
+                    var span=jQuery(item).find("span");
+                    if(span && span.length>0) {
+                        var text=data[i].fullName+" ("+data[i].username+")";
+                        if(text.length>30) {
+                            text=text.substring(0, 30);
+                        }
+                        jQuery(span).text(text);
+                    }
+                    var button=jQuery(item).find("button");
+                    if(button && button.length>0) {
+                        jQuery(button).attr('id','foll_'+data[i].id);
                     
-                    if(type==1) {
-                        setFollowButton(button,true,userId,data[i].id);
-                    } else if(type==2) {
-                        if(data[i].followed) {
+                        if(type==1) {
                             setFollowButton(button,true,userId,data[i].id);
-                        }else {
+                        } else if(type==2) {
+                            if(data[i].followed) {
+                                setFollowButton(button,true,userId,data[i].id);
+                            }else {
+                                setFollowButton(button,false,userId,data[i].id);
+                            }
+                        }else if(type==3)  {
                             setFollowButton(button,false,userId,data[i].id);
                         }
-                    }else if(type==3)  {
-                        setFollowButton(button,false,userId,data[i].id);
                     }
-                }
-                /*
+                    /*
                  * add item
                  */
-                jQuery(item).show();
-                list.append(item);
+                    jQuery(item).show();
+                    list.append(item);
+                    addedd++;
+                }
             }
         }
         
-        if(data.length>0)
+        if(addedd>0)
         {
             jQuery(list).show();
+            if(justFollow && type==3){
+                jQuery("#profile_friends_p_list").show();
+            }else if(type==3){
+                jQuery("#profile_friends2_p_list").show();
+            }
+        }else
+        {
+            jQuery(list).hide();
+            if(justFollow && type==3){
+                jQuery("#profile_friends_p_list").hide();
+            }else if(type==3){
+            //jQuery("#profile_friends2_p_list").hide();
+            }            
         }
     }
 }
