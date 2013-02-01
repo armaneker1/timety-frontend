@@ -15,7 +15,7 @@ require_once __DIR__ . '/../utils/Functions.php';
 
 
 
-var_dump(SocialUtil::getUserFriendRecommendation(6618333));
+var_dump(SocialFriendUtil::getPopularUserList(6618333,10));
 
 
 

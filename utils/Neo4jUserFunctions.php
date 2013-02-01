@@ -47,14 +47,31 @@ class Neo4jUserUtil {
         return $array;
     }
 
-    public static function getPopularUserList($userId, $limit) {
+    public static function getPopularUserList($userId, $limit, $term=null) {
         if (empty($limit)) {
             $limit = 5;
         }
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*') " .
-                " MATCH (user) <-[:" . REL_FOLLOWS . "]- (followers) " .
+        $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*') ";
+        if (!empty($userId)) {
+            $query = $query . " ,usr=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') ";
+        }
+        $query = $query . " MATCH (user) <-[:" . REL_FOLLOWS . "]- (followers) ";
+        if (!empty($userId)) {
+            $query = $query . " WHERE NOT(usr -[:FOLLOWS]-> user) ";
+        }
+        if (!empty($term)) {
+            if (empty($userId)) {
+                $query = $query . " WHERE ";
+            } else {
+                $query = $query . " AND ";
+            }
+            $query = $query . "  ( HAS (user." . PROP_USER_FIRSTNAME . ") AND user." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $term . ".*/ ) " .
+                    " OR ( HAS (user." . PROP_USER_LASTNAME . ") AND  user." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $term . ".*/ ) " .
+                    " OR ( HAS (user." . PROP_USER_FIRSTNAME . ") AND HAS (user." . PROP_USER_LASTNAME . ") AND  user." . PROP_USER_FIRSTNAME . "+' '+user." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $term . ".*/ ) ";
+        }
+        $query = $query .
                 " WITH user,count(followers) as numFollowers " .
                 " RETURN  user, numFollowers" .
                 " ORDER BY numFollowers DESC LIMIT " . $limit;

@@ -88,6 +88,7 @@ define('PAGE_AJAX_LIKE_EVENT',PAGE_AJAX_FOLDER.'likeEvent.php');
 define('PAGE_AJAX_GET_FOLLOWERS',PAGE_AJAX_FOLDER.'getFollowers.php');
 define('PAGE_AJAX_GET_USER_FRIEND_RECOMMENDATIONS',PAGE_AJAX_FOLDER.'getUserFriendRecommendations.php');
 define('PAGE_AJAX_GET_USER_SOCAIL_PROVIDERS',PAGE_AJAX_FOLDER.'getUserSocialProviders.php');
+define('PAGE_AJAX_GET_USER_SOCIAL_FRIENDS',PAGE_AJAX_FOLDER.'getUserSocialFriends.php');
 
 define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));
 

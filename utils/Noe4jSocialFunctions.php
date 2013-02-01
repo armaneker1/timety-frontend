@@ -298,7 +298,26 @@ class SocialUtil {
         return $result;
     }
 
-    public static function getUserFriendRecommendation($userId) {
+    public static function in_array($array,$id)
+    {
+        if(!empty($array) && !empty($id))
+        {
+            foreach ($array as $fr)
+            {
+                if(!empty($fr) && !empty($fr->id))
+                {
+                    if($fr->id==$id)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public static function getUserSocialFriend($userId) {
         $user = UserUtils::getUserById($_SESSION['id']);
         $friendList=array();
         $friendIdList=array();
@@ -383,7 +402,7 @@ class SocialUtil {
                             }
                         }
                     }
-                }
+                } 
             }
         }
         return $friendList;

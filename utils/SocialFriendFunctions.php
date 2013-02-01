@@ -7,8 +7,8 @@ class SocialFriendUtil {
         return $neo->getUserFollowList($userId);
     }
 
-    public static function getPopularUserList($userId, $limit) {
-        return Neo4jUserUtil::getPopularUserList($userId, $limit);
+    public static function getPopularUserList($userId, $limit,$term=null) {
+        return Neo4jUserUtil::getPopularUserList($userId, $limit,$term);
     }
 
     public static function getFriendList($userId, $query, $followers) {

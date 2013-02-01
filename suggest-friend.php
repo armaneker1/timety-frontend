@@ -21,120 +21,7 @@ if (!isset($_SESSION['id'])) {
         if ($user->status != 2) {
             SessionUtil::checkUserStatus($user);
         }
-
-        $socialProviders = $user->socialProviders;
-        if (!empty($socialProviders)) {
-            $provider = new SocialProvider();
-            $friendList = array();
-            foreach ($socialProviders as $provider) {
-                $friends = array();
-                if ($provider->oauth_provider == FACEBOOK_TEXT) {
-                    $facebook = new Facebook(array(
-                                'appId' => FB_APP_ID,
-                                'secret' => FB_APP_SECRET,
-                                'cookie' => true
-                            ));
-
-                    $facebook->setAccessToken($provider->oauth_token);
-                    $friends_fb = array();
-                    $friends_fb = $facebook->api('/me/friends');
-                    $friends_fb = $friends_fb['data'];
-                    foreach ($friends_fb as $friend) {
-                        $id = "";
-                        $name = "";
-                        $l_name = "";
-                        $id = $friend['id'];
-                        $name = $friend['name'];
-                        array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
-                    }
-                } elseif ($provider->oauth_provider == TWITTER_TEXT) {
-                    $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);
-                    $friends_tw = $twitteroauth->get('statuses/followers');
-                    if (isset($friends_tw->error)) {
-                        $friends_tw = null;
-                    } else {
-                        foreach ($friends_tw as $friend) {
-                            $id = "";
-                            $name = "";
-                            $l_name = "";
-                            if (property_exists($friend, 'id')) {
-                                $id = $friend->id;
-                            }
-                            array_push($friends, array('id' => $id, 'name' => '', 'lastName' => ''));
-                        }
-                    }
-                } elseif ($provider->oauth_provider == FOURSQUARE_TEXT) {
-                    $foursquare = new FoursquareAPI(FQ_CLIENT_ID, FQ_CLIENT_SECRET);
-                    $foursquare->SetAccessToken($provider->oauth_token);
-                    $res = $foursquare->GetPrivate("users/self/friends");
-                    $details = json_decode($res);
-                    $res = $details->response;
-                    $friends_fq = $res->friends->items;
-                    foreach ($friends_fq as $friend) {
-                        $id = "";
-                        $name = "";
-                        $l_name = "";
-                        if (property_exists($friend, 'id')) {
-                            $id = $friend->id;
-                        }
-                        if (property_exists($friend, 'firstName')) {
-                            $name = $friend->firstName;
-                        }
-                        if (property_exists($friend, 'lastName')) {
-                            $l_name = $friend->lastName;
-                        }
-                        array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
-                    }
-                } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
-                    /* $google = new Google_Client();
-                      $google->setApplicationName(GG_APP_NAME);
-                      $google->setClientId(GG_CLIENT_ID);
-                      $google->setClientSecret(GG_CLIENT_SECRET);
-                      $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
-                      $google->setDeveloperKey(GG_DEVELOPER_KEY);
-                      $plus = new Google_PlusService($google);
-                      $google->setAccessToken($provider->oauth_token);
-                      $me = $plus->people->get('me');
-                      var_dump($me);
-                      foreach ($friends_fq as $friend) {
-                      $id = "";
-                      $name = "";
-                      $l_name = "";
-                      if (property_exists($friend, 'id')) {
-                      $id = $friend->id;
-                      }
-                      if (property_exists($friend, 'firstName')) {
-                      $name = $friend->firstName;
-                      }
-                      if (property_exists($friend, 'lastName')) {
-                      $l_name = $friend->lastName;
-                      }
-                      array_push($friends, array('id' => $id, 'name' => $name, 'lastName' => $l_name));
-                      } */
-                }
-                $friendsId = array();
-                if (!empty($friends)) {
-                    foreach ($friends as $friend) {
-                        array_push($friendsId, $friend['id']);
-                    }
-                    if (!empty($friendsId))
-                        $friends = SocialFriendUtil::getUserSuggestList($user->id, $friendsId, $provider->oauth_provider);
-                    else
-                        $friends = null;
-                }
-                foreach ($friends as $fr) {
-                    $key = array_search($fr, $friendList);
-                    if (strlen($key) <= 0) {
-                        array_push($friendList, $fr);
-                    }
-                }
-            }
-            if (empty($friendList)) {
-                //echo	"No Friend";
-            }
-        } else {
-            //echo	"No Friend";
-        }
+        $friendList = SocialUtil::getUserSocialFriend($user->id);
     } else {
         header("location: " . HOSTNAME);
     }
@@ -198,7 +85,7 @@ if (!isset($_SESSION['id'])) {
                 <button type="button" name="" value=""
                 <?php if (!$gg) echo "onclick=\"$('#spinner').show();openPopup('gg');checkOpenPopup();\""; ?>
                         class="googl_plus<?php if ($gg) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
-                        
+
                 <button type="button" name="" value=""
                 <?php if (!$fq) echo "onclick=\"$('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
                         class="googl_plus<?php if ($fq) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
@@ -217,7 +104,7 @@ if (!isset($_SESSION['id'])) {
 
             <?php
             $follow = SocialFriendUtil::getUserFollowList($user->id);
-            if (!empty($friendList)) {
+            if (!empty($friendList) && sizeof($friendList) > 0) {
                 ?>
                 <p class="find_friends" style="font-size: 16px;">People you know</p>
                 <ul class="suggest_friend_ul">
@@ -232,15 +119,23 @@ if (!isset($_SESSION['id'])) {
                     $texxt = substr($texxt, 0, 30);
                 } echo $texxt;
                         ?>
-                            </span> <?php if (strlen($key) <= 0) { ?>
-                                <button type="button" name="" value="" class="follow_btn"
-                                        id="foll_<?php echo $friend->id; ?>"
-                                        onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-                                    <?php } else { ?>
+                            </span> <?php
+                             $key = false;
+                             if (!empty($follow) && !empty($friend->id)) {
+                                 $key = in_array($friend->id, $follow);
+                             }
+
+                             if ($key) {
+                            ?>
                                 <button type="button" name="" value="" class="followed_btn"
                                         id="foll_<?php echo $friend->id; ?>"
                                         onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">unfollow</button>
-                                    <?php } ?>
+                                    <?php } else { ?>
+                                <button type="button" name="" value="" class="follow_btn"
+                                        id="foll_<?php echo $friend->id; ?>"
+                                        onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
+
+                            <?php } ?>
                         </li>
                     <?php }
                     ?>
@@ -250,42 +145,48 @@ if (!isset($_SESSION['id'])) {
             ?>
 
             <?php
-            $popular = SocialFriendUtil::getPopularUserList($user->id, 4);
+            $popular = SocialFriendUtil::getPopularUserList($user->id, 10);
             if (!empty($popular) && sizeof($popular) > 0) {
                 ?>
                 <p class="find_friends" style="font-size: 16px;">People you might want to know</p>
                 <ul class="suggest_friend_ul" style="max-height: 200px !important;">
                     <?php
                     foreach ($popular as $friend) {
-                        ?>
-                        <li><img src="<?php echo $friend->getUserPic(); ?>" width="30"
-                                 height="30" border="0" align="absmiddle" class="follow_res" /><span
-                                 class="follow_ad">
-                                     <?php
-                                     $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
-                                     if (strlen($texxt) > 30) {
-                                         $texxt = substr($texxt, 0, 30);
-                                     }
-                                     echo $texxt;
-                                     ?>
-                                <!-- BUnlar ztn takip edilmediginden-->
-                            </span> <?php if (true) { ?>
-                                <button type="button" name="" value="" class="follow_btn"
-                                        id="foll_<?php echo $friend->id; ?>"
-                                        onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-                                    <?php } else { ?>
-                                <button type="button" name="" value="" class="followed_btn"
-                                        id="foll_<?php echo $friend->id; ?>"
-                                        onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-                                    <?php } ?>
-                        </li>
-                        <?php
-                    }
-                    ?>
+                        $key = false;
+                        if (!empty($follow) && !empty($friend->id)) {
+                            $key = in_array($friend->id, $follow);
+                        }
+                        if (!$key) {
+                            ?>
+                            <li><img src="<?php echo $friend->getUserPic(); ?>" width="30"
+                                     height="30" border="0" align="absmiddle" class="follow_res" /><span
+                                     class="follow_ad">
+                                         <?php
+                                         $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
+                                         if (strlen($texxt) > 30) {
+                                             $texxt = substr($texxt, 0, 30);
+                                         }
+                                         echo $texxt;
+                                         ?>
+                                    <!-- Bunlar ztn takip edilmediginden-->
+                                </span> <?php if (true) { ?>
+                                    <button type="button" name="" value="" class="follow_btn"
+                                            id="foll_<?php echo $friend->id; ?>"
+                                            onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
+                                <?php } else { ?>
+                                    <button type="button" name="" value="" class="followed_btn"
+                                            id="foll_<?php echo $friend->id; ?>"
+                                            onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
+                                        <?php } ?>
+                            </li>
+            <?php
+        }
+    }
+    ?>
                 </ul>
-                <?php
-            }
-            ?>
+                    <?php
+                }
+                ?>
             <p class="find_friends" style="font-size: 16px;">Invite People</p>
             <div class="invite">
                 <input name="te_invite_email" type="text" id="te_invite_email"
