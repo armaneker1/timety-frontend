@@ -311,7 +311,7 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
         array_push($msgs, $m);
     }
 
-    if (isset($_POST['te_event_user_id']) && empty($_POST['te_event_user_id'])) {
+    if (isset($_POST['te_event_user_id']) && !empty($_POST['te_event_user_id'])) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
@@ -323,7 +323,7 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
     $event->attendance = null;
     if (!$error) {
         try {
-            EventUtil::createEvent($event, UserUtils::getUserById($_POST['te_event_user_id']));
+            EventUtil::createEvent($event, UserUtils::getUserById(6618344));
             $m = new HtmlMessage();
             $m->type = "s";
             $m->message = "Event created successfully.";
