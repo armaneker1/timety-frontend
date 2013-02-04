@@ -17,6 +17,9 @@ class User {
             $this->confirm = $result['confirm'];
             $this->userPicture = $result['userPicture'];
             $this->invited = $result['invited'];
+            $this->website = $result['website'];
+            $this->about = $result['about'];
+            $this->gender = $result['gender'];
         }
     }
 
@@ -37,6 +40,9 @@ class User {
                 $this->confirm = $tmp->confirm;
                 $this->userPicture = $tmp->userPicture;
                 $this->invited = $tmp->invited;
+                $this->website = $tmp->website;
+                $this->about = $tmp->about;
+                $this->gender=$tmp->gender;
             } else {
                 $this->id = null;
             }
@@ -58,6 +64,9 @@ class User {
     public $confirm = 0;
     public $userPicture;
     public $invited = 0;
+    public $website;
+    public $about;
+    public $gender;
 
     public function getFullName() {
         return $this->firstName . " " . $this->lastName;
@@ -198,7 +207,7 @@ class Event {
         }
     }
 
-    public function createNeo4j($result, $additionalData = TRUE,$userId=-1) {
+    public function createNeo4j($result, $additionalData = TRUE, $userId = -1) {
         if (!empty($result)) {
             $this->id = $result->getProperty(PROP_EVENT_ID);
             $this->title = $result->getProperty(PROP_EVENT_TITLE);
@@ -233,18 +242,18 @@ class Event {
         $this->addsocial_fq = $tmp->addsocial_fq;
         $this->addsocial_tw = $tmp->addsocial_tw;
         $this->reminderSent = $tmp->reminderSent;
-        $this->attach_link=$tmp->attach_link;
+        $this->attach_link = $tmp->attach_link;
     }
 
-    public function setAdditionalData($userId=-1) {
+    public function setAdditionalData($userId = -1) {
         //$this->getImages();
         //$this->getHeaderImage();
-        $this->commentCount = CommentUtil::getCommentListSizeByEvent($this->id,null);
+        $this->commentCount = CommentUtil::getCommentListSizeByEvent($this->id, null);
         $this->remainingtime = UtilFunctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
         $this->attendancecount = Neo4jFuctions::getEventAttendanceCount($this->id);
         //get creator id
-        $this->creatorId= Neo4jEventUtils::getEventCreatorId($this->id);
-        $this->userRelation= Neo4jEventUtils::getEventUserRelationCypher($this->id,$userId);
+        $this->creatorId = Neo4jEventUtils::getEventCreatorId($this->id);
+        $this->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $userId);
     }
 
     public $id;
@@ -337,8 +346,7 @@ class Image {
     public $height = null;
 
     public function getUrl() {
-        if(!UtilFunctions::startsWith($this->url, "http"))
-        {
+        if (!UtilFunctions::startsWith($this->url, "http")) {
             $this->url = ImageUtil::getImageUrl($this->url);
         }
         return $this->url;

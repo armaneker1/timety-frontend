@@ -42,6 +42,7 @@ define('PAGE_FORGOT_PASSWORD', HOSTNAME.'forgot-password');
 define('PAGE_NEW_PASSWORD', HOSTNAME.'new-password');
 define('PAGE_CONFIRM', HOSTNAME.'confirm-user');
 define('PAGE_EVENT', HOSTNAME.'event/');
+define('PAGE_UPDATE_PROFILE',HOSTNAME.'profile');
 define('PAGE_GET_IMAGEURL',HOSTNAME.'getImage.php?src=');
 define('PAGE_GET_IMAGEURL_SUBFOLDER','timety/');
 
@@ -49,6 +50,7 @@ define('PAGE_FB_LOGIN', HOSTNAME.'login-facebook.php');
 define('PAGE_FQ_LOGIN', HOSTNAME.'login-foursquare.php');
 define('PAGE_TW_LOGIN', HOSTNAME.'login-twitter.php');
 define('PAGE_GG_LOGIN', HOSTNAME.'login-google.php');
+
 
 
 define('PAGE_AJAX_FOLDER',HOSTNAME.'ajax/');
@@ -89,6 +91,8 @@ define('PAGE_AJAX_GET_FOLLOWERS',PAGE_AJAX_FOLDER.'getFollowers.php');
 define('PAGE_AJAX_GET_USER_FRIEND_RECOMMENDATIONS',PAGE_AJAX_FOLDER.'getUserFriendRecommendations.php');
 define('PAGE_AJAX_GET_USER_SOCAIL_PROVIDERS',PAGE_AJAX_FOLDER.'getUserSocialProviders.php');
 define('PAGE_AJAX_GET_USER_SOCIAL_FRIENDS',PAGE_AJAX_FOLDER.'getUserSocialFriends.php');
+define('PAGE_AJAX_GET_SOCIAL_PIC',PAGE_AJAX_FOLDER.'getUserSocialPicture.php');
+
 
 define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));
 

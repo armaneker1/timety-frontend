@@ -305,3 +305,118 @@
 	padding: 4px;
         margin: -4px;
 }
+
+/*  profil */
+.profil_form {
+                background-color: #efefef;
+                width: 948px;
+                padding: 20px;
+                margin-right: auto;
+                margin-left: auto;
+                position: relative;
+                border-radius: 10px;
+                margin-top: 80px;
+                box-shadow: 0px 1px 0px rgba(255,255,255,0.65),inset 0px 1px 2px rgba(0,0,0,0.15);
+}
+.p_form_sol {
+                float: left;
+                width: 465px;
+                border-right-width: 1px;
+                border-right-style: solid;
+                border-right-color: #cecece;
+}
+.p_form_sag {
+                float: right;
+                width: 380px;
+}
+.profil_etiket {
+                clear: both;
+                font-family: arial;
+                font-size: 15px;
+                font-weight: bold;
+                color: #666666;
+                padding-top: 5px;
+                padding-bottom: 2px;
+}
+.profil_g {
+                font-family: arial;
+                font-size: 13px;
+                font-weight: bold;
+                color: #666666;
+                padding-top: 20px;
+                clear: both;
+}
+.icon_yeni {
+                background-image: url(images/face_iconyeni.png);
+                background-repeat: no-repeat;
+                background-color: transparent;
+                border-top-style: none;
+                border-right-style: none;
+                border-bottom-style: none;
+                border-left-style: none;
+                height: 75px;
+                width: 90px;
+}
+.face_yeni {
+                background-position: left top;
+}
+.twiter_yeni {
+                background-position: -92px top;
+}
+.gmail_yeni {
+                background-position: -187px top;
+}
+.four_yeni {
+                background-position: right top;
+}
+.face_yeni:hover {
+                background-position: left bottom;
+}
+.twiter_yeni:hover {
+                background-position: -92px bottom;
+}
+.gmail_yeni:hover {
+                background-position: -187px bottom;
+}
+.four_yeni:hover {
+                background-position: right bottom;
+}
+
+.face_yeni_hover {
+                background-position: left bottom;
+}
+.twiter_yeni_hover {
+                background-position: -92px bottom;
+}
+.gmail_yeni_hover {
+                background-position: -187px bottom;
+}
+.four_yeni_hover {
+                background-position: right bottom;
+}
+
+.set_slide {
+                display: inline-block;
+                float: left;
+                margin-right: 6px;
+}
+.profil_al {
+                display: inline-block;
+                float: left;
+                padding-top: 55px;
+                padding-left: 10px;
+}
+.profil_kul {
+                background-image: url(images/profil.png);
+                display: inline-block;
+                float: left;
+                height: 107px;
+                width: 106px;
+}
+ 
+.profil_alt {
+                text-align: center;
+                clear: both;
+                padding-top: 20px;
+}
+/*profil form*/

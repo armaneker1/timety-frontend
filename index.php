@@ -763,7 +763,7 @@ if (empty($user)) {
                                 <h1><?php echo $user->getFullName() ?></h1>
                                 <p><!-- title --></p>
                             </div>
-                            <div class="user_settings"><a href="#"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>
+                            <div class="user_settings"><a href="<?=PAGE_UPDATE_PROFILE?>"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>
                         </div>
                         <div class="profil_resim">
                             <img src="<?php echo $user->getUserPic() ?>" width="176" height="176" />

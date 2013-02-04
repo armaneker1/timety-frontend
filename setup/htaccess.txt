@@ -18,6 +18,9 @@ RewriteRule ^timety/signup$ /timety/createaccount.php
 RewriteRule ^timety/login/$ /timety/login [R]
 RewriteRule ^timety/login$ /timety/signin.php
 
+RewriteRule ^timety/profile/$ /timety/profile [R]
+RewriteRule ^timety/profile$ /timety/updateprofile.php
+
 RewriteRule ^timety/logout/$ /timety/logout [R]
 RewriteRule ^timety/logout$ /timety/logout.php?logout=1
 

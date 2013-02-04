@@ -554,8 +554,8 @@ if (empty($birhtdate)) {
                             id="te_password" 
                             value=""
                             placeholder="Password"
-                            onkeyup="validatePassword(this,$('#te_repassword'),false,false);"
-                            onblur="validatePassword(this,$('#te_repassword'),false,true);" />
+                            onkeyup="validatePassword(this,jQuery('#te_repassword'),false,false);"
+                            onblur="validatePassword(this,jQuery('#te_repassword'),false,true);" />
                             <?php
                             $display = "none";
                             $class = "";
