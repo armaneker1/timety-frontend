@@ -302,6 +302,23 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
         }
     }
 
+
+    if (!isset($_POST['te_event_user_id'])) {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "User not found";
+        array_push($msgs, $m);
+    }
+
+    if (isset($_POST['te_event_user_id']) && !empty($_POST['te_event_user_id'])) {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "User not found";
+        array_push($msgs, $m);
+    }
+
     $event->tags = $ttt;
     $event->attendance = null;
     if (!$error) {
