@@ -199,7 +199,7 @@
          * If the value is null and not required, we don't need to run through validation
          */
 
-        if (field.rules.indexOf('required') === -1 && (!field.value || field.value === '' || field.value === undefined)) {
+        if (field.rules.indexOf('required_empty') === -1 && field.rules.indexOf('required') === -1 && (!field.value || field.value === '' || field.value === undefined)) {
             return;
         }
 

@@ -72,7 +72,7 @@ $te_gender = $user->gender;
 
 
 if (isset($_POST['update'])) {
-    $param=true;
+    $param = true;
     $username = $_POST['te_username'];
     if (empty($username)) {
         $usernameError = "Username cannot be empty";
@@ -123,7 +123,47 @@ if (isset($_POST['update'])) {
         $hometownError = "Please enter location";
         $param = false;
     }
-    
+
+    $uoldpass = $_POST['te_old_password'];
+    $unewpass = $_POST['te_new_password'];
+    $unewrepass = $_POST['te_new_repassword'];
+    $uoldpassError = "";
+    $unewpassError = "";
+    $unewrepassError = "";
+    $newPassword = null;
+    if (!empty($uoldpass) || !empty($unewpass) || !empty($unewrepass)) {
+        if (!empty($uoldpass) && strlen($uoldpass) > 5) {
+            $uoldpass = sha1($uoldpass);
+            if ($uoldpass == $user->password) {
+                if (!empty($unewpass) && strlen($unewpass) > 5) {
+                    if (!empty($unewrepass) && strlen($unewrepass) > 5) {
+                        if ($unewpass == $unewrepass) {
+                            $newPassword = $unewpass;
+                        } else {
+                            $param = false;
+                            $unewrepassError = "Passwords not macth";
+                        }
+                    }
+                } else {
+                    $param = false;
+                    $unewpassError = "Use at least 6 characters";
+                }
+
+                if (empty($unewrepass) || strlen($unewrepass) < 5) {
+                    $param = false;
+                    $unewrepassError = "Use at least 6 characters";
+                }
+            } else {
+                $param = false;
+                $uoldpassError = "Password not correct";
+            }
+        } else {
+            $param = false;
+            $uoldpassError = "Use at least 6 characters";
+        }
+    }
+
+
     $website = $_POST['te_web_site'];
     $about = $_POST['te_about'];
     $te_gender = $_POST['te_gender'];
@@ -137,11 +177,14 @@ if (isset($_POST['update'])) {
     $user->website = $website;
     $user->about = $about;
     $user->gender = $te_gender;
+    if (!empty($newPassword)) {
+        $user->password = sha1($newPassword);
+    }
     if ($param) {
         UserUtils::updateUser($_SESSION['id'], $user);
         $user = UserUtils::getUserById($_SESSION['id']);
         UserUtils::addUserInfoNeo4j($user);
-        $success=true;
+        $success = true;
     }
 }
 ?>
@@ -158,14 +201,14 @@ if (isset($_POST['update'])) {
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
         <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
 
-        <?php if(isset($success) && $success) { ?>
-        <script>
-            jQuery(document).ready(function(){
-                getInfo(true, "Profile update success", "info", 4000); 
-            });
-        </script>
-        <?php  }?>
-        
+        <?php if (isset($success) && $success) { ?>
+            <script>
+                jQuery(document).ready(function(){
+                    getInfo(true, "Profile update success", "info", 4000); 
+                });
+            </script>
+        <?php } ?>
+
         <script src="<?= HOSTNAME ?>resources/scripts/updateProfile.js" type="text/javascript" charset="utf-8"></script>
         <script>          
             jQuery(document).ready(function() {
@@ -262,12 +305,16 @@ if (isset($_POST['update'])) {
                         rules : 'required|valid_email|callback_check_email'
                     }, {
                         name : 'te_birthday',
-                        display : 'birthdate',
-                        rules : 'requiredcal|back_check_birthdate'
+                        display : 'birthday',
+                        rules : 'requiredcal|callback_check_birthdate'
                     }, {
                         name : 'te_hometown',
                         display : 'hometown',
                         rules : 'required|min_length[3]'
+                    }, {
+                        name : 'te_new_password',
+                        display : 'password2',
+                        rules : 'required_empty|callback_check_password'
                     } ],
                 function(errors, event) {
                     //empty messages
@@ -294,14 +341,20 @@ if (isset($_POST['update'])) {
               
                     if (errors.length > 0) {
                         for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
-                            jQuery('#' + errors[i].id + '_span').attr('class','sil icon_bg');
-                            jQuery('#' + errors[i].id + '_span_msg').css({
-                                display : 'block'
-                            });
-                            jQuery('#' + errors[i].id + '_span_msg').text(errors[i].message);
-                            jQuery('#' + errors[i].id + '_span_msg').append(jQuery("<div class='kok'></div>"));
-                            jQuery('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
+                            if('te_new_password'!=errors[i].id)
+                            {
+                                jQuery('#' + errors[i].id + '_span').attr('class','sil icon_bg');
+                                jQuery('#' + errors[i].id + '_span_msg').css({
+                                    display : 'block'
+                                });
+                                jQuery('#' + errors[i].id + '_span_msg').text(errors[i].message);
+                                jQuery('#' + errors[i].id + '_span_msg').append(jQuery("<div class='kok'></div>"));
+                                jQuery('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
+                            }
                         }
+                        validatePassword(jQuery("#te_old_password"),null,false,true);
+                        validatePassword(jQuery("#te_new_password"),jQuery('#te_new_repassword'),false,true);
+                        validatePassword(jQuery('#te_new_repassword'),jQuery('#te_new_password'),true,true);
                     } else {
                         //Mixpanel track event btnClickPersonelInfo function 
                         //btnClickPersonelInfo(jQuery('#te_birthdate').val(),"",jQuery('#te_hometown').val());
@@ -328,16 +381,36 @@ if (isset($_POST['update'])) {
                 'Username already exists');
                 
                 validator.registerCallback('check_birthdate', function(value) {
-                    return validateInputDate(jQuery('#te_birthdate'),true,false);
+                    return validateInputDate(jQuery('#te_birthday'),true,false);
                 }).setMessage('check_birthdate',
                 'Enter valid date');
                 
+                
+                validator.registerCallback('check_password', function(value) {
+                    
+                    var oldP= jQuery("#te_old_password").val();
+                    var oldN= jQuery("#te_new_password").val();
+                    var oldRN= jQuery("#te_new_repassword").val();     
+                    if(oldN || oldP || oldRN)
+                    {
+                        var result=  validatePassword(jQuery("#te_old_password"),null,false,false);
+                        result=result && validatePassword(jQuery("#te_new_password"),jQuery('#te_new_repassword'),false,false);
+                        result=result &&  validatePassword(jQuery('#te_new_repassword'),jQuery('#te_new_password'),true,false);
+                        return result;
+                    }else
+                    {
+                        return true;
+                    }
+                    
+                }).setMessage('check_password',
+                'Password Error');
+       
             });
         </script>
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
-        <form method="POST" name="udateForm">
+        <form action="" method="post" name="udateForm">
             <div class="profil_form">
                 <div class="p_form_sol">
                     <p class="profil_etiket">E-Mail</p>    
@@ -402,8 +475,8 @@ if (isset($_POST['update'])) {
                         value=""
                         placeholder="New Password"
                         style="width:356px;height:40px"
-                        onkeyup="validatePassword(this,jQuery('te_new_repassword'),false,false);"
-                        onblur="validatePassword(this,jQuery('te_new_repassword'),false,true);" />
+                        onkeyup="validatePassword(this,jQuery('#te_new_repassword'),false,false);"
+                        onblur="validatePassword(this,jQuery('#te_new_repassword'),false,true);" />
                         <?php
                         $display = "none";
                         $class = "";
@@ -427,7 +500,8 @@ if (isset($_POST['update'])) {
                         value="" 
                         placeholder="Re-Type Password"
                         style="width:356px;height:40px"
-                        onkeyup="validatePassword(this,$('#te_new_password'),true)" />
+                        onkeyup="validatePassword(this,jQuery('#te_new_password'),true)" 
+                        onblur="validatePassword(this,jQuery('#te_new_password'),true,true);"/>
                         <?php
                         $display = "none";
                         $class = "";
@@ -661,8 +735,7 @@ if (isset($_POST['update'])) {
                             class="user_inpt" 
                             style="width:356px;height:167px;resize: none;"
                             id="te_about"
-                            value="<?php echo $about ?>" 
-                            placeholder="About" ></textarea>
+                            placeholder="About" ><?php echo $about ?></textarea>
                             <?php
                             $display = "none";
                             $class = "";
