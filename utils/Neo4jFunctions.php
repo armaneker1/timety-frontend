@@ -354,7 +354,7 @@ class Neo4jFuctions {
         return null;
     }
 
-    function addTag($categoryId, $tagName, $socialType) {
+    function addTag($categoryId, $tagName, $socialType, $props=null) {
         $tag = $this->getTag($tagName);
 
         if (!empty($tag)) {
@@ -376,11 +376,26 @@ class Neo4jFuctions {
                 $object->setProperty(PROP_OBJECT_ID, "custom_tag_" . rand(1000, 1000000));
                 $object->setProperty(PROP_OBJECT_NAME, $tagName);
                 $object->setProperty(PROP_OBJECT_SOCIALTYPE, $socialType);
+                try {
+                    if (isset($props) && !empty($props) && sizeof($props) > 0) {
+                        foreach ($props as $prop) {
+                            if (!empty($prop) && sizeof($prop) == 2) {
+                                $pr_name = $prop[0];
+                                $pr_value = $prop[1];
+                                if (!empty($pr_name)) {
+                                    $object->setProperty($pr_name, $pr_value);
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception $exc) {
+                    error_log($exc->getTraceAsString());
+                }
                 $object->save();
-
-
+                
                 $objectIndex->add($object, PROP_OBJECT_ID, $object->getProperty(PROP_OBJECT_ID));
                 $objectIndex->add($object, PROP_OBJECT_NAME, strtolower($tagName));
+                $objectIndex->save();
                 $cat->relateTo($object, REL_OBJECTS)->save();
                 return $object->getProperty(PROP_OBJECT_ID);
             }
@@ -709,18 +724,17 @@ class Neo4jFuctions {
         return $array;
     }
 
-    function getFriendList($userId, $query,$followers) {
+    function getFriendList($userId, $query, $followers) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $rel="-[:" . REL_FOLLOWS . "]->";
-        if($followers==1 || $followers=="1")
-        {
-            $rel="<-[:" . REL_FOLLOWS . "]-";
+        $rel = "-[:" . REL_FOLLOWS . "]->";
+        if ($followers == 1 || $followers == "1") {
+            $rel = "<-[:" . REL_FOLLOWS . "]-";
         }
         $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
-                " MATCH (user) ".$rel." (follow) ". 
-                " WHERE ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND follow." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $query . ".*/ ) ".
+                " MATCH (user) " . $rel . " (follow) " .
+                " WHERE ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND follow." . PROP_USER_FIRSTNAME . "=~ /.*(?i)" . $query . ".*/ ) " .
                 " OR ( HAS (follow." . PROP_USER_LASTNAME . ") AND  follow." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $query . ".*/ ) " .
-                " OR ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND HAS (follow." . PROP_USER_LASTNAME . ") AND  follow." . PROP_USER_FIRSTNAME . "+' '+follow." . PROP_USER_LASTNAME . "=~ /.*(?i)".$query.".*/ ) ".
+                " OR ( HAS (follow." . PROP_USER_FIRSTNAME . ") AND HAS (follow." . PROP_USER_LASTNAME . ") AND  follow." . PROP_USER_FIRSTNAME . "+' '+follow." . PROP_USER_LASTNAME . "=~ /.*(?i)" . $query . ".*/ ) " .
                 " RETURN follow, count(*)";
         //echo $query."<p/>";
         $query = new Cypher\Query($client, $query, null);
