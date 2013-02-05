@@ -120,7 +120,7 @@ function wookmarkFiller(options,clear,loader)
                 });
 
 
-                wookmarkHTML(dataJSON);
+                wookmarkHTML(dataJSON,userId);
                 //function tm()
                 //{
                 if(handler) handler.wookmarkClear();
@@ -138,7 +138,7 @@ function wookmarkFiller(options,clear,loader)
     });
 }
 
-function wookmarkHTML(dataArray)
+function wookmarkHTML(dataArray,userId)
 {
     if(!dataArray)
     {
@@ -200,10 +200,12 @@ function wookmarkHTML(dataArray)
             //like share 
             var likeShareDiv = document.createElement('div');
             jQuery(likeShareDiv).addClass('likeshare'); 
-            jQuery(likeShareDiv).css("display","none");  
+            jQuery(likeShareDiv).css("display","none");
+            jQuery(likeShareDiv).attr("id","likeshare"+data.id);
 
             var btnLike = document.createElement('button');
             jQuery(btnLike).addClass('ls_btn');
+            jQuery(btnLike).attr('disabled','disabled');
             jQuery(btnLike).attr("class_aktif","like_btn_aktif");
             jQuery(btnLike).attr("id","div_like_btn");
             jQuery(btnLike).attr("class_pass","like_btn");
@@ -223,6 +225,7 @@ function wookmarkHTML(dataArray)
             
             var btnMaybe = document.createElement('button');
             jQuery(btnMaybe).addClass('ls_btn'); 
+            jQuery(btnMaybe).attr('disabled','disabled');
             jQuery(btnMaybe).attr("class_aktif","maybe_btn_aktif");
             jQuery(btnMaybe).attr("id","div_maybe_btn");
             jQuery(btnMaybe).attr("class_pass","maybe_btn");
@@ -242,6 +245,7 @@ function wookmarkHTML(dataArray)
             
             var btnShare = document.createElement('button');
             jQuery(btnShare).addClass('ls_btn'); 
+            jQuery(btnShare).attr('disabled','disabled');
             jQuery(btnShare).attr("class_aktif","share_btn_aktif");
             jQuery(btnShare).attr("id","div_share_btn");
             jQuery(btnShare).attr("class_pass","share_btn");
@@ -261,6 +265,7 @@ function wookmarkHTML(dataArray)
             
             var btnJoin = document.createElement('button');
             jQuery(btnJoin).addClass('ls_btn'); 
+            jQuery(btnJoin).attr('disabled','disabled');
             jQuery(btnJoin).attr("class_aktif","join_btn_aktif");
             jQuery(btnJoin).attr("id","div_join_btn");
             jQuery(btnJoin).attr("class_pass","join_btn");
@@ -424,6 +429,8 @@ function wookmarkHTML(dataArray)
             //jQuery(result).append(durumAlt);    
             
             jQuery('.main_event').append(result);
+            
+            likeshareInit(userId, likeShareDiv);
         }else
         {
             result = document.createElement('div');

@@ -276,9 +276,14 @@ class Event {
         //*$this->commentCount = CommentUtil::getCommentListSizeByEvent($this->id, null);
         $this->remainingtime = UtilFunctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
         //*$this->attendancecount = Neo4jFuctions::getEventAttendanceCount($this->id);
-        //get creator id
         //*$this->creatorId = Neo4jEventUtils::getEventCreatorId($this->id);
-        $this->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $userId);
+        //$this->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $userId);
+        
+        $rel = new stdClass();
+        $rel->joinType = TYPE_JOIN_NO;
+        $rel->like = FALSE;
+        $rel->reshare = FALSE;
+        $this->userRelation =$rel;
     }
 
     public $id;

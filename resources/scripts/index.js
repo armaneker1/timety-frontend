@@ -1,3 +1,4 @@
+
 /*
  * event box like share button hover
  */
@@ -9,7 +10,7 @@ jQuery(document).ready(function() {
             //jQuery("#"+this.id+" img").css("filter","url(#blur-effect-1)");
             jQuery("#"+this.id+" img").addClass("main_event_box_img_blur");
         }
-
+        
         if (ev.type == 'mouseleave') {
             jQuery("#"+this.id+" .likeshare").hide(); 
             //jQuery("#"+this.id+" img").css("-webkit-filter","");
@@ -17,17 +18,87 @@ jQuery(document).ready(function() {
             jQuery("#"+this.id+" img").removeClass("main_event_box_img_blur");
         }
     });
+    
+    likeshareButtonsInit();
 });
+
+
+function likeshareButtonsInit()
+{
+    jQuery.sessionphp.get('id',function(userId){
+        if(userId) 
+        {
+            jQuery(".likeshare").each(function(i,e){
+                likeshareInit(userId,e);
+            });
+        }
+    });
+}
+
+function likeshareInit(userId,element)
+{
+    var loaded=jQuery(element).data("loaded");
+    if(!loaded)
+    {
+        var eventId=jQuery(element).attr("id");
+        jQuery.ajax({
+            type: 'GET',
+            url: TIMETY_PAGE_AJAX_GET_EVENT_USER_RELATION,
+            dataType:'json',
+            contentType: "application/json",
+            data: {
+                'userId':userId,
+                'eventId':eventId
+            },
+            success: function(dataJson){
+                jQuery(element).data("loaded",true);
+                try{
+                    if(typeof dataJson == "string") {
+                        dataJson= jQuery.parseJSON(dataJson);
+                    }
+                }catch(e) {
+                    console.log(e);
+                    console.log(data);
+                }
+                
+                if(dataJson)
+                {
+                    jQuery(element).find(".maybe_btn").removeAttr("disabled");
+                    jQuery(element).find(".share_btn").removeAttr("disabled");
+                    jQuery(element).find(".like_btn").removeAttr("disabled");
+                    jQuery(element).find(".join_btn").removeAttr("disabled");
+                    if(dataJson.joinType==1)
+                    {
+                        setButtonStatus(jQuery(element).find(".join_btn"),true);
+                    }else if(dataJson.joinType==2) {
+                        setButtonStatus(jQuery(element).find(".maybe_btn"),true);
+                    }
+                    
+                    if(dataJson.like){
+                        setButtonStatus(jQuery(element).find(".like_btn"),true);
+                    }
+                    
+                    if(dataJson.reshare) {
+                        setButtonStatus(jQuery(element).find(".reshare_btn"),true);
+                    }  
+                }
+            }
+        },"json");
+    }
+}
+
+
+
 
 function openCreatePopup() {
     /*
-         * Clean Popup
-         */
+     * Clean Popup
+     */
     jQuery('.php_errors').remove();
-	
+    
     /*
-         * Show Popup
-         */
+     * Show Popup
+     */
     jQuery("#div_follow_trans").show();
     // jQuery("#div_follow_trans").attr('onclick','closeCreatePopup()');
     jQuery("#div_event_add_ekr").show();
@@ -39,10 +110,10 @@ function openCreatePopup() {
             closeCreatePopup();
         }
     });
-	
+    
     /*
-         * Create Checkbox
-         */
+     * Create Checkbox
+     */
     new iPhoneStyle('.on_off input[type=checkbox]', {
         widthConstant : 3, 
         statusChange : changePublicPrivate
@@ -67,7 +138,9 @@ function closeCreatePopup() {
         jQuery("#div_follow_trans").hide();
         jQuery("#div_event_add_ekr").hide();
         jQuery("#div_follow_trans").unbind('click');
-        jQuery("#div_follow_trans").bind('click',function(){return false;});
+        jQuery("#div_follow_trans").bind('click',function(){
+            return false;
+        });
     }catch(e) {
         console.log(e);
     }

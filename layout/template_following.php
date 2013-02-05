@@ -64,7 +64,7 @@
     <p class="find_friends" id="profile_friends_p_list" style="font-size: 16px;display: none;">People you know</p>
     <ul class="suggest_friend_ul"  id="profile_friends_ul_list" style="min-height: 100px;display: none;">
         <li  id="profile_friends_li_template" style="display: none;">
-            <img src="<?= HOSTNAME ?>images/anonymous.jpg" width="30"
+            <img src="<?= HOSTNAME ?>images/anonymous.png" width="30"
                  height="30" border="0" align="absmiddle" class="follow_res" />
             <span class="follow_ad">
             </span> 

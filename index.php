@@ -837,13 +837,13 @@ if (empty($user)) {
                                 <!-- event box -->
                                 <div class="main_event_box" date="<?= $main_event->startDateTime ?>">
                                     <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
-                                        <div class="likeshare" style="display: none">
-                                            <button id="div_like_btn" class="ls_btn <?php
-                if ($main_event->userRelation->like) {
-                    echo "like_btn_aktif";
-                } else {
-                    echo "like_btn";
-                }
+                                        <div class="likeshare" style="display: none" id="likeshare_<?=$main_event->id?>">
+                                            <button disabled='disabled' id="div_like_btn" class="ls_btn <?php
+                                    if ($main_event->userRelation->like) {
+                                        echo "like_btn_aktif";
+                                    } else {
+                                        echo "like_btn";
+                                    }
                                 ?>"  class_aktif="like_btn_aktif" class_pass="like_btn"      pressed="<?php
                                     if ($main_event->userRelation->like) {
                                         echo "true";
@@ -851,7 +851,7 @@ if (empty($user)) {
                                         echo "false";
                                     }
                                 ?>"  onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
-                                            <button id="div_maybe_btn" class="ls_btn <?php
+                                            <button disabled='disabled' id="div_maybe_btn" class="ls_btn <?php
                             if ($main_event->userRelation->joinType == 2) {
                                 echo "maybe_btn_aktif";
                             } else {
@@ -864,7 +864,7 @@ if (empty($user)) {
                                         echo "false";
                                     }
                                 ?>" onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;"></button>
-                                            <button id="div_share_btn" class="ls_btn <?php
+                                            <button disabled='disabled' id="div_share_btn" class="ls_btn <?php
                                     if ($main_event->userRelation->reshare) {
                                         echo "share_btn_aktif";
                                     } else {
@@ -877,7 +877,7 @@ if (empty($user)) {
                                 echo "false";
                             }
                             ?>" onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></button>
-                                            <button id="div_join_btn" class="ls_btn <?php
+                                            <button disabled='disabled' id="div_join_btn" class="ls_btn <?php
                             if ($main_event->userRelation->joinType == 1) {
                                 echo "join_btn_aktif";
                             } else {
