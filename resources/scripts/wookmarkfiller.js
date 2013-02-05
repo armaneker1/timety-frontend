@@ -310,7 +310,29 @@ function wookmarkHTML(dataArray)
             var creatorDIVP=document.createElement('p');
             jQuery(creatorDIV).append(creatorDIVP);
             jQuery(contentDIV).append(creatorDIV);
-            jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
+            if(data.creator){
+                var url=data.creator.userPicture;
+                if(url==null || url=="" )
+                {
+                    url=TIMETY_HOSTNAME+"images/anonymous.png"; 
+                }
+                if(url.indexOf("http")!=0)
+                {
+                    url=TIMETY_HOSTNAME+url; 
+                }
+                jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
+                var name="";
+                if(data.creator.firstName)
+                {
+                    name=data.creator.firstName+" ";
+                }
+                if(data.creator.lastName)
+                {
+                    name=name+data.creator.lastName+" ";
+                }
+                jQuery(creatorDIVP).append(jQuery("<span>"+name+"</span>"));
+            }
+            /*jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
                 'userId':data.creatorId
             }, function(data){
                 if(data && data.id)
@@ -327,7 +349,7 @@ function wookmarkHTML(dataArray)
                     jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
                     jQuery(creatorDIVP).append(jQuery("<span>"+data.firstName+" "+data.lastName+"</span>"));
                 }
-            }, "json");
+            }, "json");*/
             
             //description
             var descriptionDIV = document.createElement('div');

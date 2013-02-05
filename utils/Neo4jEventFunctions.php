@@ -47,6 +47,14 @@ class Neo4jEventUtils {
             $evnt->setProperty(PROP_EVENT_TITLE, $event->title);
             $evnt->setProperty(PROP_EVENT_PRIVACY, $event->privacy);
             $evnt->setProperty(PROP_EVENT_WEIGHT, 10);
+           
+            $evnt->setProperty(PROP_EVENT_COMMENT_COUNT, 0);
+            $evnt->setProperty(PROP_EVENT_ATTENDANCE_COUNT, 0);
+            $evnt->setProperty(PROP_EVENT_CREATOR_ID, $user->id);
+            $evnt->setProperty(PROP_EVENT_CREATOR_F_NAME, $user->firstName);
+            $evnt->setProperty(PROP_EVENT_CREATOR_L_NAME, $user->lastName);
+            $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
+            $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
             $evnt->save();
 
             $eventIndex->add($evnt, PROP_EVENT_ID, $eventId);
@@ -208,6 +216,7 @@ class Neo4jEventUtils {
 
             Neo4jEventUtils::relateUserToEvent($usr, $evnt, 1, TYPE_JOIN_YES);
             SocialUtil::incJoinCountAsync($user->id, $eventId);
+            Neo4jEventUtils::increaseAttendanceCount($eventId);
             //$usr->relateTo($evnt, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, 1)->setProperty(PROP_JOIN_TYPE,TYPE_JOIN_YES)->save();
             $n = new Neo4jFuctions();
             $n->removeEventInvite($user->id, $eventId);

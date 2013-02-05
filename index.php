@@ -904,13 +904,16 @@ if (empty($user)) {
                                             <p>
                 <?php
                 if (!empty($main_event->creatorId)) {
-                    $crt = UserUtils::getUserById($main_event->creatorId);
+                    $crt = $main_event->creator;
                     if (!empty($crt) && !empty($crt->id)) {
                         ?>
                                                         <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span> <?= $crt->getFullName() ?></span>
                     <?php }
-                }
+                }  else { ?>
+                    <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" />
+                     <span> </span>
+                <?php }
                 ?>
                                             </p>
                                         </div>

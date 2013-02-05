@@ -154,4 +154,10 @@ define('PROP_EVENT_WEIGHT', 'event_weight');
 
 define('PROP_EVENT_COMMENT_COUNT', 'comment_count');
 define('PROP_EVENT_ATTENDANCE_COUNT', 'attendance_count');
+define('PROP_EVENT_CREATOR_ID', 'creator_id');
+define('PROP_EVENT_CREATOR_USERNAME', 'creator_username');
+define('PROP_EVENT_CREATOR_F_NAME', 'creator_f_name');
+define('PROP_EVENT_CREATOR_L_NAME', 'creator_l_name');
+define('PROP_EVENT_CREATOR_IMAGE', 'creator_image');
+
 ?>

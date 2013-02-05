@@ -228,6 +228,21 @@ class Event {
             {
                 $this->attendancecount=0;
             }
+            
+            $cretorId=$result->getProperty(PROP_EVENT_CREATOR_ID);
+            $cretorFName=$result->getProperty(PROP_EVENT_CREATOR_F_NAME);
+            $cretorLName=$result->getProperty(PROP_EVENT_CREATOR_L_NAME);
+            $cretorUsername=$result->getProperty(PROP_EVENT_CREATOR_IMAGE);
+            $cretorImage=$result->getProperty(PROP_EVENT_CREATOR_IMAGE);
+            
+            $crt=new User();
+            $crt->id=$cretorId;
+            $this->creatorId=$cretorId;
+            $crt->firstName=$cretorFName;
+            $crt->lastName=$cretorLName;
+            $crt->userName=$cretorUsername;
+            $crt->userPicture=$cretorImage;
+            $this->creator=$crt;
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData($userId);
