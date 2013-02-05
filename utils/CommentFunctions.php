@@ -80,8 +80,6 @@ class CommentUtil {
         }
         return 0;
     }
-    
-   
 
     public static function insert(Comment $comment) {
         if (!empty($comment)) {
@@ -92,7 +90,8 @@ class CommentUtil {
                     ",'" . DBUtils::mysql_escape($comment->datetime, 1) .
                     "'," . DBUtils::mysql_escape($comment->eventId, 1) .
                     ",'" . DBUtils::mysql_escape($comment->comment) . "')";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL) or die(mysql_error($comment->eventId));
+            Neo4jEventUtils::increaseCommentCount($comment->eventId);
             return CommentUtil::getCommentById($id);
         } else {
             return null;

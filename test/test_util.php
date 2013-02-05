@@ -15,7 +15,7 @@ require_once __DIR__ . '/../utils/Functions.php';
 
 
 
-var_dump(SocialFriendUtil::getPopularUserList(6618333,10));
+var_dump(Neo4jEventUtils::increaseCommentCount(1000243));
 
 
 

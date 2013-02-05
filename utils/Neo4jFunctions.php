@@ -88,10 +88,12 @@ class Neo4jFuctions {
                     SocialUtil::incJoinCountAsync($userId, $eventId);
                     $result->success = true;
                     $result->error = false;
+                    Neo4jEventUtils::increaseAttendanceCount($eventId);
                 } else if ($resp == 0 || $resp == 5) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_NO);
                     if ($resp == 5) {
                         SocialUtil::decJoinCountAsync($userId, $eventId);
+                        Neo4jEventUtils::decreaseAttendanceCount($eventId);
                     }
                     $result->success = true;
                     $result->error = false;
@@ -99,10 +101,12 @@ class Neo4jFuctions {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_MAYBE);
                     $result->success = true;
                     $result->error = false;
+                    SocialUtil::incJoinCountAsync($userId, $eventId);
                 } else if ($resp == 3 || $resp == 4) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_IGNORE);
                     if ($resp == 4) {
                         SocialUtil::decJoinCountAsync($userId, $eventId);
+                        Neo4jEventUtils::decreaseAttendanceCount($eventId);
                     }
                     $result->success = true;
                     $result->error = false;
@@ -354,7 +358,7 @@ class Neo4jFuctions {
         return null;
     }
 
-    function addTag($categoryId, $tagName, $socialType, $props=null) {
+    function addTag($categoryId, $tagName, $socialType, $props = null) {
         $tag = $this->getTag($tagName);
 
         if (!empty($tag)) {
@@ -392,7 +396,7 @@ class Neo4jFuctions {
                     error_log($exc->getTraceAsString());
                 }
                 $object->save();
-                
+
                 $objectIndex->add($object, PROP_OBJECT_ID, $object->getProperty(PROP_OBJECT_ID));
                 $objectIndex->add($object, PROP_OBJECT_NAME, strtolower($tagName));
                 $objectIndex->save();
@@ -921,6 +925,10 @@ class Neo4jFuctions {
             $query = "";
         }
 
+        /*
+          echo  $teg."Date calculating <p/>";
+          echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+         */
         if (empty($date) || substr($date, 0, 1) == "0") {
             $date = strtotime("now");
         } else {
@@ -1009,32 +1017,27 @@ class Neo4jFuctions {
         } else {
             $count = 2;
             /*
-              echo  $teg."Date type 1<p/>";
+              echo  $teg."getAllOtherEvents start<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
-            //$array1 = Neo4jFuctions::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query);
-            //all 1
-            //subscribed category =0
             $array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
-            //var_dump(sizeof($array1));
             /*
-              echo  $teg."array 1 mysql<p/>";
+              echo  $teg."getAllOtherEvents end size : ".  sizeof($array1)."<p/>";
+              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+             */
+
+            /*
+              echo  $teg."getPopularEventsByLike start<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             $array2 = Neo4jRecommendationUtils::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
-            //var_dump(sizeof($array2));
             /*
-              echo  $teg."array 2 gremlin<p/>";
+              echo  $teg."getPopularEventsByLike end size : ".  sizeof($array2)."<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
 
             /*
-              $array3= Neo4jFuctions::getPopularEventsByLikeCatgory($userId, $pageNumber, $count2, $date, $query);
-              $array1= Neo4jFuctions::getPopuparEventsByLike($userId, $pageNumber, $pageItemCount, $date, $query);
-              $array2=  Neo4jFuctions::getPopuparEventsByEvent($userId, $pageNumber, $pageItemCount, $date, $query); */
-
-            /*
-              echo  $teg."start merge array<p/>";
+              echo  $teg."merge arrays start<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             $dublicateKeys = array();
@@ -1065,14 +1068,14 @@ class Neo4jFuctions {
                     }
                 }
             }
-            //var_dump(sizeof($array));
             /*
-              echo  $teg."end merge array<p/>";
+              echo  $teg."merge arrays end <p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
 
+
             /*
-              echo  $teg."start sort array<p/>";
+              echo  $teg."sort arrays start <p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             //sort by date
@@ -1099,7 +1102,7 @@ class Neo4jFuctions {
                 }
             }
             /*
-              echo  $teg."end sort array<p/>";
+              echo  $teg."sort arrays end <p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
         }
@@ -1107,6 +1110,10 @@ class Neo4jFuctions {
             $eventIds = substr($eventIds, 0, strlen($eventIds) - 1);
         }
 
+        /*
+          echo  $teg."get Event Images from mysql start <p/>";
+          echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+         */
         $images = ImageUtil::getAllHeaderImageList($eventIds);
         $tmparray = array();
         $img = new Image();
@@ -1122,6 +1129,11 @@ class Neo4jFuctions {
                 array_push($tmparray, $evt);
             }
         }
+        /*
+          echo  $teg."get Event Images from mysql end <p/>";
+          echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+         */
+
         if ($type == 1 && $pageNumber == 0 && false) {
             $evtAd = new Event();
             $evtAd->ad = true;

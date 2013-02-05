@@ -207,7 +207,7 @@ class Neo4jEventUtils {
             $usr = $userIndex->findOne(PROP_USER_ID, $user->id);
 
             Neo4jEventUtils::relateUserToEvent($usr, $evnt, 1, TYPE_JOIN_YES);
-            SocialUtil::incJoinCountAsync( $user->id, $eventId);
+            SocialUtil::incJoinCountAsync($user->id, $eventId);
             //$usr->relateTo($evnt, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, 1)->setProperty(PROP_JOIN_TYPE,TYPE_JOIN_YES)->save();
             $n = new Neo4jFuctions();
             $n->removeEventInvite($user->id, $eventId);
@@ -447,6 +447,67 @@ class Neo4jEventUtils {
             }
         }
         return $array;
+    }
+
+    public static function increaseCommentCount($eventId) {
+        if (!empty($eventId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
+
+            $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
+            $id=$event->getProperty(PROP_EVENT_ID);
+            if (!empty($event) && !empty($id)) {
+                $commentCount = $event->getProperty(PROP_EVENT_COMMENT_COUNT);
+                if (!empty($commentCount)) {
+                    $commentCount = ((int) $commentCount) + 1;
+                } else {
+                    $commentCount = 1;
+                }
+                $event->setProperty(PROP_EVENT_COMMENT_COUNT, $commentCount);
+                $event->save();
+            }
+        }
+    }
+    
+     public static function increaseAttendanceCount($eventId) {
+        if (!empty($eventId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
+
+            $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
+            $id=$event->getProperty(PROP_EVENT_ID);
+            if (!empty($event) && !empty($id)) {
+                $attendanceCount = $event->getProperty(PROP_EVENT_ATTENDANCE_COUNT);
+                if (!empty($attendanceCount)) {
+                    $attendanceCount = ((int) $attendanceCount) + 1;
+                } else {
+                    $attendanceCount = 1;
+                }
+                $event->setProperty(PROP_EVENT_ATTENDANCE_COUNT, $attendanceCount);
+                $event->save();
+            }
+        }
+    }
+    
+    
+    public static function decreaseAttendanceCount($eventId) {
+        if (!empty($eventId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
+
+            $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
+            $id=$event->getProperty(PROP_EVENT_ID);
+            if (!empty($event) && !empty($id)) {
+                $attendanceCount = $event->getProperty(PROP_EVENT_ATTENDANCE_COUNT);
+                if (!empty($attendanceCount)) {
+                    $attendanceCount = ((int) $attendanceCount) - 1;
+                } else {
+                    $attendanceCount = 0;
+                }
+                $event->setProperty(PROP_EVENT_ATTENDANCE_COUNT, $attendanceCount);
+                $event->save();
+            }
+        }
     }
 
 }

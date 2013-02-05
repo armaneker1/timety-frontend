@@ -151,4 +151,7 @@ define('PROP_EVENT_START_DATE', 'start_date_time');
 define('PROP_EVENT_END_DATE', 'end_date_time');
 define('PROP_EVENT_PRIVACY', 'privacy');
 define('PROP_EVENT_WEIGHT', 'event_weight');
+
+define('PROP_EVENT_COMMENT_COUNT', 'comment_count');
+define('PROP_EVENT_ATTENDANCE_COUNT', 'attendance_count');
 ?>

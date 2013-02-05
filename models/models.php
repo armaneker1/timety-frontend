@@ -218,6 +218,16 @@ class Event {
             $this->endDateTimeLong = $result->getProperty(PROP_EVENT_END_DATE);
             $this->endDateTime = date(DATETIME_DB_FORMAT, $this->endDateTimeLong);
             $this->privacy = $result->getProperty(PROP_EVENT_PRIVACY);
+            $this->commentCount=$result->getProperty(PROP_EVENT_COMMENT_COUNT);
+            if(empty($this->commentCount))
+            {
+                $this->commentCount=0;
+            }
+            $this->attendancecount=$result->getProperty(PROP_EVENT_ATTENDANCE_COUNT);
+            if(empty($this->attendancecount))
+            {
+                $this->attendancecount=0;
+            }
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData($userId);
@@ -248,11 +258,11 @@ class Event {
     public function setAdditionalData($userId = -1) {
         //$this->getImages();
         //$this->getHeaderImage();
-        $this->commentCount = CommentUtil::getCommentListSizeByEvent($this->id, null);
+        //*$this->commentCount = CommentUtil::getCommentListSizeByEvent($this->id, null);
         $this->remainingtime = UtilFunctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
-        $this->attendancecount = Neo4jFuctions::getEventAttendanceCount($this->id);
+        //*$this->attendancecount = Neo4jFuctions::getEventAttendanceCount($this->id);
         //get creator id
-        $this->creatorId = Neo4jEventUtils::getEventCreatorId($this->id);
+        //*$this->creatorId = Neo4jEventUtils::getEventCreatorId($this->id);
         $this->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $userId);
     }
 
