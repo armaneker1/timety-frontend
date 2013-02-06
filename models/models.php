@@ -79,7 +79,7 @@ class User {
             else
                 return HOSTNAME . $this->userPicture;
         }else {
-            return HOSTNAME . "images/anonymous.jpg";
+            return HOSTNAME . "images/anonymous.png";
         }
     }
 

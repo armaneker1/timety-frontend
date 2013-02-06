@@ -14,8 +14,9 @@ header("Content-Type: text/html; charset=utf8");
 require_once __DIR__ . '/../utils/Functions.php';
 
 
+$n=new Neo4jFuctions();
 
-var_dump(Neo4jEventUtils::increaseCommentCount(1000243));
+var_dump($n->getInterestedCategoryList("6618344", 4));
 
 
 

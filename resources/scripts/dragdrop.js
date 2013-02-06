@@ -1,5 +1,5 @@
 function makeMeDraggable() {
-    jQuery('.main_draggable').draggable({
+    jQuery('.main_draggable_dis').draggable({
         drag: function(event, ui) {
             jQuery(ui.helper).css("z-index","1000001");
             ui.helper.width(40);
@@ -31,7 +31,7 @@ function makeMeDraggable() {
         helper: "clone"
     });
     
-    jQuery(".main_dropable_").droppable( { 
+    jQuery(".main_dropable_dis").droppable( { 
             tolerance : 'touch',
             drop: function(event,ui) {
                eventId=jQuery(ui.helper).attr('eventid');

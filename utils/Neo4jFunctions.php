@@ -496,8 +496,10 @@ class Neo4jFuctions {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $uid . "') " .
                 "MATCH (user) -[:" . REL_INTERESTS . "]- (object) -[:" . REL_OBJECTS . "]- (cat)" .
+                " WHERE cat.name <> 'Tag' ". 
                 "RETURN  cat, count(*)" .
                 "ORDER BY count(*) DESC";
+        //echo $query;
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
 
