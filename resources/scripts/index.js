@@ -41,49 +41,58 @@ function likeshareInit(userId,element)
     if(!loaded)
     {
         var eventId=jQuery(element).attr("id");
-        jQuery.ajax({
-            type: 'GET',
-            url: TIMETY_PAGE_AJAX_GET_EVENT_USER_RELATION,
-            dataType:'json',
-            contentType: "application/json",
-            data: {
-                'userId':userId,
-                'eventId':eventId
-            },
-            success: function(dataJson){
-                jQuery(element).data("loaded",true);
-                try{
-                    if(typeof dataJson == "string") {
-                        dataJson= jQuery.parseJSON(dataJson);
+        if(eventId && eventId.split("_").length==2)
+        {
+            eventId=eventId.split("_")[1];
+        }else {
+            eventId=null;
+        }
+        if(eventId)
+        {
+            jQuery.ajax({
+                type: 'GET',
+                url: TIMETY_PAGE_AJAX_GET_EVENT_USER_RELATION,
+                dataType:'json',
+                contentType: "application/json",
+                data: {
+                    'userId':userId,
+                    'eventId':eventId
+                },
+                success: function(dataJson){
+                    jQuery(element).data("loaded",true);
+                    try{
+                        if(typeof dataJson == "string") {
+                            dataJson= jQuery.parseJSON(dataJson);
+                        }
+                    }catch(e) {
+                        console.log(e);
+                        console.log(data);
                     }
-                }catch(e) {
-                    console.log(e);
-                    console.log(data);
-                }
                 
-                if(dataJson)
-                {
-                    jQuery(element).find(".maybe_btn").removeAttr("disabled");
-                    jQuery(element).find(".share_btn").removeAttr("disabled");
-                    jQuery(element).find(".like_btn").removeAttr("disabled");
-                    jQuery(element).find(".join_btn").removeAttr("disabled");
-                    if(dataJson.joinType==1)
+                    if(dataJson)
                     {
-                        setButtonStatus(jQuery(element).find(".join_btn"),true);
-                    }else if(dataJson.joinType==2) {
-                        setButtonStatus(jQuery(element).find(".maybe_btn"),true);
-                    }
+                        jQuery(element).find(".maybe_btn").removeAttr("disabled");
+                        jQuery(element).find(".share_btn").removeAttr("disabled");
+                        jQuery(element).find(".like_btn").removeAttr("disabled");
+                        jQuery(element).find(".join_btn").removeAttr("disabled");
+                        if(dataJson.joinType==1)
+                        {
+                            setButtonStatus(jQuery(element).find(".join_btn"),true);
+                        }else if(dataJson.joinType==2) {
+                            setButtonStatus(jQuery(element).find(".maybe_btn"),true);
+                        }
                     
-                    if(dataJson.like){
-                        setButtonStatus(jQuery(element).find(".like_btn"),true);
-                    }
+                        if(dataJson.like){
+                            setButtonStatus(jQuery(element).find(".like_btn"),true);
+                        }
                     
-                    if(dataJson.reshare) {
-                        setButtonStatus(jQuery(element).find(".reshare_btn"),true);
-                    }  
+                        if(dataJson.reshare) {
+                            setButtonStatus(jQuery(element).find(".reshare_btn"),true);
+                        }  
+                    }
                 }
-            }
-        },"json");
+            },"json");
+        }
     }
 }
 
