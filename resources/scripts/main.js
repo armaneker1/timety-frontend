@@ -8,6 +8,7 @@ function followUser(fromUserId, toUSerId, button) {
             button.innerHTML = 'unfollow';
             button.setAttribute('onclick', 'un'
                 + button.getAttribute('onclick'));
+            updateBadge(4,1);
         } else {
             getInfo(true, data.error, "error", 4000);
         }
@@ -24,6 +25,7 @@ function unfollowUser(fromUserId, toUSerId, button) {
             button.innerHTML = 'follow';
             button.setAttribute('onclick', button.getAttribute('onclick')
                 .substring(2));
+                updateBadge(4,-1);
         } else {
             getInfo(true, data.error, "error", 4000);
         }

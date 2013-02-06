@@ -1,3 +1,30 @@
+function updateBadge(field,val) {
+    var element=null;
+    if(field==1) {
+        element=jQuery("#prof_joins_count");
+    } else if(field==2) {
+        element=jQuery("#prof_reshares_count");
+    } else if(field==3) {
+        element=jQuery("#prof_likes_count");
+    } else if(field==4) {
+        element=jQuery("#prof_following_count");
+    }
+    //prof_created_count
+    //prof_followers_count
+    
+    if(element) {
+        try{
+            var v=jQuery(element).text();
+            v=parseInt(v)+parseInt(val);
+            jQuery(element).text(v);
+        }catch(exp)
+        {
+            console.log(exp);
+        }
+    }
+    
+}
+
 function shareThisFacebook()
 {
     var u=location.href;
@@ -92,6 +119,7 @@ function reshareEvent(button,eventId)
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                         }else {
+                            updateBadge(2, -1);
                             var msg='reverted reshared Event';
                             getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
@@ -126,6 +154,7 @@ function reshareEvent(button,eventId)
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                         }else {
+                            updateBadge(2, 1);
                             var msg='You reshared Event';
                             getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
@@ -172,13 +201,13 @@ function sendResponseEvent(button,eventId,type)
                 },
                 success: function(data){
                     if(typeof data == "string")
-                        {
-                            data= jQuery.parseJSON(data);
-                        }
-                        else
-                        {
-                            data=data;   
-                        }
+                    {
+                        data= jQuery.parseJSON(data);
+                    }
+                    else
+                    {
+                        data=data;   
+                    }
                     jQuery(button).removeAttr("disabled"); 
                     if(data.error) {
                         getInfo(true,'Something went wrong :( Try again.','error',4000);
@@ -186,6 +215,7 @@ function sendResponseEvent(button,eventId,type)
                         var msg='Whoa! Have fun!';
                         if(type==0 || type==5)
                         {
+                            updateBadge(1, -1);
                             //reject
                             msg='reject event';
                             //setButtonStatus(button,false);
@@ -197,6 +227,7 @@ function sendResponseEvent(button,eventId,type)
                             changeLocalData(eventId,0,0);
                         }else if(type==1)
                         {
+                            updateBadge(1, 1);
                             //join
                             msg='Whoa! Have fun!';
                             addToMyTimety(eventId,userId);
@@ -207,6 +238,7 @@ function sendResponseEvent(button,eventId,type)
                             changeLocalData(eventId,0,1);
                         }else if(type==2)
                         {
+                            updateBadge(1, 1);
                             //maybe
                             msg='Whoa! Have fun!';
                             addToMyTimety(eventId,userId);
@@ -272,6 +304,7 @@ function likeEvent(button,eventId)
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                         }else {
+                            updateBadge(3, -1);
                             var msg='You unliked Event';
                             getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
@@ -304,6 +337,7 @@ function likeEvent(button,eventId)
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                         }else {
+                            updateBadge(3, 1);
                             var msg='You liked Event';
                             getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);

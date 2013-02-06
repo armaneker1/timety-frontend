@@ -312,7 +312,7 @@ function openModalPanel(event_id,custom) {
         jQuery(reshareButton).attr("class_aktif","tmp_aktif");
         jQuery(reshareButton).attr("class_pass","tmp_pass");
         jQuery(reshareButton).click(function(){
-            sendResponseEvent(this,data.id,1);
+            reshareEvent(this,data.id)
             return false;
         });
         if(reshared)
