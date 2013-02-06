@@ -153,7 +153,7 @@ function closeCreatePopup() {
     }catch(e) {
         console.log(e);
     }
-    document.body.style.overflow = "scroll";
+    document.body.style.overflowY = "scroll";
 }
 
 function validateInt(evt) {

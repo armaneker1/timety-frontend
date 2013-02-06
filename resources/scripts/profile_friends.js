@@ -329,7 +329,7 @@ function closeFriendsPopup()
         return false;
     });
     jQuery(friendsBackground).hide();
-    document.body.style.overflow = "scroll";
+    document.body.style.overflowY = "scroll";
 /*
      * hide Backgrund
      */
