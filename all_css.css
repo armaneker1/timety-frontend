@@ -1071,14 +1071,17 @@ body {
 .tweet {
     background-repeat: no-repeat;
     background-position: -32px;
+    margin-right: -1px;
 }
 .tweet_aktiv {
     background-repeat: no-repeat;
     background-position: 3px;
+    margin-right: -1px;
 }
 .tweet:hover {
     background-repeat: no-repeat;
     background-position: 3px;
+    margin-right: -1px;
 }
 
 
