@@ -25,7 +25,7 @@
     });
 </script>
 
-<div class="follow_ekr" id="profile_friends" style="display: none;position: fixed;">
+<div class="follow_ekr" id="profile_friends" style="display: none;position: relative;">
     <div class="f_friend">
         <p class="find_friends" id="profile_friends_header">Find Friends</p>
 

@@ -99,7 +99,7 @@ if ($showPopup) {
 
 <?php } ?>
 
-    <div  class="event_add_ekr" id="div_event_add_ekr" style="position: fixed;display: <?php
+    <div  class="event_add_ekr" id="div_event_add_ekr" style="position: relative;display: <?php
 if ($showPopup) {
     echo "block";
 } else {
