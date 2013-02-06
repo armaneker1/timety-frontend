@@ -377,6 +377,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(liMaviAImg).attr('align','absmiddle');
             jQuery(liMaviAImg).attr('border',0);
             jQuery(liMaviA).attr('href','#');
+            jQuery(liMaviA).attr('onclick','return false;');
             jQuery(liMaviA).addClass('mavi_link');
             jQuery(liMavi).addClass('m_e_cizgi');
             jQuery(liMaviA).append(liMaviAImg);
@@ -394,6 +395,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(liTuruncuAImg).attr('align','absmiddle');
             jQuery(liTuruncuAImg).attr('border',0);
             jQuery(liTuruncuA).attr('href','#');
+            jQuery(liTuruncuA).attr('onclick','return false;');
             jQuery(liTuruncuA).addClass('turuncu_link');
             jQuery(liTuruncu).addClass('m_e_cizgi');
             jQuery(liTuruncuA).append(liTuruncuAImg);
@@ -411,6 +413,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(liYesilAImg).attr('align','absmiddle');
             jQuery(liYesilAImg).attr('border',0);
             jQuery(liYesilA).attr('href','#');
+            jQuery(liYesilA).attr('onclick','return false;');
             jQuery(liYesilA).addClass('yesil_link');
             jQuery(liYesilA).append(liYesilAImg);
             jQuery(liYesilA).append(data.remainingtime);

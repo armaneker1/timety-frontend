@@ -803,17 +803,17 @@ if (empty($user)) {
                                     <div class="m_e_metin">
                                         <div class="m_e_drm">
                                             <ul>
-                                                <li class="m_e_cizgi"><a href="#" class="mavi_link"> <img
+                                                <li class="m_e_cizgi"><a href="#" class="mavi_link" onclick="return false;"> <img
                                                             src="<?= HOSTNAME ?>images/usr.png" width="18" height="18" border="0"
                                                             align="absmiddle" /><?= $main_event->people ?>
                                                     </a>
                                                 </li>
-                                                <li class="m_e_cizgi"><a href="#" class="turuncu_link"> <img
+                                                <li class="m_e_cizgi"><a href="#" onclick="return false;" class="turuncu_link"> <img
                                                             src="<?= HOSTNAME ?>images/comm.png" width="19" height="18" border="0"
                                                             align="absmiddle" /><?= $main_event->comment ?>
                                                     </a>
                                                 </li>
-                                                <li><a href="#" class="yesil_link"> <img src="<?= HOSTNAME ?>images/zmn.png"
+                                                <li><a href="#" class="yesil_link" onclick="return false;"> <img src="<?= HOSTNAME ?>images/zmn.png"
                                                                                          width="19" height="18" border="0" align="absmiddle" /><?= $main_event->time ?>
                                                     </a>
                                                 </li>
@@ -920,17 +920,17 @@ if (empty($user)) {
                                         </div>
                                         <div class="m_e_drm">
                                             <ul>
-                                                <li class="m_e_cizgi"><a href="#" class="mavi_link"> <img
+                                                <li class="m_e_cizgi"><a href="#" onclick="return false;" class="mavi_link"> <img
                                                             src="<?= HOSTNAME ?>images/usr.png" width="18" height="18" border="0"
                                                             align="absmiddle" /><?= $main_event->attendancecount ?>
                                                     </a>
                                                 </li>
-                                                <li class="m_e_cizgi"><a href="#" class="turuncu_link"> <img
+                                                <li class="m_e_cizgi"><a href="#"  onclick="return false;" class="turuncu_link"> <img
                                                             src="<?= HOSTNAME ?>images/comm.png" width="19" height="18" border="0"
                                                             align="absmiddle" /><?= $main_event->commentCount ?>
                                                     </a>
                                                 </li>
-                                                <li><a href="#" class="yesil_link"> <img src="<?= HOSTNAME ?>images/zmn.png"
+                                                <li><a href="#" class="yesil_link" onclick="return false;"> <img src="<?= HOSTNAME ?>images/zmn.png"
                                                                                          width="19" height="18" border="0" align="absmiddle" /><?= $main_event->remainingtime ?>
                                                     </a>
                                                 </li>
