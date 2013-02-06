@@ -3,6 +3,27 @@
  * event box like share button hover
  */
 jQuery(document).ready(function() {
+    
+    /*
+     * to close 
+     */
+    jQuery("#div_follow_trans").unbind('click');
+    jQuery(jQuery("#div_follow_trans")).bind('click',function(e){
+        if(e && e.target && e.target.id && e.target.id == "div_follow_trans")
+        {
+            closeCreatePopup();
+            closeModalPanel();
+            closeFriendsPopup();
+        }
+    });
+    /*
+     * 
+     */
+    jQuery('#add_event_form_id').keypress(function(e){
+        if(e.which == 13)
+            return false;
+    });
+    
     jQuery("[id*='div_img_event_']").live("hover",function(ev){
         if (ev.type == 'mouseenter') {
             jQuery("#"+this.id+" .likeshare").show(); 
@@ -117,6 +138,8 @@ function openCreatePopup() {
         if(e && e.target && e.target.id && e.target.id == "div_follow_trans")
         {
             closeCreatePopup();
+            closeModalPanel();
+            closeFriendsPopup();
         }
     });
     

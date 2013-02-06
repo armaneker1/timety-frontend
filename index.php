@@ -595,6 +595,7 @@ if (empty($user)) {
                     {
                         closeCreatePopup();
                         closeModalPanel();
+                        closeFriendsPopup();
                     }
                 });
             </script>
