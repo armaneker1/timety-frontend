@@ -60,6 +60,7 @@ if (isset($_GET['error'])) {
                     } else {
                         echo "User empty 001";
                     }
+                    $timety_header="Timety | Google";
                     include('layout/layout_header.php');
                     if ($success) {
                         echo "<body onload=\"window.close();window.opener.document.getElementById('addSocialReturnButton').click();\"></body>";

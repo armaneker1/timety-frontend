@@ -244,7 +244,7 @@ if (empty($birhtdate)) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <?php include('layout/layout_header.php'); ?>
+        <?php $timety_header="Timety | Personal Information";  include('layout/layout_header.php'); ?>
 
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
         <script type="text/javascript">
@@ -363,7 +363,6 @@ if (empty($birhtdate)) {
                 'Enter valid date');
             });
         </script>
-        <title>Timety Personal Info</title>
         <script>
             function setLocation(result,status)
             {

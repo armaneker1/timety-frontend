@@ -71,6 +71,56 @@ $te_image = $user->getUserPic();
 $te_gender = $user->gender;
 
 
+if (isset($_SESSION['profile_session']) && $_SESSION['profile_session'] == "1") {
+    $_SESSION['profile_session'] = 0;
+
+    $email = $_SESSION['pr_email'];
+    $emailError = $_SESSION['pr_emailError'];
+    $username = $_SESSION['pr_username'];
+    $usernameError = $_SESSION['pr_usernameError'];
+    $name = $_SESSION['pr_name'];
+    $nameError = $_SESSION['pr_nameError'];
+    $lastname = $_SESSION['pr_lastname'];
+    $ulastnameError = $_SESSION['pr_ulastnameError'];
+    $uoldpassError = $_SESSION['pr_uoldpassError'];
+    $unewpassError = $_SESSION['pr_unewpassError'];
+    $unewrepassError = $_SESSION['pr_unewrepassError'];
+    $website = $_SESSION['pr_website'];
+    $websiteError = $_SESSION['pr_websiteError'];
+    $about = $_SESSION['pr_about'];
+    $aboutError = $_SESSION['pr_aboutError'];
+    $te_birthday = $_SESSION['pr_birthday'];
+    $te_birthdayError = $_SESSION['pr_birthdayError'];
+    $hometown = $_SESSION['pr_hometown'];
+    $hometownError = $_SESSION['pr_hometownError'];
+    $te_image = $_SESSION['pr_image'];
+    $te_gender = $_SESSION['pr_gender'];
+    $success = $_SESSION['pr_success'];
+    
+    $_SESSION['pr_email'] = "";
+    $_SESSION['pr_emailError'] = "";
+    $_SESSION['pr_username'] = "";
+    $_SESSION['pr_usernameError'] = "";
+    $_SESSION['pr_name'] = "";
+    $_SESSION['pr_nameError'] = "";
+    $_SESSION['pr_lastname'] = "";
+    $_SESSION['pr_ulastnameError'] = "";
+    $_SESSION['pr_uoldpassError'] = "";
+    $_SESSION['pr_unewpassError'] = "";
+    $_SESSION['pr_unewrepassError'] = "";
+    $_SESSION['pr_website'] = "";
+    $_SESSION['pr_websiteError'] = "";
+    $_SESSION['pr_about'] = "";
+    $_SESSION['pr_aboutError'] = "";
+    $_SESSION['pr_birthday'] = "";
+    $_SESSION['pr_birthdayError'] = "";
+    $_SESSION['pr_hometown'] = "";
+    $_SESSION['pr_hometownError'] = "";
+    $_SESSION['pr_image'] = "";
+    $_SESSION['pr_gender'] = 0;
+    $_SESSION['pr_success'] = false;
+}
+
 if (isset($_POST['update'])) {
     $param = true;
     $username = $_POST['te_username'];
@@ -186,12 +236,37 @@ if (isset($_POST['update'])) {
         UserUtils::addUserInfoNeo4j($user);
         $success = true;
     }
+
+    $_SESSION['pr_email'] = $email;
+    $_SESSION['pr_emailError'] = $emailError;
+    $_SESSION['pr_username'] = $username;
+    $_SESSION['pr_usernameError'] = $usernameError;
+    $_SESSION['pr_name'] = $name;
+    $_SESSION['pr_nameError'] = $nameError;
+    $_SESSION['pr_lastname'] = $lastname;
+    $_SESSION['pr_ulastnameError'] = $ulastnameError;
+    $_SESSION['pr_uoldpassError'] = $uoldpassError;
+    $_SESSION['pr_unewpassError'] = $unewpassError;
+    $_SESSION['pr_unewrepassError'] = $unewrepassError;
+    $_SESSION['pr_website'] = $website;
+    $_SESSION['pr_websiteError'] = $websiteError;
+    $_SESSION['pr_about'] = $about;
+    $_SESSION['pr_aboutError'] = $aboutError;
+    $_SESSION['pr_birthday'] = $te_birthday;
+    $_SESSION['pr_birthdayError'] = $te_birthdayError;
+    $_SESSION['pr_hometown'] = $hometown;
+    $_SESSION['pr_hometownError'] = $hometownError;
+    $_SESSION['pr_image'] = $te_image;
+    $_SESSION['pr_gender'] = $te_gender;
+    $_SESSION['pr_success'] = $success;
+    $_SESSION['profile_session'] = "1";
+    header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+    exit(1);
 }
 ?>
 <html>
     <head>
-        <?php include('layout/layout_header.php'); ?>
-        <title>Timety Profile</title>
+        <?php $timety_header="Timety | Update Profile"; include('layout/layout_header.php'); ?>
 
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>

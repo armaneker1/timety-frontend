@@ -56,7 +56,7 @@ if(isset($_SESSION['id']))
 	echo "User empty2";
 }
 ?>
-<head><?php include('layout/layout_header.php'); ?></head>
+<head><?php $timety_header="Timety | Facebook "; include('layout/layout_header.php'); ?></head>
 <?php if($success) { ?>
 <body onload="window.close();window.opener.document.getElementById('addSocialReturnButton').click();" ></body>
 <?php } else { ?>

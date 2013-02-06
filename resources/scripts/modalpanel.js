@@ -212,6 +212,8 @@ function openModalPanel(event_id,custom) {
             e.preventDefault();
             return false;
         });
+        //set windows title
+        document.title="Timety | "+data.title;
         //set event title
         jQuery("#gdy_event_title").text(data.title);
         //set event date
@@ -481,6 +483,7 @@ function getImages(gdy_altDIVOrta_images,event_id)
 function closeModalPanel() {
     try{
         remUrlEventId();
+        document.title="Timety | Never miss out";
         jQuery('#genel_detay_yeni').hide();
         var detailModalPanelBackground = document.getElementById('div_follow_trans');
         

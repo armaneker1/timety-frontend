@@ -30,9 +30,7 @@ if (!isset($_SESSION['id'])) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <?php include('layout/layout_header.php'); ?>
-
-        <title>Timety Friend Suggest</title>
+        <?php $timety_header="Timety | Friend Suggest"; include('layout/layout_header.php'); ?>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
         <script type="text/javascript">
             jQuery(function(){

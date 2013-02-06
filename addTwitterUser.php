@@ -45,7 +45,7 @@ if (isset($_SESSION['id']) && !empty($_GET['oauth_verifier']) && !empty($_SESSIO
 	echo "User empty1";
 }
 ?>
-<head><?php include('layout/layout_header.php'); ?></head>
+<head><?php $timety_header="Timety | Twitter "; include('layout/layout_header.php'); ?></head>
 <?php if($success) { ?>
 <body onload="window.close();window.opener.document.getElementById('addSocialReturnButton').click();" ></body>
 <?php } else { ?>
