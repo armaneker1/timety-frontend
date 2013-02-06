@@ -651,7 +651,18 @@ if ($showPopup && isset($_POST["te_event_end_date"])) {
                 </div>
                 <div class="ea_alt_btn">
                     <a href="#" class="dugme dugme_esit" onclick="closeCreatePopup();return false;"returnfalse;">Cancel</a>
-                    <button class="dugme dugme_esit" type="submit" id="addEvent">Add Event</button>
+                    <script>
+                    function disButton(elem){
+                        var val=jQuery(elem).data('clcked');
+                        if(val) {
+                            return false;
+                        }else {
+                            jQuery(elem).data('clcked',true);
+                            return true;
+                        }
+                    }
+                    </script>
+                    <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent">Add Event</button>
                 </div>
             </div>
             <input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php
