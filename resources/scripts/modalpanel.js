@@ -183,7 +183,7 @@ function openModalPanel(event_id,custom) {
             return;
         }
         // set url 
-        if(!addUrlEventId(event_id))
+        if(!addUrlEventId(event_id,data.title))
         {
             closeModalPanel();
             return false;    
@@ -246,7 +246,7 @@ function openModalPanel(event_id,custom) {
             }, "json");
         }else
         {
-        // do something show empty image          
+            // do something show empty image          
         }
         //set share butons
         jQuery("#fb_share_button").unbind("click");
@@ -500,18 +500,22 @@ function closeModalPanel() {
 } 
 
 
-function addUrlEventId(event_id)
+function addUrlEventId(event_id,title)
 {
     if (history.pushState) {
         /*
-             * Url rewrite
-             */
+         * Url rewrite
+         */
         var url_=window.location.href.split("/");
         if(url_)
         {
             if(jQuery.inArray("event",url_)<0)
             {
-                window.History.pushState(null, null, "event/"+event_id);  
+                if(title){ 
+                    title=title.replace(' ', '-');
+                    title=title.replace(/[^A-Za-z0-9-]+/g, '');
+                }
+                window.History.pushState(null, null, "event/"+event_id+"/"+title);  
             }else
             {
                 path="";
@@ -535,8 +539,8 @@ function remUrlEventId()
 {
     if (history.pushState) {
         /*
-             * Url rewrite
-             */
+         * Url rewrite
+         */
         var url_=window.location.href.split("/");
         if(url_)
         {

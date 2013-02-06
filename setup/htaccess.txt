@@ -40,6 +40,8 @@ RewriteRule ^timety/confirm-user$ /timety/confirm.php
 RewriteRule ^timety/test/$ /timety/test [R]
 RewriteRule ^timety/test$ /timety/test.php
 
+RewriteRule ^timety/event/([0-9]+)/([^/]+)/$ /timety/event/$1
+RewriteRule ^timety/event/([0-9]+)/([^/]+)$ /timety/event/$1
 RewriteRule ^timety/event/([0-9]+)/$ /timety/event/$1
 RewriteRule ^timety/event/([0-9]+)$ /timety/?eventId=$1
 
