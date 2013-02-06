@@ -47,7 +47,7 @@ class Neo4jEventUtils {
             $evnt->setProperty(PROP_EVENT_TITLE, $event->title);
             $evnt->setProperty(PROP_EVENT_PRIVACY, $event->privacy);
             $evnt->setProperty(PROP_EVENT_WEIGHT, 10);
-           
+
             $evnt->setProperty(PROP_EVENT_COMMENT_COUNT, 0);
             $evnt->setProperty(PROP_EVENT_ATTENDANCE_COUNT, 0);
             $evnt->setProperty(PROP_EVENT_CREATOR_ID, $user->id);
@@ -464,7 +464,7 @@ class Neo4jEventUtils {
             $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
 
             $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
-            $id=$event->getProperty(PROP_EVENT_ID);
+            $id = $event->getProperty(PROP_EVENT_ID);
             if (!empty($event) && !empty($id)) {
                 $commentCount = $event->getProperty(PROP_EVENT_COMMENT_COUNT);
                 if (!empty($commentCount)) {
@@ -477,14 +477,14 @@ class Neo4jEventUtils {
             }
         }
     }
-    
-     public static function increaseAttendanceCount($eventId) {
+
+    public static function increaseAttendanceCount($eventId) {
         if (!empty($eventId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
 
             $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
-            $id=$event->getProperty(PROP_EVENT_ID);
+            $id = $event->getProperty(PROP_EVENT_ID);
             if (!empty($event) && !empty($id)) {
                 $attendanceCount = $event->getProperty(PROP_EVENT_ATTENDANCE_COUNT);
                 if (!empty($attendanceCount)) {
@@ -497,15 +497,39 @@ class Neo4jEventUtils {
             }
         }
     }
-    
-    
+
+    public static function updateUserEventsCrestor($userId) {
+        $user = UserUtils::getUserById($userId);
+        if (!empty($user) && !empty($user->id)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                    " MATCH  user-[r:" . REL_EVENTS_JOINS . "]->(event) " .
+                    " WHERE ( r." . PROP_JOIN_CREATE . "=1 OR r." . PROP_JOIN_CREATE . "='1')" .
+                    " RETURN  event,count(*)";
+            echo $query;
+            $query = new Cypher\Query($client, $query, null);
+            $nresult = $query->getResultSet();
+            foreach ($nresult as $row) {
+                $evnt = $row['event'];
+                if (!empty($evnt)) {
+                    $evnt->setProperty(PROP_EVENT_CREATOR_ID, $user->id);
+                    $evnt->setProperty(PROP_EVENT_CREATOR_F_NAME, $user->firstName);
+                    $evnt->setProperty(PROP_EVENT_CREATOR_L_NAME, $user->lastName);
+                    $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
+                    $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
+                    $evnt->save();
+                }
+            }
+        }
+    }
+
     public static function decreaseAttendanceCount($eventId) {
         if (!empty($eventId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
 
             $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
-            $id=$event->getProperty(PROP_EVENT_ID);
+            $id = $event->getProperty(PROP_EVENT_ID);
             if (!empty($event) && !empty($id)) {
                 $attendanceCount = $event->getProperty(PROP_EVENT_ATTENDANCE_COUNT);
                 if (!empty($attendanceCount)) {

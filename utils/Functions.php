@@ -1,12 +1,13 @@
 <?php
+
 /*
  * Dependencies
  */
-require_once __DIR__ .'/../apis/facebook/facebook.php';
-require_once __DIR__ .'/../apis/twitter/twitteroauth.php';
-require_once __DIR__ .'/../apis/foursquare/FoursquareAPI.php'; 
-require_once __DIR__ .'/../apis/google/Google_Client.php'; 
-require_once __DIR__ .'/../apis/google/contrib/Google_PlusService.php'; 
+require_once __DIR__ . '/../apis/facebook/facebook.php';
+require_once __DIR__ . '/../apis/twitter/twitteroauth.php';
+require_once __DIR__ . '/../apis/foursquare/FoursquareAPI.php';
+require_once __DIR__ . '/../apis/google/Google_Client.php';
+require_once __DIR__ . '/../apis/google/contrib/Google_PlusService.php';
 
 require_once __DIR__ . '/../config/dbconfig.php';
 require_once __DIR__ . '/../config/constant.php';
@@ -112,16 +113,16 @@ class UtilFunctions {
         // Validate the domain exists with a DNS check
         // if the checks cannot be made (soft fail over to true)
         /*
-        list($user, $domain) = explode('@', $email);
-        if (function_exists('checkdnsrr')) {
-            if (!checkdnsrr($domain, "MX")) { // Linux: PHP 4.3.0 and higher & Windows: PHP 5.3.0 and higher
-                return false;
-            }
-        } else if (function_exists("getmxrr")) {
-            if (!getmxrr($domain, $mxhosts)) {
-                return false;
-            }
-        }*/
+          list($user, $domain) = explode('@', $email);
+          if (function_exists('checkdnsrr')) {
+          if (!checkdnsrr($domain, "MX")) { // Linux: PHP 4.3.0 and higher & Windows: PHP 5.3.0 and higher
+          return false;
+          }
+          } else if (function_exists("getmxrr")) {
+          if (!getmxrr($domain, $mxhosts)) {
+          return false;
+          }
+          } */
         return true;
     }
 
@@ -178,6 +179,29 @@ class UtilFunctions {
             }
         }
         return false;
+    }
+
+    public static function curl_post_async($url, $params) {
+        foreach ($params as $key => &$val) {
+            if (is_array($val))
+                $val = implode(',', $val);
+            $post_params[] = $key . '=' . urlencode($val);
+        }
+        $post_string = implode('&', $post_params);
+
+        $parts = parse_url($url);
+
+        $fp = fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
+        $out= "POST " . $parts['path'] . " HTTP/1.1\r\n";
+        $out.= "Host: " . $parts['host'] . "\r\n";
+        $out.= "Authorization: Basic " . base64_encode(SettingsUtil::getSetting(SETTINGS_ADMIN_USER) . ":" . SettingsUtil::getSetting(SETTINGS_ADMIN_USER_PASS))."\n";
+        $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
+        $out.= "Content-Length: " . strlen($post_string) . "\r\n";
+        $out.= "Connection: Close\r\n\r\n";
+       if (isset($post_string))
+            $out.= $post_string;
+        fwrite($fp, $out);
+        fclose($fp);
     }
 
 }

@@ -93,6 +93,7 @@ define('PAGE_AJAX_GET_USER_SOCAIL_PROVIDERS',PAGE_AJAX_FOLDER.'getUserSocialProv
 define('PAGE_AJAX_GET_USER_SOCIAL_FRIENDS',PAGE_AJAX_FOLDER.'getUserSocialFriends.php');
 define('PAGE_AJAX_GET_SOCIAL_PIC',PAGE_AJAX_FOLDER.'getUserSocialPicture.php');
 define('PAGE_AJAX_GET_EVENT_USER_RELATION',PAGE_AJAX_FOLDER.'getEventUserRelation.php');
+define('PAGE_AJAX_UPDATE_USER_INFO',PAGE_AJAX_FOLDER.'updateUserInfo.php');
 
 
 define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));

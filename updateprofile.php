@@ -235,6 +235,7 @@ if (isset($_POST['update'])) {
         $user = UserUtils::getUserById($_SESSION['id']);
         UserUtils::addUserInfoNeo4j($user);
         $success = true;
+        UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId"=>$_SESSION['id']));
     }
 
     $_SESSION['pr_email'] = $email;
@@ -260,8 +261,8 @@ if (isset($_POST['update'])) {
     $_SESSION['pr_gender'] = $te_gender;
     $_SESSION['pr_success'] = $success;
     $_SESSION['profile_session'] = "1";
-    header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
-    exit(1);
+   // header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+   // exit(1);
 }
 ?>
 <html>
