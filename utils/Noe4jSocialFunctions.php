@@ -285,7 +285,7 @@ class SocialUtil {
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START fuser=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $fromUserId . "'), " .
-                     " tuser=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $toUserId . "') " .
+                    " tuser=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $toUserId . "') " .
                     "MATCH (fuser) -[r:" . REL_FOLLOWS . "]-> (tuser) " .
                     "DELETE  r";
             $query = new Cypher\Query($client, $query, null);
@@ -298,16 +298,11 @@ class SocialUtil {
         return $result;
     }
 
-    public static function in_array($array,$id)
-    {
-        if(!empty($array) && !empty($id))
-        {
-            foreach ($array as $fr)
-            {
-                if(!empty($fr) && !empty($fr->id))
-                {
-                    if($fr->id==$id)
-                    {
+    public static function in_array($array, $id) {
+        if (!empty($array) && !empty($id)) {
+            foreach ($array as $fr) {
+                if (!empty($fr) && !empty($fr->id)) {
+                    if ($fr->id == $id) {
                         return true;
                     }
                 }
@@ -316,11 +311,10 @@ class SocialUtil {
         return false;
     }
 
-
     public static function getUserSocialFriend($userId) {
         $user = UserUtils::getUserById($_SESSION['id']);
-        $friendList=array();
-        $friendIdList=array();
+        $friendList = array();
+        $friendIdList = array();
         if (!empty($user)) {
             $socialProviders = $user->socialProviders;
             if (!empty($socialProviders)) {
@@ -342,7 +336,8 @@ class SocialUtil {
                         foreach ($friends_fb as $friend) {
                             $id = "";
                             $id = $friend['id'];
-                            array_push($friends, $id);
+                            if ($id != $userId)
+                                array_push($friends, $id);
                         }
                     } elseif ($provider->oauth_provider == TWITTER_TEXT) {
                         $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);
@@ -355,7 +350,8 @@ class SocialUtil {
                                 if (property_exists($friend, 'id')) {
                                     $id = $friend->id;
                                 }
-                                array_push($friends, $id);
+                                if ($id != $userId)
+                                    array_push($friends, $id);
                             }
                         }
                     } elseif ($provider->oauth_provider == FOURSQUARE_TEXT) {
@@ -370,7 +366,8 @@ class SocialUtil {
                             if (property_exists($friend, 'id')) {
                                 $id = $friend->id;
                             }
-                            array_push($friends, $id);
+                            if ($id != $userId)
+                                array_push($friends, $id);
                         }
                     } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
                         /* $google = new Google_Client();
@@ -393,16 +390,15 @@ class SocialUtil {
                     }
                     if (!empty($friends)) {
                         $friends = SocialFriendUtil::getUserSuggestList($user->id, $friends, $provider->oauth_provider);
-                        foreach ($friends as $fr)
-                        {
+                        foreach ($friends as $fr) {
                             $key = array_search($fr->id, $friendIdList);
-                            if (strlen($key) <= 0) {
+                            if (strlen($key) <= 0 && $fr->id!=$userId) {
                                 array_push($friendList, $fr);
                                 array_push($friendIdList, $fr->id);
                             }
                         }
                     }
-                } 
+                }
             }
         }
         return $friendList;

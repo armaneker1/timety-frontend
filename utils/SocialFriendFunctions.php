@@ -56,7 +56,7 @@ class SocialFriendUtil {
         return $array;
     }
 
-    public static function getUserSuggestListFromIds(array $friends, $limit) {
+    public static function getUserSuggestListFromIds(array $friends, $limit,$userId=0) {
         $array = array();
         $usr_ids = "";
         foreach ($friends as $friend) {
@@ -66,13 +66,13 @@ class SocialFriendUtil {
             $usr_ids = $usr_ids . $friend;
         }
         if (!empty($usr_ids)) {
-            $SQL = "SELECT * from " . TBL_USERS . "  WHERE id IN  (" . $usr_ids . ")";
+            $SQL = "SELECT * from " . TBL_USERS . "  WHERE id IN  (" . $usr_ids . ") AND id <> ".$userId;
         } else {
             if(empty($limit))
             {
                 $limit=4;
             }
-            $SQL = "SELECT * from " . TBL_USERS . "  LIMIT 0," . $limit;
+            $SQL = "SELECT * from " . TBL_USERS . " WHERE  id <> ".$userId."  LIMIT 0," . $limit;
         }
         $query = mysql_query($SQL) or die(mysql_errno());
         $num = mysql_num_rows($query);

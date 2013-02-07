@@ -47,7 +47,7 @@ class Neo4jUserUtil {
         return $array;
     }
 
-    public static function getPopularUserList($userId, $limit, $term=null) {
+    public static function getPopularUserList($userId, $limit, $term = null) {
         if (empty($limit)) {
             $limit = 5;
         }
@@ -79,9 +79,10 @@ class Neo4jUserUtil {
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         foreach ($result as $row) {
-            array_push($array, $row['user']->getProperty(PROP_USER_ID));
+            if ($userId != $row['user']->getProperty(PROP_USER_ID))
+                array_push($array, $row['user']->getProperty(PROP_USER_ID));
         }
-        return SocialFriendUtil::getUserSuggestListFromIds($array, $limit);
+        return SocialFriendUtil::getUserSuggestListFromIds($array, $limit,$userId);
     }
 
     public static function getUserFollowingCount($userId) {
