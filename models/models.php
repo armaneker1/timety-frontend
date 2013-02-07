@@ -42,7 +42,7 @@ class User {
                 $this->invited = $tmp->invited;
                 $this->website = $tmp->website;
                 $this->about = $tmp->about;
-                $this->gender=$tmp->gender;
+                $this->gender = $tmp->gender;
             } else {
                 $this->id = null;
             }
@@ -201,6 +201,8 @@ class Event {
             $this->addsocial_tw = $result['addsocial_tw'];
             $this->reminderSent = $result['reminderSent'];
             $this->attach_link = $result['attach_link'];
+            $this->loc_lat = $result['lat'];
+            $this->loc_lng = $result['lng'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -217,32 +219,32 @@ class Event {
             $this->startDateTime = date(DATETIME_DB_FORMAT, $this->startDateTimeLong);
             $this->endDateTimeLong = $result->getProperty(PROP_EVENT_END_DATE);
             $this->endDateTime = date(DATETIME_DB_FORMAT, $this->endDateTimeLong);
+            $this->loc_lat = $result->getProperty(PROP_EVENT_LOC_LAT);
+            $this->loc_lng = $result->getProperty(PROP_EVENT_LOC_LNG);
             $this->privacy = $result->getProperty(PROP_EVENT_PRIVACY);
-            $this->commentCount=$result->getProperty(PROP_EVENT_COMMENT_COUNT);
-            if(empty($this->commentCount))
-            {
-                $this->commentCount=0;
+            $this->commentCount = $result->getProperty(PROP_EVENT_COMMENT_COUNT);
+            if (empty($this->commentCount)) {
+                $this->commentCount = 0;
             }
-            $this->attendancecount=$result->getProperty(PROP_EVENT_ATTENDANCE_COUNT);
-            if(empty($this->attendancecount))
-            {
-                $this->attendancecount=0;
+            $this->attendancecount = $result->getProperty(PROP_EVENT_ATTENDANCE_COUNT);
+            if (empty($this->attendancecount)) {
+                $this->attendancecount = 0;
             }
-            
-            $cretorId=$result->getProperty(PROP_EVENT_CREATOR_ID);
-            $cretorFName=$result->getProperty(PROP_EVENT_CREATOR_F_NAME);
-            $cretorLName=$result->getProperty(PROP_EVENT_CREATOR_L_NAME);
-            $cretorUsername=$result->getProperty(PROP_EVENT_CREATOR_IMAGE);
-            $cretorImage=$result->getProperty(PROP_EVENT_CREATOR_IMAGE);
-            
-            $crt=new User();
-            $crt->id=$cretorId;
-            $this->creatorId=$cretorId;
-            $crt->firstName=$cretorFName;
-            $crt->lastName=$cretorLName;
-            $crt->userName=$cretorUsername;
-            $crt->userPicture=$cretorImage;
-            $this->creator=$crt;
+
+            $cretorId = $result->getProperty(PROP_EVENT_CREATOR_ID);
+            $cretorFName = $result->getProperty(PROP_EVENT_CREATOR_F_NAME);
+            $cretorLName = $result->getProperty(PROP_EVENT_CREATOR_L_NAME);
+            $cretorUsername = $result->getProperty(PROP_EVENT_CREATOR_IMAGE);
+            $cretorImage = $result->getProperty(PROP_EVENT_CREATOR_IMAGE);
+
+            $crt = new User();
+            $crt->id = $cretorId;
+            $this->creatorId = $cretorId;
+            $crt->firstName = $cretorFName;
+            $crt->lastName = $cretorLName;
+            $crt->userName = $cretorUsername;
+            $crt->userPicture = $cretorImage;
+            $this->creator = $crt;
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData($userId);
@@ -268,6 +270,8 @@ class Event {
         $this->addsocial_tw = $tmp->addsocial_tw;
         $this->reminderSent = $tmp->reminderSent;
         $this->attach_link = $tmp->attach_link;
+        $this->loc_lat = $tmp->loc_lat;
+        $this->loc_lng = $tmp->loc_lng;
     }
 
     public function setAdditionalData($userId = -1) {
@@ -278,12 +282,12 @@ class Event {
         //*$this->attendancecount = Neo4jFuctions::getEventAttendanceCount($this->id);
         //*$this->creatorId = Neo4jEventUtils::getEventCreatorId($this->id);
         //$this->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $userId);
-        
+
         $rel = new stdClass();
         $rel->joinType = TYPE_JOIN_NO;
         $rel->like = FALSE;
         $rel->reshare = FALSE;
-        $this->userRelation =$rel;
+        $this->userRelation = $rel;
     }
 
     public $id;
@@ -304,6 +308,8 @@ class Event {
     public $addsocial_tw;
     public $attach_link;
     public $reminderSent = 0;
+    public $loc_lat;
+    public $loc_lng;
     /*
      * Additional Data
      */

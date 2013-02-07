@@ -316,6 +316,11 @@ if ($showPopup) {
                         echo $event->location;
                     }
                     ?>" placeholder="location" />
+                    <input type="hidden" name="te_map_location" id="te_map_location" value="<?php
+                    if ($showPopup) {
+                        echo $event->loc_lat.",".$event->loc_lng;
+                    }
+                    ?>"/>
                     <div class="left">
                         <div class="link_atac" style="display: none;left: -195px !important;">
                             <input type="text" name="te_event_attach_link" id="te_event_attach_link" class="link_atac_adrs" value="<?php
@@ -334,7 +339,6 @@ if ($showPopup) {
                         </p>
                         <p>
                             <a style="cursor: pointer" class="fill_btn" onclick="openMap();"></a>
-                            <input type="hidden" name="te_map_location" id="te_map_location" value=""/>
                         </p>
                     </div>
                 </div>
