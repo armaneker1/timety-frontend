@@ -84,9 +84,9 @@ if (!isset($_SESSION['id'])) {
                 <?php if (!$gg) echo "onclick=\"$('#spinner').show();openPopup('gg');checkOpenPopup();\""; ?>
                         class="googl_plus<?php if ($gg) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
 
-                <button type="button" name="" value=""
+             <!--   <button type="button" name="" value=""
                 <?php if (!$fq) echo "onclick=\"$('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
-                        class="googl_plus<?php if ($fq) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
+                        class="googl_plus<?php if ($fq) echo '_aktiv'; ?> back_btn sosyal_icon"></button> -->
 
                 <button style="display: none;" id="addSocialReturnButton"
                         onclick="$('#spinner').show();setTimeout(function() { window.location='<?php echo PAGE_WHO_TO_FOLLOW; ?>'; $('#spinner').hide();},1000);"></button>
