@@ -77,4 +77,8 @@ if (!isset($timety_header)) {
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/mixpanel.js"></script>
 <!-- Scripts -->
 
+
+<!--[if IE]>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/ie.js"></script>
+<![endif]-->
 <?php include ('config/analytics.php'); ?>

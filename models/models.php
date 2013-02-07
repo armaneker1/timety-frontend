@@ -245,6 +245,7 @@ class Event {
             $crt->userName = $cretorUsername;
             $crt->userPicture = $cretorImage;
             $this->creator = $crt;
+            $this->creatorId=$cretorId;
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData($userId);

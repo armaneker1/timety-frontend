@@ -105,6 +105,23 @@ class EventUtil {
             return null;
         }
     }
+    
+    public static function getEventByIdNeo4j($id) {
+        if (!empty($id)) {
+            $SQL="SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id;
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $event = new Event();
+            $event->create($result, FALSE);
+            if (!empty($event->id)) {
+                return $event;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
 }
 

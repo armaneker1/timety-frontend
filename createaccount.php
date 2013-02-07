@@ -263,6 +263,7 @@ $upass = null;
                     </div>
                     <div style="margin-left: 209px;margin-bottom: 10px;">
                         <input name="te_invitation_code" 
+                               type="text"
                                id="te_invitation_code" 
                                value="<?= $invitationCode ?>" 
                                placeholder="Enter your invitation code here" 

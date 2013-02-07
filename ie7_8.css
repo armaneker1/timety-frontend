@@ -915,72 +915,16 @@ body {
     padding: 20px;
 }
 .back_btn{
-    background-color:#efefef;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    border-radius:5px;
-    border: 1px solid #cfcfcf;
-    -moz-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 0px 2px rgba(255,255,255,1);
-    -ms-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 0px 2px rgba(255,255,255,1);
-    -o-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 0px 2px rgba(255,255,255,1);
-    -webkit-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 0px 2px rgba(255,255,255,1);
-    box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),inset 0px 0px 2px rgba(255,255,255,1);
     line-height: 36px;
-    width: 40px;
+    width: 35px;
     display: block;
     height: 36px;
     float: right;
-    margin-right: 5px;
+    border:none;
+    background-color:transparent;
+    padding:0px;
 }
-.face_aktiv {
-    background-repeat: no-repeat;
-    background-position: -62px;
-    background-color:#f4f4f4;
-    -moz-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -ms-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -o-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -webkit-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),inset 0px 3px 5px rgba(255,255,255,1);
-}
-.face:hover {
-    background-repeat: no-repeat;
-    background-position: -62px;
-    background-color:#f4f4f4;
-    -moz-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -ms-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -o-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -webkit-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),inset 0px 3px 5px rgba(255,255,255,1);
-}
+
 .find_friends {
     float: left;
     font-family: Arial, Helvetica, sans-serif;
@@ -1105,13 +1049,21 @@ body {
     margin-top: 10px;
 }
 
-
+.face_aktiv {
+    background-repeat: no-repeat;
+    background-position: -65px;
+}
+.face:hover {
+    background-repeat: no-repeat;
+    background-position: -65px;
+}
 
 
 .face {
     background-repeat: no-repeat;
-    background-position: -97px;
+    background-position: -100px;
 }
+
 
 .tweet {
     background-repeat: no-repeat;
@@ -1122,85 +1074,24 @@ body {
     background-repeat: no-repeat;
     background-position: 3px;
     margin-right: -1px;
-    background-color:#f4f4f4;
-    -moz-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -ms-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -o-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -webkit-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),inset 0px 3px 5px rgba(255,255,255,1);
 }
 .tweet:hover {
     background-repeat: no-repeat;
     background-position: 3px;
-    background-color:#f4f4f4;
     margin-right: -1px;
-    -moz-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -ms-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -o-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -webkit-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),inset 0px 3px 5px rgba(255,255,255,1);
 }
-
 
 .googl_plus {
     background-repeat: no-repeat;
-    background-position: -130px;
+    background-position: -132px;
 }
 .googl_plus_aktiv {
     background-repeat: no-repeat;
-    background-position: -165px;
-    background-color:#f4f4f4;
-    -moz-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -ms-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -o-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -webkit-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),inset 0px 3px 5px rgba(255,255,255,1);
+    background-position: -167px;
 }
 .googl_plus:hover {
     background-repeat: no-repeat;
-    background-position: -165px;
-    background-color:#f4f4f4;
-    -moz-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -ms-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -o-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    -webkit-box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),
-        inset 0px 3px 5px rgba(255,255,255,1);
-    box-shadow:
-        0px -1px 0px rgba(000,000,000,0.2),inset 0px 3px 5px rgba(255,255,255,1);
+    background-position: -167px;
 }
 
 
@@ -2640,12 +2531,12 @@ body {
 }
 .kok {
     background-image: url(images/kok.png);
-    height: 20px;
-    width: 38px;
+    height: 12px;
+    width: 20px;
     position: absolute;
-    bottom: -10px;
+    bottom:16px;
     /*left: 5px;*/
-    left: 0px;
+    left: -15px;
 }
 
 /*popup baslangic*/

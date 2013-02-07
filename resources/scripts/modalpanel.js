@@ -237,13 +237,15 @@ function openModalPanel(event_id,custom) {
         setImageBackGroundLoader(jQuery("#image_creator"));
         if(data.creatorId)
         {
+            jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
+            setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.creator.userPicture);
             //set Event Creator
-            jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
+           /* jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
                 'userId':data.creatorId
             }, function(data){
                 jQuery("#name_creator").text(data.firstName+" "+data.lastName);
                 setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.userPicture);
-            }, "json");
+            }, "json"); */
         }else
         {
             // do something show empty image          
@@ -529,6 +531,7 @@ function addUrlEventId(event_id,title)
     }
     else
     {
+        getLoader(true);
         window.location=TIMETY_PAGE_EVENT_DETAIL+event_id;
         return false;
     }

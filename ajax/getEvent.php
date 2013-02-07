@@ -17,7 +17,7 @@ $res->success=false;
 
 if(!empty($eventId))
 {
-   $result=EventUtil::getEventById($eventId);
+   $result=Neo4jEventUtils::getEventFromNode($eventId,TRUE);
    $result->getHeaderImage();
    if(!empty($result))
    {

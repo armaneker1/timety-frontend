@@ -258,7 +258,7 @@ class Neo4jEventUtils {
         return $array;
     }
 
-    public static function getEventFromNode($eventId) {
+    public static function getEventFromNode($eventId,$additionalData=FALSE) {
         if (!empty($eventId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_EVENT . "']]" .
@@ -267,7 +267,7 @@ class Neo4jEventUtils {
             $result = $query->getResultSet();
             foreach ($result as $row) {
                 $evt = new Event();
-                $evt->createNeo4j($row[0]);
+                $evt->createNeo4j($row[0],$additionalData);
                 return $evt;
             }
         }
