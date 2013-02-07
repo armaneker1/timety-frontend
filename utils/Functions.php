@@ -192,16 +192,65 @@ class UtilFunctions {
         $parts = parse_url($url);
 
         $fp = fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
-        $out= "POST " . $parts['path'] . " HTTP/1.1\r\n";
+        $out = "POST " . $parts['path'] . " HTTP/1.1\r\n";
         $out.= "Host: " . $parts['host'] . "\r\n";
-        $out.= "Authorization: Basic " . base64_encode(SettingsUtil::getSetting(SETTINGS_ADMIN_USER) . ":" . SettingsUtil::getSetting(SETTINGS_ADMIN_USER_PASS))."\n";
+        $out.= "Authorization: Basic " . base64_encode(SettingsUtil::getSetting(SETTINGS_ADMIN_USER) . ":" . SettingsUtil::getSetting(SETTINGS_ADMIN_USER_PASS)) . "\n";
         $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
         $out.= "Content-Length: " . strlen($post_string) . "\r\n";
         $out.= "Connection: Close\r\n\r\n";
-       if (isset($post_string))
+        if (isset($post_string))
             $out.= $post_string;
         fwrite($fp, $out);
         fclose($fp);
+    }
+
+    public static function decInvitationCodeCount($invitationCode) {
+        $SQL = "SELECT * FROM timete_cupon WHERE id='" . $invitationCode . "' AND count>0";
+        $query = mysql_query($SQL) or die(mysql_error());
+        $result = mysql_fetch_array($query);
+        if (!empty($result)) {
+            $count = (int) $result["count"];
+            $SQL = "UPDATE timete_cupon SET  count=" . ($count - 1)." WHERE id='".$invitationCode."'";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function incInvitationCodeCount($invitationCode) {
+        $SQL = "SELECT * FROM timete_cupon WHERE id='" . $invitationCode . "' AND count>0";
+        $query = mysql_query($SQL) or die(mysql_error());
+        $result = mysql_fetch_array($query);
+        if (!empty($result)) {
+            $count = (int) $result["count"];
+            $SQL = "UPDATE timete_cupon SET  count=" . ($count + 1)." WHERE id='".$invitationCode."'";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function checkInvitationCode($invitationCode) {
+        $res = new Result();
+        $res->success = false;
+        $res->error = true;
+        if (!empty($invitationCode)) {
+            $SQL = "SELECT * FROM timete_cupon WHERE id='" . $invitationCode . "' AND count>0";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            if (!empty($result)) {
+                UtilFunctions::decInvitationCodeCount($invitationCode);
+                $res->success = true;
+                $res->error = false;
+            }
+        } else {
+            $res->success = false;
+            $res->error = true;
+            $res->param = "Invitation code is empty";
+        }
+        return $res;
+    }
+
+    public static function insertUserInvitation($userId, $invitationCode) {
+        $SQL = "INSERT INTO timete_cuponuser (user_id,cupon) VALUES (" . $userId . ",'" . $invitationCode . "')";
+        $query = mysql_query($SQL) or die(mysql_error());
+        mysql_fetch_array($query);
     }
 
 }

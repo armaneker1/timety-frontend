@@ -13,21 +13,28 @@ class UserUtils {
             UserUtils::updateSocialProvider($provider);
             $user = UserUtils::getUserById($provider->user_id);
         } else {
-            #user not present. Insert a new Record
-            $type = 2; //user doesn't exits create user and register user
-            $user = new User();
-            $user->userName = UserUtils::findTemprorayUserName($username);
-            $user->status = 0;
-            $user = UserUtils::createUser($user);
-            //update social provider
-            $provider = new SocialProvider();
-            $provider->user_id = $user->id;
-            $provider->oauth_provider = $oauth_provider;
-            $provider->oauth_token = $accessToken;
-            $provider->oauth_token_secret = $accessTokenSecret;
-            $provider->oauth_uid = $uid;
-            $provider->status = 0;
-            UserUtils::updateSocialProvider($provider);
+            if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
+                #user not present. Insert a new Record
+                $type = 2; //user doesn't exits create user and register user
+                $user = new User();
+                $user->userName = UserUtils::findTemprorayUserName($username);
+                $user->status = 0;
+                $user = UserUtils::createUser($user);
+                //update social provider
+                $provider = new SocialProvider();
+                $provider->user_id = $user->id;
+                $provider->oauth_provider = $oauth_provider;
+                $provider->oauth_token = $accessToken;
+                $provider->oauth_token_secret = $accessTokenSecret;
+                $provider->oauth_uid = $uid;
+                $provider->status = 0;
+                UserUtils::updateSocialProvider($provider);
+            } else {
+                //invitation not valid
+                $_SESSION['invCodeError'] = "invitation code not valid";
+                $type = 3;
+                $user = null;
+            }
         }
 
         $array = array(
@@ -246,18 +253,23 @@ class UserUtils {
             UserUtils::updateUser($tmp_user->id, $user);
             $user = UserUtils::getUserById($tmp_user->id);
         } else {
-            $userId=  DBUtils::getNextId(CLM_USERID);
-            $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited) VALUES ($userId,'$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited)";
-            mysql_query($SQL) or die(mysql_error());
-            //create user for neo4j
-            $user = UserUtils::getUserByUserName($user->userName);
+            if (isset($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
+                $userId = DBUtils::getNextId(CLM_USERID);
+                UtilFunctions::insertUserInvitation($userId, $_SESSION["te_invitation_code"]);
+                $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited) VALUES ($userId,'$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited)";
+                mysql_query($SQL) or die(mysql_error());
+                //create user for neo4j
+                $user = UserUtils::getUserByUserName($user->userName);
+            }
         }
         try {
-            $n = new Neo4jFuctions();
-            if (!$n->createUser($user->id, $user->userName, $usertype)) {
-                $user->saved = 0;
-                UserUtils::updateUser($user->id, $user);
-                $user = UserUtils::getUserByUserName($user->userName);
+            if (!empty($user)) {
+                $n = new Neo4jFuctions();
+                if (!$n->createUser($user->id, $user->userName, $usertype)) {
+                    $user->saved = 0;
+                    UserUtils::updateUser($user->id, $user);
+                    $user = UserUtils::getUserByUserName($user->userName);
+                }
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -270,7 +282,7 @@ class UserUtils {
 
     public static function addUserInfoNeo4j($user) {
         $n = new Neo4jFuctions();
-        $n->addUserInfo($user->id, $user->firstName, $user->lastName, $user->type,$user->userName);
+        $n->addUserInfo($user->id, $user->firstName, $user->lastName, $user->type, $user->userName);
     }
 
     //Social Provider Functions
@@ -305,7 +317,7 @@ class UserUtils {
         if (!empty($oauth_id) && !empty($oauth_provider)) {
             $oauth_provider = DBUtils::mysql_escape($oauth_provider);
             $oauth_id = DBUtils::mysql_escape($oauth_id);
-            $SQL="SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE oauth_uid = '$oauth_id' and oauth_provider = '$oauth_provider'";
+            $SQL = "SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE oauth_uid = '$oauth_id' and oauth_provider = '$oauth_provider'";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
             $provider = new SocialProvider();

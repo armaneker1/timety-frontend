@@ -37,7 +37,7 @@ if (isset($_GET['error'])) {
                 $userName = $me['displayName'];
                 $userName = strtolower($userName);
                 $userName = str_replace(" ", "", $userName);
-                if (isset($_SESSION["gg_type_social"]) && $_SESSION["gg_type_social"]=="add") {
+                if (isset($_SESSION["gg_type_social"]) && $_SESSION["gg_type_social"] == "add") {
                     if (isset($_SESSION['id'])) {
                         $l_user = UserUtils::getUserById($_SESSION['id']);
                         try {
@@ -60,7 +60,7 @@ if (isset($_GET['error'])) {
                     } else {
                         echo "User empty 001";
                     }
-                    $timety_header="Timety | Google";
+                    $timety_header = "Timety | Google";
                     include('layout/layout_header.php');
                     if ($success) {
                         echo "<body onload=\"window.close();window.opener.document.getElementById('addSocialReturnButton').click();\"></body>";
@@ -79,8 +79,11 @@ if (isset($_GET['error'])) {
                         $_SESSION['username'] = $user->username;
                         $_SESSION['oauth_provider'] = GOOGLE_PLUS_TEXT;
                         if ($type == 1) {
+                            if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
+                                UtilFunctions::incInvitationCodeCount($_SESSION["te_invitation_code"]);
+                            }
                             header("Location: " . HOSTNAME);
-                        } else {
+                        } else if ($type == 2) {
                             header("Location: " . PAGE_ABOUT_YOU);
                         }
                     } else {

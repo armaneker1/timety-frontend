@@ -20,7 +20,7 @@ function getCityLocation(fn)
                                     {
                                         if(jQuery.inArray("locality",results[i].types)>=0 && jQuery.inArray("political",results[i].types)>=0)
                                         {
-                                            fn.call(this,results[i].formatted_address, "OK"); 
+                                            fn.call(this,results[i].formatted_address, "OK",results[i]); 
                                         }
                                     }
                                 }

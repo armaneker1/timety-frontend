@@ -227,3 +227,82 @@ function selectCheckBox(elem,id) {
         elem.setAttribute('count','0');
     }
 }
+
+
+
+/*
+ * Create event 
+ */
+var ce_map =null;
+var ce_loc=null;
+                            
+jQuery(document).ready(function(){
+    getCityLocation(setMapLocation);
+    var input = document.getElementById('te_event_location');
+    var options = { /*types: ['(cities)']*/ };
+    autocomplete = new google.maps.places.Autocomplete(input, options);
+    google.maps.event.addListener(autocomplete, 'place_changed', 
+        function() { 
+            var place = autocomplete.getPlace(); 
+            var point = place.geometry.location; 
+            if(point) 
+            {  
+                addMarker(point.lat(),point.lng());
+            } 
+        });
+});
+
+function setMapLocation(result,status,res){
+    if(status=="OK") {
+        ce_loc=res.geometry.location;
+        addMarker(ce_loc.Ya,ce_loc.Za);
+    }else{
+        console.log(result);
+    }
+}
+function openMap(mod,value){
+    if(mod)  {
+        if(value) {
+            jQuery("#div_maps").show();
+        }else  {
+            jQuery("#div_maps").hide();
+        }
+    }else {
+        jQuery("#div_maps").toggle();
+    }
+    if(!ce_map) {
+        var lat=-12.043333;
+        var lng=-77.028333;
+        if(ce_loc) {
+            lat=ce_loc.Ya;
+            lng=ce_loc.Za;
+        }
+        ce_map = new GMaps({
+            'el': '#te_maps',
+            'lat':lat,
+            'lng':lng
+        });
+        addMarker(lat,lng);
+    }
+}
+
+function addMarker(lat,lng) {
+    if(ce_map) {
+        ce_map.setCenter(lat,lng);
+        ce_map.removeMarkers();
+        var marker=ce_map.addMarker({
+            lat: lat,
+            lng: lng,
+            draggable:true
+        });
+        setMapLocation(lat, lng);
+        google.maps.event.addListener(marker, 'dragend', function (e) {
+            setMapLocation(e.latLng.Ya, e.latLng.Za);
+        });
+    }
+}
+
+function setMapLocation(lat,lng)
+{
+    jQuery("#te_map_location").val(lat+","+lng);
+}

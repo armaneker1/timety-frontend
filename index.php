@@ -85,6 +85,13 @@ if (empty($user)) {
     setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
     setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
     setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
+    
+    /*
+     * $_SESSION["te_invitation_code"] 
+     */
+    header("location: " . PAGE_SIGNUP);
+    exit(1);
+    
 } else {
     SessionUtil::checkUserStatus($user);
     $_random_session_id = $user->id . "_" . $_random_session_id;

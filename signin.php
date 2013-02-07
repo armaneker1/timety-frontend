@@ -182,7 +182,7 @@ if (array_key_exists("te_username", $_POST)) {
                             <label class="label_check" for="te_rememberme2"> <input
                                     name="te_rememberme2" id="te_rememberme2" value="<?= $urmme ?>"
                                     type="checkbox" onclick="$('#te_rememberme').value=this.checked" />
-                                Remmember me
+                                Remember me
                             </label> <input name="te_rememberme" id="te_rememberme"
                                             value="<?= $urmme ?>" type="hidden" />
                             <button style="width: 79px;" type="submit" onclick="jQuery('.php_errors').remove();"
