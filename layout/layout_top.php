@@ -78,17 +78,27 @@ if (isset($_SESSION['id'])) {
         if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
             if ($user->status > 2) {
                 ?>
-
                 <script>
-                                    
-                    function changeChannel(item){
-                        page_wookmark=0;
-                        jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
-                        jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
-                        jQuery(item).removeClass('top_menu_ul_li_a');
-                        jQuery(item).addClass('top_menu_ul_li_a_selected');
-                        wookmarkFiller(document.optionsWookmark,true,true);
-                    }    
+        <?php if (isset($profile_page_type) && $profile_page_type == "profile") {
+            ?>
+                            function changeChannel(item){
+                                var channel=jQuery(item).attr("channelId");
+                                window.location=TIMETY_HOSTNAME+"?channel="+channel;
+                            }  
+            <?php
+        } else {
+            ?>
+
+                            function changeChannel(item){
+                                page_wookmark=0;
+                                jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
+                                jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+                                jQuery(item).removeClass('top_menu_ul_li_a');
+                                jQuery(item).addClass('top_menu_ul_li_a_selected');
+                                wookmarkFiller(document.optionsWookmark,true,true);
+                            }    
+
+        <?php } ?>
                 </script>
                 <div class="top_menu">
                     <ul>
@@ -130,7 +140,7 @@ if (isset($_SESSION['id'])) {
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
-                <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo PAGE_GET_IMAGEURL.$user->getUserPic()."&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
+                <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
                     <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
                     <?php } ?>

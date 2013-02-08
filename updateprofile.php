@@ -267,7 +267,7 @@ if (isset($_POST['update'])) {
 ?>
 <html>
     <head>
-        <?php $timety_header="Timety | Update Profile"; include('layout/layout_header.php'); ?>
+        <?php $timety_header="Timety | Update Profile"; $profile_page_type="profile"; include('layout/layout_header.php'); ?>
 
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>

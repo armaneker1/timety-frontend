@@ -704,6 +704,16 @@ if (empty($user)) {
 
             <?php } ?>
             <!-- Open Event Popup -->
+            
+            <?php if(isset($_GET['channel']) && !empty($_GET['channel'])) {?>
+            <!-- channel -->
+            <script>
+                jQuery(document).ready(function(){
+                    jQuery("a[channelId|='<?=$_GET['channel']?>']").click();
+                });
+            </script>
+            <!-- channel -->
+            <?php } ?>
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
