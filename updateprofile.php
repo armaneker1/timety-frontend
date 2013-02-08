@@ -280,7 +280,7 @@ if (isset($_POST['update'])) {
         <?php if (isset($success) && $success) { ?>
             <script>
                 jQuery(document).ready(function(){
-                    getInfo(true, "Profile update success", "info", 4000); 
+                    getInfo(true, "Updated", "info", 4000); 
                 });
             </script>
         <?php } ?>
@@ -854,6 +854,7 @@ if (isset($_POST['update'])) {
 
                     <script>
                         jQuery(document).ready(function(){
+                            setTimeout(function(){
                             var input = document.getElementById('te_hometown');
                             var options = {
                                 types: ['(cities)']
@@ -868,6 +869,7 @@ if (isset($_POST['update'])) {
                                 } 
                                 validateInput(jQuery("#te_hometown"),true,true,3)
                             });
+                            },500);
                         });
                     </script>
 

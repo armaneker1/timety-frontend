@@ -235,15 +235,15 @@ function selectCheckBox(elem,id) {
  */
 var ce_map =null;
 var ce_loc=null;
-                            
+var autocompleteCreateEvent=null;                           
 jQuery(document).ready(function(){
     getCityLocation(setMapLocation);
     var input = document.getElementById('te_event_location');
     var options = { /*types: ['(cities)']*/ };
-    autocomplete = new google.maps.places.Autocomplete(input, options);
-    google.maps.event.addListener(autocomplete, 'place_changed', 
+    autocompleteCreateEvent = new google.maps.places.Autocomplete(input, options);
+    google.maps.event.addListener(autocompleteCreateEvent, 'place_changed', 
         function() { 
-            var place = autocomplete.getPlace(); 
+            var place = autocompleteCreateEvent.getPlace(); 
             var point = place.geometry.location; 
             if(point) 
             {  

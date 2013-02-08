@@ -246,7 +246,10 @@ if (empty($birhtdate)) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <?php $timety_header="Timety | Personal Information";  include('layout/layout_header.php'); ?>
+        <?php
+        $timety_header = "Timety | Personal Information";
+        include('layout/layout_header.php');
+        ?>
 
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
         <script type="text/javascript">
@@ -384,7 +387,7 @@ if (empty($birhtdate)) {
         </script>
     </head>
     <body class="bg">
-        <?php include('layout/layout_top.php'); ?>
+<?php include('layout/layout_top.php'); ?>
         <div id="personel_info_h">
             <div class="create_acco_ust">Personel Information</div>
             <div class="personel_info">
@@ -505,50 +508,50 @@ if (empty($birhtdate)) {
                     </span><br />
 
 
-                    <input 
-                        name="te_hometown"
-                        type="text" 
-                        placeholder="Location" 
-                        class="user_inpt"
-                        id="te_hometown" 
-                        value="<?php echo $hometown ?>"
-                        onkeyup="validateInput(this,true,false,3)"
-                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($hometownError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
+                    <div> <input 
+                            name="te_hometown"
+                            type="text" 
+                            placeholder="Location" 
+                            class="user_inpt"
+                            id="te_hometown" 
+                            value="<?php echo $hometown ?>"
+                            onkeyup="validateInput(this,true,false,3)"
+                            onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
+                        <script>
+                            jQuery(document).ready(function(){
+                                setTimeout(function(){
+                                    var input = document.getElementById('te_hometown');
+                                    var options = {
+                                        types: ['(cities)']
+                                    };
+                                    autocompletePI = new google.maps.places.Autocomplete(input, options);
+                                    google.maps.event.addListener(autocompletePI, 'place_changed', 
+                                    function() { 
+                                        var place = autocompletePI.getPlace(); 
+                                        var point = place.geometry.location; 
+                                        if(point) 
+                                        {  
+                                        } 
+                                        validateInput(jQuery("#te_hometown"),true,true,3)
+                                    });
+                                },500);
+                            });
+                        </script>
+                    </div>
+                    <?php
+                    $display = "none";
+                    $class = "";
+                    if (!empty($hometownError)) {
+                        $display = "block";
+                        $class = "sil icon_bg";
+                    }
+                    ?>
                     <span id='te_hometown_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_hometown_span_msg" style="display:<?= $display ?>;"><?= $hometownError ?><div class="kok"></div></div>
                     </span><br />
 
-                    <script>
-                        jQuery(document).ready(function(){
-                            var input = document.getElementById('te_hometown');
-                            var options = {
-                                types: ['(cities)']
-                            };
-                            autocomplete = new google.maps.places.Autocomplete(input, options);
-                            google.maps.event.addListener(autocomplete, 'place_changed', 
-                            function() { 
-                                var place = autocomplete.getPlace(); 
-                                var point = place.geometry.location; 
-                                if(point) 
-                                {  
-                                } 
-                                validateInput(jQuery("#te_hometown"),true,true,3)
-                            });
-                        });
-                    </script>
 
-
-
-
-                    <?php if ($visible) { ?>
+<?php if ($visible) { ?>
                         <input 
                             name="te_password" 
                             type="password"
@@ -589,7 +592,7 @@ if (empty($birhtdate)) {
                         <span id='te_repassword_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?= $display ?>;"><?= $upass2Error ?><div class="kok"></div></div>
                         </span> <br />
-                    <?php } ?>
+<?php } ?>
 
 
                     <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>
