@@ -38,7 +38,7 @@ if (array_key_exists("guid", $_GET)) {
                 $user = UserUtils::getUserById($userId);
                 if (!empty($user) && $user->userName == $userName) {
                     UserUtils::confirmUser($userId);
-                    $confirm_msg = "Confirmation is completed";
+                    $confirm_msg = "Registration is complete";
                     $confirm_error = true;
                 } else {
                     $confirm_msg = "User doesn't exist ";
@@ -948,7 +948,7 @@ if (empty($user)) {
                                                     if (!empty($crt) && !empty($crt->id)) {
                                                         ?>
                                                         <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
-                                                        <span> <?= $crt->getFullName() ?></span>
+                                                        <span><?= " ".$crt->getFullName() ?></span>
                                                         <?php
                                                     }
                                                 } else {

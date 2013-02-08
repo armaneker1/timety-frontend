@@ -335,7 +335,7 @@ function wookmarkHTML(dataArray,userId)
                 {
                     name=name+data.creator.lastName+" ";
                 }
-                jQuery(creatorDIVP).append(jQuery("<span>"+name+"</span>"));
+                jQuery(creatorDIVP).append(jQuery("<span>"+" "+name+"</span>"));
             }
             /*jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
                 'userId':data.creatorId
