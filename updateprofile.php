@@ -230,6 +230,7 @@ if (isset($_POST['update'])) {
     if (!empty($newPassword)) {
         $user->password = sha1($newPassword);
     }
+    $success=false;
     if ($param) {
         UserUtils::updateUser($_SESSION['id'], $user);
         $user = UserUtils::getUserById($_SESSION['id']);

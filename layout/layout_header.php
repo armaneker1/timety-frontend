@@ -75,6 +75,7 @@ if (!isset($timety_header)) {
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/google.maps.api.js"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/gmaps.js"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/mixpanel.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
 <!-- Scripts -->
 
 

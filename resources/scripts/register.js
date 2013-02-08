@@ -30,6 +30,7 @@ function checkOpenPopup() {
         }else
         {
             jQuery('#spinner').hide();
+            getLoader(false);
         }
     }
 }

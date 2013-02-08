@@ -31,7 +31,6 @@ if (!isset($_SESSION['id'])) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php $timety_header="Timety | Friend Suggest"; include('layout/layout_header.php'); ?>
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
         <script type="text/javascript">
             jQuery(function(){
                 $.Placeholder.init();
