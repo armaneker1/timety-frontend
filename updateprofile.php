@@ -261,8 +261,8 @@ if (isset($_POST['update'])) {
     $_SESSION['pr_gender'] = $te_gender;
     $_SESSION['pr_success'] = $success;
     $_SESSION['profile_session'] = "1";
-   // header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
-   // exit(1);
+    header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+    exit(1);
 }
 ?>
 <html>
@@ -348,6 +348,25 @@ if (isset($_POST['update'])) {
                 {
                     console.log(result);
                 }
+                setLocationAutoComplete();
+            }
+            
+            function setLocationAutoComplete()
+            {
+                var input = document.getElementById('te_hometown');
+                var options = {
+                    types: ['(cities)']
+                };
+                autocompletePI = new google.maps.places.Autocomplete(input, options);
+                google.maps.event.addListener(autocompletePI, 'place_changed', 
+                function() { 
+                    var place = autocompletePI.getPlace(); 
+                    var point = place.geometry.location; 
+                    if(point) 
+                    {  
+                    } 
+                    validateInput(jQuery("#te_hometown"),true,true,3)
+                });
             }
             
             jQuery(document).ready(function(){
@@ -854,22 +873,7 @@ if (isset($_POST['update'])) {
 
                     <script>
                         jQuery(document).ready(function(){
-                            setTimeout(function(){
-                            var input = document.getElementById('te_hometown');
-                            var options = {
-                                types: ['(cities)']
-                            };
-                            autocomplete = new google.maps.places.Autocomplete(input, options);
-                            google.maps.event.addListener(autocomplete, 'place_changed', 
-                            function() { 
-                                var place = autocomplete.getPlace(); 
-                                var point = place.geometry.location; 
-                                if(point) 
-                                {  
-                                } 
-                                validateInput(jQuery("#te_hometown"),true,true,3)
-                            });
-                            },500);
+                            setTimeout(function(){setLocationAutoComplete() },1000);
                         });
                     </script>
 

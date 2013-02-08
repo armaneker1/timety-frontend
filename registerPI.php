@@ -379,15 +379,34 @@ if (empty($birhtdate)) {
                 {
                     console.log(result);
                 }
+                setLocationAutoComplete();
             }
-            
+    
+            function setLocationAutoComplete()
+            {
+                var input = document.getElementById('te_hometown');
+                var options = {
+                    types: ['(cities)']
+                };
+                autocompletePI = new google.maps.places.Autocomplete(input, options);
+                google.maps.event.addListener(autocompletePI, 'place_changed', 
+                function() { 
+                    var place = autocompletePI.getPlace(); 
+                    var point = place.geometry.location; 
+                    if(point) 
+                    {  
+                    } 
+                    validateInput(jQuery("#te_hometown"),true,true,3)
+                });
+            }
+          
             jQuery(document).ready(function(){
                 getCityLocation(setLocation);
             });
         </script>
     </head>
     <body class="bg">
-<?php include('layout/layout_top.php'); ?>
+        <?php include('layout/layout_top.php'); ?>
         <div id="personel_info_h">
             <div class="create_acco_ust">Personel Information</div>
             <div class="personel_info">
@@ -519,23 +538,9 @@ if (empty($birhtdate)) {
                             onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
                         <script>
                             jQuery(document).ready(function(){
-                                setTimeout(function(){
-                                    var input = document.getElementById('te_hometown');
-                                    var options = {
-                                        types: ['(cities)']
-                                    };
-                                    autocompletePI = new google.maps.places.Autocomplete(input, options);
-                                    google.maps.event.addListener(autocompletePI, 'place_changed', 
-                                    function() { 
-                                        var place = autocompletePI.getPlace(); 
-                                        var point = place.geometry.location; 
-                                        if(point) 
-                                        {  
-                                        } 
-                                        validateInput(jQuery("#te_hometown"),true,true,3)
-                                    });
-                                },500);
-                            });
+                                setTimeout(
+                                setLocationAutoComplete,1000);
+                            }); 
                         </script>
                     </div>
                     <?php
@@ -551,7 +556,7 @@ if (empty($birhtdate)) {
                     </span><br />
 
 
-<?php if ($visible) { ?>
+                    <?php if ($visible) { ?>
                         <input 
                             name="te_password" 
                             type="password"
@@ -592,7 +597,7 @@ if (empty($birhtdate)) {
                         <span id='te_repassword_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?= $display ?>;"><?= $upass2Error ?><div class="kok"></div></div>
                         </span> <br />
-<?php } ?>
+                    <?php } ?>
 
 
                     <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>

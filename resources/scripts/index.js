@@ -237,7 +237,7 @@ var ce_map =null;
 var ce_loc=null;
 var autocompleteCreateEvent=null;                           
 jQuery(document).ready(function(){
-    getCityLocation(setMapLocation);
+    setTimeout(function(){getCityLocation(setMapLocation);},100);
     var input = document.getElementById('te_event_location');
     var options = { /*types: ['(cities)']*/ };
     autocompleteCreateEvent = new google.maps.places.Autocomplete(input, options);
@@ -271,8 +271,8 @@ function openMap(mod,value){
         jQuery("#div_maps").toggle();
     }
     if(!ce_map) {
-        var lat=-12.043333;
-        var lng=-77.028333;
+        var lat=41.00527;
+        var lng=28.97695;
         if(ce_loc) {
             lat=ce_loc.Ya;
             lng=ce_loc.Za;

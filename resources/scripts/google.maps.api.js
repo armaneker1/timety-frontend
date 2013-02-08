@@ -42,6 +42,6 @@ function getCityLocation(fn)
         }
     }else
     {
-        throw new Exception("fn not a function");  
+        console.log("fn not a function");  
     }
 }
