@@ -5,7 +5,7 @@ class DBUtils {
     public static function getNextId($field) {
         if (!empty($field)) {
             $field = DBUtils::mysql_escape($field);
-            $SQL="SELECT * FROM " . TBL_KEYGENERATOR . " WHERE  PK_COLUMN = '" . $field . "'";
+            $SQL = "SELECT * FROM " . TBL_KEYGENERATOR . " WHERE  PK_COLUMN = '" . $field . "'";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
             if (empty($result)) {
@@ -25,7 +25,7 @@ class DBUtils {
         if (!empty($field)) {
             $field = DBUtils::mysql_escape($field);
             $id = rand(1000, 10000000);
-            $SQL="INSERT INTO " . TBL_KEYGENERATOR . " (PK_COLUMN,VALUE_COLUMN)  VALUES ('" . $field . "'," . $id . ")";
+            $SQL = "INSERT INTO " . TBL_KEYGENERATOR . " (PK_COLUMN,VALUE_COLUMN)  VALUES ('" . $field . "'," . $id . ")";
             mysql_query($SQL) or die(mysql_error());
             return $id;
         } else {
@@ -35,7 +35,9 @@ class DBUtils {
 
     public static function getDate($datestr) {
         if (!empty($datestr)) {
-            $datestr = UtilFunctions::checkDate($datestr);
+            if (!strstr($datestr, "-")) {
+                $datestr = UtilFunctions::checkDate($datestr);
+            }
             return $datestr;
         }
         return "";

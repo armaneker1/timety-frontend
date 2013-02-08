@@ -8866,11 +8866,20 @@ jQuery.extend(Datepicker.prototype, {
 				year = (minDate ? Math.max(year, minDate.getFullYear()) : year);
 				endYear = (maxDate ? Math.min(endYear, maxDate.getFullYear()) : endYear);
 				inst.yearshtml += '<select class="ui-datepicker-year" data-handler="selectYear" data-event="change">';
-				for (; year <= endYear; year++) {
+				var reverseYearRange = this._get(inst, 'reverseYearRange');
+                                if(reverseYearRange){
+                                    for (; year <= endYear; endYear--) {
+                                        inst.yearshtml += '<option value="' + endYear + '"' +
+						(endYear == drawYear ? ' selected="selected"' : '') +
+						'>' + endYear + '</option>';
+                                    }
+                                }else{
+                                    for (; year <= endYear; year++) {
 					inst.yearshtml += '<option value="' + year + '"' +
 						(year == drawYear ? ' selected="selected"' : '') +
 						'>' + year + '</option>';
-				}
+                                        }
+                                }
 				inst.yearshtml += '</select>';
 
 				html += inst.yearshtml;

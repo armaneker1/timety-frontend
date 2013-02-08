@@ -314,6 +314,9 @@ if (isset($_POST['update'])) {
                     changeMonth: true,
                     changeYear: true,
                     dateFormat: "dd.mm.yy",
+                    maxDate: new Date(),
+                    reverseYearRange:true,
+                    yearRange: "-100:+0",
                     beforeShow : function(dateInput,datePicker) {
                         setTimeout(showDate,5);
                     },

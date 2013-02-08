@@ -222,6 +222,7 @@ class UserUtils {
         if (!empty($uid) && !empty($user)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate='" . DBUtils::getDate($user->birthdate) . "',firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='$user->about',gender=$user->gender  WHERE id = $uid";
+            error_log($SQL);
             mysql_query($SQL) or die(mysql_error());
         }
     }

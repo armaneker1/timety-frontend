@@ -125,6 +125,25 @@ class UtilFunctions {
           } */
         return true;
     }
+    
+    /*
+     $date=date_parse_from_format(DATETIME_DB_FORMAT, $datestr);
+                $datestr="";
+                if (strlen($date['day']) == 1) {
+                    $datestr = $datestr . "0" . $date['day'];
+                } else {
+                    $datestr = $datestr . $date['day'];
+                }
+                 $datestr = $datestr . ".";
+                if (strlen($date['month']) == 1) {
+                    $datestr = $datestr . "0" . $date['month'] ;
+                } else {
+                    $datestr = $datestr . $date['month'];
+                }
+                $datestr = $datestr . ".".$date['year'];
+                var_dump($datestr); 
+     
+     */
 
     public static function checkDate($datestr) {
         $datestr = str_replace("-", ".", $datestr);

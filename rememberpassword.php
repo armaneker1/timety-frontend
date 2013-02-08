@@ -99,8 +99,8 @@ if(isset($_POST["te_email"]))
 			if(empty($msgs)){
 				if($userpass == $userrepass)
 				{
-					var_dump($lss);
-					var_dump($usr->id);
+					//var_dump($lss);
+					//var_dump($usr->id);
 					LostPassUtil::invalidate($lss->id);
 					$usr->password=sha1($userpass);
 					UserUtils::updateUser($usr->id,$usr);

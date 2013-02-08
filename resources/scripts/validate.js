@@ -46,18 +46,18 @@
      */
 
     var ruleRegex = /^(.+)\[(.+)\]$/,
-        numericRegex = /^[0-9]+$/,
-        integerRegex = /^\-?[0-9]+$/,
-        decimalRegex = /^\-?[0-9]*\.?[0-9]+$/,
-        emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$/i,
-        alphaRegex = /^[a-z]+$/i,
-        alphaNumericRegex = /^[a-z0-9]+$/i,
-        alphaDashRegex = /^[a-z0-9_-]+$/i,
-        alphaTurkishRegex = /^[\w\süçğöÜİÇĞÖ]*$/i,
-        naturalRegex = /^[0-9]+$/i,
-        naturalNoZeroRegex = /^[1-9][0-9]*$/i,
-        ipRegex = /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})$/i,
-        base64Regex = /[^a-zA-Z0-9\/\+=]/i;
+    numericRegex = /^[0-9]+$/,
+    integerRegex = /^\-?[0-9]+$/,
+    decimalRegex = /^\-?[0-9]*\.?[0-9]+$/,
+    emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$/i,
+    alphaRegex = /^[a-z]+$/i,
+    alphaNumericRegex = /^[a-z0-9]+$/i,
+    alphaDashRegex = /^[a-z0-9_-]+$/i,
+    alphaTurkishRegex = /^[\w\süçğöÜİÇĞÖ]*$/i,
+    naturalRegex = /^[0-9]+$/i,
+    naturalNoZeroRegex = /^[1-9][0-9]*$/i,
+    ipRegex = /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})$/i,
+    base64Regex = /[^a-zA-Z0-9\/\+=]/i;
 
     /*
      * The exposed public object to validate a form:
@@ -209,8 +209,8 @@
 
         for (var i = 0, ruleLength = rules.length; i < ruleLength; i++) {
             var method = rules[i],
-                param = null,
-                failed = false;
+            param = null,
+            failed = false;
 
             /*
              * If the rule has a parameter (i.e. matches[param]) split it out
@@ -247,11 +247,12 @@
             if (failed) {
                 // Make sure we have a message for this rule
                 var source = this.messages[method] || defaults.messages[method],
-                    message = 'An error has occurred with the ' + field.display + ' field.';
+                message = 'An error has occurred with the ' + field.display + ' field.';
 
                 if (source) {
-                    message = source.replace('%s', field.display);
-
+                    if(source.match(/%s/g).length>1){
+                        message = source.replace('%s', field.display);
+                    }
                     if (param) {
                         message = message.replace('%s', (this.fields[param]) ? this.fields[param].display : param);
                     }

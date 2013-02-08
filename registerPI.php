@@ -111,6 +111,7 @@ if (!isset($_SESSION['id'])) {
                 $user->lastName = $lastname;
                 $user->email = $email;
                 $user->birthdate = $birhtdate;
+                error_log($birhtdate);
                 $user->hometown = $hometown;
                 if (!empty($password)) {
                     $user->password = sha1($password);
@@ -118,6 +119,7 @@ if (!isset($_SESSION['id'])) {
                 $user->status = 1;
                 UserUtils::updateUser($_SESSION['id'], $user);
                 $user = UserUtils::getUserById($_SESSION['id']);
+                error_log(json_encode($user));
                 UserUtils::addUserInfoNeo4j($user);
                 UserUtils::changeserProfilePic($user->id, $userProfilePic);
                 /*
@@ -255,6 +257,7 @@ if (empty($birhtdate)) {
                     changeYear: true,
                     dateFormat: "dd.mm.yy",
                     maxDate: new Date(),
+                    reverseYearRange:true,
                     yearRange: "-100:+0",
                     beforeShow : function(dateInput,datePicker) {
                         setTimeout(showDate,5);
@@ -270,7 +273,7 @@ if (empty($birhtdate)) {
                     {
                         name : 'te_username',
                         display : 'username',
-                        rules : 'required|min_length[6]|callback_check_username'
+                        rules : 'required|min_length[3]|callback_check_username'
                     }, {
                         name : 'te_firstname',
                         display : 'firstname',

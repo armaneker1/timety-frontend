@@ -14,9 +14,8 @@ header("Content-Type: text/html; charset=utf8");
 require_once __DIR__ . '/../utils/Functions.php';
 
 
-$n=new Neo4jFuctions();
-
-var_dump($n->getInterestedCategoryList("6618344", 4));
+$user=  UserUtils::getUserById(6618349);
+var_dump(DBUtils::getDate($user->birthdate));
 
 
 
