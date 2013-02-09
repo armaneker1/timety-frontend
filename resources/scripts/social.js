@@ -121,7 +121,7 @@ function reshareEvent(button,eventId)
                         }else {
                             updateBadge(2, -1);
                             var msg='reverted reshared Event';
-                            getInfo(true,msg,'info',4000);
+                            //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
                             changeLocalData(eventId,2,false);
                         }
@@ -156,7 +156,7 @@ function reshareEvent(button,eventId)
                         }else {
                             updateBadge(2, 1);
                             var msg='You reshared Event';
-                            getInfo(true,msg,'info',4000);
+                            //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
                             changeLocalData(eventId,2,true);
                         }
@@ -254,7 +254,7 @@ function sendResponseEvent(button,eventId,type)
                             setButtonStatus(button,false);
                             removeFromMyTimety(eventId);
                         }
-                        getInfo(true,msg,'info',4000);
+                        //getInfo(true,msg,'info',4000);
                     }
                 },
                 error : function(error_data){
@@ -306,7 +306,7 @@ function likeEvent(button,eventId)
                         }else {
                             updateBadge(3, -1);
                             var msg='You unliked Event';
-                            getInfo(true,msg,'info',4000);
+                            //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
                             changeLocalData(eventId,1,false);
                         }
@@ -339,7 +339,7 @@ function likeEvent(button,eventId)
                         }else {
                             updateBadge(3, 1);
                             var msg='You liked Event';
-                            getInfo(true,msg,'info',4000);
+                            //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
                             changeLocalData(eventId,1,true);
                         }

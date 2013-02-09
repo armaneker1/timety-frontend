@@ -421,16 +421,16 @@ if (empty($birhtdate)) {
                         placeholder="Username"
                         suc="true"
                         default="<?php echo $username ?>"
-                        onkeyup="validateUserName(this,true,false)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,true,true) }" /> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($usernameError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
+                    <!--  onkeyup="validateUserName(this,true,false)" -->
+                    <?php
+                    $display = "none";
+                    $class = "";
+                    if (!empty($usernameError)) {
+                        $display = "block";
+                        $class = "sil icon_bg";
+                    }
+                    ?>
                     <span id='te_username_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_username_span_msg" style="display:<?= $display ?>;"><?= $usernameError ?><div class="kok"></div></div>
                     </span> <br /> 
@@ -443,16 +443,16 @@ if (empty($birhtdate)) {
                         id="te_firstname"
                         value="<?php echo $name ?>" 
                         placeholder="First Name"
-                        onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($nameError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
+                    <!--   onkeyup="validateInput(this,true,false,3)" -->
+                    <?php
+                    $display = "none";
+                    $class = "";
+                    if (!empty($nameError)) {
+                        $display = "block";
+                        $class = "sil icon_bg";
+                    }
+                    ?>
                     <span id='te_firstname_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_firstname_span_msg" style="display:<?= $display ?>;"><?= $nameError ?><div class="kok"></div></div>
                     </span><br /> 
@@ -465,16 +465,16 @@ if (empty($birhtdate)) {
                         id="te_lastname"
                         value="<?php echo $lastname ?>" 
                         placeholder="Last Name" 
-                        onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($ulastnameError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
+                    <!--   onkeyup="validateInput(this,true,false,3)" -->
+                    <?php
+                    $display = "none";
+                    $class = "";
+                    if (!empty($ulastnameError)) {
+                        $display = "block";
+                        $class = "sil icon_bg";
+                    }
+                    ?>
                     <span id='te_lastname_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_lastname_span_msg" style="display:<?= $display ?>;"><?= $ulastnameError ?><div class="kok"></div></div>
                     </span> <br />
@@ -489,16 +489,16 @@ if (empty($birhtdate)) {
                         id="te_email"
                         default="<?php echo $email ?>" 
                         value="<?php echo $email ?>" 
-                        onkeyup="validateEmail(this,true,false)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateEmail(this,true,true) }"/> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($emailError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
+                    <!--    onkeyup="validateEmail(this,true,false)" -->
+                    <?php
+                    $display = "none";
+                    $class = "";
+                    if (!empty($emailError)) {
+                        $display = "block";
+                        $class = "sil icon_bg";
+                    }
+                    ?>
                     <span id='te_email_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_email_span_msg" style="display:<?= $display ?>;"><?= $emailError ?><div class="kok"></div></div>
                     </span><br /> 
@@ -511,17 +511,17 @@ if (empty($birhtdate)) {
                         class="user_inpt" 
                         id="te_birthdate" 
                         value="<?php echo $birhtdate ?>"
-                        onkeyup="validateInputDate(this,true,false)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInputDate(this,true,true) }" 
                         onchange="resetInputWarning(this);validateInputDate(this,true,true)"/> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($birhtdateError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
+                    <!--     onkeyup="validateInputDate(this,true,false)"-->
+                    <?php
+                    $display = "none";
+                    $class = "";
+                    if (!empty($birhtdateError)) {
+                        $display = "block";
+                        $class = "sil icon_bg";
+                    }
+                    ?>
                     <span id='te_birthdate_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_birthdate_span_msg" style="display:<?= $display ?>;"><?= $birhtdateError ?><div class="kok"></div></div>
                     </span><br />
@@ -534,8 +534,8 @@ if (empty($birhtdate)) {
                             class="user_inpt"
                             id="te_hometown" 
                             value="<?php echo $hometown ?>"
-                            onkeyup="validateInput(this,true,false,3)"
                             onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
+                        <!-- onkeyup="validateInput(this,true,false,3)" -->
                         <script>
                             jQuery(document).ready(function(){
                                 setTimeout(
@@ -564,8 +564,8 @@ if (empty($birhtdate)) {
                             id="te_password" 
                             value=""
                             placeholder="Password"
-                            onkeyup="validatePassword(this,jQuery('#te_repassword'),false,false);"
                             onblur="validatePassword(this,jQuery('#te_repassword'),false,true);" />
+                            <!-- onkeyup="validatePassword(this,jQuery('#te_repassword'),false,false);" -->
                             <?php
                             $display = "none";
                             $class = "";
@@ -585,7 +585,8 @@ if (empty($birhtdate)) {
                             id="te_repassword" 
                             value="" 
                             placeholder="Re-type password"
-                            onkeyup="validatePassword(this,$('#te_password'),true)" />
+                            onblur="validatePassword(this,$('#te_password'),true,true)" />
+                            <!-- onkeyup="validatePassword(this,$('#te_password'),true)" -->
                             <?php
                             $display = "none";
                             $class = "";
