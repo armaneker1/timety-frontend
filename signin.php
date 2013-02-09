@@ -138,8 +138,9 @@ if (array_key_exists("te_username", $_POST)) {
                                id="te_username"
                                name="te_username" value="<?= $uname ?>" 
                                placeholder="User Name"
-                               onkeyup="validateUserName(this,false,false)"
-                               onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,false,true) }"/>
+                            />
+                        <!--   onkeyup="validateUserName(this,false,false)"
+                               onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,false,true) }" -->
                         <?php
                                $display = "none";
                                $class = "";
@@ -160,8 +161,9 @@ if (array_key_exists("te_username", $_POST)) {
                             name="te_password" type="password"
                             class="user_inpt password icon_bg" id="te_password"
                             name="te_password" value="" placeholder="Password"
-                            onkeyup="validatePassword(this,$('#te_password'),false,false);"
-                            onblur="validatePassword(this,$('#te_password'),false,true);"/>
+                         />
+                         <!--  onkeyup="validatePassword(this,$('#te_password'),false,false);"
+                            onblur="validatePassword(this,$('#te_password'),false,true);" -->
                          <?php
                                $display = "none";
                                $class = "";
