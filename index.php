@@ -806,7 +806,7 @@ if (empty($user)) {
                             <div class="user_settings"><a href="<?= PAGE_UPDATE_PROFILE ?>"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>
                         </div>
                         <div class="profil_resim">
-                            <img src="<?php echo PAGE_GET_IMAGEURL.$user->getUserPic()."?h=176&w=176" ?>" width="176" height="176" />
+                            <img src="<?php echo PAGE_GET_IMAGEURL.$user->getUserPic()."&h=176&w=176" ?>" width="176" height="176" />
                         </div>
                         <div class="profil_metin">
                             <!-- bio -->
