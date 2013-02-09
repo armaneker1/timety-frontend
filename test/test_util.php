@@ -13,10 +13,6 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
 
-
-$user=  UserUtils::getUserById(6618349);
-var_dump(DBUtils::getDate($user->birthdate));
-
-
-
+$file_headers = @get_headers("http://d.gr-assets.com/books/1349467850s/16061340.jpg");
+var_dump($file_headers);
 ?>

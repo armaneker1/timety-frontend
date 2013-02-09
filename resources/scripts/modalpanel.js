@@ -129,6 +129,7 @@ function setHeaderImage(headerImage,data)
         var myImage = new Image();
         myImage.src=TIMETY_HOSTNAME+data.url;
         myImage.onload=function(){
+            var set=false;
             var param="";
             var width=0;
             var height=0;
@@ -145,15 +146,24 @@ function setHeaderImage(headerImage,data)
                     height=(561/width)*height;
                     width=561;
                 }
-                jQuery(headerImage).attr('height',height);
-                jQuery(headerImage).attr('width', width);
-                param=param+"&h="+height;
-                param=param+"&w="+width;
+                //jQuery(headerImage).attr('src', TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.url+param); 
+                jQuery(headerImage).attr('src', TIMETY_HOSTNAME+data.url); 
+                set=true;
+                setTimeout(function() { 
+                    jQuery(headerImage).attr('height',height);
+                    jQuery(headerImage).attr('width', width);
+                }, 10);
+                
+            //param=param+"&h="+height;
+            //param=param+"&w="+width;
             }else
             {
                 jQuery(headerImage).css('max-width','560px');    
             }
-            jQuery(headerImage).attr('src', TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.url+param); 
+            if(!set)
+            {
+                jQuery(headerImage).attr('src', TIMETY_HOSTNAME+data.url); 
+            }
         };
     }
 }
@@ -239,8 +249,8 @@ function openModalPanel(event_id,custom) {
         {
             jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
             setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.creator.userPicture);
-            //set Event Creator
-           /* jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
+        //set Event Creator
+        /* jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
                 'userId':data.creatorId
             }, function(data){
                 jQuery("#name_creator").text(data.firstName+" "+data.lastName);
@@ -248,7 +258,7 @@ function openModalPanel(event_id,custom) {
             }, "json"); */
         }else
         {
-            // do something show empty image          
+        // do something show empty image          
         }
         //set share butons
         jQuery("#fb_share_button").unbind("click");
@@ -514,7 +524,7 @@ function addUrlEventId(event_id,title)
             if(jQuery.inArray("event",url_)<0)
             {
                 if(title){ 
-                    title=title.replaceAll(' ', '-');
+                    title=title.replace(/ /g, '-');
                     title=title.replace(/[^A-Za-z0-9-]+/g, '');
                 }
                 window.History.pushState(null, null, "event/"+event_id+"/"+title);  
