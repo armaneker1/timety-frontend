@@ -82,4 +82,6 @@ if (!isset($timety_header)) {
 <!--[if IE]>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/ie.js"></script>
 <![endif]-->
+
+<link rel="icon" type="image/png"  href="<?=HOSTNAME."/images/favTimety.ico"?>">
 <?php include ('config/analytics.php'); ?>
