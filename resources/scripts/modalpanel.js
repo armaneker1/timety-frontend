@@ -245,6 +245,7 @@ function openModalPanel(event_id,custom) {
         }
         jQuery("#name_creator").text("");
         setImageBackGroundLoader(jQuery("#image_creator"));
+        
         if(data.creatorId)
         {
             jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
@@ -422,7 +423,7 @@ function getComments(event_id)
 }
 
 
-function getUsers(gdy_altDIVOrta_users,event_id)
+function getUsers(gdy_altDIVOrta_users,event_id,tooltip)
 {
     jQuery("#gdy_users_count").text(1);
     jQuery.ajax({
@@ -444,6 +445,7 @@ function getUsers(gdy_altDIVOrta_users,event_id)
                         var imageDiv=document.createElement('div');
                         jQuery(imageDiv).addClass('gdy_alt_rsm');
                         jQuery(imageDiv).attr("id","users_"+data[i].id);
+                        jQuery(imageDiv).attr("title", data[i].fullName);
                         jQuery(imageDiv).data("img",data[i]);
                         jQuery(gdy_altDIVOrta_users).append(imageDiv);
                         setImageBackGroundCenter(jQuery("#users_"+data[i].id), 64, 52, 0, 0, data[i].pic);
