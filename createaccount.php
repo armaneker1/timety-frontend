@@ -269,8 +269,8 @@ $upass = null;
                                placeholder="Enter your invitation code here" 
                                class="user_inpt"
                                style="margin-top: 10px;"
-                               onkeyup="validateInput(this,true,false,3)"
                                onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" />
+                        <!--  onkeyup="validateInput(this,true,false,3)" -->
                                <?php
                                $display = "none";
                                $class = "";
@@ -323,8 +323,8 @@ $upass = null;
                                id="te_username"
                                value="<?= $uname ?>" 
                                placeholder="User Name"
-                               onkeyup="validateUserName(this,true,false)"
                                onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,true,true) }"/> 
+                               <!--  onkeyup="validateUserName(this,true,false)" -->
                                <?php
                                $display = "none";
                                $class = "";
@@ -340,8 +340,8 @@ $upass = null;
                         <input name="te_password"
                                type="password" class="user_inpt password icon_bg"
                                id="te_password" value="" placeholder="Password" 
-                               onkeyup="validatePassword(this,$('#te_repassword'),false,false);"
-                               onblur="validatePassword(this,$('#te_repassword'),false,true);"/> 
+                               onblur="validatePassword(this,$('#te_repassword'),false,true);"/>
+                               <!--  onkeyup="validatePassword(this,$('#te_repassword'),false,false);" -->
                                <?php
                                $display = "none";
                                $class = "";
@@ -356,9 +356,10 @@ $upass = null;
 
                         <input name="te_repassword"
                                type="password" class="user_inpt password icon_bg"
-                               onkeyup="validatePassword(this,$('#te_password'),true,false);"
                                onblur="validatePassword(this,$('#te_password'),true,true);"
-                               id="te_repassword" value="" placeholder="Confirm Password" /> <br />
+                               id="te_repassword" value="" placeholder="Confirm Password" /> 
+                               <!--  onkeyup="validatePassword(this,$('#te_password'),true,false);" -->
+                               <br />
                                <?php
                                $display = "none";
                                $class = "";
@@ -374,9 +375,9 @@ $upass = null;
                         <input name="te_email"
                                type="text" placeholder="Email" class="user_inpt email icon_bg"
                                id="te_email" 
-                               onkeypress="validateEmail(this,true,false)"
                                onblur="if(onBlurFirstPreventTwo(this)) { validateEmail(this,true,true) }"
                                value="<?= $uemail ?>" /> 
+                               <!--  onkeypress="validateEmail(this,true,false)" -->
                                <?php
                                $display = "none";
                                $class = "";
