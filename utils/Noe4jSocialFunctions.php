@@ -20,10 +20,10 @@ class SocialUtil {
             try {
                 if (!SocialUtil::checkLike($userId, $eventId)) {
                     $usr->relateTo($event, REL_EVENTS_LIKE)->save();
-                    $result->success = true;
-                    $result->error = false;
                 }
                 SocialUtil::incLikeCountAsync($userId, $eventId);
+                $result->success = true;
+                $result->error = false;
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -392,7 +392,7 @@ class SocialUtil {
                         $friends = SocialFriendUtil::getUserSuggestList($user->id, $friends, $provider->oauth_provider);
                         foreach ($friends as $fr) {
                             $key = array_search($fr->id, $friendIdList);
-                            if (strlen($key) <= 0 && $fr->id!=$userId) {
+                            if (strlen($key) <= 0 && $fr->id != $userId) {
                                 array_push($friendList, $fr);
                                 array_push($friendIdList, $fr->id);
                             }

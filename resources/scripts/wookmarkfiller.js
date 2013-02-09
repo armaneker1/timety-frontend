@@ -201,7 +201,7 @@ function wookmarkHTML(dataArray,userId)
             var likeShareDiv = document.createElement('div');
             jQuery(likeShareDiv).addClass('likeshare'); 
             jQuery(likeShareDiv).css("display","none");
-            jQuery(likeShareDiv).attr("id","likeshare"+data.id);
+            jQuery(likeShareDiv).attr("id","likeshare_"+data.id);
 
             var btnLike = document.createElement('button');
             jQuery(btnLike).addClass('ls_btn');
