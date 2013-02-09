@@ -514,7 +514,7 @@ function addUrlEventId(event_id,title)
             if(jQuery.inArray("event",url_)<0)
             {
                 if(title){ 
-                    title=title.replace(' ', '-');
+                    title=title.replaceAll(' ', '-');
                     title=title.replace(/[^A-Za-z0-9-]+/g, '');
                 }
                 window.History.pushState(null, null, "event/"+event_id+"/"+title);  

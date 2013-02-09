@@ -21,6 +21,7 @@ $birhtdateError = null;
 $hometown = "";
 $hometownError = null;
 $userProfilePic = "";
+$userProfilePicType="";
 
 $upassError = null;
 $upass2Error = null;
@@ -36,6 +37,7 @@ if (!isset($_SESSION['id'])) {
     if (isset($_POST['te_username'])) {
         if (isset($_POST['te_userpicture'])) {
             $userProfilePic = $_POST['te_userpicture'];
+            $userProfilePicType=$_POST['userProfilePicType'];
         }
         $username = $_POST['te_username'];
         if (empty($username)) {
@@ -121,7 +123,7 @@ if (!isset($_SESSION['id'])) {
                 $user = UserUtils::getUserById($_SESSION['id']);
                 error_log(json_encode($user));
                 UserUtils::addUserInfoNeo4j($user);
-                UserUtils::changeserProfilePic($user->id, $userProfilePic);
+                $userProfilePic=UserUtils::changeserProfilePic($user->id, $userProfilePic,$userProfilePicType);
                 /*
                  * check user is invited
                  */
@@ -169,6 +171,7 @@ if (!isset($_SESSION['id'])) {
                         $lastname = $fbUser['last_name'];
                         //$birhtdate=$fbUser['birthday'];
                         $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?type=large";
+                        $userProfilePicType=FACEBOOK_TEXT;
                         $birhtdate = "";
                         if (isset($fbUser['hometown']))
                             $hometown = $fbUser['hometown']['name'];
@@ -186,6 +189,7 @@ if (!isset($_SESSION['id'])) {
                             $birhtdate = "";
                             $hometown = $user_info->location;
                             $userProfilePic = $user_info->profile_image_url;
+                            $userProfilePicType=TWITTER_TEXT;
                         }
                     } elseif ($provider->oauth_provider == FOURSQUARE_TEXT) {
                         $foursquare = new FoursquareAPI(FQ_CLIENT_ID, FQ_CLIENT_SECRET);
@@ -200,6 +204,7 @@ if (!isset($_SESSION['id'])) {
                         $birhtdate = "";
                         $hometown = $user->homeCity;
                         $userProfilePic = $user->photo;
+                        $userProfilePicType=FOURSQUARE_TEXT;
                     } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
                         $google = new Google_Client();
                         $google->setApplicationName(GG_APP_NAME);
@@ -224,6 +229,7 @@ if (!isset($_SESSION['id'])) {
                             $hometown = "";
                             if (!empty($me['image']) && sizeof($me['image']) > 0) {
                                 $userProfilePic = $me['image']['url'];
+                                $userProfilePicType=GOOGLE_PLUS_TEXT;
                             }
                         }
                     }
@@ -604,6 +610,7 @@ if (empty($birhtdate)) {
                     <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>
                     <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $username ?>" ></input>
                     <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?= $userProfilePic ?>" ></input>
+                    <input type="hidden" id="userProfilePicType" name="userProfilePicType" value="<?= $userProfilePicType ?>" ></input>
                     <button type="submit" class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
                 </form>
                 <div class="ts_box" style="font-size: 12px;margin-left: 48px;">

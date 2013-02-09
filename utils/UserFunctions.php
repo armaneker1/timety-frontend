@@ -235,16 +235,42 @@ class UserUtils {
         }
     }
 
-    public static function changeserProfilePic($uid, $url) {
+    public static function changeserProfilePic($uid, $url, $type) {
         if (!empty($uid)) {
             if (empty($url)) {
                 $url = "images/anonymous.jpg";
+            }
+            if ($type == TWITTER_TEXT) {
+                $url = UserUtils::handleTwitterImage($url);
             }
             $url = DBUtils::mysql_escape($url);
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid";
             mysql_query($SQL) or die(mysql_error());
         }
+        return $url;
+    }
+
+    public static function handleTwitterImage($url) {
+        $tmpUrl = $url;
+        if (!empty($tmpUrl) && UtilFunctions::startsWith($tmpUrl, "http")) {
+            if (strstr($tmpUrl, "_normal")) {
+                $tmpUrl = preg_replace('~_normal(?!.*_normal)~', '', $tmpUrl);
+            } else if (strstr($url, "_mini")) {
+                $tmpUrl = preg_replace('~_mini(?!.*_mini)~', '', $tmpUrl);
+            } else if (strstr($url, "_bigger")) {
+                $tmpUrl = preg_replace('~_bigger(?!.*_bigger)~', '', $tmpUrl);
+            }
+            try {
+                $file_headers = @get_headers($tmpUrl);
+                if ($file_headers[0] == 'HTTP/1.0 200 OK') {
+                    $url = $tmpUrl;
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+        }
+        return $url;
     }
 
     public static function createUser(User $user, $usertype = USER_TYPE_NORMAL) {
