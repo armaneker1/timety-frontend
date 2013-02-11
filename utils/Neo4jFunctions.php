@@ -701,7 +701,7 @@ class Neo4jFuctions {
                 " WHERE object.name=~/.*(?i)" . strtolower($query) . ".*/ " .
                 " RETURN object, count(*)";
 
-        echo $query;
+        //echo $query;
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         $array = array();
