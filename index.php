@@ -547,7 +547,7 @@ if (empty($user)) {
                             input_width:70,
                             propertyToSearch: "label",
                             resultsFormatter:function(item) {
-                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\" class=\"drp_add_btn\">Add</button></div></li>";
                             },
                             add_maunel:false,
                             onAdd: function() {
@@ -568,7 +568,7 @@ if (empty($user)) {
                             input_width:70,
                             propertyToSearch: "label",
                             resultsFormatter:function(item) {
-                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
                             },
                             add_maunel:true,
                             onAdd: function() {
@@ -590,7 +590,7 @@ if (empty($user)) {
                             add_mauel_validate_function : validateEmailRegex,
                             propertyToSearch: "label",
                             resultsFormatter:function(item) {
-                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button class=\"drp_add_btn\">Add</button></div></li>";
+                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
                             },
                             onAdd: function() {
                                 return true;
