@@ -233,7 +233,7 @@ function openFriendsPopup(userId,type)
             });
             
             /*
-             * get user peole
+             * get user people
              */
             jQuery.ajax({
                 type: 'GET',
