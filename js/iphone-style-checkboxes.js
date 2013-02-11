@@ -64,8 +64,8 @@ var iPhoneStyle = function(selector_or_elems, options) {
         handle.setStyle({ left: p * rightside + 'px' });
         onlabel.setStyle({ width: p * rightside + 4 + 'px' });
         offlabel.setStyle({ width: (1 - p) * rightside + 4 + 'px' });
-        offspan.setStyle({ 'marginRight': -p * rightside + 'px' });
-        onspan.setStyle({ 'marginLeft': -(1 - p) * rightside + 'px' });
+        offspan.setStyle({ 'marginRight': -p * rightside+options.widthConstant2 + 'px' });
+        onspan.setStyle({ 'marginLeft': -(1 - p) * rightside+options.widthConstant2 + 'px' });
       });
       options.statusChange(elem);
     };
@@ -96,8 +96,8 @@ var iPhoneStyle = function(selector_or_elems, options) {
         handle.setStyle({ left: p * rightside + 'px' });
         onlabel.setStyle({ width: p * rightside + 4 + 'px' });
         offlabel.setStyle({ width: (1 - p) * rightside + 4 + 'px' });
-        offspan.setStyle({ 'marginRight': -p * rightside + 'px' });
-        onspan.setStyle({ 'marginLeft': -(1 - p) * rightside + 'px' });
+        offspan.setStyle({ 'marginRight': -p * rightside+options.widthConstant2 + 'px' });
+        onspan.setStyle({ 'marginLeft': -(1 - p) * rightside+options.widthConstant2 + 'px' });
       }
     };
 
@@ -153,5 +153,6 @@ iPhoneStyle.defaults = {
   handleCenterClass: 'iPhoneCheckHandleCenter',
   handleRightClass:  'iPhoneCheckHandleRight',
   widthConstant:  3,
+  widthConstant2:  0,
   statusChange: function(){}
 };

@@ -148,6 +148,7 @@ function openCreatePopup() {
      */
     new iPhoneStyle('.on_off input[type=checkbox]', {
         widthConstant : 3, 
+        widthConstant2 : 4,
         statusChange : changePublicPrivate
     });
     

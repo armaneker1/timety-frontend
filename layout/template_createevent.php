@@ -11,7 +11,8 @@ if (!empty($user) && isset($_POST["te_event_title"]) && !empty($event)) {
 <?php if ($showPopup) { ?>
     <script>jQuery(document).ready(function() {
         new iPhoneStyle('.on_off input[type=checkbox]', {
-            widthConstant : 3, 
+            widthConstant : 3,
+            widthConstant2 : 4,
             statusChange : changePublicPrivate
         });  
     <?php
