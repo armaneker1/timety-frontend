@@ -1,6 +1,7 @@
 /* Autocomplete 
 ----------------------------------*/
-.ui-autocomplete { height: auto;
+.ui-autocomplete { 
+                   height: auto;
                    width: 583px;
                    position: absolute;
                    z-index: 1000;
@@ -47,6 +48,8 @@
     font-size: 13px;
     color: #676666;
     padding-left: 15px;
+    height: 300px;
+    overflow-y: scroll;
     /*  display: inline-block;
       float: right; */
 
