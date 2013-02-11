@@ -180,7 +180,7 @@ function openFriendsPopup(userId,type)
                             }
                         }
                     }
-                    jQuery('#spinner').hide();
+                    closeLoader();
                 }
             });
             /*
@@ -228,7 +228,7 @@ function openFriendsPopup(userId,type)
                         jQuery("#profile_friends_p_list").hide();
                         jQuery("#profile_friends_ul_list").hide();
                     }
-                    jQuery('#spinner').hide();
+                    closeLoader();
                 }
             });
             
@@ -266,7 +266,7 @@ function openFriendsPopup(userId,type)
                         jQuery("#profile_friends2_p_list").hide();
                         jQuery("#profile_friends2_ul_list").hide();
                     }
-                    jQuery('#spinner').hide();
+                    closeLoader();
                 }
             });
             
@@ -307,6 +307,18 @@ function openFriendsPopup(userId,type)
          */
     }
     
+}
+
+
+var closeLoaderVar=0;
+function closeLoader()
+{
+    closeLoaderVar++;
+    if(closeLoaderVar==3)
+    {
+        jQuery('#spinner').hide();
+        closeLoaderVar=0;
+    }
 }
 
 function closeFriendsPopup()
