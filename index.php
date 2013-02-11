@@ -780,7 +780,9 @@ if (empty($user)) {
                                         var slide_handler;
                                         function resizeSlide()
                                         {
-                                            jQuery("#slides").width(jQuery(".main_event").width());
+                                            var width=jQuery(".main_event").width();
+                                            width=Math.floor(width/205)*205+1;
+                                            jQuery("#slides").width(width);
                                             if(slide_handler) slide_handler.lemmonSlider('destroy');
                                             slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
                                         }

@@ -75,7 +75,7 @@
                             slide = i;
                         }
                     });
-
+                    
                     if ( x > 0 && scroll + w < originalWidth ){
                         jQuery(options.options_container).show();
                     } else{
