@@ -55,7 +55,7 @@ class Neo4jEventUtils {
             $evnt->setProperty(PROP_EVENT_CREATOR_L_NAME, $user->lastName);
             $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
             $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
-            
+
             $evnt->setProperty(PROP_EVENT_LOC_LAT, $event->loc_lat);
             $evnt->setProperty(PROP_EVENT_LOC_LNG, $event->loc_lng);
             $evnt->save();
@@ -258,7 +258,7 @@ class Neo4jEventUtils {
         return $array;
     }
 
-    public static function getEventFromNode($eventId,$additionalData=FALSE) {
+    public static function getEventFromNode($eventId, $additionalData = FALSE) {
         if (!empty($eventId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_EVENT . "']]" .
@@ -267,7 +267,7 @@ class Neo4jEventUtils {
             $result = $query->getResultSet();
             foreach ($result as $row) {
                 $evt = new Event();
-                $evt->createNeo4j($row[0],$additionalData);
+                $evt->createNeo4j($row[0], $additionalData);
                 return $evt;
             }
         }
@@ -279,10 +279,38 @@ class Neo4jEventUtils {
             $userId = $usrNode->getProperty(PROP_USER_ID);
             $eventId = $eventNode->getProperty(PROP_EVENT_ID);
             if (!empty($userId) && !empty($eventId)) {
-                Neo4jEventUtils::deleteUserEventJoinRelation($userId, $eventId);
-                $usrNode->relateTo($eventNode, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, (int) $creator)->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
+                $rel = Neo4jEventUtils::getUserEventJoinRelation($userId, $eventId);
+                if (empty($rel)) {
+                    $usrNode->relateTo($eventNode, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, (int) $creator)->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
+                }else
+                {
+                   $rel->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
+                }
             }
         }
+    }
+
+    public static function getUserEventJoinRelation($userId, $eventId) {
+        if (!empty($userId) && !empty($eventId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'),user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "')" .
+                        "MATCH  event-[r:" . REL_EVENTS_JOINS . "]-user " .
+                        "RETURN r";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+                foreach ($result as $row) {
+                    $rel = $row['r'];
+                    $t = $rel->getType();
+                    if (!empty($rel) && !empty($t)) {
+                        return $rel;
+                    }
+                }
+            } catch (Exception $e) {
+                echo "Error" . $e->getMessage();
+            }
+        }
+        return null;
     }
 
     public static function deleteUserEventJoinRelation($userId, $eventId) {
