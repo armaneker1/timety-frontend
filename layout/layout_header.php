@@ -78,6 +78,7 @@ if (!isset($timety_header)) {
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/mixpanel.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/tipped.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.js"></script>
 <!-- Scripts -->
 
 
@@ -86,5 +87,4 @@ if (!isset($timety_header)) {
 <![endif]-->
 
 <link rel="icon" type="image/png"  href="<?=HOSTNAME."/images/favTimety.ico"?>">
-<script language="javascript" src="<?= HOSTNAME ?>config/tooltip.js"></script>
 <?php include ('config/analytics.php'); ?>

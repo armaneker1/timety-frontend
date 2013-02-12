@@ -11,7 +11,6 @@ function updateBadge(field,val) {
     }
     //prof_created_count
     //prof_followers_count
-    
     if(element) {
         try{
             var v=jQuery(element).text();
@@ -120,6 +119,7 @@ function reshareEvent(button,eventId)
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                         }else {
                             updateBadge(2, -1);
+                            setTooltipButton(button,"Reshare");
                             var msg='reverted reshared Event';
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
@@ -155,6 +155,7 @@ function reshareEvent(button,eventId)
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                         }else {
                             updateBadge(2, 1);
+                            setTooltipButton(button,"Revert");
                             var msg='You reshared Event';
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
@@ -215,9 +216,15 @@ function sendResponseEvent(button,eventId,type)
                         var msg='Whoa! Have fun!';
                         if(type==0 || type==5)
                         {
+                            
                             updateBadge(1, -1);
                             //reject
                             msg='reject event';
+                            if(jQuery(button).attr("class_pass")=="join_btn"){
+                                setTooltipButton(button,"Join");
+                            }else{
+                                setTooltipButton(button,"Maybe");
+                            }
                             //setButtonStatus(button,false);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
@@ -230,6 +237,7 @@ function sendResponseEvent(button,eventId,type)
                             updateBadge(1, 1);
                             //join
                             msg='Whoa! Have fun!';
+                            setTooltipButton(button,"Decline");
                             addToMyTimety(eventId,userId);
                             setButtonStatus(button,true);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
@@ -241,6 +249,7 @@ function sendResponseEvent(button,eventId,type)
                             updateBadge(1, 1);
                             //maybe
                             msg='Whoa! Have fun!';
+                            setTooltipButton(button,"Decline");
                             addToMyTimety(eventId,userId);
                             setButtonStatus(button,true);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
@@ -305,6 +314,7 @@ function likeEvent(button,eventId)
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                         }else {
                             updateBadge(3, -1);
+                            setTooltipButton(button,"Like");
                             var msg='You unliked Event';
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
@@ -339,6 +349,7 @@ function likeEvent(button,eventId)
                         }else {
                             updateBadge(3, 1);
                             var msg='You liked Event';
+                            setTooltipButton(button,"Unlike");
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
                             changeLocalData(eventId,1,true);
