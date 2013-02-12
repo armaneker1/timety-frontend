@@ -82,7 +82,7 @@ class Neo4jUserUtil {
             if ($userId != $row['user']->getProperty(PROP_USER_ID))
                 array_push($array, $row['user']->getProperty(PROP_USER_ID));
         }
-        return SocialFriendUtil::getUserSuggestListFromIds($array, $limit,$userId);
+        return SocialFriendUtil::getUserSuggestListFromIds($array, $limit, $userId);
     }
 
     public static function getUserFollowingCount($userId) {
@@ -169,6 +169,36 @@ class Neo4jUserUtil {
                 return $row[0];
             }
             return 0;
+        }
+    }
+
+    public static function getUserCreatedEvents($userId) {
+        if (!empty($userId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
+                    ".outE('" . REL_EVENTS_JOINS . "').filter{it." . PROP_JOIN_CREATE . "==1}.dedup";
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $result = $query->getResultSet();
+            $array = array();
+            foreach ($result as $row) {
+                array_push($array, $row[0]);
+            }
+            return $array;
+        }
+    }
+    
+    public static function removeUserById($userId) {
+        if (!empty($userId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                        "MATCH  user-[r]-()" .
+                        "DELETE  r,user";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+            } catch (Exception $e) {
+                echo "Error" . $e->getMessage();
+            }
         }
     }
 

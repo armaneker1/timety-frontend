@@ -8,8 +8,7 @@ if (isset($_GET['eventId']) && !empty($_GET['eventId'])) {
     $id = $_GET['eventId'];
 
     try {
-        $nf = new Neo4jFuctions();
-        $nf->removeEventById($id);
+        Neo4jEventUtils::removeEventById($id);
     } catch (Exception $exc) {
         echo $exc->getTraceAsString();
     }

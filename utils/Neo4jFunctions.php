@@ -1234,45 +1234,8 @@ class Neo4jFuctions {
         $userIndex->add($user, PROP_USER_USERNAME, $tmpuser->userName);
         $userIndex->save();
 
-        Neo4jFuctions::removeUserById($fromUserId);
+        Neo4jUserUtil::removeUserById($fromUserId);
     }
 
-    /*
-     * Delete node
-     */
-
-    public static function removeEventById($eventId) {
-        if (!empty($eventId)) {
-            try {
-                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-                $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
-                $evnt = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
-                if (!empty($evnt)) {
-                    $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .
-                            "MATCH  event-[r]-()" .
-                            "DELETE  r,event";
-                    $query = new Cypher\Query($client, $query, null);
-                    $query->getResultSet();
-                }
-            } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
-            }
-        }
-    }
-
-    public static function removeUserById($userId) {
-        if (!empty($userId)) {
-            try {
-                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
-                        "MATCH  user-[r]-()" .
-                        "DELETE  r,user";
-                $query = new Cypher\Query($client, $query, null);
-                $result = $query->getResultSet();
-            } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
-            }
-        }
-    }
 
 }

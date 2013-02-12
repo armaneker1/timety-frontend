@@ -282,9 +282,8 @@ class Neo4jEventUtils {
                 $rel = Neo4jEventUtils::getUserEventJoinRelation($userId, $eventId);
                 if (empty($rel)) {
                     $usrNode->relateTo($eventNode, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, (int) $creator)->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
-                }else
-                {
-                   $rel->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
+                } else {
+                    $rel->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
                 }
             }
         }
@@ -570,6 +569,25 @@ class Neo4jEventUtils {
                 }
                 $event->setProperty(PROP_EVENT_ATTENDANCE_COUNT, $attendanceCount);
                 $event->save();
+            }
+        }
+    }
+
+    public static function removeEventById($eventId) {
+        if (!empty($eventId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
+                $evnt = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
+                if (!empty($evnt)) {
+                    $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "') " .
+                            "MATCH  event-[r]-()" .
+                            "DELETE  r,event";
+                    $query = new Cypher\Query($client, $query, null);
+                    $query->getResultSet();
+                }
+            } catch (Exception $e) {
+                echo "Error" . $e->getMessage();
             }
         }
     }

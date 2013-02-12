@@ -136,6 +136,14 @@ class UserUtils {
         }
     }
 
+    public static function deleteUserSocialProviders($userId) {
+        if (!empty($userId)) {
+            $userId = DBUtils::mysql_escape($userId);
+            $SQL = "DELETE FROM " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id=" . $userId;
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+    
     public static function moveUserSocialProvider($fromUserId, $toUserId) {
         $fromUser = UserUtils::getUserById($fromUserId);
         $toUser = UserUtils::getUserById($toUserId);
@@ -370,6 +378,38 @@ class UserUtils {
             }
         }
     }
+
+    public static function getUserList($page = null, $limit = null) {
+        if (empty($page) || $page < 0) {
+            $page = 0;
+        }
+        if (empty($limit) || $limit <= 0) {
+            $limit = 10;
+        }
+
+        $SQL = "SELECT * FROM " . TBL_USERS . " LIMIT " . ($page*$limit) . "," . $limit;
+        //echo $SQL;
+        $query = mysql_query($SQL) or die(mysql_error());
+        $array = array();
+        if (!empty($query)) {
+            $num = mysql_num_rows($query);
+            if ($num > 1) {
+                while ($db_field = mysql_fetch_assoc($query)) {
+                    $user = new User();
+                    $user->create($db_field);
+                    array_push($array, $user);
+                }
+            } else if ($num > 0) {
+                $db_field = mysql_fetch_assoc($query);
+                $user = new User();
+                $user->create($db_field);
+                array_push($array, $user);
+            }
+        }
+        return $array;
+    }
+    
+    
 
 }
 
