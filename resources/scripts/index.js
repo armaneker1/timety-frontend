@@ -111,9 +111,12 @@ function likeshareInit(userId,element)
                             setButtonStatus(jQuery(element).find(".reshare_btn"),true);
                         }  
                     }
+                    setTooltipLikeShareDiv(element);
                 }
             },"json");
         }
+    }else{
+        setTooltipLikeShareDiv(element);
     }
 }
 
