@@ -230,10 +230,10 @@ class Neo4jEventUtils {
         }
     }
 
-    public static function getAllEvents($text = "") {
+    public static function getAllEventsById($id = "") {
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":*" . $text . "*') " .
+        $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $id . "') " .
                 " RETURN event, count(*)";
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();

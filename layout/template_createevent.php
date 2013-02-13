@@ -649,7 +649,7 @@ if ($showPopup) {
                             class="googl_plus back_btn sosyal_icon"></button>
                 </div>
                 <div class="ea_alt_btn">
-                    <a href="#" class="dugme dugme_esit" onclick="closeCreatePopup();return false;"returnfalse;">Cancel</a>
+                    <a href="#" class="dugme dugme_esit" onclick="closeCreatePopup();return false;">Cancel</a>
                     <script>
                     function disButton(elem){
                         var val=jQuery(elem).data('clcked');
