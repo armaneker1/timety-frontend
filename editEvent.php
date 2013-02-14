@@ -16,6 +16,16 @@ require_once __DIR__ . '/utils/Functions.php';
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
 
+$user = null;
+if (isset($_SESSION['id'])) {
+    $user = new User();
+    $user = UserUtils::getUserById($_SESSION['id']);
+    if (!empty($user)) {
+        SessionUtil::checkUserStatus($user);
+    }
+}
+
+
 /*
  * event id form get
  */
@@ -378,7 +388,11 @@ if (isset($_POST["edit_event"])) {
 
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
         <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
-
+        <!--auto complete-->
+        <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input.css" rel="stylesheet" type="text/css" />
+        <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css" rel="stylesheet" type="text/css" />
+        <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-facebook.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
 
         <script>
             jQuery(document).ready(function(){                
@@ -396,25 +410,69 @@ if (isset($_POST["edit_event"])) {
                 });
                 
 <?php if (!empty($event->loc_lat) && !empty($event->loc_lng)) { ?>
-                            ce_loc=new Object();
-                            ce_loc.Ya=<?= $event->loc_lat ?>;
-                            ce_loc.Za=<?= $event->loc_lng ?>;
+            ce_loc=new Object();
+            ce_loc.Ya=<?= $event->loc_lat ?>;
+            ce_loc.Za=<?= $event->loc_lng ?>;
 <?php } else { ?>
-                            if(templocation) {
-                                addMarker(templocation.Ya,templocation.Za);
-                            }
+            if(templocation) {
+                addMarker(templocation.Ya,templocation.Za);
+            }
 <?php } ?>
-                setTimeout(function(){getCityLocation(setTempMapLocation);},50);
+        setTimeout(function(){getCityLocation(setTempMapLocation);},50);
+    });
+        </script>
+
+        <script>
+            jQuery(document).ready(function(){
+                jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
+                    theme: "custom",
+                    userId :"<?= $user->id ?>",
+                    queryParam : "term",
+                    minChars : 2,
+                    placeholder : "tag",
+                    preventDuplicates : true,
+                    input_width:70,
+                    propertyToSearch: "label",
+                    resultsFormatter:function(item) {
+                        return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
+                    },
+                    add_maunel:true,
+                    onAdd: function() {
+                        return true;
+                    },
+                    processPrePopulate : false,
+                    prePopulate : <?php echo $var_tags; ?>	
+                });	
+
+                jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
+                    theme: "custom",
+                    userId :"<?= $user->id ?>",
+                    queryParam : "term",
+                    minChars : 2,
+                    placeholder : "add new people manually",
+                    preventDuplicates : true,
+                    input_width:200,
+                    add_maunel:true,
+                    add_mauel_validate_function : validateEmailRegex,
+                    propertyToSearch: "label",
+                    resultsFormatter:function(item) {
+                        return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
+                    },
+                    onAdd: function() {
+                        return true;
+                    },
+                    processPrePopulate : false,
+                    prePopulate : []	
+                });
             });
         </script>
 
-
         <script>jQuery(document).ready(function() {
-    new iPhoneStyle('.on_off input[type=checkbox]', {
-        widthConstant : 3,
-        widthConstant2 : 4,
-        statusChange : changePublicPrivate
-    });  
+            new iPhoneStyle('.on_off input[type=checkbox]', {
+                widthConstant : 3,
+                widthConstant2 : 4,
+                statusChange : changePublicPrivate
+            }); 
 <?php
 if ($event->privacy == 1) {
     echo "jQuery('#on_off').click();";
@@ -463,20 +521,20 @@ if ($event->addsocial_tw == 1) {
         include('layout/layout_top.php');
         include('layout/eventImageUpload.php');
         ?>
-        <form action="" method="post" name="edit_event">
+        <form action="" method="post" name="edit_event" >
             <div class="profil_form">
                 <div  class="event_add_ekr" id="div_event_add_ekr" style="position: relative;"> 
                     <form id="add_event_form_id" name="add_event_form" action="" method="post">
                         <div class="cae_foto" style="z-index: -10;" id="event_header_image">
                             <?php if (empty($event->headerImage)) { ?>
                                 <a href="#">click here to add image</a>
-<?php } else { ?>
+                            <?php } else { ?>
                                 <script>
-                        jQuery(document).ready(function(){
-                            setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,106);
-                        });
+                                jQuery(document).ready(function(){
+                                    setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,106);
+                                });
                                 </script>
-<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="cae_foto" id="te_event_image_div"
                              style="position: absolute;"></div>
@@ -504,13 +562,13 @@ if ($event->addsocial_tw == 1) {
                             <div class="akare" style="z-index: -10" id="event_image_1">
                                 <?php if (empty($event->images[0])) { ?>
                                     <a href="#" >click here to add image</a>
-<?php } else { ?>
+                                <?php } else { ?>
                                     <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>',50,50);
-                            });
+                                    jQuery(document).ready(function(){
+                                        setUploadImage('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>',50,50);
+                                    });
                                     </script>
-<?php } ?>
+                                <?php } ?>
                             </div>
                             <div class="akare" id="event_image_1_div" style="position: absolute;">
                                 <div class="akare_kapat">
@@ -524,13 +582,13 @@ if ($event->addsocial_tw == 1) {
                             <div class="akare" style="z-index: -10" id="event_image_2">
                                 <?php if (empty($event->images[1])) { ?>
                                     <a href="#" >click here to add image</a>
-<?php } else { ?>
+                                <?php } else { ?>
                                     <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>',50,50);
-                            });
+                                    jQuery(document).ready(function(){
+                                        setUploadImage('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>',50,50);
+                                    });
                                     </script>
-<?php } ?>
+                                <?php } ?>
                             </div>
                             <div class="akare" id="event_image_2_div" style="position: absolute;left: 185px;">
                                 <div class="akare_kapat">
@@ -545,13 +603,13 @@ if ($event->addsocial_tw == 1) {
                             <div class="akare" style="z-index: -10" id="event_image_3">
                                 <?php if (empty($event->images[2])) { ?>
                                     <a href="#" >click here to add image</a>
-<?php } else { ?>
+                                <?php } else { ?>
                                     <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>',50,50);
-                            });
+                                    jQuery(document).ready(function(){
+                                        setUploadImage('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>',50,50);
+                                    });
                                     </script>
-<?php } ?>
+                                <?php } ?>
                             </div>
                             <div class="akare" id="event_image_3_div" style="position: absolute;left: 255px;">
                                 <div class="akare_kapat">
@@ -566,13 +624,13 @@ if ($event->addsocial_tw == 1) {
                             <div class="akare" style="z-index: -10" id="event_image_4">
                                 <?php if (empty($event->images[3])) { ?>
                                     <a href="#" >click here to add image</a>
-<?php } else { ?>
+                                <?php } else { ?>
                                     <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>',50,50);
-                            });
+                                    jQuery(document).ready(function(){
+                                        setUploadImage('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>',50,50);
+                                    });
                                     </script>
-<?php } ?>
+                                <?php } ?>
                             </div>
                             <div class="akare" id="event_image_4_div" style="position: absolute;left: 323px;">
                                 <div class="akare_kapat">
@@ -588,13 +646,13 @@ if ($event->addsocial_tw == 1) {
                             <div class="akare" style="z-index: -10" id="event_image_5">
                                 <?php if (empty($event->images[4])) { ?>
                                     <a href="#" >click here to add image</a>
-<?php } else { ?>
+                                <?php } else { ?>
                                     <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>',50,50);
-                            });
+                                    jQuery(document).ready(function(){
+                                        setUploadImage('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>',50,50);
+                                    });
                                     </script>
-<?php } ?>
+                                <?php } ?>
                             </div>
                             <div class="akare" id="event_image_5_div" style="position: absolute;left: 390px;">
                                 <div class="akare_kapat">
@@ -609,13 +667,13 @@ if ($event->addsocial_tw == 1) {
                             <div class="akare" style="z-index: -10" id="event_image_6">
                                 <?php if (empty($event->images[5])) { ?>
                                     <a href="#" >click here to add image</a>
-<?php } else { ?>
+                                <?php } else { ?>
                                     <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>',50,50);
-                            });
+                                    jQuery(document).ready(function(){
+                                        setUploadImage('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>',50,50);
+                                    });
                                     </script>
-<?php } ?>
+                                <?php } ?>
                             </div>
                             <div class="akare" id="event_image_6_div" style="position: absolute;left: 458px;">
                                 <div class="akare_kapat">
@@ -630,13 +688,13 @@ if ($event->addsocial_tw == 1) {
                             <div class="akare" style="z-index: -10" id="event_image_7">
                                 <?php if (empty($event->images[6])) { ?>
                                     <a href="#" >click here to add image</a>
-<?php } else { ?>
+                                <?php } else { ?>
                                     <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>',50,50);
-                            });
+                                    jQuery(document).ready(function(){
+                                        setUploadImage('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>',50,50);
+                                    });
                                     </script>
-<?php } ?>
+                                <?php } ?>
                             </div>
                             <div class="akare" id="event_image_7_div" style="position: absolute;left: 526px;">
                                 <div class="akare_kapat">
@@ -795,13 +853,14 @@ if ($event->addsocial_tw == 1) {
                             </ul>
                         </div>
                         <script>
-                jQuery(document).ready(function(){
+                        jQuery(document).ready(function(){
 <?php
 if (!empty($var_cats)) {
     for ($i = 0; $i < 2 && $i < sizeof($var_cats); $i++) {
         ?>
-            jQuery("#te_event_category<?= ($i + 1) . "_" . $var_cats[$i]['id'] ?>").click();
-    <?php }
+                    jQuery("#te_event_category<?= ($i + 1) . "_" . $var_cats[$i]['id'] ?>").click();
+        <?php
+    }
 }
 ?>
 });
@@ -823,12 +882,7 @@ if (!empty($var_cats)) {
                                 <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
                                            style="font-size: 16px;resize: none;height: 128px;margin-top: 0px;"
                                            value=""
-                                           id="te_event_description" placeholder="description" ></textarea>
-                                           <?php
-                                           if (isset($_POST["te_event_description"])) {
-                                               echo "<script>jQuery('#te_event_description').val('" . $_POST["te_event_description"] . "')</script>";
-                                           }
-                                           ?> 
+                                           id="te_event_description" placeholder="description" ><?= $event->description ?></textarea>
                             </div>
                             <div class="desc_sol"></div>
                             <div class="desc_ust"></div>
@@ -919,7 +973,7 @@ if (!empty($var_cats)) {
                             <div class="eam_bg_sol"></div>
                             <div class="eam_bg_orta" style="width: 95%; height: auto; min-height: 42px;">
                                 <input name="te_event_people" type="text" class="eam_inpt_b"
-                                       id="te_event_people" value="" placeholder="add people manually" />
+                                       id="te_event_people" value="" placeholder="add new people manually" />
                             </div>
                             <div class="eam_bg_sag"></div>
                         </div>	
@@ -957,45 +1011,45 @@ if (!empty($var_cats)) {
                             <div class="ea_alt_btn">
                                 <a href="<?= HOSTNAME ?>" class="dugme dugme_esit">Cancel</a>
                                 <script>
-                        function disButton(elem){
-                            var val=jQuery(elem).data('clcked');
-                            if(val) {
-                                return false;
-                            }else {
-                                jQuery(elem).data('clcked',true);
-                                return true;
-                            }
-                        }
+                                function disButton(elem){
+                                    var val=jQuery(elem).data('clcked');
+                                    if(val) {
+                                        return false;
+                                    }else {
+                                        jQuery(elem).data('clcked',true);
+                                        return true;
+                                    }
+                                }
                                 </script>
                                 <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent">Add Event</button>
                             </div>
                         </div>
                         <input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php
-                                           if ($event->allday == 1) {
-                                               echo "true";
-                                           } else {
-                                               echo "false";
-                                           }
-                                           ?>"></input> 
+if ($event->allday == 1) {
+    echo "true";
+} else {
+    echo "false";
+}
+?>"></input> 
                         <input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?php
-                        if ($event->repeat == 1) {
-                            echo "true";
-                        } else {
-                            echo "false";
-                        }
-                                           ?>"></input>
+                               if ($event->repeat == 1) {
+                                   echo "true";
+                               } else {
+                                   echo "false";
+                               }
+?>"></input>
 
                         <input type="hidden" name="te_event_category1" id="te_event_category1_hidden" value="<?php
-                        if (isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
-                            echo $_POST['te_event_category1'];
-                        }
-                                           ?>"></input>
+                               if (isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
+                                   echo $_POST['te_event_category1'];
+                               }
+?>"></input>
 
                         <input type="hidden" name="te_event_category2" id="te_event_category2_hidden" value="<?php
-                        if (isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
-                            echo $_POST['te_event_category2'];
-                        }
-                                           ?>"></input>
+                               if (isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
+                                   echo $_POST['te_event_category2'];
+                               }
+?>"></input>
 
                         <input type="hidden" name="te_event_addsocial_fb" id="te_event_addsocial_fb" value="false"></input>
                         <input type="hidden" name="te_event_addsocial_gg" id="te_event_addsocial_gg" value="false"></input>
@@ -1005,61 +1059,61 @@ if (!empty($var_cats)) {
 
                         <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?= $_random_session_id ?>"></input>
                         <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php
-                        if (isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {
-                            echo $_POST["upload_image_header"];
-                        } else {
-                            echo "0";
-                        }
-                                           ?>"></input>
+                               if (isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {
+                                   echo $_POST["upload_image_header"];
+                               } else {
+                                   echo "0";
+                               }
+?>"></input>
                         <input type="hidden" name="event_image_1_input" id="event_image_1_input" value="<?php
-                        if (isset($_POST["event_image_1_input"]) && $_POST["event_image_1_input"] != '0') {
-                            echo $_POST["event_image_1_input"];
-                        } else {
-                            echo "0";
-                        }
-                                           ?>"></input>
+                               if (isset($_POST["event_image_1_input"]) && $_POST["event_image_1_input"] != '0') {
+                                   echo $_POST["event_image_1_input"];
+                               } else {
+                                   echo "0";
+                               }
+?>"></input>
                         <input type="hidden" name="event_image_2_input" id="event_image_2_input" value="<?php
-                        if (isset($_POST["event_image_2_input"]) && $_POST["event_image_2_input"] != '0') {
-                            echo $_POST["event_image_2_input"];
-                        } else {
-                            echo "0";
-                        }
-                                           ?>"></input>
+                               if (isset($_POST["event_image_2_input"]) && $_POST["event_image_2_input"] != '0') {
+                                   echo $_POST["event_image_2_input"];
+                               } else {
+                                   echo "0";
+                               }
+?>"></input>
                         <input type="hidden" name="event_image_3_input" id="event_image_3_input" value="<?php
-                        if (isset($_POST["event_image_3_input"]) && $_POST["event_image_3_input"] != '0') {
-                            echo $_POST["event_image_3_input"];
-                        } else {
-                            echo "0";
-                        }
-                                           ?>"></input>
+                               if (isset($_POST["event_image_3_input"]) && $_POST["event_image_3_input"] != '0') {
+                                   echo $_POST["event_image_3_input"];
+                               } else {
+                                   echo "0";
+                               }
+?>"></input>
                         <input type="hidden" name="event_image_4_input" id="event_image_4_input" value="<?php
-                        if (isset($_POST["event_image_4_input"]) && $_POST["event_image_4_input"] != '0') {
-                            echo $_POST["event_image_4_input"];
-                        } else {
-                            echo "0";
-                        }
-                                           ?>"></input>
+                               if (isset($_POST["event_image_4_input"]) && $_POST["event_image_4_input"] != '0') {
+                                   echo $_POST["event_image_4_input"];
+                               } else {
+                                   echo "0";
+                               }
+?>"></input>
                         <input type="hidden" name="event_image_5_input" id="event_image_5_input" value="<?php
-                        if (isset($_POST["event_image_5_input"]) && $_POST["event_image_5_input"] != '0') {
-                            echo $_POST["event_image_5_input"];
-                        } else {
-                            echo "0";
-                        }
-                                           ?>"></input>
+                               if (isset($_POST["event_image_5_input"]) && $_POST["event_image_5_input"] != '0') {
+                                   echo $_POST["event_image_5_input"];
+                               } else {
+                                   echo "0";
+                               }
+?>"></input>
                         <input type="hidden" name="event_image_6_input" id="event_image_6_input" value="<?php
-                        if (isset($_POST["event_image_6_input"]) && $_POST["event_image_6_input"] != '0') {
-                            echo $_POST["event_image_6_input"];
-                        } else {
-                            echo "0";
-                        }
-                                           ?>"></input>
+                               if (isset($_POST["event_image_6_input"]) && $_POST["event_image_6_input"] != '0') {
+                                   echo $_POST["event_image_6_input"];
+                               } else {
+                                   echo "0";
+                               }
+?>"></input>
                         <input type="hidden" name="event_image_7_input" id="event_image_7_input" value="<?php
-                        if (isset($_POST["event_image_7_input"]) && $_POST["event_image_7_input"] != '0') {
-                            echo $_POST["event_image_7_input"];
-                        } else {
-                            echo "0";
-                        }
-                                           ?>"></input>
+                               if (isset($_POST["event_image_7_input"]) && $_POST["event_image_7_input"] != '0') {
+                                   echo $_POST["event_image_7_input"];
+                               } else {
+                                   echo "0";
+                               }
+?>"></input>
 
                     </form>
 
