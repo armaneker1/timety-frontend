@@ -64,7 +64,6 @@ $te_event_end_time = "";
 
 
 if (!empty($_POST['rand_session_id'])) {
-    var_dump($_POST);
     if (!empty($_POST['rand_session_id'])) {
         $_random_session_id = $_POST['rand_session_id'];
     }
@@ -287,7 +286,8 @@ if (!empty($_POST['rand_session_id'])) {
     $event->tags = $_POST["te_event_tag"];
     $event->attendance = $_POST["te_event_people"];
 
-    var_dump($event);
+    //var_dump($_POST);
+    //var_dump($event);
     if (!$error) {
         try {
             //  EventUtil::createEvent($event, $user);
@@ -384,11 +384,13 @@ if (!empty($_POST['rand_session_id'])) {
         ?>
 
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>resources/scripts/createEvent.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>resources/scripts/editevent.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js"></script>
+
+
+        <script src="<?= HOSTNAME ?>resources/scripts/createEvent.js" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>resources/scripts/editevent.js" type="text/javascript" charset="utf-8"></script>
 
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
         <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
@@ -429,8 +431,16 @@ if (!empty($_POST['rand_session_id'])) {
         <?php
         if (empty($var_tags)) {
             $var_tags = "[]";
-            $nf=new Neo4jFuctions();
+            $nf = new Neo4jFuctions();
             $var_tags = $nf->getTagListListByIdList($event->tags);
+        }
+
+        $var_usrs = "[]";
+        if (!empty($event->attendance)) {
+            $var_usrs = $nf->getUserGroupListByIdList($event->attendance);
+        }
+        if (empty($var_usrs)) {
+            var_dump($var_usrs);
         }
         ?>
         <script>
@@ -473,7 +483,7 @@ if (!empty($_POST['rand_session_id'])) {
                         return true;
                     },
                     processPrePopulate : false,
-                    prePopulate : []	
+                    prePopulate : <?= $var_usrs ?>	
                 });
             });
         </script>
@@ -905,24 +915,23 @@ if ($event->addsocial_tw == 1) {
                     <script>
                     jQuery(document).ready(function(){
 <?php
-$tt=0;
-if(empty($var_cats))
-{
-    $tt=1;
-    $var_cats= "[]";
-    $nf=new Neo4jFuctions();
+$tt = 0;
+if (empty($var_cats)) {
+    $tt = 1;
+    $var_cats = "[]";
+    $nf = new Neo4jFuctions();
     $var_cats = $nf->getCategoryListByIdList($event->categories);
-    $var_cats =  json_decode($var_cats);
+    $var_cats = json_decode($var_cats);
 }
 if (!empty($var_cats)) {
     for ($i = 0; $i < 2 && $i < sizeof($var_cats); $i++) {
-        $iddd="";
-        if($tt==0) {
-            $iddd=$var_cats[$i]['id'];
+        $iddd = "";
+        if ($tt == 0) {
+            $iddd = $var_cats[$i]['id'];
         } else {
-            $iddd=$var_cats[$i]->id;
+            $iddd = $var_cats[$i]->id;
         }
-                ?>
+        ?>
                     jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
         <?php
     }

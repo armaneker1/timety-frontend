@@ -298,14 +298,20 @@ function addMarker(lat,lng) {
             lng: lng,
             draggable:true
         });
-        setMapLocation(lat, lng);
+        setMapLocationInput(lat, lng);
         google.maps.event.addListener(marker, 'dragend', function (e) {
-            setMapLocation(e.latLng.Ya, e.latLng.Za);
+            setMapLocationInput(e.latLng.Ya, e.latLng.Za);
         });
     }
+    ce_loc=new Object();
+    ce_loc.Ya=lat;
+    ce_loc.Za=lng;
 }
 
-function setMapLocation(lat,lng)
+function setMapLocationInput(lat,lng)
 {
+    ce_loc=new Object();
+    ce_loc.Ya=lat;
+    ce_loc.Za=lng;
     jQuery("#te_map_location").val(lat+","+lng);
 }
