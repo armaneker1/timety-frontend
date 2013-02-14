@@ -207,7 +207,8 @@
         // Create a new text input an attach keyup events
         var input_box = $("<input type=\"text\"  placeholder=\""+settings.placeholder+"\"  autocomplete=\"off\">")
         .css({
-            outline : "none"
+            outline : "none",
+            width :settings.input_width+"px"
         })
         .attr("id", settings.idPrefix + input.id)
         .focus(
