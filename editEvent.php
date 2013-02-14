@@ -44,6 +44,15 @@ if (empty($event) || empty($event->id)) {
 
 $notpost = false;
 
+if (empty($_POST)) {
+    if (isset($_SESSION[INDEX_POST_SESSION_KEY]) && !empty($_SESSION[INDEX_POST_SESSION_KEY])) {
+        $_POST = json_decode($_SESSION[INDEX_POST_SESSION_KEY]);
+        $_POST = get_object_vars($_POST);
+        $_SESSION[INDEX_POST_SESSION_KEY] = '';
+        $notpost = true;
+    }
+}
+
 /*
  * form field
  */
@@ -55,256 +64,244 @@ $te_event_end_time = "";
 
 
 if (isset($_POST["edit_event"])) {
+    if (!empty($_POST['rand_session_id'])) {
+        $_random_session_id = $_POST['rand_session_id'];
+    }
+    $error = false;
 
-    //if posted
-    if (!isset($_POST["te_event_title"])) {
-        if (isset($_SESSION[INDEX_POST_SESSION_KEY]) && !empty($_SESSION[INDEX_POST_SESSION_KEY])) {
-            $_POST = json_decode($_SESSION[INDEX_POST_SESSION_KEY]);
-            $_POST = get_object_vars($_POST);
-            $_SESSION[INDEX_POST_SESSION_KEY] = '';
-            $notpost = true;
+    $event->title = $_POST["te_event_title"];
+    if (empty($event->title)) {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "Event Title can not be empty";
+        array_push($msgs, $m);
+    }
+
+    $event->location = $_POST["te_event_location"];
+    if (empty($event->location)) {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "Event Location can not be empty";
+        array_push($msgs, $m);
+    }
+
+    $loc = $_POST["te_map_location"];
+    if (!empty($loc)) {
+        $arr = explode(",", $loc);
+        if (!empty($arr) && sizeof($arr) == 2) {
+            $event->loc_lat = $arr[0];
+            $event->loc_lng = $arr[1];
         }
     }
 
-    if (isset($_POST["te_event_title"])) {
-        if (!empty($_POST['rand_session_id'])) {
-            $_random_session_id = $_POST['rand_session_id'];
-        }
-        $error = false;
-
-        $event->title = $_POST["te_event_title"];
-        if (empty($event->title)) {
-            $error = true;
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Event Title can not be empty";
-            array_push($msgs, $m);
-        }
-
-        $event->location = $_POST["te_event_location"];
-        if (empty($event->location)) {
-            $error = true;
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Event Location can not be empty";
-            array_push($msgs, $m);
-        }
-
-        $loc = $_POST["te_map_location"];
-        if (!empty($loc)) {
-            $arr = explode(",", $loc);
-            if (!empty($arr) && sizeof($arr) == 2) {
-                $event->loc_lat = $arr[0];
-                $event->loc_lng = $arr[1];
-            }
-        }
-
-        $event->description = $_POST["te_event_description"];
-        if (empty($event->description)) {
-            $error = true;
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Event Description can not be empty";
-            array_push($msgs, $m);
-        }
+    $event->description = $_POST["te_event_description"];
+    if (empty($event->description)) {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "Event Description can not be empty";
+        array_push($msgs, $m);
+    }
 
 
-        if (!isset($_POST["upload_image_header"]) || $_POST["upload_image_header"] == '0') {
-            $error = true;
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Upload an Image";
-            array_push($msgs, $m);
-        } else {
-            $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
-        }
+    if (!isset($_POST["upload_image_header"]) || $_POST["upload_image_header"] == '0') {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "Upload an Image";
+        array_push($msgs, $m);
+    } else {
+        $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
+    }
 
-        /*
-         * Images
-         */
-        $event->images = array(null, null, null, null, null, null, null);
+    /*
+     * Images
+     */
+    $event->images = array(null, null, null, null, null, null, null);
 
-        if (isset($_POST["event_image_1_input"]) && !empty($_POST["event_image_1_input"])) {
-            $event->images[0] = "ImageEvent_1_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_2_input"]) && !empty($_POST["event_image_2_input"])) {
-            $event->images[1] = "ImageEvent_2_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_3_input"]) && !empty($_POST["event_image_3_input"])) {
-            $event->images[2] = "ImageEvent_3_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_4_input"]) && !empty($_POST["event_image_4_input"])) {
-            $event->images[3] = "ImageEvent_4_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_5_input"]) && !empty($_POST["event_image_5_input"])) {
-            $event->images[4] = "ImageEvent_5_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_6_input"]) && !empty($_POST["event_image_6_input"])) {
-            $event->images[5] = "ImageEvent_6_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_7_input"]) && !empty($_POST["event_image_7_input"])) {
-            $event->images[6] = "ImageEvent_7_" . $_random_session_id . ".png";
-        }
+    if (isset($_POST["event_image_1_input"]) && !empty($_POST["event_image_1_input"])) {
+        $event->images[0] = "ImageEvent_1_" . $_random_session_id . ".png";
+    }
+    if (isset($_POST["event_image_2_input"]) && !empty($_POST["event_image_2_input"])) {
+        $event->images[1] = "ImageEvent_2_" . $_random_session_id . ".png";
+    }
+    if (isset($_POST["event_image_3_input"]) && !empty($_POST["event_image_3_input"])) {
+        $event->images[2] = "ImageEvent_3_" . $_random_session_id . ".png";
+    }
+    if (isset($_POST["event_image_4_input"]) && !empty($_POST["event_image_4_input"])) {
+        $event->images[3] = "ImageEvent_4_" . $_random_session_id . ".png";
+    }
+    if (isset($_POST["event_image_5_input"]) && !empty($_POST["event_image_5_input"])) {
+        $event->images[4] = "ImageEvent_5_" . $_random_session_id . ".png";
+    }
+    if (isset($_POST["event_image_6_input"]) && !empty($_POST["event_image_6_input"])) {
+        $event->images[5] = "ImageEvent_6_" . $_random_session_id . ".png";
+    }
+    if (isset($_POST["event_image_7_input"]) && !empty($_POST["event_image_7_input"])) {
+        $event->images[6] = "ImageEvent_7_" . $_random_session_id . ".png";
+    }
 
-        /*
-         * Images
-         */
+    /*
+     * Images
+     */
 
-        $startDate = $_POST["te_event_start_date"];
-        $startTime = $_POST["te_event_start_time"];
-        $startDate = UtilFunctions::checkDate($startDate);
-        if (!$startDate) {
-            $error = true;
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Event Start Date not valid";
-            array_push($msgs, $m);
-        }
-        $startTime = UtilFunctions::checkTime($startTime);
-        if (!$startTime) {
-            $error = true;
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Event Start Time not valid";
-            array_push($msgs, $m);
-        }
+    $startDate = $_POST["te_event_start_date"];
+    $startTime = $_POST["te_event_start_time"];
+    $startDate = UtilFunctions::checkDate($startDate);
+    if (!$startDate) {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "Event Start Date not valid";
+        array_push($msgs, $m);
+    }
+    $startTime = UtilFunctions::checkTime($startTime);
+    if (!$startTime) {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "Event Start Time not valid";
+        array_push($msgs, $m);
+    }
 
 
 
-        $endDate = $_POST["te_event_end_date"];
-        $endTime = $_POST["te_event_end_time"];
+    $endDate = $_POST["te_event_end_date"];
+    $endTime = $_POST["te_event_end_time"];
 
-        $endTime = UtilFunctions::checkTime($endTime);
-        if (!$endTime) {
-            $endTime = "00:00";
-        }
+    $endTime = UtilFunctions::checkTime($endTime);
+    if (!$endTime) {
+        $endTime = "00:00";
+    }
 
-        $endDate = UtilFunctions::checkDate($endDate);
-        if (!$endDate) {
-            $endDate = "0000-00-00";
-            if ($endTime != "00:00") {
-                if (($startDate . " " . $startTime) > ($startDate . " " . $endTime)) {
-                    $error = true;
-                    $m = new HtmlMessage();
-                    $m->type = "e";
-                    $m->message = "End Time is not valid";
-                    array_push($msgs, $m);
-                }
-            }
-        } else {
-            if (($startDate . " " . $startTime) > ($endDate . " " . $endTime)) {
+    $endDate = UtilFunctions::checkDate($endDate);
+    if (!$endDate) {
+        $endDate = "0000-00-00";
+        if ($endTime != "00:00") {
+            if (($startDate . " " . $startTime) > ($startDate . " " . $endTime)) {
                 $error = true;
                 $m = new HtmlMessage();
                 $m->type = "e";
-                $m->message = "End Date is not valid";
+                $m->message = "End Time is not valid";
                 array_push($msgs, $m);
             }
         }
-
-        $event->startDateTime = $startDate . " " . $startTime . ":00";
-        $event->endDateTime = $endDate . " " . $endTime . ":00";
-
-        if (isset($_POST["te_event_allday"]) && $_POST["te_event_allday"] == "true") {
-            $event->allday = 1;
-        } else {
-            $event->allday = 0;
+    } else {
+        if (($startDate . " " . $startTime) > ($endDate . " " . $endTime)) {
+            $error = true;
+            $m = new HtmlMessage();
+            $m->type = "e";
+            $m->message = "End Date is not valid";
+            array_push($msgs, $m);
         }
+    }
 
-        if (isset($_POST["te_event_repeat"]) && $_POST["te_event_repeat"] == "true") {
-            $event->repeat = 1;
-        } else {
-            $event->repeat = 0;
-        }
+    $event->startDateTime = $startDate . " " . $startTime . ":00";
+    $event->endDateTime = $endDate . " " . $endTime . ":00";
 
-        if (isset($_POST["te_event_addsocial_fb"]) && $_POST["te_event_addsocial_fb"] == "true") {
-            $event->addsocial_fb = 1;
-        } else {
-            $event->addsocial_fb = 0;
-        }
+    if (isset($_POST["te_event_allday"]) && $_POST["te_event_allday"] == "true") {
+        $event->allday = 1;
+    } else {
+        $event->allday = 0;
+    }
 
-        if (isset($_POST["te_event_addsocial_gg"]) && $_POST["te_event_addsocial_gg"] == "true") {
-            $event->addsocial_gg = 1;
-        } else {
-            $event->addsocial_gg = 0;
-        }
+    if (isset($_POST["te_event_repeat"]) && $_POST["te_event_repeat"] == "true") {
+        $event->repeat = 1;
+    } else {
+        $event->repeat = 0;
+    }
 
-        if (isset($_POST["te_event_addsocial_tw"]) && $_POST["te_event_addsocial_tw"] == "true") {
-            $event->addsocial_tw = 1;
-        } else {
-            $event->addsocial_tw = 0;
-        }
+    if (isset($_POST["te_event_addsocial_fb"]) && $_POST["te_event_addsocial_fb"] == "true") {
+        $event->addsocial_fb = 1;
+    } else {
+        $event->addsocial_fb = 0;
+    }
 
-        if (isset($_POST["te_event_addsocial_fq"]) && $_POST["te_event_addsocial_fq"] == "true") {
-            $event->addsocial_fq = 1;
-        } else {
-            $event->addsocial_fq = 0;
-        }
+    if (isset($_POST["te_event_addsocial_gg"]) && $_POST["te_event_addsocial_gg"] == "true") {
+        $event->addsocial_gg = 1;
+    } else {
+        $event->addsocial_gg = 0;
+    }
 
-        if (isset($_POST["te_event_reminder_type"]))
-            $event->reminderType = $_POST["te_event_reminder_type"];
-        else
-            $event->reminderType = "";
+    if (isset($_POST["te_event_addsocial_tw"]) && $_POST["te_event_addsocial_tw"] == "true") {
+        $event->addsocial_tw = 1;
+    } else {
+        $event->addsocial_tw = 0;
+    }
 
-        if (!empty($event->reminderType)) {
-            if (isset($_POST["te_event_reminder_unit"])) {
-                $event->reminderUnit = $_POST["te_event_reminder_unit"];
-            } else {
-                $event->reminderUnit = "";
-            }
+    if (isset($_POST["te_event_addsocial_fq"]) && $_POST["te_event_addsocial_fq"] == "true") {
+        $event->addsocial_fq = 1;
+    } else {
+        $event->addsocial_fq = 0;
+    }
 
-            if (isset($_POST["te_event_reminder_value"])) {
-                $event->reminderValue = $_POST["te_event_reminder_value"];
-            } else {
-                $event->reminderValue = 0;
-            }
+    if (isset($_POST["te_event_reminder_type"]))
+        $event->reminderType = $_POST["te_event_reminder_type"];
+    else
+        $event->reminderType = "";
+
+    if (!empty($event->reminderType)) {
+        if (isset($_POST["te_event_reminder_unit"])) {
+            $event->reminderUnit = $_POST["te_event_reminder_unit"];
         } else {
             $event->reminderUnit = "";
+        }
+
+        if (isset($_POST["te_event_reminder_value"])) {
+            $event->reminderValue = $_POST["te_event_reminder_value"];
+        } else {
             $event->reminderValue = 0;
         }
+    } else {
+        $event->reminderUnit = "";
+        $event->reminderValue = 0;
+    }
 
-        if (isset($_POST["te_event_privacy"]))
-            $event->privacy = $_POST["te_event_privacy"];
-        else
-            $event->privacy = "false";
+    if (isset($_POST["te_event_privacy"]))
+        $event->privacy = $_POST["te_event_privacy"];
+    else
+        $event->privacy = "false";
 
-        $event->categories = "";
-        if (isset($_POST["te_event_category1"])) {
-            $event->categories = $_POST["te_event_category1"];
+    $event->categories = "";
+    if (isset($_POST["te_event_category1"])) {
+        $event->categories = $_POST["te_event_category1"];
+    }
+
+    $event->attach_link = "";
+    if (isset($_POST["te_event_attach_link"])) {
+        $event->attach_link = $_POST["te_event_attach_link"];
+    }
+
+    if (isset($_POST["te_event_category2"])) {
+        $event->categories = $event->categories . "," . $_POST["te_event_category2"];
+    }
+
+    $event->tags = $_POST["te_event_tag"];
+    $event->attendance = $_POST["te_event_people"];
+
+    var_dump($event);
+    if (!$error) {
+        try {
+            //  EventUtil::createEvent($event, $user);
+            $m = new HtmlMessage();
+            $m->type = "s";
+            $m->message = "Event created successfully.";
+            $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
+            exit(header('Location: ' . PAGE_EDIT_EVENT."?eventId=".$eventId));
+        } catch (Exception $e) {
+            $error = true;
+            $m = new HtmlMessage();
+            $m->type = "e";
+            $m->message = $e->getMessage();
+            array_push($msgs, $m);
         }
+    }
 
-        $event->attach_link = "";
-        if (isset($_POST["te_event_attach_link"])) {
-            $event->attach_link = $_POST["te_event_attach_link"];
-        }
-
-        if (isset($_POST["te_event_category2"])) {
-            $event->categories = $event->categories . "," . $_POST["te_event_category2"];
-        }
-
-        $event->tags = $_POST["te_event_tag"];
-        $event->attendance = $_POST["te_event_people"];
-
-        if (!$error) {
-            try {
-                //  EventUtil::createEvent($event, $user);
-                $m = new HtmlMessage();
-                $m->type = "s";
-                $m->message = "Event created successfully.";
-                $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
-                //exit(header('Location: ' . HOSTNAME));
-            } catch (Exception $e) {
-                $error = true;
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = $e->getMessage();
-                array_push($msgs, $m);
-            }
-        }
-
-        if ($error && !$notpost) {
-            $_SESSION[INDEX_POST_SESSION_KEY] = json_encode($_POST);
-            //exit(header('Location: ' . HOSTNAME));
-        }
+    if ($error && !$notpost) {
+        $_SESSION[INDEX_POST_SESSION_KEY] = json_encode($_POST);
+        exit(header('Location: ' . PAGE_EDIT_EVENT."?eventId=".$eventId));
     }
 } else {
     /*
@@ -467,37 +464,37 @@ if (isset($_POST["edit_event"])) {
             });
         </script>
 
-         <!--takvim-->
-            <SCRIPT type="text/javascript">
-                jQuery.noConflict();
-                jQuery(document).ready(function()
-                {
-                    /*SyntaxHighlighter.defaults["brush"] = "js";
-                    SyntaxHighlighter.defaults["ruler"] = false;
-                    SyntaxHighlighter.defaults["toolbar"] = false;
-                    SyntaxHighlighter.defaults["gutter"] = false;
-                    SyntaxHighlighter.all();*/
-                    // Basic date picker with default settings
-                    jQuery( ".date1" ).datepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        dateFormat: "dd.mm.yy",
-                        beforeShow : function(dateInput,datePicker) {
-                            setTimeout(showDate,5);
-                        },
-                        onChangeMonthYear: function(dateInput,datePicker) {
-                            setTimeout(showDate,5);
-                        }
-                    });
-                    jQuery('.timepicker-default').timepicker();
+        <!--takvim-->
+        <SCRIPT type="text/javascript">
+            jQuery.noConflict();
+            jQuery(document).ready(function()
+            {
+                /*SyntaxHighlighter.defaults["brush"] = "js";
+                SyntaxHighlighter.defaults["ruler"] = false;
+                SyntaxHighlighter.defaults["toolbar"] = false;
+                SyntaxHighlighter.defaults["gutter"] = false;
+                SyntaxHighlighter.all();*/
+                // Basic date picker with default settings
+                jQuery( ".date1" ).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: "dd.mm.yy",
+                    beforeShow : function(dateInput,datePicker) {
+                        setTimeout(showDate,5);
+                    },
+                    onChangeMonthYear: function(dateInput,datePicker) {
+                        setTimeout(showDate,5);
+                    }
                 });
-            </SCRIPT>
-            <!--takvim-->
-            <!--saat-->
-            <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js"></script>
-            <link href="<?= HOSTNAME ?>js/saat/timepicker.css" rel="stylesheet" type="text/css" />
-            <!--saat-->
-        
+                jQuery('.timepicker-default').timepicker();
+            });
+        </SCRIPT>
+        <!--takvim-->
+        <!--saat-->
+        <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js"></script>
+        <link href="<?= HOSTNAME ?>js/saat/timepicker.css" rel="stylesheet" type="text/css" />
+        <!--saat-->
+
         <script>jQuery(document).ready(function() {
             new iPhoneStyle('.on_off input[type=checkbox]', {
                 widthConstant : 3,
@@ -1061,7 +1058,7 @@ if (!empty($var_cats)) {
                                     }
                                 }
                                 </script>
-                                <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent">Add Event</button>
+                                <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent" name="edit_event">Add Event</button>
                             </div>
                         </div>
                         <input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php

@@ -41,6 +41,7 @@ define('PAGE_LOGOUT', HOSTNAME.'logout');
 define('PAGE_FORGOT_PASSWORD', HOSTNAME.'forgot-password');
 define('PAGE_NEW_PASSWORD', HOSTNAME.'new-password');
 define('PAGE_CONFIRM', HOSTNAME.'confirm-user');
+define('PAGE_EDIT_EVENT', HOSTNAME.'editEvent.php');
 define('PAGE_EVENT', HOSTNAME.'event/');
 define('PAGE_UPDATE_PROFILE',HOSTNAME.'profile');
 define('PAGE_GET_IMAGEURL',HOSTNAME.'getImage.php?src=');
