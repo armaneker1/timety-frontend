@@ -16,7 +16,7 @@ if (!empty($user) && isset($_POST["te_event_title"]) && !empty($event)) {
             statusChange : changePublicPrivate
         });  
     <?php
-    if ($event->privacy == 1) {
+    if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
         echo "jQuery('#on_off').click();";
     }
     if ($event->allday == 1) {
