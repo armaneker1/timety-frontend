@@ -266,11 +266,13 @@ function openMap(mod,value){
         lat=ce_loc.Ya;
         lng=ce_loc.Za;
     }
-    ce_map = new GMaps({
-        'el': '#te_maps',
-        'lat':lat,
-        'lng':lng
-    });
+    if(!ce_map) {
+        ce_map = new GMaps({
+            'el': '#te_maps',
+            'lat':lat,
+            'lng':lng
+        });
+    }
     addMarker(lat,lng);
 }
 

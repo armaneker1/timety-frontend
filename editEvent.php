@@ -467,6 +467,37 @@ if (isset($_POST["edit_event"])) {
             });
         </script>
 
+         <!--takvim-->
+            <SCRIPT type="text/javascript">
+                jQuery.noConflict();
+                jQuery(document).ready(function()
+                {
+                    /*SyntaxHighlighter.defaults["brush"] = "js";
+                    SyntaxHighlighter.defaults["ruler"] = false;
+                    SyntaxHighlighter.defaults["toolbar"] = false;
+                    SyntaxHighlighter.defaults["gutter"] = false;
+                    SyntaxHighlighter.all();*/
+                    // Basic date picker with default settings
+                    jQuery( ".date1" ).datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: "dd.mm.yy",
+                        beforeShow : function(dateInput,datePicker) {
+                            setTimeout(showDate,5);
+                        },
+                        onChangeMonthYear: function(dateInput,datePicker) {
+                            setTimeout(showDate,5);
+                        }
+                    });
+                    jQuery('.timepicker-default').timepicker();
+                });
+            </SCRIPT>
+            <!--takvim-->
+            <!--saat-->
+            <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js"></script>
+            <link href="<?= HOSTNAME ?>js/saat/timepicker.css" rel="stylesheet" type="text/css" />
+            <!--saat-->
+        
         <script>jQuery(document).ready(function() {
             new iPhoneStyle('.on_off input[type=checkbox]', {
                 widthConstant : 3,
@@ -744,6 +775,7 @@ if ($event->addsocial_tw == 1) {
                                 <div class="ts_sol"></div>
                                 <div class="ts_sorta">
                                     <INPUT id="te_event_start_date" name="te_event_start_date"
+                                           style="width: 83px !important;"
                                            autocomplete='off'
                                            value="<?= $te_event_start_date ?>"
                                            class="date1 gldp ts_sorta_inpt" type="text">
@@ -781,6 +813,7 @@ if ($event->addsocial_tw == 1) {
                                 <div class="ts_sorta">
                                     <INPUT id="date2" name="te_event_end_date"
                                            autocomplete='off'
+                                           style="width: 83px !important;"
                                            value="<?= $te_event_end_date ?>"
                                            class=" date1 gldp ts_sorta_inpt" type="text">
                                 </div>

@@ -509,7 +509,7 @@ try {
                     <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
                                style="font-size: 16px;resize: none;height: 128px;margin-top: 0px;"
                                value=""
-                               id="te_event_description" placeholder="description" ><?= $_POST["te_event_description"] ?></textarea>
+                               id="te_event_description" placeholder="description" ><?php if(isset($_POST["te_event_description"])){ echo $_POST["te_event_description"];} ?></textarea>
                 </div>
                 <div class="desc_sol"></div>
                 <div class="desc_ust"></div>
