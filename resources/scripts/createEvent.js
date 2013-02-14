@@ -111,7 +111,8 @@ function fileUploadOnComplete(id, fileName, responseJSON,image_input,width,heigh
     var uploadDiv=jQuery("#"+id+"_div");
     if(uploadDiv)
     {
-        var remDiv=jQuery("#"+id+"_rem");
+        putDeleteButton(id, fileName, image_input,uploadDiv);
+        /*var remDiv=jQuery("#"+id+"_rem");
         if(remDiv.length>0)
         {
             remDiv.remove();
@@ -123,7 +124,7 @@ function fileUploadOnComplete(id, fileName, responseJSON,image_input,width,heigh
             removeUploadFile(id,fileName,image_input);
         });
         jQuery(remDiv).append(remButton);
-        jQuery(uploadDiv).append(remDiv);
+        jQuery(uploadDiv).append(remDiv);*/
     }
 }
 
@@ -139,11 +140,28 @@ function removeUploadFile(id,fileName,image_input)
     jQuery(imageDiv).append("<a href=\"#\">click here to add image</a>");
     var uploadDiv=jQuery("#"+id+"_rem");
     uploadDiv.remove();
-     jQuery.post(TIMETY_PAGE_AJAX_REMOVE_TEMPFILE, { 
+    jQuery.post(TIMETY_PAGE_AJAX_REMOVE_TEMPFILE, { 
         'tempFile' : fileName
     }, function(data) {
         
-    }, "json");
+        }, "json");
+}
+
+function putDeleteButton(id,fileName,image_input,uploadDiv)
+{
+    var remDiv=jQuery("#"+id+"_rem");
+    if(remDiv.length>0)
+    {
+        remDiv.remove();
+    }
+        
+    remDiv=jQuery("<div id=\""+id+"_rem\" class=\"akare_kapat\"></div>");
+    var remButton=jQuery("<span class=\"sil icon_bg\"></span>");
+    jQuery(remButton).click(function(){
+        removeUploadFile(id,fileName,image_input);
+    });
+    jQuery(remDiv).append(remButton);
+    jQuery(uploadDiv).append(remDiv);
 }
 
 function setUploadImage(id, fileName,mWidth,mHeight)

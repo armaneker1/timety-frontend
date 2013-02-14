@@ -541,10 +541,10 @@ if ($event->addsocial_tw == 1) {
                         <div class="eam_satir">
                             <div class="eam_bg">
                                 <div class="eam_bg_sol"></div>
-                                <div class="eam_bg_orta">
+                                <div class="eam_bg_orta" style="width: 450px;">
                                     <input name="te_event_title" type="text" class="eam_inpt"
                                            id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
-                                    <div class="left" >
+                                    <div class="left" style="float: right;" >
                                         <p id="on_off_text" style="width: 46px;">private</p>
                                         <ol class="on_off">
                                             <li style="width: 48px; height: 17px;"><input type="checkbox"
@@ -566,6 +566,7 @@ if ($event->addsocial_tw == 1) {
                                     <script>
                                     jQuery(document).ready(function(){
                                         setUploadImage('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>',50,50);
+                                        putDeleteButton('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>','event_image_1_input',jQuery("#event_image_1_div"));
                                     });
                                     </script>
                                 <?php } ?>
@@ -586,6 +587,7 @@ if ($event->addsocial_tw == 1) {
                                     <script>
                                     jQuery(document).ready(function(){
                                         setUploadImage('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>',50,50);
+                                        putDeleteButton('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>','event_image_2_input',jQuery("#event_image_2_div"));
                                     });
                                     </script>
                                 <?php } ?>
@@ -607,6 +609,7 @@ if ($event->addsocial_tw == 1) {
                                     <script>
                                     jQuery(document).ready(function(){
                                         setUploadImage('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>',50,50);
+                                        putDeleteButton('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>','event_image_3_input',jQuery("#event_image_3_div"));
                                     });
                                     </script>
                                 <?php } ?>
@@ -628,6 +631,7 @@ if ($event->addsocial_tw == 1) {
                                     <script>
                                     jQuery(document).ready(function(){
                                         setUploadImage('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>',50,50);
+                                        putDeleteButton('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>','event_image_4_input',jQuery("#event_image_4_div"));
                                     });
                                     </script>
                                 <?php } ?>
@@ -650,6 +654,7 @@ if ($event->addsocial_tw == 1) {
                                     <script>
                                     jQuery(document).ready(function(){
                                         setUploadImage('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>',50,50);
+                                        putDeleteButton('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>','event_image_5_input',jQuery("#event_image_5_div"));
                                     });
                                     </script>
                                 <?php } ?>
@@ -671,6 +676,7 @@ if ($event->addsocial_tw == 1) {
                                     <script>
                                     jQuery(document).ready(function(){
                                         setUploadImage('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>',50,50);
+                                        putDeleteButton('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>','event_image_6_input',jQuery("#event_image_6_div"));
                                     });
                                     </script>
                                 <?php } ?>
@@ -692,6 +698,7 @@ if ($event->addsocial_tw == 1) {
                                     <script>
                                     jQuery(document).ready(function(){
                                         setUploadImage('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>',50,50);
+                                        putDeleteButton('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>','event_image_7_input',jQuery("#event_image_7_div"));
                                     });
                                     </script>
                                 <?php } ?>
@@ -706,13 +713,13 @@ if ($event->addsocial_tw == 1) {
                         </div>
                         <div class="eam_bg">
                             <div class="eam_bg_sol"></div>
-                            <div class="eam_bg_orta">
+                            <div class="eam_bg_orta" style="width: 566px;">
                                 <input name="te_event_location" type="text" class="eam_inpt" style="width: 435px;"
                                        id="te_event_location" 
                                        onfocus="openMap(true,true);"
                                        value="<?= $event->location ?>" placeholder="location" />
                                 <input type="hidden" name="te_map_location" id="te_map_location" value="<?= $event->loc_lat . "," . $event->loc_lng ?>"/>
-                                <div class="left">
+                                <div class="left" style="float: right;">
                                     <div class="link_atac" style="display: none;left: -195px !important;">
                                         <input type="text" name="te_event_attach_link" id="te_event_attach_link" class="link_atac_adrs" value="<?= $event->attach_link ?>"/>
                                         <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Add</a>
@@ -880,7 +887,7 @@ if (!empty($var_cats)) {
                             <div class="desc_sol"></div>
                             <div class="desc_orta">
                                 <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
-                                           style="font-size: 16px;resize: none;height: 128px;margin-top: 0px;"
+                                           style="font-size: 16px;resize: none;height: 151px;width: 577px;margin-top: 0px;"
                                            value=""
                                            id="te_event_description" placeholder="description" ><?= $event->description ?></textarea>
                             </div>
