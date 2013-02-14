@@ -41,7 +41,20 @@ jQuery(document).ready(function() {
     });
     
     likeshareButtonsInit();
+    jQuery(".likeshare").live("click",function(e){
+        likeshareDivClick(e);
+    });
 });
+
+function likeshareDivClick(e)
+{
+    if(e && e.target && e.target.id && (e.target.id+"").indexOf("likeshare_") == 0)
+    {
+        var id=e.target.id.replace("likeshare_","");
+        openModalPanel(id);
+    }
+    return false;
+}
 
 
 function likeshareButtonsInit()
