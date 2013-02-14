@@ -1,35 +1,3 @@
-function addEndDate() { 
-    var elem1 = document.getElementById("span_end_date");
-    elem1.style.display = "block";
-    var elem2 = document.getElementById("te_event_date2");
-    elem2.style.display = "block";
-    var elem3 = document.getElementById("te_event_time2");
-    elem3.style.display = "block";
-    var addElem = document.getElementById("add_a_element");
-    addElem.style.display = "none";
-    var remElem = document.getElementById("rem_a_element");
-    remElem.style.display = "block";
-    var te_event_repeat = document.getElementById("te_event_repeat");
-    te_event_repeat.checked = false;
-    var te_event_end_date_ = document.getElementById("te_event_end_date_");
-    te_event_end_date_.value = "1";
-
-}
-
-function remEndDate() {
-    var elem1 = document.getElementById("span_end_date");
-    elem1.style.display = "none";
-    var elem2 = document.getElementById("te_event_date2");
-    elem2.style.display = "none";
-    var elem3 = document.getElementById("te_event_time2");
-    elem3.style.display = "none";
-    var addElem = document.getElementById("add_a_element");
-    addElem.style.display = "block";
-    var remElem = document.getElementById("rem_a_element");
-    remElem.style.display = "none";
-    var te_event_end_date_ = document.getElementById("te_event_end_date_");
-    te_event_end_date_.value = "0";
-}
 function setEventPublic(checkBox) {
     if (checkBox.checked) {
         document.getElementById("te_evet_sees").style.display = "block";

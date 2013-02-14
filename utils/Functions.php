@@ -44,7 +44,6 @@ require_once __DIR__ . '/Noe4jSocialFunctions.php';
 require_once __DIR__ . '/Neo4jUserFunctions.php';
 require_once __DIR__ . '/Neo4jUserSettings.php';
 
-
 //HttpAuthUtils::checkHttpAuth();
 
 class UtilFunctions {
@@ -125,24 +124,24 @@ class UtilFunctions {
           } */
         return true;
     }
-    
+
     /*
-     $date=date_parse_from_format(DATETIME_DB_FORMAT, $datestr);
-                $datestr="";
-                if (strlen($date['day']) == 1) {
-                    $datestr = $datestr . "0" . $date['day'];
-                } else {
-                    $datestr = $datestr . $date['day'];
-                }
-                 $datestr = $datestr . ".";
-                if (strlen($date['month']) == 1) {
-                    $datestr = $datestr . "0" . $date['month'] ;
-                } else {
-                    $datestr = $datestr . $date['month'];
-                }
-                $datestr = $datestr . ".".$date['year'];
-                var_dump($datestr); 
-     
+      $date=date_parse_from_format(DATETIME_DB_FORMAT, $datestr);
+      $datestr="";
+      if (strlen($date['day']) == 1) {
+      $datestr = $datestr . "0" . $date['day'];
+      } else {
+      $datestr = $datestr . $date['day'];
+      }
+      $datestr = $datestr . ".";
+      if (strlen($date['month']) == 1) {
+      $datestr = $datestr . "0" . $date['month'] ;
+      } else {
+      $datestr = $datestr . $date['month'];
+      }
+      $datestr = $datestr . ".".$date['year'];
+      var_dump($datestr);
+
      */
 
     public static function checkDate($datestr) {
@@ -229,7 +228,7 @@ class UtilFunctions {
         $result = mysql_fetch_array($query);
         if (!empty($result)) {
             $count = (int) $result["count"];
-            $SQL = "UPDATE timete_cupon SET  count=" . ($count - 1)." WHERE id='".$invitationCode."'";
+            $SQL = "UPDATE timete_cupon SET  count=" . ($count - 1) . " WHERE id='" . $invitationCode . "'";
             mysql_query($SQL) or die(mysql_error());
         }
     }
@@ -240,7 +239,7 @@ class UtilFunctions {
         $result = mysql_fetch_array($query);
         if (!empty($result)) {
             $count = (int) $result["count"];
-            $SQL = "UPDATE timete_cupon SET  count=" . ($count + 1)." WHERE id='".$invitationCode."'";
+            $SQL = "UPDATE timete_cupon SET  count=" . ($count + 1) . " WHERE id='" . $invitationCode . "'";
             mysql_query($SQL) or die(mysql_error());
         }
     }
@@ -270,6 +269,17 @@ class UtilFunctions {
         $SQL = "INSERT INTO timete_cuponuser (user_id,cupon) VALUES (" . $userId . ",'" . $invitationCode . "')";
         $query = mysql_query($SQL) or die(mysql_error());
         mysql_fetch_array($query);
+    }
+
+    public static function removeUpdateFolder($url = null) {
+        if (!empty($url)) {
+            if (UtilFunctions::startsWith($url, UPLOAD_FOLDER)) {
+                $url = str_replace(UPLOAD_FOLDER, "", $url);
+            } else if (UtilFunctions::startsWith($url, "/" . UPLOAD_FOLDER)) {
+                $url = str_replace("/" . UPLOAD_FOLDER, "", $url);
+            }
+        }
+        return $url;
     }
 
 }

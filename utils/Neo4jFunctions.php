@@ -1154,69 +1154,6 @@ class Neo4jFuctions {
         return $tmparray;
     }
 
-    /*
-     * Event Utils
-     */
-
-    public static function getEventAttendanceCount($eventId) {
-        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_JOINS . "').filter{it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_YES . " ||  it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_MAYBE . "}.outV.dedup.count()";
-        //echo $query;
-        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
-        $result = $query->getResultSet();
-        foreach ($result as $row) {
-            return $row[0];
-        }
-        return 0;
-    }
-
-    public static function getEventCreator($eventId) {
-        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_JOINS . "').dedup.filter{it." . PROP_JOIN_CREATE . "==true && (it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_YES . " ||  it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_MAYBE . ")}.outV.dedup";
-        //echo $query;
-        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
-        $result = $query->getResultSet();
-        foreach ($result as $row) {
-            $usr = new User();
-            $usr->createFromNeo4j($row[0]);
-            if (!empty($usr) && !empty($usr->id)) {
-                return $usr;
-            }
-        }
-        return null;
-    }
-
-    public static function getEventAttendances($eventId) {
-        $array = array();
-        if (!empty($eventId)) {
-            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-            $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":*" . $eventId . "*') " .
-                    "MATCH (event)<-[r:" . REL_EVENTS_JOINS . "]-(usr)  " .
-                    " WHERE (HAS (r." . PROP_JOIN_TYPE . ") AND (r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_YES . " OR r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_MAYBE . ")) " .
-                    "RETURN usr,count(*) ";
-            //echo $query;
-            $query = new Cypher\Query($client, $query, null);
-            $result = $query->getResultSet();
-            foreach ($result as $row) {
-                if (!empty($row) && !empty($row['usr'])) {
-                    $id = $row['usr']->getProperty(PROP_USER_ID);
-                    if (!empty($id)) {
-                        $uf = new UserUtils();
-                        $user = $uf->getUserById($row['usr']->getProperty(PROP_USER_ID));
-                        if (!empty($user)) {
-                            $usr = new stdClass();
-                            $usr->id = $user->id;
-                            $usr->fullName = $user->getFullName();
-                            $usr->pic = $user->getUserPic();
-                            $usr->userName = $user->userName;
-                            array_push($array, $usr);
-                        }
-                    }
-                }
-            }
-        }
-        return $array;
-    }
 
     public static function moveUser($fromUserId, $toUserId, User $tmpuser) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));

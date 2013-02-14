@@ -353,7 +353,7 @@ class Event {
 
     public function getCreator() {
         if (empty($this->creator) || empty($this->creator->id)) {
-            $this->creator = Neo4jFuctions::getEventCreator($this->id);
+            $this->creator = Neo4jEventUtils::getEventCreator($this->id);
             return $this->creator;
         } else {
             return $this->creator;

@@ -17,7 +17,7 @@ $res->success=false;
 try {
     if(!empty( $eventId))
     {
-        $array = Neo4jFuctions::getEventAttendances($eventId);
+        $array = Neo4jEventUtils::getEventAttendances($eventId);
         if(!empty($array))
 	{ 
            $json_response = json_encode($array);

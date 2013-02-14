@@ -240,21 +240,7 @@ function selectCheckBox(elem,id) {
 var ce_map =null;
 var ce_loc=null;
 var autocompleteCreateEvent=null;                           
-jQuery(document).ready(function(){
-    setTimeout(function(){getCityLocation(setMapLocation);},100);
-    var input = document.getElementById('te_event_location');
-    var options = { /*types: ['(cities)']*/ };
-    autocompleteCreateEvent = new google.maps.places.Autocomplete(input, options);
-    google.maps.event.addListener(autocompleteCreateEvent, 'place_changed', 
-        function() { 
-            var place = autocompleteCreateEvent.getPlace(); 
-            var point = place.geometry.location; 
-            if(point) 
-            {  
-                addMarker(point.lat(),point.lng());
-            } 
-        });
-});
+
 
 function setMapLocation(result,status,res){
     if(status=="OK") {
@@ -274,20 +260,18 @@ function openMap(mod,value){
     }else {
         jQuery("#div_maps").toggle();
     }
-    if(!ce_map) {
-        var lat=41.00527;
-        var lng=28.97695;
-        if(ce_loc) {
-            lat=ce_loc.Ya;
-            lng=ce_loc.Za;
-        }
-        ce_map = new GMaps({
-            'el': '#te_maps',
-            'lat':lat,
-            'lng':lng
-        });
-        addMarker(lat,lng);
+    var lat=41.00527;
+    var lng=28.97695;
+    if(ce_loc) {
+        lat=ce_loc.Ya;
+        lng=ce_loc.Za;
     }
+    ce_map = new GMaps({
+        'el': '#te_maps',
+        'lat':lat,
+        'lng':lng
+    });
+    addMarker(lat,lng);
 }
 
 function addMarker(lat,lng) {

@@ -129,15 +129,6 @@ if (empty($user)) {
             array_push($msgs, $m);
         }
 
-        $event->location = $_POST["te_event_location"];
-        if (empty($event->location)) {
-            $error = true;
-            $m = new HtmlMessage();
-            $m->type = "e";
-            $m->message = "Event Location can not be empty";
-            array_push($msgs, $m);
-        }
-
         $loc = $_POST["te_map_location"];
         if (!empty($loc)) {
             $arr = explode(",", $loc);
@@ -430,7 +421,7 @@ if (empty($user)) {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                    		      
+                                                                        		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -444,6 +435,24 @@ if (empty($user)) {
                     });
                 </script>
             <?php } ?>
+
+            <script>
+                jQuery(document).ready(function(){
+                    setTimeout(function(){getCityLocation(setMapLocation);},100);
+                    var input = document.getElementById('te_event_location');
+                    var options = { /*types: ['(cities)']*/ };
+                    autocompleteCreateEvent = new google.maps.places.Autocomplete(input, options);
+                    google.maps.event.addListener(autocompleteCreateEvent, 'place_changed', 
+                    function() { 
+                        var place = autocompleteCreateEvent.getPlace(); 
+                        var point = place.geometry.location; 
+                        if(point) 
+                        {  
+                            addMarker(point.lat(),point.lng());
+                        } 
+                    });
+                });
+            </script>
 
             <script language="javascript">
                 var handler = null;
@@ -534,6 +543,12 @@ if (empty($user)) {
                     $var_usr = $nf->getUserGroupListByIdList($event->attendance);
                     $var_tag = $nf->getTagListListByIdList($event->tags);
                 }
+                try {
+                    $var_cat=  json_decode($var_cat);
+                } catch (Exception $exc) {
+                    error_log($exc->getTraceAsString());
+                }
+
                 ?>
                 <script>
                     jQuery(document).ready(function() {
@@ -556,8 +571,8 @@ if (empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });*/
-                                                                                        
-                                                                                        
+                                                                                            
+                                                                                            
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
@@ -675,7 +690,7 @@ if (empty($user)) {
             echo $json_response;
             ?>');
                 });
-                        
+                            
                 /*jQuery(function(){
                         jQuery.ajax({
                             type: 'POST',
@@ -704,15 +719,15 @@ if (empty($user)) {
 
             <?php } ?>
             <!-- Open Event Popup -->
-            
-            <?php if(isset($_GET['channel']) && !empty($_GET['channel'])) {?>
-            <!-- channel -->
-            <script>
-                jQuery(document).ready(function(){
-                    jQuery("a[channelId|='<?=$_GET['channel']?>']").click();
-                });
-            </script>
-            <!-- channel -->
+
+            <?php if (isset($_GET['channel']) && !empty($_GET['channel'])) { ?>
+                <!-- channel -->
+                <script>
+                    jQuery(document).ready(function(){
+                        jQuery("a[channelId|='<?= $_GET['channel'] ?>']").click();
+                    });
+                </script>
+                <!-- channel -->
             <?php } ?>
     </head>
     <body class="bg">
@@ -808,7 +823,7 @@ if (empty($user)) {
                             <div class="user_settings"><a href="<?= PAGE_UPDATE_PROFILE ?>"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>
                         </div>
                         <div class="profil_resim">
-                            <img src="<?php echo PAGE_GET_IMAGEURL.$user->getUserPic()."&h=176&w=176" ?>" width="176" height="176" />
+                            <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
                         </div>
                         <div class="profil_metin">
                             <!-- bio -->
@@ -950,7 +965,7 @@ if (empty($user)) {
                                                     if (!empty($crt) && !empty($crt->id)) {
                                                         ?>
                                                         <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
-                                                        <span><?= " ".$crt->getFullName() ?></span>
+                                                        <span><?= " " . $crt->getFullName() ?></span>
                                                         <?php
                                                     }
                                                 } else {
@@ -990,9 +1005,9 @@ if (empty($user)) {
                             $json_response = str_replace("'", "\\'", $json_response);
                             echo str_replace('"', '\\"', $json_response);
                             ?>';
-                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                 </script>
                                 <!-- event box -->
                                 <?php

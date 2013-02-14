@@ -19,62 +19,36 @@ if (!empty($user) && isset($_POST["te_event_title"]) && !empty($event)) {
     if ($event->privacy == 1) {
         echo "jQuery('#on_off').click();";
     }
-    ?>
-                                                                            
-    <?php
     if ($event->allday == 1) {
         echo "jQuery('#te_event_allday').click();";
     }
-    ?>
-    <?php
     if ($event->repeat == 1) {
         echo "jQuery('#te_event_repeat').click();";
     }
-    ?>
-                                                                            
-    <?php
     if ($event->reminderType == 'sms') {
         echo "jQuery('#te_event_reminder_type_sms').click();";
     }
-    ?>
-    <?php
     if ($event->reminderType == 'email') {
         echo "jQuery('#te_event_reminder_type_email').click();";
     }
-    ?>
-                                                                            
-    <?php
     if ($event->reminderUnit == 'min') {
         echo "jQuery('#te_event_reminder_unit_min').click();";
     }
-    ?>
-    <?php
     if ($event->reminderUnit == 'hour') {
         echo "jQuery('#te_event_reminder_unit_hours').click();";
     }
-    ?>
-    <?php
     if ($event->reminderUnit == 'day') {
         echo "jQuery('#te_event_reminder_unit_days').click();";
     }
-    ?>
-                                                                            
-    <?php
     if ($event->addsocial_fb == 1) {
         echo "jQuery('#te_event_addsocial_fb_c').click();";
     }
-    ?>
-    <?php
     if ($event->addsocial_gg == 1) {
         echo "jQuery('#te_event_addsocial_gg_c').click();";
     }
-    ?>
-    <?php
     if ($event->addsocial_fq == 1) {
         echo "jQuery('#te_event_addsocial_fq_c').click();";
     }
-    ?>
-    <?php
     if ($event->addsocial_tw == 1) {
         echo "jQuery('#te_event_addsocial_tw_c').click();";
     }
@@ -318,9 +292,9 @@ if ($showPopup) {
                     }
                     ?>" placeholder="location" />
                     <input type="hidden" name="te_map_location" id="te_map_location" value="<?php
-                    if ($showPopup) {
-                        echo $event->loc_lat.",".$event->loc_lng;
-                    }
+                           if ($showPopup) {
+                               echo $event->loc_lat . "," . $event->loc_lng;
+                           }
                     ?>"/>
                     <div class="left">
                         <div class="link_atac" style="display: none;left: -195px !important;">
@@ -481,6 +455,23 @@ if ($showPopup) {
                         </ul>
                     </li>
                 </ul>
+                <script>
+                jQuery(document).ready(function(){
+<?php
+try {
+if (!empty($var_cat)) {
+        for ($i = 0; $i < 2 && $i < sizeof($var_cat); $i++) {
+            ?>
+                                        jQuery("#te_event_category<?= ($i + 1) . "_" . $var_cat[$i]->id ?>").click();
+        <?php
+        }
+    }
+} catch (Exception $exc) {
+    error_log($exc->getTraceAsString());
+}
+?>
+                });
+                </script>
             </div>
 
 
@@ -672,23 +663,23 @@ if ($showPopup) {
                                }
                                ?>"></input> 
             <input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?php
-                   if ($showPopup && $event->repeat == 1) {
-                       echo "true";
-                   } else {
-                       echo "false";
-                   }
+            if ($showPopup && $event->repeat == 1) {
+                echo "true";
+            } else {
+                echo "false";
+            }
                                ?>"></input>
 
             <input type="hidden" name="te_event_category1" id="te_event_category1_hidden" value="<?php
-                   if ($showPopup && isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
-                       echo $_POST['te_event_category1'];
-                   }
+            if ($showPopup && isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
+                echo $_POST['te_event_category1'];
+            }
                                ?>"></input>
 
             <input type="hidden" name="te_event_category2" id="te_event_category2_hidden" value="<?php
-                   if ($showPopup && isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
-                       echo $_POST['te_event_category2'];
-                   }
+            if ($showPopup && isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
+                echo $_POST['te_event_category2'];
+            }
                                ?>"></input>
 
             <input type="hidden" name="te_event_addsocial_fb" id="te_event_addsocial_fb" value="false"></input>
@@ -699,64 +690,64 @@ if ($showPopup) {
 
             <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?= $_random_session_id ?>"></input>
             <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php
-                   if ($showPopup && isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {
-                       echo $_POST["upload_image_header"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {
+                echo $_POST["upload_image_header"];
+            } else {
+                echo "0";
+            }
                                ?>"></input>
             <input type="hidden" name="event_image_1_input" id="event_image_1_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_1_input"]) && $_POST["event_image_1_input"] != '0') {
-                       echo $_POST["event_image_1_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_1_input"]) && $_POST["event_image_1_input"] != '0') {
+                echo $_POST["event_image_1_input"];
+            } else {
+                echo "0";
+            }
                                ?>"></input>
             <input type="hidden" name="event_image_2_input" id="event_image_2_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_2_input"]) && $_POST["event_image_2_input"] != '0') {
-                       echo $_POST["event_image_2_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_2_input"]) && $_POST["event_image_2_input"] != '0') {
+                echo $_POST["event_image_2_input"];
+            } else {
+                echo "0";
+            }
                                ?>"></input>
             <input type="hidden" name="event_image_3_input" id="event_image_3_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_3_input"]) && $_POST["event_image_3_input"] != '0') {
-                       echo $_POST["event_image_3_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_3_input"]) && $_POST["event_image_3_input"] != '0') {
+                echo $_POST["event_image_3_input"];
+            } else {
+                echo "0";
+            }
                                ?>"></input>
             <input type="hidden" name="event_image_4_input" id="event_image_4_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_4_input"]) && $_POST["event_image_4_input"] != '0') {
-                       echo $_POST["event_image_4_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_4_input"]) && $_POST["event_image_4_input"] != '0') {
+                echo $_POST["event_image_4_input"];
+            } else {
+                echo "0";
+            }
                                ?>"></input>
             <input type="hidden" name="event_image_5_input" id="event_image_5_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_5_input"]) && $_POST["event_image_5_input"] != '0') {
-                       echo $_POST["event_image_5_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_5_input"]) && $_POST["event_image_5_input"] != '0') {
+                echo $_POST["event_image_5_input"];
+            } else {
+                echo "0";
+            }
                                ?>"></input>
             <input type="hidden" name="event_image_6_input" id="event_image_6_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_6_input"]) && $_POST["event_image_6_input"] != '0') {
-                       echo $_POST["event_image_6_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_6_input"]) && $_POST["event_image_6_input"] != '0') {
+                echo $_POST["event_image_6_input"];
+            } else {
+                echo "0";
+            }
                                ?>"></input>
             <input type="hidden" name="event_image_7_input" id="event_image_7_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_7_input"]) && $_POST["event_image_7_input"] != '0') {
-                       echo $_POST["event_image_7_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_7_input"]) && $_POST["event_image_7_input"] != '0') {
+                echo $_POST["event_image_7_input"];
+            } else {
+                echo "0";
+            }
                                ?>"></input>
 
         </form>
-        
+
         <div id="div_maps" style="background-color: #fff;padding: 5px;width: 405px;height: 350px;left: 610px;position: absolute;z-index: 1000000;display: none;top: -5px;">
             <span class="sil icon_bg" style="position: absolute; top: -18px;z-index: 10;left: -12px;" onclick="openMap(true, false);"></span>
             <div id="te_maps" style="height: 350px;"/>
