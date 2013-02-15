@@ -46,6 +46,13 @@ jQuery(document).ready(function() {
     });
 });
 
+function openEditEvent(eventId)
+{
+   if(eventId){
+    window.location=TIMETY_PAGE_UPDATE_EVENT+eventId;   
+   }
+}
+
 function likeshareDivClick(e)
 {
     if(e && e.target && e.target.id && (e.target.id+"").indexOf("likeshare_") == 0)

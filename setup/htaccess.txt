@@ -45,6 +45,11 @@ RewriteRule ^timety/event/([0-9]+)/([^/]+)$ /timety/event/$1
 RewriteRule ^timety/event/([0-9]+)/$ /timety/event/$1
 RewriteRule ^timety/event/([0-9]+)$ /timety/?eventId=$1
 
+RewriteRule ^timety/updateevent/([0-9]+)/([^/]+)/$ /timety/updateevent/$1
+RewriteRule ^timety/updateevent/([0-9]+)/([^/]+)$ /timety/updateevent/$1
+RewriteRule ^timety/updateevent/([0-9]+)/$ /timety/updateevent/$1
+RewriteRule ^timety/updateevent/([0-9]+)$ /timety/editEvent.php?eventId=$1
+
 RewriteRule ^timety/event/$ /timety/ [R]
 RewriteRule ^timety/event$ /timety/ [R]
 

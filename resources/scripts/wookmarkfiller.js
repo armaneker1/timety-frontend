@@ -229,6 +229,9 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnMaybe).attr("class_aktif","maybe_btn_aktif");
             jQuery(btnMaybe).attr("id","div_maybe_btn");
             jQuery(btnMaybe).attr("class_pass","maybe_btn");
+            if(userId==data.creatorId){
+                  jQuery(btnMaybe).css("display","none");  
+            }
             if(data.userRelation.joinType==2)
             {
                 jQuery(btnMaybe).addClass('maybe_btn_aktif'); 
@@ -269,6 +272,9 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnJoin).attr("class_aktif","join_btn_aktif");
             jQuery(btnJoin).attr("id","div_join_btn");
             jQuery(btnJoin).attr("class_pass","join_btn");
+            if(userId==data.creatorId){
+                  jQuery(btnJoin).css("display","none");  
+            }
             if(data.userRelation.joinType==1)
             {
                 jQuery(btnJoin).addClass('join_btn_aktif'); 
@@ -282,12 +288,29 @@ function wookmarkHTML(dataArray,userId)
                 sendResponseEvent(this,data.id,1);
                 return false;
             });
+            
+            
+            var editJoin = document.createElement('button');
+            jQuery(editJoin).addClass('ls_btn'); 
+            //jQuery(btnJoin).attr('disabled','disabled');
+            jQuery(editJoin).attr("class_aktif","edit_btn_aktif");
+            jQuery(editJoin).attr("id","div_edit_btn");
+            jQuery(editJoin).attr("class_pass","edit_btn");
+            if(userId!=data.creatorId){
+                  jQuery(editJoin).css("display","none");  
+            }
+            jQuery(editJoin).addClass('edit_btn');
+            jQuery(editJoin).click(function() {
+                openEditEvent(data.id);
+                return false;
+            });
             // bind click event
             
             jQuery(likeShareDiv).append(btnLike);
             jQuery(likeShareDiv).append(btnMaybe);
             jQuery(likeShareDiv).append(btnShare);
             jQuery(likeShareDiv).append(btnJoin);
+            jQuery(likeShareDiv).append(editJoin);
             
             
             jQuery(imgDiv).append(likeShareDiv);

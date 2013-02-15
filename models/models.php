@@ -313,7 +313,6 @@ class Event {
     public $reminderSent = 0;
     public $loc_lat;
     public $loc_lng;
-    public $creator_id;
     /*
      * Additional Data
      */

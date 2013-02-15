@@ -71,5 +71,11 @@ function setTooltipLikeShareDiv(div)
          */
         var declineJoinButton= jQuery(div).find(".join_btn_aktif");
         setTooltipButton(declineJoinButton,"Decline");
+        
+        /*
+         * edit button
+         */
+        var editButton= jQuery(div).find(".edit_btn");
+        setTooltipButton(editButton,"Edit Event");
     }
 }
