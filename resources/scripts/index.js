@@ -182,6 +182,10 @@ function changePublicPrivate(elem) {
     elem.value = elem.checked;
 }
 
+function beforeChangePublicPrivate(elem){
+     elem.checked = !elem.checked;
+}
+
 function closeCreatePopup() {
     try{
         jQuery("#div_follow_trans").hide();

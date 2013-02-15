@@ -24,7 +24,9 @@ if (isset($_SESSION['id'])) {
         SessionUtil::checkUserStatus($user);
     }
 }
-
+if (empty($user) || empty($user->id)) {
+    exit(header('Location: ' . PAGE_LOGIN));
+}
 
 /*
  * event id form get
@@ -327,8 +329,6 @@ if (!empty($_POST['rand_session_id'])) {
     /*
      * set dates
      */
-    $te_event_start_date = "";
-    $te_event_start_time = "";
     if (!empty($event->startDateTimeLong)) {
         $te_event_start_date = date(DATE_FE_FORMAT_D, $event->startDateTimeLong);
         $te_event_start_time = date("H:i", $event->startDateTimeLong);
@@ -462,7 +462,7 @@ if (!empty($_POST['rand_session_id'])) {
                         return true;
                     },
                     processPrePopulate : false,
-                    prePopulate : <?php echo $var_tags; ?>	
+                    prePopulate : <?php  if(!empty($var_tags)){echo $var_tags; } else {echo "[]";}?>	
                 });	
 
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
@@ -483,7 +483,7 @@ if (!empty($_POST['rand_session_id'])) {
                         return true;
                     },
                     processPrePopulate : false,
-                    prePopulate : <?= $var_usrs ?>	
+                    prePopulate : <?php if(!empty($var_usrs)){echo $var_usrs; } else {echo "[]";} ?>	
                 });
             });
         </script>
@@ -523,12 +523,10 @@ if (!empty($_POST['rand_session_id'])) {
             new iPhoneStyle('.on_off input[type=checkbox]', {
                 widthConstant : 3,
                 widthConstant2 : 4,
-                statusChange : changePublicPrivate
+                statusChange : changePublicPrivate,
+                beforeChange: beforeChangePublicPrivate
             }); 
 <?php
-if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-    echo "jQuery('#on_off').click();";
-}
 if ($event->allday == 1) {
     echo "jQuery('#te_event_allday').click();";
 }
@@ -596,12 +594,19 @@ if ($event->addsocial_tw == 1) {
                                 <input name="te_event_title" type="text" class="eam_inpt"
                                        id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
                                 <div class="left" style="float: right;" >
-                                    <p id="on_off_text" style="width: 46px;">private</p>
+                                    <p id="on_off_text" style="width: 46px;"><?php  if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                                                                                            echo 'public';
+                                                                                        }else { echo 'private'; }?></p>
                                     <ol class="on_off">
                                         <li style="width: 48px; height: 17px;"><input type="checkbox"
                                                                                       id="on_off" name="te_event_privacy"
                                                                                       tabindex="-1"
                                                                                       value="false"
+                                                                                      <?php 
+                                                                                      if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                                                                                            echo 'checked="checked"';
+                                                                                        }
+                                                                                      ?>
                                                                                       style="width: 48px; height: 17px;" />
                                         </li>
                                     </ol>

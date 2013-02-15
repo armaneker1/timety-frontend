@@ -58,6 +58,7 @@ var iPhoneStyle = function(selector_or_elems, options) {
     }    
 
     elem.change = function() {
+      options.statusChange(elem);
       var is_onstate = elem.checked;
       var p = handle.positionedOffset()[0] / rightside;
       new Effect.Tween(null, p, Number(is_onstate), { duration: options.duration / 1000 }, function(p) {
@@ -154,5 +155,6 @@ iPhoneStyle.defaults = {
   handleRightClass:  'iPhoneCheckHandleRight',
   widthConstant:  3,
   widthConstant2:  0,
-  statusChange: function(){}
+  statusChange: function(){},
+  beforeChange: function() {}
 };
