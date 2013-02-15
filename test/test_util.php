@@ -13,5 +13,10 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
 
-var_dump(Neo4jEventUtils::getUserEventJoinRelation(6618355, 1000326));
+
+$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+$eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
+$userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
+
+Neo4jEventUtils::inviteUserToEvent($eventIndex->findOne(PROP_EVENT_ID, 1000330), $userIndex->findOne(PROP_USER_ID, 6618351));
 ?>

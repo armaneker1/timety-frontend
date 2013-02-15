@@ -144,25 +144,27 @@ class Neo4jEventUtils {
                                         if (!empty($emailUser)) {
                                             $emailUser = $userIndex->findOne(PROP_USER_ID, $emailUser->id);
                                             if (!empty($emailUser)) {
-                                                $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
+                                                Neo4jEventUtils::inviteUserToEvent($evnt, $usr);
+                                                //$evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                             }
                                         }
 
                                         // if not 
                                         // create a new dummy user and send email to join event
                                         if (empty($emailUser)) {
-                                           
+
                                             $emailUser = new User();
                                             $emailUser->email = $email;
                                             $emailUser->userName = "invite_" . $email;
                                             $emailUser->password = sha1(rand(100000, 9999999));
                                             $emailUser->status = 0;
                                             $emailUser->invited = 1;
-                                            $emailUser = $uf->createUser($emailUser, USER_TYPE_INVITED,TRUE);
+                                            $emailUser = $uf->createUser($emailUser, USER_TYPE_INVITED, TRUE);
                                             if (!empty($emailUser)) {
                                                 $emailUser = $userIndex->findOne(PROP_USER_ID, $emailUser->id);
                                                 if (!empty($emailUser)) {
-                                                    $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
+                                                    Neo4jEventUtils::inviteUserToEvent($evnt, $emailUser);
+                                                    //$evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                                 }
                                                 $res = MailUtil::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
                                             }
@@ -176,7 +178,8 @@ class Neo4jEventUtils {
 
                                         $usr = $userIndex->findOne(PROP_USER_ID, $id);
                                         if (!empty($usr)) {
-                                            $evnt->relateTo($usr, REL_EVENTS_INVITES)->save();
+                                            Neo4jEventUtils::inviteUserToEvent($evnt, $usr);
+                                            //$evnt->relateTo($usr, REL_EVENTS_INVITES)->save();
                                         }
                                     } else if ($type == 'g') {
 
@@ -876,6 +879,45 @@ class Neo4jEventUtils {
             }
         }
         return $array;
+    }
+
+    public static function inviteUserToEvent($evnt, $usr) {
+        $uid = null;
+        $eventId = null;
+        if (!empty($evnt) && !empty($usr)) {
+            $uid = $usr->getProperty(PROP_USER_ID);
+            $eventId = $evnt->getProperty(PROP_EVENT_ID);
+        } else {
+            return;
+        }
+        if (empty($uid) || empty($eventId)) {
+            return;
+        }
+
+        $rel = Neo4jEventUtils::getEventInvite($uid, $eventId);
+        if (empty($rel)) {
+            $rel = Neo4jEventUtils::getUserEventJoinRelation($uid, $eventId);
+            if (empty($rel)) {
+                $evnt->relateTo($usr, REL_EVENTS_INVITES)->save();
+            }
+        }
+    }
+
+    public static function getEventInvite($uid, $eventId) {
+        try {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $uid . "'), event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "')" .
+                    "MATCH (user) <-[r:" . REL_EVENTS_INVITES . "]- (event) " .
+                    "RETURN r";
+            $query = new Cypher\Query($client, $query, null);
+            $result = $query->getResultSet();
+            foreach ($result as $row) {
+                return $row['group'];
+            }
+        } catch (Exception $e) {
+            error_log("Error" . $e->getMessage());
+        }
+        return null;
     }
 
 }
