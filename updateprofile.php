@@ -827,13 +827,14 @@ if (isset($_POST['update'])) {
                             <a style="cursor: pointer;" id="import_from_twitter"><img src="images/twiter_al.png" width="99" height="32" border="0" /></a></div>
                     </div>
                     <div class="profil_g">
-                        <p class="profil_etiket">About</p>
+                        <p class="profil_etiket">Short Bio</p>
                         <textarea 
                             name="te_about"
                             type="text" 
                             class="user_inpt" 
-                            style="width:356px;height:167px;resize: none;"
+                            style="width:356px;height:40px;resize: none;"
                             id="te_about"
+                            charlength="50"
                             placeholder="About" ><?php echo $about ?></textarea>
                             <?php
                             $display = "none";
@@ -846,6 +847,10 @@ if (isset($_POST['update'])) {
                         <span id='te_about_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_about_span_msg" style="display:<?= $display ?>;"><?= $aboutError ?><div class="kok"></div></div>
                         </span> <br />
+                        
+                         <script>
+                            jQuery("#te_about").maxlength({feedbackText: '{r}',showFeedback:"active"});
+                            </script>
                     </div>
 
                     <p class="profil_etiket">Location</p>

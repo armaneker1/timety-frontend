@@ -434,3 +434,32 @@
     padding-top: 20px;
 }
 /*profil form*/
+
+/* max length */
+.maxlength-feedback{
+    position: relative;
+    left: 545px;
+    top: -17px;
+    color: #aaa !important;
+    text-align: right !important;
+    font-size: 16px !important;
+    vertical-align: bottom;
+    display: inline-block;
+    width: 20px;
+}
+
+.title_max .maxlength-feedback{
+    position: absolute !important;
+    left: 440px !important;
+    top: 29px !important;
+}
+
+.profil_g .maxlength-feedback{
+    left: -25px !important;
+    top: 20px !important;
+    font-family: Arial;
+    font-size: 11px !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+}

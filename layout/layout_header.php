@@ -79,6 +79,7 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/tipped.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.js"></script>
+<script  language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
 <!-- Scripts -->
 
 

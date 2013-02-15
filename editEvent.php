@@ -650,9 +650,15 @@ if ($event->addsocial_tw == 1) {
                     <div class="eam_satir">
                         <div class="eam_bg">
                             <div class="eam_bg_sol"></div>
-                            <div class="eam_bg_orta" style="width: 450px;">
+                            <div class="eam_bg_orta " style="width: 450px;">
+                                <div class="title_max">
                                 <input name="te_event_title" type="text" class="eam_inpt"
+                                       charlength="50"
                                        id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
+                                <script>
+                                jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
+                                </script>
+                                </div>
                                 <div class="left" style="float: right;" >
                                     <p id="on_off_text" style="width: 46px;"><?php
                         if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
@@ -1028,8 +1034,12 @@ if (!empty($var_cats)) {
                             <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
                                        style="font-size: 16px;resize: none;height: 151px;width: 577px;margin-top: 0px;"
                                        value=""
+                                       charlength="256"
                                        id="te_event_description" placeholder="description" ><?= $event->description ?></textarea>
                         </div>
+                        <script>
+                        jQuery("#te_event_description").maxlength({feedbackText: '{r}',showFeedback:"active"});
+                        </script>
                     </div>
                     <div class="eam_remain">
                         <h2>reminder</h2>
