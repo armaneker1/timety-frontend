@@ -291,7 +291,7 @@ function wookmarkHTML(dataArray,userId)
             
             
             var editJoin = document.createElement('button');
-            jQuery(editJoin).addClass('ls_btn'); 
+            //jQuery(editJoin).addClass('ls_btn'); 
             //jQuery(btnJoin).attr('disabled','disabled');
             jQuery(editJoin).attr("class_aktif","edit_btn_aktif");
             jQuery(editJoin).attr("id","div_edit_btn");

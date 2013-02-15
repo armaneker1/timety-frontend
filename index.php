@@ -978,7 +978,7 @@ if (empty($user)) {
                                                                     }
                                                                ?>"></button>
                                             <button  id="div_edit_btn" 
-                                                        class="ls_btn edit_btn" 
+                                                        class="edit_btn" 
                                                         class_aktif="edit_btn_aktif" 
                                                         class_pass="edit_btn" 
                                                         onclick="openEditEvent(<?= $main_event->id ?>);return false;"
