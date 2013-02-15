@@ -48,9 +48,9 @@ jQuery(document).ready(function() {
 
 function openEditEvent(eventId)
 {
-   if(eventId){
-    window.location=TIMETY_PAGE_UPDATE_EVENT+eventId;   
-   }
+    if(eventId){
+        window.location=TIMETY_PAGE_UPDATE_EVENT+eventId;   
+    }
 }
 
 function likeshareDivClick(e)
@@ -172,7 +172,9 @@ function openCreatePopup() {
     new iPhoneStyle('.on_off input[type=checkbox]', {
         widthConstant : 3, 
         widthConstant2 : 4,
-        statusChange : changePublicPrivate
+        statusChange : changePublicPrivate,
+        checkedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pyes.png" width="14" heght="10">', 
+        uncheckedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pno.png" style="margin-left:4px;" width="10" heght="10">'
     });
     
     document.body.style.overflow = "hidden";
@@ -190,7 +192,7 @@ function changePublicPrivate(elem) {
 }
 
 function beforeChangePublicPrivate(elem){
-     elem.checked = !elem.checked;
+    elem.checked = !elem.checked;
 }
 
 function closeCreatePopup() {

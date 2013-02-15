@@ -570,7 +570,9 @@ if (!empty($_POST['rand_session_id'])) {
                 widthConstant : 3,
                 widthConstant2 : 4,
                 statusChange : changePublicPrivate,
-                beforeChange: beforeChangePublicPrivate
+                beforeChange: beforeChangePublicPrivate,
+                checkedLabel: '<img src="<?= HOSTNAME ?>images/pyes.png" width="14" heght="10">', 
+                uncheckedLabel: '<img src="<?= HOSTNAME ?>images/pno.png" style="margin-left:4px;" width="10" heght="10">'
             }); 
 <?php
 if ($event->allday == 1) {
