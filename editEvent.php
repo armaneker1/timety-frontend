@@ -454,8 +454,8 @@ if (!empty($_POST['rand_session_id'])) {
             ce_loc.Ya=<?= $event->loc_lat ?>;
             ce_loc.Za=<?= $event->loc_lng ?>;
 <?php } else { ?>
-            if(templocation) {
-                addMarker(templocation.Ya,templocation.Za);
+            if(ce_loc) {
+                addMarker(ce_loc.Ya,ce_loc.Za);
             }
 <?php } ?>
         setTimeout(function(){getCityLocation(setTempMapLocation);},50);
@@ -1170,7 +1170,7 @@ if (!empty($var_cats)) {
                                 }
                             }
                             </script>
-                            <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent" name="edit_event">Add Event</button>
+                            <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent" name="edit_event">Update</button>
                         </div>
                     </div>
                     <input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?= $event->allday ?>"></input> 
