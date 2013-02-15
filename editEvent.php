@@ -510,7 +510,7 @@ if (!empty($_POST['rand_session_id'])) {
                         setTimeout(showDate,5);
                     }
                 });
-                jQuery('.timepicker-default').timepicker();
+                jQuery('.timepicker-default').timepicker({defaultTime:'value'});
             });
         </SCRIPT>
         <!--takvim-->

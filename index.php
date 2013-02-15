@@ -517,7 +517,7 @@ if (empty($user)) {
                             setTimeout(showDate,5);
                         }
                     });
-                    jQuery('.timepicker-default').timepicker();
+                    jQuery('.timepicker-default').timepicker({defaultTime:'value'});
                 });
             </SCRIPT>
             <!--takvim-->
