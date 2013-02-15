@@ -44,9 +44,8 @@ if (empty($event) || empty($event->id)) {
     exit(header('Location: ' . HOSTNAME));
 }
 
-if($event->creatorId!=$user->id)
-{
-   exit(header('Location: ' . HOSTNAME));
+if ($event->creatorId != $user->id) {
+    exit(header('Location: ' . HOSTNAME));
 }
 
 $notpost = false;
@@ -370,7 +369,7 @@ if (!empty($_POST['rand_session_id'])) {
 
     $te_event_end_date = "";
     $te_event_end_time = "";
-    if (!empty($event->endDateTimeLong) && $event->endDateTimeLong>0) {
+    if (!empty($event->endDateTimeLong) && $event->endDateTimeLong > 0) {
         $te_event_end_date = date(DATE_FE_FORMAT_D, $event->endDateTimeLong);
         $te_event_end_time = date("H:i", $event->endDateTimeLong);
     }
@@ -628,23 +627,23 @@ if ($event->addsocial_tw == 1) {
             });
             </script>
         <?php } ?>
-<?php
-include('layout/layout_top.php');
-include('layout/eventImageUpload.php');
-?>
+        <?php
+        include('layout/layout_top.php');
+        include('layout/eventImageUpload.php');
+        ?>
         <form action="" method="post" name="edit_event" >
             <div  class="event_add_ekr" id="div_event_add_ekr" style="position: relative;"> 
                 <form id="add_event_form_id" name="add_event_form" action="" method="post">
                     <div class="cae_foto" style="z-index: -10;" id="event_header_image">
-<?php if (empty($event->headerImage)) { ?>
+                        <?php if (empty($event->headerImage)) { ?>
                             <a href="#">click here to add image</a>
-<?php } else { ?>
+                        <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
                                 setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,106);
                             });
                             </script>
-<?php } ?>
+                        <?php } ?>
                     </div>
                     <div class="cae_foto" id="te_event_image_div"
                          style="position: absolute;"></div>
@@ -656,22 +655,23 @@ include('layout/eventImageUpload.php');
                                        id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
                                 <div class="left" style="float: right;" >
                                     <p id="on_off_text" style="width: 46px;"><?php
-                                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                                            echo 'public';
-                                        } else {
-                                            echo 'private';
-                                        }
-?></p>
+                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                            echo 'public';
+                        } else {
+                            echo 'private';
+                        }
+                        ?></p>
                                     <ol class="on_off">
                                         <li style="width: 48px; height: 17px;"><input type="checkbox"
                                                                                       id="on_off" name="te_event_privacy"
                                                                                       tabindex="-1"
                                                                                       value="<?php
-                                                                                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                                                                                            echo 'true';
-                                                                                        }else {
-                                                                                            echo 'false';
-                                                                                        }?>"
+                                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                                            echo 'true';
+                                        } else {
+                                            echo 'false';
+                                        }
+                        ?>"
                                                                                       <?php
                                                                                       if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
                                                                                           echo 'checked="checked"';
@@ -686,16 +686,16 @@ include('layout/eventImageUpload.php');
                         </div>
                         <!-- Image 1 -->
                         <div class="akare" style="z-index: -10" id="event_image_1">
-<?php if (empty($event->images[0])) { ?>
+                            <?php if (empty($event->images[0])) { ?>
                                 <a href="#" >click here to add image</a>
-<?php } else { ?>
+                            <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>',50,50);
                                     putDeleteButton('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>','event_image_1_input',jQuery("#event_image_1_div"));
                                 });
                                 </script>
-<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="akare" id="event_image_1_div" style="position: absolute;">
                             <div class="akare_kapat">
@@ -707,16 +707,16 @@ include('layout/eventImageUpload.php');
 
                         <!-- Image 2 -->
                         <div class="akare" style="z-index: -10" id="event_image_2">
-<?php if (empty($event->images[1])) { ?>
+                            <?php if (empty($event->images[1])) { ?>
                                 <a href="#" >click here to add image</a>
-<?php } else { ?>
+                            <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>',50,50);
                                     putDeleteButton('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>','event_image_2_input',jQuery("#event_image_2_div"));
                                 });
                                 </script>
-<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="akare" id="event_image_2_div" style="position: absolute;left: 185px;">
                             <div class="akare_kapat">
@@ -729,16 +729,16 @@ include('layout/eventImageUpload.php');
 
                         <!-- Image 3 -->
                         <div class="akare" style="z-index: -10" id="event_image_3">
-<?php if (empty($event->images[2])) { ?>
+                            <?php if (empty($event->images[2])) { ?>
                                 <a href="#" >click here to add image</a>
-<?php } else { ?>
+                            <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>',50,50);
                                     putDeleteButton('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>','event_image_3_input',jQuery("#event_image_3_div"));
                                 });
                                 </script>
-<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="akare" id="event_image_3_div" style="position: absolute;left: 255px;">
                             <div class="akare_kapat">
@@ -751,16 +751,16 @@ include('layout/eventImageUpload.php');
 
                         <!-- Image 4 -->
                         <div class="akare" style="z-index: -10" id="event_image_4">
-<?php if (empty($event->images[3])) { ?>
+                            <?php if (empty($event->images[3])) { ?>
                                 <a href="#" >click here to add image</a>
-<?php } else { ?>
+                            <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>',50,50);
                                     putDeleteButton('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>','event_image_4_input',jQuery("#event_image_4_div"));
                                 });
                                 </script>
-<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="akare" id="event_image_4_div" style="position: absolute;left: 323px;">
                             <div class="akare_kapat">
@@ -774,16 +774,16 @@ include('layout/eventImageUpload.php');
 
                         <!-- Image 5 -->
                         <div class="akare" style="z-index: -10" id="event_image_5">
-<?php if (empty($event->images[4])) { ?>
+                            <?php if (empty($event->images[4])) { ?>
                                 <a href="#" >click here to add image</a>
-<?php } else { ?>
+                            <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>',50,50);
                                     putDeleteButton('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>','event_image_5_input',jQuery("#event_image_5_div"));
                                 });
                                 </script>
-<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="akare" id="event_image_5_div" style="position: absolute;left: 390px;">
                             <div class="akare_kapat">
@@ -796,16 +796,16 @@ include('layout/eventImageUpload.php');
 
                         <!-- Image 6 -->
                         <div class="akare" style="z-index: -10" id="event_image_6">
-<?php if (empty($event->images[5])) { ?>
+                            <?php if (empty($event->images[5])) { ?>
                                 <a href="#" >click here to add image</a>
-<?php } else { ?>
+                            <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>',50,50);
                                     putDeleteButton('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>','event_image_6_input',jQuery("#event_image_6_div"));
                                 });
                                 </script>
-<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="akare" id="event_image_6_div" style="position: absolute;left: 458px;">
                             <div class="akare_kapat">
@@ -818,16 +818,16 @@ include('layout/eventImageUpload.php');
 
                         <!-- Image 7 -->
                         <div class="akare" style="z-index: -10" id="event_image_7">
-<?php if (empty($event->images[6])) { ?>
+                            <?php if (empty($event->images[6])) { ?>
                                 <a href="#" >click here to add image</a>
-<?php } else { ?>
+                            <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>',50,50);
                                     putDeleteButton('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>','event_image_7_input',jQuery("#event_image_7_div"));
                                 });
                                 </script>
-<?php } ?>
+                            <?php } ?>
                         </div>
                         <div class="akare" id="event_image_7_div" style="position: absolute;left: 526px;">
                             <div class="akare_kapat">
@@ -934,9 +934,9 @@ include('layout/eventImageUpload.php');
 
 
                     <!-- Category -->
-<?php
-$categories = Neo4jTimetyCategoryUtil::getTimetyList("*");
-?>
+                    <?php
+                    $categories = Neo4jTimetyCategoryUtil::getTimetyList("*");
+                    ?>
                     <span class="ts_box">Select Category :</span>
 
                     <div id="ed_menu">
@@ -945,10 +945,10 @@ $categories = Neo4jTimetyCategoryUtil::getTimetyList("*");
                                                                        onclick="return false;">Select One</a>
                                 <ul>
                                     <li style="height: auto; width: auto;">
-<?php
-if (!empty($categories) && sizeof($categories) > 0) {
-    foreach ($categories as $cat) {
-        ?>
+                                        <?php
+                                        if (!empty($categories) && sizeof($categories) > 0) {
+                                            foreach ($categories as $cat) {
+                                                ?>
                                                 <label
                                                     class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
                                                         onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
@@ -956,10 +956,10 @@ if (!empty($categories) && sizeof($categories) > 0) {
                                                         name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
                                                         value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
                                                 </label> <br /> 
-        <?php
-    }
-}
-?>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
                                     </li>
                                 </ul>
                             </li>
@@ -967,10 +967,10 @@ if (!empty($categories) && sizeof($categories) > 0) {
                                                                        onclick="return false;">Select One</a>
                                 <ul>
                                     <li style="height: auto; width: auto;">
-<?php
-if (!empty($categories) && sizeof($categories) > 0) {
-    foreach ($categories as $cat) {
-        ?>
+                                        <?php
+                                        if (!empty($categories) && sizeof($categories) > 0) {
+                                            foreach ($categories as $cat) {
+                                                ?>
                                                 <label
                                                     class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
                                                         onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
@@ -978,10 +978,10 @@ if (!empty($categories) && sizeof($categories) > 0) {
                                                         name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
                                                         value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
                                                 </label> <br /> 
-        <?php
-    }
-}
-?>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
                                     </li>
                                 </ul>
                             </li>
@@ -1015,26 +1015,21 @@ if (!empty($var_cats)) {
 });
                     </script>
 
-                    <div class="eam_cate" style="height: auto; min-height: 49px;">
-                        <div class="eam_bg_sol"></div>
-                        <div class="eam_bg_orta"
-                             style="width: 95%; height: auto; min-height: 42px;">
+                    <div class="eam_cate" style="height: auto; min-height: 49px;margin-left: 8px;">
+                        <div class="eam_bg_orta desc_metin " 
+                             style="width: 555px; height: auto; border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
+
                             <input name="te_event_tag" type="text" class="eam_inpt_b"
                                    id="te_event_tag" placeholder="tag" />
                         </div>
-                        <div class="eam_bg_sag"></div>
                     </div>
                     <div class="eam_bg" style="height: 158px;">
-                        <div class="desc_ust"></div>
-                        <div class="desc_sol"></div>
-                        <div class="desc_orta">
+                        <div class="desc_orta" style="height: 152px;width: 577px;border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
                             <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
                                        style="font-size: 16px;resize: none;height: 151px;width: 577px;margin-top: 0px;"
                                        value=""
                                        id="te_event_description" placeholder="description" ><?= $event->description ?></textarea>
                         </div>
-                        <div class="desc_sol"></div>
-                        <div class="desc_ust"></div>
                     </div>
                     <div class="eam_remain">
                         <h2>reminder</h2>
@@ -1119,12 +1114,12 @@ if (!empty($var_cats)) {
 
                     </div>
                     <div class="eam_bg">
-                        <div class="eam_bg_sol"></div>
-                        <div class="eam_bg_orta" style="width: 95%; height: auto; min-height: 42px;">
+                        <div class="eam_bg_orta desc_metin " 
+                             style="width: 555px; height: auto;border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
+
                             <input name="te_event_people" type="text" class="eam_inpt_b"
                                    id="te_event_people" value="" placeholder="add new people manually" />
                         </div>
-                        <div class="eam_bg_sag"></div>
                     </div>	
 
                     <div class="eab_saat">
@@ -1177,15 +1172,15 @@ if (!empty($var_cats)) {
                     <input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?= $event->repeat ?>"></input>
 
                     <input type="hidden" name="te_event_category1" id="te_event_category1_hidden" value="<?php
-                    if (isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
-                        echo $_POST['te_event_category1'];
-                    }
+if (isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
+    echo $_POST['te_event_category1'];
+}
 ?>"></input>
 
                     <input type="hidden" name="te_event_category2" id="te_event_category2_hidden" value="<?php
-                    if (isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
-                        echo $_POST['te_event_category2'];
-                    }
+                           if (isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
+                               echo $_POST['te_event_category2'];
+                           }
 ?>"></input>
 
                     <input type="hidden" name="te_event_addsocial_fb" id="te_event_addsocial_fb" value="false"></input>
@@ -1196,60 +1191,60 @@ if (!empty($var_cats)) {
 
                     <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?= $_random_session_id ?>"></input>
                     <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php
-                    if (!empty($event->headerImage) && $event->headerImage != '0') {
-                        echo $event->headerImage;
-                    } else {
-                        echo "0";
-                    }
+                           if (!empty($event->headerImage) && $event->headerImage != '0') {
+                               echo $event->headerImage;
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
                     <input type="hidden" name="event_image_1_input" id="event_image_1_input" value="<?php
-                    if (isset($event->images[0]) && $event->images[0] != '0') {
-                        echo $event->images[0];
-                    } else {
-                        echo "0";
-                    }
+                           if (isset($event->images[0]) && $event->images[0] != '0') {
+                               echo $event->images[0];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
                     <input type="hidden" name="event_image_2_input" id="event_image_2_input" value="<?php
-                    if (isset($event->images[1]) && $event->images[1] != '0') {
-                        echo $event->images[1];
-                    } else {
-                        echo "0";
-                    }
+                           if (isset($event->images[1]) && $event->images[1] != '0') {
+                               echo $event->images[1];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
                     <input type="hidden" name="event_image_3_input" id="event_image_3_input" value="<?php
-                    if (isset($event->images[2]) && $event->images[2] != '0') {
-                        echo $event->images[2];
-                    } else {
-                        echo "0";
-                    }
+                           if (isset($event->images[2]) && $event->images[2] != '0') {
+                               echo $event->images[2];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
                     <input type="hidden" name="event_image_4_input" id="event_image_4_input" value="<?php
-                    if (isset($event->images[3]) && $event->images[3] != '0') {
-                        echo $event->images[3];
-                    } else {
-                        echo "0";
-                    }
+                           if (isset($event->images[3]) && $event->images[3] != '0') {
+                               echo $event->images[3];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
                     <input type="hidden" name="event_image_5_input" id="event_image_5_input" value="<?php
-                    if (isset($event->images[4]) && $event->images[4] != '0') {
-                        echo $event->images[4];
-                    } else {
-                        echo "0";
-                    }
+                           if (isset($event->images[4]) && $event->images[4] != '0') {
+                               echo $event->images[4];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
                     <input type="hidden" name="event_image_6_input" id="event_image_6_input" value="<?php
-                    if (isset($event->images[5]) && $event->images[5] != '0') {
-                        echo $event->images[5];
-                    } else {
-                        echo "0";
-                    }
+                           if (isset($event->images[5]) && $event->images[5] != '0') {
+                               echo $event->images[5];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
                     <input type="hidden" name="event_image_7_input" id="event_image_7_input" value="<?php
-                    if (isset($event->images[6]) && $event->images[6] != '0') {
-                        echo $event->images[6];
-                    } else {
-                        echo "0";
-                    }
+                           if (isset($event->images[6]) && $event->images[6] != '0') {
+                               echo $event->images[6];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
 
                 </form>

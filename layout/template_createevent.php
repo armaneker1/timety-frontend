@@ -494,25 +494,23 @@ try {
             <!-- Category -->
 
             <div class="eam_cate" style="height: auto; min-height: 49px;">
-                <div class="eam_bg_sol"></div>
-                <div class="eam_bg_orta"
-                     style="width: 95%; height: auto; min-height: 42px;">
+                <div class="eam_bg_orta desc_metin " 
+                     style="width: 552px; height: auto;border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
+
                     <input name="te_event_tag" type="text" class="eam_inpt_b"
                            id="te_event_tag" placeholder="tag" />
                 </div>
-                <div class="eam_bg_sag"></div>
             </div>
             <div class="eam_bg" style="height: 158px;">
-                <div class="desc_ust"></div>
-                <div class="desc_sol"></div>
-                <div class="desc_orta">
+                <div class="desc_orta" style="height: 152px;width: 577px;border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
+                           
                     <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
                                style="font-size: 16px;resize: none;height: 128px;margin-top: 0px;"
                                value=""
-                               id="te_event_description" placeholder="description" ><?php if(isset($_POST["te_event_description"])){ echo $_POST["te_event_description"];} ?></textarea>
+                               id="te_event_description" placeholder="description" ><?php if (isset($_POST["te_event_description"])) {
+    echo $_POST["te_event_description"];
+} ?></textarea>
                 </div>
-                <div class="desc_sol"></div>
-                <div class="desc_ust"></div>
             </div>
             <div class="eam_remain">
                 <h2>reminder</h2>
@@ -603,12 +601,12 @@ if ($showPopup) {
 
             </div>
             <div class="eam_bg">
-                <div class="eam_bg_sol"></div>
-                <div class="eam_bg_orta" style="width: 95%; height: auto; min-height: 42px;">
+                <div class="eam_bg_orta desc_metin " 
+                     style="width: 555px; height: auto;border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
+
                     <input name="te_event_people" type="text" class="eam_inpt_b"
                            id="te_event_people" value="" placeholder="add people manually" />
                 </div>
-                <div class="eam_bg_sag"></div>
             </div>	
 
             <div class="eab_saat">
@@ -658,30 +656,30 @@ if ($showPopup) {
                 </div>
             </div>
             <input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php
-                               if ($showPopup && $event->allday == 1) {
-                                   echo "true";
-                               } else {
-                                   echo "false";
-                               }
+if ($showPopup && $event->allday == 1) {
+    echo "true";
+} else {
+    echo "false";
+}
 ?>"></input> 
             <input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?php
-                   if ($showPopup && $event->repeat == 1) {
-                       echo "true";
-                   } else {
-                       echo "false";
-                   }
+            if ($showPopup && $event->repeat == 1) {
+                echo "true";
+            } else {
+                echo "false";
+            }
 ?>"></input>
 
             <input type="hidden" name="te_event_category1" id="te_event_category1_hidden" value="<?php
-                   if ($showPopup && isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
-                       echo $_POST['te_event_category1'];
-                   }
+            if ($showPopup && isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
+                echo $_POST['te_event_category1'];
+            }
 ?>"></input>
 
             <input type="hidden" name="te_event_category2" id="te_event_category2_hidden" value="<?php
-                   if ($showPopup && isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
-                       echo $_POST['te_event_category2'];
-                   }
+            if ($showPopup && isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
+                echo $_POST['te_event_category2'];
+            }
 ?>"></input>
 
             <input type="hidden" name="te_event_addsocial_fb" id="te_event_addsocial_fb" value="false"></input>
@@ -692,60 +690,60 @@ if ($showPopup) {
 
             <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?= $_random_session_id ?>"></input>
             <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php
-                   if ($showPopup && isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {
-                       echo $_POST["upload_image_header"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {
+                echo $_POST["upload_image_header"];
+            } else {
+                echo "0";
+            }
 ?>"></input>
             <input type="hidden" name="event_image_1_input" id="event_image_1_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_1_input"]) && $_POST["event_image_1_input"] != '0') {
-                       echo $_POST["event_image_1_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_1_input"]) && $_POST["event_image_1_input"] != '0') {
+                echo $_POST["event_image_1_input"];
+            } else {
+                echo "0";
+            }
 ?>"></input>
             <input type="hidden" name="event_image_2_input" id="event_image_2_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_2_input"]) && $_POST["event_image_2_input"] != '0') {
-                       echo $_POST["event_image_2_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_2_input"]) && $_POST["event_image_2_input"] != '0') {
+                echo $_POST["event_image_2_input"];
+            } else {
+                echo "0";
+            }
 ?>"></input>
             <input type="hidden" name="event_image_3_input" id="event_image_3_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_3_input"]) && $_POST["event_image_3_input"] != '0') {
-                       echo $_POST["event_image_3_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_3_input"]) && $_POST["event_image_3_input"] != '0') {
+                echo $_POST["event_image_3_input"];
+            } else {
+                echo "0";
+            }
 ?>"></input>
             <input type="hidden" name="event_image_4_input" id="event_image_4_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_4_input"]) && $_POST["event_image_4_input"] != '0') {
-                       echo $_POST["event_image_4_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_4_input"]) && $_POST["event_image_4_input"] != '0') {
+                echo $_POST["event_image_4_input"];
+            } else {
+                echo "0";
+            }
 ?>"></input>
             <input type="hidden" name="event_image_5_input" id="event_image_5_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_5_input"]) && $_POST["event_image_5_input"] != '0') {
-                       echo $_POST["event_image_5_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_5_input"]) && $_POST["event_image_5_input"] != '0') {
+                echo $_POST["event_image_5_input"];
+            } else {
+                echo "0";
+            }
 ?>"></input>
             <input type="hidden" name="event_image_6_input" id="event_image_6_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_6_input"]) && $_POST["event_image_6_input"] != '0') {
-                       echo $_POST["event_image_6_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_6_input"]) && $_POST["event_image_6_input"] != '0') {
+                echo $_POST["event_image_6_input"];
+            } else {
+                echo "0";
+            }
 ?>"></input>
             <input type="hidden" name="event_image_7_input" id="event_image_7_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_7_input"]) && $_POST["event_image_7_input"] != '0') {
-                       echo $_POST["event_image_7_input"];
-                   } else {
-                       echo "0";
-                   }
+            if ($showPopup && isset($_POST["event_image_7_input"]) && $_POST["event_image_7_input"] != '0') {
+                echo $_POST["event_image_7_input"];
+            } else {
+                echo "0";
+            }
 ?>"></input>
 
         </form>
