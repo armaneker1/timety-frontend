@@ -44,8 +44,10 @@ define('PAGE_CONFIRM', HOSTNAME.'confirm-user');
 define('PAGE_EDIT_EVENT', HOSTNAME.'editEvent.php');
 define('PAGE_EVENT', HOSTNAME.'event/');
 define('PAGE_UPDATE_PROFILE',HOSTNAME.'profile');
+define('PAGE_UPDATE_EVENT',HOSTNAME.'updateevent/');
 define('PAGE_GET_IMAGEURL',HOSTNAME.'getImage.php?src=');
 define('PAGE_GET_IMAGEURL_SUBFOLDER','timety/');
+
 
 define('PAGE_FB_LOGIN', HOSTNAME.'login-facebook.php');
 define('PAGE_FQ_LOGIN', HOSTNAME.'login-foursquare.php');
