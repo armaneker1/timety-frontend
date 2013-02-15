@@ -203,6 +203,7 @@ class Event {
             $this->attach_link = $result['attach_link'];
             $this->loc_lat = $result['lat'];
             $this->loc_lng = $result['lng'];
+            $this->creator_id=$result['creator_id'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -273,6 +274,7 @@ class Event {
         $this->attach_link = $tmp->attach_link;
         $this->loc_lat = $tmp->loc_lat;
         $this->loc_lng = $tmp->loc_lng;
+        $this->creator_id=$tmp->creator_id;
     }
 
     public function setAdditionalData($userId = -1) {
@@ -311,6 +313,7 @@ class Event {
     public $reminderSent = 0;
     public $loc_lat;
     public $loc_lng;
+    public $creator_id;
     /*
      * Additional Data
      */
