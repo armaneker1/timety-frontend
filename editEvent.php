@@ -666,7 +666,12 @@ include('layout/eventImageUpload.php');
                                         <li style="width: 48px; height: 17px;"><input type="checkbox"
                                                                                       id="on_off" name="te_event_privacy"
                                                                                       tabindex="-1"
-                                                                                      value="false"
+                                                                                      value="<?php
+                                                                                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                                                                                            echo 'true';
+                                                                                        }else {
+                                                                                            echo 'false';
+                                                                                        }?>"
                                                                                       <?php
                                                                                       if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
                                                                                           echo 'checked="checked"';
