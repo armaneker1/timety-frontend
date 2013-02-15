@@ -143,7 +143,7 @@ class UserUtils {
             mysql_query($SQL) or die(mysql_error());
         }
     }
-    
+
     public static function moveUserSocialProvider($fromUserId, $toUserId) {
         $fromUser = UserUtils::getUserById($fromUserId);
         $toUser = UserUtils::getUserById($toUserId);
@@ -281,38 +281,38 @@ class UserUtils {
         return $url;
     }
 
-    public static function createUser(User $user, $usertype = USER_TYPE_NORMAL) {
+    public static function createUser(User $user, $usertype = USER_TYPE_NORMAL, $invate = FALSE) {
         $tmp_user = UserUtils::getUserByEmail($user->email);
+        $user_ = null;
         if (!empty($tmp_user)) {
             $user->invited = 2;
             UserUtils::updateUser($tmp_user->id, $user);
-            $user = UserUtils::getUserById($tmp_user->id);
+            $user_ = UserUtils::getUserById($tmp_user->id);
         } else {
-            if (isset($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
+            if ((isset($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) || $invate) {
                 $userId = DBUtils::getNextId(CLM_USERID);
-                UtilFunctions::insertUserInvitation($userId, $_SESSION["te_invitation_code"]);
+                if (isset($_SESSION["te_invitation_code"])) {
+                    UtilFunctions::insertUserInvitation($userId, $_SESSION["te_invitation_code"]);
+                }
                 $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited) VALUES ($userId,'$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited)";
                 mysql_query($SQL) or die(mysql_error());
                 //create user for neo4j
-                $user = UserUtils::getUserByUserName($user->userName);
+                $user_ = UserUtils::getUserByUserName($user->userName);
             }
         }
         try {
-            if (!empty($user)) {
+            if (!empty($user_)) {
                 $n = new Neo4jFuctions();
-                if (!$n->createUser($user->id, $user->userName, $usertype)) {
-                    $user->saved = 0;
-                    UserUtils::updateUser($user->id, $user);
-                    $user = UserUtils::getUserByUserName($user->userName);
+                if (!$n->createUser($user_->id, $user_->userName, $usertype)) {
+                    $user_->saved = 0;
+                    UserUtils::updateUser($user_->id, $user_);
+                    $user_ = UserUtils::getUserByUserName($user->userName);
                 }
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
-            $user->saved = 0;
-            UserUtils::updateUser($user->id, $user);
-            $user = UserUtils::getUserByUserName($user->userName);
         }
-        return $user;
+        return $user_;
     }
 
     public static function addUserInfoNeo4j($user) {
@@ -387,7 +387,7 @@ class UserUtils {
             $limit = 10;
         }
 
-        $SQL = "SELECT * FROM " . TBL_USERS . " LIMIT " . ($page*$limit) . "," . $limit;
+        $SQL = "SELECT * FROM " . TBL_USERS . " LIMIT " . ($page * $limit) . "," . $limit;
         //echo $SQL;
         $query = mysql_query($SQL) or die(mysql_error());
         $array = array();
@@ -408,8 +408,6 @@ class UserUtils {
         }
         return $array;
     }
-    
-    
 
 }
 

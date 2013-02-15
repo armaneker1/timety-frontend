@@ -44,6 +44,7 @@ if (empty($event) || empty($event->id)) {
     exit(header('Location: ' . HOSTNAME));
 }
 
+
 $notpost = false;
 
 if (empty($_POST['rand_session_id'])) {
@@ -320,17 +321,14 @@ if (!empty($_POST['rand_session_id'])) {
     $event->tags = $_POST["te_event_tag"];
     $event->attendance = $_POST["te_event_people"];
 
-    var_dump($_POST);
-    var_dump($event);
     if (!$error) {
         try {
             EventUtil::updateEvent($event, $user);
             $m = new HtmlMessage();
             $m->type = "s";
             $m->message = "Event updated.";
-            var_dump("Gİtti");
-            //$_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
-            //exit(header('Location: ' . HOSTNAME));
+            $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
+            exit(header('Location: ' . HOSTNAME));
         } catch (Exception $e) {
             $error = true;
             $m = new HtmlMessage();

@@ -83,7 +83,7 @@ class EventUtil {
             $eventDB = EventUtil::updateEventDB($event);
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
-                //Neo4jEventUtils::createEvent($event, $user);
+                Neo4jEventUtils::updateEvent($event, $user);
             }
         }
     }
@@ -93,7 +93,7 @@ class EventUtil {
         $headerImage = $event->headerImage;
         $id = $event->id;
 
-        $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1);
+        $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1)." WHERE id=".$id;
         mysql_query($SQL) or die(mysql_error());
         $event = EventUtil::getEventById($id);
         /*
