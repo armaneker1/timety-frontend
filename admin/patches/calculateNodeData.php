@@ -11,7 +11,7 @@ use Everyman\Neo4j\Transport,
 session_start();
 header("Content-Type: text/html; charset=utf8");
 
-require_once __DIR__ . '/../utils/Functions.php';
+require_once __DIR__ . '/../../utils/Functions.php';
 
 $array = Neo4jEventUtils::getAllEventsNode("");
 

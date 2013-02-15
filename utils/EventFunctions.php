@@ -4,7 +4,7 @@ class EventUtil {
 
     public static function createEvent(Event $event, $user) {
         if (!empty($event) && !empty($user)) {
-            $eventDB = EventUtil::addEventToDB($event,$user);
+            $eventDB = EventUtil::addEventToDB($event, $user);
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
                 Neo4jEventUtils::createEvent($event, $user);
@@ -12,7 +12,7 @@ class EventUtil {
         }
     }
 
-    public static function addEventToDB(Event $event,  User $user) {
+    public static function addEventToDB(Event $event, User $user) {
         $images = $event->images;
         $headerImage = $event->headerImage;
         $id = DBUtils::getNextId(CLM_EVENTID);
@@ -93,7 +93,7 @@ class EventUtil {
         $headerImage = $event->headerImage;
         $id = $event->id;
 
-        $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1)." WHERE id=".$id;
+        $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1) . " WHERE id=" . $id;
         mysql_query($SQL) or die(mysql_error());
         $event = EventUtil::getEventById($id);
         /*
@@ -144,7 +144,7 @@ class EventUtil {
                         unlink(UPLOAD_FOLDER . $headerImage);
                         error_log("image copied " . " from " . UPLOAD_FOLDER . $headerImage . " to " . UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage);
                     }
-                    $img_url=UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage;
+                    $img_url = UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage;
                 }
 
                 $img = new Image();
@@ -171,6 +171,15 @@ class EventUtil {
         }
     }
 
+    public static function updateCreatorId($eventId, $value) {
+        if (!empty($eventId) && !empty($value)) {
+            $eventId = DBUtils::mysql_escape($eventId);
+            $value = DBUtils::mysql_escape($value);
+            $SQL = "UPDATE " . TBL_EVENTS . " SET creator_id=" . $value . " WHERE id=" . $eventId;
+            mysql_query($SQL);
+        }
+    }
+
     public static function getEventById($id) {
         if (!empty($id)) {
             $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id;
@@ -183,6 +192,19 @@ class EventUtil {
             } else {
                 return null;
             }
+        } else {
+            return null;
+        }
+    }
+
+    public static function getAllEvents() {
+        $SQL = "SELECT * FROM " . TBL_EVENTS ;
+        $query = mysql_query($SQL) or die(mysql_error());
+        $result = mysql_fetch_array($query);
+        $event = new Event();
+        $event->create($result, FALSE);
+        if (!empty($event->id)) {
+            return $event;
         } else {
             return null;
         }

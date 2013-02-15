@@ -44,9 +44,9 @@ if (empty($event) || empty($event->id)) {
     exit(header('Location: ' . HOSTNAME));
 }
 
-if($event->creator!=$user->id)
+if($event->creatorId!=$user->id)
 {
-    exit(header('Location: ' . HOSTNAME));
+   exit(header('Location: ' . HOSTNAME));
 }
 
 $notpost = false;
