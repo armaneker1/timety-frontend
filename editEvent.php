@@ -116,8 +116,8 @@ if (!empty($_POST['rand_session_id'])) {
         $m->message = "Upload an Image";
         array_push($msgs, $m);
     } else {
-         if (UtilFunctions::startsWith( $_POST["upload_image_header"], "events")) {
-            $event->headerImage =  $_POST["upload_image_header"];
+        if (UtilFunctions::startsWith($_POST["upload_image_header"], "events")) {
+            $event->headerImage = $_POST["upload_image_header"];
         } else {
             $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
         }
@@ -407,11 +407,11 @@ if (!empty($_POST['rand_session_id'])) {
 
 <html>
     <head>
-<?php
-$timety_header = "Timety | Edit Event";
-$edit_event_page_type = "edit_event";
-include('layout/layout_header.php');
-?>
+        <?php
+        $timety_header = "Timety | Edit Event";
+        $edit_event_page_type = "edit_event";
+        include('layout/layout_header.php');
+        ?>
 
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
@@ -458,21 +458,21 @@ include('layout/layout_header.php');
     });
         </script>
 
-<?php
-if (empty($var_tags)) {
-    $var_tags = "[]";
-    $nf = new Neo4jFuctions();
-    $var_tags = $nf->getTagListListByIdList($event->tags);
-}
+        <?php
+        if (empty($var_tags)) {
+            $var_tags = "[]";
+            $nf = new Neo4jFuctions();
+            $var_tags = $nf->getTagListListByIdList($event->tags);
+        }
 
-$var_usrs = "[]";
-if (!empty($event->attendance)) {
-    $var_usrs = $nf->getUserGroupListByIdList($event->attendance);
-}
-if (empty($var_usrs)) {
-    var_dump($var_usrs);
-}
-?>
+        $var_usrs = "[]";
+        if (!empty($event->attendance)) {
+            $var_usrs = $nf->getUserGroupListByIdList($event->attendance);
+        }
+        if (empty($var_usrs)) {
+            var_dump($var_usrs);
+        }
+        ?>
         <script>
             jQuery(document).ready(function(){
                 jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
@@ -492,11 +492,13 @@ if (empty($var_usrs)) {
                         return true;
                     },
                     processPrePopulate : false,
-                    prePopulate : <?php if (!empty($var_tags)) {
+                    prePopulate : <?php
+        if (!empty($var_tags)) {
             echo $var_tags;
         } else {
             echo "[]";
-        } ?>	
+        }
+        ?>	
                 });	
 
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
@@ -517,11 +519,13 @@ if (empty($var_usrs)) {
                         return true;
                     },
                     processPrePopulate : false,
-                    prePopulate : <?php if (!empty($var_usrs)) {
+                    prePopulate : <?php
+        if (!empty($var_usrs)) {
             echo $var_usrs;
         } else {
             echo "[]";
-        } ?>	
+        }
+        ?>	
                 });
             });
         </script>
@@ -606,22 +610,35 @@ if ($event->addsocial_tw == 1) {
 
     <body class="bg">
         <?php
-        include('layout/layout_top.php');
-        include('layout/eventImageUpload.php');
-        ?>
+        if (!empty($msgs)) {
+            $txt = "";
+            foreach ($msgs as $msg) {
+                $txt = $txt . $msg->message . "<br/>";
+            }
+            ?>
+            <script>
+            jQuery(document).ready(function() {
+                getInfo(true,'<?= $txt ?>','error',4000);
+            });
+            </script>
+        <?php } ?>
+<?php
+include('layout/layout_top.php');
+include('layout/eventImageUpload.php');
+?>
         <form action="" method="post" name="edit_event" >
             <div  class="event_add_ekr" id="div_event_add_ekr" style="position: relative;"> 
                 <form id="add_event_form_id" name="add_event_form" action="" method="post">
                     <div class="cae_foto" style="z-index: -10;" id="event_header_image">
-                        <?php if (empty($event->headerImage)) { ?>
+<?php if (empty($event->headerImage)) { ?>
                             <a href="#">click here to add image</a>
-                        <?php } else { ?>
+<?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
                                 setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,106);
                             });
                             </script>
-                        <?php } ?>
+<?php } ?>
                     </div>
                     <div class="cae_foto" id="te_event_image_div"
                          style="position: absolute;"></div>
@@ -633,12 +650,12 @@ if ($event->addsocial_tw == 1) {
                                        id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
                                 <div class="left" style="float: right;" >
                                     <p id="on_off_text" style="width: 46px;"><?php
-                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                            echo 'public';
-                        } else {
-                            echo 'private';
-                        }
-                        ?></p>
+                                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                                            echo 'public';
+                                        } else {
+                                            echo 'private';
+                                        }
+?></p>
                                     <ol class="on_off">
                                         <li style="width: 48px; height: 17px;"><input type="checkbox"
                                                                                       id="on_off" name="te_event_privacy"
