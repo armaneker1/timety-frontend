@@ -5,17 +5,15 @@ class ImageUtil {
     public static function getImageUrl($url, $width = null, $height = null) {
         if (!UtilFunctions::startsWith($url, "http")) {
             if (!UtilFunctions::startsWith($url, "/")) {
-                $url="/".$url;
+                $url = "/" . $url;
             }
         }
-        $url=PAGE_AJAX_GETIMAGEURL."?src=".basename(dirname(dirname(__FILE__))).$url;
-        if(!empty($width))
-        {
-            $url=$url."&w=".$width;
+        $url = PAGE_AJAX_GETIMAGEURL . "?src=" . basename(dirname(dirname(__FILE__))) . $url;
+        if (!empty($width)) {
+            $url = $url . "&w=" . $width;
         }
-        if(!empty($height))
-        {
-            $url=$url."&h=".$height;
+        if (!empty($height)) {
+            $url = $url . "&h=" . $height;
         }
         return $url;
     }
@@ -98,6 +96,13 @@ class ImageUtil {
             return ImageUtil::getImageById($imageId);
         } else {
             return null;
+        }
+    }
+
+    public static function deleteEventImages($eventId) {
+        if (!empty($eventId)) {
+            $SQL = "DELETE  FROM " . TBL_IMAGES . " WHERE eventId=" . $eventId;
+            mysql_query($SQL) or die(mysql_error());
         }
     }
 

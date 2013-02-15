@@ -115,7 +115,11 @@ if (!empty($_POST['rand_session_id'])) {
         $m->message = "Upload an Image";
         array_push($msgs, $m);
     } else {
-        $event->headerImage = $_POST["upload_image_header"];
+         if (UtilFunctions::startsWith( $_POST["upload_image_header"], "events")) {
+            $event->headerImage =  $_POST["upload_image_header"];
+        } else {
+            $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
+        }
     }
 
     /*
@@ -124,25 +128,53 @@ if (!empty($_POST['rand_session_id'])) {
     $event->images = array(null, null, null, null, null, null, null);
 
     if (isset($_POST["event_image_1_input"]) && !empty($_POST["event_image_1_input"])) {
-        $event->images[0] = $_POST["event_image_1_input"];
+        if (UtilFunctions::startsWith($_POST["event_image_1_input"], "events")) {
+            $event->images[0] = $_POST["event_image_1_input"];
+        } else {
+            $event->images[0] = "ImageEvent_1_" . $_random_session_id . ".png";
+        }
     }
     if (isset($_POST["event_image_2_input"]) && !empty($_POST["event_image_2_input"])) {
-        $event->images[1] = $_POST["event_image_2_input"];
+        if (UtilFunctions::startsWith($_POST["event_image_2_input"], "events")) {
+            $event->images[1] = $_POST["event_image_2_input"];
+        } else {
+            $event->images[1] = "ImageEvent_2_" . $_random_session_id . ".png";
+        }
     }
     if (isset($_POST["event_image_3_input"]) && !empty($_POST["event_image_3_input"])) {
-        $event->images[2] = $_POST["event_image_3_input"];
+        if (UtilFunctions::startsWith($_POST["event_image_3_input"], "events")) {
+            $event->images[2] = $_POST["event_image_3_input"];
+        } else {
+            $event->images[2] = "ImageEvent_3_" . $_random_session_id . ".png";
+        }
     }
     if (isset($_POST["event_image_4_input"]) && !empty($_POST["event_image_4_input"])) {
-        $event->images[3] = $_POST["event_image_4_input"];
+        if (UtilFunctions::startsWith($_POST["event_image_4_input"], "events")) {
+            $event->images[3] = $_POST["event_image_4_input"];
+        } else {
+            $event->images[3] = "ImageEvent_4_" . $_random_session_id . ".png";
+        }
     }
     if (isset($_POST["event_image_5_input"]) && !empty($_POST["event_image_5_input"])) {
-        $event->images[4] = $_POST["event_image_5_input"];
+        if (UtilFunctions::startsWith($_POST["event_image_5_input"], "events")) {
+            $event->images[4] = $_POST["event_image_5_input"];
+        } else {
+            $event->images[4] = "ImageEvent_5_" . $_random_session_id . ".png";
+        }
     }
     if (isset($_POST["event_image_6_input"]) && !empty($_POST["event_image_6_input"])) {
-        $event->images[5] = $_POST["event_image_6_input"];
+        if (UtilFunctions::startsWith($_POST["event_image_6_input"], "events")) {
+            $event->images[5] = $_POST["event_image_6_input"];
+        } else {
+            $event->images[5] = "ImageEvent_6_" . $_random_session_id . ".png";
+        }
     }
     if (isset($_POST["event_image_7_input"]) && !empty($_POST["event_image_7_input"])) {
-        $event->images[6] = $_POST["event_image_7_input"];
+        if (UtilFunctions::startsWith($_POST["event_image_7_input"], "events")) {
+            $event->images[6] = $_POST["event_image_7_input"];
+        } else {
+            $event->images[6] = "ImageEvent_7_" . $_random_session_id . ".png";
+        }
     }
 
     /*
@@ -288,17 +320,17 @@ if (!empty($_POST['rand_session_id'])) {
     $event->tags = $_POST["te_event_tag"];
     $event->attendance = $_POST["te_event_people"];
 
-    //var_dump($_POST);
-    //var_dump($event);
+    var_dump($_POST);
+    var_dump($event);
     if (!$error) {
         try {
-            //  EventUtil::createEvent($event, $user);
-            //$m = new HtmlMessage();
-            //$m->type = "s";
-            //$m->message = "Event created successfully.";
+            EventUtil::updateEvent($event, $user);
+            $m = new HtmlMessage();
+            $m->type = "s";
+            $m->message = "Event updated.";
+            var_dump("Gİtti");
             //$_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
-            //exit(header('Location: ' . PAGE_EDIT_EVENT."?eventId=".$eventId));
-            $error = true;
+            //exit(header('Location: ' . HOSTNAME));
         } catch (Exception $e) {
             $error = true;
             $m = new HtmlMessage();
@@ -377,11 +409,11 @@ if (!empty($_POST['rand_session_id'])) {
 
 <html>
     <head>
-        <?php
-        $timety_header = "Timety | Edit Event";
-        $edit_event_page_type = "edit_event";
-        include('layout/layout_header.php');
-        ?>
+<?php
+$timety_header = "Timety | Edit Event";
+$edit_event_page_type = "edit_event";
+include('layout/layout_header.php');
+?>
 
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
@@ -428,21 +460,21 @@ if (!empty($_POST['rand_session_id'])) {
     });
         </script>
 
-        <?php
-        if (empty($var_tags)) {
-            $var_tags = "[]";
-            $nf = new Neo4jFuctions();
-            $var_tags = $nf->getTagListListByIdList($event->tags);
-        }
+<?php
+if (empty($var_tags)) {
+    $var_tags = "[]";
+    $nf = new Neo4jFuctions();
+    $var_tags = $nf->getTagListListByIdList($event->tags);
+}
 
-        $var_usrs = "[]";
-        if (!empty($event->attendance)) {
-            $var_usrs = $nf->getUserGroupListByIdList($event->attendance);
-        }
-        if (empty($var_usrs)) {
-            var_dump($var_usrs);
-        }
-        ?>
+$var_usrs = "[]";
+if (!empty($event->attendance)) {
+    $var_usrs = $nf->getUserGroupListByIdList($event->attendance);
+}
+if (empty($var_usrs)) {
+    var_dump($var_usrs);
+}
+?>
         <script>
             jQuery(document).ready(function(){
                 jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
@@ -462,7 +494,11 @@ if (!empty($_POST['rand_session_id'])) {
                         return true;
                     },
                     processPrePopulate : false,
-                    prePopulate : <?php  if(!empty($var_tags)){echo $var_tags; } else {echo "[]";}?>	
+                    prePopulate : <?php if (!empty($var_tags)) {
+            echo $var_tags;
+        } else {
+            echo "[]";
+        } ?>	
                 });	
 
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
@@ -483,7 +519,11 @@ if (!empty($_POST['rand_session_id'])) {
                         return true;
                     },
                     processPrePopulate : false,
-                    prePopulate : <?php if(!empty($var_usrs)){echo $var_usrs; } else {echo "[]";} ?>	
+                    prePopulate : <?php if (!empty($var_usrs)) {
+            echo $var_usrs;
+        } else {
+            echo "[]";
+        } ?>	
                 });
             });
         </script>
@@ -594,18 +634,22 @@ if ($event->addsocial_tw == 1) {
                                 <input name="te_event_title" type="text" class="eam_inpt"
                                        id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
                                 <div class="left" style="float: right;" >
-                                    <p id="on_off_text" style="width: 46px;"><?php  if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                                                                                            echo 'public';
-                                                                                        }else { echo 'private'; }?></p>
+                                    <p id="on_off_text" style="width: 46px;"><?php
+                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                            echo 'public';
+                        } else {
+                            echo 'private';
+                        }
+                        ?></p>
                                     <ol class="on_off">
                                         <li style="width: 48px; height: 17px;"><input type="checkbox"
                                                                                       id="on_off" name="te_event_privacy"
                                                                                       tabindex="-1"
                                                                                       value="false"
-                                                                                      <?php 
+                                                                                      <?php
                                                                                       if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                                                                                            echo 'checked="checked"';
-                                                                                        }
+                                                                                          echo 'checked="checked"';
+                                                                                      }
                                                                                       ?>
                                                                                       style="width: 48px; height: 17px;" />
                                         </li>
@@ -616,16 +660,16 @@ if ($event->addsocial_tw == 1) {
                         </div>
                         <!-- Image 1 -->
                         <div class="akare" style="z-index: -10" id="event_image_1">
-                            <?php if (empty($event->images[0])) { ?>
+<?php if (empty($event->images[0])) { ?>
                                 <a href="#" >click here to add image</a>
-                            <?php } else { ?>
+<?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>',50,50);
                                     putDeleteButton('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>','event_image_1_input',jQuery("#event_image_1_div"));
                                 });
                                 </script>
-                            <?php } ?>
+<?php } ?>
                         </div>
                         <div class="akare" id="event_image_1_div" style="position: absolute;">
                             <div class="akare_kapat">
@@ -637,16 +681,16 @@ if ($event->addsocial_tw == 1) {
 
                         <!-- Image 2 -->
                         <div class="akare" style="z-index: -10" id="event_image_2">
-                            <?php if (empty($event->images[1])) { ?>
+<?php if (empty($event->images[1])) { ?>
                                 <a href="#" >click here to add image</a>
-                            <?php } else { ?>
+<?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>',50,50);
                                     putDeleteButton('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>','event_image_2_input',jQuery("#event_image_2_div"));
                                 });
                                 </script>
-                            <?php } ?>
+<?php } ?>
                         </div>
                         <div class="akare" id="event_image_2_div" style="position: absolute;left: 185px;">
                             <div class="akare_kapat">
@@ -659,16 +703,16 @@ if ($event->addsocial_tw == 1) {
 
                         <!-- Image 3 -->
                         <div class="akare" style="z-index: -10" id="event_image_3">
-                            <?php if (empty($event->images[2])) { ?>
+<?php if (empty($event->images[2])) { ?>
                                 <a href="#" >click here to add image</a>
-                            <?php } else { ?>
+<?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>',50,50);
                                     putDeleteButton('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>','event_image_3_input',jQuery("#event_image_3_div"));
                                 });
                                 </script>
-                            <?php } ?>
+<?php } ?>
                         </div>
                         <div class="akare" id="event_image_3_div" style="position: absolute;left: 255px;">
                             <div class="akare_kapat">
@@ -681,16 +725,16 @@ if ($event->addsocial_tw == 1) {
 
                         <!-- Image 4 -->
                         <div class="akare" style="z-index: -10" id="event_image_4">
-                            <?php if (empty($event->images[3])) { ?>
+<?php if (empty($event->images[3])) { ?>
                                 <a href="#" >click here to add image</a>
-                            <?php } else { ?>
+<?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>',50,50);
                                     putDeleteButton('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>','event_image_4_input',jQuery("#event_image_4_div"));
                                 });
                                 </script>
-                            <?php } ?>
+<?php } ?>
                         </div>
                         <div class="akare" id="event_image_4_div" style="position: absolute;left: 323px;">
                             <div class="akare_kapat">
@@ -704,16 +748,16 @@ if ($event->addsocial_tw == 1) {
 
                         <!-- Image 5 -->
                         <div class="akare" style="z-index: -10" id="event_image_5">
-                            <?php if (empty($event->images[4])) { ?>
+<?php if (empty($event->images[4])) { ?>
                                 <a href="#" >click here to add image</a>
-                            <?php } else { ?>
+<?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>',50,50);
                                     putDeleteButton('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>','event_image_5_input',jQuery("#event_image_5_div"));
                                 });
                                 </script>
-                            <?php } ?>
+<?php } ?>
                         </div>
                         <div class="akare" id="event_image_5_div" style="position: absolute;left: 390px;">
                             <div class="akare_kapat">
@@ -726,16 +770,16 @@ if ($event->addsocial_tw == 1) {
 
                         <!-- Image 6 -->
                         <div class="akare" style="z-index: -10" id="event_image_6">
-                            <?php if (empty($event->images[5])) { ?>
+<?php if (empty($event->images[5])) { ?>
                                 <a href="#" >click here to add image</a>
-                            <?php } else { ?>
+<?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>',50,50);
                                     putDeleteButton('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>','event_image_6_input',jQuery("#event_image_6_div"));
                                 });
                                 </script>
-                            <?php } ?>
+<?php } ?>
                         </div>
                         <div class="akare" id="event_image_6_div" style="position: absolute;left: 458px;">
                             <div class="akare_kapat">
@@ -748,16 +792,16 @@ if ($event->addsocial_tw == 1) {
 
                         <!-- Image 7 -->
                         <div class="akare" style="z-index: -10" id="event_image_7">
-                            <?php if (empty($event->images[6])) { ?>
+<?php if (empty($event->images[6])) { ?>
                                 <a href="#" >click here to add image</a>
-                            <?php } else { ?>
+<?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
                                     setUploadImage('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>',50,50);
                                     putDeleteButton('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>','event_image_7_input',jQuery("#event_image_7_div"));
                                 });
                                 </script>
-                            <?php } ?>
+<?php } ?>
                         </div>
                         <div class="akare" id="event_image_7_div" style="position: absolute;left: 526px;">
                             <div class="akare_kapat">
@@ -864,9 +908,9 @@ if ($event->addsocial_tw == 1) {
 
 
                     <!-- Category -->
-                    <?php
-                    $categories = Neo4jTimetyCategoryUtil::getTimetyList("*");
-                    ?>
+<?php
+$categories = Neo4jTimetyCategoryUtil::getTimetyList("*");
+?>
                     <span class="ts_box">Select Category :</span>
 
                     <div id="ed_menu">
@@ -875,10 +919,10 @@ if ($event->addsocial_tw == 1) {
                                                                        onclick="return false;">Select One</a>
                                 <ul>
                                     <li style="height: auto; width: auto;">
-                                        <?php
-                                        if (!empty($categories) && sizeof($categories) > 0) {
-                                            foreach ($categories as $cat) {
-                                                ?>
+<?php
+if (!empty($categories) && sizeof($categories) > 0) {
+    foreach ($categories as $cat) {
+        ?>
                                                 <label
                                                     class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
                                                         onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
@@ -886,10 +930,10 @@ if ($event->addsocial_tw == 1) {
                                                         name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
                                                         value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
                                                 </label> <br /> 
-                                                <?php
-                                            }
-                                        }
-                                        ?>
+        <?php
+    }
+}
+?>
                                     </li>
                                 </ul>
                             </li>
@@ -897,10 +941,10 @@ if ($event->addsocial_tw == 1) {
                                                                        onclick="return false;">Select One</a>
                                 <ul>
                                     <li style="height: auto; width: auto;">
-                                        <?php
-                                        if (!empty($categories) && sizeof($categories) > 0) {
-                                            foreach ($categories as $cat) {
-                                                ?>
+<?php
+if (!empty($categories) && sizeof($categories) > 0) {
+    foreach ($categories as $cat) {
+        ?>
                                                 <label
                                                     class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
                                                         onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
@@ -908,10 +952,10 @@ if ($event->addsocial_tw == 1) {
                                                         name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
                                                         value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
                                                 </label> <br /> 
-                                                <?php
-                                            }
-                                        }
-                                        ?>
+        <?php
+    }
+}
+?>
                                     </li>
                                 </ul>
                             </li>
@@ -1107,9 +1151,9 @@ if (!empty($var_cats)) {
                     <input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?= $event->repeat ?>"></input>
 
                     <input type="hidden" name="te_event_category1" id="te_event_category1_hidden" value="<?php
-if (isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
-    echo $_POST['te_event_category1'];
-}
+                    if (isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
+                        echo $_POST['te_event_category1'];
+                    }
 ?>"></input>
 
                     <input type="hidden" name="te_event_category2" id="te_event_category2_hidden" value="<?php
