@@ -370,7 +370,7 @@ if (!empty($_POST['rand_session_id'])) {
 
     $te_event_end_date = "";
     $te_event_end_time = "";
-    if (!empty($event->endDateTimeLong)) {
+    if (!empty($event->endDateTimeLong) && $event->endDateTimeLong>0) {
         $te_event_end_date = date(DATE_FE_FORMAT_D, $event->endDateTimeLong);
         $te_event_end_time = date("H:i", $event->endDateTimeLong);
     }
