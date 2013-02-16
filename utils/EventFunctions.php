@@ -8,8 +8,10 @@ class EventUtil {
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
                 Neo4jEventUtils::createEvent($event, $user);
+                return $eventDB->id;
             }
         }
+        return null;
     }
 
     public static function addEventToDB(Event $event, User $user) {
@@ -84,6 +86,7 @@ class EventUtil {
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
                 Neo4jEventUtils::updateEvent($event, $user);
+                return $eventDB->id;
             }
         }
     }
@@ -198,7 +201,7 @@ class EventUtil {
     }
 
     public static function getAllEvents() {
-        $SQL = "SELECT * FROM " . TBL_EVENTS ;
+        $SQL = "SELECT * FROM " . TBL_EVENTS;
         $query = mysql_query($SQL) or die(mysql_error());
         $result = mysql_fetch_array($query);
         $event = new Event();

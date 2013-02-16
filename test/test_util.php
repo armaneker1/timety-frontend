@@ -14,5 +14,9 @@ header("Content-Type: text/html; charset=utf8");
 require_once __DIR__ . '/../utils/Functions.php';
 require_once __DIR__ . '/../utils/Queue.php';
 
-Queue::createCategoryList(6);
+
+$redis = new Predis\Client();
+$timeline = $redis->zrange("popular.worldwide", 0, -1, array('withscores' => true));
+
+var_dump($timeline);
 ?>

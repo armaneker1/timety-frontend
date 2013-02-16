@@ -326,12 +326,21 @@ if (!empty($_POST['rand_session_id'])) {
 
     if (!$error) {
         try {
-            EventUtil::updateEvent($event, $user);
-            $m = new HtmlMessage();
-            $m->type = "s";
-            $m->message = "Event updated.";
-            $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
-            exit(header('Location: ' . HOSTNAME));
+            $eventId = EventUtil::updateEvent($event, $user);
+            if (!empty($eventId)) {
+                Queue::updateEventToPopular($eventId);
+                $m = new HtmlMessage();
+                $m->type = "s";
+                $m->message = "Event updated.";
+                $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
+                exit(header('Location: ' . HOSTNAME));
+            } else {
+                $error = true;
+                $m = new HtmlMessage();
+                $m->type = "e";
+                $m->message = "Error 103";
+                array_push($msgs, $m);
+            }
         } catch (Exception $e) {
             $error = true;
             $m = new HtmlMessage();
@@ -652,12 +661,12 @@ if ($event->addsocial_tw == 1) {
                             <div class="eam_bg_sol"></div>
                             <div class="eam_bg_orta " style="width: 450px;">
                                 <div class="title_max">
-                                <input name="te_event_title" type="text" class="eam_inpt"
-                                       charlength="50"
-                                       id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
-                                <script>
-                                jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
-                                </script>
+                                    <input name="te_event_title" type="text" class="eam_inpt"
+                                           charlength="50"
+                                           id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
+                                    <script>
+                                    jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
+                                    </script>
                                 </div>
                                 <div class="left" style="float: right;" >
                                     <p id="on_off_text" style="width: 46px;"><?php

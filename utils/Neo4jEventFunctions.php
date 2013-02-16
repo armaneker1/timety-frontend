@@ -848,6 +848,21 @@ class Neo4jEventUtils {
         }
         return null;
     }
+    
+    public static function getNeo4jEventById($eventId) {
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']]";
+        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+        $result = $query->getResultSet();
+        foreach ($result as $row) {
+            $evt = new Event();
+            $evt->createNeo4j($row[0]);
+            if (!empty($evt) && !empty($evt->id)) {
+                return $evt;
+            }
+        }
+        return null;
+    }
 
     public static function getEventAttendances($eventId) {
         $array = array();

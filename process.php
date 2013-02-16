@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/apis/Predis/Autoloader.php';
 require_once __DIR__ . '/apis/logger/KLogger.php';
 
@@ -10,7 +9,7 @@ Predis\Autoloader::register();
 if (isset($_POST["data"])) {
     $data = $_POST["data"];
     $obj = json_decode($data);
-
+    
     $log->logInfo("process > " . $data);
 
     $method = $obj->method;
@@ -40,9 +39,9 @@ if (isset($_POST["data"])) {
             }
 
             $processor->$action();
-            $log->logInfo("process > action called");
+            $log->logInfo("process > $method -> action $action called");
         } else {
-            $log->logError("process > action " . $action . " not found!");
+            $log->logError("process > $method -> action " . $action . " not found!");
             header('HTTP/1.0 404 Not Found');
         }
     } else {

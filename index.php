@@ -325,13 +325,22 @@ if (empty($user)) {
         $event->attendance = $_POST["te_event_people"];
         if (!$error) {
             try {
-                EventUtil::createEvent($event, $user);
-                $m = new HtmlMessage();
-                $m->type = "s";
-                $m->message = "Event created successfully.";
-                $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
-                error_log("redirected " . $_random_session_id);
-                exit(header('Location: ' . HOSTNAME));
+                $eventId = EventUtil::createEvent($event, $user);
+                if (!empty($eventId)) {
+                    Queue::addEventToPopular($eventId);
+                    $m = new HtmlMessage();
+                    $m->type = "s";
+                    $m->message = "Event created successfully.";
+                    $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
+                    error_log("redirected " . $_random_session_id);
+                    exit(header('Location: ' . HOSTNAME));
+                } else {
+                    $error = true;
+                    $m = new HtmlMessage();
+                    $m->type = "e";
+                    $m->message = "Error 102";
+                    array_push($msgs, $m);
+                }
             } catch (Exception $e) {
                 $error = true;
                 $m = new HtmlMessage();
@@ -421,7 +430,7 @@ if (empty($user)) {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                        		      
+                                                                                		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -544,11 +553,10 @@ if (empty($user)) {
                     $var_tag = $nf->getTagListListByIdList($event->tags);
                 }
                 try {
-                    $var_cat=  json_decode($var_cat);
+                    $var_cat = json_decode($var_cat);
                 } catch (Exception $exc) {
                     error_log($exc->getTraceAsString());
                 }
-
                 ?>
                 <script>
                     jQuery(document).ready(function() {
@@ -571,8 +579,8 @@ if (empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });*/
-                                                                                            
-                                                                                            
+                                                                                                    
+                                                                                                    
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
@@ -690,7 +698,7 @@ if (empty($user)) {
             echo $json_response;
             ?>');
                 });
-                            
+                                    
                 /*jQuery(function(){
                         jQuery.ajax({
                             type: 'POST',
@@ -897,96 +905,96 @@ if (empty($user)) {
                                         <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>">
                                             <button  id="div_like_btn" 
                                                      class="ls_btn <?php
-                                                                        if ($main_event->userRelation->like) {
-                                                                            echo "like_btn_aktif";
-                                                                        } else {
-                                                                            echo "like_btn";
-                                                                        }
-                                                                    ?>"  
-                                                   class_aktif="like_btn_aktif" 
-                                                   class_pass="like_btn"      
-                                                   pressed="<?php
-                                                                    if ($main_event->userRelation->like) {
-                                                                        echo "true";
-                                                                    } else {
-                                                                        echo "false";
-                                                                    }
-                                                               ?>"  
-                                                   onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
+                if ($main_event->userRelation->like) {
+                    echo "like_btn_aktif";
+                } else {
+                    echo "like_btn";
+                }
+                                ?>"  
+                                                     class_aktif="like_btn_aktif" 
+                                                     class_pass="like_btn"      
+                                                     pressed="<?php
+                                     if ($main_event->userRelation->like) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
+                                ?>"  
+                                                     onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_maybe_btn" 
                                                      class="ls_btn <?php
-                                                                        if ($main_event->userRelation->joinType == 2) {
-                                                                            echo "maybe_btn_aktif";
-                                                                        } else {
-                                                                            echo "maybe_btn";
-                                                                        }
-                                                                   ?>" 
+                                     if ($main_event->userRelation->joinType == 2) {
+                                         echo "maybe_btn_aktif";
+                                     } else {
+                                         echo "maybe_btn";
+                                     }
+                                ?>" 
                                                      class_aktif="maybe_btn_aktif" 
                                                      class_pass="maybe_btn" 
                                                      pressed="<?php
-                                                                    if ($main_event->userRelation->joinType == 2) {
-                                                                        echo "true";
-                                                                    } else {
-                                                                        echo "false";
-                                                                    }
-                                                               ?>" 
-                                                      onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;" 
-                                                      style="<?php
-                                                                    if ($main_event->creatorId == $user->id) {
-                                                                        echo "display:none;";
-                                                                    }
-                                                               ?>"></button>
+                                     if ($main_event->userRelation->joinType == 2) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
+                                ?>" 
+                                                     onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;" 
+                                                     style="<?php
+                                     if ($main_event->creatorId == $user->id) {
+                                         echo "display:none;";
+                                     }
+                                ?>"></button>
                                             <button  id="div_share_btn" 
                                                      class="ls_btn <?php
-                                                                        if ($main_event->userRelation->reshare) {
-                                                                            echo "share_btn_aktif";
-                                                                        } else {
-                                                                            echo "share_btn";
-                                                                        }
-                                                                   ?>" 
+                                     if ($main_event->userRelation->reshare) {
+                                         echo "share_btn_aktif";
+                                     } else {
+                                         echo "share_btn";
+                                     }
+                                ?>" 
                                                      class_aktif="share_btn_aktif" 
                                                      class_pass="share_btn" 
                                                      pressed="<?php
-                                                                    if ($main_event->userRelation->reshare) {
-                                                                        echo "true";
-                                                                    } else {
-                                                                        echo "false";
-                                                                    }
-                                                                ?>" 
+                                     if ($main_event->userRelation->reshare) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
+                                ?>" 
                                                      onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_join_btn" 
                                                      class="ls_btn <?php
-                                                                        if ($main_event->userRelation->joinType == 1) {
-                                                                            echo "join_btn_aktif";
-                                                                        } else {
-                                                                            echo "join_btn";
-                                                                        }
-                                                                    ?>" 
-                                                        class_aktif="join_btn_aktif" 
-                                                        class_pass="join_btn" 
-                                                        pressed="<?php
-                                                                    if ($main_event->userRelation->joinType == 1) {
-                                                                        echo "true";
-                                                                    } else {
-                                                                        echo "false";
-                                                                    }
-                                                               ?>"  
-                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"
-                                                        style="<?php
-                                                                    if ($main_event->creatorId == $user->id) {
-                                                                        echo "display:none;";
-                                                                    }
-                                                               ?>"></button>
+                                     if ($main_event->userRelation->joinType == 1) {
+                                         echo "join_btn_aktif";
+                                     } else {
+                                         echo "join_btn";
+                                     }
+                                ?>" 
+                                                     class_aktif="join_btn_aktif" 
+                                                     class_pass="join_btn" 
+                                                     pressed="<?php
+                                     if ($main_event->userRelation->joinType == 1) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
+                                ?>"  
+                                                     onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"
+                                                     style="<?php
+                                     if ($main_event->creatorId == $user->id) {
+                                         echo "display:none;";
+                                     }
+                                ?>"></button>
                                             <button  id="div_edit_btn" 
-                                                        class="edit_btn" 
-                                                        class_aktif="edit_btn_aktif" 
-                                                        class_pass="edit_btn" 
-                                                        onclick="openEditEvent(<?= $main_event->id ?>);return false;"
-                                                        style="<?php
-                                                                    if ($main_event->creatorId != $user->id) {
-                                                                        echo "display:none;";
-                                                                    }
-                                                               ?>"></button>
+                                                     class="edit_btn" 
+                                                     class_aktif="edit_btn_aktif" 
+                                                     class_pass="edit_btn" 
+                                                     onclick="openEditEvent(<?= $main_event->id ?>);return false;"
+                                                     style="<?php
+                                     if ($main_event->creatorId != $user->id) {
+                                         echo "display:none;";
+                                     }
+                                ?>"></button>
                                         </div>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;">
                                             <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $main_event->headerImage->url . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
@@ -1041,13 +1049,13 @@ if (empty($user)) {
                                 </div>
                                 <script>
                                     var tmpDataJSON='<?php
-                            $json_response = json_encode($main_event);
-                            $json_response = str_replace("'", "\\'", $json_response);
-                            echo str_replace('"', '\\"', $json_response);
-                            ?>';
-                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                            $json_response = json_encode($main_event);
+                                            $json_response = str_replace("'", "\\'", $json_response);
+                                            echo str_replace('"', '\\"', $json_response);
+                                            ?>';
+                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                 </script>
                                 <!-- event box -->
                                 <?php

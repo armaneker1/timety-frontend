@@ -44,6 +44,8 @@ require_once __DIR__ . '/Noe4jSocialFunctions.php';
 require_once __DIR__ . '/Neo4jUserFunctions.php';
 require_once __DIR__ . '/Neo4jUserSettings.php';
 
+require_once __DIR__ . '/Queue.php';
+
 //HttpAuthUtils::checkHttpAuth();
 
 class UtilFunctions {
