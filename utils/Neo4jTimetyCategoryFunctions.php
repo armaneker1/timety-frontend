@@ -25,9 +25,8 @@ class Neo4jTimetyCategoryUtil {
     }
 
     public static function getTimetyList($query_) {
-        if($query_=="*")
-        {
-            $query_=null;
+        if ($query_ == "*") {
+            $query_ = null;
         }
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -42,6 +41,40 @@ class Neo4jTimetyCategoryUtil {
             $cat = new TimetyCategory();
             $cat->createNeo4j($row[0]);
             array_push($array, $cat);
+        }
+        return $array;
+    }
+
+    public static function getTimetyCategoryById($id) {
+        if (empty($id)) {
+            return null;
+        }
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $timetyCategoryIndex = new Index($client, Index::TypeNode, IND_TIMETY_CATEGORY);
+        $cat = $timetyCategoryIndex->findOne(PROP_TIMETY_CAT_ID, $id);
+        $tcat = new TimetyCategory();
+        $tcat->createNeo4j($cat);
+        return $tcat;
+    }
+
+    public static function getTimetyCategoryEvents($catId) {
+        $array=array();
+        if (!empty($catId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START cat=node:" . IND_TIMETY_CATEGORY . "('" . PROP_TIMETY_CAT_ID . ":" . $catId . "') " .
+                        "MATCH  cat-[r:" . REL_EVENTS . "]->(events) " .
+                        "RETURN   events";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+                foreach ($result as $row) {
+                    $evt = new Event();
+                    $evt->createNeo4j($row['events'], TRUE);
+                    array_push($array, $evt);
+                }
+            } catch (Exception $e) {
+                echo "Error" . $e->getMessage();
+            }
         }
         return $array;
     }
@@ -108,4 +141,5 @@ class Neo4jTimetyCategoryUtil {
     }
 
 }
+
 ?>
