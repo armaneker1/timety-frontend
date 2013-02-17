@@ -1024,7 +1024,8 @@ class Neo4jFuctions {
               echo  $teg."getAllOtherEvents start<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
-            $array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            //$array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            $array1=  RedisUtils::getPopularEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
             /*
               echo  $teg."getAllOtherEvents end size : ".  sizeof($array1)."<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
@@ -1125,6 +1126,10 @@ class Neo4jFuctions {
             foreach ($array as $evt) {
                 foreach ($images as $img) {
                     if ($evt->id + "" == $img->eventId + "") {
+                        if(empty($evt->images))
+                        {
+                            $evt->images=array();
+                        }
                         array_push($evt->images, $img);
                         $evt->headerImage = $img;
                         break;

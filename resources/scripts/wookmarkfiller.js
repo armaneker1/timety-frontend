@@ -87,16 +87,6 @@ function wookmarkFiller(options,clear,loader)
                     jQuery('.main_event .main_event_box').not(jQuery(".profil_box")).remove();
                 }
                 
-                if(dataJSON.length>0)
-                {
-                    page_wookmark++;
-                }else
-                {
-                    if(loader)
-                        getLoader(false);
-                    return;
-                }
-                
                 jQuery.each(dataJSON,function(i,e){
                     localStorage.setItem('event_' + e.id,JSON.stringify(e));
                 });
@@ -119,6 +109,15 @@ function wookmarkFiller(options,clear,loader)
                     return (jQuery.inArray(e.id,IDs)<0);
                 });
 
+                if(dataJSON.length>0)
+                {
+                    page_wookmark++;
+                }else
+                {
+                    if(loader)
+                        getLoader(false);
+                    return;
+                }
 
                 wookmarkHTML(dataJSON,userId);
                 //function tm()
@@ -230,7 +229,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnMaybe).attr("id","div_maybe_btn");
             jQuery(btnMaybe).attr("class_pass","maybe_btn");
             if(userId==data.creatorId){
-                  jQuery(btnMaybe).css("display","none");  
+                jQuery(btnMaybe).css("display","none");  
             }
             if(data.userRelation.joinType==2)
             {
@@ -273,7 +272,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnJoin).attr("id","div_join_btn");
             jQuery(btnJoin).attr("class_pass","join_btn");
             if(userId==data.creatorId){
-                  jQuery(btnJoin).css("display","none");  
+                jQuery(btnJoin).css("display","none");  
             }
             if(data.userRelation.joinType==1)
             {
@@ -297,7 +296,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(editJoin).attr("id","div_edit_btn");
             jQuery(editJoin).attr("class_pass","edit_btn");
             if(userId!=data.creatorId){
-                  jQuery(editJoin).css("display","none");  
+                jQuery(editJoin).css("display","none");  
             }
             jQuery(editJoin).addClass('edit_btn');
             jQuery(editJoin).click(function() {

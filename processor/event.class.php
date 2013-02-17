@@ -18,7 +18,7 @@ class EventProcessor {
         if (!empty($event)) {
             try {
                 $event->getHeaderImage();
-                $event->images = null;
+                $event->images = array();
             } catch (Exception $exc) {
                 $log->logError("vent.popular.worldwide > addEvent Error". $exc->getTraceAsString());
             }
@@ -41,16 +41,16 @@ class EventProcessor {
         if (!empty($event)) {
             try {
                 $event->getHeaderImage();
-                $event->images = null;
+                $event->images = array();
             } catch (Exception $exc) {
                 $log->logError("vent.popular.worldwide > updateEvent Error". $exc->getTraceAsString());
             }
-            $events = $redis->zrange("event:popular:worldwide", 0, -1, array('withscores' => true));
+            $events = $redis->zrevrange("event:popular:worldwide", 0, -1);
             foreach ($events as $item) {
                 $evt = new Event();
-                $evt = json_decode($item[0]);
+                $evt = json_decode($item);
                 if ($evt->id == $this->eventID) {
-                    $return = $redis->zrem("popular:worldwide", $item[0]);
+                    $return = $redis->zrem("popular:worldwide", $item);
                     $log->logInfo("event.popular.worldwide > updateEvent >  ready to notify end 1 - " . json_encode($return));
                     $return = $redis->zadd("popular:worldwide", $event->startDateTimeLong, json_encode($event));
                     $log->logInfo("event.popular.worldwide > updateEvent >  ready to notify end 2 - " . json_encode($return));

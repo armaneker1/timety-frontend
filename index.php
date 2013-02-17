@@ -1010,6 +1010,7 @@ if (empty($user)) {
                                                 <?php
                                                 if (!empty($main_event->creatorId)) {
                                                     $crt = $main_event->creator;
+                                                    $crt=  UtilFunctions::cast("User", $crt);
                                                     if (!empty($crt) && !empty($crt->id)) {
                                                         ?>
                                                         <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />

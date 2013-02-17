@@ -10,7 +10,7 @@ use Everyman\Neo4j\Transport,
 
 class Neo4jRecommendationUtils {
 
-    public static function getAllOtherEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query_ = "", $all = 1) {
+    public static function getAllOtherEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = null, $query_ = "", $all = 1) {
         if ($userId == -1) {
             $userId = "*";
         }

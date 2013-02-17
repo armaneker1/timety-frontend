@@ -16,7 +16,9 @@ require_once __DIR__ . '/../utils/Queue.php';
 
 
 $redis = new Predis\Client();
-$timeline = $redis->zrange("popular.worldwide", 0, -1, array('withscores' => true));
+
+var_dump(time());
+$timeline = $redis->ZRANGEBYSCORE("popular:worldwide", "-inf",time());
 
 var_dump($timeline);
 ?>

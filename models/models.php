@@ -82,6 +82,17 @@ class User {
             return HOSTNAME . "images/anonymous.png";
         }
     }
+    
+     public static function getUserPicture($userPicture) {
+        if (!empty($userPicture)) {
+            if (UtilFunctions::startsWith($userPicture, "http"))
+                return $userPicture;
+            else
+                return HOSTNAME . $userPicture;
+        }else {
+            return HOSTNAME . "images/anonymous.png";
+        }
+    }
 
     public function getUserNotificationCount() {
         $array = InviteUtil::getEventInvitesByUserId($this->id);
@@ -235,7 +246,7 @@ class Event {
             $cretorId = $result->getProperty(PROP_EVENT_CREATOR_ID);
             $cretorFName = $result->getProperty(PROP_EVENT_CREATOR_F_NAME);
             $cretorLName = $result->getProperty(PROP_EVENT_CREATOR_L_NAME);
-            $cretorUsername = $result->getProperty(PROP_EVENT_CREATOR_IMAGE);
+            $cretorUsername = $result->getProperty(PROP_EVENT_CREATOR_USERNAME);
             $cretorImage = $result->getProperty(PROP_EVENT_CREATOR_IMAGE);
 
             $crt = new User();
