@@ -8,7 +8,7 @@ class EventUtil {
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
                 Neo4jEventUtils::createEvent($event, $user);
-                return $eventDB->id;
+                return $eventDB;
             }
         }
         return null;
@@ -86,7 +86,7 @@ class EventUtil {
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
                 Neo4jEventUtils::updateEvent($event, $user);
-                return $eventDB->id;
+                return $eventDB;
             }
         }
     }

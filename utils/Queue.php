@@ -15,14 +15,14 @@ require_once __DIR__ . '/../apis/logger/KLogger.php';
  */
 class Queue {
 
-    public static function addEventToPopular($eventId) {
-        self::send("popular", "addEvent", array(
+    public static function addEvent($eventId) {
+        self::send("event", "addEvent", array(
             "eventID" => $eventId
         ));
     }
     
-    public static function updateEventToPopular($eventId) {
-        self::send("popular", "updateEvent", array(
+    public static function updateEvent($eventId) {
+        self::send("event", "updateEvent", array(
             "eventID" => $eventId
         ));
     }

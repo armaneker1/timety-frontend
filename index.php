@@ -325,9 +325,9 @@ if (empty($user)) {
         $event->attendance = $_POST["te_event_people"];
         if (!$error) {
             try {
-                $eventId = EventUtil::createEvent($event, $user);
-                if (!empty($eventId)) {
-                    Queue::addEventToPopular($eventId);
+                $eventDB = EventUtil::createEvent($event, $user);
+                if (!empty($eventDB) && !empty($eventDB->id)) {
+                    Queue::addEvent($eventDB->id);
                     $m = new HtmlMessage();
                     $m->type = "s";
                     $m->message = "Event created successfully.";
@@ -430,7 +430,7 @@ if (empty($user)) {
                         //new iPhoneStyle('.on_off input[type=checkbox]');
                         new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                         new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                		      
+                                                                                    		      
                         var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                         new iPhoneStyle(onchange_checkbox);
                         setInterval(function toggleCheckbox() {
@@ -579,8 +579,8 @@ if (empty($user)) {
                             processPrePopulate : false,
                             prePopulate : <?php echo $var_cat; ?>	
                         });*/
-                                                                                                    
-                                                                                                    
+                                                                                                        
+                                                                                                        
                         jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
                             theme: "custom",
                             userId :"<?= $user->id ?>",
@@ -698,7 +698,7 @@ if (empty($user)) {
             echo $json_response;
             ?>');
                 });
-                                    
+                                        
                 /*jQuery(function(){
                         jQuery.ajax({
                             type: 'POST',
@@ -1049,13 +1049,13 @@ if (empty($user)) {
                                 </div>
                                 <script>
                                     var tmpDataJSON='<?php
-                                            $json_response = json_encode($main_event);
-                                            $json_response = str_replace("'", "\\'", $json_response);
-                                            echo str_replace('"', '\\"', $json_response);
-                                            ?>';
-                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                            $json_response = json_encode($main_event);
+                            $json_response = str_replace("'", "\\'", $json_response);
+                            echo str_replace('"', '\\"', $json_response);
+                            ?>';
+                                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                 </script>
                                 <!-- event box -->
                                 <?php
