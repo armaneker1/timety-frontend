@@ -58,6 +58,7 @@ if (isset($_SESSION['id'])) {
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.js"></script>
             <?php } ?>
             <?php if (empty($user->id)) { ?>
+                <script>sessionStorage.setItem('id','');</script>
                 <script type="text/javascript">
                     function  to_home() {
                         window.location="<?= PAGE_LOGIN ?>";

@@ -491,7 +491,7 @@ if (empty($user)) {
                      */
                     function onScroll(event) {
                         // Check if we're within 100 pixels of the bottom edge of the broser window.
-                        var closeToBottom = ((jQuery(window).scrollTop() + jQuery(window).height()) >  (jQuery(document).height()*0.65));
+                        var closeToBottom = ((jQuery(window).scrollTop() + jQuery(window).height()) >  (jQuery(document).height()*0.50));
                         if(closeToBottom) {
                             if(post_wookmark==null) {
                                 // Get the first then items from the grid, clone them, and add them to the bottom of the grid.
@@ -855,9 +855,11 @@ if (empty($user)) {
                     $user_id = $user->id;
                 }
                 $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1);
+                $main_pages_events = json_decode($main_pages_events);
                 if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     $main_event = new Event();
                     foreach ($main_pages_events as $main_event) {
+                        $main_event= UtilFunctions::cast("Event", $main_event);
                         if (!empty($main_event) && !empty($main_event->id)) {
                             if (!empty($main_event->ad) && $main_event->ad) {
                                 ?>

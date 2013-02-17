@@ -72,6 +72,7 @@ if (array_key_exists("te_username", $_POST)) {
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
         <script type="text/javascript">
             $(function() {
+                sessionStorage.setItem('id','');
                 $.Placeholder.init();
                 var validator = new FormValidator(
                 'formsignin',

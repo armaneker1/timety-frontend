@@ -3,16 +3,23 @@
     jQuery.sessionphp = {
 
         get: function(key, callback) {
-            jQuery.ajax({
-                type: 'GET',
-                url: TIMETY_PAGE_AJAX_SESSION,
-                data: {
-                    'key':key
-                },
-                success: function(data){
-                    callback(jQuery.parseJSON(data));
-                }
-            });
+            var value=sessionStorage.getItem(key);
+            if(value)
+            {
+                callback(jQuery.parseJSON(value));
+            }else{
+                jQuery.ajax({
+                    type: 'GET',
+                    url: TIMETY_PAGE_AJAX_SESSION,
+                    data: {
+                        'key':key
+                    },
+                    success: function(data){
+                        sessionStorage.setItem(key,data);
+                        callback(jQuery.parseJSON(data));
+                    }
+                });
+            }
         },
 
         set: function(key, value, callback) {

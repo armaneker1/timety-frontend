@@ -27,8 +27,7 @@ function wookmarkFiller(options,clear,loader)
     jQuery.sessionphp.get('id',function(data){
         if(data) userId =data;
         if(post_wookmark) {
-            post_wookmark.abort();
-            post_wookmark=null;
+            return null;
         }
         var allParameter=1;
         if(channel==1)
@@ -74,11 +73,6 @@ function wookmarkFiller(options,clear,loader)
                     if(loader)
                         getLoader(false);
                     return;
-                }
-                
-                if(post_wookmark) {
-                    post_wookmark.abort();
-                    post_wookmark=null;
                 }
                 
                 if(clear) {
@@ -130,6 +124,11 @@ function wookmarkFiller(options,clear,loader)
                 //Stop loader animation
                 if(loader)
                     getLoader(false);
+                
+                if(post_wookmark) {
+                    post_wookmark.abort();
+                    post_wookmark=null;
+                }
             //}
             //setTimeout(tm,100);
             }

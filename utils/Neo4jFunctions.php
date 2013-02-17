@@ -494,9 +494,9 @@ class Neo4jFuctions {
         }
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query ="START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $uid . "') " .
+        $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $uid . "') " .
                 " MATCH (user) -[:" . REL_INTERESTS . "]- (object) -[:" . REL_OBJECTS . "]- (cat)" .
-                " WHERE cat.name <> 'Tag' AND cat.name <> 'tag'". 
+                " WHERE cat.name <> 'Tag' AND cat.name <> 'tag'" .
                 " RETURN  cat, count(*)" .
                 " ORDER BY count(*) DESC";
         //echo $query;
@@ -526,9 +526,9 @@ class Neo4jFuctions {
 
     function getUserExtraCategory($uid, $array, $limit) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query ="START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*') " .
+        $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*') " .
                 " MATCH (user) -[:" . REL_INTERESTS . "]- (object) -[:" . REL_OBJECTS . "]- (cat)" .
-                " WHERE cat.name <> 'Tag' AND cat.name <> 'tag'". 
+                " WHERE cat.name <> 'Tag' AND cat.name <> 'tag'" .
                 " RETURN  cat, count(*)" .
                 " ORDER BY count(*) DESC";
         //echo $query;
@@ -1019,13 +1019,12 @@ class Neo4jFuctions {
                 array_push($array, $evt);
             }
         } else {
-            $count = 2;
             /*
               echo  $teg."getAllOtherEvents start<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             //$array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
-            $array1=  RedisUtils::getPopularEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            return RedisUtils::getPopularEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
             /*
               echo  $teg."getAllOtherEvents end size : ".  sizeof($array1)."<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
@@ -1035,7 +1034,7 @@ class Neo4jFuctions {
               echo  $teg."getPopularEventsByLike start<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
-            $array2 = Neo4jRecommendationUtils::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
+            //$array2 = null; //Neo4jRecommendationUtils::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
             /*
               echo  $teg."getPopularEventsByLike end size : ".  sizeof($array2)."<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
@@ -1045,7 +1044,7 @@ class Neo4jFuctions {
               echo  $teg."merge arrays start<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
-            $dublicateKeys = array();
+            /*$dublicateKeys = array();
             if (!empty($array1)) {
                 if (!empty($array2)) {
                     foreach ($array2 as $evt) {
@@ -1072,19 +1071,32 @@ class Neo4jFuctions {
                         array_push($dublicateKeys, $evt->id);
                     }
                 }
-            }
+            }*/
             /*
               echo  $teg."merge arrays end <p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
 
+             /*if ($type == 1 && $pageNumber == 0 && false) {
+                $evtAd = new Event();
+                $evtAd->ad = true;
+                $evtAd->id = -1;
+                $evtAd->url = "http://www.thehobbit.com/";
+                $evtAd->img = "/images/ads.jpeg";
+                $evtAd->imgWidth = 186;
+                $evtAd->imgHeight = 275;
+                $evtAd->people = 2;
+                $evtAd->comment = 0;
+                $evtAd->time = "10d";
+                array_unshift($tmparray, $evtAd);
+            }*/
 
             /*
               echo  $teg."sort arrays start <p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             //sort by date
-            $dublicateKeys = array();
+            /*$dublicateKeys = array();
             $low = new Event();
             $evnt = new Event();
             if (!empty($array)) {
@@ -1105,12 +1117,13 @@ class Neo4jFuctions {
                         $low_indx = $i;
                     }
                 }
-            }
+            }*/
             /*
               echo  $teg."sort arrays end <p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
         }
+
         if (!empty($eventIds)) {
             $eventIds = substr($eventIds, 0, strlen($eventIds) - 1);
         }
@@ -1126,9 +1139,8 @@ class Neo4jFuctions {
             foreach ($array as $evt) {
                 foreach ($images as $img) {
                     if ($evt->id + "" == $img->eventId + "") {
-                        if(empty($evt->images))
-                        {
-                            $evt->images=array();
+                        if (empty($evt->images)) {
+                            $evt->images = array();
                         }
                         array_push($evt->images, $img);
                         $evt->headerImage = $img;
@@ -1142,23 +1154,8 @@ class Neo4jFuctions {
           echo  $teg."get Event Images from mysql end <p/>";
           echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
          */
-
-        if ($type == 1 && $pageNumber == 0 && false) {
-            $evtAd = new Event();
-            $evtAd->ad = true;
-            $evtAd->id = -1;
-            $evtAd->url = "http://www.thehobbit.com/";
-            $evtAd->img = "/images/ads.jpeg";
-            $evtAd->imgWidth = 186;
-            $evtAd->imgHeight = 275;
-            $evtAd->people = 2;
-            $evtAd->comment = 0;
-            $evtAd->time = "10d";
-            array_unshift($tmparray, $evtAd);
-        }
         return $tmparray;
     }
-
 
     public static function moveUser($fromUserId, $toUserId, User $tmpuser) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -1178,6 +1175,5 @@ class Neo4jFuctions {
 
         Neo4jUserUtil::removeUserById($fromUserId);
     }
-
 
 }

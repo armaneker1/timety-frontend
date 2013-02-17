@@ -156,6 +156,7 @@ $upass = null;
         <script type="text/javascript">
 
             jQuery(function() {
+                sessionStorage.setItem('id','');
                 jQuery.Placeholder.init();
                 var validator = new FormValidator(
                 'registerPI',

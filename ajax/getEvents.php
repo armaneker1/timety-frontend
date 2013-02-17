@@ -37,26 +37,7 @@ $res->error = true;
 $res->success = false;
 
 if ($userId != null && $pageNumber != "" && $pageItemCount != null && $type != null) {
-    $result = Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type,$popular_all);
-    if (!empty($result)) {
-        if ($type == 1 && $pageNumber==0 && false) {
-            $evtAd = new Event();
-            $evtAd->ad = true;
-            $evtAd->url = "http://www.thehobbit.com/";
-            $evtAd->img = "/images/ads.jpeg";
-            $evtAd->imgWidth = 186;
-            $evtAd->imgHeight = 275;
-            $evtAd->people = 2;
-            $evtAd->comment = 0;
-            $evtAd->time = "10d";
-            array_unshift($result, $evtAd);
-        }
-        $json_response = json_encode($result);
-        echo $json_response;
-    } else {
-        $json_response = json_encode($res);
-        echo $json_response;
-    }
+    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $popular_all);
 } else {
     $json_response = json_encode($res);
     echo $json_response;
