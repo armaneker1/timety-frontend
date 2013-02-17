@@ -16,6 +16,12 @@ class EventProcessor {
         $event = new Event();
         $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
         if (!empty($event)) {
+            try {
+                $event->getHeaderImage();
+                $event->images = null;
+            } catch (Exception $exc) {
+                $log->logError("vent.popular.worldwide > addEvent Error". $exc->getTraceAsString());
+            }
             $log->logInfo("event.popular.worldwide > addEvent > ready to notify start - " . strtotime("now"));
             $return = $redis->zadd("popular:worldwide", $event->startDateTimeLong, json_encode($event));
             $log->logInfo("event.popular.worldwide > addEvent >  ready to notify end - " . json_encode($return));
@@ -33,6 +39,12 @@ class EventProcessor {
         $event = new Event();
         $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
         if (!empty($event)) {
+            try {
+                $event->getHeaderImage();
+                $event->images = null;
+            } catch (Exception $exc) {
+                $log->logError("vent.popular.worldwide > updateEvent Error". $exc->getTraceAsString());
+            }
             $events = $redis->zrange("event:popular:worldwide", 0, -1, array('withscores' => true));
             foreach ($events as $item) {
                 $evt = new Event();
