@@ -39,7 +39,7 @@ if (!isset($timety_header)) {
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/dd.css" rel="stylesheet" type="text/css" />
-<link  href="<?= HOSTNAME ?>style.min.css" rel="stylesheet" type="text/css"  />
+<link  href="<?= HOSTNAME ?>style.css" rel="stylesheet" type="text/css"  />
 <link href="<?= HOSTNAME ?>resources/styles/tipped/tipped.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.core.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.datepicker.css" rel="stylesheet">
@@ -75,7 +75,7 @@ if (!isset($timety_header)) {
 
 
 <script src="<?= HOSTNAME ?>js/prototype.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="<?= HOSTNAME ?>js/scriptaculous.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="<?= HOSTNAME ?>js/effects.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/createEvent.min.js"></script>
