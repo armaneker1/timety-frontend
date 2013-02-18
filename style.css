@@ -51,6 +51,10 @@ ol li {
 	overflow: hidden;
 }
 
+.edit_evt_p .iPhoneCheckContainer label {
+	padding-top: 2px !important;
+}
+
 .iPhoneCheckContainer,.iPhoneCheckContainer label {
 	user-select: none;
 	-moz-user-select: none;
