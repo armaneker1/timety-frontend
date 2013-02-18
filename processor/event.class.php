@@ -10,7 +10,7 @@ class EventProcessor {
     public function addEvent() {
         $log = KLogger::instance('/home/ubuntu/log/', KLogger::DEBUG);
 
-        $log->logInfo("event.popular.worldwide > addEvent > creating");
+        $log->logInfo("event > addEvent > start");
 
         $redis = new Predis\Client();
         $event = new Event();
@@ -20,20 +20,28 @@ class EventProcessor {
                 $event->getHeaderImage();
                 $event->images = array();
             } catch (Exception $exc) {
-                $log->logError("vent.popular.worldwide > addEvent Error". $exc->getTraceAsString());
+                $log->logError("event > addEvent Error" . $exc->getTraceAsString());
             }
-            $log->logInfo("event.popular.worldwide > addEvent > ready to notify start - " . strtotime("now"));
-            $return = $redis->zadd("popular:worldwide", $event->startDateTimeLong, json_encode($event));
-            $log->logInfo("event.popular.worldwide > addEvent >  ready to notify end - " . json_encode($return));
+            /*
+             * Popular event list
+             */
+            if ($event->privacy."" == "true") {
+                $log->logInfo("event.popular.worldwide > addEvent > inserting item");
+                $return = $redis->zadd("popular:worldwide", $event->startDateTimeLong, json_encode($event));
+                $log->logInfo("event.popular.worldwide > addEvent >  inserted item " . json_encode($return));
+            }
+            /*
+             * Popular event list
+             */
         } else {
-            $log->logInfo("event.popular.worldwide > addEvent >  event empty");
+            $log->logInfo("event > addEvent >  event empty");
         }
     }
 
     public function updateEvent() {
         $log = KLogger::instance('/home/ubuntu/log/', KLogger::DEBUG);
 
-        $log->logInfo("event.popular.worldwide > updateEvent >  creating");
+        $log->logInfo("event > updateEvent >  start");
 
         $redis = new Predis\Client();
         $event = new Event();
@@ -43,22 +51,34 @@ class EventProcessor {
                 $event->getHeaderImage();
                 $event->images = array();
             } catch (Exception $exc) {
-                $log->logError("vent.popular.worldwide > updateEvent Error". $exc->getTraceAsString());
+                $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
             }
-            $events = $redis->zrevrange("event:popular:worldwide", 0, -1);
+
+            /*
+             * Popular event list
+             */
+            $events = $redis->zrevrange("popular:worldwide", 0, -1);
             foreach ($events as $item) {
                 $evt = new Event();
                 $evt = json_decode($item);
                 if ($evt->id == $this->eventID) {
+                    $log->logInfo("event.popular.worldwide > updateEvent >  Privacy - '" .$event->privacy."'");
+                    //remove item
                     $return = $redis->zrem("popular:worldwide", $item);
-                    $log->logInfo("event.popular.worldwide > updateEvent >  ready to notify end 1 - " . json_encode($return));
-                    $return = $redis->zadd("popular:worldwide", $event->startDateTimeLong, json_encode($event));
-                    $log->logInfo("event.popular.worldwide > updateEvent >  ready to notify end 2 - " . json_encode($return));
+                    $log->logInfo("event.popular.worldwide > updateEvent >  removed item - " . json_encode($return));
+                    if ($event->privacy."" == "true") {
+                        //insert new item
+                        $return = $redis->zadd("popular:worldwide", $event->startDateTimeLong, json_encode($event));
+                        $log->logInfo("event.popular.worldwide > updateEvent >  insert item - " . json_encode($return));
+                    }
                     break;
                 }
             }
+            /*
+             * Popular event list
+             */
         } else {
-            $log->logInfo("event.popular.worldwide > updateEvent >  event empty");
+            $log->logInfo("event > updateEvent >  event empty");
         }
     }
 
