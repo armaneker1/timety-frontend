@@ -2,7 +2,7 @@
 
 class RedisUtils {
 
-    public static function getPopularEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
+    public static function getUpcomingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
         $log = KLogger::instance('/home/ubuntu/log/', KLogger::DEBUG);
         //$log = KLogger::instance('C:\\log\\', KLogger::DEBUG);
         if ($all == 0) {
@@ -14,12 +14,12 @@ class RedisUtils {
             $date = time();
         }
         $redis = new Predis\Client();
-        $log->logError("RedisUtils > getPopularEvents > start");
+        $log->logError("RedisUtils > getUpcomingEvents > start");
         $pgStart = $pageNumber * $pageItemCount;
         $pgEnd = $pgStart + $pageItemCount - 1;
-        $log->logError("RedisUtils > getPopularEvents > index " . $pgStart . " end " . $pgEnd);
-        $events = $redis->ZRANGEBYSCORE(REDIS_LIST_UPCOMING_EVENTS, $date, "+inf");
-        $log->logError("RedisUtils > getPopularEvents > size " . sizeof($events));
+        $log->logError("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
+        $events = $redis->zrangebyscore(REDIS_LIST_UPCOMING_EVENTS, $date, "+inf");
+        $log->logError("RedisUtils > getUpcomingEvents > size " . sizeof($events));
         $result = "[";
         for ($i = 0; $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
@@ -30,12 +30,12 @@ class RedisUtils {
                     }
                     $result=$result.$r . $events[$i];
                 } catch (Exception $exc) {
-                    $log->logError("RedisUtils > getPopularEvents > $i Error : " . $exc->getTraceAsString());
+                    $log->logError("RedisUtils > getUpcomingEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
         $result = $result."]";
-        $log->logError("RedisUtils > getPopularEvents > result  ");
+        $log->logError("RedisUtils > getUpcomingEvents > result  ");
         return $result;
     }
 
