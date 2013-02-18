@@ -18,6 +18,7 @@ if (!isset($timety_header)) {
 <!-- Nocahce -->
 
 <!-- Config Script -->
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/html5shiv-printshiv.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>config/config.js"></script>
 <!-- Config Script -->
 
@@ -39,7 +40,6 @@ if (!isset($timety_header)) {
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/addlike.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/dd.css" rel="stylesheet" type="text/css" />
-<link  href="<?= HOSTNAME ?>resources/styles/common.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>style.css" rel="stylesheet" type="text/css"  />
 <!-- <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet"> -->
 <link href="<?= HOSTNAME ?>resources/styles/jquery.ui.css" rel="stylesheet">

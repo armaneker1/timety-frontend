@@ -1,21 +1,23 @@
 <?php
 $user = null;
 
-if (isset($_SESSION['id'])) {
-    $user = new User();
-    $user = UserUtils::getUserById($_SESSION['id']);
-} else {
-    //check cookie
-    $rmm = false;
-    if (isset($_COOKIE[COOKIE_KEY_RM]))
-        $rmm = $_COOKIE[COOKIE_KEY_RM];
-    if ($rmm && isset($_COOKIE[COOKIE_KEY_UN]) && isset($_COOKIE[COOKIE_KEY_PSS])) {
-        $uname = base64_decode($_COOKIE[COOKIE_KEY_UN]);
-        $upass = base64_decode($_COOKIE[COOKIE_KEY_PSS]);
-        if (!empty($uname) && !empty($upass)) {
-            $user = UserUtils::login($uname, $upass);
-            if (!empty($user))
-                $_SESSION['id'] = $user->id;
+if (empty($user)) {
+    if (isset($_SESSION['id'])) {
+        $user = new User();
+        $user = UserUtils::getUserById($_SESSION['id']);
+    } else {
+        //check cookie
+        $rmm = false;
+        if (isset($_COOKIE[COOKIE_KEY_RM]))
+            $rmm = $_COOKIE[COOKIE_KEY_RM];
+        if ($rmm && isset($_COOKIE[COOKIE_KEY_UN]) && isset($_COOKIE[COOKIE_KEY_PSS])) {
+            $uname = base64_decode($_COOKIE[COOKIE_KEY_UN]);
+            $upass = base64_decode($_COOKIE[COOKIE_KEY_PSS]);
+            if (!empty($uname) && !empty($upass)) {
+                $user = UserUtils::login($uname, $upass);
+                if (!empty($user))
+                    $_SESSION['id'] = $user->id;
+            }
         }
     }
 }
@@ -53,9 +55,9 @@ if (isset($_SESSION['id'])) {
                     jQuery("#add_event_button").click(openCreatePopup);
                     jQuery("#add_event_button").click(btnClickStartAddEvent);
                 </script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.js"></script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js"></script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.min.js"></script>
             <?php } ?>
             <?php if (empty($user->id)) { ?>
                 <script>sessionStorage.setItem('id','');</script>
@@ -70,7 +72,7 @@ if (isset($_SESSION['id'])) {
             <?php
             if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
                 ?>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js"></script>
             <?php } ?>
         </div>
     </div>
@@ -82,22 +84,22 @@ if (isset($_SESSION['id'])) {
                 <script>
         <?php if (isset($profile_page_type) && $profile_page_type == "profile") {
             ?>
-                            function changeChannel(item){
-                                var channel=jQuery(item).attr("channelId");
-                                window.location=TIMETY_HOSTNAME+"?channel="+channel;
-                            }  
+                    function changeChannel(item){
+                        var channel=jQuery(item).attr("channelId");
+                        window.location=TIMETY_HOSTNAME+"?channel="+channel;
+                    }  
             <?php
         } else {
             ?>
 
-                            function changeChannel(item){
-                                page_wookmark=0;
-                                jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
-                                jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
-                                jQuery(item).removeClass('top_menu_ul_li_a');
-                                jQuery(item).addClass('top_menu_ul_li_a_selected');
-                                wookmarkFiller(document.optionsWookmark,true,true);
-                            }    
+                    function changeChannel(item){
+                        page_wookmark=0;
+                        jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
+                        jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+                        jQuery(item).removeClass('top_menu_ul_li_a');
+                        jQuery(item).addClass('top_menu_ul_li_a_selected');
+                        wookmarkFiller(document.optionsWookmark,true,true);
+                    }    
 
         <?php } ?>
                 </script>

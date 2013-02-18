@@ -119,7 +119,8 @@ function wookmarkFiller(options,clear,loader)
                 if(handler) handler.wookmarkClear();
                 handler = jQuery('.main_event .main_event_box');
                 handler.wookmark(options);
-                makeMeDraggable();
+                //disabled for now
+                //makeMeDraggable();
                 
                 //Stop loader animation
                 if(loader)

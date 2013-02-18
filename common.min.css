@@ -463,25 +463,3 @@
     font-variant: normal;
     font-weight: normal;
 }
-
-.div_date_month{
-    position:absolute;
-    left:35px;
-}
-.div_date_year{
-    position:absolute;
-    left:103px;
-}
-
-.ui-autocomplete-loading {
-    background: white url('images/ui-anim_basic_16x16.gif') right center 
-        no-repeat !important;
-    background-position-x: 585px !important;
-}
-
-.gdy_alt_rsm_img{
-    border: 1px solid #c7c7c7;
-    margin-top: -1px;
-}
-
-
