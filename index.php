@@ -361,6 +361,7 @@ if (empty($user)) {
     }
 }
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <?php include('layout/layout_header_index.php'); ?>
@@ -479,7 +480,7 @@ if (empty($user)) {
                  */
                 function onScroll(event) {
                     // Check if we're within 100 pixels of the bottom edge of the broser window.
-                    var closeToBottom = ((jQuery(window).scrollTop() + jQuery(window).height()) >  (jQuery(document).height()*0.50));
+                    var closeToBottom = (jQuery(window).scrollTop() >= (jQuery(document).height()* 0.50 - jQuery(window).height()));
                     if(closeToBottom) {
                         if(post_wookmark==null) {
                             // Get the first then items from the grid, clone them, and add them to the bottom of the grid.
