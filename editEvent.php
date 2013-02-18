@@ -676,7 +676,7 @@ if ($event->addsocial_tw == 1) {
                             echo 'private';
                         }
                         ?></p>
-                                    <ol class="on_off">
+                                    <ol class="on_off edit_evt_p">
                                         <li style="width: 48px; height: 17px;"><input type="checkbox"
                                                                                       id="on_off" name="te_event_privacy"
                                                                                       tabindex="-1"
