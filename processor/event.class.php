@@ -8,7 +8,7 @@ class EventProcessor {
     public $eventID;
 
     public function addEvent() {
-        $log = KLogger::instance('/home/ubuntu/log/', KLogger::DEBUG);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > addEvent > start");
 
@@ -26,15 +26,13 @@ class EventProcessor {
              * Popular event list
              */
             if ($event->privacy . "" == "true") {
-                $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > addEvent > inserting item");
-                $return = $redis->zadd(REDIS_LIST_UPCOMING_EVENTS, $event->startDateTimeLong, json_encode($event));
-                $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > addEvent >  inserted item " . json_encode($return));
+                EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
             }
             /*
              * Popular event list
              */
-            
-            
+
+
             /*
              * followers list
              */
@@ -47,10 +45,8 @@ class EventProcessor {
              * my timety
              */
             if (!empty($event->creatorId)) {
-                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $event->creatorId);
-                $log->logInfo(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY . " > addEvent > inserting item");
-                $return = $redis->zadd(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, $event->startDateTimeLong, json_encode($event));
-                $log->logInfo(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY . " > addEvent >  inserted item " . json_encode($return));
+                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $event->creatorId);
+                EventProcessor::addItem($redis, REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
             }
             /*
              * my timety
@@ -61,7 +57,7 @@ class EventProcessor {
     }
 
     public function updateEvent() {
-        $log = KLogger::instance('/home/ubuntu/log/', KLogger::DEBUG);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > updateEvent >  start");
 
@@ -86,12 +82,10 @@ class EventProcessor {
                 if ($evt->id == $this->eventID) {
                     $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > updateEvent >  Privacy - '" . $event->privacy . "'");
                     //remove item
-                    $return = $redis->zrem(REDIS_LIST_UPCOMING_EVENTS, $item);
-                    $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > updateEvent >  removed item - " . json_encode($return));
+                    EventProcessor::removeItem($redis,REDIS_LIST_UPCOMING_EVENTS, $item);
                     if ($event->privacy . "" == "true") {
                         //insert new item
-                        $return = $redis->zadd(REDIS_LIST_UPCOMING_EVENTS, $event->startDateTimeLong, json_encode($event));
-                        $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > updateEvent >  insert item - " . json_encode($return));
+                        EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
                     }
                     break;
                 }
@@ -107,7 +101,7 @@ class EventProcessor {
             /*
              * followers list
              */
-            
+
 
             /*
              * my timety
@@ -118,14 +112,11 @@ class EventProcessor {
                     $evt = new Event();
                     $evt = json_decode($item);
                     if ($evt->id == $this->eventID) {
-                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $event->creatorId);
-                        $log->logInfo(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY . " > updateEvent >  Privacy - '" . $event->privacy . "'");
+                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $event->creatorId);
                         //remove item
-                        $return = $redis->zrem(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, $item);
-                        $log->logInfo(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY . " > updateEvent >  removed item - " . json_encode($return));
+                        EventProcessor::removeItem($redis, REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, $item);
                         //insert new item
-                        $return = $redis->zadd(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, $event->startDateTimeLong, json_encode($event));
-                        $log->logInfo(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY . " > updateEvent >  insert item - " . json_encode($return));
+                        EventProcessor::addItem($redis, REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
                         break;
                     }
                 }
@@ -136,6 +127,28 @@ class EventProcessor {
         } else {
             $log->logInfo("event > updateEvent >  event empty");
         }
+    }
+
+    public static function addItem($redis, $key, $item, $score) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (!empty($redis) && !empty($key)) {
+            $log->logInfo($key . " > addItem > inserting item");
+            $return = $redis->zadd($key, $score, $item);
+            $log->logInfo($key . " > addItem >  inserted item " . json_encode($return));
+            return $return;
+        }
+        return null;
+    }
+
+    public static function removeItem($redis, $key, $item) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (!empty($redis) && !empty($key)) {
+            $log->logInfo($key . " > removeItem > removing item");
+            $return = $redis->zrem($key, $item);
+            $log->logInfo($key . " > removeItem >  removed item " . json_encode($return));
+            return $return;
+        }
+        return null;
     }
 
 }
