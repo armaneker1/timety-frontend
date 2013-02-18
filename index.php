@@ -770,6 +770,7 @@ if (empty($user)) {
                                                 $userId = $user->id;
                                             }
                                             $events = InterestUtil::getEvents($userId, 0, 15, null, null, 2);
+                                            $events=  json_decode($events);
                                             if (empty($events)) {
                                                 ?>
                                                 <div class="slide_item">
@@ -782,6 +783,7 @@ if (empty($user)) {
                                             } else {
                                                 for ($i = 0; $i < sizeof($events); $i++) {
                                                     $evt = $events[$i];
+                                                    $evt=  UtilFunctions::cast("Event", $evt);
                                                     $evtDesc = $evt->description;
                                                     if (strlen($evtDesc) > 55) {
                                                         $evtDesc = substr($evtDesc, 0, 55) . "...";

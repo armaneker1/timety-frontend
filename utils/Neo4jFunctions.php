@@ -1154,7 +1154,7 @@ class Neo4jFuctions {
           echo  $teg."get Event Images from mysql end <p/>";
           echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
          */
-        return $tmparray;
+        return json_encode($tmparray);
     }
 
     public static function moveUser($fromUserId, $toUserId, User $tmpuser) {
