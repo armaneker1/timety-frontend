@@ -87,5 +87,5 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/ie.js"></script>
 <![endif]-->
 
-<link rel="icon" type="image/png"  href="<?=HOSTNAME."/images/favTimety.ico"?>">
+<link rel="icon" type="image/png"  href="<?=HOSTNAME."/images/favicon.ico"?>">
 <?php include ('config/analytics.php'); ?>
