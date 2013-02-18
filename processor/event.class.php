@@ -33,11 +33,21 @@ class EventProcessor {
             /*
              * Popular event list
              */
+            
+            
+            /*
+             * followers list
+             */
+            //TODO
+            /*
+             * followers list
+             */
 
             /*
              * my timety
              */
             if (!empty($event->creatorId)) {
+                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $event->creatorId);
                 $log->logInfo(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY . " > addEvent > inserting item");
                 $return = $redis->zadd(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, $event->startDateTimeLong, json_encode($event));
                 $log->logInfo(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY . " > addEvent >  inserted item " . json_encode($return));
@@ -90,6 +100,14 @@ class EventProcessor {
              * Popular event list
              */
 
+            /*
+             * followers list
+             */
+            //TODO
+            /*
+             * followers list
+             */
+            
 
             /*
              * my timety
@@ -100,6 +118,7 @@ class EventProcessor {
                     $evt = new Event();
                     $evt = json_decode($item);
                     if ($evt->id == $this->eventID) {
+                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $event->creatorId);
                         $log->logInfo(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY . " > updateEvent >  Privacy - '" . $event->privacy . "'");
                         //remove item
                         $return = $redis->zrem(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, $item);
