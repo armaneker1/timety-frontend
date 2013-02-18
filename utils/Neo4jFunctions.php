@@ -1024,7 +1024,7 @@ class Neo4jFuctions {
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             //$array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
-            return RedisUtils::getPopularEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            return RedisUtils::getUpcomingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
             /*
               echo  $teg."getAllOtherEvents end size : ".  sizeof($array1)."<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
