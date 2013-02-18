@@ -24,25 +24,25 @@ if (!isset($timety_header)) {
 
 
 <!--[if IE]>
-    <link  href="<?= HOSTNAME ?>ie7_8.min.css" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.min.css" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
-<link  href="<?= HOSTNAME ?>all_css.min.css" rel="stylesheet" type="text/css" />
-<link  href="<?= HOSTNAME ?>resources/styles/custom.min.css" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>all_css.css" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
 <!--<![endif]-->
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.min.css" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/dd.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>style.min.css" rel="stylesheet" type="text/css"  />
-<link href="<?= HOSTNAME ?>resources/styles/tipped/tipped.min.css" rel="stylesheet">
+<link href="<?= HOSTNAME ?>resources/styles/tipped/tipped.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.core.css" rel="stylesheet">
-<link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.datepicker.min.css" rel="stylesheet">
+<link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.datepicker.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
 <!-- CSS -->
 
