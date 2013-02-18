@@ -104,4 +104,8 @@ define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API
 
 //REDIS LIST
 define('REDIS_LIST_UPCOMING_EVENTS','events:upcoming:worldwide');
+define('REDIS_SUFFIX_MY_TIMETY',':mytimety');
+define('REDIS_SUFFIX_FOLLOWING',':following');
+define('REDIS_PREFIX_USER','user:events:');
+
 ?>
