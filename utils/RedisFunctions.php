@@ -14,12 +14,12 @@ class RedisUtils {
             $date = time();
         }
         $redis = new Predis\Client();
-        $log->logError("RedisUtils > getUpcomingEvents > start");
+        $log->logInfo("RedisUtils > getUpcomingEvents > start");
         $pgStart = $pageNumber * $pageItemCount;
         $pgEnd = $pgStart + $pageItemCount - 1;
-        $log->logError("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
+        $log->logInfo("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
         $events = $redis->zrangebyscore(REDIS_LIST_UPCOMING_EVENTS, $date, "+inf");
-        $log->logError("RedisUtils > getUpcomingEvents > size " . sizeof($events));
+        $log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
         $result = "[";
         for ($i = 0; $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
@@ -35,7 +35,7 @@ class RedisUtils {
             }
         }
         $result = $result."]";
-        $log->logError("RedisUtils > getUpcomingEvents > result  ");
+        $log->logInfo("RedisUtils > getUpcomingEvents > result  ");
         return $result;
     }
 
