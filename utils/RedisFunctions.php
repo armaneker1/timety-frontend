@@ -3,8 +3,8 @@
 class RedisUtils {
 
     public static function getPopularEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
-        //$log = KLogger::instance('/home/ubuntu/log/', KLogger::DEBUG);
-        $log = KLogger::instance('C:\\log\\', KLogger::DEBUG);
+        $log = KLogger::instance('/home/ubuntu/log/', KLogger::DEBUG);
+        //$log = KLogger::instance('C:\\log\\', KLogger::DEBUG);
         if ($all == 0) {
             //subscribed catagory
         } else {
