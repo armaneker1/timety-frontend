@@ -18,7 +18,7 @@ class RedisUtils {
         $pgStart = $pageNumber * $pageItemCount;
         $pgEnd = $pgStart + $pageItemCount - 1;
         $log->logError("RedisUtils > getPopularEvents > index " . $pgStart . " end " . $pgEnd);
-        $events = $redis->ZRANGEBYSCORE("popular:worldwide", $date, "+inf");
+        $events = $redis->ZRANGEBYSCORE(REDIS_LIST_UPCOMING_EVENTS, $date, "+inf");
         $log->logError("RedisUtils > getPopularEvents > size " . sizeof($events));
         $result = "[";
         for ($i = 0; $i < sizeof($events); $i++) {

@@ -101,4 +101,7 @@ define('PAGE_AJAX_UPDATE_USER_INFO',PAGE_AJAX_FOLDER.'updateUserInfo.php');
 
 define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));
 
+
+//REDIS LIST
+define('REDIS_LIST_UPCOMING_EVENTS','events:upcoming:worldwide');
 ?>

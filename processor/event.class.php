@@ -4,7 +4,7 @@ require_once __DIR__ . '/../utils/Functions.php';
 require_once __DIR__ . '/../apis/logger/KLogger.php';
 
 class EventProcessor {
-
+    
     public $eventID;
 
     public function addEvent() {
@@ -27,7 +27,7 @@ class EventProcessor {
              */
             if ($event->privacy."" == "true") {
                 $log->logInfo("event.popular.worldwide > addEvent > inserting item");
-                $return = $redis->zadd("popular:worldwide", $event->startDateTimeLong, json_encode($event));
+                $return = $redis->zadd(REDIS_LIST_UPCOMING_EVENTS, $event->startDateTimeLong, json_encode($event));
                 $log->logInfo("event.popular.worldwide > addEvent >  inserted item " . json_encode($return));
             }
             /*
@@ -57,18 +57,18 @@ class EventProcessor {
             /*
              * Popular event list
              */
-            $events = $redis->zrevrange("popular:worldwide", 0, -1);
+            $events = $redis->zrevrange(REDIS_LIST_UPCOMING_EVENTS, 0, -1);
             foreach ($events as $item) {
                 $evt = new Event();
                 $evt = json_decode($item);
                 if ($evt->id == $this->eventID) {
                     $log->logInfo("event.popular.worldwide > updateEvent >  Privacy - '" .$event->privacy."'");
                     //remove item
-                    $return = $redis->zrem("popular:worldwide", $item);
+                    $return = $redis->zrem(REDIS_LIST_UPCOMING_EVENTS, $item);
                     $log->logInfo("event.popular.worldwide > updateEvent >  removed item - " . json_encode($return));
                     if ($event->privacy."" == "true") {
                         //insert new item
-                        $return = $redis->zadd("popular:worldwide", $event->startDateTimeLong, json_encode($event));
+                        $return = $redis->zadd(REDIS_LIST_UPCOMING_EVENTS, $event->startDateTimeLong, json_encode($event));
                         $log->logInfo("event.popular.worldwide > updateEvent >  insert item - " . json_encode($return));
                     }
                     break;
