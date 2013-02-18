@@ -108,4 +108,9 @@ define('REDIS_SUFFIX_MY_TIMETY',':mytimety');
 define('REDIS_SUFFIX_FOLLOWING',':following');
 define('REDIS_PREFIX_USER','user:events:');
 
+
+
+//LOG PATH
+define('KLOGGER_PATH','/home/ubuntu/log/');
+
 ?>
