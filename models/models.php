@@ -502,4 +502,12 @@ class TimetyCategory {
 
 }
 
+class UserEventLog {
+    
+    public $userId;
+    public $eventId;
+    public $action;
+    public $time;
+}
+
 ?>
