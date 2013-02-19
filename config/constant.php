@@ -113,4 +113,14 @@ define('REDIS_PREFIX_USER','user:events:');
 //LOG PATH
 define('KLOGGER_PATH','/home/ubuntu/log/');
 
+//USER INTERACTION
+define('REDIS_USER_INTERACTION_JOIN','join');
+define('REDIS_USER_INTERACTION_DECLINE','decline');
+define('REDIS_USER_INTERACTION_MAYBE','maybe');
+define('REDIS_USER_INTERACTION_IGNORE','ignore');
+define('REDIS_USER_INTERACTION_LIKE','like');
+define('REDIS_USER_INTERACTION_UNLIKE','unlike');
+define('REDIS_USER_INTERACTION_RESHARE','reshare');
+define('REDIS_USER_INTERACTION_UNSHARE','unshare');
+
 ?>
