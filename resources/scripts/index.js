@@ -275,6 +275,11 @@ var autocompleteCreateEvent=null;
 function setMapLocation(result,status,res){
     if(status=="OK") {
         ce_loc=res.geometry.location;
+        if(!ce_loc.Ya)
+        {
+            ce_loc.Ya=ce_loc.hb;
+            ce_loc.Za=ce_loc.ib;
+        }
         addMarker(ce_loc.Ya,ce_loc.Za);
     }else{
         console.log(result);
@@ -295,6 +300,10 @@ function openMap(mod,value){
     if(ce_loc) {
         lat=ce_loc.Ya;
         lng=ce_loc.Za;
+    }
+    if(!lat || !lng){
+        lat=41.00527;
+        lng=28.97695;
     }
     if(!ce_map) {
         ce_map = new GMaps({
