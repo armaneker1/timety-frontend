@@ -24,6 +24,7 @@ class SocialUtil {
                 SocialUtil::incLikeCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
+                Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -51,6 +52,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 SocialUtil::decLikeCountAsync($userId, $eventId);
+                Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_UNLIKE);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -79,6 +81,7 @@ class SocialUtil {
                 SocialUtil::incReshareCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
+                Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -106,6 +109,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 SocialUtil::decReshareCountAsync($userId, $eventId);
+                Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_UNSHARE);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();

@@ -328,7 +328,7 @@ if (!empty($_POST['rand_session_id'])) {
         try {
             $eventDB = EventUtil::updateEvent($event, $user);
             if (!empty($eventDB) && !empty($eventDB->id)) {
-                Queue::updateEvent($eventId);
+                Queue::updateEvent($eventId,$user->id);
                 $m = new HtmlMessage();
                 $m->type = "s";
                 $m->message = "Event updated.";

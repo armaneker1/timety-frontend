@@ -330,7 +330,7 @@ if (empty($user)) {
             try {
                 $eventDB = EventUtil::createEvent($event, $user);
                 if (!empty($eventDB) && !empty($eventDB->id)) {
-                    Queue::addEvent($eventDB->id);
+                    Queue::addEvent($eventDB->id,$user->id);
                     $m = new HtmlMessage();
                     $m->type = "s";
                     $m->message = "Event created successfully.";

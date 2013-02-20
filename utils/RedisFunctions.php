@@ -3,8 +3,7 @@
 class RedisUtils {
 
     public static function getUpcomingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
-        $log = KLogger::instance('/home/ubuntu/log/', KLogger::DEBUG);
-        //$log = KLogger::instance('C:\\log\\', KLogger::DEBUG);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if ($all == 0) {
             //subscribed catagory
         } else {
@@ -14,12 +13,12 @@ class RedisUtils {
             $date = time();
         }
         $redis = new Predis\Client();
-        $log->logInfo("RedisUtils > getUpcomingEvents > start");
+        //$log->logInfo("RedisUtils > getUpcomingEvents > start");
         $pgStart = $pageNumber * $pageItemCount;
         $pgEnd = $pgStart + $pageItemCount - 1;
-        $log->logInfo("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
+        //$log->logInfo("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
         $events = $redis->zrangebyscore(REDIS_LIST_UPCOMING_EVENTS, $date, "+inf");
-        $log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
+        //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
         $result = "[";
         for ($i = 0; $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
@@ -35,7 +34,7 @@ class RedisUtils {
             }
         }
         $result = $result."]";
-        $log->logInfo("RedisUtils > getUpcomingEvents > result  ");
+        //$log->logInfo("RedisUtils > getUpcomingEvents > result  ");
         return $result;
     }
 

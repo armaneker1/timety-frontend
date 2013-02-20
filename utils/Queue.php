@@ -15,15 +15,30 @@ require_once __DIR__ . '/../apis/logger/KLogger.php';
  */
 class Queue {
 
-    public static function addEvent($eventId) {
+    public static function addEvent($eventId, $userId) {
         self::send("event", "addEvent", array(
-            "eventID" => $eventId
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => REDIS_USER_INTERACTION_CREATED,
+            "time" => time()
         ));
     }
-    
-    public static function updateEvent($eventId) {
+
+    public static function updateEvent($eventId, $userId) {
         self::send("event", "updateEvent", array(
-            "eventID" => $eventId
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "time" => time()
+        ));
+    }
+
+    public static function socialInteraction($eventId, $userId, $type) {
+        self::send("event", "updateEvent", array(
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => $type,
+            "time" => time()
         ));
     }
 

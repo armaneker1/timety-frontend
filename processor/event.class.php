@@ -5,12 +5,15 @@ require_once __DIR__ . '/../apis/logger/KLogger.php';
 
 class EventProcessor {
 
+    public $userID;
     public $eventID;
+    public $type;
+    public $time;
 
     public function addEvent() {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
-        $log->logInfo("event > addEvent > start");
+        $log->logInfo("event > addEvent > start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
 
         $redis = new Predis\Client();
         $event = new Event();
@@ -23,33 +26,52 @@ class EventProcessor {
                 $log->logError("event > addEvent Error" . $exc->getTraceAsString());
             }
             /*
-             * Popular event list
+             * my timety
+             */
+            if (!empty($this->userID)) {
+                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+                $this->addUserEventLog(null, $event);
+
+                EventProcessor::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
+            }
+            /*
+             * my timety
+             */
+            $userRelationEmpty = new stdClass();
+            $userRelationEmpty->joinType = 0;
+            $userRelationEmpty->like = false;
+            $userRelationEmpty->reshare = false;
+
+            /*
+             * upcoming event list
              */
             if ($event->privacy . "" == "true") {
+                $event->userRelation = $userRelationEmpty;
                 EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
             }
             /*
-             * Popular event list
+             * upcoming event list
              */
 
 
             /*
              * followers list
              */
-            //TODO
-            /*
-             * followers list
-             */
-
-            /*
-             * my timety
-             */
-            if (!empty($event->creatorId)) {
-                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $event->creatorId);
-                EventProcessor::addItem($redis, REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
+            if (!empty($this->userID)) {
+                $followers = Neo4jUserUtil::getUserFollowerList($this->userID);
+                if (!empty($followers)) {
+                    foreach ($followers as $follower) {
+                        if (!empty($follower) && !empty($follower->id)) {
+                            $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
+                            if ($this->addUserEventLog(null, $event) && $event->privacy . "" == "true") {
+                                EventProcessor::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                            }
+                        }
+                    }
+                }
             }
             /*
-             * my timety
+             * followers list
              */
         } else {
             $log->logInfo("event > addEvent >  event empty");
@@ -59,7 +81,7 @@ class EventProcessor {
     public function updateEvent() {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
-        $log->logInfo("event > updateEvent >  start");
+        $log->logInfo("event > updateEvent >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type);
 
         $redis = new Predis\Client();
         $event = new Event();
@@ -73,56 +95,90 @@ class EventProcessor {
             }
 
             /*
-             * Popular event list
-             */
-            $events = $redis->zrevrange(REDIS_LIST_UPCOMING_EVENTS, 0, -1);
-            foreach ($events as $item) {
-                $evt = new Event();
-                $evt = json_decode($item);
-                if ($evt->id == $this->eventID) {
-                    $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > updateEvent >  Privacy - '" . $event->privacy . "'");
-                    //remove item
-                    EventProcessor::removeItem($redis,REDIS_LIST_UPCOMING_EVENTS, $item);
-                    if ($event->privacy . "" == "true") {
-                        //insert new item
-                        EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
-                    }
-                    break;
-                }
-            }
-            /*
-             * Popular event list
-             */
-
-            /*
-             * followers list
-             */
-            //TODO
-            /*
-             * followers list
-             */
-
-
-            /*
              * my timety
              */
-            if (!empty($event->creatorId)) {
-                $events = $redis->zrevrange(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, 0, -1);
+            if (!empty($this->userID)) {
+                $events = $redis->zrevrange(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, 0, -1);
+                $it = null;
                 foreach ($events as $item) {
                     $evt = new Event();
                     $evt = json_decode($item);
                     if ($evt->id == $this->eventID) {
-                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $event->creatorId);
+                        $it = $item;
                         //remove item
-                        EventProcessor::removeItem($redis, REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, $item);
-                        //insert new item
-                        EventProcessor::addItem($redis, REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
+                        EventProcessor::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, $item);
                         break;
                     }
+                }
+                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+                //insert new item
+                if ($this->addUserEventLog($it, $event)) {
+                    EventProcessor::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
                 }
             }
             /*
              * my timety
+             */
+
+
+            $userRelationEmpty = new stdClass();
+            $userRelationEmpty->joinType = 0;
+            $userRelationEmpty->like = false;
+            $userRelationEmpty->reshare = false;
+            /*
+             * upcoming event list
+             */
+            // if ($this->type == REDIS_USER_INTERACTION_UPDATED) {
+            $events = $redis->zrevrange(REDIS_LIST_UPCOMING_EVENTS, 0, -1);
+            foreach ($events as $item) {
+                $evt = json_decode($item);
+                if ($evt->id == $this->eventID) {
+                    //remove item
+                    EventProcessor::removeItem($redis, REDIS_LIST_UPCOMING_EVENTS, $item);
+                    break;
+                }
+            }
+            $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > updateEvent >  Privacy - '" . $event->privacy . "'");
+            if ($event->privacy . "" == "true") {
+                $event->userRelation = $userRelationEmpty;
+                //insert new item
+                EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
+            }
+            // }
+            /*
+             * upcoming event list
+             */
+
+            /*
+             * followers list
+             */
+            if (!empty($this->userID)) {
+                $followers = Neo4jUserUtil::getUserFollowerList($this->userID);
+                if (!empty($followers)) {
+                    foreach ($followers as $follower) {
+                        if (!empty($follower) && !empty($follower->id)) {
+                            $events = $redis->zrevrange(REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, 0, -1);
+                            $it = null;
+                            foreach ($events as $item) {
+                                $evt = json_decode($item);
+                                if ($evt->id == $this->eventID) {
+                                    $it = $item;
+                                    //remove item
+                                    EventProcessor::removeItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, $item);
+                                    break;
+                                }
+                            }
+                            $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
+                            if ($this->addUserEventLog($it, $event) && $event->privacy . "" == "true") {
+                                //insert new item
+                                EventProcessor::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                            }
+                        }
+                    }
+                }
+            }
+            /*
+             * followers list
              */
         } else {
             $log->logInfo("event > updateEvent >  event empty");
@@ -149,6 +205,144 @@ class EventProcessor {
             return $return;
         }
         return null;
+    }
+
+    public function addUserEventLog($item, &$event) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+
+        $log->logInfo("addUserEventLog > Start ");
+        if (!empty($event)) {
+            if ($this->type == REDIS_USER_INTERACTION_CREATED) {
+                //new 
+                // this user created that event
+                $usrR = new UserEventLog();
+                $usrR->action = $this->type;
+                $usrR->eventId = $event->id;
+                $usrR->userId = $this->userID;
+                $usrR->time = $this->time;
+                $array = array();
+                array_push($array, $usrR);
+                $event->userEventLog = $array;
+                $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_CREATED);
+                $event->userEventLog = $array;
+                return true;
+            } else {
+                $rel = new UserEventLog();
+                $evt = json_decode($item);
+                $array = $evt->userEventLog;
+                if (empty($array)) {
+                    $array = array();
+                }
+                if (!is_array($array)) {
+                    $array = json_decode($array);
+                }
+                if ($this->type == REDIS_USER_INTERACTION_UPDATED) {
+                    array_push($array, $usrR);
+                    $event->userEventLog = $array;
+                    $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_UPDATED);
+                    $event->userEventLog = $array;
+                    return true;
+                } else if ($this->type == REDIS_USER_INTERACTION_JOIN) {
+                    $added = true;
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $rel = $array[$i];
+                        if ($rel->action == REDIS_USER_INTERACTION_JOIN && $rel->userId == $this->userID) {
+                            $rel->time = $this->time;
+                            $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_JOIN);
+                            $array[$i] = $rel;
+                            $added = false;
+                            break;
+                        }
+                    }
+                    if ($added) {
+                        array_push($array, $usrR);
+                        $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_JOIN);
+                    }
+                    $event->userEventLog = $array;
+                    return true;
+                } else if ($this->type == REDIS_USER_INTERACTION_MAYBE) {
+                    $added = true;
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $rel = $array[$i];
+                        if ($rel->action == REDIS_USER_INTERACTION_MAYBE && $rel->userId == $this->userID) {
+                            $rel->time = $this->time;
+                            $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_MAYBE);
+                            $array[$i] = $rel;
+                            $added = false;
+                            break;
+                        }
+                    }
+                    if ($added) {
+                        array_push($array, $usrR);
+                        $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_MAYBE);
+                    }
+                    $event->userEventLog = $array;
+                    return true;
+                } else if ($this->type == REDIS_USER_INTERACTION_DECLINE || $this->type == REDIS_USER_INTERACTION_IGNORE) {
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $rel = $array[$i];
+                        if (($rel->action == REDIS_USER_INTERACTION_JOIN || $rel->action == REDIS_USER_INTERACTION_MAYBE) && $rel->userId == $this->userID) {
+                            unset($array[$i]);
+                            $log->logInfo("addUserEventLog >  removed array " . REDIS_USER_INTERACTION_DECLINE . " rel -> " . $rel->action);
+                        }
+                    }
+                } else if ($this->type == REDIS_USER_INTERACTION_LIKE) {
+                    $added = true;
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $rel = $array[$i];
+                        if ($rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
+                            $rel->time = $this->time;
+                            $array[$i] = $rel;
+                            $added = false;
+                            $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_LIKE);
+                            break;
+                        }
+                    }
+                    if ($added) {
+                        array_push($array, $usrR);
+                        $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_LIKE);
+                    }
+                    $event->userEventLog = $array;
+                    return true;
+                } else if ($this->type == REDIS_USER_INTERACTION_UNLIKE) {
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $rel = $array[$i];
+                        if ($rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
+                            unset($array[$i]);
+                            $log->logInfo("addUserEventLog >  removed array " . REDIS_USER_INTERACTION_UNLIKE);
+                        }
+                    }
+                } else if ($this->type == REDIS_USER_INTERACTION_RESHARE) {
+                    $added = true;
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $rel = $array[$i];
+                        if ($rel->action == REDIS_USER_INTERACTION_RESHARE && $rel->userId == $this->userID) {
+                            $rel->time = $this->time;
+                            $array[$i] = $rel;
+                            $added = false;
+                            $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_RESHARE);
+                            break;
+                        }
+                    }
+                    if ($added) {
+                        array_push($array, $usrR);
+                        $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_RESHARE);
+                    }
+                    $event->userEventLog = $array;
+                    return true;
+                } else if ($this->type == REDIS_USER_INTERACTION_UNSHARE) {
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $rel = $array[$i];
+                        if ($rel->action == REDIS_USER_INTERACTION_RESHARE && $rel->userId == $this->userID) {
+                            unset($array[$i]);
+                            $log->logInfo("addUserEventLog >  removed array " . REDIS_USER_INTERACTION_UNSHARE);
+                        }
+                    }
+                }
+                $event->userEventLog = $array;
+            }
+        }
+        return false;
     }
 
 }
