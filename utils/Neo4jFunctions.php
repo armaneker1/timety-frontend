@@ -1000,11 +1000,13 @@ class Neo4jFuctions {
                 array_push($array, $evt);
             }
         } else if ($type == 3) {
-            $resultArray = Neo4jRecommendationUtils::getFollowingFriendsEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            /*$resultArray = Neo4jRecommendationUtils::getFollowingFriendsEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
             $array = $resultArray[0];
-            $eventIds = $resultArray[1];
+            $eventIds = $resultArray[1];*/
+            return RedisUtils::getFollowingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
         } else if ($type == 2) {
-            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            return RedisUtils::getOwnerEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            /*$client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query_ = $query;
             $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
                     "MATCH (user)-[r:" . REL_EVENTS_JOINS . "]->(event)  " .
@@ -1021,7 +1023,7 @@ class Neo4jFuctions {
                 $evt->createNeo4j($row['event'], TRUE, $userId);
                 $eventIds = $eventIds . $evt->id . ",";
                 array_push($array, $evt);
-            }
+            }*/
         } else {
             /*
               echo  $teg."getAllOtherEvents start<p/>";
