@@ -94,6 +94,7 @@ class InterestUtil {
      * $userId= user id that logged in -1 default guest
      * list events after given date dafault current date
      * $type = events type 1=Popular,2=Mytimete,3=following default 1
+     * 5= i created
      * $query search paramaters deeafult "" all
      * $pageNumber deafult 0
      * $pageItemCount default 15
