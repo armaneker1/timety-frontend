@@ -51,87 +51,106 @@ function wookmarkFiller(options,clear,loader)
                 'type':channel,
                 'popular_all':allParameter
             },
-            success: function(data){
-                jQuery('#hiddenSearch').val('');
-                var dataJSON =null;
-                try{
-                    // 
-                    if(typeof data == "string")
-                    {
-                        dataJSON= jQuery.parseJSON(data);
-                    }
-                    else
-                    {
-                        dataJSON=data;   
-                    }
-                }catch(e) {
-                    console.log(e);
-                    console.log(data);
-                }
-                if(!dataJSON)
-                {
-                    if(loader)
-                        getLoader(false);
-                    return;
-                }
-                
-                if(clear) {
-                    page_wookmark=0;
-                    localStorage.clear();
-                    jQuery('.main_event .main_event_box').not(jQuery(".profil_box")).remove();
-                }
-                
-                jQuery.each(dataJSON,function(i,e){
-                    localStorage.setItem('event_' + e.id,JSON.stringify(e));
-                });
-                
-                var IDs = [];
-                jQuery.each(jQuery('.m_e_img'),function(i,e){
-                    try{
-                        var img=jQuery(e).find("img");
-                        if(img)
-                        {
-                            var t = jQuery(img).attr('eventid');
-                            if(t) IDs.push(t);
-                        }
-                    }catch(e){
-                        console.log(e);
-                    }
-                });
-
-                dataJSON = jQuery.grep(dataJSON, function(e,i){
-                    return (jQuery.inArray(e.id,IDs)<0);
-                });
-
-                if(dataJSON.length>0)
-                {
-                    page_wookmark++;
-                }else
-                {
-                    if(loader)
-                        getLoader(false);
-                    return;
-                }
-
-                wookmarkHTML(dataJSON,userId);
-                //function tm()
-                //{
-                if(handler) handler.wookmarkClear();
-                handler = jQuery('.main_event .main_event_box');
-                handler.wookmark(options);
-                //disabled for now
-                //makeMeDraggable();
-                
-                //Stop loader animation
-                if(loader)
-                    getLoader(false);
-                
+            error: function (request, status, error) {
                 if(post_wookmark) {
                     post_wookmark.abort();
                     post_wookmark=null;
                 }
-            //}
-            //setTimeout(tm,100);
+            },
+            success: function(data){
+                try {
+                    jQuery('#hiddenSearch').val('');
+                    var dataJSON =null;
+                    try{
+                        // 
+                        if(typeof data == "string")
+                        {
+                            dataJSON= jQuery.parseJSON(data);
+                        }
+                        else
+                        {
+                            dataJSON=data;   
+                        }
+                    }catch(e) {
+                        console.log(e);
+                        console.log(data);
+                    }
+                    if(!dataJSON)
+                    {
+                        if(loader)
+                            getLoader(false);
+                        return;
+                    }
+                
+                    if(clear) {
+                        page_wookmark=0;
+                        localStorage.clear();
+                        jQuery('.main_event .main_event_box').not(jQuery(".profil_box")).remove();
+                    }
+                
+                    jQuery.each(dataJSON,function(i,e){
+                        localStorage.setItem('event_' + e.id,JSON.stringify(e));
+                    });
+                
+                    var IDs = [];
+                    jQuery.each(jQuery('.m_e_img'),function(i,e){
+                        try{
+                            var img=jQuery(e).find("img");
+                            if(img)
+                            {
+                                var t = jQuery(img).attr('eventid');
+                                if(t) IDs.push(t);
+                            }
+                        }catch(e){
+                            console.log(e);
+                        }
+                    });
+
+                    dataJSON = jQuery.grep(dataJSON, function(e,i){
+                        return (jQuery.inArray(e.id,IDs)<0);
+                    });
+
+                    if(dataJSON.length>0)
+                    {
+                        page_wookmark++;
+                    }else
+                    {
+                        if(loader)
+                            getLoader(false);
+                        return;
+                    }
+
+                    wookmarkHTML(dataJSON,userId);
+                    //function tm()
+                    //{
+                    if(handler) handler.wookmarkClear();
+                    handler = jQuery('.main_event .main_event_box');
+                    handler.wookmark(options);
+                    //disabled for now
+                    //makeMeDraggable();
+                
+                    //Stop loader animation
+                    if(loader)
+                        getLoader(false);
+                
+                    if(post_wookmark) {
+                        post_wookmark.abort();
+                        post_wookmark=null;
+                    }
+                //}
+                //setTimeout(tm,100);
+                } catch(err){
+                    console.log(err);
+                    if(post_wookmark) {
+                        post_wookmark.abort();
+                        post_wookmark=null;
+                    }
+                } finally {
+                    if(post_wookmark) {
+                        post_wookmark.abort();
+                        post_wookmark=null;
+                    }
+                }
             }
         },"json");
     });
