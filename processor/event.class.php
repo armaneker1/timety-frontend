@@ -47,6 +47,7 @@ class EventProcessor {
              */
             if ($event->privacy . "" == "true") {
                 $event->userRelation = $userRelationEmpty;
+                $event->userEventLog = array();
                 EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
             }
             /*
@@ -141,6 +142,7 @@ class EventProcessor {
             $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > updateEvent >  Privacy - '" . $event->privacy . "'");
             if ($event->privacy . "" == "true") {
                 $event->userRelation = $userRelationEmpty;
+                $event->userEventLog = null;
                 //insert new item
                 EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
             }
@@ -212,17 +214,16 @@ class EventProcessor {
 
         $log->logInfo("addUserEventLog > Start ");
         if (!empty($event)) {
+            // this user created that event
+            $usrR = new UserEventLog();
+            $usrR->action = $this->type;
+            $usrR->eventId = $event->id;
+            $usrR->userId = $this->userID;
+            $usrR->time = $this->time;
             if ($this->type == REDIS_USER_INTERACTION_CREATED) {
                 //new 
-                // this user created that event
-                $usrR = new UserEventLog();
-                $usrR->action = $this->type;
-                $usrR->eventId = $event->id;
-                $usrR->userId = $this->userID;
-                $usrR->time = $this->time;
                 $array = array();
                 array_push($array, $usrR);
-                $event->userEventLog = $array;
                 $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_CREATED);
                 $event->userEventLog = $array;
                 return true;
@@ -230,12 +231,7 @@ class EventProcessor {
                 $rel = new UserEventLog();
                 $evt = json_decode($item);
                 $array = $evt->userEventLog;
-                if (empty($array)) {
-                    $array = array();
-                }
-                if (!is_array($array)) {
-                    $array = json_decode($array);
-                }
+                $array = EventProcessor::fixArray($array);
                 if ($this->type == REDIS_USER_INTERACTION_UPDATED) {
                     array_push($array, $usrR);
                     $event->userEventLog = $array;
@@ -343,6 +339,22 @@ class EventProcessor {
             }
         }
         return false;
+    }
+
+    public static function fixArray($array) {
+        $result = array();
+        if (empty($array)) {
+            $array = array();
+        }
+        if (!is_array($array)) {
+            $array = json_decode($array);
+        }
+        foreach ($array as $a) {
+            if (!empty($a)) {
+                array_push($result, $a);
+            }
+        }
+        return $result;
     }
 
 }

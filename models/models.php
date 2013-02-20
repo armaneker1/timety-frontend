@@ -340,6 +340,7 @@ class Event {
     public $creator;
     public $creatorId;
     public $userRelation;
+    public $userEventLog=array();
 
     public function getImages() {
         if (empty($this->images)) {

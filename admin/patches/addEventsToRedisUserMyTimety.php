@@ -33,6 +33,24 @@ foreach ($array as $usr) {
             Queue::addEvent($evt->getProperty(PROP_EVENT_ID), $id);
         }
 
+        echo "<p><h2>$i User Id :" . $usr->getProperty(PROP_USER_ID) . " Sended</h2></p>";
+        echo "<p></p>";
+        echo "<p></p>";
+        echo "<br/>";
+        echo "<br/>";
+    }
+}
+
+
+echo "<h1>Events Created</h1>";
+
+$i = 1;
+foreach ($array as $usr) {
+    $id = $usr->getProperty(PROP_USER_ID);
+    if (!empty($id)) {
+        $i++;
+        echo "<p><h2>$i User Id :" . $usr->getProperty(PROP_USER_ID) . " Started</h2></p>";
+
         echo "<p><h3>$i User Id :" . $usr->getProperty(PROP_USER_ID) . " joined </h3></p>";
         $events = Neo4jUserUtil::getUserJoinedEventsNode($usr->getProperty(PROP_USER_ID));
         $j = 0;
@@ -41,7 +59,7 @@ foreach ($array as $usr) {
             $j++;
             Queue::socialInteraction($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_JOIN);
         }
-        
+
         echo "<p><h3>$i User Id :" . $usr->getProperty(PROP_USER_ID) . " said maybe </h3></p>";
         $events = Neo4jUserUtil::getUserMaybeEventsNode($usr->getProperty(PROP_USER_ID));
         $j = 0;
