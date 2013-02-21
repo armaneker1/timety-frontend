@@ -9,7 +9,7 @@ mixpanel.init("2f0a1914f832359c54bac4ad88954197_1");</script>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-37815681-1_1']);
+  _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
   _gaq.push(['_trackPageview']);
 
   (function() {
