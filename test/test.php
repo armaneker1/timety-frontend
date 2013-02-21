@@ -1,8 +1,6 @@
 <?php
-ini_set('max_execution_time', 300);
-$result = 0;
-for ($i = 0; $i < 1000000000; $i++) {
-    $result=$result+($i * $i);
-}
-echo $result;
+$array=array(0=>"asdas",1=>"asdasdasd",2=>"dsadasdas",3=>"sadsdsad");
+var_dump($array);
+unset($array[2]);
+var_dump($array);
 ?>

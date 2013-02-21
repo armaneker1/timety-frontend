@@ -296,7 +296,7 @@ class SocialUtil {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
             $result->success = true;
-            Queue::followUser($fromUserId, $toUserId);
+            Queue::unFollowUser($fromUserId, $toUserId);
         } catch (Exception $e) {
             log("Error", $e->getMessage());
             $result->error = $e->getMessage();

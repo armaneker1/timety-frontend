@@ -42,6 +42,24 @@ class Queue {
         ));
     }
 
+    public static function followUser($fromUserId, $toUserId) {
+        self::send("event", "followUser", array(
+            "userID" => $fromUserId,
+            "followID" => $toUserId,
+            "type" => REDIS_USER_INTERACTION_FOLLOW,
+            "time" => time()
+        ));
+    }
+
+    public static function unFollowUser($fromUserId, $toUserId) {
+        self::send("event", "unFollowUser", array(
+            "userID" => $fromUserId,
+            "followID" => $toUserId,
+            "type" => REDIS_USER_INTERACTION_UNFOLLOW,
+            "time" => time()
+        ));
+    }
+
     //--------------------------------------------------------------------------
 
     private static function send($method, $action, $obj) {

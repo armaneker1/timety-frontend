@@ -9,6 +9,7 @@ class EventProcessor {
     public $eventID;
     public $type;
     public $time;
+    public $followID;
 
     public function addEvent() {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
@@ -82,7 +83,7 @@ class EventProcessor {
     public function updateEvent() {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
-        $log->logInfo("event > updateEvent >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type);
+        $log->logInfo("event > updateEvent >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
 
         $redis = new Predis\Client();
         $event = new Event();
@@ -187,6 +188,84 @@ class EventProcessor {
         }
     }
 
+    public  function followUser() {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $log->logInfo("event > followUser >  start userId : " . $this->userID . " followId : " . $this->followID . " type : " . $this->type . " time : " . $this->time);
+
+        if (!empty($this->userID) && !empty($this->followID)) {
+            $redis = new Predis\Client();
+            $events = $redis->zrevrange(REDIS_PREFIX_USER . $this->followID . REDIS_SUFFIX_MY_TIMETY, 0, -1);
+            if (!empty($events)) {
+                foreach ($events as $evt) {
+                    $event = new Event();
+                    $event = json_decode($evt);
+                    $log->logInfo("event > followUser >  '$evt'  ");
+                    if (!empty($event) && $event->privacy . "" == "true") {
+                        $myevents = $redis->zrevrange(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, 0, -1);
+                        $it = null;
+                        foreach ($myevents as $item) {
+                            $myevt = json_decode($item);
+                            $log->logInfo("event > followUser >  '$item'  ");
+                            if ($myevt->id == $event->id) {
+                                $it = $item;
+                                //remove item
+                                $log->logInfo("event > followUser >  $event->id  removed  ");
+                                EventProcessor::removeItem($redis,REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $item);
+                                break;
+                            }
+                        }
+                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+                        if ($this->addUserEventLog($it, $event, $evt)) {
+                            //insert new item
+                            $log->logInfo("event > followUser >  $event->id  added  ");
+                            EventProcessor::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                        }
+                        unset($myevents);
+                    }
+                }
+            }
+        }
+    }
+
+    public  function unFollowUser() {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $log->logInfo("event > unFollowUser >  start userId : " . $this->userID . " followId : " . $this->followID . " type : " . $this->type . " time : " . $this->time);
+
+        if (!empty($this->userID) && !empty($this->followID)) {
+            $redis = new Predis\Client();
+            $events = $redis->zrevrange(REDIS_PREFIX_USER . $this->followID . REDIS_SUFFIX_MY_TIMETY, 0, -1);
+            if (!empty($events)) {
+                foreach ($events as $evt) {
+                    $event = new Event();
+                    $event = json_decode($evt);
+                    $log->logInfo("event > unFollowUser >  '$evt'  ");
+                    if (!empty($event) && $event->privacy . "" == "true") {
+                        $myevents = $redis->zrevrange(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, 0, -1);
+                        $it = null;
+                        foreach ($myevents as $item) {
+                            $myevt = json_decode($item);
+                            $log->logInfo("event > unFollowUser >  '$item'  ");
+                            if ($myevt->id == $event->id) {
+                                $it = $item;
+                                //remove item
+                                $log->logInfo("event > unFollowUser >  $event->id  removed  ");
+                                EventProcessor::removeItem($redis,REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $item);
+                                break;
+                            }
+                        }
+                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+                        if ($this->addUserEventLog($it, $event, $evt)) {
+                            //insert new item
+                            $log->logInfo("event > unFollowUser >  $event->id  added  ");
+                            EventProcessor::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                        }
+                        unset($myevents);
+                    }
+                }
+            }
+        }
+    }
+
     public static function addItem($redis, $key, $item, $score) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($redis) && !empty($key)) {
@@ -201,7 +280,7 @@ class EventProcessor {
     public static function removeItem($redis, $key, $item) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($redis) && !empty($key)) {
-            $log->logInfo($key . " > removeItem > removing item");
+            $log->logInfo($key . " > removeItem > removing item ,".$key.",".$item);
             $return = $redis->zrem($key, $item);
             $log->logInfo($key . " > removeItem >  removed item " . json_encode($return));
             return $return;
@@ -209,7 +288,7 @@ class EventProcessor {
         return null;
     }
 
-    public function addUserEventLog($item, &$event) {
+    public function addUserEventLog($item, &$event, $seconditem = null) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("addUserEventLog > Start ");
@@ -229,10 +308,60 @@ class EventProcessor {
                 return true;
             } else {
                 $rel = new UserEventLog();
-                $evt = json_decode($item);
-                $array = $evt->userEventLog;
+                $array = null;
+                $secondArray = null;
+                if (!empty($item)) {
+                    try {
+                        $evt = json_decode($item);
+                        $array = $evt->userEventLog;
+                    } catch (Exception $exc) {
+                        $log->logError("addUserEventLog >  Error : " . $exc->getTraceAsString());
+                        $array = null;
+                    }
+                }
+                if (!empty($seconditem)) {
+                    try {
+                        $evt = json_decode($seconditem);
+                        $secondArray = $evt->userEventLog;
+                    } catch (Exception $exc) {
+                        $log->logError("addUserEventLog >  Error : " . $exc->getTraceAsString());
+                        $secondArray = null;
+                    }
+                }
                 $array = EventProcessor::fixArray($array);
-                if ($this->type == REDIS_USER_INTERACTION_UPDATED) {
+                $secondArray = EventProcessor::fixArray($array);
+
+                if ($this->type == REDIS_USER_INTERACTION_FOLLOW) {
+                    $added = false;
+                    foreach ($secondArray as $r) {
+                        $log->logInfo("addUserEventLog >  secondArray" . $r->userId);
+                        if ($r->userId == $this->followID) {
+                            $log->logInfo("addUserEventLog >  secondArray " . $r->userId . " follow " . $this->followID);
+                            $exits = true;
+                            foreach ($array as $p) {
+                                if ($r->userId == $p->userId && $r->action == $p->action) {
+                                    $log->logInfo("addUserEventLog > var ");
+                                    $exits = false;
+                                }
+                            }
+                            if ($exits) {
+                                $log->logInfo("addUserEventLog > yok ekle ");
+                                array_push($array, $r);
+                                $added = true;
+                            }
+                        }
+                    }
+                    $event->userEventLog = $array;
+                    return $added;
+                } else if ($this->type == REDIS_USER_INTERACTION_UNFOLLOW) {
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $r = $array[$i];
+                        $log->logInfo("addUserEventLog >  secondArray " . $r->userId . " follow " . $this->followID);
+                        if ($r->userId == $this->followID) {
+                            unset($array[$i]);
+                        }
+                    }
+                } else if ($this->type == REDIS_USER_INTERACTION_UPDATED) {
                     array_push($array, $usrR);
                     $event->userEventLog = $array;
                     $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_UPDATED);
@@ -336,12 +465,17 @@ class EventProcessor {
                     }
                 }
                 $event->userEventLog = $array;
+                if (empty($array) || sizeof($array) < 1) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public static function fixArray($array) {
+    public static function fixArray($array = null) {
         $result = array();
         if (empty($array)) {
             $array = array();
