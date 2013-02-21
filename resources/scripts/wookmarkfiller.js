@@ -2,9 +2,10 @@ var post_wookmark=null;
 var page_wookmark=1;
 var allCategories=1;
 var allFriends=1;
+var wookmark_channel=1;
 localStorage.clear();
 
-function wookmarkFiller(options,clear,loader)
+function wookmarkFiller(options,clear,loader,channel_)
 {
     clear  = typeof clear !== 'undefined' ? clear : false;
     loader = typeof loader !== 'undefined' ? loader : false;
@@ -12,7 +13,10 @@ function wookmarkFiller(options,clear,loader)
     var pager = 40;
     var page = page_wookmark;
     var userId = -1;
-    var channel = jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
+    var channel =channel_;
+    if(!channel){
+        channel = wookmark_channel;
+    }
     var searchText = jQuery('#searchText').val() || '';
     if(searchText==jQuery('#searchText').attr('placeholder'))
     {
@@ -56,6 +60,7 @@ function wookmarkFiller(options,clear,loader)
                     post_wookmark.abort();
                     post_wookmark=null;
                 }
+                getLoader(false);
             },
             success: function(data){
                 try {
@@ -145,11 +150,13 @@ function wookmarkFiller(options,clear,loader)
                         post_wookmark.abort();
                         post_wookmark=null;
                     }
+                    getLoader(false);
                 } finally {
                     if(post_wookmark) {
                         post_wookmark.abort();
                         post_wookmark=null;
                     }
+                    getLoader(false);
                 }
             }
         },"json");

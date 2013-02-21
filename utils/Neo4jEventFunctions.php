@@ -574,8 +574,8 @@ class Neo4jEventUtils {
         $result = new stdClass();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $result->joinType = TYPE_JOIN_NO;
-        $result->like = FALSE;
-        $result->reshare = FALSE;
+        $result->like = false;
+        $result->reshare = false;
         if (!empty($eventId) && !empty($userId)) {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));

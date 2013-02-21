@@ -263,7 +263,7 @@ p,h1,h2,h3,h4,h5{
 .gn_btn {
     background-image: url(images/timeicon.png);
     background-repeat: no-repeat;
-    height: 17px;
+    height: 12px;
     width: 15px;
     border-top-style: none;
     border-right-style: none;
@@ -280,7 +280,7 @@ p,h1,h2,h3,h4,h5{
     background-image: url(images/u_line.png);
     background-repeat: repeat-x;
     background-position: center center;
-    height: 15px;
+    height: 19px;
     display: block;
 }
 .akt_tkvm {

@@ -913,6 +913,9 @@ class Neo4jFuctions {
      * list events after given date dafault current date
      * $type = events type 1=Popular,2=Mytimete,3=following,4=an other user's public events default 1
      * 5=i created
+     * 6=i liked
+     * 7=i reshared
+     * 8=i joined
      * $query search paramaters deeafult "" all
      * $pageNumber deafult 0
      * $pageItemCount default 15
@@ -1007,6 +1010,12 @@ class Neo4jFuctions {
             return RedisUtils::getFollowingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
         } else if ($type == 5) {
             return RedisUtils::getCreatedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+        } else if ($type == 6) {
+            return RedisUtils::getLikedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+        } else if ($type == 7) {
+            return RedisUtils::getResahredEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+        } else if ($type == 8) {
+            return RedisUtils::getJoinedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
         } else if ($type == 2) {
             return RedisUtils::getOwnerEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
             /* $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));

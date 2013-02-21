@@ -34,7 +34,7 @@ if (empty($user)) {
 
 <div id="top_blm">
     <div id="top_blm_sol">
-        <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="82" height="36" border="0" /></a></div>
+        <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="120" height="45" border="0" /></a></div>
         <div class="t_bs">
             <input type="button" name="" value="" id="add_event_button" class="add_event_btn" id="main_dropable" onclick="return false;"/>
             <input type="button" name="" value="" id="search_event_button" class="search_btn" onclick="return false;"/>
@@ -94,6 +94,7 @@ if (empty($user)) {
 
                     function changeChannel(item){
                         page_wookmark=0;
+                        wookmark_channel=jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
                         jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
                         jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
                         jQuery(item).removeClass('top_menu_ul_li_a');
@@ -106,7 +107,7 @@ if (empty($user)) {
                 <div class="top_menu">
                     <ul>
                         <li class="t_m_line">
-                            <a href="#" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timety</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
+                            <a href="#" id="mytimety_top_menu" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timety</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
                         </li>
                         <li id="top_menu_following" class="t_m_line">
                             <a id="following_top_menu_a" href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a>

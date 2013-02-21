@@ -128,7 +128,7 @@ class RedisUtils {
                     $evt = json_decode($events[$i]);
                     if ($evt->creatorId == $userId) {
                         $r = ",";
-                        if ($i == $pgStart) {
+                        if (strlen( $result)<2) {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
@@ -140,6 +140,134 @@ class RedisUtils {
         }
         $result = $result . "]";
         //$log->logInfo("RedisUtils > getOwnerEvents > result  ");
+        return $result;
+    }
+
+    public static function getLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (empty($userId) || $userId < 0) {
+            return "[]";
+        }
+        
+        if (empty($date)) {
+            $date = time();
+        }
+        $redis = new Predis\Client();
+        $pgStart = $pageNumber * $pageItemCount;
+        $pgEnd = $pgStart + $pageItemCount - 1;
+        $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
+        $result = "[";
+        for ($i = 0; $i < sizeof($events); $i++) {
+            if ($i >= $pgStart && $i <= $pgEnd) {
+                try {
+                    $evt = json_decode($events[$i]);
+                    $rel = RedisUtils::getUserRelation($evt->userRelation);
+                    if ($rel->like . "" == "true" || $rel->like ) {
+                        $r = ",";
+                        if (strlen( $result)<2) {
+                            $r = "";
+                        }
+                        $result = $result . $r . $events[$i];
+                    }
+                } catch (Exception $exc) {
+                    $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
+                }
+            }
+        }
+        $result = $result . "]";
+        return $result;
+    }
+
+    public static function getJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
+        if (empty($userId) || $userId < 0) {
+            return "[]";
+        }
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (empty($date)) {
+            $date = time();
+        }
+        $redis = new Predis\Client();
+        $pgStart = $pageNumber * $pageItemCount;
+        $pgEnd = $pgStart + $pageItemCount - 1;
+        $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
+        $result = "[";
+        for ($i = 0; $i < sizeof($events); $i++) {
+            if ($i >= $pgStart && $i <= $pgEnd) {
+                try {
+                    $evt = json_decode($events[$i]);
+                    $rel = RedisUtils::getUserRelation($evt->userRelation);
+                    if ($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) {
+                        $r = ",";
+                        if (strlen( $result)<2) {
+                            $r = "";
+                        }
+                        $result = $result . $r . $events[$i];
+                    }
+                } catch (Exception $exc) {
+                    $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
+                }
+            }
+        }
+        $result = $result . "]";
+        return $result;
+    }
+
+    public static function getResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
+        if (empty($userId) || $userId < 0) {
+            return "[]";
+        }
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (empty($date)) {
+            $date = time();
+        }
+        $redis = new Predis\Client();
+        $pgStart = $pageNumber * $pageItemCount;
+        $pgEnd = $pgStart + $pageItemCount - 1;
+        $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
+        $result = "[";
+        for ($i = 0; $i < sizeof($events); $i++) {
+            if ($i >= $pgStart && $i <= $pgEnd) {
+                try {
+                    $evt = json_decode($events[$i]);
+
+                    $rel = RedisUtils::getUserRelation($evt->userRelation);
+                    if ($rel->reshare . "" == "true" || $rel->reshare ) {
+                        $r = ",";
+                        if (strlen( $result)<2) {
+                            $r = "";
+                        }
+                        $result = $result . $r . $events[$i];
+                    }
+                } catch (Exception $exc) {
+                    $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
+                }
+            }
+        }
+        $result = $result . "]";
+        return $result;
+    }
+
+    public static function getUserRelation($rel = null) {
+        $result = new stdClass();
+        $result->joinType = TYPE_JOIN_NO;
+        $result->like = false;
+        $result->reshare = false;
+        if (!empty($rel)) {
+            if (is_object($rel)) {
+                $rel=  UtilFunctions::cast("stdClass", $rel);
+                return $rel;
+            } else {
+                try {
+                    $rel = json_decode($rel);
+                    if (is_object($rel)) {
+                        $rel=  UtilFunctions::cast("stdClass", $rel);
+                        return $rel;
+                    }
+                } catch (Exception $exc) {
+                    error_log($exc->getTraceAsString());
+                }
+            }
+        }
         return $result;
     }
 

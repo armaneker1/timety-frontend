@@ -330,7 +330,7 @@ if (empty($user)) {
             try {
                 $eventDB = EventUtil::createEvent($event, $user);
                 if (!empty($eventDB) && !empty($eventDB->id)) {
-                    Queue::addEvent($eventDB->id,$user->id);
+                    Queue::addEvent($eventDB->id, $user->id);
                     $m = new HtmlMessage();
                     $m->type = "s";
                     $m->message = "Event created successfully.";
@@ -421,7 +421,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                    		      
+                                                                                                            		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -652,12 +652,12 @@ if (empty($user)) {
             <script>
                 jQuery(document).ready(function() { 
                     openModalPanel('<?= $_GET["eventId"] ?>','<?php
-                    $json_response = json_encode($prm_event);
-                    $json_response = str_replace("'", "\\'", $json_response);
-                    //$json_response = str_replace("\"", "\\\"", $json_response);
-                    echo $json_response;
-                    ?>');
-                 });
+        $json_response = json_encode($prm_event);
+        $json_response = str_replace("'", "\\'", $json_response);
+        //$json_response = str_replace("\"", "\\\"", $json_response);
+        echo $json_response;
+        ?>');
+            });
             </script>
 
 
@@ -772,28 +772,40 @@ if (empty($user)) {
                 <!-- profil box -->
                 <?php if (!empty($user) && !empty($user->id)) { ?>
                     <div class="profil_box main_event_box">
+                        <div class="profil_resim">
+                            <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
+                        </div>
                         <div class="profil_user">
                             <div class="bgln_user">
                                 <h1><?php echo $user->getFullName() ?></h1>
-                                <p><!-- title --></p>
+                                <p><?php echo $user->about ?></p>
                             </div>
                             <div class="user_settings"><a href="<?= PAGE_UPDATE_PROFILE ?>"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>
-                        </div>
-                        <div class="profil_resim">
-                            <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
                         </div>
                         <div class="profil_metin">
                             <!-- bio -->
                         </div>
                         <div class="profil_btn">
                             <ul>
-                                <li onclick="openFriendsPopup(<?= $user->id ?>,1);"><a href="#">Following <p class="prinpt pcolor_mavi" id="prof_following_count"><?= Neo4jUserUtil::getUserFollowingCount($user->id) ?></p></a></li>
-                                <li onclick="openFriendsPopup(<?= $user->id ?>,2);"><a href="#">Followers <p class="prinpt pcolor_krmz" id="prof_followers_count"><?= Neo4jUserUtil::getUserFollowersCount($user->id) ?></p></a></li>
-                                <li><a href="#">Likes <p class="prinpt pcolor_yesil" id="prof_likes_count"><?= Neo4jUserUtil::getUserLikesCount($user->id) ?></p></a></li>
-                                <li><a href="#">Reshare <p class="prinpt pcolor_gri" id="prof_reshares_count"><?= Neo4jUserUtil::getUserResharesCount($user->id) ?></p></a></li>
-                                <li><a href="#">Joined <p class="prinpt pcolor_mavi" id="prof_joins_count"><?= Neo4jUserUtil::getUserJoinsCount($user->id, TYPE_JOIN_YES) ?></p></a></li>
-                                <li><a href="#">Created Event <p class="prinpt pcolor_krmz" id="prof_created_count"><?= Neo4jUserUtil::getUserCreatedCount($user->id) ?></p></a></li>
+                                <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><a href="#">Following <p class="prinpt pcolor_mavi" id="prof_following_count"><?= Neo4jUserUtil::getUserFollowingCount($user->id) ?></p></a></li>
+                                <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><a href="#">Followers <p class="prinpt pcolor_krmz" id="prof_followers_count"><?= Neo4jUserUtil::getUserFollowersCount($user->id) ?></p></a></li>
+                                <li onclick="changeChannelProfile(6);return false;"><a href="#">Likes <p class="prinpt pcolor_yesil" id="prof_likes_count"><?= Neo4jUserUtil::getUserLikesCount($user->id) ?></p></a></li>
+                                <li onclick="changeChannelProfile(7);return false;"><a href="#">Reshare <p class="prinpt pcolor_gri" id="prof_reshares_count"><?= Neo4jUserUtil::getUserResharesCount($user->id) ?></p></a></li>
+                                <li onclick="changeChannelProfile(8);return false;"><a href="#">Joined <p class="prinpt pcolor_mavi" id="prof_joins_count"><?= Neo4jUserUtil::getUserJoinsCount($user->id, TYPE_JOIN_YES) ?></p></a></li>
+                                <li onclick="changeChannelProfile(5);return false;"><a href="#">Created Event <p class="prinpt pcolor_krmz" id="prof_created_count"><?= Neo4jUserUtil::getUserCreatedCount($user->id) ?></p></a></li>
                             </ul>
+
+                            <script>
+                                function changeChannelProfile(channel){
+                                    page_wookmark=0;
+                                    wookmark_channel=channel;
+                                    jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
+                                    jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+                                    jQuery("#mytimety_top_menu").removeClass('top_menu_ul_li_a');
+                                    jQuery("#mytimety_top_menu").addClass('top_menu_ul_li_a_selected');
+                                    wookmarkFiller(document.optionsWookmark,true,true);
+                                } 
+                            </script>
                         </div>
                     </div>
                 <?php } ?>
