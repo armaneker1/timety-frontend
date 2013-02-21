@@ -94,11 +94,11 @@ if (empty($user)) {
 
                     function changeChannel(item){
                         page_wookmark=0;
-                        wookmark_channel=jQuery('.top_menu_ul_li_a_selected').attr('channelId') || 1;
                         jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
                         jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
                         jQuery(item).removeClass('top_menu_ul_li_a');
                         jQuery(item).addClass('top_menu_ul_li_a_selected');
+                        wookmark_channel=jQuery(item).attr('channelId') || 1;
                         wookmarkFiller(document.optionsWookmark,true,true);
                     }    
 
