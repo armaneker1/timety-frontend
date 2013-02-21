@@ -124,5 +124,7 @@ define('REDIS_USER_INTERACTION_LIKE','like');
 define('REDIS_USER_INTERACTION_UNLIKE','unlike');
 define('REDIS_USER_INTERACTION_RESHARE','reshare');
 define('REDIS_USER_INTERACTION_UNSHARE','unshare');
+define('REDIS_USER_INTERACTION_FOLLOW','follow');
+define('REDIS_USER_INTERACTION_UNFOLLOW','unfollow');
 
 ?>
