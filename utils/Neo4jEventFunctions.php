@@ -729,6 +729,7 @@ class Neo4jEventUtils {
                     $evnt->save();
                 }
             }
+            Queue::updateProfile($userId);
         }
     }
 
