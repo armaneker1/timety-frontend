@@ -421,7 +421,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                            		      
+                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -675,6 +675,21 @@ if (empty($user)) {
         <?php } ?>
         <!-- Open Event Popup -->
 
+        <script>
+            jQuery(document).ready(function(){
+                if(location.hash){
+
+                    var ch=0;
+                    if(location.hash=='#mytimety'){
+                        ch=2;
+                    } else if(location.hash=='#popular') {
+                        ch=0;
+                    } else if(location.hash=='#following') {
+                        ch=3; }
+                    jQuery("a[channelId|='"+ch+"']").click();
+                }
+            });
+        </script>
         <?php if (isset($_GET['channel']) && !empty($_GET['channel'])) { ?>
             <!-- channel -->
             <script>
