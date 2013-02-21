@@ -232,7 +232,7 @@ label.iOSCheckLabelOff span {
 	height: 17px;
 	width: 16px;
 	background-image:
-		url(images/iphone-style-checkboxes/slider_center1.png?1284697268);
+		url('images/iphone-style-checkboxes/slider_center1.png?1284697268');
 	display: block;
 }
 
