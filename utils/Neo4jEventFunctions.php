@@ -394,38 +394,6 @@ class Neo4jEventUtils {
                     }
                 }
             }
-            /* if(!empty($event->peoplecansee) && sizeof($event->peoplecansee))
-              {
-              foreach ($event->peoplecansee as $att)
-              {
-              if(!empty($att))
-              {
-              $parts = explode('_', $att);
-              $type=$parts[0];
-              $id=$parts[1];
-              if($type=='u')
-              {
-
-              $usr=$userIndex->findOne(PROP_USER_ID,$id);
-              if(!empty($usr))
-              {
-              $usr->relateTo($evnt, REL_EVENTS_USER_SEES)->save();
-              }
-
-              } else if ($type=='g'){
-
-              $grp=$groupIndex->findOne(PROP_GROUP_ID,$id);
-              if(!empty($grp))
-              {
-              $grp->relateTo($evnt, REL_EVENTS_GROUP_SEES)->setProperty(PROP_GROUPS_EVENT, 1)->save();
-              $this->makeVisibleToGroup($id,$eventId);
-              }
-
-              }
-
-              }
-              }
-              } */
             $usr = $userIndex->findOne(PROP_USER_ID, $user->id);
 
             Neo4jEventUtils::relateUserToEvent($usr, $evnt, 1, TYPE_JOIN_YES);
