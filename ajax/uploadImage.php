@@ -45,6 +45,50 @@ if (isset($_GET['type']) && $_GET['type'] == 1) {
     echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 }
 
+if (isset($_GET['type']) && $_GET['type'] == 2 && $_GET['userId'] && !empty($_GET['userId'])) {
+
+    $allowedExtensions = array("jpeg", "png", "jpg", "gif");
+    $sizeLimit = 10 * 1024 * 1024;
+
+    $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+
+    if (!file_exists(__DIR__ . '/../uploads/users/' . $_GET['userId'] . '/')) {
+        mkdir(__DIR__ . '/../uploads/users/' . $_GET['userId'] . '/', 0777, true);
+    }
+
+    $result = $uploader->handleUpload(__DIR__ . '/../uploads/users/' . $_GET['userId'] . '/', TRUE);
+
+    $imgName = "";
+    if (isset($_GET['imageName'])) {
+        $imgName = $_GET['imageName'];
+    }
+
+    $source_url = __DIR__ . '/../uploads/users/' . $_GET['userId'] . '/' . $imgName;
+    $info = getimagesize($source_url);
+
+    if ($info['mime'] == 'image/jpeg')
+        $image = imagecreatefromjpeg($source_url);
+    elseif ($info['mime'] == 'image/gif')
+        $image = imagecreatefromgif($source_url);
+    elseif ($info['mime'] == 'image/png')
+        $image = imagecreatefrompng($source_url);
+
+    $size = filesize($source_url);
+    $quality = 100;
+    if ($size >= (100 * 1024) && $size < (512 * 1024)) {
+        $quality = 60;
+    } else if ($size >= (512 * 1024) && $size < (1024 * 1024)) {
+        $quality = 40;
+    } else if ($size >= (1024 * 1024) && $size < (3096 * 1024)) {
+        $quality = 30;
+    } else if ($size >= (3096 * 1024)) {
+        $quality = 10;
+    }
+    imagejpeg($image, $source_url, $quality);
+    $result->userPic = UserUtils::changeserProfilePic($_GET['userId'], HOSTNAME . UPLOAD_FOLDER . 'users/' . $_GET['userId'] . '/' . $imgName, null);
+    echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+}
+
 /**
  * Handle file uploads via XMLHttpRequest
  */

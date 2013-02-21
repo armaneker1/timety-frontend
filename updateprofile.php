@@ -96,7 +96,7 @@ if (isset($_SESSION['profile_session']) && $_SESSION['profile_session'] == "1") 
     $te_image = $_SESSION['pr_image'];
     $te_gender = $_SESSION['pr_gender'];
     $success = $_SESSION['pr_success'];
-    
+
     $_SESSION['pr_email'] = "";
     $_SESSION['pr_emailError'] = "";
     $_SESSION['pr_username'] = "";
@@ -230,13 +230,13 @@ if (isset($_POST['update'])) {
     if (!empty($newPassword)) {
         $user->password = sha1($newPassword);
     }
-    $success=false;
+    $success = false;
     if ($param) {
         UserUtils::updateUser($_SESSION['id'], $user);
         $user = UserUtils::getUserById($_SESSION['id']);
         UserUtils::addUserInfoNeo4j($user);
         $success = true;
-        UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId"=>$_SESSION['id']));
+        UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id']));
     }
 
     $_SESSION['pr_email'] = $email;
@@ -268,7 +268,11 @@ if (isset($_POST['update'])) {
 ?>
 <html>
     <head>
-        <?php $timety_header="Timety | Update Profile"; $profile_page_type="profile"; include('layout/layout_header.php'); ?>
+        <?php
+        $timety_header = "Timety | Update Profile";
+        $profile_page_type = "profile";
+        include('layout/layout_header.php');
+        ?>
 
         <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
@@ -821,10 +825,48 @@ if (isset($_POST['update'])) {
                     <div class="profil_g">
                         <p class="profil_etiket">Profile</p>
                         <div id="profil_image_id" class="profil_kul" style="background: url(<?= PAGE_GET_IMAGEURL . $te_image . "&w=106&h=106" ?>)"></div>
+                        <div class="profil_kul" id="profil_image_id_div" style="background: none;position: absolute;"></div>
                         <div class="profil_al"> 
                             <p>import from</p>
                             <a style="cursor: pointer;" id="import_from_facebook"><img src="images/faceal.png" width="99" height="32" border="0" /></a>
-                            <a style="cursor: pointer;" id="import_from_twitter"><img src="images/twiter_al.png" width="99" height="32" border="0" /></a></div>
+                            <a style="cursor: pointer;" id="import_from_twitter"><img src="images/twiter_al.png" width="99" height="32" border="0" /></a>
+                        </div>
+                        <script>
+<?php
+$imgName = $user->id . "_" . time() . ".png";
+?>
+                                    jQuery(document).ready(function() {
+                                                
+                                        var uploader = new qq.FileUploader({
+                                            element: document.getElementById('profil_image_id_div'),
+                                            action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=2',
+                                            debug: true,
+                                            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                                            params: {
+                                                imageName:'<?= $imgName ?>',
+                                                userId:'<?= $user->id ?>'
+                                            },
+                                            sizeLimit : 10*1024*1024,
+                                            multiple:false,
+                                            onComplete: function(id, fileName, responseJSON){
+                                                try{
+                                                    if(typeof data == "string"){
+                                                        responseJSON= jQuery.parseJSON(responseJSON);
+                                                    }
+                                                }catch(e) {
+                                                    console.log(e);
+                                                }
+                                                jQuery("#profil_image_id").css("background",'url(<?= PAGE_GET_IMAGEURL.HOSTNAME.UPLOAD_FOLDER."users/".$user->id."/".$imgName ?>&w=106&h=106)');
+                                            },
+                                            messages: {
+                                                typeError: "{file} has invalid extension. Only {extensions} are allowed.",
+                                                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                                                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                                                emptyError: "{file} is empty, please select files again without it.",
+                                                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
+                                            }
+                                        }
+                                    ); });</script>
                     </div>
                     <div class="profil_g">
                         <p class="profil_etiket">Short Bio</p>
@@ -847,10 +889,10 @@ if (isset($_POST['update'])) {
                         <span id='te_about_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_about_span_msg" style="display:<?= $display ?>;"><?= $aboutError ?><div class="kok"></div></div>
                         </span> <br />
-                        
-                         <script>
+
+                        <script>
                             jQuery("#te_about").maxlength({feedbackText: '{r}',showFeedback:"active"});
-                            </script>
+                        </script>
                     </div>
 
                     <p class="profil_etiket">Location</p>
