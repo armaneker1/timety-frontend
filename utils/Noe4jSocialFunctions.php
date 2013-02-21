@@ -254,6 +254,7 @@ class SocialUtil {
                 if (!empty($fromUsr) && !empty($toUsr)) {
                     $fromUsr->relateTo($toUsr, REL_FOLLOWS)->save();
                     $result->success = true;
+                    Queue::followUser($fromUserId, $toUserId);
                 } else {
                     $result->error = "Userlar bulunamadı";
                 }
@@ -295,6 +296,7 @@ class SocialUtil {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
             $result->success = true;
+            Queue::followUser($fromUserId, $toUserId);
         } catch (Exception $e) {
             log("Error", $e->getMessage());
             $result->error = $e->getMessage();
