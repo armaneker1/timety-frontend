@@ -60,6 +60,14 @@ class Queue {
         ));
     }
 
+    public static function updateProfile($userId) {
+        self::send("user", "updateUser", array(
+            "userID" => $userId,
+            "type" => REDIS_USER_UPDATE,
+            "time" => time()
+        ));
+    }
+
     //--------------------------------------------------------------------------
 
     private static function send($method, $action, $obj) {
