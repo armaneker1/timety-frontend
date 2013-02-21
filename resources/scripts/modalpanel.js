@@ -530,6 +530,8 @@ function addUrlEventId(event_id,title)
                     title=title.replace(/[^A-Za-z0-9-]+/g, '');
                 }
                 window.History.pushState(null, null, "event/"+event_id+"/"+title);  
+                _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
             }else
             {
                 path="";

@@ -59,7 +59,7 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?201302211440"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?201302211915"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20130219"></script>

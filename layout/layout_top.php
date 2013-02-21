@@ -100,6 +100,8 @@ if (empty($user)) {
                         jQuery(item).addClass('top_menu_ul_li_a_selected');
                         wookmark_channel=jQuery(item).attr('channelId') || 1;
                         wookmarkFiller(document.optionsWookmark,true,true);
+                        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
                     }    
 
         <?php } ?>
@@ -107,10 +109,10 @@ if (empty($user)) {
                 <div class="top_menu">
                     <ul>
                         <li class="t_m_line">
-                            <a href="#" id="mytimety_top_menu" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timety</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
+                            <a href="#mytimety" id="mytimety_top_menu" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timety</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
                         </li>
                         <li id="top_menu_following" class="t_m_line">
-                            <a id="following_top_menu_a" href="#" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a>
+                            <a id="following_top_menu_a" href="#following" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a>
                             <div id="following_top_menu" class="my_timete_popup_following_container" style="display: none;">
                                 <div  class="my_timete_popup" >
                                     <div class="kck_detay_ok"></div>
@@ -126,7 +128,7 @@ if (empty($user)) {
                             </div>
                         </li>
                         <li id="top_menu_populer" class="t_m_line">
-                            <a id="populer_top_menu_a" href="#" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a>
+                            <a id="populer_top_menu_a" href="#popular" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a>
                             <div id="populer_top_menu" class="my_timete_popup_popular_container" style="display: none;">
                                 <div  class="my_timete_popup" >
                                     <div class="kck_detay_ok"></div>
