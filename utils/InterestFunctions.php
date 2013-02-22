@@ -95,6 +95,9 @@ class InterestUtil {
      * list events after given date dafault current date
      * $type = events type 1=Popular,2=Mytimete,3=following default 1
      * 5= i created
+     * 6=i liked
+     * 7=i reshared
+     * 8=i joined
      * $query search paramaters deeafult "" all
      * $pageNumber deafult 0
      * $pageItemCount default 15

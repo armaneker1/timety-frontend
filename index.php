@@ -731,7 +731,7 @@ if (empty($user)) {
                                             if (!empty($user)) {
                                                 $userId = $user->id;
                                             }
-                                            $events = InterestUtil::getEvents($userId, 0, 1000, null, null, 5);
+                                            $events = InterestUtil::getEvents($userId, 0, 1000, null, null, 8);
                                             $events = json_decode($events);
                                             if (empty($events)) {
                                                 ?>
