@@ -1162,7 +1162,7 @@ if (!empty($var_cats)) {
                         </div>
                         <div class="eab_daire"></div>
                     </div>
-                    <div class="ea_alt">
+                    <div class="ea_alt" style="height: 50px;">
                         <div class="ea_sosyal" style="display: none">
                             <button type="button" name="" value=""
                                     class="face back_btn sosyal_icon"></button>
