@@ -900,12 +900,12 @@ if (empty($user)) {
                                                      class_aktif="like_btn_aktif" 
                                                      class_pass="like_btn"      
                                                      pressed="<?php
-                                     if ($main_event->userRelation->like) {
-                                         echo "true";
-                                     } else {
-                                         echo "false";
-                                     }
-                                ?>"  
+                                                    if ($main_event->userRelation->like) {
+                                                        echo "true";
+                                                    } else {
+                                                        echo "false";
+                                                    }
+                                               ?>"  
                                                      onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_maybe_btn" 
                                                      class="ls_btn <?php

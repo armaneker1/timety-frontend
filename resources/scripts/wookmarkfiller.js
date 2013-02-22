@@ -237,11 +237,11 @@ function wookmarkHTML(dataArray,userId)
             if(data.userRelation.like)
             {
                 jQuery(btnLike).addClass('like_btn_aktif'); 
-                jQuery(btnLike).attr('press','true'); 
+                jQuery(btnLike).attr('pressed','true'); 
             }else
             {
                 jQuery(btnLike).addClass('like_btn'); 
-                jQuery(btnLike).attr('press','false'); 
+                jQuery(btnLike).attr('pressed','false'); 
             }
             jQuery(btnLike).click(function() {
                 likeEvent(this,data.id);
@@ -260,11 +260,11 @@ function wookmarkHTML(dataArray,userId)
             if(data.userRelation.joinType==2)
             {
                 jQuery(btnMaybe).addClass('maybe_btn_aktif'); 
-                jQuery(btnMaybe).attr('press','true'); 
+                jQuery(btnMaybe).attr('pressed','true'); 
             }else
             {
                 jQuery(btnMaybe).addClass('maybe_btn'); 
-                jQuery(btnMaybe).attr('press','false'); 
+                jQuery(btnMaybe).attr('pressed','false'); 
             }
             jQuery(btnMaybe).click(function() {
                 sendResponseEvent(this,data.id,2);
@@ -280,11 +280,11 @@ function wookmarkHTML(dataArray,userId)
             if(data.userRelation.reshare)
             {
                 jQuery(btnShare).addClass('share_btn_aktif'); 
-                jQuery(btnShare).attr('press','true'); 
+                jQuery(btnShare).attr('pressed','true'); 
             }else
             {
                 jQuery(btnShare).addClass('share_btn'); 
-                jQuery(btnShare).attr('press','false'); 
+                jQuery(btnShare).attr('pressed','false'); 
             }
             jQuery(btnShare).click(function() {
                 reshareEvent(this,data.id);
@@ -303,11 +303,11 @@ function wookmarkHTML(dataArray,userId)
             if(data.userRelation.joinType==1)
             {
                 jQuery(btnJoin).addClass('join_btn_aktif'); 
-                jQuery(btnJoin).attr('press','true'); 
+                jQuery(btnJoin).attr('pressed','true'); 
             }else
             {
                 jQuery(btnJoin).addClass('join_btn'); 
-                jQuery(btnJoin).attr('press','false'); 
+                jQuery(btnJoin).attr('pressed','false'); 
             }
             jQuery(btnJoin).click(function() {
                 sendResponseEvent(this,data.id,1);

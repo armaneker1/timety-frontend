@@ -48,6 +48,35 @@ if (empty($user)) {
             <button type="button" name="" value="" class="searchbtn" style="display: none; cursor: pointer">Search</button>
 
             <!-- search button end -->
+
+            <!-- Add Quick Event -->
+           <!-- <div id="te_quick_add_event_bar"  
+                 class="quick_add_event_bar" >
+                <input id="te_quick_event_desc"  
+                       class="quick_add_event_input" 
+                       name="" type="text"  
+                       placeholder="Add Quick Event ..." />
+                <button id="te_quick_event_people_btn" 
+                        class="quick_add_event_people_button icon_bg" 
+                        name="" type="button"  
+                        value="" />
+                <button id="te_quick_event_cal_btn" 
+                        class="quick_add_event_cal_button icon_bg" 
+                        name="" type="button"  
+                        value="" />
+                <button id="te_quick_event_loc_btn" 
+                        class="quick_add_event_loc_button icon_bg" 
+                        name="" type="button"  
+                        value="" />
+            </div>
+            <button id="te_quick_event_people_btn"  
+                    class="quick_add_event_save_button"
+                    style="cursor: pointer"
+                    name="" type="button"  
+                    value="">Add</button> -->
+            <!-- Add Quick Event -->
+
+
             <?php
             if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
                 ?>

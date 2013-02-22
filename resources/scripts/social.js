@@ -89,9 +89,9 @@ function reshareEvent(button,eventId)
     /*
      * disable button
      */
-    jQuery(button).attr("disabled", "disabled");
     jQuery.sessionphp.get('id',function(user___id){
         var userId = user___id;
+        jQuery(button).attr("disabled", "disabled");
         if(eventId && userId)
         {
             if(jQuery(button).attr("pressed")=="true")
@@ -189,9 +189,9 @@ function sendResponseEvent(button,eventId,type)
     /*
      * disable button
      */
-    jQuery(button).attr("disabled", "disabled");
     jQuery.sessionphp.get('id',function(user___id){
         var userId = user___id;
+        jQuery(button).attr("disabled", "disabled");
         if(eventId && userId)
         {
             if(jQuery(button).attr("pressed")=="true")
@@ -309,9 +309,9 @@ function likeEvent(button,eventId)
     /*
      * disable button
      */
-    jQuery(button).attr("disabled", "disabled");
     jQuery.sessionphp.get('id',function(user___id){
         var userId = user___id;
+        jQuery(button).attr("disabled", "disabled");
         if(eventId && userId)
         {
             if(jQuery(button).attr("pressed")=="true")
