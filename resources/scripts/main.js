@@ -1,8 +1,13 @@
 function followUser(fromUserId, toUSerId, button) {
+    button.className = 'followed_btn';
+    button.innerHTML = 'unfollow';
+    jQuery(button).attr("disabled","disabled");
+    
     jQuery.post(TIMETY_PAGE_AJAX_FOLLOWUSER, { 
         fuser : fromUserId,
         tuser : toUSerId
     }, function(data) {
+        jQuery(button).removeAttr("disabled");
         if (data.success) {
             button.className = 'followed_btn';
             button.innerHTML = 'unfollow';
@@ -10,23 +15,32 @@ function followUser(fromUserId, toUSerId, button) {
                 + button.getAttribute('onclick'));
             updateBadge(4,1);
         } else {
+            button.className = 'follow_btn';
+            button.innerHTML = 'follow';
             getInfo(true, data.error, "error", 4000);
         }
     }, "json");
 }
 
 function unfollowUser(fromUserId, toUSerId, button) {
+    button.className = 'follow_btn';
+    button.innerHTML = 'follow';
+    jQuery(button).attr("disabled","disabled");
+    
     jQuery.post(TIMETY_PAGE_AJAX_UNFOLLOWUSER, {
         fuser : fromUserId,
         tuser : toUSerId
     }, function(data) {
+        jQuery(button).removeAttr("disabled");
         if (data.success) {
             button.className = 'follow_btn';
             button.innerHTML = 'follow';
             button.setAttribute('onclick', button.getAttribute('onclick')
                 .substring(2));
-                updateBadge(4,-1);
+            updateBadge(4,-1);
         } else {
+            button.className = 'followed_btn';
+            button.innerHTML = 'unfollow';
             getInfo(true, data.error, "error", 4000);
         }
     }, "json");

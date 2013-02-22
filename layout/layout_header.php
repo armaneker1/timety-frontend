@@ -48,7 +48,7 @@ if (!isset($timety_header)) {
 
 
 <!-- Scripts -->
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.js?201302221535"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery-1.8.2.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.history.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.sessionphp.js"></script>

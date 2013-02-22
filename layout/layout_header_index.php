@@ -52,7 +52,7 @@ if (!isset($timety_header)) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.datepicker.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.history.js"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.min.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.min.js?201302221535"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.sessionphp.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.wookmark.min.js?201302201500"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.min.js?201302221515"></script>
