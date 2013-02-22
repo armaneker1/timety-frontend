@@ -143,7 +143,7 @@ if (isset($_POST['update'])) {
     }
     $lastname = $_POST['te_lastname'];
     if (empty($lastname)) {
-        $lastname = "Please enter your last name";
+        $ulastnameError = "Please enter your last name";
         $param = false;
     }
     $email = $_POST['te_email'];
