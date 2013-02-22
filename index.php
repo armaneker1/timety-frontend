@@ -720,7 +720,7 @@ if (empty($user)) {
                                 <div id="slides" style="overflow: hidden;max-height: 120px;">
                                     <div id="slides_container">
                                         <?php if (empty($user)) { ?>
-                                            <div class="slide_item">
+                                            <div class="slide_item" id="create_event_empty">
                                                 <div class="akt_tkvm">
                                                     <a href="<?= HOSTNAME ?>login"  class="add_event_link">Click Here to Add Event</a>
                                                 </div>
@@ -735,7 +735,7 @@ if (empty($user)) {
                                             $events = json_decode($events);
                                             if (empty($events)) {
                                                 ?>
-                                                <div class="slide_item">
+                                                <div class="slide_item" id="create_event_empty">
                                                     <div class="akt_tkvm">
                                                         <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
                                                     </div>
@@ -743,6 +743,14 @@ if (empty($user)) {
 
                                                 <?php
                                             } else {
+                                                ?>
+                                                <div class="slide_item" id="create_event_empty" style="display: none">
+                                                    <div class="akt_tkvm">
+                                                        <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
+                                                    </div>
+                                                </div>
+
+                                                <?php
                                                 for ($i = 0; $i < sizeof($events); $i++) {
                                                     $evt = $events[$i];
                                                     $evt = UtilFunctions::cast("Event", $evt);

@@ -59,7 +59,7 @@ if (!isset($timety_header)) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/dragdrop.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.wookmark.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.js"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.js?201302221325"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?201302211915"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.jscroll.js"></script>
