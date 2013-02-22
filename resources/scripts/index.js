@@ -138,6 +138,8 @@ function likeshareInit(userId,element)
                     }
                 },"json");
             });
+        }else{
+            setTooltipLikeShareDiv(element);
         }
     }else{
         setTooltipLikeShareDiv(element);

@@ -67,7 +67,7 @@ if (!isset($timety_header)) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootbox.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js?201302221248"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.dd.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/dateutil.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/register.js"></script>

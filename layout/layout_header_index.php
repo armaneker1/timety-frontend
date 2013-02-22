@@ -62,7 +62,7 @@ if (!isset($timety_header)) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?201302211915"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20130219"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?201302221248"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.dd.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAPS_API_KEY ?>&sensor=true&libraries=places"></script>
