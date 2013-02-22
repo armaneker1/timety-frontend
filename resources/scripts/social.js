@@ -96,6 +96,7 @@ function reshareEvent(button,eventId)
         {
             if(jQuery(button).attr("pressed")=="true")
             {
+                setButtonStatus(button,false);
                 // not pressed goto not reshare post
                 jQuery.ajax({
                     type: 'POST',
@@ -117,6 +118,7 @@ function reshareEvent(button,eventId)
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            setButtonStatus(button,true);
                         }else {
                             updateBadge(2, -1);
                             setTooltipButton(button,"Reshare");
@@ -128,11 +130,13 @@ function reshareEvent(button,eventId)
                     },
                     error : function(error_data){
                         console.log(error_data);
+                        setButtonStatus(button,true);
                         jQuery(button).removeAttr("disabled"); 
                     }
                 },"json");
             }else
             {
+                setButtonStatus(button,true);
                 // not pressed goto reshare post
                 jQuery.ajax({
                     type: 'POST',
@@ -153,17 +157,19 @@ function reshareEvent(button,eventId)
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            setButtonStatus(button,false);
                         }else {
                             updateBadge(2, 1);
                             setTooltipButton(button,"Revert");
                             var msg='You reshared Event';
                             //getInfo(true,msg,'info',4000);
-                            setButtonStatus(button,true);
                             changeLocalData(eventId,2,true);
+                            setButtonStatus(button,true);
                         }
                     },
                     error : function(error_data){
                         console.log(error_data);
+                        setButtonStatus(button,false);
                         jQuery(button).removeAttr("disabled"); 
                     }
                 },"json");
@@ -191,6 +197,24 @@ function sendResponseEvent(button,eventId,type)
             if(jQuery(button).attr("pressed")=="true")
             {
                 type=5;
+                setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
+                setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
+                setButtonStatus(jQuery("#button_join"),false);
+                setButtonStatus(jQuery("#button_maybe"),false);
+            }else{
+                if(type==1){
+                    setButtonStatus(button,true);
+                    setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
+                    setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),true);
+                    setButtonStatus(jQuery("#button_maybe"),false);
+                }else if(type==2){
+                    setButtonStatus(button,true);
+                    setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
+                    setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),true);
+                    setButtonStatus(jQuery("#button_join"),false);
+                }else if(type==3){
+                    setButtonStatus(button,false);
+                }
             }
             jQuery.ajax({
                 type: 'POST',
@@ -263,7 +287,7 @@ function sendResponseEvent(button,eventId,type)
                             setButtonStatus(button,false);
                             removeFromMyTimety(eventId);
                         }
-                        //getInfo(true,msg,'info',4000);
+                    //getInfo(true,msg,'info',4000);
                     }
                 },
                 error : function(error_data){
@@ -292,6 +316,7 @@ function likeEvent(button,eventId)
         {
             if(jQuery(button).attr("pressed")=="true")
             {
+                setButtonStatus(button,false);
                 jQuery.ajax({
                     type: 'POST',
                     url: TIMETY_PAGE_AJAX_LIKE_EVENT,
@@ -312,6 +337,7 @@ function likeEvent(button,eventId)
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            setButtonStatus(button,true);
                         }else {
                             updateBadge(3, -1);
                             setTooltipButton(button,"Like");
@@ -322,11 +348,13 @@ function likeEvent(button,eventId)
                         }
                     },
                     error : function(error_data){
+                        setButtonStatus(button,true);
                         console.log(error_data);
                         jQuery(button).removeAttr("disabled"); 
                     }
                 },"json");
             }else{
+                setButtonStatus(button,true);
                 jQuery.ajax({
                     type: 'POST',
                     url: TIMETY_PAGE_AJAX_LIKE_EVENT,
@@ -346,6 +374,7 @@ function likeEvent(button,eventId)
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            setButtonStatus(button,false);
                         }else {
                             updateBadge(3, 1);
                             var msg='You liked Event';
@@ -356,6 +385,7 @@ function likeEvent(button,eventId)
                         }
                     },
                     error : function(error_data){
+                        setButtonStatus(button,false);
                         console.log(error_data);
                         jQuery(button).removeAttr("disabled"); 
                     }
