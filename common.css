@@ -36,6 +36,9 @@
     border-right-style: none;
     border-bottom-style: none;
     border-left-style: none;
+    position: relative;
+    float: left;
+    margin: 2px;
 }
 
 

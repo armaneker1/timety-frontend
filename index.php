@@ -421,7 +421,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                        		      
+                                                                                                                                                		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -883,11 +883,11 @@ if (empty($user)) {
                                         <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>">
                                             <button  id="div_like_btn" 
                                                      class="ls_btn <?php
-                if ($main_event->userRelation->like) {
-                    echo "like_btn_aktif";
-                } else {
-                    echo "like_btn";
-                }
+                                    if ($main_event->userRelation->like) {
+                                        echo "like_btn_aktif";
+                                    } else {
+                                        echo "like_btn";
+                                    }
                                 ?>"  
                                                      class_aktif="like_btn_aktif" 
                                                      class_pass="like_btn"      

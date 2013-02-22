@@ -34,7 +34,7 @@ if (!isset($timety_header)) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201302211536" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201302221241" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -80,6 +80,9 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/tipped.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.js"></script>
 <script  language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
+<!--[if lt IE 9]>
+  <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/excanvas.js"></script>
+<![endif]-->
 <!-- Scripts -->
 
 

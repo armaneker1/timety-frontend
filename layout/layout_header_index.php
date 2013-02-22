@@ -28,13 +28,13 @@ if (!isset($timety_header)) {
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
-<link  href="<?= HOSTNAME ?>all_css.css?201302211436" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>all_css.css?201302221241" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
 <!--<![endif]-->
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201302211531" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201302221227" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -72,7 +72,9 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/tipped.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
-
+<!--[if lt IE 9]>
+  <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/excanvas.js"></script>
+<![endif]-->
 
 <script src="<?= HOSTNAME ?>js/prototype.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?= HOSTNAME ?>js/effects.min.js" type="text/javascript" charset="utf-8"></script>

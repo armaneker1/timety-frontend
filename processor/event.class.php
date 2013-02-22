@@ -290,7 +290,7 @@ class EventProcessor {
             $usrR->action = $this->type;
             $usrR->eventId = $event->id;
             $usrR->userId = $this->userID;
-            $usrR->time = $this->time;
+            $usrR->time = null; //$this->time;
             if ($this->type == REDIS_USER_INTERACTION_CREATED) {
                 //new 
                 $array = array();
@@ -362,7 +362,7 @@ class EventProcessor {
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_JOIN && $rel->userId == $this->userID) {
-                            $rel->time = $this->time;
+                            //$rel->time = $this->time;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_JOIN);
                             $array[$i] = $rel;
                             $added = false;
@@ -380,7 +380,7 @@ class EventProcessor {
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_MAYBE && $rel->userId == $this->userID) {
-                            $rel->time = $this->time;
+                            //$rel->time = $this->time;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_MAYBE);
                             $array[$i] = $rel;
                             $added = false;
@@ -394,7 +394,7 @@ class EventProcessor {
                     $event->userEventLog = $array;
                     return true;
                 } else if ($this->type == REDIS_USER_INTERACTION_DECLINE || $this->type == REDIS_USER_INTERACTION_IGNORE) {
-                    for ($i = sizeof($array)-1; $i >=0 ; $i--) {
+                    for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $rel = $array[$i];
                         if (($rel->action == REDIS_USER_INTERACTION_JOIN || $rel->action == REDIS_USER_INTERACTION_MAYBE) && $rel->userId == $this->userID) {
                             unset($array[$i]);
@@ -406,7 +406,7 @@ class EventProcessor {
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
-                            $rel->time = $this->time;
+                            //$rel->time = $this->time;
                             $array[$i] = $rel;
                             $added = false;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_LIKE);
@@ -420,7 +420,7 @@ class EventProcessor {
                     $event->userEventLog = $array;
                     return true;
                 } else if ($this->type == REDIS_USER_INTERACTION_UNLIKE) {
-                    for ($i = sizeof($array)-1; $i >=0 ; $i--) {
+                    for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
                             unset($array[$i]);
@@ -432,7 +432,7 @@ class EventProcessor {
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_RESHARE && $rel->userId == $this->userID) {
-                            $rel->time = $this->time;
+                            //$rel->time = $this->time;
                             $array[$i] = $rel;
                             $added = false;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_RESHARE);
@@ -446,7 +446,7 @@ class EventProcessor {
                     $event->userEventLog = $array;
                     return true;
                 } else if ($this->type == REDIS_USER_INTERACTION_UNSHARE) {
-                    for ($i = sizeof($array)-1; $i >=0 ; $i--) {
+                    for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_RESHARE && $rel->userId == $this->userID) {
                             unset($array[$i]);
