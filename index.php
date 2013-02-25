@@ -890,6 +890,9 @@ if (empty($user)) {
                                     <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
                                         <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>">
                                             <button  id="div_like_btn" 
+                                                     data-toggle="tooltip" 
+                                                     data-placement="bottom" 
+                                                     title=""
                                                      class="ls_btn <?php
                                     if ($main_event->userRelation->like) {
                                         echo "like_btn_aktif";
@@ -908,6 +911,9 @@ if (empty($user)) {
                                                ?>"  
                                                      onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_maybe_btn" 
+                                                     data-toggle="tooltip" 
+                                                     data-placement="bottom" 
+                                                     title=""
                                                      class="ls_btn <?php
                                      if ($main_event->userRelation->joinType == 2) {
                                          echo "maybe_btn_aktif";
@@ -931,6 +937,9 @@ if (empty($user)) {
                                      }
                                 ?>"></button>
                                             <button  id="div_share_btn" 
+                                                     data-toggle="tooltip" 
+                                                     data-placement="bottom" 
+                                                     title=""
                                                      class="ls_btn <?php
                                      if ($main_event->userRelation->reshare) {
                                          echo "share_btn_aktif";
@@ -949,6 +958,9 @@ if (empty($user)) {
                                 ?>" 
                                                      onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_join_btn" 
+                                                     data-toggle="tooltip" 
+                                                     data-placement="bottom" 
+                                                     title=""
                                                      class="ls_btn <?php
                                      if ($main_event->userRelation->joinType == 1) {
                                          echo "join_btn_aktif";
@@ -972,6 +984,9 @@ if (empty($user)) {
                                      }
                                 ?>"></button>
                                             <button  id="div_edit_btn" 
+                                                     data-toggle="tooltip" 
+                                                     data-placement="bottom" 
+                                                     title=""
                                                      class="edit_btn" 
                                                      class_aktif="edit_btn_aktif" 
                                                      class_pass="edit_btn" 

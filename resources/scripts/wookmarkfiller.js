@@ -176,7 +176,6 @@ function wookmarkHTML(dataArray,userId)
         }
     }
     jQuery.each(dataArray, function(i, data) { 
-        
         if(!data.ad)
         {
             //whole html    
@@ -230,7 +229,9 @@ function wookmarkHTML(dataArray,userId)
 
             var btnLike = document.createElement('button');
             jQuery(btnLike).addClass('ls_btn');
-            //jQuery(btnLike).attr('disabled','disabled');
+            jQuery(btnLike).attr('data-toggle','tooltip');
+            jQuery(btnLike).attr('data-placement','bottom');
+            jQuery(btnLike).attr('title','');
             jQuery(btnLike).attr("class_aktif","like_btn_aktif");
             jQuery(btnLike).attr("id","div_like_btn");
             jQuery(btnLike).attr("class_pass","like_btn");
@@ -250,7 +251,9 @@ function wookmarkHTML(dataArray,userId)
             
             var btnMaybe = document.createElement('button');
             jQuery(btnMaybe).addClass('ls_btn'); 
-            //jQuery(btnMaybe).attr('disabled','disabled');
+            jQuery(btnMaybe).attr('data-toggle','tooltip');
+            jQuery(btnMaybe).attr('data-placement','bottom');
+            jQuery(btnMaybe).attr('title','');
             jQuery(btnMaybe).attr("class_aktif","maybe_btn_aktif");
             jQuery(btnMaybe).attr("id","div_maybe_btn");
             jQuery(btnMaybe).attr("class_pass","maybe_btn");
@@ -273,7 +276,9 @@ function wookmarkHTML(dataArray,userId)
             
             var btnShare = document.createElement('button');
             jQuery(btnShare).addClass('ls_btn'); 
-            //jQuery(btnShare).attr('disabled','disabled');
+            jQuery(btnShare).attr('data-toggle','tooltip');
+            jQuery(btnShare).attr('data-placement','bottom');
+            jQuery(btnShare).attr('title','');
             jQuery(btnShare).attr("class_aktif","share_btn_aktif");
             jQuery(btnShare).attr("id","div_share_btn");
             jQuery(btnShare).attr("class_pass","share_btn");
@@ -293,7 +298,9 @@ function wookmarkHTML(dataArray,userId)
             
             var btnJoin = document.createElement('button');
             jQuery(btnJoin).addClass('ls_btn'); 
-            //jQuery(btnJoin).attr('disabled','disabled');
+            jQuery(btnJoin).attr('data-toggle','tooltip');
+            jQuery(btnJoin).attr('data-placement','bottom');
+            jQuery(btnJoin).attr('title','');
             jQuery(btnJoin).attr("class_aktif","join_btn_aktif");
             jQuery(btnJoin).attr("id","div_join_btn");
             jQuery(btnJoin).attr("class_pass","join_btn");
@@ -316,8 +323,9 @@ function wookmarkHTML(dataArray,userId)
             
             
             var editJoin = document.createElement('button');
-            //jQuery(editJoin).addClass('ls_btn'); 
-            //jQuery(btnJoin).attr('disabled','disabled');
+            jQuery(editJoin).attr('data-toggle','tooltip');
+            jQuery(editJoin).attr('data-placement','bottom');
+            jQuery(editJoin).attr('title','');
             jQuery(editJoin).attr("class_aktif","edit_btn_aktif");
             jQuery(editJoin).attr("id","div_edit_btn");
             jQuery(editJoin).attr("class_pass","edit_btn");
@@ -385,24 +393,7 @@ function wookmarkHTML(dataArray,userId)
                 }
                 jQuery(creatorDIVP).append(jQuery("<span>"+" "+name+"</span>"));
             }
-            /*jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
-                'userId':data.creatorId
-            }, function(data){
-                if(data && data.id)
-                {
-                    var url=data.userPicture;
-                    if(url==null || url=="" )
-                    {
-                        url=TIMETY_HOSTNAME+"images/anonymous.jpg"; 
-                    }
-                    if(url.indexOf("http")!=0)
-                    {
-                        url=TIMETY_HOSTNAME+url; 
-                    }
-                    jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
-                    jQuery(creatorDIVP).append(jQuery("<span>"+data.firstName+" "+data.lastName+"</span>"));
-                }
-            }, "json");*/
+            
             
             //description
             var descriptionDIV = document.createElement('div');
@@ -481,7 +472,7 @@ function wookmarkHTML(dataArray,userId)
             
             jQuery('.main_event').append(result);
             
-            likeshareInit(userId, likeShareDiv);
+        likeshareInit(userId, likeShareDiv);
         }else
         {
             result = document.createElement('div');

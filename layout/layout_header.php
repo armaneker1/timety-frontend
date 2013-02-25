@@ -43,7 +43,6 @@ if (!isset($timety_header)) {
 <link  href="<?= HOSTNAME ?>style.css" rel="stylesheet" type="text/css"  />
 <!-- <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet"> -->
 <link href="<?= HOSTNAME ?>resources/styles/jquery.ui.css" rel="stylesheet">
-<link href="<?= HOSTNAME ?>resources/styles/tipped/tipped.css" rel="stylesheet">
 <!-- CSS -->
 
 
@@ -77,13 +76,9 @@ if (!isset($timety_header)) {
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/gmaps.js"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/mixpanel.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/tipped.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.js"></script>
 <script  language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
-<!--[if lt IE 9]>
-  <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/excanvas.js"></script>
-<![endif]-->
-<!-- Scripts -->
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/bootstrap/bootstrap-tooltip.js?201302251210"></script>
 
 
 <!--[if IE]>

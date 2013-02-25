@@ -14,12 +14,10 @@ function setTooltipButton(button,text)
 {
     if(button) {
         button=jQuery(button);
-        Tipped.hide(button);
+        button.tooltip('destroy');
         if(text)   {
-            Tipped.create(button, text, {
-                skin: 'tiny',
-                hook:'bottommiddle'
-            });
+            jQuery(button).attr("data-original-title",text);
+            jQuery(button).tooltip();
         }
     }
 }

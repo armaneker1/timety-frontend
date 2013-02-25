@@ -34,13 +34,12 @@ if (!isset($timety_header)) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201302221227" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201302251227" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/dd.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>style.css" rel="stylesheet" type="text/css"  />
-<link href="<?= HOSTNAME ?>resources/styles/tipped/tipped.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.core.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.datepicker.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
@@ -58,7 +57,7 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.min.js?201302221518"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?201302221325"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?201302211440"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?201302251335"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?201302211915"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
@@ -69,13 +68,9 @@ if (!isset($timety_header)) {
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/gmaps.min.js"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/google.maps.api.min.js"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/mixpanel.min.js"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/tipped.min.js"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.min.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.min.js?201302251300"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
-<!--[if lt IE 9]>
-  <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tipped/excanvas.js"></script>
-<![endif]-->
-
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/bootstrap/bootstrap-tooltip.min.js?201302251210"></script>
 <script src="<?= HOSTNAME ?>js/prototype.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?= HOSTNAME ?>js/effects.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.min.js" type="text/javascript" charset="utf-8"></script>
