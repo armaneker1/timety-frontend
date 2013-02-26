@@ -557,6 +557,11 @@
     margin-top: -1px;
 }
 
+.quick_add_event_date_act{
+    background-image: url(images/iconlar.png) !important;
+    background-position: center -429px;
+}
+
 .quick_add_event_cal_button{
     background-position: center -395px;
     background-repeat: no-repeat;

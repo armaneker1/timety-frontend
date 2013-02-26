@@ -61,7 +61,7 @@ if (empty($user)) {
                             class="quick_add_event_people_button icon_bg" 
                             name="" type="button"  
                             value="" ></button>
-                    <span id="te_quick_event_people_btn_count" style="position: absolute;top: -5px;left: 19px;font-size: 12px;color: #c12030;"></span>
+                    <span id="te_quick_event_people_btn_count" style="position: absolute;top: -5px;left: 21px;font-size: 10px;color: #c12030;"></span>
                     <div id="quick_add_event_people_div_modal" class="quick_add_event_people_div_modal" style="display: none;">
                         <div  class="quick_add_event_people" >
                             <div class="kck_detay_ok"></div>
@@ -77,11 +77,20 @@ if (empty($user)) {
                     </div>
                 </div>
 
-                <input id="te_event_start_date_" name="te_event_start_date"
+                <input id="te_quick_event_date" name="te_quick_event_date"
                                autocomplete='off'
-                               style="width:0px !important"
+                               style="width:0px !important;cursor: pointer"
                                value=""
                                class="date1 gldp ts_sorta_inpt" type="text"></input>
+                <script>
+                jQuery("#te_quick_event_date").bind("change",function(){
+                    if(jQuery("#te_quick_event_date").val()){
+                        jQuery("#te_quick_event_date").addClass("quick_add_event_date_act");
+                    }else{
+                       jQuery("#te_quick_event_date").removeClass("quick_add_event_date_act");
+                    }
+                });
+                </script>
                 <button id="te_quick_event_loc_btn" 
                         class="quick_add_event_loc_button icon_bg" 
                         name="" type="button"  
