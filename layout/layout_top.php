@@ -50,16 +50,31 @@ if (empty($user)) {
             <!-- search button end -->
 
             <!-- Add Quick Event -->
-           <!-- <div id="te_quick_add_event_bar"  
+            <div id="te_quick_add_event_bar"  
                  class="quick_add_event_bar" >
                 <input id="te_quick_event_desc"  
                        class="quick_add_event_input" 
                        name="" type="text"  
                        placeholder="Add Quick Event ..." />
-                <button id="te_quick_event_people_btn" 
-                        class="quick_add_event_people_button icon_bg" 
-                        name="" type="button"  
-                        value="" />
+                <div id="te_quick_event_people_div" style="display: inline-block;position: relative;">
+                    <button id="te_quick_event_people_btn" 
+                            class="quick_add_event_people_button icon_bg" 
+                            name="" type="button"  
+                            value="" ></button>
+                    <div id="quick_add_event_people_div_modal" class="quick_add_event_people_div_modal" style="display: none;">
+                        <div  class="quick_add_event_people" >
+                            <div class="kck_detay_ok"></div>
+                            <ul id="quick_add_event_people_ul">
+                            </ul>
+                            <div class="ara_kutu">
+                                <input type="text" id="quick_add_event_people_input_s" class="ara_input" value="" placeholder="search" />
+                                <button id="quick_event_people_search_button" type="button" name="" value="" class="ara icon_bg"></button>
+                            </div>
+                            <ul id="quick_add_event_people_ul_s" style="margin-bottom: 2px;">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <button id="te_quick_event_cal_btn" 
                         class="quick_add_event_cal_button icon_bg" 
                         name="" type="button"  
@@ -73,7 +88,7 @@ if (empty($user)) {
                     class="quick_add_event_save_button"
                     style="cursor: pointer"
                     name="" type="button"  
-                    value="">Add</button> -->
+                    value="">Add</button> 
             <!-- Add Quick Event -->
 
 
@@ -113,25 +128,25 @@ if (empty($user)) {
                 <script>
         <?php if (isset($profile_page_type) && $profile_page_type == "profile") {
             ?>
-                    function changeChannel(item){
-                        var channel=jQuery(item).attr("channelId");
-                        window.location=TIMETY_HOSTNAME+"?channel="+channel;
-                    }  
+                        function changeChannel(item){
+                            var channel=jQuery(item).attr("channelId");
+                            window.location=TIMETY_HOSTNAME+"?channel="+channel;
+                        }  
             <?php
         } else {
             ?>
 
-                    function changeChannel(item){
-                        page_wookmark=0;
-                        jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
-                        jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
-                        jQuery(item).removeClass('top_menu_ul_li_a');
-                        jQuery(item).addClass('top_menu_ul_li_a_selected');
-                        wookmark_channel=jQuery(item).attr('channelId') || 1;
-                        wookmarkFiller(document.optionsWookmark,true,true);
-                        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                    }    
+                        function changeChannel(item){
+                            page_wookmark=0;
+                            jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
+                            jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+                            jQuery(item).removeClass('top_menu_ul_li_a');
+                            jQuery(item).addClass('top_menu_ul_li_a_selected');
+                            wookmark_channel=jQuery(item).attr('channelId') || 1;
+                            wookmarkFiller(document.optionsWookmark,true,true);
+                            _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                            _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
+                        }    
 
         <?php } ?>
                 </script>

@@ -606,6 +606,74 @@
     background-image: none;
 }
 
+
+/* add people */
+
+.quick_add_event_people_div_modal {
+    min-width: 230px;
+    min-height: 70px;
+    position: absolute;
+    right:-98px;
+    height: auto;
+    top: 25px;
+}
+
+
+.quick_add_event_people {
+    background-image: url(images/p_bg.png);
+    background-repeat: repeat;
+    width: 204px;
+    position: relative;
+    z-index: 1000;
+    top: 16px;
+    right: -13px;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 1px;
+    margin-bottom: 10px;
+}
+
+.quick_add_event_people ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+.quick_add_event_people ul li {
+    line-height: 32px;
+    display: block;
+    height: 32px;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #c2c2c2;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #343434;
+    box-shadow: 0px 1px 0px #545454;
+    float: none;
+}
+.quick_add_event_people ul li:hover {
+    background-color:rgba(20,20,20,0.46);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #252525;
+    box-shadow:inset 0px 1px 0px #373737, 0px 1px 0px #191919;
+    line-height: 32px;
+    height: 32px;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #727272;
+}
+
+.quick_add_event_people ul li a {
+   position: absolute;
+   right: 10px;
+}
+
+
 /* Add Quick Event  */
 
 

@@ -14,6 +14,10 @@ $query = null;
 if (isset($_GET["term"]))
     $query = $_GET["term"];
 
+$followers = null;
+if (isset($_GET["f"]))
+    $followers = $_GET["f"];
+
 $res = new Result();
 $res->error = true;
 $res->success = false;
@@ -29,7 +33,7 @@ try {
         if ($query == "*") {
             $query = "";
         }
-        $array = SocialFriendUtil::getFriendList($userId, $query);
+        $array = SocialFriendUtil::getFriendList($userId, $query,$followers);
     }
 
     if (!empty($array) && sizeof($array) > 0) {
