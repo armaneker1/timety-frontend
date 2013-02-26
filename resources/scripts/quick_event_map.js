@@ -30,6 +30,14 @@ function setQuickMapLocation(result,status,res){
     }
 }
 function openQuickMap(mod,value){
+    jQuery(document).unbind("click.qmap");
+    jQuery(document).bind("click.qmap", function(e){
+        if(!(e && e.target && e.target.id && ((e.target.id+"")=="te_quick_event_loc_btn"||(e.target.id+"")=="q_div_maps") || jQuery(e.target).parents().is("#q_div_maps")))
+        {
+           jQuery(document).unbind("click.qmap");
+           openQuickMap(true, false);
+        }
+    });
     if(mod)  {
         if(value) {
             jQuery("#q_div_maps").show();

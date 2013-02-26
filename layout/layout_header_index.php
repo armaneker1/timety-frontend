@@ -71,7 +71,6 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.min.js?201302251300"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/bootstrap/bootstrap-tooltip.min.js?201302251210"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_event_invite_people.js?20130225130"></script>
 <script src="<?= HOSTNAME ?>js/prototype.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?= HOSTNAME ?>js/effects.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.min.js" type="text/javascript" charset="utf-8"></script>
@@ -79,7 +78,8 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/createEvent.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.min.js"></script>
 <script src="<?= HOSTNAME ?>fileuploader.min.js" type="text/javascript"></script>
-<script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.js?201302261601" type="text/javascript"></script>
+<script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.js?201302261631" type="text/javascript"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_event_invite_people.js?20130225155"></script>
 <!-- Scripts -->
 
 <!--[if IE]>

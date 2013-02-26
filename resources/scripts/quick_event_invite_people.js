@@ -2,13 +2,16 @@
 jQuery(document).ready(function(){ 
     jQuery('#te_quick_event_people_div').hover(
         function () {
-            closeOtherFollowing();
-            openQuickMyFollower();
+            
         }, 
         function () {
             closeQuickMyFollower();
         }
         );
+    jQuery('#te_quick_event_people_div').click(function(){
+        closeOtherFollowing();
+        openQuickMyFollower();
+    });
     
     jQuery('#quick_event_people_search_button').click(searchFollwers);
     jQuery('#quick_add_event_people_input_s').keypress(function(event){
