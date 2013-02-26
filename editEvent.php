@@ -662,7 +662,7 @@ if ($event->addsocial_tw == 1) {
                             <div class="eam_bg_orta " style="width: 450px;">
                                 <div class="title_max">
                                     <input name="te_event_title" type="text" class="eam_inpt"
-                                           charlength="50"
+                                           charlength="55"
                                            id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
                                     <script>
                                     jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});

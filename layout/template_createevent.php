@@ -116,7 +116,7 @@ if ($showPopup) {
                     <div class="eam_bg_orta">
                         <div class="title_max" style="float: left;">
                             <input name="te_event_title" type="text" class="eam_inpt"
-                                    charlength="50"
+                                    charlength="55"
                                    id="te_event_title" value="<?php
                 if ($showPopup) {
                     echo $event->title;

@@ -55,7 +55,11 @@ if (empty($user)) {
                 <input id="te_quick_event_desc"  
                        class="quick_add_event_input" 
                        name="" type="text"  
+                       charlength="55"
                        placeholder="Add Quick Event ..." />
+                <script>
+                    jQuery("#te_quick_event_desc").maxlength({feedbackText: '{r}',showFeedback:"active"});
+                </script>
                 <div id="te_quick_event_people_div" style="display: inline-block;position: relative;">
                     <button id="te_quick_event_people_btn" 
                             class="quick_add_event_people_button icon_bg" 
@@ -78,18 +82,18 @@ if (empty($user)) {
                 </div>
 
                 <input id="te_quick_event_date" name="te_quick_event_date"
-                               autocomplete='off'
-                               style="width:0px !important;cursor: pointer"
-                               value=""
-                               class="date1 gldp ts_sorta_inpt" type="text"></input>
+                       autocomplete='off'
+                       style="width:0px !important;cursor: pointer"
+                       value=""
+                       class="date1 gldp ts_sorta_inpt" type="text"></input>
                 <script>
-                jQuery("#te_quick_event_date").bind("change",function(){
-                    if(jQuery("#te_quick_event_date").val()){
-                        jQuery("#te_quick_event_date").addClass("quick_add_event_date_act");
-                    }else{
-                       jQuery("#te_quick_event_date").removeClass("quick_add_event_date_act");
-                    }
-                });
+                    jQuery("#te_quick_event_date").bind("change",function(){
+                        if(jQuery("#te_quick_event_date").val()){
+                            jQuery("#te_quick_event_date").addClass("quick_add_event_date_act");
+                        }else{
+                            jQuery("#te_quick_event_date").removeClass("quick_add_event_date_act");
+                        }
+                    });
                 </script>
                 <button id="te_quick_event_loc_btn" 
                         class="quick_add_event_loc_button icon_bg" 
