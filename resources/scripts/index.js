@@ -328,7 +328,18 @@ function addMarker(lat,lng) {
         });
         setMapLocationInput(lat, lng);
         google.maps.event.addListener(marker, 'dragend', function (e) {
-            setMapLocationInput(e.latLng.Ya, e.latLng.Za);
+            var lat=e.latLng.Ya;
+            var lng=e.latLng.Za;
+            if(!lat || !lng)
+            {
+                lat=e.latLng.hb;
+                lng=e.latLng.ib;
+            }
+            if(!lat || !lng){
+                lat=41.00527;
+                lng=28.97695;
+            }
+            setMapLocationInput(lat, lng);
         });
     }
     ce_loc=new Object();

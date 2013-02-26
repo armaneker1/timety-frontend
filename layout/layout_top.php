@@ -95,10 +95,43 @@ if (empty($user)) {
                         }
                     });
                 </script>
-                <button id="te_quick_event_loc_btn" 
-                        class="quick_add_event_loc_button icon_bg" 
-                        name="" type="button"  
-                        value="" />
+
+                <div style="display: inline-block;position: relative;">
+                    <button id="te_quick_event_loc_btn" 
+                            class="quick_add_event_loc_button icon_bg" 
+                            name="" type="button" 
+                            onclick="openQuickMap(true,true);return false;"
+                            value="" >
+                    </button>
+                    <input type="hidden" name="te_quick_event_loc_inpt" id="te_quick_event_loc_inpt" ></input>
+                    <div id="q_div_maps" style="border: solid 1px;background-color: #fff;padding: 5px;width: 405px;height: 392px;left: -383px;position: absolute;z-index: 1000000;display: none;top: 42px;">
+                        <input name="te_quick_event_location" type="text" class="eam_inpt" 
+                               style="width: 395px;position: absolute"
+                               id="te_quick_event_location" 
+                               value="" placeholder="Where" />
+                        <span style="position: absolute;width: 410px;height: 1px;left: 4px;top: 39px;border-bottom: solid 1px;"></span>
+                        <span class="sil icon_bg" style="position: absolute; top: -18px;z-index: 10;right: -8px;" onclick="openQuickMap(true, false);"></span>
+                        <div id="q_te_maps" style="height: 350px;top: 42px;">
+                        </div>
+                    </div>
+                    <script>
+                        jQuery(document).ready(function(){
+                            setTimeout(function(){getCityLocation(setQuickMapLocation);},100);
+                            var input_q = document.getElementById('te_quick_event_location');
+                            var options = { /*types: ['(cities)']*/ };
+                            q_autocompleteCreateEvent = new google.maps.places.Autocomplete(input_q, options);
+                            google.maps.event.addListener(q_autocompleteCreateEvent, 'place_changed', 
+                            function() { 
+                                var place = q_autocompleteCreateEvent.getPlace(); 
+                                var point = place.geometry.location; 
+                                if(point) 
+                                {  
+                                    addQuickMarker(point.lat(),point.lng());
+                                } 
+                            });
+                        });
+                    </script>
+                </div>
             </div>
             <button id="te_quick_event_people_btn"  
                     class="quick_add_event_save_button"
