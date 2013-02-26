@@ -536,6 +536,7 @@
     padding-left: 10px;
     margin: 0px;
     vertical-align: middle;
+    margin-top: -1px;
 }
 
 .quick_add_event_loc_button{
@@ -553,6 +554,7 @@
     padding-left: 10px;
     margin: 0px;
     vertical-align: middle;
+    margin-top: -1px;
 }
 
 .quick_add_event_cal_button{

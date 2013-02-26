@@ -61,6 +61,7 @@ if (empty($user)) {
                             class="quick_add_event_people_button icon_bg" 
                             name="" type="button"  
                             value="" ></button>
+                    <span id="te_quick_event_people_btn_count" style="position: absolute;top: -5px;left: 19px;font-size: 12px;color: #c12030;"></span>
                     <div id="quick_add_event_people_div_modal" class="quick_add_event_people_div_modal" style="display: none;">
                         <div  class="quick_add_event_people" >
                             <div class="kck_detay_ok"></div>
@@ -75,10 +76,12 @@ if (empty($user)) {
                         </div>
                     </div>
                 </div>
-                <button id="te_quick_event_cal_btn" 
-                        class="quick_add_event_cal_button icon_bg" 
-                        name="" type="button"  
-                        value="" />
+
+                <input id="te_event_start_date_" name="te_event_start_date"
+                               autocomplete='off'
+                               style="width:0px !important"
+                               value=""
+                               class="date1 gldp ts_sorta_inpt" type="text"></input>
                 <button id="te_quick_event_loc_btn" 
                         class="quick_add_event_loc_button icon_bg" 
                         name="" type="button"  
@@ -128,25 +131,25 @@ if (empty($user)) {
                 <script>
         <?php if (isset($profile_page_type) && $profile_page_type == "profile") {
             ?>
-                        function changeChannel(item){
-                            var channel=jQuery(item).attr("channelId");
-                            window.location=TIMETY_HOSTNAME+"?channel="+channel;
-                        }  
+                    function changeChannel(item){
+                        var channel=jQuery(item).attr("channelId");
+                        window.location=TIMETY_HOSTNAME+"?channel="+channel;
+                    }  
             <?php
         } else {
             ?>
 
-                        function changeChannel(item){
-                            page_wookmark=0;
-                            jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
-                            jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
-                            jQuery(item).removeClass('top_menu_ul_li_a');
-                            jQuery(item).addClass('top_menu_ul_li_a_selected');
-                            wookmark_channel=jQuery(item).attr('channelId') || 1;
-                            wookmarkFiller(document.optionsWookmark,true,true);
-                            _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                            _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                        }    
+                    function changeChannel(item){
+                        page_wookmark=0;
+                        jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
+                        jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+                        jQuery(item).removeClass('top_menu_ul_li_a');
+                        jQuery(item).addClass('top_menu_ul_li_a_selected');
+                        wookmark_channel=jQuery(item).attr('channelId') || 1;
+                        wookmarkFiller(document.optionsWookmark,true,true);
+                        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
+                    }    
 
         <?php } ?>
                 </script>
