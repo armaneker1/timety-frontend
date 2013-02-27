@@ -169,12 +169,14 @@ if (empty($user)) {
                     </script>
                 </div>
             </div>
-            <button id="quick_add_event_save_button"  
-                    class="quick_add_event_save_button"
-                    style="cursor: pointer"
-                    onclick="createEvent();"
-                    name="" type="button"  
-                    value="">Add</button> 
+            <input id="quick_add_event_save_button"  
+                   class="quick_add_event_save_button"
+                   style="cursor: pointer"
+                   type="button"  
+                   value="Add"/>
+            <script>
+                jQuery("#quick_add_event_save_button").click(function(){createEvent();});
+            </script>
             <!-- Add Quick Event -->
 
 

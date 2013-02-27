@@ -31,18 +31,18 @@ class EventUtil {
                 foreach ($images as $image) {
                     if (!empty($image)) {
 
-                        if (!file_exists(UPLOAD_FOLDER . "events/" . $event->id . "/")) {
-                            mkdir(UPLOAD_FOLDER . "events/" . $event->id . "/", 0777, true);
+                        if (!file_exists(__DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/")) {
+                            mkdir(__DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/", 0777, true);
                         }
-                        if (copy(UPLOAD_FOLDER . $image, UPLOAD_FOLDER . "events/" . $event->id . "/" . $image)) {
-                            unlink(UPLOAD_FOLDER . $image);
+                        if (copy(__DIR__ . "/../" . UPLOAD_FOLDER . $image, __DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/" . $image)) {
+                            unlink(__DIR__ . "/../" . UPLOAD_FOLDER . $image);
                         }
 
                         $img = new Image();
                         $img->url = UPLOAD_FOLDER . "events/" . $event->id . "/" . $image;
                         $img->header = 0;
                         $img->eventId = $event->id;
-                        $size = ImageUtil::getSize($img->url);
+                        $size = ImageUtil::getSize(__DIR__."/../".$img->url);
                         $img->width = $size[0];
                         $img->height = $size[1];
                         if (!empty($img)) {
@@ -55,12 +55,12 @@ class EventUtil {
         if (!empty($event) && !empty($headerImage)) {
             if (!empty($headerImage)) {
                 error_log($headerImage);
-                if (!file_exists(UPLOAD_FOLDER . "events/" . $event->id . "/")) {
-                    mkdir(UPLOAD_FOLDER . "events/" . $event->id . "/", 0777, true);
+                if (!file_exists(__DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/")) {
+                    mkdir(__DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/", 0777, true);
                     error_log("events createed" . "events/" . $event->id . "/");
                 }
-                if (copy(UPLOAD_FOLDER . $headerImage, UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage)) {
-                    unlink(UPLOAD_FOLDER . $headerImage);
+                if (copy(__DIR__ . "/../" . UPLOAD_FOLDER . $headerImage, __DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage)) {
+                    unlink(__DIR__ . "/../" . UPLOAD_FOLDER . $headerImage);
                     error_log("image copied " . " from " . UPLOAD_FOLDER . $headerImage . " to " . UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage);
                 }
 
@@ -69,7 +69,7 @@ class EventUtil {
                 error_log($img->url);
                 $img->header = 1;
                 $img->eventId = $event->id;
-                $size = ImageUtil::getSize($img->url);
+                $size = ImageUtil::getSize(__DIR__."/../".$img->url);
                 $img->width = $size[0];
                 $img->height = $size[1];
                 if (!empty($img)) {

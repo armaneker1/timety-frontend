@@ -80,7 +80,7 @@ if (!isset($timety_header)) {
 <script src="<?= HOSTNAME ?>fileuploader.min.js" type="text/javascript"></script>
 <script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.js?20131224226332" type="text/javascript"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_event_invite_people.js?223d0225116"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_add_event.js?22320225116"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_add_event.js?22320225212"></script>
 <!-- Scripts -->
 
 <!--[if IE]>

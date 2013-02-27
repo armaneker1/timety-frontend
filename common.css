@@ -505,7 +505,7 @@
     padding-bottom: 0px;
     padding-left: 5px;
     margin-left: 6px;
-    display: inline-block;
+    display:none;
 }
 
 .quick_add_event_input{
@@ -611,6 +611,7 @@
     padding-top: 0px;
     padding-bottom: 0px;
     height: 38px;
+    display: none;
 }
 
 .quick_add_event_save_button:active {

@@ -326,6 +326,7 @@ if (empty($user)) {
 
         $event->tags = $_POST["te_event_tag"];
         $event->attendance = $_POST["te_event_people"];
+        var_dump($_POST);
         if (!$error) {
             try {
                 $eventDB = EventUtil::createEvent($event, $user);
@@ -562,7 +563,7 @@ if (empty($user)) {
                         prePopulate : <?php echo $var_tag; ?>	
                     });	
 
-                    jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
+                    jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=0" ?>",{ 
                         theme: "custom",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",

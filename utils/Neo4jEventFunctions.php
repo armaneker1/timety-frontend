@@ -337,7 +337,6 @@ class Neo4jEventUtils {
                 if (sizeof($attendances) > 0) {
                     foreach ($attendances as $att) {
                         if (!empty($att)) {
-
                             $att_ = explode(";", $att);
                             if (sizeof($att_) == 2) {
                                 $uf = new UserUtils();
