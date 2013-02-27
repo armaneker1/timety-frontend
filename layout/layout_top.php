@@ -95,6 +95,11 @@ if (empty($user)) {
                             jQuery(document).bind("click.qdate", function(e){
                                 if(!(e && e.target && e.target.id && ((e.target.id+"")=="quick_add_event_date_button" || (e.target.id+"")=="quick_add_event_date_div_modal" || jQuery(e.target).parents().is("#quick_add_event_date_div_modal"))))
                                 {
+                                    if(jQuery("#te_quick_event_date").val()){
+                                        jQuery("#quick_add_event_date_button").addClass("quick_add_event_date_act");
+                                    }else{
+                                        jQuery("#quick_add_event_date_button").removeClass("quick_add_event_date_act");
+                                    }
                                     jQuery(document).unbind("click.qdate");
                                     jQuery("#quick_add_event_date_div_modal").hide();
                                 }
@@ -105,11 +110,12 @@ if (empty($user)) {
                     <div id="quick_add_event_date_div_modal" class="quick_add_event_date_div_modal" style="display: none;">
                         <input id="te_quick_event_date" name="te_quick_event_date"
                                autocomplete='off'
-                               value=""
-                               style="margin-left: 18px"
+                               value="<?= date('d.m.yy') ?>"
+                               style="margin-left: 18px;color:rgb(174, 174, 174) "
                                placeholder="Date"
                                class="date1 gldp ts_sorta_inpt" type="text"></input>
                         <INPUT value="08:00"
+                               style="color: rgb(174, 174, 174)"
                                class="ts_sorta_time input-small timepicker-default"
                                id="te_quick_event_time" name="te_quick_event_time" type="text">
                         </INPUT>
