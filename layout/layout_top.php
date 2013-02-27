@@ -81,17 +81,47 @@ if (empty($user)) {
                     </div>
                 </div>
 
-                <input id="te_quick_event_date" name="te_quick_event_date"
-                       autocomplete='off'
-                       style="width:0px !important;cursor: pointer"
-                       value=""
-                       class="date1 gldp ts_sorta_inpt" type="text"></input>
+                <div style="display: inline-block;position: relative;">
+                    <button id="quick_add_event_date_button" 
+                            class="quick_add_event_date_button icon_bg" 
+                            name="" type="button"  
+                            onclick="openQuickDate()"
+                            value="" ></button>
+                    <script>
+                        function openQuickDate(){
+                            jQuery("#q_div_maps").hide();
+                            jQuery("#quick_add_event_people_div_modal").hide();
+                            jQuery(document).unbind("click.qdate");
+                            jQuery(document).bind("click.qdate", function(e){
+                                if(!(e && e.target && e.target.id && ((e.target.id+"")=="quick_add_event_date_button" || (e.target.id+"")=="quick_add_event_date_div_modal" || jQuery(e.target).parents().is("#quick_add_event_date_div_modal"))))
+                                {
+                                    jQuery(document).unbind("click.qdate");
+                                    jQuery("#quick_add_event_date_div_modal").hide();
+                                }
+                            });
+                            jQuery("#quick_add_event_date_div_modal").show();
+                        }
+                    </script>
+                    <div id="quick_add_event_date_div_modal" class="quick_add_event_date_div_modal" style="display: none;">
+                        <input id="te_quick_event_date" name="te_quick_event_date"
+                               autocomplete='off'
+                               value=""
+                               style="margin-left: 18px"
+                               placeholder="Date"
+                               class="date1 gldp ts_sorta_inpt" type="text"></input>
+                        <INPUT value="08:00"
+                               class="ts_sorta_time input-small timepicker-default"
+                               id="te_quick_event_time" name="te_quick_event_time" type="text">
+                        </INPUT>
+
+                    </div>
+                </div>
                 <script>
                     jQuery("#te_quick_event_date").bind("change",function(){
                         if(jQuery("#te_quick_event_date").val()){
-                            jQuery("#te_quick_event_date").addClass("quick_add_event_date_act");
+                            jQuery("#quick_add_event_date_button").addClass("quick_add_event_date_act");
                         }else{
-                            jQuery("#te_quick_event_date").removeClass("quick_add_event_date_act");
+                            jQuery("#quick_add_event_date_button").removeClass("quick_add_event_date_act");
                         }
                     });
                 </script>
@@ -133,7 +163,7 @@ if (empty($user)) {
                     </script>
                 </div>
             </div>
-            <button id="te_quick_event_people_btn"  
+            <button id="quick_add_event_save_button"  
                     class="quick_add_event_save_button"
                     style="cursor: pointer"
                     name="" type="button"  

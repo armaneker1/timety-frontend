@@ -539,6 +539,23 @@
     margin-top: -1px;
 }
 
+.quick_add_event_date_button{
+    background-position: center -395px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    cursor:pointer;
+    height: 23px;
+    padding-right: 20px;
+    padding-left: 10px;
+    margin: 0px;
+    vertical-align: middle;
+    margin-top: -1px;
+}
+
 .quick_add_event_loc_button{
     background-image: url(images/fill.png);
     background-position: center 5px;
@@ -559,7 +576,7 @@
 
 .quick_add_event_date_act{
     background-image: url(images/iconlar.png) !important;
-    background-position: center -429px;
+    background-position: center -425px;
 }
 
 .quick_add_event_cal_button{
@@ -612,9 +629,24 @@
     height: 38px;
     background-image: none;
 }
-
+/*  date */
+.quick_add_event_date_div_modal {
+    min-width: 150px;
+    min-height: 37px;
+    position: absolute;
+    right: -61px;
+    height: auto;
+    top: 35px;
+    background-image: url(images/p_bg.png);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-repeat: repeat repeat;
+}
 
 /* add people */
+
 
 .quick_add_event_people_div_modal {
     min-width: 230px;

@@ -274,7 +274,7 @@ p,h1,h2,h3,h4,h5{
     /* [disabled]margin-left: 20px; */
     vertical-align: middle;
     margin-top: -4px;
-    margin-left: -7px;
+    /* margin-left: -7px; */
 }
 .u_line {
     background-image: url(images/u_line.png);

@@ -34,7 +34,7 @@ if (!isset($timety_header)) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201302251250" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201302251255" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -78,8 +78,8 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/createEvent.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.min.js"></script>
 <script src="<?= HOSTNAME ?>fileuploader.min.js" type="text/javascript"></script>
-<script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.js?201302261631" type="text/javascript"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_event_invite_people.js?20130225155"></script>
+<script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.js?20131224226332" type="text/javascript"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_event_invite_people.js?22320225116"></script>
 <!-- Scripts -->
 
 <!--[if IE]>

@@ -1,15 +1,7 @@
 //document ready
 jQuery(document).ready(function(){ 
-    jQuery('#te_quick_event_people_div').hover(
-        function () {
-            
-        }, 
-        function () {
-            closeQuickMyFollower();
-        }
-        );
     jQuery('#te_quick_event_people_div').click(function(){
-        closeOtherFollowing();
+        closeOtherFollowing2();
         openQuickMyFollower();
     });
     
@@ -47,14 +39,10 @@ function effectIcon(inc){
     jQuery("#te_quick_event_people_btn").css("background-position",bk_pos);
 }
 
-function closeOtherFollowing()
+function closeOtherFollowing2()
 {
-/*  
-    jQuery('#my_timety_notf_container').stop();
-    jQuery('#my_timety_notf_container').hide();
-    jQuery('#populer_top_menu').stop();
-    jQuery('#populer_top_menu').hide(); 
- */
+    jQuery("#quick_add_event_date_div_modal").hide();
+    jQuery("#q_div_maps").hide();
 }
 
 
@@ -169,6 +157,14 @@ function searchFollwers(val)
 
 function openQuickMyFollower()
 {
+    jQuery(document).unbind("click.peop");
+    jQuery(document).bind("click.peop", function(e){
+        if(!(e && e.target && e.target.id && ((e.target.id+"")=="te_quick_event_people_btn"||(e.target.id+"")=="quick_add_event_people_div_modal") || jQuery(e.target).parents().is("#quick_add_event_people_div_modal")))
+        {
+            jQuery(document).unbind("click.peop");
+            closeQuickMyFollower();
+        }
+    });
     jQuery('#te_quick_event_people_btn').css({
         "z-index":"2"
     });
@@ -337,6 +333,7 @@ function addUserQuickEvent(button)
 
 function closeQuickMyFollower()
 {
+    jQuery(document).unbind("click.peop");
     jQuery('#quick_add_event_people_div_modal').hide();
     jQuery('#te_quick_event_people_btn').css({
         "z-index":"0"

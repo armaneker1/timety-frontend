@@ -360,7 +360,7 @@ if ($showPopup) {
                     ?>"
                                     class="ts_sorta_time input-small timepicker-default"
                                     id="te_event_start_time" name="te_event_start_time" type="text">
-                            </I>
+                            </INPUT>
                         </SPAN>
                     </div>
                     <div class="ts_sag"></div>
@@ -377,7 +377,7 @@ if ($showPopup) {
                                     }
                     ?>"
                                     class=" ts_sorta_time input-small timepicker-default" type="text">
-                            </I>
+                            </INPUT>
                         </SPAN>
                     </div>
                     <div class="ts_sag"></div>

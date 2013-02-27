@@ -11,7 +11,7 @@ function effectQuickLocIcon(){
     if(locElement.val() && locElement.val().indexOf("undefined")<0) {
         jQuery("#te_quick_event_loc_btn").css("background-image","url(images/fill_hover.png)");
     }else{
-       jQuery("#te_quick_event_loc_btn").css("background-image","url(images/fill.png)");
+        jQuery("#te_quick_event_loc_btn").css("background-image","url(images/fill.png)");
     }
 }
 
@@ -29,18 +29,24 @@ function setQuickMapLocation(result,status,res){
         console.log(result);
     }
 }
+function closeQuickMapOther(){
+    jQuery("#quick_add_event_date_div_modal").hide();
+    jQuery("#quick_add_event_people_div_modal").hide();
+}
+
 function openQuickMap(mod,value){
     jQuery(document).unbind("click.qmap");
-    jQuery(document).bind("click.qmap", function(e){
-        if(!(e && e.target && e.target.id && ((e.target.id+"")=="te_quick_event_loc_btn"||(e.target.id+"")=="q_div_maps") || jQuery(e.target).parents().is("#q_div_maps")))
-        {
-           jQuery(document).unbind("click.qmap");
-           openQuickMap(true, false);
-        }
-    });
     if(mod)  {
         if(value) {
+            closeQuickMapOther();
             jQuery("#q_div_maps").show();
+            jQuery(document).bind("click.qmap", function(e){
+                if(!(e && e.target && e.target.id && ((e.target.id+"")=="te_quick_event_loc_btn"||(e.target.id+"")=="q_div_maps") || jQuery(e.target).parents().is("#q_div_maps")))
+                {
+                    jQuery(document).unbind("click.qmap");
+                    openQuickMap(true, false);
+                }
+            });
         }else  {
             jQuery("#q_div_maps").hide();
         }
