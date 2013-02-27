@@ -9,21 +9,22 @@ $eventList = EventUtil::getAllEvents();
 <h1>Events</h1>
 <table>
     <tr>
+        <td style="width: 10px;"> # </td>
         <td style="width: 80px;">Event Id</td>
         <td style="width: 150px;">Event Title</td>
         <td style="width: 80px;">Creator</td>
         <td style="width: 80px;">Start Date</td>
-        <td style="width: 150px;text-align: right;">Category 1</td>
-        <td style="width: 150px;text-align: right;">Category 2</td>
-        <td style="width: 150px;text-align: right;">Category 3</td>
     </tr>
 
     <?php
     $event = new Event();
+    $i = 0;
     foreach ($eventList as $event) {
         $categories = Neo4jEventUtils::getEventCategories($event->id);
+        $tags = Neo4jEventUtils::getEventTags($event->id);
         ?>
         <tr>
+            <td>#<?= $i ?></td>
             <td><?= $event->id ?></td>
             <td><?= $event->title ?></td>
             <td><?= $event->creatorId ?></td>
@@ -31,10 +32,17 @@ $eventList = EventUtil::getAllEvents();
             <?php
             foreach ($categories as $cat) {
                 ?> 
-                <td  style="width: 150px;text-align: right;"><?= $cat->name ?></td>
+                <td  style="width: 150px;text-align: right;"><?= $cat->name ?> (cat)</td>
+            <?php } ?>
+            <?php
+            foreach ($tags as $tag) {
+                ?> 
+                <td  style="width: 150px;text-align: right;"><?= $tag->name ?> (tag)</td>
             <?php } ?>
         </tr>
-    <?php } ?>
+        <?php $i++;
+    }
+    ?>
 </table>
 
 
