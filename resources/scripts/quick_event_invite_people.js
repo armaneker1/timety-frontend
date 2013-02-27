@@ -175,6 +175,32 @@ function openQuickMyFollower()
     jQuery('#quick_add_event_people_div_modal').fadeIn(100);
 }
 
+function addPersonData(id){
+    var data=jQuery("#te_quick_event_people_btn").data("people_array");
+    if(!data || data.length<1){
+        data = new Array();
+    }
+    data[data.length] = id+"";
+    jQuery("#te_quick_event_people_btn").data("people_array",data);
+}
+function remPersonData(id){
+    var data=jQuery("#te_quick_event_people_btn").data("people_array");
+    if(!data || data.length<1){
+        data = new Array();
+    }
+    var data2=new Array();
+    j=0;
+    for(var i=0;i<data.length;i++){
+        var dat=data[i];
+        if(dat){
+            if(dat!=(id+"")){
+                data2[j]=dat;
+                j++;
+            }
+        }
+    }
+    jQuery("#te_quick_event_people_btn").data("people_array",data2);
+}
 
 function remUserQuickEvent(button)
 {
@@ -184,6 +210,7 @@ function remUserQuickEvent(button)
     var userId= button.data("userId");
     var elementId= "q_friend_id"+item.id;
     
+    remPersonData(item.id);
     var element=jQuery("#"+elementId);
     jQuery(element).remove();
     var ul=jQuery("#quick_add_event_people_ul_s");
@@ -259,7 +286,7 @@ function addUserQuickEvent(button)
     var item=button.data("item");
     var userId= button.data("userId");
     var elementId= "q_friend_id"+item.id;
-    
+    addPersonData(item.id);
     var element=jQuery("#"+elementId);
     
     jQuery(element).remove();

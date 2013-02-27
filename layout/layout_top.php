@@ -172,6 +172,7 @@ if (empty($user)) {
             <button id="quick_add_event_save_button"  
                     class="quick_add_event_save_button"
                     style="cursor: pointer"
+                    onclick="createEvent();"
                     name="" type="button"  
                     value="">Add</button> 
             <!-- Add Quick Event -->
