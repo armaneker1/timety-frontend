@@ -42,7 +42,7 @@ class EventUtil {
                         $img->url = UPLOAD_FOLDER . "events/" . $event->id . "/" . $image;
                         $img->header = 0;
                         $img->eventId = $event->id;
-                        $size = ImageUtil::getSize(__DIR__."/../".$img->url);
+                        $size = ImageUtil::getSize(__DIR__ . "/../" . $img->url);
                         $img->width = $size[0];
                         $img->height = $size[1];
                         if (!empty($img)) {
@@ -69,7 +69,7 @@ class EventUtil {
                 error_log($img->url);
                 $img->header = 1;
                 $img->eventId = $event->id;
-                $size = ImageUtil::getSize(__DIR__."/../".$img->url);
+                $size = ImageUtil::getSize(__DIR__ . "/../" . $img->url);
                 $img->width = $size[0];
                 $img->height = $size[1];
                 if (!empty($img)) {
@@ -202,15 +202,24 @@ class EventUtil {
 
     public static function getAllEvents() {
         $SQL = "SELECT * FROM " . TBL_EVENTS;
-        $query = mysql_query($SQL) or die(mysql_error());
-        $result = mysql_fetch_array($query);
-        $event = new Event();
-        $event->create($result, FALSE);
-        if (!empty($event->id)) {
-            return $event;
-        } else {
-            return null;
+        $result = mysql_query($SQL) or die(mysql_error());
+        $array = array();
+        if (!empty($result)) {
+            $num = mysql_num_rows($result);
+            if ($num > 1) {
+                while ($db_field = mysql_fetch_assoc($result)) {
+                    $event = new Event();
+                    $event->create($db_field);
+                    array_push($array, $event);
+                }
+            } else if ($num > 0) {
+                $db_field = mysql_fetch_assoc($result);
+                $event = new Event();
+                $event->create($db_field);
+                array_push($array, $event);
+            }
         }
+        return $array;
     }
 
     public static function getEventByIdNeo4j($id) {
