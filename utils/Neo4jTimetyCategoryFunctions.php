@@ -32,7 +32,7 @@ class Neo4jTimetyCategoryUtil {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_TIMETY_CAT . "']]" .
                 ".out('" . REL_TIMETY_CATEGORY . "').dedup";
-        if (!empty($query_) || $query_ == 0) {
+        if (!empty($query_)) {
             $query = $query . ".filter{it." . PROP_TIMETY_CAT_NAME . ".matches('.*(?i)" . $query_ . ".*')}.dedup";
         }
         $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
@@ -58,7 +58,7 @@ class Neo4jTimetyCategoryUtil {
     }
 
     public static function getTimetyCategoryEvents($catId) {
-        $array=array();
+        $array = array();
         if (!empty($catId)) {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -108,6 +108,34 @@ class Neo4jTimetyCategoryUtil {
         // error
         return 2;
     }
+
+    public static function updateTimetyCategory($catId, $catName) {
+        $catId = (int) $catId;
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $timetyCategoryIndex = new Index($client, Index::TypeNode, IND_TIMETY_CATEGORY);
+        try {
+            $cat = $timetyCategoryIndex->findOne(PROP_TIMETY_CAT_ID, $catId);
+        } catch (Exception $exc) {
+            error_log($exc->getTraceAsString());
+        }
+        if (!empty($cat)) {
+            $tmp_Id = $cat->getProperty(PROP_TIMETY_CAT_ID);
+            $tmp_Name = $cat->getProperty(PROP_TIMETY_CAT_NAME);
+            $timetyCategoryIndex->remove($cat, PROP_TIMETY_CAT_ID, $tmp_Id);
+            $timetyCategoryIndex->remove($cat, PROP_TIMETY_CAT_NAME, $tmp_Name);
+            $timetyCategoryIndex->save();
+            $cat->setProperty(PROP_TIMETY_CAT_ID, $catId);
+            $cat->setProperty(PROP_TIMETY_CAT_NAME, $catName);
+            $cat->save();
+            $timetyCategoryIndex->add($cat, PROP_TIMETY_CAT_ID, $catId);
+            $timetyCategoryIndex->add($cat, PROP_TIMETY_CAT_NAME, $catName);
+            $timetyCategoryIndex->save();
+            // ok
+            return 1;
+        }
+        return 0;
+    }
+
 
     public static function getLastId() {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));

@@ -32,6 +32,7 @@ define('IND_OBJECT_INDEX', 'OBJECT_INDEX');
 define('IND_ROOT_INDEX', 'ROOT_INDEX');
 define('IND_EVENT_INDEX', 'EVENT_INDEX');
 define('IND_TIMETY_CATEGORY', 'TIMETY_CATEGORY_INDEX');
+define('IND_TIMETY_TAG', 'TIMETY_TAG_INDEX');
 define('IND_GROUP_INDEX', 'GROUP_INDEX');
 
 /*
@@ -55,6 +56,7 @@ define('REL_INTERESTS', 'INTERESTS');
 define('REL_SUBSCRIBES', 'SUBSCRIBES');
 define('REL_USER_SUBSCRIBES', 'SUBSCRIBES_USER');
 define('REL_OBJECTS', 'OBJECTS');
+define('REL_TIMETY_OBJECTS', 'TIMETY_OBJECTS');
 define('REL_TAGS', 'TAGS');
 define('REL_FOLLOWS', 'FOLLOWS');
 define('REL_EVENTS_JOINS', 'EVENTS_JOINS');
@@ -101,6 +103,12 @@ define('CATEGORY_TAG_CONSTANT', 'tag');
  */
 define('PROP_TIMETY_CAT_ID', 'timety_category_id');
 define('PROP_TIMETY_CAT_NAME', 'name');
+
+/*
+ * timty tag props
+ */
+define('PROP_TIMETY_TAG_ID', 'timety_tag_id');
+define('PROP_TIMETY_TAG_NAME', 'name');
 
 /*
  * object props

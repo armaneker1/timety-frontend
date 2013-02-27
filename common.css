@@ -505,7 +505,7 @@
     padding-bottom: 0px;
     padding-left: 5px;
     margin-left: 6px;
-    display:none;
+    display:inline-block;
 }
 
 .quick_add_event_input{

@@ -82,8 +82,8 @@ class User {
             return HOSTNAME . "images/anonymous.png";
         }
     }
-    
-     public static function getUserPicture($userPicture) {
+
+    public static function getUserPicture($userPicture) {
         if (!empty($userPicture)) {
             if (UtilFunctions::startsWith($userPicture, "http"))
                 return $userPicture;
@@ -214,7 +214,7 @@ class Event {
             $this->attach_link = $result['attach_link'];
             $this->loc_lat = $result['lat'];
             $this->loc_lng = $result['lng'];
-            $this->creatorId=$result['creator_id'];
+            $this->creatorId = $result['creator_id'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -257,7 +257,7 @@ class Event {
             $crt->userName = $cretorUsername;
             $crt->userPicture = $cretorImage;
             $this->creator = $crt;
-            $this->creatorId=$cretorId;
+            $this->creatorId = $cretorId;
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData($userId);
@@ -285,7 +285,7 @@ class Event {
         $this->attach_link = $tmp->attach_link;
         $this->loc_lat = $tmp->loc_lat;
         $this->loc_lng = $tmp->loc_lng;
-        $this->creatorId=$tmp->creatorId;
+        $this->creatorId = $tmp->creatorId;
     }
 
     public function setAdditionalData($userId = -1) {
@@ -340,7 +340,7 @@ class Event {
     public $creator;
     public $creatorId;
     public $userRelation;
-    public $userEventLog=array();
+    public $userEventLog = array();
 
     public function getImages() {
         if (empty($this->images)) {
@@ -503,12 +503,27 @@ class TimetyCategory {
 
 }
 
+class TimetyTag {
+
+    function createNeo4j($result) {
+        if (!empty($result)) {
+            $this->id = $result->getProperty(PROP_TIMETY_TAG_ID);
+            $this->name = $result->getProperty(PROP_TIMETY_TAG_NAME);
+        }
+    }
+
+    public $id;
+    public $name;
+
+}
+
 class UserEventLog {
-    
+
     public $userId;
     public $eventId;
     public $action;
     public $time;
+
 }
 
 ?>
