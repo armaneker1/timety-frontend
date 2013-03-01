@@ -328,7 +328,7 @@ if (!empty($_POST['rand_session_id'])) {
         try {
             $eventDB = EventUtil::updateEvent($event, $user);
             if (!empty($eventDB) && !empty($eventDB->id)) {
-                Queue::updateEvent($eventId,$user->id);
+                Queue::updateEvent($eventId, $user->id);
                 $m = new HtmlMessage();
                 $m->type = "s";
                 $m->message = "Event updated.";
@@ -852,7 +852,7 @@ if ($event->addsocial_tw == 1) {
                         </div>
                         <!-- Image 7 -->
                     </div>
-                    <div class="eam_bg">
+                    <div class="eam_bg" id="inpt_div_location">
                         <div class="eam_bg_sol"></div>
                         <div class="eam_bg_orta" style="width: 566px;">
                             <input name="te_event_location" type="text" class="eam_inpt" style="width: 435px;"

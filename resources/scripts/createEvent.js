@@ -112,7 +112,7 @@ function fileUploadOnComplete(id, fileName, responseJSON,image_input,width,heigh
     if(uploadDiv)
     {
         putDeleteButton(id, fileName, image_input,uploadDiv);
-        /*var remDiv=jQuery("#"+id+"_rem");
+    /*var remDiv=jQuery("#"+id+"_rem");
         if(remDiv.length>0)
         {
             remDiv.remove();
@@ -222,3 +222,50 @@ function setUploadImage(id, fileName,mWidth,mHeight)
         div.appendChild(img);
     }
 }
+
+
+/*
+ * Add Social
+ */
+
+function addSocialButtonExport(){
+    socialWindowButtonCliked=true;
+    getLoader(false);
+    jQuery(clickedPopupButton).removeAttr('onclick');
+    jQuery(clickedPopupButton).attr('onclick','toogleSocialButton(this);');
+    toogleSocialButton(clickedPopupButton);
+    clickedPopupButton=null;
+}
+
+
+function toogleSocialButton(clickedPopupButton){
+    var act=jQuery(clickedPopupButton).attr('act');
+    var ty=jQuery(clickedPopupButton).attr('ty');
+    var className="create_event_export_socialfb";
+    var inputId="#te_event_addsocial_fb";
+    if(ty=="fb"){
+        className="create_event_export_socialfb";
+        inputId="#te_event_addsocial_fb";
+    }else if(ty=="out"){
+        className="create_event_export_socialout";
+        inputId="#te_event_addsocial_out";
+    }else if(ty=="gg"){
+        className="create_event_export_socialgg";
+        inputId="#te_event_addsocial_gg";
+    }
+    jQuery(clickedPopupButton).removeClass(className);
+    jQuery(clickedPopupButton).removeClass(className+'_act');
+    if(act=="true"){
+        jQuery(clickedPopupButton).attr('act','false');
+        jQuery(clickedPopupButton).addClass(className);
+        jQuery(inputId).val(false);
+    }else{
+        jQuery(clickedPopupButton).attr('act','true');
+        jQuery(clickedPopupButton).addClass(className+'_act');
+        jQuery(inputId).val(true);
+    }
+}
+
+/*
+ * Add Social
+ */

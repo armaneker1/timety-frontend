@@ -1,5 +1,13 @@
 function addSocialReturnButton()
 {
+    if(clickedPopupButton){
+        try{
+            addSocialButtonExport();
+            return;
+        }catch (exp){
+            console.log(exp);
+        }
+    }
     jQuery('#spinner').show();
     setTimeout(function() { 
         //restart but add param to open same screen

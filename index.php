@@ -503,6 +503,7 @@ if (empty($user)) {
                 jQuery( ".date1" ).datepicker({
                     changeMonth: true,
                     changeYear: true,
+                    minDate: new Date(),
                     dateFormat: "dd.mm.yy",
                     beforeShow : function(dateInput,datePicker) {
                         setTimeout(showDate,5);

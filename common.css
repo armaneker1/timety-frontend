@@ -451,9 +451,22 @@
     width: 20px;
 }
 
+.desc_area .maxlength-feedback{
+    position: relative;
+    left: 540px;
+    top: 0px;
+    color: #aaa !important;
+    text-align: right !important;
+    font-size: 16px !important;
+    vertical-align: bottom;
+    width: 20px;
+    display: inline-block;
+    bottom: 0px;
+}
+
 .title_max .maxlength-feedback{
     position: absolute !important;
-    left: 440px !important;
+    left: 436px !important;
     top: 29px !important;
 }
 
@@ -827,3 +840,51 @@
 }
 
 /* Tool tip */
+
+/* create event */
+.input_border{
+    border-style: dotted !important;
+    border-width: 2px !important;
+    border-color: rgb(199, 199, 199) !important;
+    background-image: url(images/dbg.png) !important;
+    background-repeat: repeat !important;
+}
+
+.create_event_export_icon{
+    background-image: url(images/exportsocial.png);
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    height: 39px;
+    width: 151px;
+}
+
+.create_event_export_socialfb{
+    background-position: -1px -47px;
+}
+
+.create_event_export_socialfb_act{
+    background-position: -1px -7px;
+}
+
+.create_event_export_socialgg{
+    background-position: -175px -47px;
+}
+
+.create_event_export_socialgg_act{
+    background-position: -174px -8px;
+}
+
+.create_event_export_socialout{
+    background-position: -346px -47px;
+}
+
+.create_event_export_socialout_act{
+    background-position: -346px -7px;
+}
+
+
+/* create event */

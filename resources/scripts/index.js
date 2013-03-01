@@ -182,7 +182,27 @@ function openCreatePopup() {
         checkedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pyes.png" width="14" heght="10">', 
         uncheckedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pno.png" style="margin-left:4px;" width="10" heght="10">'
     });
-    
+    /*
+     * Set Hours
+     */
+    if(jQuery("#te_event_start_time").attr("empty")=="1" || jQuery("#te_event_end_time").attr("empty")=="1"){
+        var min=moment().format("mm");
+        var plus=1;
+        if(min<10){
+            min="00";
+        }else if(min>=10 && min<20){
+            min="15";
+        } else if(min>=20 && min<35){
+            min="30";
+        }else if(min>=35 && min<50){
+            min="45";
+        }else{
+            min="00";
+            plus=2;
+        }
+        jQuery("#te_event_start_time").val(moment().add('hours', plus).format("HH")+":"+min);
+        jQuery("#te_event_end_time").val(moment().add('hours', (plus+1)).format("HH")+":"+min);
+    }
     document.body.style.overflow = "hidden";
 }
 
@@ -288,9 +308,17 @@ function setMapLocation(result,status,res){
     }
 }
 function openMap(mod,value){
+    jQuery(document).unbind("click.cmap");
     if(mod)  {
         if(value) {
             jQuery("#div_maps").show();
+            jQuery(document).bind("click.cmap", function(e){
+                if(!(e && e.target && e.target.id && ((e.target.id+"")=="inpt_div_location" || jQuery(e.target).parents().is("#inpt_div_location") ||(e.target.id+"")=="div_maps") || jQuery(e.target).parents().is("#div_maps")))
+                {
+                    jQuery(document).unbind("click.cmap");
+                    openMap(true, false);
+                }
+            });
         }else  {
             jQuery("#div_maps").hide();
         }
