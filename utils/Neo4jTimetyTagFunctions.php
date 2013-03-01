@@ -88,6 +88,20 @@ class Neo4jTimetyTagUtil {
             return null;
         }
     }
+    
+    public static function getTimetyTagNodeById($id) {
+        if (empty($id)) {
+            return null;
+        }
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
+        $tag = $timetyTagIndex->findOne(PROP_TIMETY_TAG_ID, $id);
+        if (!empty($tag)) {
+            return $tag;
+        } else {
+            return null;
+        }
+    }
 
     public static function insertTimetyTag($catId, $tagName) {
         $catId = (int) $catId;

@@ -452,6 +452,20 @@ class Neo4jEventUtils {
         }
         return null;
     }
+    
+    public static function getEventNode($eventId) {
+        if (!empty($eventId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_EVENT . "']]" .
+                    ".out('" . REL_EVENT . "').dedup.filter{it." . PROP_EVENT_ID . "==" . $eventId . " || it." . PROP_EVENT_ID . "=='" . $eventId . "'}";
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $result = $query->getResultSet();
+            foreach ($result as $row) {
+                return $row[0];
+            }
+        }
+        return null;
+    }
 
     public static function relateUserToEvent($usrNode, $eventNode, $creator, $type) {
         if (!empty($usrNode) && !empty($eventNode)) {
