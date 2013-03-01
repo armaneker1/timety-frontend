@@ -29,7 +29,7 @@ function showBackGround()
     jQuery(detailModalPanelBackground).bind('click',function(){
         closeModalPanel();
     });
-    jQuery(detailModalPanelBackground).show();
+    jQuery(detailModalPanelBackground).fadeIn(200);
     document.body.style.overflow = "hidden";
 }
 
@@ -352,7 +352,7 @@ function openModalPanel(event_id,custom) {
          */
         getComments(event_id);
         //show popup
-        jQuery(detailModalPanel).show();
+        jQuery(detailModalPanel).fadeIn(400);
     }else
     {
         closeModalPanel();

@@ -28,13 +28,13 @@ if (!isset($timety_header)) {
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
-<link  href="<?= HOSTNAME ?>all_css.css?201302221252" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>all_css.css?201302221253" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
 <!--<![endif]-->
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201302254289" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201302254279" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -58,10 +58,10 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?201302221325"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?201302251335"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?201302211915"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?201302211815"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?201302221335"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js?201302224345"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.dd.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAPS_API_KEY ?>&sensor=true&libraries=places"></script>

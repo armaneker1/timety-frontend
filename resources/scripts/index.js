@@ -155,13 +155,6 @@ function openCreatePopup() {
      */
     jQuery('.php_errors').remove();
     
-    /*
-     * Show Popup
-     */
-    jQuery("#div_follow_trans").show();
-    // jQuery("#div_follow_trans").attr('onclick','closeCreatePopup()');
-    jQuery("#div_event_add_ekr").show();
-    
     jQuery("#div_follow_trans").unbind('click');
     jQuery(jQuery("#div_follow_trans")).bind('click',function(e){
         if(e && e.target && e.target.id && e.target.id == "div_follow_trans")
@@ -170,17 +163,6 @@ function openCreatePopup() {
             closeModalPanel();
             closeFriendsPopup();
         }
-    });
-    
-    /*
-     * Create Checkbox
-     */
-    new iPhoneStyle('.on_off input[type=checkbox]', {
-        widthConstant : 3, 
-        widthConstant2 : 4,
-        statusChange : changePublicPrivate,
-        checkedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pyes.png" width="14" heght="10">', 
-        uncheckedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pno.png" style="margin-left:4px;" width="10" heght="10">'
     });
     /*
      * Set Hours
@@ -204,6 +186,28 @@ function openCreatePopup() {
         jQuery("#te_event_end_time").val(moment().add('hours', (plus+1)).format("HH")+":"+min);
     }
     document.body.style.overflow = "hidden";
+    /*
+     * Show Popup
+     */
+    jQuery("#div_follow_trans").fadeIn(200);
+    //jQuery("#div_event_add_ekr").show();
+    jQuery("#div_event_add_ekr").fadeIn()
+    .css({
+        top:jQuery(window).height()
+        })
+    .animate({
+        top:55
+    }, 350);
+    /*
+     * Create Checkbox
+     */
+    new iPhoneStyle('.on_off input[type=checkbox]', {
+        widthConstant : 3, 
+        widthConstant2 : 4,
+        statusChange : changePublicPrivate,
+        checkedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pyes.png" width="14" heght="10">', 
+        uncheckedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pno.png" style="margin-left:4px;" width="10" heght="10">'
+    });
 }
 
 function changePublicPrivate(elem) {
