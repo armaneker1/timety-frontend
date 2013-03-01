@@ -28,7 +28,7 @@ if (!isset($timety_header)) {
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
-<link  href="<?= HOSTNAME ?>all_css.css?201302221251" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>all_css.css?201302221252" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
 <!--<![endif]-->
 

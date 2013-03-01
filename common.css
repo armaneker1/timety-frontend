@@ -844,7 +844,7 @@
 /* create event */
 .input_border{
     border-style: dotted !important;
-    border-width: 2px !important;
+    border-width: 1px !important;
     border-color: rgb(199, 199, 199) !important;
     background-image: url(images/dbg.png) !important;
     background-repeat: repeat !important;

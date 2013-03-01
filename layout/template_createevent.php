@@ -152,7 +152,7 @@ if ($showPopup) {
                 <!-- Title and Privacy -->
 
                 <!-- Social Buttons -->
-                <div class="profil_g" style="margin-left: 6px;padding-top:0px ">
+                <div class="profil_g" style="margin-left: 9px;padding-top:0px ">
                     <?php
                     $fb = false;
                     $tw = false;
@@ -360,7 +360,7 @@ if ($showPopup) {
             <!-- Title, Images and Privacy -->
 
             <!-- Location -->
-            <div class="eam_bg" id="inpt_div_location">
+            <div class="eam_bg" id="inpt_div_location" style="padding-top: 12px">
                 <div class="eam_bg_orta input_border" style="width:571px;margin-top: 5px;">
                     <input name="te_event_location" type="text" class="eam_inpt" style="width: 435px;"
                            id="te_event_location" 
@@ -485,7 +485,7 @@ if ($showPopup) {
             <!-- Category -->
 
             <!-- Tags -->
-            <div class="eam_cate" style="height: auto; min-height: 49px;margin-left: 8px;margin-top: 15px;">
+            <div class="eam_cate" style="height: auto; min-height: 49px;margin-left: 8px;margin-top: 23px;">
                 <div class="eam_bg_orta desc_metin input_border" 
                      style="width: 561px; height: auto;">
 
@@ -497,7 +497,7 @@ if ($showPopup) {
 
             <!-- Description -->
             <div class="eam_bg" style="height: auto;">
-                <div class="desc_orta input_border desc_area" style="height: auto;width: 581px;overflow: visible">
+                <div class="desc_orta input_border desc_area" style="height: auto;width: 581px;overflow: visible;margin-top: 6px;">
 
                     <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
                                style="font-size: 16px;resize: none;margin-top: 0px;background-image: none;height: 29px;width: 542px;"
@@ -526,8 +526,8 @@ if ($showPopup) {
 
             <!-- People -->
             <div class="eam_bg">
-                <div class="eam_bg_orta desc_metin " 
-                     style="width: 560px; height: auto;margin-top: 15px;border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
+                <div class="eam_bg_orta input_border" 
+                     style="width: 570px;min-height: 40px;height: auto;margin-top: 15px;border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
 
                     <input name="te_event_people" type="text" class="eam_inpt_b"
                            id="te_event_people" value="" placeholder="add people manually" />
@@ -536,10 +536,9 @@ if ($showPopup) {
             <!-- People -->
 
             <!-- Dates and Time -->
-            <div class="eam_dates"  style="padding-top: 10px;">
+            <div class="eam_dates"  style="padding-top: 15px;">
                 <div class="ts_box">
-                    <div class="ts_sol"></div>
-                    <div class="ts_sorta">
+                    <div class="ts_sorta input_border">
                         <INPUT id="te_event_start_date" name="te_event_start_date"
                                autocomplete='off'
                                value="<?php
@@ -551,7 +550,6 @@ if ($showPopup) {
             ?>"
                                class="date1 gldp ts_sorta_inpt" type="text">
                     </div>
-                    <div class="ts_sag"></div>
                     <script>
                     function checkCreateDateTime(){
                         jQuery("#te_event_end_date").val(jQuery("#te_event_start_date").val());
@@ -569,9 +567,8 @@ if ($showPopup) {
                     </script>
                 </div>
                 <div class="ts_box">
-                    <div class="ts_sol"></div>
-                    <div class="ts_sorta">
-                        <SPAN class="add-on"> <I class="icon-time"><INPUT
+                    <div class="ts_sorta input_border">
+                        <SPAN class="add-on"> <INPUT
                                     empty="<?php
                                if ($showPopup && isset($_POST["te_event_start_time"])) {
                                    echo "0";
@@ -592,13 +589,11 @@ if ($showPopup) {
                                 </script>
                         </SPAN>
                     </div>
-                    <div class="ts_sag"></div>
                 </div>
                 <div class="ts_box">to</div>
                 <div class="ts_box">
-                    <div class="ts_sol"></div>
-                    <div class="ts_sorta">
-                        <SPAN class="add-on"> <I class="icon-time"><INPUT
+                    <div class="ts_sorta input_border">
+                        <SPAN class="add-on"> <INPUT
                                     id="te_event_end_time" name="te_event_end_time"
                                     empty="<?php
                                     if ($showPopup && isset($_POST["te_event_start_time"])) {
@@ -606,21 +601,19 @@ if ($showPopup) {
                                     } else {
                                         echo "1";
                                     }
-            ?>"
+                                    ?>"
                                     value="<?php
                                     if ($showPopup && isset($_POST["te_event_end_time"])) {
                                         echo $_POST["te_event_end_time"];
                                     }
-            ?>"
+                                    ?>"
                                     class="ts_sorta_time input-small timepicker-default" type="text">
                                 </INPUT>
                         </SPAN>
                     </div>
-                    <div class="ts_sag"></div>
                 </div>
                 <div class="ts_box">
-                    <div class="ts_sol"></div>
-                    <div class="ts_sorta">
+                    <div class="ts_sorta input_border">
                         <INPUT id="te_event_end_date" name="te_event_end_date"
                                autocomplete='off'
                                value="<?php
@@ -632,7 +625,6 @@ if ($showPopup) {
             ?>"
                                class=" date1 gldp ts_sorta_inpt" type="text">
                     </div>
-                    <div class="ts_sag"></div>
                 </div>
                 <div class="ts_box" style="display:none">
                     <label class="label_check" for="te_event_allday"> <input
