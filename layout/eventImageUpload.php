@@ -1,30 +1,31 @@
 <?php ?>
 <script>
     jQuery(document).ready(function() {
-        if(false){
+        
                                                 
-            var uploader = new qq.FileUploader({
-                element: document.getElementById('te_event_image_div'),
-                action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                debug: true,
-                allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-                params: {
-                    imageName:'<?= "ImageEventHeader" . $_random_session_id . ".png" ?>'
-                },
-                sizeLimit : 10*1024*1024,
-                multiple:false,
-                onComplete: function(id, fileName, responseJSON){
-                    fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON,'upload_image_header',100,106); 
-                },
-                messages: {
-                    typeError: "{file} has invalid extension. Only {extensions} are allowed.",
-                    sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-                    minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-                    emptyError: "{file} is empty, please select files again without it.",
-                    onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
-                }
+        var uploader = new qq.FileUploader({
+            element: document.getElementById('te_event_image_div'),
+            action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
+            debug: true,
+            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+            params: {
+                imageName:'<?= "ImageEventHeader" . $_random_session_id . ".png" ?>'
+            },
+            sizeLimit : 10*1024*1024,
+            multiple:false,
+            onComplete: function(id, fileName, responseJSON){
+                fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', responseJSON,'upload_image_header',100,106); 
+            },
+            messages: {
+                typeError: "{file} has invalid extension. Only {extensions} are allowed.",
+                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                emptyError: "{file} is empty, please select files again without it.",
+                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
             }
-        );
+        }
+    );
+        if(false){
             var uploader1 = new qq.FileUploader({
                 element: document.getElementById('event_image_1_div'),
                 action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
