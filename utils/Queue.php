@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../apis/Stomp/Stomp.php';
 require_once __DIR__ . '/../apis/logger/KLogger.php';
+require_once __DIR__ . '/SettingFunctions.php';
 
 /*
  * To change this template, choose Tools | Templates
@@ -71,11 +72,15 @@ class Queue {
     //--------------------------------------------------------------------------
 
     private static function send($method, $action, $obj) {
-        $obj["method"] = $method;
-        $obj["action"] = $action;
-        $conn = self::getConnection();
-        self::getConnection()->send("timety", json_encode($obj), array('persistent' => 'true'));
-        $conn->disconnect();
+        $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
+        if (!empty($host) && !strpos($host, 'localhost')) {
+
+            $obj["method"] = $method;
+            $obj["action"] = $action;
+            $conn = self::getConnection();
+            self::getConnection()->send("timety", json_encode($obj), array('persistent' => 'true'));
+            $conn->disconnect();
+        }
     }
 
     private static function getConnection() {

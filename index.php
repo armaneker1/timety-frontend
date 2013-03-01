@@ -326,7 +326,6 @@ if (empty($user)) {
 
         $event->tags = $_POST["te_event_tag"];
         $event->attendance = $_POST["te_event_people"];
-        var_dump($_POST);
         if (!$error) {
             try {
                 $eventDB = EventUtil::createEvent($event, $user);
@@ -422,7 +421,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                		      
+                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -534,7 +533,7 @@ if (empty($user)) {
                 $nf = new Neo4jFuctions();
                 $var_cat = $nf->getCategoryListByIdList($event->categories);
                 $var_usr = $nf->getUserGroupListByIdList($event->attendance);
-                $var_tag = $nf->getTagListListByIdList($event->tags);
+                $var_tag = Neo4jTimetyTagUtil::getTagListByIdList($event->tags);
             }
             try {
                 $var_cat = json_decode($var_cat);
@@ -544,7 +543,7 @@ if (empty($user)) {
             ?>
             <script>
                 jQuery(document).ready(function() {                                                                                              
-                    jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GETTAG ?>",{ 
+                    jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GET_TIMETY_TAG ?>",{ 
                         theme: "custom",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
@@ -556,7 +555,7 @@ if (empty($user)) {
                         resultsFormatter:function(item) {
                             return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
                         },
-                        add_maunel:true,
+                        add_maunel:false,
                         onAdd: function() {
                             return true;
                         },
@@ -896,21 +895,21 @@ if (empty($user)) {
                                                      data-placement="bottom" 
                                                      title=""
                                                      class="ls_btn <?php
-                                    if ($main_event->userRelation->like) {
-                                        echo "like_btn_aktif";
-                                    } else {
-                                        echo "like_btn";
-                                    }
+                if ($main_event->userRelation->like) {
+                    echo "like_btn_aktif";
+                } else {
+                    echo "like_btn";
+                }
                                 ?>"  
                                                      class_aktif="like_btn_aktif" 
                                                      class_pass="like_btn"      
                                                      pressed="<?php
-                                                    if ($main_event->userRelation->like) {
-                                                        echo "true";
-                                                    } else {
-                                                        echo "false";
-                                                    }
-                                               ?>"  
+                                     if ($main_event->userRelation->like) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
+                                ?>"  
                                                      onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_maybe_btn" 
                                                      data-toggle="tooltip" 

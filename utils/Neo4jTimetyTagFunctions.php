@@ -10,11 +10,61 @@ use Everyman\Neo4j\Transport,
 
 class Neo4jTimetyTagUtil {
 
+    public static function searchTags($query) {
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+
+        $query = "START object=node:" . IND_TIMETY_TAG . "('" . PROP_TIMETY_TAG_ID . ":*') " .
+                " WHERE object." . PROP_TIMETY_TAG_NAME . "=~/.*(?i)" . $query . ".*/ " .
+                " RETURN object, count(*)";
+        //echo $query;
+        $query = new Cypher\Query($client, $query, null);
+        $result = $query->getResultSet();
+        $array = array();
+        foreach ($result as $row) {
+            $tag = new TimetyTag();
+            $tag->createNeo4j($row['object']);
+            array_push($array, $tag);
+        }
+        return $array;
+    }
+
+    public static function getTagListByIdList($list) {
+        if (!empty($list)) {
+            $tags = explode(",", $list);
+            if (is_array($tags) && sizeof($tags) > 0) {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $tobjectIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
+                $result = array();
+                foreach ($tags as $tag) {
+                    if (!empty($tag)) {
+                        $tagObj = null;
+                        try {
+                            $tagObj = $tobjectIndex->findOne(PROP_TIMETY_TAG_ID, $tag);
+                        } catch (Exception $exc) {
+                            $tagObj = null;
+                        }
+                        if (!empty($tagObj)) {
+                            $obj = array('id' => $tagObj->getProperty(PROP_TIMETY_TAG_ID), 'label' => $tagObj->getProperty(PROP_TIMETY_TAG_NAME));
+                            array_push($result, $obj);
+                        } else {
+                            $tags_ = explode(";", $tag);
+                            $obj = array('id' => $tag, 'label' => $tags_[1]);
+                            array_push($result, $obj);
+                        }
+                    }
+                }
+                $json_response = json_encode($result);
+                return $json_response;
+            }
+        }
+        return "[]";
+    }
+
     public static function getLastId() {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
         $timetyTagIndex->save();
-        $query = "START tag=node:" . IND_TIMETY_TAG . "('" . PROP_TIMETY_TAG_ID . ":**') RETURN tag.".PROP_TIMETY_TAG_ID.", count(*) ORDER BY tag." . PROP_TIMETY_TAG_ID . " DESC LIMIT 1";
+        $query = "START tag=node:" . IND_TIMETY_TAG . "('" . PROP_TIMETY_TAG_ID . ":**') RETURN tag." . PROP_TIMETY_TAG_ID . ", count(*) ORDER BY tag." . PROP_TIMETY_TAG_ID . " DESC LIMIT 1";
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         foreach ($result as $row) {

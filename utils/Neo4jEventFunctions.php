@@ -244,6 +244,7 @@ class Neo4jEventUtils {
             $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
             $groupIndex = new Index($client, Index::TypeNode, IND_GROUP_INDEX);
             $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
+            $t_objectIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
             $rootIndex = new Index($client, Index::TypeNode, IND_ROOT_INDEX);
             $root_event = $rootIndex->findOne(PROP_ROOT_ID, PROP_ROOT_EVENT);
 
@@ -308,7 +309,7 @@ class Neo4jEventUtils {
                         if (!empty($tag)) {
                             $tagTmp = null;
                             try {
-                                $tagTmp = $objectIndex->findOne(PROP_OBJECT_ID, $tag);
+                                $tagTmp = $t_objectIndex->findOne(PROP_TIMETY_TAG_ID, $tag);
                             } catch (Exception $exc) {
                                 $tagTmp = null;
                             }
@@ -319,7 +320,7 @@ class Neo4jEventUtils {
                                 if (sizeof($tags_) == 2) {
                                     $tag_ = $n->addTag(null, $tags_[1], "usercustomtag");
                                     if (!empty($tag_)) {
-                                        $tag_ = $objectIndex->findOne(PROP_OBJECT_ID, strtolower($tag_));
+                                        $tag_ = $objectIndex->findOne(PROP_TIMETY_TAG_ID, $tag_);
                                         if (!empty($tag_)) {
                                             $tag_->relateTo($evnt, REL_TAGS)->save();
                                         }
@@ -666,6 +667,22 @@ class Neo4jEventUtils {
         return $array;
     }
 
+     public static function getEventTimetyTags($eventId) {
+        $array = array();
+        if (!empty($eventId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('" . REL_TAGS . "')";
+            //echo $query;
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $nresult = $query->getResultSet();
+            foreach ($nresult as $row) {
+                $tag = $row[0];
+                array_push($array, $tag);
+            }
+        }
+        return $array;
+    }
+    
     public static function increaseCommentCount($eventId) {
         if (!empty($eventId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -816,7 +833,7 @@ class Neo4jEventUtils {
         }
         return null;
     }
-    
+
     public static function getNeo4jEventById($eventId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']]";

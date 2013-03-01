@@ -99,7 +99,10 @@ if (isset($_GET)) {
 
     if (!$error) {
         try {
-            EventUtil::createEvent($event, UserUtils::getUserById($_GET['userId']));
+            $eventDB = EventUtil::createEvent($event, UserUtils::getUserById($_GET['userId']));
+            if (!empty($eventDB) && !empty($eventDB->id)) {
+                Queue::addEvent($eventDB->id, $_GET['userId']);
+            }
             $result = new Result();
             $result->success = true;
             $result->error = false;

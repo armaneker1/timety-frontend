@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 header("Content-Type: text/html; charset=utf8");
 
@@ -314,7 +315,10 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
     $event->attendance = null;
     if (!$error) {
         try {
-            EventUtil::createEvent($event, UserUtils::getUserById($_POST['te_event_user_id']));
+            $eventDB = EventUtil::createEvent($event, UserUtils::getUserById($_POST['te_event_user_id']));
+            if (!empty($eventDB) && !empty($eventDB->id)) {
+                Queue::addEvent($eventDB->id, $_POST['te_event_user_id']);
+            }
             $m = new HtmlMessage();
             $m->type = "s";
             $m->message = "Event created successfully.";

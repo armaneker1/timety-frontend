@@ -1,6 +1,14 @@
 <?php
-$array=array(0=>"asdas",1=>"asdasdasd",2=>"dsadasdas",3=>"sadsdsad");
-var_dump($array);
-unset($array[2]);
-var_dump($array);
+
+require_once __DIR__ . '/../utils/SettingFunctions.php';
+
+
+$host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
+$host = "timety.com/ndasldas";
+var_dump(strpos($host, 'localhost'));
+if (!empty($host) && !strpos($host, 'localhost')) {
+    echo "1";
+} else {
+    echo "0";
+}
 ?>
