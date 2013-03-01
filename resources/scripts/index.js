@@ -233,6 +233,7 @@ function closeCreatePopup() {
             top:jQuery(window).height()+10
         }, 400,function(){
             jQuery("#div_event_add_ekr").hide();
+            document.body.style.overflowY = "scroll";
             closeModalPanel();
             closeFriendsPopup();
         });
@@ -243,7 +244,6 @@ function closeCreatePopup() {
     }catch(e) {
         console.log(e);
     }
-    document.body.style.overflowY = "scroll";
 }
 
 function validateInt(evt) {

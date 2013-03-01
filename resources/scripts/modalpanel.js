@@ -507,12 +507,13 @@ function closeModalPanel() {
         });
         //jQuery(detailModalPanelBackground).hide();
         //jQuery('#genel_detay_yeni').hide();
-        jQuery(detailModalPanelBackground).fadeOut(500);
+        jQuery(detailModalPanelBackground).fadeOut(500,function(){
+            document.body.style.overflowY = "scroll";
+        });
         jQuery("#genel_detay_yeni").fadeOut(450);
     }catch(e){
         console.log(e);
     }
-    document.body.style.overflowY = "scroll";
     return false;
 } 
 
