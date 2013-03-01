@@ -498,14 +498,17 @@ function closeModalPanel() {
     try{
         remUrlEventId();
         document.title="Timety | Never miss out";
-        jQuery('#genel_detay_yeni').hide();
+        
         var detailModalPanelBackground = document.getElementById('div_follow_trans');
         
         jQuery(detailModalPanelBackground).unbind('click');
         jQuery(detailModalPanelBackground).bind('click',function(){
             return false;
         });
-        jQuery(detailModalPanelBackground).hide();
+        //jQuery(detailModalPanelBackground).hide();
+        //jQuery('#genel_detay_yeni').hide();
+        jQuery(detailModalPanelBackground).fadeOut(500);
+        jQuery("#genel_detay_yeni").fadeOut(450);
     }catch(e){
         console.log(e);
     }

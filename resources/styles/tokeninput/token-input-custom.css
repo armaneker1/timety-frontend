@@ -131,8 +131,8 @@ div.token-input-dropdown-custom p {
 div.token-input-dropdown-custom ul {
     margin: 0;
     padding: 0;
-    max-height: 300px;
-    overflow-y: scroll;
+    /*max-height: 300px; */
+    /*overflow-y: scroll; */
 }
 
 div.token-input-dropdown-custom ul li {

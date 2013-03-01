@@ -160,8 +160,6 @@ function openCreatePopup() {
         if(e && e.target && e.target.id && e.target.id == "div_follow_trans")
         {
             closeCreatePopup();
-            closeModalPanel();
-            closeFriendsPopup();
         }
     });
     /*
@@ -194,7 +192,7 @@ function openCreatePopup() {
     jQuery("#div_event_add_ekr").fadeIn()
     .css({
         top:jQuery(window).height()
-        })
+    })
     .animate({
         top:55
     }, 350);
@@ -227,8 +225,17 @@ function beforeChangePublicPrivate(elem){
 
 function closeCreatePopup() {
     try{
-        jQuery("#div_follow_trans").hide();
-        jQuery("#div_event_add_ekr").hide();
+        //jQuery("#div_follow_trans").hide();
+        //jQuery("#div_event_add_ekr").hide();
+        jQuery("#div_follow_trans").fadeOut(550);
+        jQuery("#div_event_add_ekr")
+        .animate({
+            top:jQuery(window).height()+10
+        }, 400,function(){
+            jQuery("#div_event_add_ekr").hide();
+            closeModalPanel();
+            closeFriendsPopup();
+        });
         jQuery("#div_follow_trans").unbind('click');
         jQuery("#div_follow_trans").bind('click',function(){
             return false;
