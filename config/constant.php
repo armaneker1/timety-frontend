@@ -99,7 +99,7 @@ define('PAGE_AJAX_GET_SOCIAL_PIC',PAGE_AJAX_FOLDER.'getUserSocialPicture.php');
 define('PAGE_AJAX_GET_EVENT_USER_RELATION',PAGE_AJAX_FOLDER.'getEventUserRelation.php');
 define('PAGE_AJAX_UPDATE_USER_INFO',PAGE_AJAX_FOLDER.'updateUserInfo.php');
 define('PAGE_AJAX_CREATE_QUICK_EVENT',PAGE_AJAX_FOLDER.'createQuickEvent.php');
-
+define('PAGE_AJAX_INIT_USER_REDIS',PAGE_AJAX_FOLDER.'initUserRecommendation.php');
 
 define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));
 
@@ -107,6 +107,7 @@ define('GOOGLE_MAPS_API_KEY',  SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API
 //REDIS LIST
 define('REDIS_LIST_UPCOMING_EVENTS','events:upcoming:worldwide');
 define('REDIS_SUFFIX_MY_TIMETY',':mytimety');
+define('REDIS_SUFFIX_UPCOMING',':upcoming');
 define('REDIS_SUFFIX_FOLLOWING',':following');
 define('REDIS_PREFIX_USER','user:events:');
 
