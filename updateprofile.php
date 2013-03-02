@@ -63,7 +63,7 @@ $aboutError = "";
 $te_birthday = $user->birthdate;
 $te_birthdayError = "";
 
-$hometown = "";
+$hometown = $user->hometown;
 $hometownError = "";
 
 $te_image = $user->getUserPic();
@@ -265,6 +265,7 @@ if (isset($_POST['update'])) {
     header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
     exit(1);
 }
+
 ?>
 <html>
     <head>
