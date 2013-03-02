@@ -79,7 +79,7 @@ class EventProcessor {
             /*
              * find users that might interest this event
              */
-            EventProcessor::findUserForEvents(true);
+            $this->findUserForEvents(true);
             /*
              * find users that might interest this event
              */
@@ -195,7 +195,7 @@ class EventProcessor {
             /*
              * find users that might interest this event
              */
-            EventProcessor::findUserForEvents();
+            $this->findUserForEvents();
             /*
              * find users that might interest this event
              */
@@ -204,14 +204,14 @@ class EventProcessor {
         }
     }
 
-    public static function findUserForEvents($add = false) {
+    public function findUserForEvents($add = false) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > findUserForEvents >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time . " added : " . $add);
         if (!empty($this->eventID) && !empty($this->userID)) {
             $event = new Event();
             $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
-            if ($event->privacy == 1 || $event->privacy == "1") {
+            if ($event->privacy == true || $event->privacy == "true") {
                 $event->getHeaderImage();
                 $event->images = array();
                 $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);

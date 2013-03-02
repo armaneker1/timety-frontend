@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 use Everyman\Neo4j\Transport,
     Everyman\Neo4j\Client,
     Everyman\Neo4j\Index,
@@ -1049,7 +1047,6 @@ class Neo4jFuctions {
                 if ((empty($recommended) || strlen($recommended) < 3)) {
                     $check = true;
                     $_SESSION["recommendation_null"] = "TRUE";
-                    var_dump($_SESSION);
                 }else{
                     $_SESSION["recommendation_null"] = "FALSE";
                 }
