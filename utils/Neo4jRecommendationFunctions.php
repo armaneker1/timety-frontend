@@ -75,7 +75,7 @@ class Neo4jRecommendationUtils {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $date = strtotime("now");
             $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
-                    ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+                    ".out('" . REL_TIMETY_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
             $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}._()";
             //echo $query;
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
