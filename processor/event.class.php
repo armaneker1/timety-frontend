@@ -211,7 +211,7 @@ class EventProcessor {
         if (!empty($this->eventID) && !empty($this->userID)) {
             $event = new Event();
             $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
-            if ($event->privacy == true || $event->privacy == "true") {
+            if ($event->privacy == true || $event->privacy == "true" || $event->privacy == 1 || $event->privacy == "1") {
                 $event->getHeaderImage();
                 $event->images = array();
                 $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);

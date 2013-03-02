@@ -13,7 +13,7 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
 
-$userId = 6618366;
+$userId = 6618346;
 
 $userNode = Neo4jUserUtil::getUserNodeById($userId);
 $array = array();
