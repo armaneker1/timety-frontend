@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 use Everyman\Neo4j\Transport,
     Everyman\Neo4j\Client,
@@ -1042,7 +1043,24 @@ class Neo4jFuctions {
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
              */
             //$array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
-            return RedisUtils::getUpcomingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            $check = false;
+            if ($pageNumber == 0 || $pageNumber == "0") {
+                if ((empty($recommended) || strlen($recommended) < 3)) {
+                    $check = true;
+                    $_SESSION["recommendation_null"] = "TRUE";
+                }
+            } else {
+                if (isset($_SESSION["recommendation_null"]) && $_SESSION["recommendation_null"] == "TRUE") {
+                    $check = true;
+                }
+            }
+            if ($check) {
+                return RedisUtils::getUpcomingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            } else {
+                return $recommended;
+            }
+
             /*
               echo  $teg."getAllOtherEvents end size : ".  sizeof($array1)."<p/>";
               echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);

@@ -421,7 +421,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                    		      
+                                                                                                                                                            		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -877,11 +877,17 @@ if (empty($user)) {
                                 </div>
                                 <?php
                             } else {
-                                $width = $main_event->headerImage->width;
+                                $width = null;
+                                $height = null;
+                                if (!empty($main_event->headerImage)) {
+                                    $width = $main_event->headerImage->width;
+                                }
                                 if (empty($width)) {
                                     $width = 186;
                                 }
-                                $height = $main_event->headerImage->height;
+                                if (!empty($main_event->headerImage)) {
+                                    $height = $main_event->headerImage->height;
+                                }
                                 if (empty($height)) {
                                     $height = 219;
                                 }
