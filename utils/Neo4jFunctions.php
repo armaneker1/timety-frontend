@@ -1049,6 +1049,9 @@ class Neo4jFuctions {
                 if ((empty($recommended) || strlen($recommended) < 3)) {
                     $check = true;
                     $_SESSION["recommendation_null"] = "TRUE";
+                    var_dump($_SESSION);
+                }else{
+                    $_SESSION["recommendation_null"] = "FALSE";
                 }
             } else {
                 if (isset($_SESSION["recommendation_null"]) && $_SESSION["recommendation_null"] == "TRUE") {
