@@ -13,8 +13,10 @@ if (isset($_POST["userId"]))
 
 RedisUtils::initUser($userId);
 
-
+/*
 $events = json_decode(RedisUtils::getUpcomingEventsForUser($userId, 0, 1000, null, null, 1));
-
-var_dump($events);
+$evt=new Event();
+foreach ($events as $evt){
+    echo "<h2>$evt->title ($evt->id)</h2>";
+}*/
 ?>

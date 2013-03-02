@@ -54,7 +54,7 @@ class RedisUtils {
             $pgStart = $pageNumber * $pageItemCount;
             $pgEnd = $pgStart + $pageItemCount - 1;
             //$log->logInfo("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
-            $events = $redis->zrangebyscore(REDIS_PREFIX_USER.$userId.REDIS_SUFFIX_UPCOMING, $date, "+inf");
+            $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $date, "+inf");
             //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
             $result = "[";
             for ($i = 0; $i < sizeof($events); $i++) {
@@ -318,13 +318,13 @@ class RedisUtils {
             $log->logInfo("Redis Init User > userId : " . $userId);
             $events = Neo4jRecommendationUtils::getUpcomingEventsForUser($userId);
             if (!empty($events) && sizeof($events) > 0) {
+                $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                 $redis = new Predis\Client();
                 $upcomings = $redis->zrevrange(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, 0, -1);
                 foreach ($events as $event) {
                     foreach ($upcomings as $etvJSON) {
                         $etv = json_decode($etvJSON);
                         if ($etv->id == $event->id) {
-                            $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                             if (!empty($host) && !strpos($host, 'localhost')) {
                                 RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $etvJSON);
                             } else {
