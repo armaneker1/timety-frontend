@@ -33,7 +33,7 @@ class EventProcessor {
                 $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                 $this->addUserEventLog(null, $event);
 
-                EventProcessor::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
+                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
             }
             /*
              * my timety
@@ -49,7 +49,7 @@ class EventProcessor {
             if ($event->privacy . "" == "true") {
                 $event->userRelation = $userRelationEmpty;
                 $event->userEventLog = array();
-                EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
+                RedisUtils::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
             }
             /*
              * upcoming event list
@@ -66,7 +66,7 @@ class EventProcessor {
                         if (!empty($follower) && !empty($follower->id)) {
                             $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
                             if ($this->addUserEventLog(null, $event) && $event->privacy . "" == "true") {
-                                EventProcessor::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
                             }
                         }
                     }
@@ -74,6 +74,15 @@ class EventProcessor {
             }
             /*
              * followers list
+             */
+            
+            /*
+             * find users that might interest this event
+             */
+            
+            
+            /*
+             * find users that might interest this event
              */
         } else {
             $log->logInfo("event > addEvent >  event empty");
@@ -108,14 +117,14 @@ class EventProcessor {
                     if ($evt->id == $this->eventID) {
                         $it = $item;
                         //remove item
-                        EventProcessor::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, $item);
+                        RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, $item);
                         break;
                     }
                 }
                 $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                 //insert new item
                 if ($this->addUserEventLog($it, $event)) {
-                    EventProcessor::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
+                    RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
                 }
             }
             /*
@@ -136,7 +145,7 @@ class EventProcessor {
                 $evt = json_decode($item);
                 if ($evt->id == $this->eventID) {
                     //remove item
-                    EventProcessor::removeItem($redis, REDIS_LIST_UPCOMING_EVENTS, $item);
+                    RedisUtils::removeItem($redis, REDIS_LIST_UPCOMING_EVENTS, $item);
                     break;
                 }
             }
@@ -145,7 +154,7 @@ class EventProcessor {
                 $event->userRelation = $userRelationEmpty;
                 $event->userEventLog = null;
                 //insert new item
-                EventProcessor::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
+                RedisUtils::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
             }
             // }
             /*
@@ -167,14 +176,14 @@ class EventProcessor {
                                 if ($evt->id == $this->eventID) {
                                     $it = $item;
                                     //remove item
-                                    EventProcessor::removeItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, $item);
+                                    RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, $item);
                                     break;
                                 }
                             }
                             $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
                             if ($this->addUserEventLog($it, $event) && $event->privacy . "" == "true") {
                                 //insert new item
-                                EventProcessor::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
                             }
                         }
                     }
@@ -207,14 +216,14 @@ class EventProcessor {
                             if ($myevt->id == $event->id) {
                                 $it = $item;
                                 //remove item
-                                EventProcessor::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $item);
+                                RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $item);
                                 break;
                             }
                         }
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                         if ($this->addUserEventLog($it, $event, $evt)) {
                             //insert new item
-                            EventProcessor::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
                         }
                         unset($myevents);
                     }
@@ -242,42 +251,20 @@ class EventProcessor {
                             if ($myevt->id == $event->id) {
                                 $it = $item;
                                 //remove item
-                                EventProcessor::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $item);
+                                RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $item);
                                 break;
                             }
                         }
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                         if ($this->addUserEventLog($it, $event, $evt)) {
                             //insert new item
-                            EventProcessor::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
                         }
                         unset($myevents);
                     }
                 }
             }
         }
-    }
-
-    public static function addItem($redis, $key, $item, $score) {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
-        if (!empty($redis) && !empty($key)) {
-            $log->logInfo($key . " > addItem > inserting item");
-            $return = $redis->zadd($key, $score, $item);
-            $log->logInfo($key . " > addItem >  inserted item " . json_encode($return));
-            return $return;
-        }
-        return null;
-    }
-
-    public static function removeItem($redis, $key, $item) {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
-        if (!empty($redis) && !empty($key)) {
-            $log->logInfo($key . " > removeItem > removing item");
-            $return = $redis->zrem($key, $item);
-            $log->logInfo($key . " > removeItem >  removed item " . json_encode($return));
-            return $return;
-        }
-        return null;
     }
 
     public function addUserEventLog($item, &$event, $seconditem = null) {
