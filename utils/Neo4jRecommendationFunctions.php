@@ -69,6 +69,27 @@ class Neo4jRecommendationUtils {
         return $array;
     }
 
+    public static function getUpcomingEventsForUser($userId) {
+        $array = array();
+        if (!empty($userId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $date = strtotime("now");
+            $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
+                    ".out('" . REL_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
+            $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}._()";
+            //echo $query;
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $result = $query->getResultSet();
+            foreach ($result as $row) {
+                $evt = new Event();
+                $evt->createNeo4j($row[0], TRUE, $userId);
+                $evt->userRelation = Neo4jEventUtils::getEventUserRelationCypher($evt->id, $userId);
+                array_push($array, $evt);
+            }
+        }
+        return $array;
+    }
+
     public static function getFollowingFriendsEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query_ = "", $all = 1) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $eventIds = "";

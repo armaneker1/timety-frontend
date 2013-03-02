@@ -128,7 +128,7 @@ class RedisUtils {
                     $evt = json_decode($events[$i]);
                     if ($evt->creatorId == $userId) {
                         $r = ",";
-                        if (strlen( $result)<2) {
+                        if (strlen($result) < 2) {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
@@ -148,7 +148,7 @@ class RedisUtils {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
-        
+
         if (empty($date)) {
             $date = time();
         }
@@ -162,9 +162,9 @@ class RedisUtils {
                 try {
                     $evt = json_decode($events[$i]);
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
-                    if ($rel->like . "" == "true" || $rel->like ) {
+                    if ($rel->like . "" == "true" || $rel->like) {
                         $r = ",";
-                        if (strlen( $result)<2) {
+                        if (strlen($result) < 2) {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
@@ -198,7 +198,7 @@ class RedisUtils {
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
                     if ($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) {
                         $r = ",";
-                        if (strlen( $result)<2) {
+                        if (strlen($result) < 2) {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
@@ -231,9 +231,9 @@ class RedisUtils {
                     $evt = json_decode($events[$i]);
 
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
-                    if ($rel->reshare . "" == "true" || $rel->reshare ) {
+                    if ($rel->reshare . "" == "true" || $rel->reshare) {
                         $r = ",";
-                        if (strlen( $result)<2) {
+                        if (strlen($result) < 2) {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
@@ -254,13 +254,13 @@ class RedisUtils {
         $result->reshare = false;
         if (!empty($rel)) {
             if (is_object($rel)) {
-                $rel=  UtilFunctions::cast("stdClass", $rel);
+                $rel = UtilFunctions::cast("stdClass", $rel);
                 return $rel;
             } else {
                 try {
                     $rel = json_decode($rel);
                     if (is_object($rel)) {
-                        $rel=  UtilFunctions::cast("stdClass", $rel);
+                        $rel = UtilFunctions::cast("stdClass", $rel);
                         return $rel;
                     }
                 } catch (Exception $exc) {
@@ -269,6 +269,61 @@ class RedisUtils {
             }
         }
         return $result;
+    }
+
+    public static function initUser($userId = null) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (!empty($userId)) {
+            $log->logInfo("Redis Init User > userId : " . $userId);
+            $events = Neo4jRecommendationUtils::getUpcomingEventsForUser($userId);
+            if (!empty($events) && sizeof($events) > 0) {
+                $redis = new Predis\Client();
+                $upcomings = $redis->zrevrange(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, 0, -1);
+                foreach ($events as $event) {
+                    foreach ($upcomings as $etvJSON) {
+                        $etv = json_decode($etvJSON);
+                        if ($etv->id == $event->id) {
+                            $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
+                            if (!empty($host) && !strpos($host, 'localhost')) {
+                                RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $etvJSON);
+                            } else {
+                                $log->logInfo("Redis remove Item simulated");
+                            }
+                            break;
+                        }
+                    }
+                    if (!empty($host) && !strpos($host, 'localhost')) {
+                        RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
+                    } else {
+                        $log->logInfo("Redis addItem Item simulated");
+                    }
+                }
+            }
+        } else {
+            $log->logInfo("Redis Init User > userId : empty ");
+        }
+    }
+
+    public static function addItem($redis, $key, $item, $score) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (!empty($redis) && !empty($key)) {
+            $log->logInfo($key . " > addItem > inserting item");
+            $return = $redis->zadd($key, $score, $item);
+            $log->logInfo($key . " > addItem >  inserted item " . json_encode($return));
+            return $return;
+        }
+        return null;
+    }
+
+    public static function removeItem($redis, $key, $item) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (!empty($redis) && !empty($key)) {
+            $log->logInfo($key . " > removeItem > removing item");
+            $return = $redis->zrem($key, $item);
+            $log->logInfo($key . " > removeItem >  removed item " . json_encode($return));
+            return $return;
+        }
+        return null;
     }
 
 }

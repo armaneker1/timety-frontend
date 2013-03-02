@@ -171,11 +171,11 @@ class Neo4jUserUtil {
             return 0;
         }
     }
-    
+
     public static function getAllUsersNode($text = "") {
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $query = "START user=node:" . IND_USER_INDEX. "('" . PROP_USER_ID. ":*" . $text . "*') " .
+        $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $text . "*') " .
                 " RETURN user, count(*)";
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
@@ -184,7 +184,7 @@ class Neo4jUserUtil {
         }
         return $array;
     }
-    
+
     public static function getUserCreatedEventsNode($userId) {
         if (!empty($userId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -199,12 +199,12 @@ class Neo4jUserUtil {
             return $array;
         }
     }
-    
+
     public static function getUserJoinedEventsNode($userId) {
         if (!empty($userId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
-                    ".outE('" . REL_EVENTS_JOINS . "').filter{it." . PROP_JOIN_TYPE . "==".TYPE_JOIN_YES."}.inV().dedup";
+                    ".outE('" . REL_EVENTS_JOINS . "').filter{it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_YES . "}.inV().dedup";
             //echo $query;
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
             $result = $query->getResultSet();
@@ -215,11 +215,12 @@ class Neo4jUserUtil {
             return $array;
         }
     }
+
     public static function getUserMaybeEventsNode($userId) {
         if (!empty($userId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
-                    ".outE('" . REL_EVENTS_JOINS . "').filter{it." . PROP_JOIN_TYPE . "==".TYPE_JOIN_MAYBE."}.inV().dedup";
+                    ".outE('" . REL_EVENTS_JOINS . "').filter{it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_MAYBE . "}.inV().dedup";
             //echo $query;
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
             $result = $query->getResultSet();
@@ -230,9 +231,8 @@ class Neo4jUserUtil {
             return $array;
         }
     }
-    
-    
-     public static function getUserResharedEventsNode($userId) {
+
+    public static function getUserResharedEventsNode($userId) {
         if (!empty($userId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
@@ -246,7 +246,7 @@ class Neo4jUserUtil {
             return $array;
         }
     }
-    
+
     public static function getUserLikedEventsNode($userId) {
         if (!empty($userId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -276,7 +276,25 @@ class Neo4jUserUtil {
             return $array;
         }
     }
-    
+
+    public static function getUserNodeById($userId) {
+        if (!empty($userId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                        "RETURN user";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+                foreach ($result as $row) {
+                    return $row[0];
+                }
+            } catch (Exception $e) {
+                echo "Error" . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
     public static function removeUserById($userId) {
         if (!empty($userId)) {
             try {

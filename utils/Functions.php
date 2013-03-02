@@ -19,6 +19,8 @@ require_once __DIR__ . '/../config/fqconfig.php';
 require_once __DIR__ . '/../config/twconfig.php';
 require_once __DIR__ . '/../config/ggconfig.php';
 
+require_once __DIR__ . '/../apis/logger/KLogger.php';
+
 require_once __DIR__ . '/CommentFunctions.php';
 require_once __DIR__ . '/DBFunctions.php';
 require_once __DIR__ . '/EventFunctions.php';
