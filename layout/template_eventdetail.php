@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="gdy_alt">
-        <div class="gdy_satir" id="gdy_images_div_container">
+        <div class="gdy_satir" id="gdy_images_div_container" style="display: none;">
             <div class="gdy_alt_sol">
                 <img src="<?= HOSTNAME ?>images/rsm.png" width="27" height="24" align="middle" />
             </div>
@@ -48,6 +48,7 @@
         <div class="gdy_satir" id="gdy_users_div_container">
             <div class="gdy_alt_sol">
                 <img src="<?= HOSTNAME ?>images/klnc.png" width="22" height="20" align="middle" />
+                <span style="font-family: Arial, Helvetica, sans-serif;font-size: 11px;color: #959595;">Joined</span>
             </div>
             <div class="gdy_alt_orta" id="gdy_users_div">
             </div>
@@ -61,10 +62,10 @@
         </div>
         <div id="write_comment" class="gdy_satir" style="display: none;">
             <div class="gdy_alt_sol_yorum">
-                <img src="<?= HOSTNAME ?>images/yz.png" width="22" height="23" align="middle" style="margin-top: -5px;">
+                <img src="<?= HOSTNAME ?>images/yz.png" width="22" height="23" align="middle" style="margin-top: -20px;">
             </div>
             <div class="gdy_alt_orta_yorum gdy_alt_orta_yorum_bggri_sendbtn bggri">
-                <input name="" type="text" class="gdyorum" id="sendComment" eventid="" placeholder="Your message...">
+                <input name="" type="text" class="gdyorum" id="sendComment" eventid="" placeholder="Leave a comment...">
                 <button class="gdy_send" type="button" onclick="sendComment()">Send</button>
             </div>
         </div>
