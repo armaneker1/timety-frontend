@@ -227,7 +227,11 @@ function openModalPanel(event_id,custom) {
         //set event title
         jQuery("#gdy_event_title").text(data.title);
         //set event date
-        jQuery("#gdy_event_date").text(data.startDateTime);
+        try{
+            jQuery("#gdy_event_date").text(moment(data.startDateTime).format("YYYY-MM-DD HH:mm"));
+        }catch(exp){
+            jQuery("#gdy_event_date").text(data.startDateTime);
+        }
         //set event description
         jQuery("#gdy_event_description").text(data.description);
         //set Header Image
@@ -237,8 +241,18 @@ function openModalPanel(event_id,custom) {
         jQuery(headerImage).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
         jQuery(headerImage).css('min-height','30px');
         jQuery(headerImage).css('min-width', '30px');
+        jQuery(headerImage).css('margin-bottom', '-4px');
         jQuery(headerImage).attr('height',30);
         jQuery(headerImage).attr('width', 30);
+        if(data.attach_link){
+            jQuery(headerImage).click(function(){
+                var dataUrl=data.attach_link;
+                if(dataUrl.indexOf("http")!=0){
+                    dataUrl="http://"+dataUrl;
+                }
+                window.open(dataUrl,'_blank');
+            });
+        }
         if(headerImage && data.headerImage && data.headerImage.url)
         {
             setHeaderImage(headerImage, data.headerImage);
@@ -338,9 +352,10 @@ function openModalPanel(event_id,custom) {
         
         /*
          * Set Images
+         * tek image'e gecildi
          */
-        jQuery("#gdy_images_div").children().remove();
-        getImages(jQuery("#gdy_images_div"),event_id);
+        //jQuery("#gdy_images_div").children().remove();
+        //getImages(jQuery("#gdy_images_div"),event_id);
         /*
          * Set Users
          */
