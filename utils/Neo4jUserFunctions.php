@@ -310,6 +310,28 @@ class Neo4jUserUtil {
         }
     }
 
+    public static function getUserTimetyTag($userId) {
+        if (!empty($userId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                        " MATCH  user-[r:" . REL_TIMETY_INTERESTS . "]-(tag)" .
+                        " RETURN  tag";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+                $array = array();
+                foreach ($result as $row) {
+                    $tag = new TimetyTag();
+                    $tag->createNeo4j($row[0]);
+                    array_push($array, $tag);
+                }
+                return $array;
+            } catch (Exception $e) {
+                echo "Error" . $e->getMessage();
+            }
+        }
+    }
+
 }
 
 ?>

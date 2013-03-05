@@ -77,12 +77,15 @@ class Neo4jTimetyTagUtil {
       return 1;
       } */
 
-    public static function getTimetyTagById($id) {
+    public static function getTimetyTagById($id, $lang = LANG_EN_US) {
+        if (($lang != LANG_EN_US && $lang != LANG_TR_TR) || empty($lang)) {
+            $lang = LANG_EN_US;
+        }
         if (empty($id)) {
             return null;
         }
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
+        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . $lang);
         $tag = $timetyTagIndex->findOne(PROP_TIMETY_TAG_ID, $id);
         if (!empty($tag)) {
             $ttag = new TimetyTag();
@@ -146,9 +149,12 @@ class Neo4jTimetyTagUtil {
         return 2;
     }
 
-    public static function updateTimetyTag($tagId, $tagName) {
+    public static function updateTimetyTag($tagId, $tagName,$lang=LANG_EN_US) {
+        if (($lang != LANG_EN_US && $lang != LANG_TR_TR) || empty($lang)) {
+            $lang = LANG_EN_US;
+        }
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
+        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG."_".$lang);
         try {
             $tag = $timetyTagIndex->findOne(PROP_TIMETY_TAG_ID, $tagId);
         } catch (Exception $exc) {
@@ -172,16 +178,20 @@ class Neo4jTimetyTagUtil {
         return 0;
     }
 
-    public static function removeTimetyTag($tagId) {
+    public static function removeTimetyTag($tagId, $lang = LANG_EN_US) {
+        if (($lang != LANG_EN_US && $lang != LANG_TR_TR) || empty($lang)) {
+            $lang = LANG_EN_US;
+        }
         if (!empty($tagId)) {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-                $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
+                $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . $lang);
                 $tag = $timetyTagIndex->findOne(PROP_TIMETY_TAG_ID, $tagId);
                 if (!empty($tag)) {
-                    $query = "START tag=node:" . IND_TIMETY_TAG . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "') " .
+                    $query = "START tag=node:" . IND_TIMETY_TAG . "_" . $lang . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "') " .
                             "MATCH  tag-[r]-() " .
                             "DELETE  tag,r";
+                    //echo $query;
                     $query = new Cypher\Query($client, $query, null);
                     $query->getResultSet();
                 }
@@ -191,11 +201,15 @@ class Neo4jTimetyTagUtil {
         }
     }
 
-    public static function getTimetyTagsFromCat($catId) {
+    public static function getTimetyTagsFromCat($catId, $lang = LANG_EN_US) {
+        if ($lang != LANG_EN_US && $lang != LANG_TR_TR) {
+            $lang = LANG_EN_US;
+        }
         if (!empty($catId)) {
             $array = array();
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-            $query = "g.idx('" . IND_TIMETY_CATEGORY . "')[[" . PROP_TIMETY_CAT_ID . ":'" . $catId . "']]" .
+
+            $query = " g.idx('" . IND_TIMETY_CATEGORY . "')[['" . PROP_TIMETY_CAT_ID . "':'" . $catId . "']].out('" . REL_TIMETY_LANG . "').filter{it." . PROP_TIMETY_LANG_CODE . "=='" . $lang . "'}" .
                     ".out('" . REL_TIMETY_OBJECTS . "').dedup";
             //echo $query;
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);

@@ -59,12 +59,13 @@ $array = Neo4jTimetyCategoryUtil::getTimetyList("");
             <h3>Categories</h3>
             <select name="categories[]" multiple style="width: 250px;height: 200px;">
                 <?php foreach ($array as $cat) { ?>
-                    <option value="<?= $cat->id ?>"><?= $cat->name ?></option>
+                    <option value="<?= $cat->id ?>"><?= $cat->name."(".$cat->id.")" ?></option>
                 <?php } ?>
             </select>
-
-            <input type="submit" name="delete" value="Delete">
+            
             <input type="submit" name="select" value="Select"></form>
+            <br/>
+            <input type="submit" name="delete" value="Delete">
     </form>
 </body>
 </html>
