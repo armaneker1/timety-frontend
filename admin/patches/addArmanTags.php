@@ -13,15 +13,11 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
 
-$userId = 6618346;
+$userId = 6618356;
 
 $userNode = Neo4jUserUtil::getUserNodeById($userId);
 $array = array();
-array_push($array, 96);
-array_push($array, 95);
-array_push($array, 147);
-array_push($array, 145);
-array_push($array, 148);
+array_push($array, 2);
 
 
 foreach ($array as $tag) {

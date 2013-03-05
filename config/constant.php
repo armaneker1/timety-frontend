@@ -24,6 +24,9 @@ define('DATE_FE_FORMAT', 'd.m.Y H:i');
 define('DATE_FE_FORMAT_D', 'd.m.Y');
 define('DATE_FORMAT', 'Y-m-d');
 
+define('LANG_TR_TR', 'tr_TR');
+define('LANG_EN_US', 'en_US');
+
 //SESSION constant
 define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
 define('INDEX_POST_SESSION_KEY', 'index_post_session');

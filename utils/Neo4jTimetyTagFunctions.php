@@ -10,10 +10,14 @@ use Everyman\Neo4j\Transport,
 
 class Neo4jTimetyTagUtil {
 
-    public static function searchTags($query) {
+    public static function searchTags($query, $lang = null) {
+        if (empty($lang) || !($lang == LANG_EN_US || $lang == LANG_TR_TR)) {
+            $lang = LANG_EN_US;
+        }
+
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 
-        $query = "START object=node:" . IND_TIMETY_TAG . "('" . PROP_TIMETY_TAG_ID . ":*') " .
+        $query = "START object=node:" . IND_TIMETY_TAG . "_" . $lang . "('" . PROP_TIMETY_TAG_ID . ":*') " .
                 " WHERE object." . PROP_TIMETY_TAG_NAME . "=~/.*(?i)" . $query . ".*/ " .
                 " RETURN object, count(*)";
         //echo $query;
@@ -60,18 +64,18 @@ class Neo4jTimetyTagUtil {
         return "[]";
     }
 
-    public static function getLastId() {
-        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
-        $timetyTagIndex->save();
-        $query = "START tag=node:" . IND_TIMETY_TAG . "('" . PROP_TIMETY_TAG_ID . ":**') RETURN tag." . PROP_TIMETY_TAG_ID . ", count(*) ORDER BY tag." . PROP_TIMETY_TAG_ID . " DESC LIMIT 1";
-        $query = new Cypher\Query($client, $query, null);
-        $result = $query->getResultSet();
-        foreach ($result as $row) {
-            return $row[0] + 1;
-        }
-        return 1;
-    }
+    /* public static function getLastId() {
+      $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+      $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
+      $timetyTagIndex->save();
+      $query = "START tag=node:" . IND_TIMETY_TAG . "('" . PROP_TIMETY_TAG_ID . ":**') RETURN tag." . PROP_TIMETY_TAG_ID . ", count(*) ORDER BY tag." . PROP_TIMETY_TAG_ID . " DESC LIMIT 1";
+      $query = new Cypher\Query($client, $query, null);
+      $result = $query->getResultSet();
+      foreach ($result as $row) {
+      return $row[0] + 1;
+      }
+      return 1;
+      } */
 
     public static function getTimetyTagById($id) {
         if (empty($id)) {
@@ -88,7 +92,7 @@ class Neo4jTimetyTagUtil {
             return null;
         }
     }
-    
+
     public static function getTimetyTagNodeById($id) {
         if (empty($id)) {
             return null;
@@ -103,13 +107,17 @@ class Neo4jTimetyTagUtil {
         }
     }
 
-    public static function insertTimetyTag($catId, $tagName) {
+    public static function insertTimetyTag($catId, $tagName, $lang, $id = null) {
+        if (($lang != LANG_EN_US && $lang != LANG_TR_TR) || empty($lang)) {
+            $lang = LANG_EN_US;
+        }
         $catId = (int) $catId;
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $timetyCategoryIndex = new Index($client, Index::TypeNode, IND_TIMETY_CATEGORY);
-        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
+        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . $lang);
         $cat = $timetyCategoryIndex->findOne(PROP_TIMETY_CAT_ID, $catId);
         if (!empty($cat)) {
+            $langCat = Neo4jTimetyCategoryUtil::getTimetyCategoryLangNodeById($catId, $lang);
             try {
                 $tag = $timetyTagIndex->find(PROP_TIMETY_TAG_NAME, $tagName);
             } catch (Exception $exc) {
@@ -119,12 +127,15 @@ class Neo4jTimetyTagUtil {
                 //already exits
                 return 1;
             } else {
-                $id = Neo4jTimetyTagUtil::getLastId();
+                if (empty($id)) {
+                    $id = DBUtils::getNextId(CLM_TIMETY_TAG_ID);
+                }
                 $tagNode = $client->makeNode();
                 $tagNode->setProperty(PROP_TIMETY_TAG_ID, $id);
                 $tagNode->setProperty(PROP_TIMETY_TAG_NAME, $tagName);
+                $tagNode->setProperty(PROP_TIMETY_LANG_CODE, $lang);
                 $tagNode->save();
-                $cat->relateTo($tagNode, REL_TIMETY_OBJECTS)->save();
+                $langCat->relateTo($tagNode, REL_TIMETY_OBJECTS)->save();
                 $timetyTagIndex->add($tagNode, PROP_TIMETY_TAG_ID, $id);
                 $timetyTagIndex->add($tagNode, PROP_TIMETY_TAG_NAME, $tagName);
                 $timetyTagIndex->save();
@@ -186,6 +197,7 @@ class Neo4jTimetyTagUtil {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "g.idx('" . IND_TIMETY_CATEGORY . "')[[" . PROP_TIMETY_CAT_ID . ":'" . $catId . "']]" .
                     ".out('" . REL_TIMETY_OBJECTS . "').dedup";
+            //echo $query;
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
             $result = $query->getResultSet();
             foreach ($result as $row) {

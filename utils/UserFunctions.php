@@ -229,7 +229,7 @@ class UserUtils {
     public static function updateUser($uid, User $user) {
         if (!empty($uid) && !empty($user)) {
             $uid = DBUtils::mysql_escape($uid);
-            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate='" . DBUtils::getDate($user->birthdate) . "',firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='$user->about',gender=$user->gender  WHERE id = $uid";
+            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate='" . DBUtils::getDate($user->birthdate) . "',firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='$user->about',gender=$user->gender,lang=$user->language  WHERE id = $uid";
             error_log($SQL);
             mysql_query($SQL) or die(mysql_error());
         }
@@ -239,6 +239,15 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set confirm=1 WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function setLanguage($userId, $lang) {
+        if (!empty($userId) && !empty($lang)) {
+            $userId = DBUtils::mysql_escape($userId);
+            $lang = DBUtils::mysql_escape($lang);
+            $SQL = "UPDATE " . TBL_USERS . " set lang='$lang' WHERE id = $userId";
             mysql_query($SQL) or die(mysql_error());
         }
     }
@@ -295,7 +304,7 @@ class UserUtils {
                 if (isset($_SESSION["te_invitation_code"])) {
                     UtilFunctions::insertUserInvitation($userId, $_SESSION["te_invitation_code"]);
                 }
-                $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited) VALUES ($userId,'$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited)";
+                $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited,lang) VALUES ($userId,'$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited,$user->language)";
                 mysql_query($SQL) or die(mysql_error());
                 //create user for neo4j
                 $user_ = UserUtils::getUserByUserName($user->userName);

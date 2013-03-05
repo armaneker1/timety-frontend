@@ -219,7 +219,7 @@ class EventProcessor {
                 $log->logInfo("event > findUserForEvents >  recommened users : " . sizeof($users));
                 foreach ($users as $user) {
                     $userId = $user->getProperty(PROP_USER_ID);
-                    if (!empty($userId) && $userId != $this->userID) {
+                    if (!empty($userId) /*&& $userId != $this->userID*/) {
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->eventID, $userId);
                         $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                         $redis = new Predis\Client();

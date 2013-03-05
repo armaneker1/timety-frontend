@@ -20,6 +20,7 @@ class User {
             $this->website = $result['website'];
             $this->about = $result['about'];
             $this->gender = $result['gender'];
+            $this->language = $result['lang'];
         }
     }
 
@@ -43,6 +44,7 @@ class User {
                 $this->website = $tmp->website;
                 $this->about = $tmp->about;
                 $this->gender = $tmp->gender;
+                $this->language = $tmp->language;
             } else {
                 $this->id = null;
             }
@@ -67,6 +69,11 @@ class User {
     public $website;
     public $about;
     public $gender;
+    public $language;
+
+    public function getUserLang() {
+        return $this->hometown;
+    }
 
     public function getFullName() {
         return $this->firstName . " " . $this->lastName;

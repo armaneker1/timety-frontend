@@ -241,7 +241,7 @@ function openModalPanel(event_id,custom) {
         jQuery(headerImage).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
         jQuery(headerImage).css('min-height','30px');
         jQuery(headerImage).css('min-width', '30px');
-        jQuery(headerImage).css('margin-bottom', '-4px');
+        jQuery(headerImage).css('margin-bottom', '-3px');
         jQuery(headerImage).attr('height',30);
         jQuery(headerImage).attr('width', 30);
         if(data.attach_link){

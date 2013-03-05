@@ -22,4 +22,5 @@ define('TBL_USERS_SOCIALPROVIDER' ,'timete_user_socialprovider');
 define('TBL_LOSTPASS' ,'timete_lost_pass');
 define('TBL_IMAGES' ,'timete_images');
 define('TBL_COMMENT' ,'timete_comment');
+define('CLM_TIMETY_TAG_ID' ,'TIMETY_TAG_ID');
 ?>

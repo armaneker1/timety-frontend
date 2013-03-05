@@ -147,21 +147,30 @@ class SocialUtil {
 
     public static function calcEventCounter($userId, $eventId, $property, $type) {
         if (!empty($userId) && !empty($eventId)) {
-            $nresult = Neo4jEventUtils::getEventTags($eventId);
+            $nresult = Neo4jEventUtils::getEventTimetyTags($eventId);
+            $array = array();
             foreach ($nresult as $row) {
-                $tagId = $row->getProperty(PROP_OBJECT_ID);
-                SocialUtil::checkUserInterestTag($userId, $tagId, $property, $type);
+                $tagId = $row->getProperty(PROP_TIMETY_TAG_ID);
+                $lang = $row->getProperty(PROP_TIMETY_LANG);
+                if (!in_array($tagId, $array)) {
+                    array_push($array, $tagId);
+                    SocialUtil::checkUserInterestTag($userId, $tagId, $property, $type, $lang);
+                }
             }
         }
     }
 
-    public static function checkUserInterestTag($userId, $tagId, $property, $type) {
+    public static function checkUserInterestTag($userId, $tagId, $property, $type, $lang = null) {
+        if (($lang != LANG_EN_US && $lang != LANG_TR_TR) || empty($lang)) {
+            $lang = LANG_EN_US;
+        }
         if (!empty($userId) && !empty($tagId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-            $query = "START tag=node:" . IND_OBJECT_INDEX . "('" . PROP_OBJECT_ID . ":" . $tagId . "'), " .
+            $query = "START tag=node:" . IND_TIMETY_TAG . "_" . $lang . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "'), " .
                     " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
                     " MATCH  user-[r:" . REL_INTERESTS . "]->tag" .
                     " RETURN r";
+            //echo $query;
             $query = new Cypher\Query($client, $query, null);
             $nresult = $query->getResultSet();
             $relation = null;
@@ -171,10 +180,12 @@ class SocialUtil {
             }
             if (empty($relation)) {
                 $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
-                $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
+                $tr_tagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . LANG_TR_TR);
+                $en_tagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . LANG_EN_US);
                 $usr = $userIndex->findOne(PROP_USER_ID, $userId);
-                $obj = $objectIndex->findOne(PROP_OBJECT_ID, $tagId);
-                if (!empty($usr) && !empty($obj)) {
+                $tag_tr = $tr_tagIndex->findOne(PROP_OBJECT_ID, $tagId);
+                $tag_en = $en_tagIndex->findOne(PROP_OBJECT_ID, $tagId);
+                if (!empty($usr) && !empty($tag_tr)) {
                     $weight = 1;
                     $joinCount = 0;
                     $likeCount = 0;
@@ -188,22 +199,78 @@ class SocialUtil {
                             $reshareCount = 1;
                         }
                     }
-                    $usr->relateTo($obj, REL_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, $weight)->setProperty(PROP_INTEREST_JOIN_COUNT, $joinCount)->setProperty(PROP_INTEREST_LIKE_COUNT, $likeCount)->setProperty(PROP_INTEREST_RESHARE_COUNT, $reshareCount)->save();
+                    $usr->relateTo($tag_tr, REL_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, $weight)->setProperty(PROP_INTEREST_JOIN_COUNT, $joinCount)->setProperty(PROP_INTEREST_LIKE_COUNT, $likeCount)->setProperty(PROP_INTEREST_RESHARE_COUNT, $reshareCount)->save();
+                }
+                if (!empty($usr) && !empty($tag_en)) {
+                    $weight = 1;
+                    $joinCount = 0;
+                    $likeCount = 0;
+                    $reshareCount = 0;
+                    if ($type == 1) {
+                        if ($property == PROP_INTEREST_JOIN_COUNT) {
+                            $joinCount = 1;
+                        } else if ($property == PROP_INTEREST_LIKE_COUNT) {
+                            $likeCount = 1;
+                        } else if ($property == PROP_INTEREST_RESHARE_COUNT) {
+                            $reshareCount = 1;
+                        }
+                    }
+                    $usr->relateTo($tag_en, REL_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, $weight)->setProperty(PROP_INTEREST_JOIN_COUNT, $joinCount)->setProperty(PROP_INTEREST_LIKE_COUNT, $likeCount)->setProperty(PROP_INTEREST_RESHARE_COUNT, $reshareCount)->save();
                 }
             } else {
-                $prop = $relation->getProperty($property);
-                if (!empty($prop)) {
-                    $prop = $prop + $type;
-                    if ($prop < 0) {
-                        $prop = 0;
+                $query = "START tag=node:" . IND_TIMETY_TAG . "_" . LANG_EN_US . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "'), " .
+                        " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                        " MATCH  user-[r:" . REL_INTERESTS . "]->tag" .
+                        " RETURN r";
+                $query = new Cypher\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                $relation = null;
+                foreach ($nresult as $row) {
+                    $relation = $row[0];
+                    break;
+                }
+                if (!empty($relation)) {
+                    $prop = $relation->getProperty($property);
+                    if (!empty($prop)) {
+                        $prop = $prop + $type;
+                        if ($prop < 0) {
+                            $prop = 0;
+                        }
+                        $relation->setProperty($property, $prop)->save();
+                    } else {
+                        $value = 0;
+                        if ($type == 1) {
+                            $value = 1;
+                        }
+                        $relation->setProperty($property, $value)->save();
                     }
-                    $relation->setProperty($property, $prop)->save();
-                } else {
-                    $value = 0;
-                    if ($type == 1) {
-                        $value = 1;
+                }
+                $query = "START tag=node:" . IND_TIMETY_TAG . "_" . LANG_TR_TR . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "'), " .
+                        " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
+                        " MATCH  user-[r:" . REL_INTERESTS . "]->tag" .
+                        " RETURN r";
+                $query = new Cypher\Query($client, $query, null);
+                $nresult = $query->getResultSet();
+                $relation = null;
+                foreach ($nresult as $row) {
+                    $relation = $row[0];
+                    break;
+                }
+                if (!empty($relation)) {
+                    $prop = $relation->getProperty($property);
+                    if (!empty($prop)) {
+                        $prop = $prop + $type;
+                        if ($prop < 0) {
+                            $prop = 0;
+                        }
+                        $relation->setProperty($property, $prop)->save();
+                    } else {
+                        $value = 0;
+                        if ($type == 1) {
+                            $value = 1;
+                        }
+                        $relation->setProperty($property, $value)->save();
                     }
-                    $relation->setProperty($property, $value)->save();
                 }
             }
         }

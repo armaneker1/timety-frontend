@@ -54,6 +54,7 @@ $userList = UserUtils::getUserList($page, $limit);
         <td>User Last Name</td>
         <td>User Email</td>
         <td>User Status</td>
+        <td>User Lang</td>
         <td>Action</td>
     </tr>
 
@@ -69,6 +70,7 @@ $userList = UserUtils::getUserList($page, $limit);
             <td><?= $user->lastName ?></td>
             <td><?= $user->email ?></td>
             <td><?= $user->status ?></td>
+            <td><?= $user->getUserLang() ?></td>
             <td><a href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?action=delete&userId=" . $user->id ?>">Delete</a></td>
         </tr>
     <?php } ?>

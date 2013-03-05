@@ -45,6 +45,7 @@ define('REL_EVENT_ROOT', 'EVENT_ROOT');
 define('REL_GROUP_ROOT', 'GROUP_ROOT');
 
 define('REL_TIMETY_CATEGORY', 'TIMETY_CATEGORY');
+define('REL_TIMETY_LANG', 'TIMETY_LANG');
 define('REL_CATEGORY_LEVEL1', 'CATEGORY_LEVEL1');
 define('REL_CATEGORY_LEVEL2', 'CATEGORY_LEVEL2');
 define('REL_EVENT', 'EVENT');
@@ -105,10 +106,17 @@ define('CATEGORY_TAG_CONSTANT', 'tag');
 define('PROP_TIMETY_CAT_ID', 'timety_category_id');
 define('PROP_TIMETY_CAT_NAME', 'name');
 
+
+/*
+ * timety  lang
+ */
+define('PROP_TIMETY_LANG_CODE', 'timety_lang_code');
+
 /*
  * timty tag props
  */
 define('PROP_TIMETY_TAG_ID', 'timety_tag_id');
+define('PROP_TIMETY_LANG', 'timety_lang');
 define('PROP_TIMETY_TAG_NAME', 'name');
 
 /*

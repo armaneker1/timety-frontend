@@ -57,6 +57,40 @@ class Neo4jTimetyCategoryUtil {
         return $tcat;
     }
 
+    public static function getTimetyCategoryNodeById($id) {
+        if (empty($id)) {
+            return null;
+        }
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $timetyCategoryIndex = new Index($client, Index::TypeNode, IND_TIMETY_CATEGORY);
+        $cat = $timetyCategoryIndex->findOne(PROP_TIMETY_CAT_ID, $id);
+        if (!empty($cat)) {
+            return $cat;
+        } else {
+            return null;
+        }
+    }
+
+    public static function getTimetyCategoryLangNodeById($id, $lang) {
+        if ($lang != LANG_EN_US && $lang != LANG_TR_TR) {
+            $lang = LANG_EN_US;
+        }
+        if (empty($id)) {
+            return null;
+        }
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $query = " g.idx('" . IND_TIMETY_CATEGORY . "')[['" . PROP_TIMETY_CAT_ID . "':'" . $id . "']].out('" . REL_TIMETY_LANG . "')";
+        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+        $result = $query->getResultSet();
+        foreach ($result as $row) {
+            $langTmp = $row[0]->getProperty(PROP_TIMETY_LANG_CODE);
+            if ($lang == $langTmp) {
+               return  $row[0];
+            }
+        }
+        return null;
+    }
+
     public static function getTimetyCategoryEvents($catId) {
         $array = array();
         if (!empty($catId)) {
@@ -135,7 +169,6 @@ class Neo4jTimetyCategoryUtil {
         }
         return 0;
     }
-
 
     public static function getLastId() {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));

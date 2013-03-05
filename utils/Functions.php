@@ -7,7 +7,7 @@ require_once __DIR__ . '/../apis/facebook/facebook.php';
 require_once __DIR__ . '/../apis/twitter/twitteroauth.php';
 require_once __DIR__ . '/../apis/foursquare/FoursquareAPI.php';
 require_once __DIR__ . '/../apis/google/Google_Client.php';
-require_once __DIR__ . '/../apis/google/contrib/Google_PlusService.php';
+//require_once __DIR__ . '/../apis/google/contrib/Google_PlusService.php';
 
 require_once __DIR__ . '/../config/dbconfig.php';
 require_once __DIR__ . '/../config/constant.php';

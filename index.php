@@ -3,6 +3,7 @@ session_start();
 header("charset=utf8;Content-Type: text/html;");
 
 require_once __DIR__ . '/utils/Functions.php';
+require_once __DIR__ . '/apis/google/contrib/Google_CalendarService.php';
 
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
@@ -331,6 +332,101 @@ if (empty($user)) {
                 $eventDB = EventUtil::createEvent($event, $user);
                 if (!empty($eventDB) && !empty($eventDB->id)) {
                     Queue::addEvent($eventDB->id, $user->id);
+                    $providers = UserUtils::getSocialProviderList($user->id);
+                    $fbProv = null;
+                    $ggProv = null;
+                    foreach ($providers as $provider) {
+                        if (!empty($provider)) {
+                            if ($provider->oauth_provider == FACEBOOK_TEXT) {
+                                $fbProv = $provider;
+                            } else if ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
+                                $ggProv = $provider;
+                            }
+                        }
+                    }
+                    if (($eventDB->addsocial_fb == "1" || $eventDB->addsocial_fb == 1) && !empty($fbProv)) {
+                        try {
+                            $facebook = new Facebook(array(
+                                        'appId' => FB_APP_ID,
+                                        'secret' => FB_APP_SECRET,
+                                        'cookie' => true,
+                                        'fileUpload' => true
+                                    ));
+
+                            $facebook->setAccessToken($fbProv->oauth_token);
+                            $pr = "SECRET";
+                            if ($eventDB->privacy == 1 || $eventDB->privacy == "1") {
+                                $pr = "OPEN";
+                            }
+                            $eventDB->getHeaderImage();
+                            $fileName = __DIR__ . "/" . $eventDB->headerImage->url;
+
+                            $event_info = array(
+                                "privacy_type" => $pr,
+                                "name" => $eventDB->title,
+                                "host" => "Me",
+                                "start_time" => date($eventDB->startDateTime),
+                                "end_time" => date($eventDB->endDateTime),
+                                "location" => $eventDB->location,
+                                "description" => $eventDB->description,
+                                "ticket_uri" => HOSTNAME . "/events/" . $eventDB->id,
+                                basename($fileName) => '@' . $fileName
+                            );
+                            $result = $facebook->api('me/events', 'post', $event_info);
+                            error_log("Fcebook event log " . json_encode($result));
+                        } catch (Exception $exc) {
+                            error_log($exc->getTraceAsString());
+                        }
+                    }
+                    if (($eventDB->addsocial_gg == "1" || $eventDB->addsocial_gg == 1) && !empty($ggProv)) {
+                        try {
+                            $google = new Google_Client();
+                            $google->setUseObjects(true);
+                            $google->setApplicationName(GG_APP_NAME);
+                            $google->setClientId(GG_CLIENT_ID);
+                            $google->setClientSecret(GG_CLIENT_SECRET);
+                            $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
+                            $google->setDeveloperKey(GG_DEVELOPER_KEY);
+                            $google->setAccessToken($ggProv->oauth_token);
+
+
+                            $cal = new Google_CalendarService($google);
+
+                            $event = new Google_Event();
+                            $event->setSummary($eventDB->title);
+                            $event->setDescription($eventDB->description . "\n" . HOSTNAME . "events/" . $eventDB->id);
+                            $event->setLocation($eventDB->location);
+
+                            $start = new Google_EventDateTime();
+                            $start->setDateTime(date('Y-m-d\TH:i:s.B+02:00', strtotime($eventDB->startDateTime)));
+                            $event->setStart($start);
+
+                            $end = new Google_EventDateTime();
+                            $end->setDateTime(date('Y-m-d\TH:i:s.B+02:00', strtotime($eventDB->endDateTime)));
+                            $event->setEnd($end);
+
+                            $pr = false;
+                            $pr2 = "private";
+                            if ($eventDB->privacy == 1 || $eventDB->privacy == "1") {
+                                $pr = true;
+                                $pr2 = "public";
+                            }
+                            $event->setAnyoneCanAddSelf($pr);
+                            $event->setVisibility($pr2);
+                            $event->setHtmlLink(HOSTNAME . "events/" . $eventDB->id);
+                            $createdEvent = $cal->events->insert('primary', $event);
+
+                            //echo $createdEvent->getId();
+                            //var_dump($createdEvent);
+                        } catch (Exception $exc) {
+                            error_log($exc->getTraceAsString());
+                        }
+                    }
+                    if (isset($_POST["te_event_addsocial_out"]) && $_POST["te_event_addsocial_out"] == "true") {
+                        $_SESSION[INDEX_MSG_SESSION_KEY . "eventId"] = $eventDB->id;
+                    } else {
+                        $_SESSION[INDEX_MSG_SESSION_KEY . "eventId"] = '';
+                    }
                     $m = new HtmlMessage();
                     $m->type = "s";
                     $m->message = "Event created successfully.";
@@ -380,20 +476,6 @@ if (empty($user)) {
             </script>
         <?php } ?>
 
-        <?php
-        if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
-            $m = new HtmlMessage();
-            $m = json_decode($_SESSION[INDEX_MSG_SESSION_KEY]);
-
-            $_SESSION[INDEX_MSG_SESSION_KEY] = '';
-            ?>
-            <script>
-                jQuery(document).ready(function() {
-                    getInfo(true,'<?= $m->message ?>','info',4000);
-                    btnClickFinishAddEvent();
-                });
-            </script>
-        <?php } ?>
 
 
         <?php
@@ -421,7 +503,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                            		      
+                                                                                                                                                                                                                                                                                            		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -543,7 +625,7 @@ if (empty($user)) {
             ?>
             <script>
                 jQuery(document).ready(function() {                                                                                              
-                    jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GET_TIMETY_TAG ?>",{ 
+                    jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GET_TIMETY_TAG."?lang=".$user->language ?>",{ 
                         theme: "custom",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
@@ -703,6 +785,32 @@ if (empty($user)) {
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
+        <?php
+        if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
+            $m = new HtmlMessage();
+            $m = json_decode($_SESSION[INDEX_MSG_SESSION_KEY]);
+            $sEvetId = null;
+            if (isset($_SESSION[INDEX_MSG_SESSION_KEY . "eventId"])) {
+                $sEvetId = $_SESSION[INDEX_MSG_SESSION_KEY . "eventId"];
+            }
+            $_SESSION[INDEX_MSG_SESSION_KEY . "eventId"] = '';
+            $_SESSION[INDEX_MSG_SESSION_KEY] = '';
+            ?>
+            <script>
+                jQuery(document).ready(function() {
+                    getInfo(true,'<?= $m->message ?>','info',4000);
+                    btnClickFinishAddEvent();
+                });
+            </script>
+            <?php if (!empty($sEvetId)) { ?>
+                <a id="e_download" href="<?= HOSTNAME . "/download.php?id=$sEvetId" ?>"></a>
+                <script>
+                    jQuery(document).ready(function(){
+                        document.getElementById("e_download").click();
+                    });
+                </script>
+            <?php } ?>
+        <?php } ?>
         <div class="main_sol" style="width:91%;">
             <div class="ust_blm">
                 <div class="trh_gn">
@@ -1005,7 +1113,12 @@ if (empty($user)) {
                                 ?>"></button>
                                         </div>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;">
-                                            <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $main_event->headerImage->url . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                            <?php
+                                            $headerImageTmp = "";
+                                            if (!empty($main_event) && !empty($main_event->headerImage))
+                                                $headerImageTmp = $main_event->headerImage->url
+                                                ?>
+                                            <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $headerImageTmp . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                                  class="main_draggable" />
                                         </div>
                                     </div>
