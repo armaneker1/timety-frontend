@@ -23,6 +23,7 @@ class EventProcessor {
             try {
                 $event->getHeaderImage();
                 $event->images = array();
+                $event->getAttachLink();
             } catch (Exception $exc) {
                 $log->logError("event > addEvent Error" . $exc->getTraceAsString());
             }
@@ -79,7 +80,7 @@ class EventProcessor {
             /*
              * find users that might interest this event
              */
-            $this->findUserForEvents(true);
+            $this->findUserForEvents(false);
             /*
              * find users that might interest this event
              */
@@ -100,6 +101,7 @@ class EventProcessor {
             try {
                 $event->getHeaderImage();
                 $event->images = array();
+                $event->getAttachLink();
             } catch (Exception $exc) {
                 $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
             }
@@ -195,7 +197,7 @@ class EventProcessor {
             /*
              * find users that might interest this event
              */
-            $this->findUserForEvents();
+            $this->findUserForEvents(true);
             /*
              * find users that might interest this event
              */
@@ -204,7 +206,7 @@ class EventProcessor {
         }
     }
 
-    public function findUserForEvents($add = false) {
+    public function findUserForEvents($rem = true) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > findUserForEvents >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time . " added : " . $add);
@@ -214,16 +216,19 @@ class EventProcessor {
             if ($event->privacy == true || $event->privacy == "true" || $event->privacy == 1 || $event->privacy == "1") {
                 $event->getHeaderImage();
                 $event->images = array();
+                $event->getAttachLink();
                 $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);
                 $users = Neo4jRecommendationUtils::getUserForEvent($this->eventID);
                 $log->logInfo("event > findUserForEvents >  recommened users : " . sizeof($users));
                 foreach ($users as $user) {
                     $userId = $user->getProperty(PROP_USER_ID);
-                    if (!empty($userId) /*&& $userId != $this->userID*/) {
+                    if (!empty($userId)) {
+                        /* && $userId != $this->userID */
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->eventID, $userId);
                         $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                         $redis = new Predis\Client();
-                        if ($add) {
+                        $log->logInfo("event > findUserForEvents >  remove ? : " . $rem);
+                        if ($rem) {
                             $upcomings = $redis->zrevrange(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, 0, -1);
                             foreach ($upcomings as $etvJSON) {
                                 $etv = json_decode($etvJSON);

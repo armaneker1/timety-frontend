@@ -31,6 +31,7 @@ class UserProcessor {
                         try {
                             $event->getHeaderImage();
                             $event->images = array();
+                            $event->getAttachLink();
                         } catch (Exception $exc) {
                             $log->logError("event > addEvent Error" . $exc->getTraceAsString());
                         }
@@ -61,6 +62,7 @@ class UserProcessor {
                         try {
                             $event->getHeaderImage();
                             $event->images = array();
+                            $event->getAttachLink();
                         } catch (Exception $exc) {
                             $log->logError("event > addEvent Error" . $exc->getTraceAsString());
                         }
@@ -75,28 +77,36 @@ class UserProcessor {
                  */
 
                 /*
-                 * followers list
+                 * general list
                  */
                 if (!empty($this->userID)) {
-                    $followers = Neo4jUserUtil::getUserFollowerList($this->userID);
-                    if (!empty($followers)) {
-                        foreach ($followers as $follower) {
-                            if (!empty($follower) && !empty($follower->id)) {
-                                $events = $redis->zrevrange(REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, 0, -1);
+                    $keys = $redis->keys("*");
+                    if (!empty($keys)) {
+                        foreach ($keys as $key) {
+                            if (!empty($key)) {
+                                $events = $redis->zrevrange($key, 0, -1);
                                 foreach ($events as $item) {
                                     $evt = json_decode($item);
                                     if ($evt->creatorId == $this->userID) {
-                                        UserProcessor::removeItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, $item);
+                                        UserProcessor::removeItem($redis, $key, $item);
                                         $event = Neo4jEventUtils::getNeo4jEventById($evt->id);
                                         try {
                                             $event->getHeaderImage();
                                             $event->images = array();
+                                            $event->getAttachLink();
                                         } catch (Exception $exc) {
                                             $log->logError("event > addEvent Error" . $exc->getTraceAsString());
                                         }
-                                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
+                                        $uId = null;
+                                        try {
+                                            $arr = explode(":", $key);
+                                            $uId = $arr[2];
+                                        } catch (Exception $exc) {
+                                            $log->logError("event > addEvent Error" . $exc->getTraceAsString());
+                                        }
+                                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $uId);
                                         $event->userEventLog = $evt->userEventLog;
-                                        UserProcessor::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                                        UserProcessor::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
                                     }
                                 }
                             }
@@ -104,7 +114,7 @@ class UserProcessor {
                     }
                 }
                 /*
-                 * followers list
+                 * general list
                  */
             } else {
                 $log->logInfo("user > updateUser >  user empty");

@@ -271,6 +271,13 @@ class Event {
         }
     }
 
+    public function getAttachLink() {
+        if (empty($this->attach_link)) {
+            $this->attach_link = EventUtil::getEventAttachLink($this->id);
+        }
+        return $this->attach_link;
+    }
+
     public function copyEvent($tmp) {
         $this->id = $tmp->id;
         $this->title = $tmp->title;

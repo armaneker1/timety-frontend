@@ -13,12 +13,23 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
 
-$userId = 6618356;
 
-$userNode = Neo4jUserUtil::getUserNodeById($userId);
 $array = array();
-array_push($array, 2);
+array_push($array, 96);
+array_push($array, 139);
+array_push($array, 54);
 
+$userId = 6618346;
+$userNode = Neo4jUserUtil::getUserNodeById($userId);
+
+foreach ($array as $tag) {
+    $ta = Neo4jTimetyTagUtil::getTimetyTagNodeById($tag);
+    $userNode->relateTo($ta, REL_TIMETY_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, "10")->save();
+}
+
+
+$userId = 6618344;
+$userNode = Neo4jUserUtil::getUserNodeById($userId);
 
 foreach ($array as $tag) {
     $ta = Neo4jTimetyTagUtil::getTimetyTagNodeById($tag);

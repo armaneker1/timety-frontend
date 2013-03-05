@@ -20,7 +20,7 @@ $eventList = EventUtil::getAllEvents();
     $event = new Event();
     $i = 0;
     foreach ($eventList as $event) {
-        $categories = Neo4jEventUtils::getEventCategories($event->id);
+         $categories = array();//Neo4jEventUtils::getEventCategories($event->id);
         $tags = Neo4jEventUtils::getEventTags($event->id);
         ?>
         <tr>

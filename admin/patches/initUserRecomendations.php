@@ -15,8 +15,6 @@ require_once __DIR__ . '/../../utils/Functions.php';
 
 $users = UserUtils::getUserList(0, 100000);
 foreach ($users as $user) {
-   
-    
-    
+    RedisUtils::initUser($user->id);
 }
 ?>

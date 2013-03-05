@@ -200,6 +200,22 @@ class EventUtil {
         }
     }
 
+    public static function getEventAttachLink($id) {
+        if (!empty($id)) {
+            $SQL = "SELECT attach_link FROM " . TBL_EVENTS . " WHERE id=" . $id;
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $link = $result['attach_link'];
+            if (!empty($link)) {
+                return $event;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
     public static function getAllEvents() {
         $SQL = "SELECT * FROM " . TBL_EVENTS;
         $result = mysql_query($SQL) or die(mysql_error());
