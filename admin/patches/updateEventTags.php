@@ -54,12 +54,12 @@ array_push($tagsss, $tmp);
 array_push($events, "1000107");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000108");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000138");
 $tmp=array();
@@ -83,12 +83,12 @@ array_push($tagsss, $tmp);
 array_push($events, "1000109");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000110");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000131");
 $tmp=array();
@@ -123,7 +123,7 @@ array_push($tagsss, $tmp);
 array_push($events, "1000113");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000103");
 $tmp=array();
@@ -133,7 +133,7 @@ array_push($tagsss, $tmp);
 array_push($events, "1000114");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000142");
 $tmp=array();
@@ -170,17 +170,17 @@ array_push($tagsss, $tmp);
 array_push($events, "1000115");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000116");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000118");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000144");
 $tmp=array();
@@ -215,7 +215,7 @@ array_push($tagsss, $tmp);
 array_push($events, "1000111");
 $tmp=array();
 array_push($tmp, "31");
-array_push($tmp, "130");
+array_push($tmp, "23");
 array_push($tagsss, $tmp);
 array_push($events, "1000149");
 $tmp=array();
@@ -706,7 +706,6 @@ $tmp=array();
 array_push($tmp, "10");
 array_push($tmp, "4");
 array_push($tagsss, $tmp);
-
 /*
  * Add events
  */
@@ -722,7 +721,8 @@ if (!empty($events) && sizeof($events) > 0) {
                     if (!empty($tags) && sizeof($tags) > 0) {
                         foreach ($tags as $tagId) {
                             if (!empty($tagId)) {
-                                $tag = Neo4jTimetyTagUtil::getTimetyTagNodeById($tagId);
+                                $tag = Neo4jTimetyTagUtil::getTimetyTagNodeById($tagId,LANG_TR_TR);
+                                $tag = Neo4jTimetyTagUtil::getTimetyTagNodeById($tagId,LANG_EN_US);
                                 if (!empty($tag)) {
                                     $tId = $tag->getProperty(PROP_TIMETY_TAG_ID);
                                     if (!empty($tId)) {
