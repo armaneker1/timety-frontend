@@ -101,6 +101,12 @@ $catsl = AddLikeUtils::getCategories($lll);
                 </div>
             </form>
         <?php } ?>
+
+
+        <a href="<?= HOSTNAME ?>admin/addLikeCat.php?lang=tr_TR">TR Categories</a><br/>
+        <a href="<?= HOSTNAME ?>admin/addLikeCat.php?lang=en_US">EN Categories</a><br/>
+        <a href="<?= HOSTNAME ?>admin/addLikeTag.php?lang=tr_TR&catId=<?=$catId?>"> TR Tags</a><br/>
+        <a href="<?= HOSTNAME ?>admin/addLikeTag.php?lang=en_US&catId=<?=$catId?>"> EN Tags</a>
     </body>
 </html>
 
