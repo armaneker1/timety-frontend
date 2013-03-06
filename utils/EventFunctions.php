@@ -207,7 +207,7 @@ class EventUtil {
             $result = mysql_fetch_array($query);
             $link = $result['attach_link'];
             if (!empty($link)) {
-                return $event;
+                return $link;
             } else {
                 return null;
             }
