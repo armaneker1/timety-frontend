@@ -60,24 +60,6 @@ function showRegisterError(errorButton)
     getInfo(true, text, "error", 4000);
 }
 
-function checkInterestReady(location, spinner, userId, check) {
-    jQuery(spinner).show();
-
-    jQuery.post(TIMETY_PAGE_AJAX_CHECKINTERESTREADY, {
-        user : userId
-    }, function(data) {
-        if (data.success) {
-            if (check) {
-                window.location = location;
-            }
-            jQuery(spinner).hide();
-        } else {
-            setTimeout(function() {
-                checkInterestReady(location, spinner, userId,check);
-            }, 1500);
-        }
-    }, "json");
-}
 
 
 function inviteUser(emailE,id)

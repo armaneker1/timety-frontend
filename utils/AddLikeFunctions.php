@@ -84,7 +84,6 @@ class AddLikeUtils {
         if (!empty($catId) && !empty($id) && !empty($lang) && !empty($name)) {
             $tag = new AddLikeTag();
             $tag = AddLikeUtils::getTag($catId, $id, $lang);
-            var_dump($tag);
             if (empty($tag)) {
                 $SQL = "INSERT INTO " . TBL_ADDLIKE_TAG . " (cat_id, id, lang, name) VALUES ($catId, $id, '$lang', '$name')";
                 $result = mysql_query($SQL) or die(mysql_error());

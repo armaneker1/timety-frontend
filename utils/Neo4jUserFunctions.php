@@ -319,6 +319,20 @@ class Neo4jUserUtil {
         return null;
     }
 
+    public static function addUserTag($userId, $tagId) {
+        if (!empty($userId) && !empty($tagId)) {
+            Neo4jUserUtil::removeUserTag($userId, $tagId);
+            try {
+                $userNode = Neo4jUserUtil::getUserNodeById($userId);
+                $tag = Neo4jTimetyTagUtil::getTimetyTagNodeById($tagId);
+                $userNode->relateTo($tag, REL_TIMETY_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, "10")->save();
+            } catch (Exception $e) {
+                echo "Error" . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
     public static function removeUserById($userId) {
         if (!empty($userId)) {
             try {

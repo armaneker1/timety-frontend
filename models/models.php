@@ -575,6 +575,7 @@ class AddLikeTag {
     public $catId;
     public $name;
     public $lang;
+    public $photoUrl;
 
 }
 
