@@ -20,7 +20,7 @@ $eventList = EventUtil::getAllEvents();
     $event = new Event();
     $i = 0;
     foreach ($eventList as $event) {
-         $categories = array();//Neo4jEventUtils::getEventCategories($event->id);
+        $categories = Neo4jEventUtils::getEventCategories($event->id);
         $tags = Neo4jEventUtils::getEventTags($event->id);
         ?>
         <tr>
@@ -40,7 +40,8 @@ $eventList = EventUtil::getAllEvents();
                 <td  style="width: 150px;text-align: right;"><?= $tag->name ?> (tag)</td>
             <?php } ?>
         </tr>
-        <?php $i++;
+        <?php
+        $i++;
     }
     ?>
 </table>
