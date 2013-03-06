@@ -540,4 +540,42 @@ class UserEventLog {
 
 }
 
+class AddLikeCategory {
+
+    function createNeo4j($result) {
+        
+    }
+
+    function createSQL($result) {
+        $this->id = $result['id'];
+        $this->lang = $result['lang'];
+        $this->name = $result['name'];
+    }
+
+    public $id;
+    public $name;
+    public $lang;
+
+}
+
+class AddLikeTag {
+
+    function createNeo4j($result) {
+        
+    }
+
+    function createSQL($result) {
+        $this->id = $result['id'];
+        $this->catId = $result['cat_id'];
+        $this->lang = $result['lang'];
+        $this->name = $result['name'];
+    }
+
+    public $id;
+    public $catId;
+    public $name;
+    public $lang;
+
+}
+
 ?>
