@@ -295,6 +295,30 @@ class Neo4jUserUtil {
         return null;
     }
 
+    public static function removeUserTag($userId, $tagId) {
+        if (!empty($userId) && !empty($tagId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
+                        " tag=node:" . IND_TIMETY_TAG . "_" . LANG_EN_US . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "')" .
+                        " MATCH user-[r:" . REL_TIMETY_INTERESTS . "]->tag" .
+                        " DELETE r";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+
+                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
+                        " tag=node:" . IND_TIMETY_TAG . "_" . LANG_TR_TR . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "')" .
+                        " MATCH user-[r:" . REL_TIMETY_INTERESTS . "]->tag" .
+                        " DELETE r";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+            } catch (Exception $e) {
+                echo "Error" . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
     public static function removeUserById($userId) {
         if (!empty($userId)) {
             try {
