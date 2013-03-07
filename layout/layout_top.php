@@ -187,7 +187,7 @@ if (empty($user)) {
                     jQuery("#add_event_button").click(openCreatePopup);
                     jQuery("#add_event_button").click(btnClickStartAddEvent);
                 </script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?201358798"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.min.js"></script>
             <?php } ?>
@@ -283,6 +283,14 @@ if (empty($user)) {
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
                     <?php } ?>
                 </div>
+                <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
+                    <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
+                        <div class="kck_detay_ok" style="right:10px;"></div>
+                        <ul style="width: auto; margin-bottom: 4px;">
+                            <li id="notf_loader_img" style="text-align: center;float: none; display:none;"><div style="height: 22px;"><img src="<?= HOSTNAME ?>images/ajax-loader.gif" style="height: 22px;"></div></li>
+                        </ul>
+                    </div>
+                </div>
             <?php } else {
                 ?>
                 <div class="top_menu">
@@ -294,6 +302,14 @@ if (empty($user)) {
                     <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
                     <?php } ?>
+                </div>
+                <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
+                    <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
+                        <div class="kck_detay_ok" style="right:10px;"></div>
+                        <ul style="width: auto; margin-bottom: 4px;">
+                            <li id="notf_loader_img" style="text-align: center;float: none; display:none;"><div style="height: 22px;"><img src="<?= HOSTNAME ?>images/ajax-loader.gif" style="height: 22px;"></div></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <?php

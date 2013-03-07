@@ -104,6 +104,9 @@ define('PAGE_AJAX_GET_EVENT_USER_RELATION', PAGE_AJAX_FOLDER . 'getEventUserRela
 define('PAGE_AJAX_UPDATE_USER_INFO', PAGE_AJAX_FOLDER . 'updateUserInfo.php');
 define('PAGE_AJAX_CREATE_QUICK_EVENT', PAGE_AJAX_FOLDER . 'createQuickEvent.php');
 define('PAGE_AJAX_INIT_USER_REDIS', PAGE_AJAX_FOLDER . 'initUserRecommendation.php');
+define('PAGE_AJAX_MARK_NOTF_READ', PAGE_AJAX_FOLDER . 'markNotificationsRead.php');
+
+
 
 define('GOOGLE_MAPS_API_KEY', SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_KEY));
 

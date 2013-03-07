@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ .'/TimeteNotification.class.php';
+require_once __DIR__ . '/TimeteNotification.class.php';
 
 class User {
 
@@ -104,19 +104,19 @@ class User {
     }
 
     public function getUserNotificationCount() {
-        $array = InviteUtil::getEventInvitesByUserId($this->id);
-        if (!empty($array)) {
-            return sizeof($array);
-        }
-        return 0;
+        /* $array = InviteUtil::getEventInvitesByUserId($this->id);
+          if (!empty($array)) {
+          return sizeof($array);
+          } */
+        return NotificationUtils::getUnreadNotificationCount($this->id);
     }
 
-    public function getUserNotifications() {
-        $array = InviteUtil::getEventInvitesByUserId($this->id);
-        if (!empty($array)) {
-            return $array;
-        }
-        return null;
+    public function getUserNotifications($unread = TRUE, $limit = NULL) {
+        /* $array = InviteUtil::getEventInvitesByUserId($this->id);
+          if (!empty($array)) {
+          return $array;
+          } */
+        return NotificationUtils::getNotificationList($this->id, $unread, $limit);
     }
 
 }

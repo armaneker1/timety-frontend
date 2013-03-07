@@ -20,11 +20,11 @@ class SocialUtil {
             try {
                 if (!SocialUtil::checkLike($userId, $eventId)) {
                     $usr->relateTo($event, REL_EVENTS_LIKE)->save();
+                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_LIKED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                 }
                 SocialUtil::incLikeCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
-                NotificationUtils::insertNotification(NOTIFICATION_TYPE_LIKED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
@@ -78,11 +78,11 @@ class SocialUtil {
             try {
                 if (!SocialUtil::checkReshare($userId, $eventId)) {
                     $usr->relateTo($event, REL_EVENTS_RESHARE)->save();
+                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_SHARED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                 }
                 SocialUtil::incReshareCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
-                NotificationUtils::insertNotification(NOTIFICATION_TYPE_SHARED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());

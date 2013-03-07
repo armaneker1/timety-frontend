@@ -45,12 +45,46 @@ class NotificationUtils {
         }
     }
 
-    public static function getNotificationList($userId, $unread = FALSE) {
+    public static function getUnreadNotificationCount($userId) {
         if (!empty($userId)) {
-            $SQL = "SELECT * FROM " . TBL_TIMETY_NOTIFICATION;
-            if ($unread) {
-                $SQL = $SQL . " WHERE " . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_READ) . "=0";
+            try {
+                $SQL = "SELECT count(id) as cn FROM " . TBL_TIMETY_NOTIFICATION . " WHERE " . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_USERID) . " = " . $userId . " AND" . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_READ) . "=0";
+                $query = mysql_query($SQL) or die(mysql_error());
+                $result = mysql_fetch_array($query);
+                return (int) $result['cn'];
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
             }
+        }
+        return 0;
+    }
+
+    public static function getNotificationList($userId, $unread = FALSE, $limit = null) {
+        if (!empty($userId)) {
+            $SQL = "SELECT * FROM " . TBL_TIMETY_NOTIFICATION . " WHERE " . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_USERID) . " = " . $userId;
+            if ($unread) {
+                $SQL = $SQL . " AND " . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_READ) . "=0";
+            }
+            if (!empty($limit)) {
+                $SQL = $SQL . " LIMIT 0," . $limit;
+            }
+            $SQL = $SQL . " ORDER BY ID DESC ";
+            $nots = TimeteNotification::findBySql(DBUtils::getConnection(), $SQL);
+            return $nots;
+        }
+        return null;
+    }
+
+    public static function getReadNotificationList($userId, $limit = null) {
+        if (!empty($userId)) {
+            $SQL = "SELECT * FROM " . TBL_TIMETY_NOTIFICATION . " WHERE " . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_USERID) . " = " . $userId;
+
+            $SQL = $SQL . " AND " . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_READ) . "=1";
+            $SQL = $SQL . " ORDER BY ID DESC ";
+            if (!empty($limit)) {
+                $SQL = $SQL . " LIMIT 0," . $limit;
+            }
+            //echo $SQL;
             $nots = TimeteNotification::findBySql(DBUtils::getConnection(), $SQL);
             return $nots;
         }

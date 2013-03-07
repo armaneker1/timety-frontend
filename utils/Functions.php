@@ -277,7 +277,6 @@ class UtilFunctions {
     public static function insertUserInvitation($userId, $invitationCode) {
         $SQL = "INSERT INTO timete_cuponuser (user_id,cupon) VALUES (" . $userId . ",'" . $invitationCode . "')";
         $query = mysql_query($SQL) or die(mysql_error());
-        mysql_fetch_array($query);
     }
 
     public static function removeUpdateFolder($url = null) {

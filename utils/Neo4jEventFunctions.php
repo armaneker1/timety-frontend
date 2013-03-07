@@ -486,11 +486,13 @@ class Neo4jEventUtils {
                 $rel = Neo4jEventUtils::getUserEventJoinRelation($userId, $eventId);
                 if (empty($rel)) {
                     $usrNode->relateTo($eventNode, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, (int) $creator)->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
+                    return true;
                 } else {
                     $rel->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
                 }
             }
         }
+        return false;
     }
 
     public static function getUserEventJoinRelation($userId, $eventId) {
@@ -500,6 +502,7 @@ class Neo4jEventUtils {
                 $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'),user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "')" .
                         "MATCH  event-[r:" . REL_EVENTS_JOINS . "]-user " .
                         "RETURN r";
+                //echo $query;
                 $query = new Cypher\Query($client, $query, null);
                 $result = $query->getResultSet();
                 foreach ($result as $row) {

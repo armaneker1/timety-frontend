@@ -19,16 +19,16 @@ if (!isset($timety_header)) {
 
 <!-- Config Script -->
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/html5shiv-printshiv.js"></script>
-<script language="javascript" src="<?= HOSTNAME ?>config/config.js?201302211920"></script>
+<script language="javascript" src="<?= HOSTNAME ?>config/config.js?201372211923"></script>
 <!-- Config Script -->
 
 
 <!--[if IE]>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?201302211455" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css?2013022231413" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
-<link  href="<?= HOSTNAME ?>all_css.css?201302221255" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>all_css.css?20130233221252" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
 <!--<![endif]-->
 

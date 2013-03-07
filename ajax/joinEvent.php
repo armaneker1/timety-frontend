@@ -7,14 +7,22 @@ require_once __DIR__.'/../utils/Functions.php';
 $userId=null;
 if(isset($_POST["userId"]))
     $userId=$_POST["userId"];
+if(isset($_GET["userId"]))
+    $userId=$_GET["userId"];
 
 $eventId=null;
 if(isset($_POST["eventId"]))
     $eventId=$_POST["eventId"];
+if(isset($_GET["eventId"]))
+    $eventId=$_GET["eventId"];
 
 $type=null;
 if(isset($_POST["type"]))
     $type=$_POST["type"];
+if(isset($_GET["type"]))
+    $type=$_GET["type"];
+
+
 
 
 $res=new Result();

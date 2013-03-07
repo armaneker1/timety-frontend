@@ -305,7 +305,7 @@ class UserUtils {
                 if (isset($_SESSION["te_invitation_code"])) {
                     UtilFunctions::insertUserInvitation($userId, $_SESSION["te_invitation_code"]);
                 }
-                $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited,lang) VALUES ($userId,'$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited,$user->language)";
+                $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited,lang) VALUES ($userId,'$user->userName','$user->email','$user->birthdate','$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited,'$user->language')";
                 mysql_query($SQL) or die(mysql_error());
                 //create user for neo4j
                 $user_ = UserUtils::getUserByUserName($user->userName);
