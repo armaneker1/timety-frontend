@@ -28,13 +28,13 @@ if (!isset($timety_header)) {
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
-<link  href="<?= HOSTNAME ?>all_css.css?20130233221252" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>all_css.css?20130233221254" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
 <!--<![endif]-->
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201302254280" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201302254270" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />

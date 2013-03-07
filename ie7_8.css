@@ -2582,6 +2582,7 @@ body {
     margin: 0px;
     padding: 0px;
     list-style-type: none;
+    display: table;
 }
 .my_timete_popup ul li {
     line-height: 32px;

@@ -286,7 +286,7 @@ if (empty($user)) {
                 <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                     <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
                         <div class="kck_detay_ok" style="right:10px;"></div>
-                        <ul style="width: auto; margin-bottom: 4px;">
+                        <ul style="width: 100%; margin-bottom: 4px;">
                             <li id="notf_loader_img" style="text-align: center;float: none; display:none;"><div style="height: 22px;"><img src="<?= HOSTNAME ?>images/ajax-loader.gif" style="height: 22px;"></div></li>
                         </ul>
                     </div>
@@ -306,7 +306,7 @@ if (empty($user)) {
                 <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                     <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
                         <div class="kck_detay_ok" style="right:10px;"></div>
-                        <ul style="width: auto; margin-bottom: 4px;">
+                        <ul style="width: 100%; margin-bottom: 4px;">
                             <li id="notf_loader_img" style="text-align: center;float: none; display:none;"><div style="height: 22px;"><img src="<?= HOSTNAME ?>images/ajax-loader.gif" style="height: 22px;"></div></li>
                         </ul>
                     </div>
