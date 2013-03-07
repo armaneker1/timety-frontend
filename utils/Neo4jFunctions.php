@@ -88,6 +88,7 @@ class Neo4jFuctions {
                     $result->success = true;
                     $result->error = false;
                     Neo4jEventUtils::increaseAttendanceCount($eventId);
+                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_JOIN, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                     Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_JOIN);
                 } else if ($resp == 0 || $resp == 5) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_NO);
@@ -103,6 +104,7 @@ class Neo4jFuctions {
                     $result->success = true;
                     $result->error = false;
                     SocialUtil::incJoinCountAsync($userId, $eventId);
+                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_MAYBE, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                     Queue::socialInteraction($eventId, $userId, "maybe");
                 } else if ($resp == 3 || $resp == 4) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_IGNORE);

@@ -92,6 +92,10 @@ class CommentUtil {
                     ",'" . DBUtils::mysql_escape($comment->comment) . "')";
             mysql_query($SQL) or die(mysql_error($comment->eventId));
             Neo4jEventUtils::increaseCommentCount($comment->eventId);
+            $ev=new Event();
+            $ev=  EventUtil::getEventById($comment->eventId);
+            NotificationUtils::insertNotification(NOTIFICATION_TYPE_COMMENT, $ev->creatorId, $comment->userId,$comment->eventId);
+            Queue::updateEvent($comment->eventId, null);
             return CommentUtil::getCommentById($id);
         } else {
             return null;

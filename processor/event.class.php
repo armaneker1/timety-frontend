@@ -210,7 +210,7 @@ class EventProcessor {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > findUserForEvents >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time . " added : " . $rem);
-        if (!empty($this->eventID) && !empty($this->userID)) {
+        if (!empty($this->eventID) /*&& !empty($this->userID)*/) {
             $event = new Event();
             $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
             if ($event->privacy == true || $event->privacy == "true" || $event->privacy == 1 || $event->privacy == "1") {

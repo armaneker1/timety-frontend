@@ -23,6 +23,9 @@ define('TBL_LOSTPASS' ,'timete_lost_pass');
 define('TBL_IMAGES' ,'timete_images');
 define('TBL_COMMENT' ,'timete_comment');
 define('TBL_ADDLIKE_CAT' ,'timete_addlike_category');
+define('TBL_TIMETY_NOTIFICATION' ,'timete_notification');
 define('TBL_ADDLIKE_TAG' ,'timete_addlike_tag');
 define('CLM_TIMETY_TAG_ID' ,'TIMETY_TAG_ID');
+define('CLM_TIMETY_NOTIFICATION_ID' ,'TIMETY_NOTIFICATION_ID');
+
 ?>

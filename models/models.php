@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ .'/TimeteNotification.class.php';
+
 class User {
 
     function create($result) {

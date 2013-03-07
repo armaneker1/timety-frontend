@@ -24,6 +24,7 @@ class SocialUtil {
                 SocialUtil::incLikeCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
+                NotificationUtils::insertNotification(NOTIFICATION_TYPE_LIKED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
@@ -81,6 +82,7 @@ class SocialUtil {
                 SocialUtil::incReshareCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
+                NotificationUtils::insertNotification(NOTIFICATION_TYPE_SHARED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
@@ -321,6 +323,7 @@ class SocialUtil {
                 if (!empty($fromUsr) && !empty($toUsr)) {
                     $fromUsr->relateTo($toUsr, REL_FOLLOWS)->save();
                     $result->success = true;
+                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_FOLLOWED, $toUserId, $fromUserId, null, null);
                     Queue::followUser($fromUserId, $toUserId);
                 } else {
                     $result->error = "Userlar bulunamadı";

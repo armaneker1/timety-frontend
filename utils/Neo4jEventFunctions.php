@@ -354,8 +354,10 @@ class Neo4jEventUtils {
                                     //check  if email exist
                                     $emailUser = $uf->getUserByEmail($email);
                                     if (!empty($emailUser)) {
+                                        $iid=$emailUser->id;
                                         $emailUser = $userIndex->findOne(PROP_USER_ID, $emailUser->id);
                                         if (!empty($emailUser)) {
+                                            NotificationUtils::insertNotification(NOTIFICATION_TYPE_INVITE, $iid, $user->id, $event->id);
                                             $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                         }
                                     }
@@ -387,6 +389,7 @@ class Neo4jEventUtils {
 
                                     $usr = $userIndex->findOne(PROP_USER_ID, $id);
                                     if (!empty($usr)) {
+                                        NotificationUtils::insertNotification(NOTIFICATION_TYPE_INVITE, $id, $user->id, $event->id);
                                         $evnt->relateTo($usr, REL_EVENTS_INVITES)->save();
                                     }
                                 } else if ($type == 'g') {

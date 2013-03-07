@@ -38,6 +38,7 @@ require_once __DIR__ . '/UserFunctions.php';
 require_once __DIR__ . '/UserSettingsFunctions.php';
 require_once __DIR__ . '/HttpAuthFunctions.php';
 require_once __DIR__ . '/AddLikeFunctions.php';
+require_once __DIR__ . '/NotificationFunctions.php';
 
 require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/Neo4jTimetyCategoryFunctions.php';
@@ -47,6 +48,7 @@ require_once __DIR__ . '/Neo4jEventFunctions.php';
 require_once __DIR__ . '/Noe4jSocialFunctions.php';
 require_once __DIR__ . '/Neo4jUserFunctions.php';
 require_once __DIR__ . '/Neo4jUserSettings.php';
+
 
 require_once __DIR__ . '/Queue.php';
 require_once __DIR__ . '/RedisFunctions.php';
