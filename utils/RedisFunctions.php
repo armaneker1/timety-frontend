@@ -366,6 +366,22 @@ class RedisUtils {
         }
         return null;
     }
+    
+     public static function fixArray($array = null) {
+        $result = array();
+        if (empty($array)) {
+            $array = array();
+        }
+        if (!is_array($array)) {
+            $array = json_decode($array);
+        }
+        foreach ($array as $a) {
+            if (!empty($a)) {
+                array_push($result, $a);
+            }
+        }
+        return $result;
+    }
 
 }
 
