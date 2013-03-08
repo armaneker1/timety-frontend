@@ -187,7 +187,7 @@ if (empty($user)) {
                     jQuery("#add_event_button").click(openCreatePopup);
                     jQuery("#add_event_button").click(btnClickStartAddEvent);
                 </script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?201358798"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879100"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js?201308067276"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.min.js"></script>
             <?php } ?>
