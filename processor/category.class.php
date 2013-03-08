@@ -136,11 +136,81 @@ class CategoryProcessor {
     }
 
     public function addCategory() {
-        
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $log->logInfo("category > addCategory > start catId : " . $this->categoryID . " time : " . $this->time);
+
+        $this->removeCategory();
+
+        $lang = LANG_EN_US;
+        $category = MenuUtils::getCategory($this->categoryID, LANG_EN_US);
+        if (empty($category)) {
+            $category = MenuUtils::getCategory($this->categoryID, LANG_TR_TR);
+            $lang = LANG_TR_TR;
+        }
+
+        if (!empty($category)) { 
+            $tags = MenuUtils::getTagByCategory($lang, $this->categoryID); 
+            if (!empty($tags) && sizeof($tags)) { 
+                $all_events = array();
+                $all_events_id = array();
+                $redis = new Predis\Client();
+                foreach ($tags as $tag) {
+                    if (!empty($tag)) {
+                        $events = Neo4jRecommendationUtils::getEventsByTag($tag->getId(), $tag->getLang()); 
+                        if (!empty($events) && sizeof($events) > 0) {
+                            foreach ($events as $event) {
+                                if (!empty($event) && $event->privacy . "" == "true") {
+                                    if (!in_array($event->id, $all_events_id)) {
+                                        array_push($all_events, $event);
+                                        array_push($all_events_id, $event->id);
+                                    }
+                                }
+                            }
+                        }
+                        unset($events);
+                    }
+                }
+
+                if (!empty($all_events) && sizeof($all_events) > 0) {
+                    foreach ($all_events as $event) {
+                        if (!empty($event)) {
+                            try {
+                                $event->getHeaderImage();
+                                $event->images = array();
+                                $event->getAttachLink();
+                                $userRelationEmpty = new stdClass();
+                                $userRelationEmpty->joinType = 0;
+                                $userRelationEmpty->like = false;
+                                $userRelationEmpty->reshare = false;
+                                $event->userRelation = $userRelationEmpty;
+                            } catch (Exception $exc) {
+                                $log->logError("category > addCategory Error" . $exc->getTraceAsString());
+                            }
+                            RedisUtils::addItem($redis, REDIS_LIST_CATEGORY_EVENTS . $this->categoryID, json_encode($event), $event->startDateTimeLong);
+                        }
+                    }
+                } else {
+                    $log->logInfo("category > addCategory > no event found");
+                }
+                unset($all_events);
+                unset($all_events_id);
+                $log->logInfo("category > addCategory > done");
+            } else {
+                $log->logInfo("category > addCategory >  category tags  empty ");
+            }
+        } else {
+            $log->logInfo("category > addCategory >  category empty or privacy false");
+        }
     }
 
     public function removeCategory() {
-        
+        if (!empty($this->categoryID)) {
+            $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+            $log->logInfo("category > removeCategory > start catId : " . $this->categoryID . " time : " . $this->time);
+            $redis = new Predis\Client();
+            $res = $redis->del(REDIS_LIST_CATEGORY_EVENTS . $this->categoryID);
+            $log->logInfo("category > removeCategory > end key  : '" . REDIS_LIST_CATEGORY_EVENTS . $this->categoryID . "' result : " . $res);
+        }
     }
 
 }

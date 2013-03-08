@@ -81,6 +81,13 @@ class Queue {
         ));
     }
 
+    public static function addCategory($categoryID) {
+        self::send("category", "addCategory", array(
+            "categoryID" => $categoryID,
+            "time" => time()
+        ));
+    }
+
     //--------------------------------------------------------------------------
 
     private static function send($method, $action, $obj) {

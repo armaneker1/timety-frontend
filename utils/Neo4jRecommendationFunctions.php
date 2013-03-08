@@ -10,6 +10,27 @@ use Everyman\Neo4j\Transport,
 
 class Neo4jRecommendationUtils {
 
+    public static function getEventsByTag($tagId, $lang) {
+        if (empty($lang) || !($lang == LANG_EN_US || $lang == LANG_TR_TR)) {
+            $lang = LANG_EN_US;
+        }
+        if (!empty($tagId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_TIMETY_TAG . "_" . $lang . "')[[" . PROP_TIMETY_TAG_ID . ":'" . $tagId . "']]" .
+                    ".out('" . REL_TAGS . "').dedup";
+            $queryRes = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $result = $queryRes->getResultSet();
+            $array = array();
+            foreach ($result as $row) {
+                $evt = new Event();
+                $evt->createNeo4j($row[0]);
+                array_push($array, $evt);
+            }
+            return $array;
+        }
+        return null;
+    }
+
     public static function getAllOtherEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = null, $query_ = "", $all = 1) {
         if ($userId == -1) {
             $userId = "*";
