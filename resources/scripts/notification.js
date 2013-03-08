@@ -140,18 +140,17 @@ function showNotifications(userId)
                         jQuery(element).insertAfter("#notf_loader_img");
                     }
                 }   
-            }else
-            {
-                if(notfUl.children().length<2){
-                    element=jQuery("<li>");
-                    element.attr("id", "li_notf_no_new_notf");
-                    title="No new notification";
-                    element.append("<a style=\"color:#C2C2C2;float:left;\" href=\"#\" onclick=\"return false;\">"+title+"</a>");
+            }
+            jQuery("#li_notf_no_new_notf").remove();
+            if(notfUl.children().length<2){
+                element=jQuery("<li>");
+                element.attr("id", "li_notf_no_new_notf");
+                title="No new notification";
+                element.append("<a style=\"color:#C2C2C2;float:left;\" href=\"#\" onclick=\"return false;\">"+title+"</a>");
                     
-                    element.append("<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+                element.append("<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>");
                     
-                    notfUl.append(element);
-                }
+                notfUl.append(element);
             }
         }
     },"json");
