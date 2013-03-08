@@ -114,7 +114,7 @@ try {
                         }
                         $item = $item . "<img src='".HOSTNAME."images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
                         $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                        $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;started follow you &nbsp;</span>";
+                        $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;started following you &nbsp;</span>";
                     } else if ($res->getType() == NOTIFICATION_TYPE_INVITE) {
                         $usr = UserUtils::getUserById($res->getNotUserId());
                         $event = EventUtil::getEventById($res->getNotEventId());

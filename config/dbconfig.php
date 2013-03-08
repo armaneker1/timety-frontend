@@ -25,7 +25,11 @@ define('TBL_COMMENT' ,'timete_comment');
 define('TBL_ADDLIKE_CAT' ,'timete_addlike_category');
 define('TBL_TIMETY_NOTIFICATION' ,'timete_notification');
 define('TBL_ADDLIKE_TAG' ,'timete_addlike_tag');
+define('TBL_MENU_CAT' ,'timete_menu_category');
+define('TBL_MENU_TAG' ,'timete_menu_tag');
 define('CLM_TIMETY_TAG_ID' ,'TIMETY_TAG_ID');
 define('CLM_TIMETY_NOTIFICATION_ID' ,'TIMETY_NOTIFICATION_ID');
+define('CLM_TIMETY_MENU_CAT_ID' ,'TIMETY_MENU_CAT_ID');
+
 
 ?>

@@ -188,7 +188,7 @@ if (empty($user)) {
                     jQuery("#add_event_button").click(btnClickStartAddEvent);
                 </script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?201358798"></script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js?201308067276"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js?201303061234"></script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.min.js"></script>
             <?php } ?>
             <?php if (empty($user->id)) { ?>
@@ -265,21 +265,12 @@ if (empty($user)) {
                                 <div  class="my_timete_popup" >
                                     <div class="kck_detay_ok"></div>
                                     <ul id="populer_top_menu_ul">
-                                        <li id="cat_id_all" style="cursor:pointer" title="Everything" slc="true">
-                                            <button type="button" class="kapat icon_bg"></button>
-                                            <span>Everything</span>
-                                        </li>
-                                        <?php
-                                        $cats = MenuUtils::getCategories($user->language);
-                                        foreach ($cats as $cat) {
-                                            ?>
-                                            <li id="cat_id<?= $cat->getId() ?>" style="cursor:pointer" title="<?= $cat->getName() ?>" slc="false">
-                                                <button type="button" class="ekle icon_bg"></button>
-                                                <span><?= $cat->getName() ?></span>
-                                            </li>
-                                            <?php
-                                        }
-                                        ?>
+                                    </ul>
+                                    <div class="ara_kutu">
+                                        <input type="text" id="populer_top_menu_search_input" class="ara_input" value="" placeholder="search" />
+                                        <button id="populer_top_menu_search_button" type="button" name="" value="" class="ara icon_bg"></button>
+                                    </div>
+                                    <ul id="populer_top_menu_search_ul" style="margin-bottom: 2px;">
                                     </ul>
                                 </div>
                             </div>

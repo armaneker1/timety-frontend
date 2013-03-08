@@ -1,6 +1,8 @@
 <?php
 
 require_once __DIR__ . '/TimeteNotification.class.php';
+require_once __DIR__ . '/TimeteMenuCategory.class.php';
+require_once __DIR__ . '/TimeteMenuTag.class.php';
 
 class User {
 

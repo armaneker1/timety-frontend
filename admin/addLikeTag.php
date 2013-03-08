@@ -26,7 +26,7 @@ if (!empty($_POST)) {
             if (isset($_POST['s_tags'])) {
                 $list = $_POST['s_tags'];
                 foreach ($list as $l) {
-                    $t = Neo4jTimetyTagUtil::getTimetyTagById($l);
+                    $t = Neo4jTimetyTagUtil::getTimetyTagById($l,$lll);
                     if (!empty($t)) {
                         AddLikeUtils::insertTag($catId, $t->id, $lll, $t->name);
                     }
@@ -36,7 +36,7 @@ if (!empty($_POST)) {
             if (isset($_POST['a_tags'])) {
                 $list = $_POST['a_tags'];
                 foreach ($list as $l) {
-                    $t = Neo4jTimetyTagUtil::getTimetyTagById($l);
+                    $t = Neo4jTimetyTagUtil::getTimetyTagById($l,$lll);
                     if (!empty($t)) {
                         AddLikeUtils::remTag($catId, $t->id, $lll);
                     }
