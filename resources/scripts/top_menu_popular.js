@@ -19,7 +19,10 @@ jQuery(document).ready(function(){
             button.addClass("kapat");
             jQuery(this).attr("slc","true");
         }
-        
+        wookmark_channel=9;
+        wookmark_category=jQuery(this).attr("cat_id");
+        page_wookmark=0;
+        wookmarkFiller(document.optionsWookmark,true,true);
     });
 });
 

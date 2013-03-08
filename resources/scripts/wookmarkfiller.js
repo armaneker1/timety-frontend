@@ -3,6 +3,7 @@ var page_wookmark=1;
 var allCategories=1;
 var allFriends=1;
 var wookmark_channel=1;
+var wookmark_category=-1;
 localStorage.clear();
 
 function wookmarkFiller(options,clear,loader,channel_)
@@ -12,6 +13,7 @@ function wookmarkFiller(options,clear,loader,channel_)
     
     var pager = 40;
     var page = page_wookmark;
+    var categoryId=wookmark_category;
     var userId = -1;
     var channel =channel_;
     if(!channel){
@@ -53,7 +55,8 @@ function wookmarkFiller(options,clear,loader,channel_)
                 'date':dateSelected,
                 'query':searchText,
                 'type':channel,
-                'popular_all':allParameter
+                'popular_all':allParameter,
+                'category':categoryId
             },
             error: function (request, status, error) {
                 if(post_wookmark) {
@@ -472,7 +475,7 @@ function wookmarkHTML(dataArray,userId)
             
             jQuery('.main_event').append(result);
             
-        likeshareInit(userId, likeShareDiv);
+            likeshareInit(userId, likeShareDiv);
         }else
         {
             result = document.createElement('div');

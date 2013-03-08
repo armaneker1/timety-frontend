@@ -1,4 +1,5 @@
 <?php
+
 use Everyman\Neo4j\Transport,
     Everyman\Neo4j\Client,
     Everyman\Neo4j\Index,
@@ -83,14 +84,14 @@ class Neo4jFuctions {
         if (!empty($event) && !empty($usr)) {
             try {
                 if ($resp == 1) {
-                    if(Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_YES)){
+                    if (Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_YES)) {
                         NotificationUtils::insertNotification(NOTIFICATION_TYPE_JOIN, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
                     }
                     SocialUtil::incJoinCountAsync($userId, $eventId);
                     $result->success = true;
                     $result->error = false;
                     Neo4jEventUtils::increaseAttendanceCount($eventId);
-                    
+
                     Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_JOIN);
                 } else if ($resp == 0 || $resp == 5) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_NO);
@@ -919,12 +920,13 @@ class Neo4jFuctions {
      * 6=i liked
      * 7=i reshared
      * 8=i joined
+     * 9= categories
      * $query search paramaters deeafult "" all
      * $pageNumber deafult 0
      * $pageItemCount default 15
      */
 
-    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1, $all = 1) {
+    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1, $all = 1, $categoryId = -1) {
         /*
           $teg="<p/>getEvents-   ";
           echo  $teg."Started<p/>";
@@ -938,6 +940,10 @@ class Neo4jFuctions {
 
         if (empty($query)) {
             $query = "";
+        }
+
+        if ($type == 9 && $categoryId < 0) {
+            $type = 1;
         }
 
         /*
@@ -1039,6 +1045,8 @@ class Neo4jFuctions {
               $eventIds = $eventIds . $evt->id . ",";
               array_push($array, $evt);
               } */
+        } else if ($type == 9) {
+            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$categoryId);
         } else {
             /*
               echo  $teg."getAllOtherEvents start<p/>";
@@ -1051,7 +1059,7 @@ class Neo4jFuctions {
                 if ((empty($recommended) || strlen($recommended) < 3)) {
                     $check = true;
                     $_SESSION["recommendation_null"] = "TRUE";
-                }else{
+                } else {
                     $_SESSION["recommendation_null"] = "FALSE";
                 }
             } else {

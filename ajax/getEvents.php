@@ -32,12 +32,17 @@ $popular_all = "1";
 if (isset($_GET["popular_all"]))
     $popular_all = $_GET["popular_all"];
 
+
+$category = "-1";
+if (isset($_GET["category"]))
+    $category = $_GET["category"];
+
 $res = new Result();
 $res->error = true;
 $res->success = false;
 
 if ($userId != null && $pageNumber != "" && $pageItemCount != null && $type != null) {
-    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $popular_all);
+    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $popular_all,$category);
 } else {
     $json_response = json_encode($res);
     echo $json_response;
