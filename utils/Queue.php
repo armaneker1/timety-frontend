@@ -23,6 +23,10 @@ class Queue {
             "type" => REDIS_USER_INTERACTION_CREATED,
             "time" => time()
         ));
+        self::send("category", "addEvent", array(
+            "eventID" => $eventId,
+            "time" => time()
+        ));
     }
 
     public static function updateEvent($eventId, $userId) {
@@ -32,6 +36,10 @@ class Queue {
             "type" => REDIS_USER_INTERACTION_UPDATED,
             "time" => time()
         ));
+        self::send("category", "updateEvent", array(
+            "eventID" => $eventId,
+            "time" => time()
+        ));
     }
 
     public static function socialInteraction($eventId, $userId, $type) {
@@ -39,6 +47,10 @@ class Queue {
             "eventID" => $eventId,
             "userID" => $userId,
             "type" => $type,
+            "time" => time()
+        ));
+        self::send("category", "updateEvent", array(
+            "eventID" => $eventId,
             "time" => time()
         ));
     }

@@ -117,6 +117,17 @@ class MenuUtils {
         }
     }
 
+    public static function getCategoriyIdsByTag($tagId, $lang) {
+        if (empty($lang) || !($lang == LANG_EN_US || $lang == LANG_TR_TR)) {
+            $lang = LANG_EN_US;
+        }
+        if (!empty($lang) && !empty($tagId)) {
+            $SQL = "SELECT * FROM " . TBL_MENU_TAG . " WHERE " . TimeteMenuTag::getFieldNameByFieldId(TimeteMenuTag::FIELD_LANG) . " = '" . $lang . "' AND " . TimeteMenuTag::getFieldNameByFieldId(TimeteMenuTag::FIELD_ID) . "=" . $tagId;
+            return TimeteMenuTag::findBySql(DBUtils::getConnection(), $SQL);
+        }
+        return null;
+    }
+
     public static function getTagByCategory($lang, $catId) {
         if (empty($lang) || !($lang == LANG_EN_US || $lang == LANG_TR_TR)) {
             $lang = LANG_EN_US;

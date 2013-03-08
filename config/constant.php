@@ -113,6 +113,7 @@ define('GOOGLE_MAPS_API_KEY', SettingsUtil::getSetting(SETTINGS_GOOGLE_MAPS_API_
 
 //REDIS LIST
 define('REDIS_LIST_UPCOMING_EVENTS', 'events:upcoming:worldwide');
+define('REDIS_LIST_CATEGORY_EVENTS', 'category:events:');
 define('REDIS_SUFFIX_MY_TIMETY', ':mytimety');
 define('REDIS_SUFFIX_UPCOMING', ':upcoming');
 define('REDIS_SUFFIX_FOLLOWING', ':following');

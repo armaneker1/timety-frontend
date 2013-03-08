@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../utils/Functions.php';
-require_once __DIR__ . '/../apis/logger/KLogger.php';
 
 class EventProcessor {
 
@@ -210,43 +209,41 @@ class EventProcessor {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > findUserForEvents >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time . " added : " . $rem);
-        if (!empty($this->eventID) /*&& !empty($this->userID)*/) {
+        if (!empty($this->eventID) /* && !empty($this->userID) */) {
             $event = new Event();
             $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
-            if ($event->privacy == true || $event->privacy == "true" || $event->privacy == 1 || $event->privacy == "1") {
-                $event->getHeaderImage();
-                $event->images = array();
-                $event->getAttachLink();
-                $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);
-                $users = Neo4jRecommendationUtils::getUserForEvent($this->eventID);
-                $log->logInfo("event > findUserForEvents >  recommened users : " . sizeof($users));
-                foreach ($users as $user) {
-                    $userId = $user->getProperty(PROP_USER_ID);
-                    if (!empty($userId)) {
-                        /* && $userId != $this->userID */
-                        $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->eventID, $userId);
-                        $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
-                        $redis = new Predis\Client();
-                        $log->logInfo("event > findUserForEvents >  remove ? : " . $rem);
-                        if ($rem) {
-                            $upcomings = $redis->zrevrange(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, 0, -1);
-                            foreach ($upcomings as $etvJSON) {
-                                $etv = json_decode($etvJSON);
-                                if ($etv->id == $event->id) {
-                                    if (!empty($host) && !strpos($host, 'localhost')) {
-                                        RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $etvJSON);
-                                    } else {
-                                        $log->logInfo("Redis remove Item simulated");
-                                    }
-                                    break;
+            $event->getHeaderImage();
+            $event->images = array();
+            $event->getAttachLink();
+            $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);
+            $users = Neo4jRecommendationUtils::getUserForEvent($this->eventID);
+            $log->logInfo("event > findUserForEvents >  recommened users : " . sizeof($users));
+            foreach ($users as $user) {
+                $userId = $user->getProperty(PROP_USER_ID);
+                if (!empty($userId)) {
+                    /* && $userId != $this->userID */
+                    $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->eventID, $userId);
+                    $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
+                    $redis = new Predis\Client();
+                    $log->logInfo("event > findUserForEvents >  remove ? : " . $rem);
+                    if ($rem) {
+                        $upcomings = $redis->zrevrange(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, 0, -1);
+                        foreach ($upcomings as $etvJSON) {
+                            $etv = json_decode($etvJSON);
+                            if ($etv->id == $event->id) {
+                                if (!empty($host) && !strpos($host, 'localhost')) {
+                                    RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $etvJSON);
+                                } else {
+                                    $log->logInfo("Redis remove Item simulated");
                                 }
+                                break;
                             }
                         }
-                        if (!empty($host) && !strpos($host, 'localhost')) {
-                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
-                        } else {
-                            $log->logInfo("Redis addItem Item simulated");
-                        }
+                    }
+                    if (!empty($host) && !strpos($host, 'localhost') && $event->privacy . "" == "true") {
+                        RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
+                    } else {
+                        $log->logInfo("Redis addItem Item simulated");
                     }
                 }
             }
@@ -363,8 +360,8 @@ class EventProcessor {
                         $secondArray = null;
                     }
                 }
-                $array = EventProcessor::fixArray($array);
-                $secondArray = EventProcessor::fixArray($secondArray);
+                $array = RedisUtils::fixArray($array);
+                $secondArray = RedisUtils::fixArray($secondArray);
 
                 if ($this->type == REDIS_USER_INTERACTION_FOLLOW) {
                     $added = false;
@@ -506,22 +503,6 @@ class EventProcessor {
             }
         }
         return false;
-    }
-
-    public static function fixArray($array = null) {
-        $result = array();
-        if (empty($array)) {
-            $array = array();
-        }
-        if (!is_array($array)) {
-            $array = json_decode($array);
-        }
-        foreach ($array as $a) {
-            if (!empty($a)) {
-                array_push($result, $a);
-            }
-        }
-        return $result;
     }
 
 }
