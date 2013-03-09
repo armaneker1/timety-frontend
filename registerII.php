@@ -254,8 +254,10 @@ if (!isset($_SESSION['id'])) {
                                                      $val = $interests[$i];
                                                      $url = HOSTNAME . "images/add_rsm_y.png";
                                                      //$url = ImageUtil::getSocialElementPhoto($val->id, $val->socialType);
-                                                     $val->photoUrl = $url;
-
+                                                     if (empty($val->photoUrl))
+                                                         $val->photoUrl = $url;
+                                                     else
+                                                         $val->photoUrl = HOSTNAME . $val->photoUrl;
                                                      /*
                                                       * JS
                                                       */
@@ -268,13 +270,13 @@ if (!isset($_SESSION['id'])) {
                                                          $isClassed = "class=\"" . $classNameEnd . "\"";
                                                      }
                                                      $shortText = $val->name;
-                                                     if (strlen($shortText) > 10) {
-                                                         $shortText = substr($shortText, 0, 10) . "...";
+                                                     if (strlen($shortText) > 30) {
+                                                         $shortText = substr($shortText, 0, 30) . "...";
                                                      }
                                                      $HTML1 = "<div " . $isClassed . " id='interest_item_" . $val->id . "' style='height: 80px;width:67px;overflow: hidden;'><span  class='roll' item_id='i_interest_item_" . $val->id . "' title='" . $val->name . "' onclick='return selectItemSpan(this,document.getElementById(\"i_interest_item_" . $val->id . "\"));' ></span>";
                                                      $HTML2 = "<img id='i_interest_item_" . $val->id . "' int_id='" . $val->id . "' status='false' cat_id='" . $cat->id . "' title='" . $val->name . "'"
                                                              . "onclick='return selectItem(this)' style='cursor: pointer;' src='" . $val->photoUrl . "'  class='cerceve'>";
-                                                     $HTML4 = "</img>" . $shortText . "</div>";
+                                                     $HTML4 = "</img><span style='overflow: visible;word-wrap: break-word;'>" . $shortText . "</span></div>";
                                                      $resultHTML = $resultHTML . $HTML1 . $HTML2 . $HTML4;
                                                      if (($i + 1) % $item_count == 0 && ($i + 1) != sizeof($interests)) {
                                                          $resultHTML = $resultHTML . "</div><div>";
