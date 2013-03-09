@@ -244,9 +244,13 @@ function openModalPanel(event_id,custom) {
         jQuery(headerImage).css('margin-bottom', '-3px');
         jQuery(headerImage).attr('height',30);
         jQuery(headerImage).attr('width', 30);
+        jQuery(headerImage).css('cursor', 'pointer');
+        jQuery(headerImage).unbind("click");
+        
         if(data.attach_link){
+            jQuery(headerImage).data("attach_link",data.attach_link);
             jQuery(headerImage).click(function(){
-                var dataUrl=data.attach_link;
+                var dataUrl=jQuery(headerImage).data("attach_link");
                 if(dataUrl.indexOf("http")!=0){
                     dataUrl="http://"+dataUrl;
                 }
