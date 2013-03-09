@@ -421,7 +421,7 @@ if (isset($_POST['update'])) {
                                 var obj=results[0].address_components[i];
                                 if(obj && obj.types && obj.types.length>0){
                                     if(jQuery.inArray("country",obj.types)>=0){
-                                        te_loc_country=obj.long_name;
+                                        te_loc_country=obj.short_name;
                                         break;
                                     }
                                 }
@@ -510,7 +510,7 @@ if (isset($_POST['update'])) {
                                 var obj=place.address_components[i];
                                 if(obj && obj.types && obj.types.length>0){
                                     if(jQuery.inArray("country",obj.types)>=0){
-                                        te_loc_country=obj.long_name;
+                                        te_loc_country=obj.short_name;
                                         break;
                                     }
                                 }

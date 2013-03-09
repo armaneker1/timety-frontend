@@ -136,6 +136,8 @@ if (!isset($_SESSION['id'])) {
                 if (!empty($te_location_country) && ( $te_location_country == "Turkey" ||
                         $te_location_country == "turkey" ||
                         $te_location_country == "Türkiye" ||
+                        $te_location_country == "TR" ||
+                        $te_location_country == "tr" ||
                         $te_location_country == "türkiye")) {
                     $user->language = LANG_TR_TR;
                 }
@@ -437,7 +439,7 @@ if (empty($birhtdate)) {
                                 var obj=results[0].address_components[i];
                                 if(obj && obj.types && obj.types.length>0){
                                     if(jQuery.inArray("country",obj.types)>=0){
-                                        te_loc_country=obj.long_name;
+                                        te_loc_country=obj.short_name;
                                         break;
                                     }
                                 }
@@ -526,7 +528,7 @@ if (empty($birhtdate)) {
                                 var obj=place.address_components[i];
                                 if(obj && obj.types && obj.types.length>0){
                                     if(jQuery.inArray("country",obj.types)>=0){
-                                        te_loc_country=obj.long_name;
+                                        te_loc_country=obj.short_name;
                                         break;
                                     }
                                 }
