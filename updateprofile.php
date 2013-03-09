@@ -71,6 +71,12 @@ $te_image = $user->getUserPic();
 $te_gender = $user->gender;
 
 
+$te_location_country = $user->location_country;
+$te_location_city = $user->location_city;
+$te_location_all_json = $user->location_all_json;
+$te_location_cor_x = $user->location_cor_x;
+$te_location_cor_y = $user->location_cor_y;
+
 if (isset($_SESSION['profile_session']) && $_SESSION['profile_session'] == "1") {
     $_SESSION['profile_session'] = 0;
 
@@ -97,6 +103,12 @@ if (isset($_SESSION['profile_session']) && $_SESSION['profile_session'] == "1") 
     $te_gender = $_SESSION['pr_gender'];
     $success = $_SESSION['pr_success'];
 
+    $te_location_country = $_SESSION['pr_location_country'];
+    $te_location_city = $_SESSION['pr_location_city'];
+    $te_location_all_json = $_SESSION['pr_location_all_json'];
+    $te_location_cor_x = $_SESSION['pr_location_cor_x'];
+    $te_location_cor_y = $_SESSION['pr_location_cor_y'];
+
     $_SESSION['pr_email'] = "";
     $_SESSION['pr_emailError'] = "";
     $_SESSION['pr_username'] = "";
@@ -119,6 +131,12 @@ if (isset($_SESSION['profile_session']) && $_SESSION['profile_session'] == "1") 
     $_SESSION['pr_image'] = "";
     $_SESSION['pr_gender'] = 0;
     $_SESSION['pr_success'] = false;
+
+    $_SESSION['pr_location_country'] = "";
+    $_SESSION['pr_location_city'] = "";
+    $_SESSION['pr_location_all_json'] = "";
+    $_SESSION['pr_location_cor_x'] = "";
+    $_SESSION['pr_location_cor_y'] = "";
 }
 
 if (isset($_POST['update'])) {
@@ -218,6 +236,13 @@ if (isset($_POST['update'])) {
     $about = $_POST['te_about'];
     $te_gender = $_POST['te_gender'];
 
+    //location
+    $te_location_country = $_POST['te_location_country'];
+    $te_location_city = $_POST['te_location_city'];
+    $te_location_all_json = $_POST['te_location_all_json'];
+    $te_location_cor_x = $_POST['te_location_cor_x'];
+    $te_location_cor_y = $_POST['te_location_cor_y'];
+
     $user->userName = $username;
     $user->firstName = $name;
     $user->lastName = $lastname;
@@ -227,6 +252,13 @@ if (isset($_POST['update'])) {
     $user->website = $website;
     $user->about = $about;
     $user->gender = $te_gender;
+    //location
+    $user->location_country = $te_location_country;
+    $user->location_city = $te_location_city;
+    $user->location_all_json = $te_location_all_json;
+    $user->location_cor_x = $te_location_cor_x;
+    $user->location_cor_y = $te_location_cor_y;
+
     if (!empty($newPassword)) {
         $user->password = sha1($newPassword);
     }
@@ -234,6 +266,7 @@ if (isset($_POST['update'])) {
     if ($param) {
         UserUtils::updateUser($_SESSION['id'], $user);
         $user = UserUtils::getUserById($_SESSION['id']);
+        UserUtils::addUserLocation($user->id, $te_location_country, $te_location_city, $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
         UserUtils::addUserInfoNeo4j($user);
         $success = true;
         UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id']));
@@ -262,10 +295,18 @@ if (isset($_POST['update'])) {
     $_SESSION['pr_gender'] = $te_gender;
     $_SESSION['pr_success'] = $success;
     $_SESSION['profile_session'] = "1";
+
+
+    $_SESSION['pr_location_country'] = $te_location_country;
+    $_SESSION['pr_location_city'] = $te_location_city;
+    $_SESSION['pr_location_all_json'] = $te_location_all_json;
+    $_SESSION['pr_location_cor_x'] = $te_location_cor_x;
+    $_SESSION['pr_location_cor_y'] = $te_location_cor_y;
+
+
     header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
     exit(1);
 }
-
 ?>
 <html>
     <head>
@@ -345,16 +386,89 @@ if (isset($_POST['update'])) {
 
         <!--  hometown -->
         <script>
-            function setLocation(result,status)
+            function setLocation(results,status)
             {
-                if(status=="OK")
+                if(status=="OK" && results.length>0)
                 {
-                    jQuery("#te_hometown").val(result);
+                    var te_hometown="";
+                    var te_loc_country="";
+                    var te_loc_city="";
+                    var te_loc_all_json="";
+                    var te_loc_cor_x;
+                    var te_loc_cor_y;
+                    
+                    //loca cor
+                    var e=results[0].geometry.location;
+                    var te_loc_cor_x=e.Ya;
+                    var te_loc_cor_y=e.Za;
+                    if(!te_loc_cor_x || !te_loc_cor_y)
+                    {
+                        te_loc_cor_x=e.ib;
+                        te_loc_cor_y=e.jb;
+                    }
+                    
+                    jQuery("#te_location_cor_x").val(te_loc_cor_x);
+                    jQuery("#te_location_cor_y").val(te_loc_cor_y);
+                    
+                    //all_json
+                    te_loc_all_json=JSON.stringify(results);
+                    jQuery("#te_location_all_json").val(te_loc_all_json);
+                    
+                    //country
+                    if(results[0]){
+                        if(results[0].address_components.length>0){
+                            for(var i=0;i<results[0].address_components.length;i++){
+                                var obj=results[0].address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("country",obj.types)>=0){
+                                        te_loc_country=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    jQuery("#te_location_country").val(te_loc_country);
+                    
+                    //city
+                    if(results[0]){
+                        if(results[0].address_components.length>0){
+                            for(var i=0;i<results[0].address_components.length;i++){
+                                var obj=results[0].address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("political",obj.types)>=0 && ( jQuery.inArray("administrative_area_level_1",obj.types)>=0 || jQuery.inArray("locality",obj.types)>=0)){
+                                        te_loc_city=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    jQuery("#te_location_city").val(te_loc_city);
+                    
+                    //home town
+                    for(var i=0;i<results.length;i++)
+                    {
+                        if(Array.isArray(results[i].types)) 
+                        {
+                            if(jQuery.inArray("locality",results[i].types)>=0 && jQuery.inArray("political",results[i].types)>=0)
+                            {
+                                te_hometown=results[i].formatted_address;
+                                break;
+                            }
+                        }
+                    }
+                    if(te_hometown){
+                        jQuery("#te_hometown").val(te_hometown);
+                    } else{
+                        jQuery("#te_hometown").val(results[0].formatted_address);
+                
+                    }
+                
                 }else
                 {
                     console.log(result);
                 }
-                setLocationAutoComplete();
             }
             
             function setLocationAutoComplete()
@@ -367,18 +481,67 @@ if (isset($_POST['update'])) {
                 google.maps.event.addListener(autocompletePI, 'place_changed', 
                 function() { 
                     var place = autocompletePI.getPlace(); 
-                    var point = place.geometry.location; 
-                    if(point) 
-                    {  
-                    } 
-                    validateInput(jQuery("#te_hometown"),true,true,3)
+                    if(place){
+                        //loca cor
+                        var te_loc_cor_x;
+                        var te_loc_cor_y;
+                        var point = place.geometry.location; 
+                        if(point) 
+                        {   
+                            var te_loc_cor_x=point.Ya;
+                            var te_loc_cor_y=point.Za;
+                            if(!te_loc_cor_x || !te_loc_cor_y)
+                            {
+                                te_loc_cor_x=point.ib;
+                                te_loc_cor_y=point.jb;
+                            }
+                            jQuery("#te_location_cor_x").val(te_loc_cor_x);
+                            jQuery("#te_location_cor_y").val(te_loc_cor_y);
+                        }   
+                        
+                        //all_json
+                        var te_loc_all_json=JSON.stringify(place);
+                        jQuery("#te_location_all_json").val(te_loc_all_json);
+                    
+                        //country
+                        var te_loc_country="";
+                        if(place.address_components.length>0){
+                            for(var i=0;i<place.address_components.length;i++){
+                                var obj=place.address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("country",obj.types)>=0){
+                                        te_loc_country=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        jQuery("#te_location_country").val(te_loc_country);
+                        
+                        
+                        //city
+                        var te_loc_city="";
+                        if(place.address_components.length>0){
+                            for(var i=0;i<place.address_components.length;i++){
+                                var obj=place.address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("political",obj.types)>=0 && ( jQuery.inArray("administrative_area_level_1",obj.types)>=0 || jQuery.inArray("locality",obj.types)>=0)){
+                                        te_loc_city=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        jQuery("#te_location_city").val(te_loc_city);
+                    }
+                    validateInput(jQuery("#te_hometown"),true,true,3);
                 });
             }
             
             jQuery(document).ready(function(){
                 if(jQuery("#te_hometown").val()==jQuery("#te_hometown").attr("placeholder") || jQuery("#te_hometown").val()==null || jQuery("#te_hometown").val()=="")
                 {
-                    getCityLocation(setLocation);
+                    getAllLocation(setLocation);
                 }
             });
         </script>
@@ -836,38 +999,38 @@ if (isset($_POST['update'])) {
 <?php
 $imgName = $user->id . "_" . time() . ".png";
 ?>
-                                    jQuery(document).ready(function() {
+    jQuery(document).ready(function() {
                                                 
-                                        var uploader = new qq.FileUploader({
-                                            element: document.getElementById('profil_image_id_div'),
-                                            action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=2',
-                                            debug: true,
-                                            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-                                            params: {
-                                                imageName:'<?= $imgName ?>',
-                                                userId:'<?= $user->id ?>'
-                                            },
-                                            sizeLimit : 10*1024*1024,
-                                            multiple:false,
-                                            onComplete: function(id, fileName, responseJSON){
-                                                try{
-                                                    if(typeof data == "string"){
-                                                        responseJSON= jQuery.parseJSON(responseJSON);
-                                                    }
-                                                }catch(e) {
-                                                    console.log(e);
-                                                }
-                                                jQuery("#profil_image_id").css("background",'url(<?= PAGE_GET_IMAGEURL.HOSTNAME.UPLOAD_FOLDER."users/".$user->id."/".$imgName ?>&w=106&h=106)');
-                                            },
-                                            messages: {
-                                                typeError: "{file} has invalid extension. Only {extensions} are allowed.",
-                                                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-                                                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-                                                emptyError: "{file} is empty, please select files again without it.",
-                                                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
-                                            }
-                                        }
-                                    ); });</script>
+        var uploader = new qq.FileUploader({
+            element: document.getElementById('profil_image_id_div'),
+            action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=2',
+            debug: true,
+            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+            params: {
+                imageName:'<?= $imgName ?>',
+                userId:'<?= $user->id ?>'
+            },
+            sizeLimit : 10*1024*1024,
+            multiple:false,
+            onComplete: function(id, fileName, responseJSON){
+                try{
+                    if(typeof data == "string"){
+                        responseJSON= jQuery.parseJSON(responseJSON);
+                    }
+                }catch(e) {
+                    console.log(e);
+                }
+                jQuery("#profil_image_id").css("background",'url(<?= PAGE_GET_IMAGEURL . HOSTNAME . UPLOAD_FOLDER . "users/" . $user->id . "/" . $imgName ?>&w=106&h=106)');
+            },
+            messages: {
+                typeError: "{file} has invalid extension. Only {extensions} are allowed.",
+                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                emptyError: "{file} is empty, please select files again without it.",
+                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
+            }
+        }
+    ); });</script>
                     </div>
                     <div class="profil_g">
                         <p class="profil_etiket">Short Bio</p>
@@ -896,6 +1059,11 @@ $imgName = $user->id . "_" . time() . ".png";
                         </script>
                     </div>
 
+                    <input type="hidden" name="te_location_country" id="te_location_country" value="<?= $te_location_country ?>"/>
+                    <input type="hidden" name="te_location_city" id="te_location_city" value="<?= $te_location_city ?>"/>
+                    <input type="hidden" name="te_location_all_json" id="te_location_all_json" value='<?= $te_location_all_json ?>'/>
+                    <input type="hidden" name="te_location_cor_x" id="te_location_cor_x" value="<?= $te_location_cor_x ?>"/>
+                    <input type="hidden" name="te_location_cor_y" id="te_location_cor_y" value="<?= $te_location_cor_y ?>"/>
                     <p class="profil_etiket">Location</p>
                     <input 
                         name="te_hometown"

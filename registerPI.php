@@ -21,7 +21,7 @@ $birhtdateError = null;
 $hometown = "";
 $hometownError = null;
 $userProfilePic = "";
-$userProfilePicType="";
+$userProfilePicType = "";
 
 $upassError = null;
 $upass2Error = null;
@@ -29,6 +29,12 @@ $param = true;
 
 
 
+//location
+$te_location_country = "";
+$te_location_city = "";
+$te_location_all_json = "";
+$te_location_cor_x = "";
+$te_location_cor_y = "";
 
 if (!isset($_SESSION['id'])) {
     // Redirection to login page twitter or facebook or foursquare
@@ -37,7 +43,7 @@ if (!isset($_SESSION['id'])) {
     if (isset($_POST['te_username'])) {
         if (isset($_POST['te_userpicture'])) {
             $userProfilePic = $_POST['te_userpicture'];
-            $userProfilePicType=$_POST['userProfilePicType'];
+            $userProfilePicType = $_POST['userProfilePicType'];
         }
         $username = $_POST['te_username'];
         if (empty($username)) {
@@ -60,7 +66,7 @@ if (!isset($_SESSION['id'])) {
         }
         $lastname = $_POST['te_lastname'];
         if (empty($lastname)) {
-            $lastname = "Please enter your last name";
+            $ulastnameError= "Please enter your last name";
             $param = false;
         }
         $email = $_POST['te_email'];
@@ -78,6 +84,12 @@ if (!isset($_SESSION['id'])) {
                 }
             }
         }
+        //location
+        $te_location_country = $_POST['te_location_country'];
+        $te_location_city = $_POST['te_location_city'];
+        $te_location_all_json = $_POST['te_location_all_json'];
+        $te_location_cor_x = $_POST['te_location_cor_x'];
+        $te_location_cor_y = $_POST['te_location_cor_y'];
 
         $birhtdate = $_POST['te_birthdate'];
         if (!UtilFunctions::checkDate($birhtdate)) {
@@ -105,6 +117,8 @@ if (!isset($_SESSION['id'])) {
                 $param = false;
             }
         }
+
+
         if (sizeof($msgs) <= 0 && $param) {
             $user = UserUtils::getUserById($_SESSION['id']);
             if ($user != null) {
@@ -119,11 +133,23 @@ if (!isset($_SESSION['id'])) {
                     $user->password = sha1($password);
                 }
                 $user->status = 1;
+                if (!empty($te_location_country) && ( $te_location_country == "Turkey" ||
+                        $te_location_country == "turkey" ||
+                        $te_location_country == "Türkiye" ||
+                        $te_location_country == "türkiye")) {
+                    $user->language = LANG_TR_TR;
+                }
                 UserUtils::updateUser($_SESSION['id'], $user);
                 $user = UserUtils::getUserById($_SESSION['id']);
+                $user->location_country = $te_location_country;
+                $user->location_city = $te_location_city;
+                $user->location_all_json = $te_location_all_json;
+                $user->location_cor_x = $te_location_cor_x;
+                $user->location_cor_y = $te_location_cor_y;
+                UserUtils::addUserLocation($user->id, $te_location_country, $te_location_city, $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
                 error_log(json_encode($user));
                 UserUtils::addUserInfoNeo4j($user);
-                $userProfilePic=UserUtils::changeserProfilePic($user->id, $userProfilePic,$userProfilePicType);
+                $userProfilePic = UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType);
                 /*
                  * check user is invited
                  */
@@ -171,7 +197,7 @@ if (!isset($_SESSION['id'])) {
                         $lastname = $fbUser['last_name'];
                         //$birhtdate=$fbUser['birthday'];
                         $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?type=large";
-                        $userProfilePicType=FACEBOOK_TEXT;
+                        $userProfilePicType = FACEBOOK_TEXT;
                         $birhtdate = "";
                         if (isset($fbUser['hometown']))
                             $hometown = $fbUser['hometown']['name'];
@@ -189,7 +215,7 @@ if (!isset($_SESSION['id'])) {
                             $birhtdate = "";
                             $hometown = $user_info->location;
                             $userProfilePic = $user_info->profile_image_url;
-                            $userProfilePicType=TWITTER_TEXT;
+                            $userProfilePicType = TWITTER_TEXT;
                         }
                     } elseif ($provider->oauth_provider == FOURSQUARE_TEXT) {
                         $foursquare = new FoursquareAPI(FQ_CLIENT_ID, FQ_CLIENT_SECRET);
@@ -204,7 +230,7 @@ if (!isset($_SESSION['id'])) {
                         $birhtdate = "";
                         $hometown = $user->homeCity;
                         $userProfilePic = $user->photo;
-                        $userProfilePicType=FOURSQUARE_TEXT;
+                        $userProfilePicType = FOURSQUARE_TEXT;
                     } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
                         $google = new Google_Client();
                         $google->setApplicationName(GG_APP_NAME);
@@ -229,7 +255,7 @@ if (!isset($_SESSION['id'])) {
                             $hometown = "";
                             if (!empty($me['image']) && sizeof($me['image']) > 0) {
                                 $userProfilePic = $me['image']['url'];
-                                $userProfilePicType=GOOGLE_PLUS_TEXT;
+                                $userProfilePicType = GOOGLE_PLUS_TEXT;
                             }
                         }
                     }
@@ -376,16 +402,89 @@ if (empty($birhtdate)) {
             });
         </script>
         <script>
-            function setLocation(result,status)
+            function setLocation(results,status)
             {
-                if(status=="OK")
+                if(status=="OK" && results.length>0)
                 {
-                    jQuery("#te_hometown").val(result);
+                    var te_hometown="";
+                    var te_loc_country="";
+                    var te_loc_city="";
+                    var te_loc_all_json="";
+                    var te_loc_cor_x;
+                    var te_loc_cor_y;
+                    
+                    //loca cor
+                    var e=results[0].geometry.location;
+                    var te_loc_cor_x=e.Ya;
+                    var te_loc_cor_y=e.Za;
+                    if(!te_loc_cor_x || !te_loc_cor_y)
+                    {
+                        te_loc_cor_x=e.ib;
+                        te_loc_cor_y=e.jb;
+                    }
+                    
+                    jQuery("#te_location_cor_x").val(te_loc_cor_x);
+                    jQuery("#te_location_cor_y").val(te_loc_cor_y);
+                    
+                    //all_json
+                    te_loc_all_json=JSON.stringify(results);
+                    jQuery("#te_location_all_json").val(te_loc_all_json);
+                    
+                    //country
+                    if(results[0]){
+                        if(results[0].address_components.length>0){
+                            for(var i=0;i<results[0].address_components.length;i++){
+                                var obj=results[0].address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("country",obj.types)>=0){
+                                        te_loc_country=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    jQuery("#te_location_country").val(te_loc_country);
+                    
+                    //city
+                    if(results[0]){
+                        if(results[0].address_components.length>0){
+                            for(var i=0;i<results[0].address_components.length;i++){
+                                var obj=results[0].address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("political",obj.types)>=0 && ( jQuery.inArray("administrative_area_level_1",obj.types)>=0 || jQuery.inArray("locality",obj.types)>=0)){
+                                        te_loc_city=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    jQuery("#te_location_city").val(te_loc_city);
+                    
+                    //home town
+                    for(var i=0;i<results.length;i++)
+                    {
+                        if(Array.isArray(results[i].types)) 
+                        {
+                            if(jQuery.inArray("locality",results[i].types)>=0 && jQuery.inArray("political",results[i].types)>=0)
+                            {
+                                te_hometown=results[i].formatted_address;
+                                break;
+                            }
+                        }
+                    }
+                    if(te_hometown){
+                        jQuery("#te_hometown").val(te_hometown);
+                    } else{
+                        jQuery("#te_hometown").val(results[0].formatted_address);
+                
+                    }
+                
                 }else
                 {
                     console.log(result);
                 }
-                setLocationAutoComplete();
             }
     
             function setLocationAutoComplete()
@@ -398,16 +497,65 @@ if (empty($birhtdate)) {
                 google.maps.event.addListener(autocompletePI, 'place_changed', 
                 function() { 
                     var place = autocompletePI.getPlace(); 
-                    var point = place.geometry.location; 
-                    if(point) 
-                    {  
-                    } 
-                    validateInput(jQuery("#te_hometown"),true,true,3)
+                    if(place){
+                        //loca cor
+                        var te_loc_cor_x;
+                        var te_loc_cor_y;
+                        var point = place.geometry.location; 
+                        if(point) 
+                        {   
+                            var te_loc_cor_x=point.Ya;
+                            var te_loc_cor_y=point.Za;
+                            if(!te_loc_cor_x || !te_loc_cor_y)
+                            {
+                                te_loc_cor_x=point.ib;
+                                te_loc_cor_y=point.jb;
+                            }
+                            jQuery("#te_location_cor_x").val(te_loc_cor_x);
+                            jQuery("#te_location_cor_y").val(te_loc_cor_y);
+                        }   
+                        
+                        //all_json
+                        var te_loc_all_json=JSON.stringify(place);
+                        jQuery("#te_location_all_json").val(te_loc_all_json);
+                    
+                        //country
+                        var te_loc_country="";
+                        if(place.address_components.length>0){
+                            for(var i=0;i<place.address_components.length;i++){
+                                var obj=place.address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("country",obj.types)>=0){
+                                        te_loc_country=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        jQuery("#te_location_country").val(te_loc_country);
+                        
+                        
+                        //city
+                        var te_loc_city="";
+                        if(place.address_components.length>0){
+                            for(var i=0;i<place.address_components.length;i++){
+                                var obj=place.address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("political",obj.types)>=0 && ( jQuery.inArray("administrative_area_level_1",obj.types)>=0 || jQuery.inArray("locality",obj.types)>=0)){
+                                        te_loc_city=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        jQuery("#te_location_city").val(te_loc_city);
+                    }
+                    validateInput(jQuery("#te_hometown"),true,true,3);
                 });
             }
           
             jQuery(document).ready(function(){
-                getCityLocation(setLocation);
+                getAllLocation(setLocation);
             });
         </script>
     </head>
@@ -533,7 +681,14 @@ if (empty($birhtdate)) {
                     </span><br />
 
 
-                    <div> <input 
+                    <div> 
+
+                        <input type="hidden" name="te_location_country" id="te_location_country" value="<?= $te_location_country ?>"/>
+                        <input type="hidden" name="te_location_city" id="te_location_city" value="<?= $te_location_city ?>"/>
+                        <input type="hidden" name="te_location_all_json" id="te_location_all_json" value='<?= $te_location_all_json ?>'/>
+                        <input type="hidden" name="te_location_cor_x" id="te_location_cor_x" value="<?= $te_location_cor_x ?>"/>
+                        <input type="hidden" name="te_location_cor_y" id="te_location_cor_y" value="<?= $te_location_cor_y ?>"/>
+                        <input 
                             name="te_hometown"
                             type="text" 
                             placeholder="Location" 
@@ -571,15 +726,15 @@ if (empty($birhtdate)) {
                             value=""
                             placeholder="Password"
                             onblur="validatePassword(this,jQuery('#te_repassword'),false,true);" />
-                            <!-- onkeyup="validatePassword(this,jQuery('#te_repassword'),false,false);" -->
-                            <?php
-                            $display = "none";
-                            $class = "";
-                            if (!empty($upassError)) {
-                                $display = "block";
-                                $class = "sil icon_bg";
-                            }
-                            ?>
+                        <!-- onkeyup="validatePassword(this,jQuery('#te_repassword'),false,false);" -->
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($upassError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
                         <span id='te_password_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_password_span_msg" style="display:<?= $display ?>;"><?= $upassError ?><div class="kok"></div></div>
                         </span> <br /> 
@@ -592,15 +747,15 @@ if (empty($birhtdate)) {
                             value="" 
                             placeholder="Re-type password"
                             onblur="validatePassword(this,$('#te_password'),true,true)" />
-                            <!-- onkeyup="validatePassword(this,$('#te_password'),true)" -->
-                            <?php
-                            $display = "none";
-                            $class = "";
-                            if (!empty($upass2Error)) {
-                                $display = "block";
-                                $class = "sil icon_bg";
-                            }
-                            ?>
+                        <!-- onkeyup="validatePassword(this,$('#te_password'),true)" -->
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($upass2Error)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
                         <span id='te_repassword_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?= $display ?>;"><?= $upass2Error ?><div class="kok"></div></div>
                         </span> <br />

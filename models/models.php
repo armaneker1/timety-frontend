@@ -25,6 +25,12 @@ class User {
             $this->about = $result['about'];
             $this->gender = $result['gender'];
             $this->language = $result['lang'];
+            //location
+            $this->location_country = $result['location_country'];
+            $this->location_city = $result['location_city'];
+            $this->location_all_json = $result['location_all_json'];
+            $this->location_cor_x = $result['location_cor_x'];
+            $this->location_cor_y = $result['location_cor_y'];
         }
     }
 
@@ -74,6 +80,12 @@ class User {
     public $about;
     public $gender;
     public $language;
+    //location
+    public $location_country;
+    public $location_city;
+    public $location_all_json;
+    public $location_cor_x;
+    public $location_cor_y;
 
     public function getUserLang() {
         return $this->hometown;

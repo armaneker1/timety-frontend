@@ -244,6 +244,19 @@ class UserUtils {
         }
     }
 
+    public static function addUserLocation($uid, $country, $city, $all_json, $loc_x, $loc_y) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid, 1);
+            $country = DBUtils::mysql_escape($country);
+            $city = DBUtils::mysql_escape($city);
+            $all_json = DBUtils::mysql_escape($all_json);
+            $loc_x = DBUtils::mysql_escape($loc_x, 1);
+            $loc_y = DBUtils::mysql_escape($loc_y, 1);
+            $SQL = "UPDATE " . TBL_USERS . " set location_country='$country',location_city='$city',location_all_json='$all_json',location_cor_x=$loc_x,location_cor_y=$loc_y WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
     public static function setLanguage($userId, $lang) {
         if (!empty($userId) && !empty($lang)) {
             $userId = DBUtils::mysql_escape($userId);
