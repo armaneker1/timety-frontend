@@ -100,6 +100,10 @@ function removeByIndex(array, index) {
 
 function registerIIBeforeSubmit() {
     var interests = getInterests();
+    if(!(interests && interests.length>4)){
+        getInfo(true, "Select at least 5 item.", "error", 4000);
+        return false;
+    }
     var values= new Array();
     var indx=0;
     var cats = getInterestCats();
@@ -186,6 +190,7 @@ function selectItem(tile){
             addItem(item);
         }
     }
+    trackItemCountChange();
     return false;
 };
 
@@ -211,6 +216,7 @@ function selectItemSpan(span,tile){
             addItem(item);
         }
     }
+    trackItemCountChange();
     return false;
 };
 
@@ -278,6 +284,7 @@ function checkSessionStorage(user_id)
             }
         }
     }
+    trackItemCountChange();
 }
 
 function addNewLike(field)
@@ -346,5 +353,37 @@ function changeCheckBoxStatus(checkbox)
             jQuery(body).css("opacity", "0.3");
             span.className="add_ktg_sag add_like_span_div_disable";
         }
+    }
+}
+
+
+function trackItemCountChange(){
+    var interests = getInterests();
+    var initLabel=jQuery("#add_like_count_0");
+    var countLabelSpan=jQuery("#add_like_count_");
+    var countLabel=jQuery("#add_like_count");
+    var welldoneLabel=jQuery("#add_like_done");
+    var countLabelS=jQuery("#add_like_count_s");
+    if(interests && interests.length>0){
+        if(interests.length<5){
+            initLabel.hide();
+            welldoneLabel.hide();
+            countLabel.text(5-interests.length);
+            countLabelSpan.show();
+            if(interests.length==4){
+                countLabelS.hide();
+            }else{
+                  countLabelS.show();
+            }
+        }else{
+            initLabel.hide();
+            countLabelSpan.hide();
+            countLabel.text(4);
+            welldoneLabel.show();
+        }
+    }else{
+        initLabel.show();
+        countLabelSpan.hide();
+        welldoneLabel.hide();
     }
 }

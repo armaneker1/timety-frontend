@@ -61,7 +61,7 @@ if (!isset($_SESSION['id'])) {
         $timety_header = "Timety | Personal Information";
         include('layout/layout_header.php');
         ?>
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js"></script>
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?10"></script>
 
         <script language="javascript"
         src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.js"></script>
@@ -176,7 +176,7 @@ if (!isset($_SESSION['id'])) {
         ?>
         <div class="add_timete_ekr" style="top: 50px;">
             <div class="add_timete_ols">
-                <p class="find_friends">What are your interests?<span class="add_t_k"> Select some! When you visit Timety you will find
+                <p class="find_friends">What are your interests? <span id="add_like_count_0" >Select at least 5 items.</span><span id="add_like_count_" style="display:none;"><span id="add_like_count">4</span> item<span id="add_like_count_s">s</span> remaining.</span><span id="add_like_done" style="display: none;">That's it.</span><br/><span class="add_t_k" style="line-height: 12px;"> Select some! When you visit Timety you will find
                         events you are interested in.</span>
                 </p>
                 <div class="add_t_btn">
@@ -202,7 +202,7 @@ if (!isset($_SESSION['id'])) {
                 </div>
             </div>
             <div style="display: block; min-height: 20px;">
-                <div class="add_t_ek" id="spinner" style="display: none;background-image: none;padding-left: 0px;">
+                <div class="add_t_ek" id="spinner" style="display: none;background-image: none;padding-left: 0px;float: right;margin-right: 27px;">
                     <img src="<?= HOSTNAME ?>images/loader.gif" style="height: 20px;">     
                 </div>
             </div>
@@ -323,7 +323,7 @@ if (!isset($_SESSION['id'])) {
                                          onclick="addNewLike('add_like_autocomplete');">add</button>  -->
                                 <input type="hidden" id="type" name="type" value="1" /> 
                                 <input type="hidden" id="add_ineterest" name="add_ineterest" /> 
-                                <input type="submit" value="Next" onclick="registerIIBeforeSubmit();"
+                                <input type="submit" value="Next" onclick="return registerIIBeforeSubmit();"
                                        class="invite_btn">
 
                                     </div>
