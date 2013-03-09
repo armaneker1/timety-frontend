@@ -585,6 +585,8 @@ class AddLikeTag {
         $this->catId = $result['cat_id'];
         $this->lang = $result['lang'];
         $this->name = $result['name'];
+        if (isset($result['photoUrl']))
+            $this->photoUrl = $result['photoUrl'];
     }
 
     public $id;
