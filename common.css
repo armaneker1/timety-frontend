@@ -310,8 +310,8 @@
 
 /*  suggest friend */
 .suggest_friend_ul{
-    max-height: 400px;
-    overflow-y: scroll;
+    /*max-height: 400px; */
+    /*overflow-y: scroll; */
     width: 370px;
 }
 
