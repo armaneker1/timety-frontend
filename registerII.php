@@ -35,6 +35,7 @@ if (!isset($_SESSION['id'])) {
         }
 
         $user->status = 2;
+        UtilFunctions::curl_post_async(PAGE_AJAX_INIT_USER_REDIS, array("userId" => $_SESSION['id']));
         UserUtils::updateUser($_SESSION['id'], $user);
         header("Location : " . PAGE_WHO_TO_FOLLOW);
     }
