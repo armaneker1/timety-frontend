@@ -384,7 +384,7 @@ class RedisUtils {
     public static function addUserFollow($userId, $followId, $add = true) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
-            $log->logInfo("Redis addUserFollow  > userId : " . $userId . " follow : " . $followId." add ".$add);
+            $log->logInfo("Redis addUserFollow  > userId : " . $userId . " follow : " . $followId . " add " . $add);
             $follow = UserUtils::getUserById($followId);
             if (!empty($follow)) {
                 $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
@@ -418,7 +418,7 @@ class RedisUtils {
     public static function addUserFollower($userId, $followerId, $add = true) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
-            $log->logInfo("Redis addUserFollower  > userId : " . $userId . " follower : " . $followerId." add ".$add);
+            $log->logInfo("Redis addUserFollower  > userId : " . $userId . " follower : " . $followerId . " add " . $add);
             $follower = UserUtils::getUserById($followerId);
             if (!empty($follower)) {
                 $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
@@ -446,6 +446,76 @@ class RedisUtils {
             }
         } else {
             $log->logInfo("Redis addUserFollower > userId : empty ");
+        }
+    }
+
+    public static function getUserFollowings($userId) {
+        if (empty($userId) || $userId < 0) {
+            return array();
+        }
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $redis = new Predis\Client();
+        $users = $redis->zrangebyscore(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, "-inf", "+inf");
+        $result = array();
+        for ($i = 0; $i < sizeof($users); $i++) {
+            try {
+                $usr = json_decode($users[$i]);
+                $usr = UtilFunctions::cast("User", $usr);
+                array_push($result, $usr);
+            } catch (Exception $exc) {
+                $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
+            }
+        }
+        return $result;
+    }
+
+    public static function getUserFollowers($userId) {
+        if (empty($userId) || $userId < 0) {
+            return array();
+        }
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $redis = new Predis\Client();
+        $users = $redis->zrangebyscore(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, "-inf", "+inf");
+        $result = array();
+        for ($i = 0; $i < sizeof($users); $i++) {
+            try {
+                $usr = json_decode($users[$i]);
+                $usr = UtilFunctions::cast("User", $usr);
+                array_push($result, $usr);
+            } catch (Exception $exc) {
+                $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
+            }
+        }
+        return $result;
+    }
+
+    public static function getFriendList($userId, $query, $followers) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (!empty($userId)) {
+            //$log->logError("RedisUtils > getFriendList > userId : $userId query : $query followers : $followers");
+            $suffix = REDIS_SUFFIX_FRIEND_FOLLOWING;
+            if ($followers == 1 || $followers == "1") {
+                $suffix = REDIS_SUFFIX_FRIEND_FOLLOWERS;
+            }
+            $redis = new Predis\Client();
+            $users = $redis->zrangebyscore(REDIS_PREFIX_USER_FRIEND . $userId . $suffix, "-inf", "+inf");
+            if (!empty($users)) {
+                $result = array();
+                foreach ($users as $usr) {
+                    $usr = json_decode($usr);
+                    $usr = UtilFunctions::cast("User", $usr);
+                    if (!empty($query) && $query != "*") {
+                        $search_test = $usr->firstName . " " . $usr->lastName . " " . $usr->userName;
+                        if (strpos($search_test, $query) > -1)
+                            array_push($result, $usr);
+                    } else {
+                        array_push($result, $usr);
+                    }
+                }
+                return $result;
+            }
+        } else {
+            $log->logError("RedisUtils > getFriendList > user empty");
         }
     }
 

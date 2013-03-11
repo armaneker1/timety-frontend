@@ -645,7 +645,7 @@ if (empty($user)) {
                         prePopulate : <?php echo $var_tag; ?>	
                     });	
 
-                    jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=0" ?>",{ 
+                    jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                         theme: "custom",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
