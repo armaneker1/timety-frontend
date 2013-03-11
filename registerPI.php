@@ -370,7 +370,7 @@ if (empty($birhtdate)) {
                         }
                         SELECTOR_ERRORS.fadeIn(200);
                     } else {
-                        //Mixpanel track event btnClickPersonelInfo function 
+                        //track event btnClickPersonelInfo function 
                         btnClickPersonelInfo(jQuery('#te_birthdate').val(),"",jQuery('#te_hometown').val())
                         SELECTOR_ERRORS.css({
                             display : 'none'

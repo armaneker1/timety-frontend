@@ -1,6 +1,6 @@
 <?php header("charset=utf8;Content-Type: text/html;"); ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
 <?php
 if (!isset($timety_header)) {
     $timety_header = "Timety | Never miss out";
@@ -58,7 +58,7 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?201302221325"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.js?201302251355"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?201302218258"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?201302218255"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?201302224392"></script>
@@ -67,7 +67,7 @@ if (!isset($timety_header)) {
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAPS_API_KEY ?>&sensor=true&libraries=places"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/gmaps.min.js"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/google.maps.api.min.js?2013030091212"></script>
-<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/mixpanel.min.js"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/analyticstool.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.min.js?201302251300"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/bootstrap/bootstrap-tooltip.min.js?201302251210"></script>

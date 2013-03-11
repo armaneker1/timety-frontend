@@ -134,9 +134,7 @@ function registerIIBeforeSubmit() {
             }
         }
     }
-    //Mixpanel implementation
     btnClickPersonelLikes();
-    //Mixpanel implementation end
         
     document.getElementById(ELM_ADD_KEY).value = values.toJSON();
     sessionStorage.clear();

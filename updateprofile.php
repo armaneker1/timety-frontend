@@ -623,7 +623,7 @@ if (isset($_POST['update'])) {
                         validatePassword(jQuery("#te_new_password"),jQuery('#te_new_repassword'),false,true);
                         validatePassword(jQuery('#te_new_repassword'),jQuery('#te_new_password'),true,true);
                     } else {
-                        //Mixpanel track event btnClickPersonelInfo function 
+                        //track event btnClickPersonelInfo function 
                         //btnClickPersonelInfo(jQuery('#te_birthdate').val(),"",jQuery('#te_hometown').val());
                     }
                 });
