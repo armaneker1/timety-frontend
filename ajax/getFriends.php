@@ -28,7 +28,8 @@ try {
     if (!empty($userId) && $query == "?-1") {
         $array = UserSettingsUtil::getUserSubscribeFriends($userId);
     } elseif (!empty($userId) && $query == "?-2") {
-        $array = Neo4jUserUtil::getUserFollowList($userId);
+        //$array = Neo4jUserUtil::getUserFollowList($userId);
+        $array = RedisUtils::getUserFollowings($userId);
     } elseif (!empty($userId)) {
         if ($query == "*") {
             $query = "";

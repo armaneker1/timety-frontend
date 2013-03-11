@@ -22,7 +22,9 @@ try {
     $array = array();
     $result = array();
 
-    $array = Neo4jUserUtil::getUserFollowerList($userId);
+    //$array = Neo4jUserUtil::getUserFollowerList($userId);
+    $array = RedisUtils::getUserFollowers($userId);
+
 
     if (!empty($array) && sizeof($array) > 0) {
         $val = new User();
