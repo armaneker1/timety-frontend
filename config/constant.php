@@ -118,6 +118,9 @@ define('REDIS_SUFFIX_MY_TIMETY', ':mytimety');
 define('REDIS_SUFFIX_UPCOMING', ':upcoming');
 define('REDIS_SUFFIX_FOLLOWING', ':following');
 define('REDIS_PREFIX_USER', 'user:events:');
+define('REDIS_PREFIX_USER_FRIEND', 'user:friend:');
+define('REDIS_SUFFIX_FRIEND_FOLLOWING', ':following');
+define('REDIS_SUFFIX_FRIEND_FOLLOWERS', ':follower');
 
 
 
