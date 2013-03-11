@@ -324,6 +324,8 @@ class SocialUtil {
                     $fromUsr->relateTo($toUsr, REL_FOLLOWS)->save();
                     $result->success = true;
                     NotificationUtils::insertNotification(NOTIFICATION_TYPE_FOLLOWED, $toUserId, $fromUserId, null, null);
+                    RedisUtils::addUserFollow($toUserId, $fromUserId, true);
+                    RedisUtils::addUserFollower($fromUserId, $toUserId, true);
                     Queue::followUser($fromUserId, $toUserId);
                 } else {
                     $result->error = "Userlar bulunamadı";
@@ -366,6 +368,8 @@ class SocialUtil {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
             $result->success = true;
+            RedisUtils::addUserFollow($toUserId, $fromUserId, false);
+            RedisUtils::addUserFollower($fromUserId, $toUserId, false);
             Queue::unFollowUser($fromUserId, $toUserId);
         } catch (Exception $e) {
             log("Error", $e->getMessage());

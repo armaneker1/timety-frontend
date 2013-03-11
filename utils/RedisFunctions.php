@@ -2,7 +2,7 @@
 
 class RedisUtils {
 
-    public static function getCategoryEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1,$categryId=-1) {
+    public static function getCategoryEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1, $categryId = -1) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if ($all == 0) {
             //subscribed catagory
@@ -17,7 +17,7 @@ class RedisUtils {
         $pgStart = $pageNumber * $pageItemCount;
         $pgEnd = $pgStart + $pageItemCount - 1;
         //$log->logInfo("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
-        $events = $redis->zrangebyscore(REDIS_LIST_CATEGORY_EVENTS.$categryId, $date, "+inf");
+        $events = $redis->zrangebyscore(REDIS_LIST_CATEGORY_EVENTS . $categryId, $date, "+inf");
         //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
         $result = "[";
         for ($i = 0; $i < sizeof($events); $i++) {
@@ -37,7 +37,7 @@ class RedisUtils {
         //$log->logInfo("RedisUtils > getUpcomingEvents > result  ");
         return $result;
     }
-    
+
     public static function getUpcomingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if ($all == 0) {
@@ -381,6 +381,74 @@ class RedisUtils {
         }
     }
 
+    public static function addUserFollow($userId, $followId, $add = true) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (!empty($userId)) {
+            $log->logInfo("Redis addUserFollow  > userId : " . $userId . " follow : " . $followId);
+            $follow = UserUtils::getUserById($followId);
+            if (!empty($follow)) {
+                $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
+                $redis = new Predis\Client();
+                $follows = $redis->zrevrange(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, 0, -1);
+                foreach ($follows as $f) {
+                    $fllw = json_decode($f);
+                    if ($fllw->id == $follow->id) {
+                        if (!empty($host) && !strpos($host, 'localhost')) {
+                            RedisUtils::removeItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, $f);
+                        } else {
+                            $log->logInfo("Redis remove Item simulated");
+                        }
+                        break;
+                    }
+                }
+                if (!empty($host) && $add && !strpos($host, 'localhost')) {
+                    RedisUtils::addItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, json_encode($follow), 10);
+                } else {
+                    if ($add)
+                        $log->logInfo("Redis addItem Item simulated");
+                }
+            } else {
+                $log->logInfo("Redis addUserFollow > follow : empty ");
+            }
+        } else {
+            $log->logInfo("Redis addUserFollow > userId : empty ");
+        }
+    }
+
+    public static function addUserFollower($userId, $followerId, $add = true) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        if (!empty($userId)) {
+            $log->logInfo("Redis addUserFollower  > userId : " . $userId . " follower : " . $followerId);
+            $follower = UserUtils::getUserById($followerId);
+            if (!empty($follower)) {
+                $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
+                $redis = new Predis\Client();
+                $followers = $redis->zrevrange(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, 0, -1);
+                foreach ($followers as $f) {
+                    $fllw = json_decode($f);
+                    if ($fllw->id == $follower->id) {
+                        if (!empty($host) && !strpos($host, 'localhost')) {
+                            RedisUtils::removeItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, $f);
+                        } else {
+                            $log->logInfo("Redis remove Item simulated");
+                        }
+                        break;
+                    }
+                }
+                if (!empty($host) && $add && !strpos($host, 'localhost')) {
+                    RedisUtils::addItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, json_encode($follower), 10);
+                } else {
+                    if ($add)
+                        $log->logInfo("Redis addItem Item simulated");
+                }
+            } else {
+                $log->logInfo("Redis addUserFollower > follower : empty ");
+            }
+        } else {
+            $log->logInfo("Redis addUserFollower > userId : empty ");
+        }
+    }
+
     public static function addItem($redis, $key, $item, $score) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($redis) && !empty($key)) {
@@ -402,8 +470,8 @@ class RedisUtils {
         }
         return null;
     }
-    
-     public static function fixArray($array = null) {
+
+    public static function fixArray($array = null) {
         $result = array();
         if (empty($array)) {
             $array = array();
