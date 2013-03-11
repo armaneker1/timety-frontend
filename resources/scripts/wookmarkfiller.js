@@ -43,6 +43,34 @@ function wookmarkFiller(options,clear,loader,channel_)
         {
             allParameter=allFriends;     
         }
+        /*
+         * track event
+         */
+        var track="";
+        if(channel==1){
+            track="/index/events/upcoming?pageId="+page;
+        }else if(channel==2){
+            track="/index/events/mytimety?pageId="+page;
+        }else if(channel==3){
+            track="/index/events/following?pageId="+page;
+        }else if(channel==4){
+            //TODO 
+            track="/index/events/user?pageId="+page;
+        }else if(channel==5){
+            track="/index/events/created?pageId="+page;
+        }else if(channel==6){
+            track="/index/events/liked?pageId="+page;
+        }else if(channel==7){
+            track="/index/events/reshared?pageId="+page;
+        }else if(channel==8){
+            track="/index/events/joined?pageId="+page;
+        }else if(channel==9){
+            track="/index/events/category/"+categoryId+"?pageId="+page;
+        }
+        pSUPERFLY.virtualPage(track,track);
+        /*
+         * track event
+         */
         post_wookmark = jQuery.ajax({
             type: 'GET',
             url: TIMETY_PAGE_AJAX_GETEVENTS,

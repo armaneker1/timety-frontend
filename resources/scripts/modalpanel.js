@@ -555,7 +555,7 @@ function addUrlEventId(event_id,title)
                 window.History.pushState(null, null, "event/"+event_id+"/"+title);  
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                pSUPERFLY.virtualPage("event/"+event_id+"/"+title, title);
+                pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title);
             }else
             {
                 path="";
@@ -566,7 +566,7 @@ function addUrlEventId(event_id,title)
                 window.History.pushState(null, null, path+"/"+"event/"+event_id);  
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                pSUPERFLY.virtualPage("event/"+event_id, event_id);
+                pSUPERFLY.virtualPage("/event/"+event_id, event_id);
             }
         }
     }

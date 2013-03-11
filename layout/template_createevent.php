@@ -70,7 +70,7 @@ if ($showPopup) {
          include('layout/template_following.php');
          ?>
 
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/profile_friends.js?201303011030"></script>   
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/profile_friends.js?201303011066"></script>   
 
     <?php } ?>
 

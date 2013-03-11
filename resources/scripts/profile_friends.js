@@ -55,12 +55,14 @@ function openFriendsPopup(userId,type)
             {
                 //following
                 //set header 
+                pSUPERFLY.virtualPage("/friends/following", "/friends/following");
                 jQuery("#profile_friends_header").text("Following"); 
                 url=TIMETY_PAGE_AJAX_GETFRIENDS;
             } else if(type==2) {
 
                 //follower 
                 //set header 
+                pSUPERFLY.virtualPage("/friends/followers", "/friends/followers");
                 jQuery("#profile_friends_header").text("Followers");
                 url=TIMETY_PAGE_AJAX_GET_FOLLOWERS;
             }
@@ -95,6 +97,7 @@ function openFriendsPopup(userId,type)
             }
         }else if(type==3)
         {
+            pSUPERFLY.virtualPage("/friends/find", "/friends/find");
             jQuery("#search_people_div").show();
             jQuery("#profile_friends_p_list").hide();
             jQuery("#profile_friends2_p_list").hide();

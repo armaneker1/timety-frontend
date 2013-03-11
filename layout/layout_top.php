@@ -284,7 +284,7 @@ if (empty($user)) {
                                 </div>
                             </div>
                         </li>
-                        <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
+                        <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;">Logout</a></li>
                     </ul>
                 </div>
                 <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
