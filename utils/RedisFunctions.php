@@ -384,7 +384,7 @@ class RedisUtils {
     public static function addUserFollow($userId, $followId, $add = true) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
-            $log->logInfo("Redis addUserFollow  > userId : " . $userId . " follow : " . $followId);
+            $log->logInfo("Redis addUserFollow  > userId : " . $userId . " follow : " . $followId." add ".$add);
             $follow = UserUtils::getUserById($followId);
             if (!empty($follow)) {
                 $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
@@ -418,7 +418,7 @@ class RedisUtils {
     public static function addUserFollower($userId, $followerId, $add = true) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
-            $log->logInfo("Redis addUserFollower  > userId : " . $userId . " follower : " . $followerId);
+            $log->logInfo("Redis addUserFollower  > userId : " . $userId . " follower : " . $followerId." add ".$add);
             $follower = UserUtils::getUserById($followerId);
             if (!empty($follower)) {
                 $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
