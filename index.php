@@ -503,7 +503,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                            		      
+                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -625,7 +625,7 @@ if (empty($user)) {
             ?>
             <script>
                 jQuery(document).ready(function() {                                                                                              
-                    jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GET_TIMETY_TAG."?lang=".$user->language ?>",{ 
+                    jQuery( "#te_event_tag" ).tokenInput("<?= PAGE_AJAX_GET_TIMETY_TAG . "?lang=" . $user->language ?>",{ 
                         theme: "custom",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
@@ -781,6 +781,15 @@ if (empty($user)) {
                 });
             </script>
             <!-- channel -->
+        <?php } ?>
+
+        <?php if (isset($_GET['l']) && $_GET['l'] == "1") {
+            ?>
+            <script>
+                jQuery(document).ready(function(){
+                    pSUPERFLY.virtualPage('/logout','/logout'); 
+                });  
+            </script>
         <?php } ?>
     </head>
     <body class="bg">

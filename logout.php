@@ -12,5 +12,5 @@ setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
 setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
 setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
 session_destroy();
-header("location: " . HOSTNAME);
+header("location: " . HOSTNAME."?l=1");
 ?>
