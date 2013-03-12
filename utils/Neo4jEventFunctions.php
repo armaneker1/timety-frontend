@@ -751,7 +751,7 @@ class Neo4jEventUtils {
         }
     }
 
-    public static function updateUserEventsCrestor($userId) {
+    public static function updateUserEventsCreator($userId) {
         $user = UserUtils::getUserById($userId);
         if (!empty($user) && !empty($user->id)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));

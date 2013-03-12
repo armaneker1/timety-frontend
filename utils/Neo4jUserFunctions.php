@@ -370,6 +370,23 @@ class Neo4jUserUtil {
         }
     }
 
+    public static function updateUserStatistics($userId) {
+        if (!empty($userId)) {
+            try {
+                $user = Neo4jUserUtil::getUserNodeById($userId);
+                $user->setProperty(PROP_USER_STA_FOLLOWINGS_COUNT, Neo4jUserUtil::getUserFollowingCount($userId));
+                $user->setProperty(PROP_USER_STA_FOLLOWERS_COUNT, Neo4jUserUtil::getUserFollowersCount($userId));
+                $user->setProperty(PROP_USER_STA_LIKES_COUNT, Neo4jUserUtil::getUserLikesCount($userId));
+                $user->setProperty(PROP_USER_STA_RESHARES_COUNT, Neo4jUserUtil::getUserResharesCount($userId));
+                $user->setProperty(PROP_USER_STA_JOINED_COUNT, Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES));
+                $user->setProperty(PROP_USER_STA_CREATED_COUNT, Neo4jUserUtil::getUserCreatedCount($userId));
+                $user->save();
+            } catch (Exception $e) {
+                error_log("Error" . $e->getMessage());
+            }
+        }
+    }
+
 }
 
 ?>

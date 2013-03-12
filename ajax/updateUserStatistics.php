@@ -10,8 +10,8 @@ if (isset($_GET["userId"]))
     $userId = $_GET["userId"];
 if (isset($_POST["userId"]))
     $userId = $_POST["userId"];
-if(!empty($userId))
-{
-    Neo4jEventUtils::updateUserEventsCreator($userId);
+if (!empty($userId)) {
+    Neo4jUserUtil::updateUserStatistics($userId);
 }
+
 ?>
