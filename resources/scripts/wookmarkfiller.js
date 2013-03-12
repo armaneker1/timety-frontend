@@ -26,9 +26,13 @@ function wookmarkFiller(options,clear,loader,channel_)
         searchText='';
     }
     var dateSelected =null;
-    if(moment(selectedDate,"YYYY-MM-DD").isValid()){
-        dateSelected = selectedDate+" 00:00:00";
-    }    
+    try{
+        if(moment(selectedDate,"YYYY-MM-DD").isValid()){
+            dateSelected = selectedDate+" 00:00:00";
+        }   
+    }catch (exp){
+        
+    }
     //Start loader animation
     if(loader)
         getLoader(true);

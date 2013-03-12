@@ -549,7 +549,7 @@ if (empty($user)) {
                 var optionsWookmark = {
                     autoResize: true, // This will auto-update the layout when the browser window is resized.
                     container: jQuery(".main_event"), // Optional, used for some extra CSS styling
-                    offset: 5, // Optional, the distance between grid items
+                    offset: 10, // Optional, the distance between grid items
                     itemWidth: 200 // Optional, the width of a grid item
                 };
                     
@@ -894,7 +894,7 @@ if (empty($user)) {
                                         function resizeSlide()
                                         {
                                             var width=jQuery(".main_event").width();
-                                            width=Math.floor(width/205)*205-2;
+                                            width=Math.floor(width/210)*210-2;
                                             jQuery("#slides").width(width);
                                             if(slide_handler) slide_handler.lemmonSlider('destroy');
                                             slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
