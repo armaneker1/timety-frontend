@@ -1,19 +1,6 @@
 /*
  * Modified
  */
-.main_sag {
-	display: inline-block !important;
-	float: right !important;
-	width: 70px !important;
-	position: fixed !important;
-	right: 0px !important; 
-	margin-top: 220px !important;
-	height: 90% !important;
-	border-left-width: 1px !important;
-	border-left-style: solid !important;
-	border-left-color: #cacaca !important;
-	margin-left: 30px !important;
-}
 
 .ust_blm {
 	position: relative !important;
@@ -34,47 +21,6 @@
 /*
  * Added
  */
-.main_sag_header {
-	display: inline-block !important;
-	float: right !important;
-	width: 70px !important;
-	position: absolute !important;
-	right: 0px !important;
-	margin-top: 75px !important;
-	height: auto !important;
-	border-left-width: 1px !important;
-	border-left-style: solid !important;
-	border-left-color: #cacaca !important;
-	margin-left: 30px !important;
-	height: 200px !important;
-}
-
-.main_sag_header ul {
-	padding: 0px !important;
-	list-style-type: none !important;
-	margin-top: -5px !important;
-	margin-right: 0px !important;
-	margin-bottom: 0px !important;
-	margin-left: 0px !important;
-}
-
-.main_sag_header ul li a {
-	font-size: 11px !important;
-	color: #717e88 !important;
-	background-image: url(../images/timeicon.png) !important;
-	background-repeat: no-repeat !important;
-	background-position: -200px !important;
-}
-
-.main_sag_header ul li {
-	background-image: url(../images/timeicon.png) !important;
-	background-repeat: no-repeat !important;
-	background-position: -8px -83px !important;
-	padding-left: 10px !important;
-	margin-left: -3px !important;
-	font-size: 12px !important;
-	margin-bottom: 20px !important;
-}
 
 
 /*

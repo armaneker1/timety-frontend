@@ -503,7 +503,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                    		      
+                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -1198,7 +1198,7 @@ if (empty($user)) {
                 <!-- event boxes -->
             </div>
         </div>
-        <div class="main_sag_header" style="z-index: 10">
+        <div class="main_sag_header" style="z-index: 9">
             <ul id="timeline_header">
                 <li class="scrl_btn"><input type="button" id="prev_button"
                                             class="solscrl prev-page" /> <input type="button" id="next_button"
@@ -1206,14 +1206,19 @@ if (empty($user)) {
                 </li>
             </ul>
         </div>
-        <div class="main_sag" style="height: 1000px;top: -120px;">
-            <ul id="timeline" style="display: none">
-                <li><a href="#" class="krmz_list">00:00</a></li>
-                <li><a href="#">00:30</a></li>
-                <li><a href="#" class="yesil_list">01:00</a></li>
-                <li><a href="#">01:30</a></li>
-                <li><a href="#" class="byz_list">02:00</a></li>
-                <li><a href="#">02:30</a></li>
+        <div class="main_sag" style="z-index: 10;height: 2000px;top: -80px;padding-top: 80px;">
+            <ul id="timeline" style="">
+                <li class="timeline_month timeline_fisrt"><a href="#" class="">March</a></li>
+                <li class="timeline_month"><a href="#" class="" style="">April</a></li>
+                <li class="timeline_day timeline_fisrt"><a href="#" class="">Thu, 5</a></li>
+                <li class="timeline_day"><a href="#" class="">Wed, 6</a></li>
+                <li class="timeline_day"><a href="#" class="">Fri, 7</a></li>
+                <li class="timeline_day"><a href="#" class="">Sat, 8</a></li>
+                <li class="timeline_day"><a href="#" class="">Sun, 9</a></li>
+                <li class="timeline_day"><a href="#" class="">Mon, 10</a></li>
+                <li class="timeline_day"><a href="#" class="">Thu, 11</a></li>
+                <li class="timeline_day"><a href="#" class="">Mon, 12</a></li>
+                <li class="timeline_month"><a href="#" class="">May</a></li>
             </ul>
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>

@@ -442,27 +442,6 @@ p,h1,h2,h3,h4,h5{
     font-size: 10px;
 }
 
-.main_sag {
-    display: inline-block;
-    float: right;
-    width: 70px;
-    position: fixed;
-    right: 0px;
-    margin-top: 75px;
-    height: 700px;
-    border-left-width: 1px;
-    border-left-style: solid;
-    border-left-color: #cacaca;
-    margin-left: 30px;
-}
-.main_sag ul {
-    padding: 0px;
-    list-style-type: none;
-    margin-top: -5px;
-    margin-right: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-}
 .krmz_list {
     /* [disabled]background-image: url(images/timeicon.png); */
     background-repeat: no-repeat;
@@ -483,24 +462,6 @@ p,h1,h2,h3,h4,h5{
     background-position: -4px -52px!important;
     margin-left: -15px;
     padding-left: 15px;
-}
-
-.main_sag ul li a {
-    font-size: 11px;
-    color: #717e88;
-    background-image: url(images/timeicon.png);
-    background-repeat: no-repeat;
-    background-position: -200px;
-}
-
-.main_sag ul li {
-    background-image: url(images/timeicon.png);
-    background-repeat: no-repeat;
-    background-position: -8px -83px;
-    padding-left: 10px;
-    margin-left: -3px;
-    font-size: 12px;
-    margin-bottom: 20px;
 }
 .solscrl {
     background-color: transparent;

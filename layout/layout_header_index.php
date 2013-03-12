@@ -24,17 +24,17 @@ if (!isset($timety_header)) {
 
 
 <!--[if IE]>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?2013022231415" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css?2013022231417" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?7" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if !IE]><!-->
-<link  href="<?= HOSTNAME ?>all_css.css?20130233221255" rel="stylesheet" type="text/css" />
-<link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>all_css.css?20130233221265" rel="stylesheet" type="text/css" />
+<link  href="<?= HOSTNAME ?>resources/styles/custom.css?8" rel="stylesheet" type="text/css" />
 <!--<![endif]-->
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201302254289" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?2013022545877" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -70,6 +70,8 @@ if (!isset($timety_header)) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/analyticstool.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.min.js?201302251300"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/timeline.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.jscroll.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/bootstrap/bootstrap-tooltip.min.js?201302251210"></script>
 <script src="<?= HOSTNAME ?>js/prototype.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?= HOSTNAME ?>js/effects.min.js" type="text/javascript" charset="utf-8"></script>
