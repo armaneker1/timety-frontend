@@ -26,6 +26,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -54,6 +55,7 @@ class SocialUtil {
                 $result->error = false;
                 SocialUtil::decLikeCountAsync($userId, $eventId);
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_UNLIKE);
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -84,6 +86,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -112,6 +115,7 @@ class SocialUtil {
                 $result->error = false;
                 SocialUtil::decReshareCountAsync($userId, $eventId);
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_UNSHARE);
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -327,6 +331,8 @@ class SocialUtil {
                     RedisUtils::addUserFollow($fromUserId, $toUserId, true);
                     RedisUtils::addUserFollower($toUserId, $fromUserId, true);
                     Queue::followUser($fromUserId, $toUserId);
+                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId));
+                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId));
                 } else {
                     $result->error = "Userlar bulunamadı";
                 }
@@ -371,6 +377,8 @@ class SocialUtil {
             RedisUtils::addUserFollow($fromUserId, $toUserId, false);
             RedisUtils::addUserFollower($toUserId, $fromUserId, false);
             Queue::unFollowUser($fromUserId, $toUserId);
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId));
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId));
         } catch (Exception $e) {
             log("Error", $e->getMessage());
             $result->error = $e->getMessage();
