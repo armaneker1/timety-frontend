@@ -87,7 +87,12 @@ define('PROP_USER_FIRSTNAME', 'firstName');
 define('PROP_USER_LASTNAME', 'lastName');
 define('PROP_USER_TYPE', 'type');
 define('PROP_USER_CM_INVITED', 'invited');
-
+define('PROP_USER_STA_FOLLOWINGS_COUNT', 'following_count');
+define('PROP_USER_STA_FOLLOWERS_COUNT', 'followers_count');
+define('PROP_USER_STA_LIKES_COUNT', 'likes_count');
+define('PROP_USER_STA_RESHARES_COUNT', 'reshares_count');
+define('PROP_USER_STA_JOINED_COUNT', 'joined_count');
+define('PROP_USER_STA_CREATED_COUNT', 'created_count');
 /*
  * category props
  */

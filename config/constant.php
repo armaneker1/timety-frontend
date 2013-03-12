@@ -105,6 +105,7 @@ define('PAGE_AJAX_UPDATE_USER_INFO', PAGE_AJAX_FOLDER . 'updateUserInfo.php');
 define('PAGE_AJAX_CREATE_QUICK_EVENT', PAGE_AJAX_FOLDER . 'createQuickEvent.php');
 define('PAGE_AJAX_INIT_USER_REDIS', PAGE_AJAX_FOLDER . 'initUserRecommendation.php');
 define('PAGE_AJAX_MARK_NOTF_READ', PAGE_AJAX_FOLDER . 'markNotificationsRead.php');
+define('PAGE_AJAX_UPDATE_USER_STATISTICS', PAGE_AJAX_FOLDER . 'updateUserStatistics.php');
 
 
 
