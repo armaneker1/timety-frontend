@@ -1046,9 +1046,9 @@
 
 /* top events */
 .akt_tkvm {
-    min-height: 80px;
-    max-height: 80px;
-    height: 80px;
+    min-height: 50px;
+    max-height: 50px;
+    height: 50px;
     overflow: hidden;
     width: 186px;
     border: 1px solid #bcbcbc;
@@ -1071,4 +1071,14 @@
     font-family: Arial;
     margin-bottom: 5px;
     font-weight: bolder;
+}
+
+.ust_blm {
+    min-height: 115px;
+    width: 100%;
+    background-image: url(images/kare.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    padding-top: 20px;
+    margin-bottom: 15px;
 }

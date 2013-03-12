@@ -231,15 +231,7 @@ p,h1,h2,h3,h4,h5{
     margin-right: 100px;
     margin-top: 50px;
 }
-.ust_blm {
-    min-height: 140px;
-    width: 100%;
-    background-image: url(images/kare.png);
-    background-repeat: repeat-x;
-    background-position: bottom;
-    padding-top: 20px;
-    margin-bottom: 5px;
-}
+
 .trh_gn {
     height: auto;
     width: auto;

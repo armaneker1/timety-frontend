@@ -74,7 +74,8 @@ function wookmarkFiller(options,clear,loader,channel_)
         }else if(channel==9){
             track="/index/events/category/"+categoryId+"?pageId="+page;
         }
-        pSUPERFLY.virtualPage(track,track);
+        if(typeof(something) != "undefined")
+            pSUPERFLY.virtualPage(track,track);
         /*
          * track event
          */
@@ -99,6 +100,7 @@ function wookmarkFiller(options,clear,loader,channel_)
                     post_wookmark=null;
                 }
                 getLoader(false);
+                showProfileBatch(channel);
             },
             success: function(data){
                 try {
@@ -118,6 +120,7 @@ function wookmarkFiller(options,clear,loader,channel_)
                         console.log(e);
                         console.log(data);
                     }
+                    showProfileBatch(channel);
                     if(!dataJSON)
                     {
                         if(loader)
@@ -162,7 +165,6 @@ function wookmarkFiller(options,clear,loader,channel_)
                             getLoader(false);
                         return;
                     }
-
                     wookmarkHTML(dataJSON,userId);
                     //function tm()
                     //{
@@ -651,5 +653,22 @@ var checkAllFriends=function(){
             this.value=0; 
         else 
             this.value=1;
+    }
+}
+
+
+function showProfileBatch(type){
+    var elem=null;
+    var clone=null;
+    if(type==2 || type=="2"){
+        elem=jQuery("#dump .profil_box");
+        if(elem){
+            elem.prependTo(".main_event");
+        }
+    }else{
+        elem=jQuery(".main_event .profil_box");
+        if(elem){
+           elem.prependTo("#dump");
+        }
     }
 }

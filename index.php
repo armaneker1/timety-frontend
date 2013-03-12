@@ -503,7 +503,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                            		      
+                                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -737,7 +737,6 @@ if (empty($user)) {
                     openModalPanel('<?= $_GET["eventId"] ?>','<?php
         $json_response = json_encode($prm_event);
         $json_response = str_replace("'", "\\'", $json_response);
-        //$json_response = str_replace("\"", "\\\"", $json_response);
         echo $json_response;
         ?>');
             });
@@ -880,7 +879,7 @@ if (empty($user)) {
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>">
                                                         <h1><?= $evt->title ?></h1>
                                                         <p><?= $evt->startDateTime ?></p>
-                                                        <p><?= $evtDesc ?></p>
+                                                       <!-- <p><?= $evtDesc ?></p> -->
                                                     </div>
                                                     <?php
                                                 }
@@ -894,7 +893,7 @@ if (empty($user)) {
                                         function resizeSlide()
                                         {
                                             var width=jQuery(".main_event").width();
-                                            width=Math.floor(width/210)*210-2;
+                                            width=Math.floor(width/209)*209-2;
                                             jQuery("#slides").width(width);
                                             if(slide_handler) slide_handler.lemmonSlider('destroy');
                                             slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
@@ -910,47 +909,6 @@ if (empty($user)) {
                 </div>
             </div>
             <div class="main_event">
-                <!-- profil box -->
-                <?php if (!empty($user) && !empty($user->id)) { ?>
-                    <div class="profil_box main_event_box">
-                        <div class="profil_resim">
-                            <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
-                        </div>
-                        <div class="profil_user">
-                            <div class="bgln_user">
-                                <h1><?php echo $user->getFullName() ?></h1>
-                                <p><?php echo $user->about ?></p>
-                            </div>
-                            <div class="user_settings"><a href="<?= PAGE_UPDATE_PROFILE ?>"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>
-                        </div>
-                        <div class="profil_metin">
-                            <!-- bio -->
-                        </div>
-                        <div class="profil_btn">
-                            <ul>
-                                <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><a href="#">Following <p class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></p></a></li>
-                                <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><a href="#">Followers <p class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></p></a></li>
-                                <li onclick="changeChannelProfile(6);return false;"><a href="#">Likes <p class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></p></a></li>
-                                <li onclick="changeChannelProfile(7);return false;"><a href="#">Reshare <p class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></p></a></li>
-                                <li onclick="changeChannelProfile(8);return false;"><a href="#">Joined <p class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></p></a></li>
-                                <li onclick="changeChannelProfile(5);return false;"><a href="#">Created Event <p class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></p></a></li>
-                            </ul>
-
-                            <script>
-                                function changeChannelProfile(channel){
-                                    page_wookmark=0;
-                                    wookmark_channel=channel;
-                                    jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
-                                    jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
-                                    jQuery("#mytimety_top_menu").removeClass('top_menu_ul_li_a');
-                                    jQuery("#mytimety_top_menu").addClass('top_menu_ul_li_a_selected');
-                                    wookmarkFiller(document.optionsWookmark,true,true);
-                                } 
-                            </script>
-                        </div>
-                    </div>
-                <?php } ?>
-                <!-- event boxes -->
                 <?php
                 $user_id = null;
                 if (!empty($user)) {
@@ -1009,8 +967,8 @@ if (empty($user)) {
                                     $height = 219;
                                 }
                                 ?>
-                                <!-- event box -->
                                 <div class="main_event_box" date="<?= $main_event->startDateTime ?>">
+                                    <!-- event box -->
                                     <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
                                         <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>">
                                             <button  id="div_like_btn" 
@@ -1177,9 +1135,8 @@ if (empty($user)) {
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
-                                <script>
-                                    var tmpDataJSON='<?php
+                                    <script>
+                                        var tmpDataJSON='<?php
                             $json_response = json_encode($main_event);
                             $json_response = str_replace("'", "\\'", $json_response);
                             echo str_replace('"', '\\"', $json_response);
@@ -1187,15 +1144,15 @@ if (empty($user)) {
                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
-                                </script>
-                                <!-- event box -->
+                                    </script>
+                                    <!-- event box -->
+                                </div>
                                 <?php
                             }
                         }
                     }
                 }
                 ?>
-                <!-- event boxes -->
             </div>
         </div>
         <div class="main_sag_header" style="z-index: 9">
@@ -1222,6 +1179,49 @@ if (empty($user)) {
             </ul>
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
+        <div id="dump" style="display: none">
+            <!-- profil box -->
+            <?php if (!empty($user) && !empty($user->id)) { ?>
+                <div class="profil_box main_event_box">
+                    <div class="profil_resim">
+                        <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
+                    </div>
+                    <div class="profil_user">
+                        <div class="bgln_user">
+                            <h1><?php echo $user->getFullName() ?></h1>
+                            <p><?php echo $user->about ?></p>
+                        </div>
+                        <div class="user_settings"><a href="<?= PAGE_UPDATE_PROFILE ?>"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>
+                    </div>
+                    <div class="profil_metin">
+                        <!-- bio -->
+                    </div>
+                    <div class="profil_btn">
+                        <ul>
+                            <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><a href="#">Following <p class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></p></a></li>
+                            <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><a href="#">Followers <p class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></p></a></li>
+                            <li onclick="changeChannelProfile(6);return false;"><a href="#">Likes <p class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></p></a></li>
+                            <li onclick="changeChannelProfile(7);return false;"><a href="#">Reshare <p class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></p></a></li>
+                            <li onclick="changeChannelProfile(8);return false;"><a href="#">Joined <p class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></p></a></li>
+                            <li onclick="changeChannelProfile(5);return false;"><a href="#">Created Event <p class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></p></a></li>
+                        </ul>
+
+                        <script>
+                            function changeChannelProfile(channel){
+                                page_wookmark=0;
+                                wookmark_channel=channel;
+                                jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
+                                jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+                                jQuery("#mytimety_top_menu").removeClass('top_menu_ul_li_a');
+                                jQuery("#mytimety_top_menu").addClass('top_menu_ul_li_a_selected');
+                                wookmarkFiller(document.optionsWookmark,true,true);
+                            } 
+                        </script>
+                    </div>
+                </div>
+            <?php } ?>
+            <!-- profil box -->
+        </div>
     </body>
     <?php include('layout/template_createevent.php'); ?>
 </html>
