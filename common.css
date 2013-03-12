@@ -925,7 +925,7 @@
     float: right !important;
     width: 70px !important;
     position: absolute !important;
-    right: 0px !important;
+    right: 40px !important; /*0px; */
     margin-top: 75px !important;
     height: auto !important;
     border-left-width: 1px !important;
@@ -964,19 +964,19 @@
 
 .timeline_month{
     font-size: 12px !important;
-    font-weight: bold;
+    /* font-weight: bold; */
     margin-top: 20px !important;
 }
 
 .timeline_fisrt{
-    margin-top: 5px !important;
+    margin-top: -37px !important;
 }
 .timeline_selected_month{
-    margin-top: 5px !important;
+    margin-top: -37px !important;
 }
 
 .timeline_month a{
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 
 .timeline_day{
@@ -1009,7 +1009,7 @@
     float: right;
     width: 70px;
     position: fixed; 
-    right: 0px;
+    right: 40px; /*0px*/
     margin-top: 220px;
     height: 90%;
     border-left-width: 1px;
@@ -1075,12 +1075,13 @@
 
 .ust_blm {
     min-height: 115px;
-    width: 100%;
+    /* width: 100%; */
     background-image: url(images/kare.png);
     background-repeat: repeat-x;
     background-position: bottom;
     padding-top: 20px;
     margin-bottom: 15px;
+    display: table;
 }
 
 .add_event_link {
