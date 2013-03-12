@@ -876,10 +876,20 @@ if (empty($user)) {
                                                         $evtDesc = substr($evtDesc, 0, 55) . "...";
                                                     }
                                                     ?>   
-                                                    <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>">
+                                        <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?=$evt->id?>);">
                                                         <h1><?= $evt->title ?></h1>
-                                                        <p><?= $evt->startDateTime ?></p>
+                                                        <p>Today @<?php $dt = strtotime($evt->startDateTime);echo date('H:i', $dt);?></p>
                                                        <!-- <p><?= $evtDesc ?></p> -->
+                                                        <script>
+                                                        var tmpDataJSON='<?php
+                                                        $json_response = json_encode($evt);
+                                                        $json_response = str_replace("'", "\\'", $json_response);
+                                                        echo str_replace('"', '\\"', $json_response);
+                                                        ?>';
+                                                            tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                                            var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                                            localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                                        </script>
                                                     </div>
                                                     <?php
                                                 }
