@@ -47,6 +47,7 @@ function initTimeline(){
             if(dayString==todayString){
                 liDay.addClass("timeline_selected_day");
             }
+            liDay.attr("date_formated",day.format("YYYY-MM-DD"));
             liDay.click(selectTimelineDate);
             // inc day
             day.add('days',1);
@@ -54,10 +55,11 @@ function initTimeline(){
         }
         // add last day 
         liDayString=day.format("DD ddd");
-        liDay=createlielement(timeline_ul,liDayString,"timeline_day",monthString,false,monthString);
+        liDay=createlielement(timeline_ul,liDayString,"timeline_day",weekText,false,monthString);
         if(dayString==todayString){
             liDay.addClass("timeline_selected_day");
         }
+        liDay.attr("date_formated",day.format("YYYY-MM-DD"));
         liDay.click(selectTimelineDate);
         day.add('days',1);
     }
@@ -124,7 +126,9 @@ function toggleWeek() {
 function selectTimelineDate(){
     jQuery(".timeline_selected_day").removeClass("timeline_selected_day");
     jQuery(this).addClass("timeline_selected_day");
-// call wookmark 
+    page_wookmark=0;
+    selectedDate=jQuery(this).attr("date_formated");
+    wookmarkFiller(document.optionsWookmark,true,true);
 }
 
 function getWeekText(day){
@@ -138,5 +142,9 @@ function getWeekText(day){
 }
 
 function weekOfDate(date){
-    return moment(date).week() - moment(date).date(0).week() +1 
+    var result=date.week() -date.clone().date(1).week()+1;
+    if(result<0){
+        result=result+52;
+    }
+    return result;
 }

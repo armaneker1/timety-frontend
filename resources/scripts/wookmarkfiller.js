@@ -5,6 +5,7 @@ var allFriends=1;
 var wookmark_channel=1;
 var wookmark_category=-1;
 localStorage.clear();
+var selectedDate=null;
 
 function wookmarkFiller(options,clear,loader,channel_)
 {
@@ -24,8 +25,10 @@ function wookmarkFiller(options,clear,loader,channel_)
     {
         searchText='';
     }
-    var dateSelected = null;
-    
+    var dateSelected =null;
+    if(moment(selectedDate,"YYYY-MM-DD").isValid()){
+        dateSelected = selectedDate+" 00:00:00";
+    }    
     //Start loader animation
     if(loader)
         getLoader(true);
