@@ -183,6 +183,32 @@ class RedisUtils {
         return $result;
     }
 
+    public static function getTodayEvents($userId) {
+        if (empty($userId) || $userId < 0) {
+            return "[]";
+        }
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $date = time();
+        $now = getdate();
+        $dateEnd = mktime(0, 0, 0, $now['mon'], $now['mday'] + 1, $now['year']);
+        $redis = new Predis\Client();
+        $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, $dateEnd);
+        $result = "[";
+        for ($i = 0; $i < sizeof($events); $i++) {
+            try {
+                $r = ",";
+                if ($i == 0) {
+                    $r = "";
+                }
+                $result = $result . $r . $events[$i];
+            } catch (Exception $exc) {
+                $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
+            }
+        }
+        $result = $result . "]";
+        return $result;
+    }
+
     public static function getCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $all = 1) {
         if (empty($userId) || $userId < 0) {
             return "[]";

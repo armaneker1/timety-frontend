@@ -926,7 +926,7 @@ class Neo4jFuctions {
      * $pageNumber deafult 0
      * $pageItemCount default 15
      */
-
+    
     public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1, $all = 1, $categoryId = -1) {
         /*
           $teg="<p/>getEvents-   ";

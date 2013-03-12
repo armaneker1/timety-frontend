@@ -1082,3 +1082,17 @@
     padding-top: 20px;
     margin-bottom: 15px;
 }
+
+.add_event_link {
+    background-image: url(images/abbg.png);
+    background-repeat: repeat;
+    height: 31px;
+    width: 186px;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #959595;
+    text-decoration: none;
+    text-align: center;
+    padding-top: 19px;
+}
