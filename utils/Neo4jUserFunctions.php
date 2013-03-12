@@ -373,14 +373,23 @@ class Neo4jUserUtil {
     public static function updateUserStatistics($userId) {
         if (!empty($userId)) {
             try {
+                $following_count = Neo4jUserUtil::getUserFollowingCount($userId);
+                $followers_count = Neo4jUserUtil::getUserFollowersCount($userId);
+                $likes_count = Neo4jUserUtil::getUserLikesCount($userId);
+                $reshares_count = Neo4jUserUtil::getUserResharesCount($userId);
+                $joined_count = Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES);
+                $created_count = Neo4jUserUtil::getUserCreatedCount($userId);
+
                 $user = Neo4jUserUtil::getUserNodeById($userId);
-                $user->setProperty(PROP_USER_STA_FOLLOWINGS_COUNT, Neo4jUserUtil::getUserFollowingCount($userId));
-                $user->setProperty(PROP_USER_STA_FOLLOWERS_COUNT, Neo4jUserUtil::getUserFollowersCount($userId));
-                $user->setProperty(PROP_USER_STA_LIKES_COUNT, Neo4jUserUtil::getUserLikesCount($userId));
-                $user->setProperty(PROP_USER_STA_RESHARES_COUNT, Neo4jUserUtil::getUserResharesCount($userId));
-                $user->setProperty(PROP_USER_STA_JOINED_COUNT, Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES));
-                $user->setProperty(PROP_USER_STA_CREATED_COUNT, Neo4jUserUtil::getUserCreatedCount($userId));
+                $user->setProperty(PROP_USER_STA_FOLLOWINGS_COUNT, $following_count);
+                $user->setProperty(PROP_USER_STA_FOLLOWERS_COUNT, $followers_count);
+                $user->setProperty(PROP_USER_STA_LIKES_COUNT, $likes_count);
+                $user->setProperty(PROP_USER_STA_RESHARES_COUNT, $reshares_count);
+                $user->setProperty(PROP_USER_STA_JOINED_COUNT, $joined_count);
+                $user->setProperty(PROP_USER_STA_CREATED_COUNT, $created_count);
                 $user->save();
+
+                UserUtils::updateUserStatistic($userId, $following_count, $followers_count, $likes_count, $reshares_count, $joined_count, $created_count);
             } catch (Exception $e) {
                 error_log("Error" . $e->getMessage());
             }

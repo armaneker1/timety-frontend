@@ -433,6 +433,14 @@ class UserUtils {
         return $array;
     }
 
+    public static function updateUserStatistic($uid, $following_count, $followers_count, $likes_count, $reshares_count, $joined_count, $created_count) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set following_count=$following_count,followers_count=$followers_count,likes_count=$likes_count,reshares_count=$reshares_count,joined_count=$joined_count,created_count=$created_count WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
 }
 
 ?>

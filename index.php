@@ -503,7 +503,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                        		      
+                                                                                                                                                                                                                                                                                                            		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -928,12 +928,12 @@ if (empty($user)) {
                         </div>
                         <div class="profil_btn">
                             <ul>
-                                <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><a href="#">Following <p class="prinpt pcolor_mavi" id="prof_following_count"><?= Neo4jUserUtil::getUserFollowingCount($user->id) ?></p></a></li>
-                                <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><a href="#">Followers <p class="prinpt pcolor_krmz" id="prof_followers_count"><?= Neo4jUserUtil::getUserFollowersCount($user->id) ?></p></a></li>
-                                <li onclick="changeChannelProfile(6);return false;"><a href="#">Likes <p class="prinpt pcolor_yesil" id="prof_likes_count"><?= Neo4jUserUtil::getUserLikesCount($user->id) ?></p></a></li>
-                                <li onclick="changeChannelProfile(7);return false;"><a href="#">Reshare <p class="prinpt pcolor_gri" id="prof_reshares_count"><?= Neo4jUserUtil::getUserResharesCount($user->id) ?></p></a></li>
-                                <li onclick="changeChannelProfile(8);return false;"><a href="#">Joined <p class="prinpt pcolor_mavi" id="prof_joins_count"><?= Neo4jUserUtil::getUserJoinsCount($user->id, TYPE_JOIN_YES) ?></p></a></li>
-                                <li onclick="changeChannelProfile(5);return false;"><a href="#">Created Event <p class="prinpt pcolor_krmz" id="prof_created_count"><?= Neo4jUserUtil::getUserCreatedCount($user->id) ?></p></a></li>
+                                <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><a href="#">Following <p class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></p></a></li>
+                                <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><a href="#">Followers <p class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></p></a></li>
+                                <li onclick="changeChannelProfile(6);return false;"><a href="#">Likes <p class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></p></a></li>
+                                <li onclick="changeChannelProfile(7);return false;"><a href="#">Reshare <p class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></p></a></li>
+                                <li onclick="changeChannelProfile(8);return false;"><a href="#">Joined <p class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></p></a></li>
+                                <li onclick="changeChannelProfile(5);return false;"><a href="#">Created Event <p class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></p></a></li>
                             </ul>
 
                             <script>

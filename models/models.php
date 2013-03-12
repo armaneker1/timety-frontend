@@ -31,6 +31,13 @@ class User {
             $this->location_all_json = $result['location_all_json'];
             $this->location_cor_x = $result['location_cor_x'];
             $this->location_cor_y = $result['location_cor_y'];
+            //statistic
+            $this->following_count = $result['following_count'];
+            $this->followers_count = $result['followers_count'];
+            $this->likes_count = $result['likes_count'];
+            $this->reshares_count = $result['reshares_count'];
+            $this->joined_count = $result['joined_count'];
+            $this->created_count = $result['created_count'];
         }
     }
 
@@ -55,6 +62,13 @@ class User {
                 $this->about = $tmp->about;
                 $this->gender = $tmp->gender;
                 $this->language = $tmp->language;
+                //statistic
+                $this->following_count = $tmp->following_count;
+                $this->followers_count = $tmp->followers_count;
+                $this->likes_count = $tmp->likes_count;
+                $this->reshares_count = $tmp->reshares_count;
+                $this->joined_count = $tmp->joined_count;
+                $this->created_count = $tmp->created_count;
             } else {
                 $this->id = null;
             }
@@ -86,6 +100,13 @@ class User {
     public $location_all_json;
     public $location_cor_x;
     public $location_cor_y;
+    //statistic
+    public $following_count=0;
+    public $followers_count=0;
+    public $likes_count=0;
+    public $reshares_count=0;
+    public $joined_count=0;
+    public $created_count=0;
 
     public function getUserLang() {
         return $this->hometown;
