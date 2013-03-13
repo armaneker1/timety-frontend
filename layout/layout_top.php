@@ -50,8 +50,8 @@ if (empty($user)) {
             <!-- search button end -->
 
             <!-- Add Quick Event -->
-            <div id="te_quick_add_event_bar"  
-                 class="quick_add_event_bar" >
+            <div id="te_quick_add_event_bar" 
+                 class="quick_add_event_bar" style="display: none;">
                 <input id="te_quick_event_desc"  
                        class="quick_add_event_input" 
                        name="" type="text"  
@@ -60,7 +60,8 @@ if (empty($user)) {
                 <script>
                     jQuery("#te_quick_event_desc").maxlength({feedbackText: '{r}',showFeedback:"active"});
                 </script>
-                <div id="te_quick_event_people_div" style="display: inline-block;position: relative;">
+                <div id="te_quick_event_people_div" style="display: none;position: relative;" >
+                    <!-- display: inline-block; -->
                     <button id="te_quick_event_people_btn" 
                             class="quick_add_event_people_button icon_bg" 
                             name="" type="button"  
@@ -81,7 +82,8 @@ if (empty($user)) {
                     </div>
                 </div>
 
-                <div style="display: inline-block;position: relative;">
+                <div style="display: none;position: relative;">
+                    <!-- display: inline-block; -->
                     <button id="quick_add_event_date_button" 
                             class="quick_add_event_date_button icon_bg" 
                             name="" type="button"  
@@ -132,7 +134,8 @@ if (empty($user)) {
                     });
                 </script>
 
-                <div style="display: inline-block;position: relative;">
+                <div style="display: none;position: relative;">
+                    <!-- display: inline-block; -->
                     <button id="te_quick_event_loc_btn" 
                             class="quick_add_event_loc_button icon_bg" 
                             name="" type="button" 
@@ -168,15 +171,21 @@ if (empty($user)) {
                         });
                     </script>
                 </div>
+                <div id="quick_add_event_date_div_detail" class="quick_add_event_date_div_detail">
+                    <button id="quick_add_event_save_button_" type="button" name="" value="" class="quick_add_event_save_button" style="cursor: pointer">Add Detail</button>
+                    <script type="text/javascript">
+                        jQuery("#quick_add_event_save_button_").click(function(){
+                            var val=jQuery("#te_quick_event_desc").val();
+                            var placeholder=jQuery("#te_quick_event_desc").attr("placeholder");
+                            if(val && placeholder!=val){
+                                jQuery("#te_event_title").val(val);
+                                jQuery("#te_event_description").val(val);
+                            }
+                            openCreatePopup();
+                        });
+                    </script>
+                </div>
             </div>
-            <input id="quick_add_event_save_button"  
-                   class="quick_add_event_save_button"
-                   style="cursor: pointer"
-                   type="button"  
-                   value="Add"/>
-            <script>
-                jQuery("#quick_add_event_save_button").click(function(){createEvent();});
-            </script>
             <!-- Add Quick Event -->
 
 
@@ -184,7 +193,16 @@ if (empty($user)) {
             if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
                 ?>
                 <script type="text/javascript">
-                    jQuery("#add_event_button").click(openCreatePopup);
+                    jQuery("#add_event_button").click(function(){
+                        jQuery("#te_quick_add_event_bar").show();
+                        jQuery(document).bind("click.quickadd",function(e){
+                            if(!(e && e.target && e.target.id && ((e.target.id+"")=="te_quick_add_event_bar" || jQuery(e.target).parents().is("#te_quick_add_event_bar") ||(e.target.id+"")=="div_follow_trans") ||  jQuery(e.target).parents().is("#div_follow_trans") || (e.target.id+"")=="add_event_button"))
+                            {
+                                jQuery(document).unbind("click.quickadd");
+                                jQuery("#te_quick_add_event_bar").hide();
+                            }
+                        });
+                    });
                     jQuery("#add_event_button").click(btnClickStartAddEvent);
                 </script>
                 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879100"></script>

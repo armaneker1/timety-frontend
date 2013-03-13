@@ -517,21 +517,21 @@
     padding-right: 0px;
     padding-bottom: 0px;
     padding-left: 5px;
-    margin-left: 6px;
-    display:none;
+    margin-left: 94px;
+    /* display:none; */
 }
 
 .quick_add_event_input{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
-    font-weight: bold;
+   /*font-weight: bold;*/
     color: #b1b1b1;
     background-color: transparent;
     border-top-style: none;
     border-right-style: none;
     border-bottom-style: none;
     border-left-style: none;
-    width: 500px;
+    width: 486px;
     outline: none;
 }
 
@@ -615,16 +615,15 @@
     font-size: 11px;
     font-weight: bold;
     color: #6a6a6a;
-    padding-right: 13px;
-    padding-left: 13px;
+    padding-right: 8px;
+    padding-left: 8px;
     border-radius: 5px;
     border: 1px solid #cecece;
     margin: 0px;
     background-color: #eaeaea;
     padding-top: 0px;
     padding-bottom: 0px;
-    height: 38px;
-    display: none;
+    height: 32px;
 }
 
 .quick_add_event_save_button:active {
@@ -632,15 +631,15 @@
     font-size: 11px;
     font-weight: bold;
     color: #6a6a6a;
-    padding-right: 13px;
-    padding-left: 13px;
+    padding-right: 8px;
+    padding-left: 8px;
     border-radius: 5px;
     border: 1px solid #cecece;
     margin: 0px;
     background-color: #eaeaea;
     padding-top: 0px;
     padding-bottom: 0px;
-    height: 38px;
+    height: 32px;
     background-image: none;
 }
 /*  date */
@@ -657,6 +656,17 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     background-repeat: repeat repeat;
+}
+
+/*  detail */
+.quick_add_event_date_div_detail {
+    min-width: 85px;
+    min-height: 37px;
+    right: -11px;
+    height: auto;
+    top: -1px;
+    display: inline-block;
+    position: relative;
 }
 
 /* add people */
@@ -728,7 +738,7 @@
 
 .quick_add_event_bar .maxlength-feedback{
     position: absolute !important;
-    left: 773px !important;
+    left: 755px !important;
     top: 18px !important;
     font-size: 10px !important;
     font-weight: normal;
