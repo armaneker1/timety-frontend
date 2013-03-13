@@ -524,7 +524,7 @@
 .quick_add_event_input{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
-   /*font-weight: bold;*/
+    /*font-weight: bold;*/
     color: #b1b1b1;
     background-color: transparent;
     border-top-style: none;
@@ -1107,3 +1107,31 @@
     text-align: center;
     padding-top: 19px;
 }
+
+
+/* search bar */
+.search_bar {
+    line-height: 36px;
+    border: 1px solid #cecece;
+    background-color: #eaeaea;
+    margin: 0px;
+    border-radius: 5px;
+    height: 36px;
+    vertical-align: middle;
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: bold;
+    color: #b1b1b1;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 5px;
+    margin-left: 94px;
+}
+
+.searchbtn2{
+    margin-left: 530px !important;
+    margin-top: -38px !important;
+    position: absolute !important;
+}
+

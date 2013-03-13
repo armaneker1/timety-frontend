@@ -45,7 +45,7 @@ if (empty($user)) {
                 <input name="" type="text" id="searchText" class="search_event_input" placeholder="search for events..." />
                 <button type="button" name="" value="" class="cbtn icon_bg"></button>                    
             </div>
-            <button type="button" name="" value="" class="searchbtn" style="display: none; cursor: pointer">Search</button>
+            <button type="button" name="" value="" class="searchbtn searchbtn2" style="display: none; cursor: pointer">Search</button>
 
             <!-- search button end -->
 
