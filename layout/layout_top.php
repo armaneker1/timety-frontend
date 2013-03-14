@@ -56,7 +56,7 @@ if (empty($user)) {
                        class="quick_add_event_input" 
                        name="" type="text"  
                        charlength="55"
-                       placeholder="Add Quick Event ..." />
+                       placeholder="Add Quick Event ... (@03.02.2013, @08:00)" />
                 <script>
                     jQuery("#te_quick_event_desc").maxlength({feedbackText: '{r}',showFeedback:"active"});
                 </script>
@@ -173,6 +173,8 @@ if (empty($user)) {
                 </div>
                 <div id="quick_add_event_date_div_detail" class="quick_add_event_date_div_detail">
                     <button id="quick_add_event_save_button_" type="button" name="" value="" class="quick_add_event_save_button" style="cursor: pointer">Add Detail</button>
+                    <p id="quick_event_date_text" class="prinpt pcolor_yesil quick_add_notf"  style="display: none"></p>
+                    <p id="quick_event_time_text" class="prinpt pcolor_yesil quick_add_notf"  style="display: none"></p>
                     <script type="text/javascript">
                         jQuery("#quick_add_event_save_button_").click(function(){
                             var val=jQuery("#te_quick_event_desc").val();
@@ -185,6 +187,12 @@ if (empty($user)) {
                         });
                     </script>
                 </div>
+                <div class="quick_add_time_hint_model" style="display: none;left: 0px;" id="quick_add_time_hint_model">
+                    <div class="kck_detay_ok"></div>
+                    <ul id="quick_add_time_hint_model_ul" style="width: 90%">
+
+                    </ul>
+                </div>
             </div>
             <!-- Add Quick Event -->
 
@@ -196,10 +204,11 @@ if (empty($user)) {
                     jQuery("#add_event_button").click(function(){
                         jQuery("#te_quick_add_event_bar").show();
                         jQuery(document).bind("click.quickadd",function(e){
-                            if(!(e && e.target && e.target.id && ((e.target.id+"")=="te_quick_add_event_bar" || jQuery(e.target).parents().is("#te_quick_add_event_bar") ||(e.target.id+"")=="div_follow_trans") ||  jQuery(e.target).parents().is("#div_follow_trans") || (e.target.id+"")=="add_event_button"))
+                            if(!(e && e.target && ((e.target.id+"")=="te_quick_add_event_bar" || jQuery(e.target).parents().is("#te_quick_add_event_bar") ||(e.target.id+"")=="div_follow_trans") ||  jQuery(e.target).parents().is("#div_follow_trans") || (e.target.id+"")=="add_event_button"))
                             {
                                 jQuery(document).unbind("click.quickadd");
                                 jQuery("#te_quick_add_event_bar").hide();
+                                jQuery("#quick_add_time_hint_model").hide();
                             }
                         });
                     });

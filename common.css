@@ -533,6 +533,8 @@
     border-left-style: none;
     width: 486px;
     outline: none;
+    float: left;
+    margin-top: 8px;
 }
 
 .quick_add_event_people_button{
@@ -624,6 +626,8 @@
     padding-top: 0px;
     padding-bottom: 0px;
     height: 32px;
+    float: right;
+    margin-top: 3px;
 }
 
 .quick_add_event_save_button:active {
@@ -641,6 +645,8 @@
     padding-bottom: 0px;
     height: 32px;
     background-image: none;
+    float: right;
+    margin-top: 3px;
 }
 /*  date */
 .quick_add_event_date_div_modal {
@@ -660,9 +666,9 @@
 
 /*  detail */
 .quick_add_event_date_div_detail {
-    min-width: 85px;
+    min-width: 180px;
     min-height: 37px;
-    right: -11px;
+    right: 3px;
     height: auto;
     top: -1px;
     display: inline-block;
@@ -738,7 +744,7 @@
 
 .quick_add_event_bar .maxlength-feedback{
     position: absolute !important;
-    left: 755px !important;
+    left: 744px !important;
     top: 18px !important;
     font-size: 10px !important;
     font-weight: normal;
@@ -1135,3 +1141,70 @@
     position: absolute !important;
 }
 
+.quick_add_time_hint_model {
+    background-image: url(images/p_bg.png);
+    background-repeat: repeat;
+    width: 204px;
+    position: relative;
+    z-index: 1000;
+    top: -10px;
+    right: -13px;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+.quick_add_time_hint_model .kck_detay_ok{
+    right: 0px;
+    left: 6px;
+}
+
+
+.quick_add_time_hint_model ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    display: table;
+}
+.quick_add_time_hint_model ul li {
+    line-height: 32px;
+    display: block;
+    min-height: 32px;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #c2c2c2;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #343434;
+    box-shadow: 0px 1px 0px #545454;
+    float: left;
+    width: 94%;
+}
+.quick_add_time_hint_model ul li:hover {
+    background-color:rgba(20,20,20,0.46);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #252525;
+    box-shadow:inset 0px 1px 0px #373737, 0px 1px 0px #191919;
+    line-height: 32px;
+    min-height: 32px;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #727272;
+    float: left;
+}
+
+.quick_add_notf{
+    cursor: pointer;
+    position: relative;
+    top: 3px;
+    padding-left: 3px;
+    float: right;
+    display: table;
+    padding-right: 3px;
+}

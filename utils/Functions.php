@@ -256,9 +256,9 @@ class UtilFunctions {
 
     public static function checkInvitationCode($invitationCode) {
         $res = new Result();
-        $res->success = false;
-        $res->error = true;
-        if (!empty($invitationCode)) {
+        $res->success = true;
+        $res->error = false;
+        /*if (!empty($invitationCode)) {
             $SQL = "SELECT * FROM timete_cupon WHERE id='" . $invitationCode . "' AND count>0";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
@@ -271,7 +271,7 @@ class UtilFunctions {
             $res->success = false;
             $res->error = true;
             $res->param = "Invitation code is empty";
-        }
+        }*/
         return $res;
     }
 

@@ -257,16 +257,16 @@ $upass = null;
         <?php include('layout/layout_top.php'); ?>
         <div id="create_account">
             <div class="create_acco_ust">Create Account</div>
-            <div class="create_acco_alt" style="height: 364px;">
+            <div class="create_acco_alt">
                 <form action="" method="post" name="registerPI">
-                    <div style="margin-left: 183px;">
+                    <div style="margin-left: 183px;display: none;">
                         <span class="create_acco_ust" style="background-image: url('');font-size: 14px;">Registration is invite only</span>
                     </div>
-                    <div style="margin-left: 209px;margin-bottom: 10px;">
+                    <div style="margin-left: 209px;margin-bottom: 10px;display: none;">
                         <input name="te_invitation_code" 
                                type="text"
                                id="te_invitation_code" 
-                               value="<?= $invitationCode ?>" 
+                               value="te_invitation_code" 
                                placeholder="Enter your invitation code here" 
                                class="user_inpt"
                                style="margin-top: 10px;"
