@@ -1,10 +1,375 @@
+var date_string="";
 jQuery(document).ready(function(){
-    jQuery("#te_quick_event_desc").keypress(function(e){
-        if(e.which == 13)
-            createEvent();
+    jQuery("#te_quick_event_desc").keyup(function(e){
+        if(e.which == 13){
+            if(jQuery("#quick_add_time_hint_model").is(":visible")){
+                jQuery("#quick_add_time_hint_model_ul").children()[0].click();
+                jQuery("#quick_add_time_hint_model").hide();
+            }else{
+                createEvent();
+            }
+        }else{
+            checkQuickEventInput(e);
+        }
     });
+    jQuery("#te_quick_event_desc").keydown(function(e){
+        if(e.which == 8 || e.which == 46)
+            setTimeout(function(){
+                checkQuickEventInput(e)
+            },30);
+    });
+    shortcut.add("down", function(){
+        jQuery("#quick_add_time_hint_model_ul").select();
+        jQuery("#quick_add_time_hint_model_ul").focus();
+        return false;
+    },{
+        target:jQuery("#te_quick_event_desc")[0]
+    });
+        
+    shortcut.add("tab", function(){
+        jQuery("#quick_add_time_hint_model_ul").select();
+        jQuery("#quick_add_time_hint_model_ul").focus();
+        return false;
+    },{
+        target:jQuery("#te_quick_event_desc")[0]
+    });
+    
 });
 var create_event_post=null;
+
+var date_var= {
+    'today'               : '{"id":"1","text":"Today","func":"setDateById"}',
+    'tomorrow'            : '{"id":"2","text":"Tomorrow","func":"setDateById"}',
+    'after'	          : '{"id":"3","text":"Day After Tomorrow","func":"setDateById"}',
+    'month'               : '{"id":"4","text":"Next Month","func":"setDateById"}',
+    'week'                : '{"id":"5","text":"Next Week","func":"setDateById"}',
+    'january'             : '{"id":"7","text":"January","func":"setDateById"}',
+    'february'            : '{"id":"8","text":"February","func":"setDateById"}',
+    'march'               : '{"id":"9","text":"March","func":"setDateById"}',
+    'april'               : '{"id":"10","text":"April","func":"setDateById"}',
+    'may'                 : '{"id":"11","text":"May","func":"setDateById"}',
+    'june'                : '{"id":"12","text":"June","func":"setDateById"}',
+    'july'                : '{"id":"13","text":"July","func":"setDateById"}',
+    'august'              : '{"id":"14","text":"August","func":"setDateById"}',
+    'september'           : '{"id":"15","text":"September","func":"setDateById"}',
+    'october'             : '{"id":"16","text":"October","func":"setDateById"}',
+    'november'            : '{"id":"17","text":"November","func":"setDateById"}',
+    'december'            : '{"id":"18","text":"December","func":"setDateById"}',
+    'tuesday'             : '{"id":"21","text":"Tuesday","func":"setDateById"}',
+    'wednesday'           : '{"id":"22","text":"Wednesday","func":"setDateById"}',
+    'thursday'            : '{"id":"23","text":"Thursday","func":"setDateById"}',
+    'friday'              : '{"id":"24","text":"Friday","func":"setDateById"}',
+    'monday'              : '{"id":"30","text":"Monday","func":"setDateById"}',
+    'saturday'            : '{"id":"25","text":"Saturday","func":"setDateById"}',
+    'sunday'              : '{"id":"26","text":"Sunday","func":"setDateById"}',
+    'year'                : '{"id":"29","text":"Next Year","func":"setDateById"}'
+};
+/* 
+    'day after'           : '{"id":"3","text":"Day After Tomorrow","func":"empty"}',
+    'next week'           : '{"id":"5","text":"Next Week","func":"empty"}',
+    'next year'           : '{"id":"27","text":"Today","func":"empty"}',
+    'next || monday'      : '{"id":"20","text":"Today","func":"empty"}',
+    '%s weeks later'      : '{"id":"6","text":"DDDDDD6","func":"empty"}',
+    '%s || january || %s' : '{"id":"28","text":"DDDDDD6","func":"empty"}'*/
+
+function showDateQA(value,text) {
+    if(value){
+        jQuery("#te_quick_event_date").val(value);
+        jQuery("#te_event_start_date").val(value);
+    }
+    if(text){
+        jQuery("#quick_event_date_text").text(text);
+        jQuery("#quick_event_date_text").show();
+    }else{
+        jQuery("#quick_event_date_text").hide();
+    }
+}
+
+function showTimeQA(value,text) {
+    if(value){
+        jQuery("#te_quick_event_time").val(value);
+        jQuery("#te_event_start_time").val(value);
+    }
+    if(text){
+        jQuery("#quick_event_time_text").text(text);
+        jQuery("#quick_event_time_text").show();
+    }else{
+        jQuery("#quick_event_time_text").hide();
+    }
+}
+
+function completeWord(text){
+    if(text){
+        var value=jQuery("#te_quick_event_desc").val();
+        value=value.trim();
+        var words=value.trim().split(" ");
+        var word=words[words.length-1];
+        value=value.substr(0,value.length- word.length)+text;
+        jQuery("#te_quick_event_desc").val(value+" ");
+    }
+}
+
+function setDateById(){
+    var id=jQuery(this).attr("_id");
+    var dat=null;
+    var stText="";
+    var dWeek=0;
+    var dNow=moment().day();
+    if(id=="1" || id==1){
+        stText="Today";
+        dat=moment().format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="2" || id==2){
+        stText="Tomorrow";
+        dat=moment().add("days",1).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="3" || id==3){
+        stText="Day After Tomorrow";
+        dat=moment().add("days",2).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="4" || id==4){
+        stText="Next Month";
+        dat=moment().add("months",1).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="5" || id==5){
+        stText="Next Week";
+        dat=moment().add("weeks",1).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="6" || id==6){
+        stText="Next Week";
+        dat=moment().add("weeks",1).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="7" || id==7){
+        stText="January";
+        dat=moment().month(0).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="8" || id==8){
+        stText="February";
+        dat=moment().month(1).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="9" || id==9){
+        stText="March";
+        dat=moment().month(2).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="10" || id==10){
+        stText="April";
+        dat=moment().month(3).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="11" || id==11){
+        stText="May";
+        dat=moment().month(4).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="12" || id==12){
+        stText="June";
+        dat=moment().month(5).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="13" || id==13){
+        stText="July";
+        dat=moment().month(6).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="14" || id==14){
+        stText="August";
+        dat=moment().month(7).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="15" || id==15){
+        stText="September";
+        dat=moment().month(8).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="16" || id==15){
+        stText="October";
+        dat=moment().month(9).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="17" || id==17){
+        stText="November";
+        dat=moment().month(10).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="18" || id==18){
+        stText="December";
+        dat=moment().month(11).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="21" || id==21){
+        stText="Tuesday";
+        dWeek=2;
+        if(dNow>dWeek){
+            dWeek+=7;
+        }
+        dat=moment().day(dWeek).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="22" || id==22){
+        stText="Wednesday";
+        dWeek=3;
+        if(dNow>dWeek){
+            dWeek+=7;
+        }
+        dat=moment().day(dWeek).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="23" || id==23){
+        stText="Thursday";
+        dWeek=4;
+        if(dNow>dWeek){
+            dWeek+=7;
+        }
+        dat=moment().day(dWeek).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="24" || id==24){
+        stText="Friday";
+        dWeek=5;
+        if(dNow>dWeek){
+            dWeek+=7;
+        }
+        dat=moment().day(dWeek).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="30" || id==30){
+        stText="Monday";
+        dWeek=1;
+        if(dNow>dWeek){
+            dWeek+=7;
+        }
+        dat=moment().day(dWeek).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="25" || id==25){
+        stText="Saturday";
+        dWeek=6;
+        if(dNow>dWeek){
+            dWeek+=7;
+        }
+        dat=moment().day(dWeek).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="26" || id==26){
+        stText="Sunday";
+        dWeek=0;
+        if(dNow>dWeek){
+            dWeek+=7;
+        }
+        dat=moment().day(dWeek).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }else if(id=="29" || id==29){
+        stText="Next Year";
+        dat=moment().add("years",1).format("DD.MM.YYYY");
+        showDateQA(dat,stText);
+    }
+    jQuery("#quick_add_time_hint_model").hide();
+}
+
+function setCustomDate(){
+    var stText=date_string.substr(1);
+    showDateQA(stText,stText);
+    jQuery("#quick_add_time_hint_model").hide();
+}
+
+function setCustomTime(){
+    var stText=date_string.substr(1);
+    showTimeQA(stText,stText);
+    jQuery("#quick_add_time_hint_model").hide();
+}
+
+function empty(){
+    alert("empty");
+}
+
+function getTimeHint(word){
+    if(word && word.length>2){
+        if(word.charAt(0)=='@'){
+            word=word.substr(1);
+        }
+        var hint=new Array();
+        for (var key in date_var) {
+            key=key.toLowerCase();
+            word=word.toLowerCase();
+            if(key.indexOf(word)==0){
+                hint[hint.length]=date_var[key];
+            }
+        }
+        if(hint.length>0){
+            return hint;
+        }else{
+            try{
+                var date1=moment(word,"DD.MM.YYYY");
+                var date2=moment(word,"DD/MM/YYYY");
+                var date3=moment(word,"HH:mm");
+                var date4=moment(word,"HH.mm");
+                
+                var customHint='{"id":"31","text":"';
+                var dateString2='","func":"';
+                var dateString3='"}';
+                var check=true;
+                if(date1.isValid()){
+                    customHint=customHint+'@'+date1.format("DD.MM.YYYY")+dateString2+'setCustomDate'+dateString3;
+                }else if(date2.isValid()){
+                    customHint=customHint+'@'+date2.format("DD.MM.YYYY")+dateString2+'setCustomDate'+dateString3;
+                }else if(date3.isValid()){
+                    customHint=customHint+'@'+date3.format("HH:mm")+dateString2+'setCustomTime'+dateString3;
+                }else if(date4.isValid()){
+                    customHint=customHint+'@'+date4.format("HH:mm")+dateString2+'setCustomTime'+dateString3;
+                }else{
+                    check=false;
+                }
+                if(check){
+                    hint[hint.length]=customHint;
+                    return hint;
+                }
+            }catch(exp){
+                console.log(exp);   
+            }
+        }
+    }
+    return false;
+}
+
+function checkQuickEventInput(event){
+    var modal=jQuery("#quick_add_time_hint_model");
+    var modal_ul=jQuery("#quick_add_time_hint_model_ul");
+    var value=jQuery("#te_quick_event_desc").val();
+    var show=false;
+    if(value!=jQuery("#te_quick_event_desc").attr("placeholder")){
+        // simple words
+        var words=value.trim().split(" ");
+        modal_ul.children().remove();
+        if(words && words.length>0){
+            var word=words[words.length-1];
+            var hint=getTimeHint(word);
+            if(hint){
+                show=true;  
+                var idArray=new Array();
+                for(var i=0;i<hint.length;i++){
+                    var data=hint[i];
+                    try{
+                        if(typeof data == "string"){
+                            data= jQuery.parseJSON(data);
+                        }
+                    }catch(e) {
+                        console.log(e);
+                    }
+                    if(!idArray[data.id]){
+                        idArray[data.id]=true;
+                        var li=createQuickAddHintLi(modal_ul,data.text,window[data.func]);
+                        li.attr("_id",data.id);
+                    }
+                }
+            }
+        }
+    }
+    if(show){
+        modal.css("left",value.trim().length*6);
+        modal.show();
+    }else{
+        modal.hide();
+    }
+}
+
+function createQuickAddHintLi(modal_ul,text,action){
+    var li_html='<li style="cursor:pointer;width: 100%;" title="'+text+'"><button type="button" class="ekle icon_bg"></button><span>'+text+'</span></li>';
+    var item=jQuery(li_html);
+    if(jQuery.isFunction( action)){
+        item.click(function(){ 
+            date_string=text;
+            completeWord(text);
+        }); 
+        item.click(action); 
+    }
+    modal_ul.append(item);
+    return item;
+}
 
 function createEvent(){
     var event_description=jQuery("#te_quick_event_desc").val();
@@ -73,6 +438,7 @@ function createEvent(){
                     
                             if(!dataJSON || !dataJSON.success)
                             {
+                                console.log(dataJSON);
                                 getInfo(true, "An erroroccured", "error", 4000);
                                 getLoader(false);
                                 return;
