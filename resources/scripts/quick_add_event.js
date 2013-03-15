@@ -680,13 +680,13 @@ function getPrepopulatePeopleList(){
     var event_peoples= jQuery("#te_quick_event_desc").data("people_array");
     var usr_id;
     var usr;
-    var tmp=new Object();
     var list=new Array();
     for(var i=0;event_peoples && i<event_peoples.length;i++){
         usr_id=event_peoples[i];
         for(var j=0;local_quick_follwer_list && j<local_quick_follwer_list.length;j++){
             usr=local_quick_follwer_list[j];
             if(usr.id==usr_id){
+                var tmp=new Object();
                 tmp.id=usr.id;
                 tmp.label=usr.label;
                 list[list.length]=tmp;
