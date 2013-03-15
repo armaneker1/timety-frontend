@@ -241,26 +241,40 @@ if (empty($user)) {
             <?php
             if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
                 ?>
-                <script type="text/javascript">
-                    jQuery("#add_event_button").click(function(){
-                        jQuery("#te_quick_add_event_bar").show();
-                        checkFollowerList();
-                        jQuery(document).bind("click.quickadd",function(e){
-                            if(!(e && e.target && ((e.target.id+"")=="te_quick_add_event_bar" || jQuery(e.target).parents().is("#te_quick_add_event_bar") ||(e.target.id+"")=="div_follow_trans") ||  jQuery(e.target).parents().is("#div_follow_trans") || (e.target.id+"")=="add_event_button"))
-                            {
-                                jQuery(document).unbind("click.quickadd");
-                                jQuery("#te_quick_add_event_bar").hide();
-                                jQuery("#quick_add_time_hint_model").hide();
-                            }
+                <?php if ((isset($profile_page_type) && $profile_page_type == "profile") || (isset($editevent_page_type) && $editevent_page_type == "eidtevent")) {
+                    ?>
+                    <script type="text/javascript">
+                        jQuery("#add_event_button").click(function(){
+                            window.location=TIMETY_HOSTNAME+"?addevent=1";
+                        }); 
+                    </script>
+                    <?php
+                } else {
+                    ?>
+                    <script type="text/javascript">
+                        jQuery("#add_event_button").click(function(){
+                            jQuery("#te_quick_add_event_bar").show();
+                            checkFollowerList();
+                            jQuery(document).bind("click.quickadd",function(e){
+                                if(!(e && e.target && ((e.target.id+"")=="te_quick_add_event_bar" || jQuery(e.target).parents().is("#te_quick_add_event_bar") ||(e.target.id+"")=="div_follow_trans") ||  jQuery(e.target).parents().is("#div_follow_trans") || (e.target.id+"")=="add_event_button"))
+                                {
+                                    jQuery(document).unbind("click.quickadd");
+                                    jQuery("#te_quick_add_event_bar").hide();
+                                    jQuery("#quick_add_time_hint_model").hide();
+                                }
+                            });
                         });
-                    });
-                    jQuery("#add_event_button").click(btnClickStartAddEvent);
-                </script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879100"></script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js?2013080897276"></script>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.min.js"></script>
-            <?php } ?>
-            <?php if (empty($user->id)) { ?>
+                        jQuery("#add_event_button").click(btnClickStartAddEvent);
+                    </script>
+                    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879100"></script>
+                    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js?2013080897276"></script>
+                    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.min.js"></script>
+
+                <?php
+                }
+            }
+            ?>
+<?php if (empty($user->id)) { ?>
                 <script>sessionStorage.setItem('id','');</script>
                 <script type="text/javascript">
                     function  to_home() {
@@ -272,9 +286,11 @@ if (empty($user)) {
 
             <?php
             if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
-                ?>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js"></script>
-            <?php } ?>
+                if (!((isset($profile_page_type) && $profile_page_type == "profile") || (isset($editevent_page_type) && $editevent_page_type == "eidtevent"))) {
+                    ?>
+                    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js"></script>
+    <?php }
+} ?>
         </div>
     </div>
     <div id="top_blm_sag">
@@ -283,7 +299,7 @@ if (empty($user)) {
             if ($user->status > 2) {
                 ?>
                 <script>
-        <?php if (isset($profile_page_type) && $profile_page_type == "profile") {
+        <?php if ((isset($profile_page_type) && $profile_page_type == "profile") || (isset($editevent_page_type) && $editevent_page_type == "eidtevent")) {
             ?>
                     function changeChannel(item){
                         var channel=jQuery(item).attr("channelId");
@@ -359,7 +375,7 @@ if (empty($user)) {
                 <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
                     <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-                    <?php } ?>
+        <?php } ?>
                 </div>
                 <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                     <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
@@ -369,8 +385,8 @@ if (empty($user)) {
                         </ul>
                     </div>
                 </div>
-            <?php } else {
-                ?>
+    <?php } else {
+        ?>
                 <div class="top_menu">
                     <ul>
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
@@ -379,7 +395,7 @@ if (empty($user)) {
                 <div class="avatar" id="te_avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
                     <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-                    <?php } ?>
+        <?php } ?>
                 </div>
                 <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                     <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
@@ -407,6 +423,6 @@ if (empty($user)) {
             ?>
             <div class="t_account"><a href="<?= PAGE_SIGNUP ?>" class="cr_acc <?= $create_class ?>">create account</a><a href="<?= PAGE_LOGIN ?>" class="sgn_in <?= $signin_class ?>">sign-in </a></div>
 
-        <?php } ?>
+<?php } ?>
     </div>
 </div>

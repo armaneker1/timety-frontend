@@ -785,6 +785,18 @@ if (empty($user)) {
             </script>
             <!-- channel -->
         <?php } ?>
+            
+            
+            <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
+            <!-- channel -->
+            <script>
+                jQuery(document).ready(function(){
+                    jQuery("#add_event_button").click();
+                    jQuery("#te_quick_event_desc").focus();
+                });
+            </script>
+            <!-- channel -->
+        <?php } ?>
 
         <?php if (isset($_GET['l']) && $_GET['l'] == "1") {
             ?>
