@@ -11,7 +11,7 @@ function checkFollowerList(){
         }
    
         jQuery.sessionphp.get('id',function(userId){
-            userId=6618346;
+            //userId=6618346;
             if(userId){
                 jQuery.ajax({
                     type: 'GET',
