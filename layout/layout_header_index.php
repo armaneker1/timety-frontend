@@ -34,7 +34,7 @@ if (!isset($timety_header)) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?20130899986" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?20130899999" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -81,7 +81,7 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.min.js"></script>
 <script src="<?= HOSTNAME ?>fileuploader.min.js" type="text/javascript"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_event_invite_people.min.js?223d0225116"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_add_event.min.js?1212121121"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_add_event.min.js?231231236"></script>
 <script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.min.js?20131224226332" type="text/javascript"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/moment.min.js?22320225213"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.min.js?22320225213"></script>

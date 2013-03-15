@@ -666,7 +666,7 @@
 
 /*  detail */
 .quick_add_event_date_div_detail {
-    min-width: 200px;
+    width: auto;
     min-height: 37px;
     right: 3px;
     height: auto;
@@ -1207,4 +1207,5 @@
     float: right;
     display: table;
     padding-right: 3px;
+    width: auto;
 }
