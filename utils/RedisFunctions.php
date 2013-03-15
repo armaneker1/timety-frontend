@@ -518,7 +518,6 @@ class RedisUtils {
     public static function getFriendList($userId, $query, $followers) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
-            //$log->logError("RedisUtils > getFriendList > userId : $userId query : $query followers : $followers");
             $suffix = REDIS_SUFFIX_FRIEND_FOLLOWING;
             if ($followers == 1 || $followers == "1") {
                 $suffix = REDIS_SUFFIX_FRIEND_FOLLOWERS;
@@ -531,6 +530,7 @@ class RedisUtils {
                     $usr = json_decode($usr);
                     $usr = UtilFunctions::cast("User", $usr);
                     if (!empty($query) && $query != "*") {
+                        $query = trim($query);
                         $search_test = $usr->firstName . " " . $usr->lastName . " " . $usr->userName;
                         if (strpos($search_test, $query) > -1)
                             array_push($result, $usr);

@@ -1144,7 +1144,7 @@
 .quick_add_time_hint_model {
     background-image: url(images/p_bg.png);
     background-repeat: repeat;
-    width: 204px;
+    width: auto;
     position: relative;
     z-index: 1000;
     top: -10px;
@@ -1153,6 +1153,7 @@
     padding-top: 10px;
     padding-bottom: 6px;
     margin-bottom: 10px;
+    display: table;
 }
 
 .quick_add_time_hint_model .kck_detay_ok{
@@ -1185,6 +1186,20 @@
     width: 94%;
 }
 .quick_add_time_hint_model ul li:hover {
+    background-color:rgba(20,20,20,0.46);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #252525;
+    box-shadow:inset 0px 1px 0px #373737, 0px 1px 0px #191919;
+    line-height: 32px;
+    min-height: 32px;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    color: #727272;
+    float: left;
+}
+.quick_add_time_hint_model_ul_li_selected {
     background-color:rgba(20,20,20,0.46);
     border-bottom-width: 1px;
     border-bottom-style: solid;

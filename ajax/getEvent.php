@@ -18,9 +18,9 @@ $res->success=false;
 if(!empty($eventId))
 {
    $result=Neo4jEventUtils::getEventFromNode($eventId,TRUE);
-   $result->getHeaderImage();
    if(!empty($result))
    {
+       $result->getHeaderImage();
        $json_response = json_encode($result);
        echo $json_response;
    }else

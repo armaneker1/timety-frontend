@@ -526,7 +526,7 @@ if ($showPopup) {
 
             <!-- People -->
             <div class="eam_bg">
-                <div class="eam_bg_orta input_border" 
+                <div class="eam_bg_orta input_border token_inpt_people" 
                      style="width: 570px;min-height: 40px;height: auto;margin-top: 15px;">
 
                     <input name="te_event_people" type="text" class="eam_inpt_b"

@@ -1,13 +1,100 @@
-var date_string="";
+var quick_hint_object="";
+var local_quick_follwer_list=null;
+
+function checkFollowerList(){
+    if(!local_quick_follwer_list){
+        try{
+            local_quick_follwer_list=localStorage.getItem("local_quick_follwer_list");
+            local_quick_follwer_list=JSON.parse(local_quick_follwer_list);
+        }catch(exp){
+            console.log(exp)
+        }
+   
+        jQuery.sessionphp.get('id',function(userId){
+            userId=6618346;
+            if(userId){
+                jQuery.ajax({
+                    type: 'GET',
+                    url: TIMETY_PAGE_AJAX_GETPEOPLEORGROUP+"",
+                    dataType:'json',
+                    contentType: "application/json",
+                    data: {
+                        'u':userId,
+                        'term':"*",
+                        'followers':1
+                    },
+                    error: function (request, status, error) {
+                        console.log(error);
+                    },
+                    success: function(data){
+                        try{
+                            if(typeof data == "string") {
+                                data= jQuery.parseJSON(data);
+                            } else  {
+                                data=data;   
+                            }
+                        }catch(e) {
+                            console.log(e);
+                            console.log(data);
+                        }
+                    
+                        if(data && data.length>0){
+                            local_quick_follwer_list=data;
+                            localStorage.setItem("local_quick_follwer_list",local_quick_follwer_list.toJSON());
+                        }
+                    }
+                },"json");
+            }
+        });
+    }
+}
+
+var selected_hint_element_index=null;
+
+function setSelectedHint(index){
+    if(index>=0 &&  jQuery("#quick_add_time_hint_model_ul li").length>index){
+        selected_hint_element_index=index;
+        jQuery(".quick_add_time_hint_model_ul_li_selected").removeClass("quick_add_time_hint_model_ul_li_selected");
+        var el=jQuery("#quick_add_time_hint_model_ul li")[index];
+        jQuery(el).addClass("quick_add_time_hint_model_ul_li_selected");
+    }
+}
+
+function selectNextHint(){
+    setSelectedHint(selected_hint_element_index+1);
+}
+
+function selectPrevHint(){
+    setSelectedHint(selected_hint_element_index-1);
+}
+
+function selectElementHint(){
+    var order=jQuery(this).attr("order");
+    setSelectedHint(order);
+}
+
+function clickSelectedHint(){
+    jQuery("#quick_add_time_hint_model_ul li")[selected_hint_element_index].click();
+    jQuery("#quick_add_time_hint_model").hide();
+}
+
 jQuery(document).ready(function(){
     jQuery("#te_quick_event_desc").keyup(function(e){
         if(e.which == 13){
             if(jQuery("#quick_add_time_hint_model").is(":visible")){
-                jQuery("#quick_add_time_hint_model_ul").children()[0].click();
-                jQuery("#quick_add_time_hint_model").hide();
+                clickSelectedHint();
             }else{
                 createEvent();
             }
+        }else if(e.which == 38){
+            //UP
+            selectPrevHint();
+        }else if(e.which == 40){
+            //DOWN
+            selectNextHint();
+        }else if(e.which == 9){
+            //TAB
+            clickSelectedHint();
         }else{
             checkQuickEventInput(e);
         }
@@ -82,6 +169,9 @@ function showDateQA(value,text) {
         jQuery("#quick_event_date_text").show();
     }else{
         jQuery("#quick_event_date_text").hide();
+    }
+    if(!jQuery("#te_quick_event_time").val()){
+        jQuery("#te_quick_event_time").val(moment().add("hours",2).format("HH")+":00");
     }
 }
 
@@ -252,14 +342,68 @@ function setDateById(){
 }
 
 function setCustomDate(){
-    var stText=date_string.substr(1);
+    var stText=quick_hint_object.substr(1);
     showDateQA(stText,stText);
     jQuery("#quick_add_time_hint_model").hide();
 }
 
 function setCustomTime(){
-    var stText=date_string.substr(1);
+    var stText=quick_hint_object.substr(1);
     showTimeQA(stText,stText);
+    jQuery("#quick_add_time_hint_model").hide();
+}
+
+function addQPersonData(id){
+    remQPersonData(id);
+    var data=jQuery("#te_quick_event_desc").data("people_array");
+    if(!data || data.length<1){
+        data = new Array();
+    }
+    data[data.length] = id+"";
+    jQuery("#te_quick_event_desc").data("people_array",data);
+}
+function remQPersonData(id){
+    var data=jQuery("#te_quick_event_desc").data("people_array");
+    if(!data || data.length<1){
+        data = new Array();
+    }
+    var data2=new Array();
+    j=0;
+    for(var i=0;i<data.length;i++){
+        var dat=data[i];
+        if(dat){
+            if(dat!=(id+"")){
+                data2[j]=dat;
+                j++;
+            }
+        }
+    }
+    jQuery("#te_quick_event_desc").data("people_array",data2);
+}
+
+function addPeople(){
+    var stText=quick_hint_object;
+    var data=jQuery(this).data("data");
+    try{
+        if(typeof data == "string"){
+            data= jQuery.parseJSON(data);
+        }
+    }catch(e) {
+        console.log(e);
+    }
+    if(data){
+        var id=data.user_id;
+        stText=data.user_name;
+        if(id){
+            addQPersonData(id);
+            var event_peoples= jQuery("#te_quick_event_desc").data("people_array");
+            if(event_peoples && event_peoples.length>1){
+                stText=stText+"+"+(event_peoples.length-1);
+            }
+            jQuery("#quick_event_people_text").text(stText);
+            jQuery("#quick_event_people_text").show();
+        }
+    }
     jQuery("#quick_add_time_hint_model").hide();
 }
 
@@ -280,37 +424,79 @@ function getTimeHint(word){
                 hint[hint.length]=date_var[key];
             }
         }
+        var customHint;
+         
+        try{
+            var date1=moment(word,"DD.MM.YYYY");
+            var date2=moment(word,"DD/MM/YYYY");
+            var date3=moment(word,"HH:mm");
+            var date4=moment(word,"HH.mm");
+            var min="00";
+            var minTmp="";   
+            customHint='{"id":"31","text":"';
+            var dateString2='","func":"';
+            var dateString3='"}';
+            var check=true;
+            if(date1.isValid()){
+                customHint=customHint+'@'+date1.format("DD.MM.YYYY")+dateString2+'setCustomDate'+dateString3;
+            }else if(date2.isValid()){
+                customHint=customHint+'@'+date2.format("DD.MM.YYYY")+dateString2+'setCustomDate'+dateString3;
+            }else if(date3.isValid()){
+                minTmp=date3.format("mm");
+                if(minTmp<15){
+                    min="00";
+                }else if(minTmp<30){
+                    min="15";
+                }else if(minTmp<45){
+                    min="30";
+                }else if(minTmp<=59){
+                    min="45";
+                }
+                customHint=customHint+'@'+date3.format("HH:")+min+dateString2+'setCustomTime'+dateString3;
+            }else if(date4.isValid()){
+                minTmp=date3.format("mm");
+                if(minTmp<15){
+                    min="00";
+                }else if(minTmp<30){
+                    min="15";
+                }else if(minTmp<45){
+                    min="30";
+                }else if(minTmp<=59){
+                    min="45";
+                }
+                customHint=customHint+'@'+date4.format("HH:")+min+dateString2+'setCustomTime'+dateString3;
+            }else{
+                check=false;
+            }
+            if(check){
+                hint[hint.length]=customHint;
+            }
+        }catch(exp){
+            console.log(exp);   
+        }
+        
+        try{    
+            customHint='{"id":"';
+            var customHint1='","text":"';
+            var customHint2='","func":"';
+            var customHint3='","user_id":"';
+            var customHint4='","user_name":"';
+            var customHint5='"}';
+            var usr;
+            if(local_quick_follwer_list && local_quick_follwer_list.length>0){
+                for(var i=0;i<local_quick_follwer_list.length;i++){
+                    usr= local_quick_follwer_list[i];
+                    if(usr.label.indexOf(word)>=0){
+                        hint[hint.length]=customHint+'32'+usr.id+customHint1+usr.label+customHint2+'addPeople'+customHint3+usr.id+customHint4+usr.firstName+customHint5;
+                    }
+                }
+            }
+        }catch(exp){
+            console.log(exp);   
+        }
+        
         if(hint.length>0){
             return hint;
-        }else{
-            try{
-                var date1=moment(word,"DD.MM.YYYY");
-                var date2=moment(word,"DD/MM/YYYY");
-                var date3=moment(word,"HH:mm");
-                var date4=moment(word,"HH.mm");
-                
-                var customHint='{"id":"31","text":"';
-                var dateString2='","func":"';
-                var dateString3='"}';
-                var check=true;
-                if(date1.isValid()){
-                    customHint=customHint+'@'+date1.format("DD.MM.YYYY")+dateString2+'setCustomDate'+dateString3;
-                }else if(date2.isValid()){
-                    customHint=customHint+'@'+date2.format("DD.MM.YYYY")+dateString2+'setCustomDate'+dateString3;
-                }else if(date3.isValid()){
-                    customHint=customHint+'@'+date3.format("HH:mm")+dateString2+'setCustomTime'+dateString3;
-                }else if(date4.isValid()){
-                    customHint=customHint+'@'+date4.format("HH:mm")+dateString2+'setCustomTime'+dateString3;
-                }else{
-                    check=false;
-                }
-                if(check){
-                    hint[hint.length]=customHint;
-                    return hint;
-                }
-            }catch(exp){
-                console.log(exp);   
-            }
         }
     }
     return false;
@@ -331,6 +517,7 @@ function checkQuickEventInput(event){
             if(hint){
                 show=true;  
                 var idArray=new Array();
+                var order=0;
                 for(var i=0;i<hint.length;i++){
                     var data=hint[i];
                     try{
@@ -342,14 +529,19 @@ function checkQuickEventInput(event){
                     }
                     if(!idArray[data.id]){
                         idArray[data.id]=true;
-                        var li=createQuickAddHintLi(modal_ul,data.text,window[data.func]);
+                        var li=createQuickAddHintLi(modal_ul,data.text,window[data.func],data.user_name);
+                        li.mouseover(selectElementHint);
+                        li.attr("order",order);
+                        order++;
                         li.attr("_id",data.id);
+                        li.data("data",data);
                     }
                 }
             }
         }
     }
     if(show){
+        setSelectedHint(0);
         modal.css("left",value.trim().length*6);
         modal.show();
     }else{
@@ -357,12 +549,14 @@ function checkQuickEventInput(event){
     }
 }
 
-function createQuickAddHintLi(modal_ul,text,action){
-    var li_html='<li style="cursor:pointer;width: 100%;" title="'+text+'"><button type="button" class="ekle icon_bg"></button><span>'+text+'</span></li>';
+function createQuickAddHintLi(modal_ul,text,action,text2){
+    var li_html='<li style="cursor:pointer;width: 100%;" title="'+text+'"><button type="button" class="ekle icon_bg"></button><span>'+text+'</span></li><br/>';
     var item=jQuery(li_html);
     if(jQuery.isFunction( action)){
         item.click(function(){ 
-            date_string=text;
+            quick_hint_object=text;
+            if(text2)
+                text=text2;
             completeWord(text);
         }); 
         item.click(action); 
@@ -379,7 +573,7 @@ function createEvent(){
     }
     var event_start_date=jQuery("#te_quick_event_date").val();
     var event_start_time=jQuery("#te_quick_event_time").val();
-    var event_peoples= jQuery("#te_quick_event_people_btn").data("people_array");
+    var event_peoples= jQuery("#te_quick_event_desc").data("people_array");
     var event_peoples_list="";
     for(var i=0;event_peoples && i<event_peoples.length;i++){
         var per=event_peoples[i];
@@ -469,4 +663,42 @@ function createEvent(){
             }
         });
     }
+}
+
+function getPrepopulatePeopleList(){
+    var event_peoples= jQuery("#te_quick_event_desc").data("people_array");
+    var usr_id;
+    var usr;
+    var tmp=new Object();
+    var list=new Array();
+    for(var i=0;event_peoples && i<event_peoples.length;i++){
+        usr_id=event_peoples[i];
+        for(var j=0;local_quick_follwer_list && j<local_quick_follwer_list.length;j++){
+            usr=local_quick_follwer_list[j];
+            if(usr.id==usr_id){
+                tmp.id=usr.id;
+                tmp.label=usr.label;
+                list[list.length]=tmp;
+                break;
+            }
+        }
+    }
+    return list;
+}
+
+function clearAllQuickAdd(){
+    jQuery("#quick_event_people_text").text("");
+    jQuery("#quick_event_people_text").hide();
+    jQuery("#quick_event_time_text").text("");
+    jQuery("#quick_event_time_text").hide();
+    jQuery("#quick_event_date_text").text("");
+    jQuery("#quick_event_date_text").hide();
+    jQuery("#te_quick_event_desc").val("");
+    jQuery("#te_quick_event_date").val("");
+    jQuery("#te_quick_event_time").val("");
+    jQuery("#te_quick_event_desc").data("people_array",null);
+    jQuery("#te_quick_event_location").val("");
+    jQuery("#te_quick_event_loc_inpt").val("");
+    jQuery("#te_quick_add_event_bar").hide();
+    
 }

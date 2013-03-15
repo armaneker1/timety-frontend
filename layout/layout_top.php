@@ -175,21 +175,62 @@ if (empty($user)) {
                     <button id="quick_add_event_save_button_" type="button" name="" value="" class="quick_add_event_save_button" style="cursor: pointer">Add Detail</button>
                     <p id="quick_event_date_text" class="prinpt pcolor_yesil quick_add_notf"  style="display: none"></p>
                     <p id="quick_event_time_text" class="prinpt pcolor_yesil quick_add_notf"  style="display: none"></p>
+                    <p id="quick_event_people_text" class="prinpt pcolor_yesil quick_add_notf"  style="display: none"></p>
                     <script type="text/javascript">
                         jQuery("#quick_add_event_save_button_").click(function(){
+                            /*
+                             * add desc
+                             */
                             var val=jQuery("#te_quick_event_desc").val();
                             var placeholder=jQuery("#te_quick_event_desc").attr("placeholder");
                             if(val && placeholder!=val){
                                 jQuery("#te_event_title").val(val);
                                 jQuery("#te_event_description").val(val);
                             }
+                            /*
+                             * add people
+                             */
+                            jQuery('.token_inpt_people .token-input-list-custom').remove();
+                            var people=getPrepopulatePeopleList();
+                            jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
+                                theme: "custom",
+                                userId :"<?= $user->id ?>",
+                                queryParam : "term",
+                                minChars : 2,
+                                placeholder : "add people manually",
+                                preventDuplicates : true,
+                                input_width:160,
+                                add_maunel:true,
+                                add_mauel_validate_function : validateEmailRegex,
+                                propertyToSearch: "label",
+                                resultsFormatter:function(item) {
+                                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
+                                },
+                                onAdd: function() {
+                                    return true;
+                                },
+                                processPrePopulate : false,
+                                prePopulate : people
+                            });
+                            /*
+                             * date and time  aleady set before
+                             */         
                             openCreatePopup();
+                            /*
+                             * set time 
+                             */
+                            if(jQuery("#te_quick_event_time").val())
+                                jQuery("#te_event_start_time").val(jQuery("#te_quick_event_time").val());
+                            /*
+                             * clear and close quick add
+                             */
+                            clearAllQuickAdd();
                         });
                     </script>
                 </div>
                 <div class="quick_add_time_hint_model" style="display: none;left: 0px;" id="quick_add_time_hint_model">
                     <div class="kck_detay_ok"></div>
-                    <ul id="quick_add_time_hint_model_ul" style="width: 90%">
+                    <ul id="quick_add_time_hint_model_ul" style="width: auto;padding-right: 21px;">
 
                     </ul>
                 </div>
@@ -203,6 +244,7 @@ if (empty($user)) {
                 <script type="text/javascript">
                     jQuery("#add_event_button").click(function(){
                         jQuery("#te_quick_add_event_bar").show();
+                        checkFollowerList();
                         jQuery(document).bind("click.quickadd",function(e){
                             if(!(e && e.target && ((e.target.id+"")=="te_quick_add_event_bar" || jQuery(e.target).parents().is("#te_quick_add_event_bar") ||(e.target.id+"")=="div_follow_trans") ||  jQuery(e.target).parents().is("#div_follow_trans") || (e.target.id+"")=="add_event_button"))
                             {
