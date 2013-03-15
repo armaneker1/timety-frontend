@@ -56,7 +56,7 @@ if (empty($user)) {
                        class="quick_add_event_input" 
                        name="" type="text"  
                        charlength="55"
-                       placeholder="Add Quick Event ... (@03.02.2013, @08:00)" />
+                       placeholder="e.g. meeting tomorrow with Dave, Jesse @09:00 at office" />
                 <script>
                     jQuery("#te_quick_event_desc").maxlength({feedbackText: '{r}',showFeedback:"active"});
                 </script>

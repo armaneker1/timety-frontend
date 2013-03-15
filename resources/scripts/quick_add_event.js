@@ -711,5 +711,6 @@ function clearAllQuickAdd(){
     jQuery("#te_quick_event_location").val("");
     jQuery("#te_quick_event_loc_inpt").val("");
     jQuery("#te_quick_add_event_bar").hide();
+    jQuery("#quick_add_time_hint_model").hide();
     
 }

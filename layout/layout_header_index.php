@@ -69,7 +69,7 @@ if (!isset($timety_header)) {
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/google.maps.api.min.js?2013030091212"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/analyticstool.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.min.js?201302251300"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js?5678"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/timeline.min.js?4"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.jscroll.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/bootstrap/bootstrap-tooltip.min.js?201302251210"></script>
