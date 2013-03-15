@@ -486,7 +486,7 @@ function getTimeHint(word){
             if(local_quick_follwer_list && local_quick_follwer_list.length>0){
                 for(var i=0;i<local_quick_follwer_list.length;i++){
                     usr= local_quick_follwer_list[i];
-                    if(usr.label.indexOf(word)>=0){
+                    if(usr.label.toLowerCase().indexOf(word.toLowerCase())>=0){
                         hint[hint.length]=customHint+'32'+usr.id+customHint1+usr.label+customHint2+'addPeople'+customHint3+usr.id+customHint4+usr.firstName+customHint5;
                     }
                 }
