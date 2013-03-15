@@ -1266,6 +1266,7 @@ if (empty($user)) {
 <?php } ?>
             <!-- profil box -->
         </div>
+        <div id="te_faux"  style="visibility: hidden;display: inline"></div>
     </body>
 <?php include('layout/template_createevent.php'); ?>
 </html>

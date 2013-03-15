@@ -78,7 +78,18 @@ function clickSelectedHint(){
     jQuery("#quick_add_time_hint_model").hide();
 }
 
+function getDescriptionCursorLoctaion(){
+    var value=jQuery("#te_quick_event_desc").val();
+    value=value.trim();
+    var words=value.trim().split(" ");
+    var word=words[words.length-1];
+    value=value.substr(0,value.length- word.length);
+    jQuery("#te_faux").text(value.replace(/\s/g, "\u00a0"));
+    return jQuery("#te_faux").outerWidth()-9;
+}
+
 jQuery(document).ready(function(){
+    
     jQuery("#te_quick_event_desc").keyup(function(e){
         if(e.which == 13){
             if(jQuery("#quick_add_time_hint_model").is(":visible")){
@@ -542,7 +553,7 @@ function checkQuickEventInput(event){
     }
     if(show){
         setSelectedHint(0);
-        modal.css("left",value.trim().length*6);
+        modal.css("left",getDescriptionCursorLoctaion());
         modal.show();
     }else{
         modal.hide();
