@@ -642,7 +642,11 @@ if (empty($user)) {
                             return true;
                         },
                         processPrePopulate : false,
-                        prePopulate : <?php echo $var_tag; ?>	
+                        prePopulate : <?php if (!empty($var_tags)) {
+                                        echo $var_tags;
+                                    } else {
+                                        echo "[]";
+                                    } ?>	
                     });	
 
                     jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 

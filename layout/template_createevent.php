@@ -527,7 +527,7 @@ if ($showPopup) {
             <!-- People -->
             <div class="eam_bg">
                 <div class="eam_bg_orta input_border" 
-                     style="width: 570px;min-height: 40px;height: auto;margin-top: 15px;border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
+                     style="width: 570px;min-height: 40px;height: auto;margin-top: 15px;">
 
                     <input name="te_event_people" type="text" class="eam_inpt_b"
                            id="te_event_people" value="" placeholder="add people manually" />
