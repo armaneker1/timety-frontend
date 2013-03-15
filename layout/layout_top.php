@@ -221,6 +221,7 @@ if (empty($user)) {
                              */
                             if(jQuery("#te_quick_event_time").val())
                                 jQuery("#te_event_start_time").val(jQuery("#te_quick_event_time").val());
+                            checkCreateDateTime();
                             /*
                              * clear and close quick add
                              */

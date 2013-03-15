@@ -402,7 +402,7 @@ if ($showPopup) {
             <!-- Category -->
             <!--
             <?php
-            $categories = $null; //Neo4jTimetyCategoryUtil::getTimetyList("*");
+            $categories = null; //Neo4jTimetyCategoryUtil::getTimetyList("*");
             ?>
             <span class="ts_box">Select Category :</span>
 

@@ -120,6 +120,7 @@ if (isset($_GET)) {
             echo json_encode($result);
         }
     } else {
+        $result=new Result();
         $result->success = false;
         $result->error = true;
         $result->param = $msgs;

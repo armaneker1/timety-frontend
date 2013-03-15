@@ -184,6 +184,7 @@ function showDateQA(value,text) {
     if(!jQuery("#te_quick_event_time").val()){
         jQuery("#te_quick_event_time").val(moment().add("hours",2).format("HH")+":00");
     }
+    checkCreateDateTime();
 }
 
 function showTimeQA(value,text) {
@@ -197,6 +198,7 @@ function showTimeQA(value,text) {
     }else{
         jQuery("#quick_event_time_text").hide();
     }
+    checkCreateDateTime();
 }
 
 function completeWord(text){
