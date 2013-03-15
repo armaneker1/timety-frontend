@@ -275,6 +275,9 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnLike).attr("class_aktif","like_btn_aktif");
             jQuery(btnLike).attr("id","div_like_btn");
             jQuery(btnLike).attr("class_pass","like_btn");
+            if(userId==data.creatorId){
+                jQuery(btnLike).css("display","none");  
+            }
             if(data.userRelation.like)
             {
                 jQuery(btnLike).addClass('like_btn_aktif'); 
@@ -300,6 +303,9 @@ function wookmarkHTML(dataArray,userId)
             if(userId==data.creatorId){
                 jQuery(btnMaybe).css("display","none");  
             }
+            if(userId==data.creatorId){
+                jQuery(btnMaybe).css("display","none");  
+            }
             if(data.userRelation.joinType==2)
             {
                 jQuery(btnMaybe).addClass('maybe_btn_aktif'); 
@@ -322,6 +328,9 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnShare).attr("class_aktif","share_btn_aktif");
             jQuery(btnShare).attr("id","div_share_btn");
             jQuery(btnShare).attr("class_pass","share_btn");
+            if(userId==data.creatorId){
+                jQuery(btnShare).css("display","none");  
+            }
             if(data.userRelation.reshare)
             {
                 jQuery(btnShare).addClass('share_btn_aktif'); 
@@ -660,7 +669,12 @@ var checkAllFriends=function(){
 function showProfileBatch(type){
     var elem=null;
     var clone=null;
-    if(type==2 || type=="2"){
+    // 2 5 6 7 8
+    if(type==2 || type=="2" ||
+        type==5 || type=="5" ||
+        type==6 || type=="6" ||
+        type==7 || type=="7" ||
+        type==8 || type=="8" ){
         elem=jQuery("#dump .profil_box");
         if(elem){
             elem.prependTo(".main_event");
@@ -668,7 +682,7 @@ function showProfileBatch(type){
     }else{
         elem=jQuery(".main_event .profil_box");
         if(elem){
-           elem.prependTo("#dump");
+            elem.prependTo("#dump");
         }
     }
 }

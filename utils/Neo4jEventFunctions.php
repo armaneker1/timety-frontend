@@ -354,7 +354,7 @@ class Neo4jEventUtils {
                                     //check  if email exist
                                     $emailUser = $uf->getUserByEmail($email);
                                     if (!empty($emailUser)) {
-                                        $iid=$emailUser->id;
+                                        $iid = $emailUser->id;
                                         $emailUser = $userIndex->findOne(PROP_USER_ID, $emailUser->id);
                                         if (!empty($emailUser)) {
                                             NotificationUtils::insertNotification(NOTIFICATION_TYPE_INVITE, $iid, $user->id, $event->id);
@@ -679,11 +679,14 @@ class Neo4jEventUtils {
         return null;
     }
 
-    public static function getEventTags($eventId) {
+    public static function getEventTags($eventId, $lang = LANG_EN_US) {
+        if (empty($lang) || !($lang == LANG_EN_US || $lang == LANG_TR_TR)) {
+            $lang = LANG_EN_US;
+        }
         $array = array();
         if (!empty($eventId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-            $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('" . REL_TAGS . "')";
+            $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('" . REL_TAGS . "').filter{it." . PROP_TIMETY_LANG_CODE . "=='" . $lang . "'}";
             //echo $query;
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
             $nresult = $query->getResultSet();

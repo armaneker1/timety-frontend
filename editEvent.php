@@ -495,7 +495,7 @@ if (!empty($_POST['rand_session_id'])) {
     /*
      * get tags
      */
-    $tags = Neo4jEventUtils::getEventTags($eventId);
+    $tags = Neo4jEventUtils::getEventTags($eventId,$user->language);
     $var_tags = array();
     if (!empty($tags)) {
         $tag = new Interest();

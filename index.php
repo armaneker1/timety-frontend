@@ -1008,6 +1008,11 @@ if (empty($user)) {
                                     echo "false";
                                 }
                                 ?>"  
+                                style="<?php
+                                if ($main_event->creatorId == $user->id) {
+                                    echo "display:none;";
+                                }
+                                ?>"
                                                      onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_maybe_btn" 
                                                      data-toggle="tooltip" 
@@ -1029,6 +1034,11 @@ if (empty($user)) {
                                     echo "false";
                                 }
                                 ?>" 
+                                style="<?php
+                                if ($main_event->creatorId == $user->id) {
+                                    echo "display:none;";
+                                }
+                                ?>"
                                                      onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;" 
                                                      style="<?php
                                 if ($main_event->creatorId == $user->id) {
@@ -1055,6 +1065,11 @@ if (empty($user)) {
                                     echo "false";
                                 }
                                 ?>" 
+                                style="<?php
+                                if ($main_event->creatorId == $user->id) {
+                                    echo "display:none;";
+                                }
+                                ?>"
                                                      onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_join_btn" 
                                                      data-toggle="tooltip" 

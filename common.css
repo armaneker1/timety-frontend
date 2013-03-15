@@ -52,6 +52,20 @@
     border-right-style: none;
     border-bottom-style: none;
     border-left-style: none;
+    cursor: pointer;
+}
+
+.edit_btn_aktif{
+    background-color: transparent;
+    background-image: url(images/edit_event.png);
+    background-repeat: no-repeat;
+    height: 41px;
+    width: 41px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    cursor: pointer;
 }
 .likeshare {
     height: 100px;
@@ -61,63 +75,79 @@
 }
 
 .like_btn{
+    cursor: pointer;
     background-position:left top;
 }
 .like_btn:hover{
+    cursor: pointer;
     background-position:left bottom;
 }
 
 
 .like_btn_aktif{
+    cursor: pointer;
     background-position:left bottom;
 }
 .like_btn_aktif:hover{
+    cursor: pointer;
     /* background-position:left top;*/
 }
 
 
 .maybe_btn {
+    cursor: pointer;
     background-position:-44px top;
 }
 .maybe_btn:hover{
+    cursor: pointer;
     background-position:-44px bottom;
 }
 
 .maybe_btn_aktif{
+    cursor: pointer;
     background-position:-44px bottom;
 }
 .maybe_btn_aktif:hover{
+    cursor: pointer;
     /* background-position:-44px top;*/
 }
 
 
 .share_btn {
+    cursor: pointer;
     background-position:-89px top;
 }
 .share_btn:hover{
+    cursor: pointer;
     background-position:-89px bottom; 
 }
 
 
 .share_btn_aktif{
+    cursor: pointer;
     background-position:-89px bottom;
 }
 .share_btn_aktif:hover{
+    cursor: pointer;
     /*  background-position:-89px top; */
 }
 
 .join_btn {
     background-position:right top;
+    cursor: pointer;
 }
 .join_btn:hover{
     background-position:right bottom;
+    cursor: pointer;
 }
 
 .join_btn_aktif{
     background-position:right bottom;
+    cursor: pointer;
 }
 .join_btn_aktif:hover{
     /*  background-position:right top; */
+    cursor: pointer;
 }
 
 /*
