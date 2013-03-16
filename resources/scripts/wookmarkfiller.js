@@ -9,22 +9,22 @@ var selectedDate=null;
 var selectedUser=null;
 
 /*
-     * $userId= user id that logged in -1 default guest
-     * list events after given date dafault current date
-     * $type = events type 1=Popular,2=Mytimete,3=following,4=an other user's public events default 1
-     * 5=i created
-     * 6=i liked
-     * 7=i reshared
-     * 8=i joined
-     * 9= categories
-     * 10=i created
-     * 11=i liked
-     * 12=i reshared
-     * 13=i joined
-     * $query search paramaters deeafult "" all
-     * $pageNumber deafult 0
-     * $pageItemCount default 15
-     */
+ * $userId= user id that logged in -1 default guest
+ * list events after given date dafault current date
+ * $type = events type 1=Popular,2=Mytimete,3=following,4=an other user's public events default 1
+ * 5=i created
+ * 6=i liked
+ * 7=i reshared
+ * 8=i joined
+ * 9= categories
+ * 10=i created
+ * 11=i liked
+ * 12=i reshared
+ * 13=i joined
+ * $query search paramaters deeafult "" all
+ * $pageNumber deafult 0
+ * $pageItemCount default 15
+ */
 
 
 function wookmarkFiller(options,clear,loader,channel_)
@@ -39,6 +39,8 @@ function wookmarkFiller(options,clear,loader,channel_)
     var channel =channel_;
     if(!channel){
         channel = wookmark_channel;
+    }else{
+        wookmark_channel=channel;
     }
     if(selectedUser){
         userSelected=selectedUser;
@@ -206,8 +208,8 @@ function wookmarkFiller(options,clear,loader,channel_)
                         post_wookmark.abort();
                         post_wookmark=null;
                     }
-                //}
-                //setTimeout(tm,100);
+                    //}
+                    //setTimeout(tm,100);
                 } catch(err){
                     console.log(err);
                     if(post_wookmark) {
@@ -442,10 +444,45 @@ function wookmarkHTML(dataArray,userId)
             var creatorDIV = document.createElement('div');
             jQuery(creatorDIV).addClass('m_e_com');
             var creatorDIVP=document.createElement('p');
+            jQuery(creatorDIVP).css("cursor","pointer");
+            
+            
             jQuery(creatorDIV).append(creatorDIVP);
             jQuery(contentDIV).append(creatorDIV);
-            if(data.creator){
-                var url=data.creator.userPicture;
+            var normal=true;
+            
+            if((wookmark_channel==4 || wookmark_channel==10 ||
+                wookmark_channel==11 || wookmark_channel==12 ||
+                wookmark_channel==13) && reqUserPic && reqUserUserName && reqUserFullName && selectedUser){
+                normal=false;
+            }
+            if(normal){
+                if(data.creator){
+                    jQuery(creatorDIVP).attr("onclick","window.location='"+TIMETY_HOSTNAME+data.creator.userName+"';");
+                    var url=data.creator.userPicture;
+                    if(url==null || url=="" )
+                    {
+                        url=TIMETY_HOSTNAME+"images/anonymous.png"; 
+                    }
+                    if(url.indexOf("http")!=0)
+                    {
+                        url=TIMETY_HOSTNAME+url; 
+                    }
+                    jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
+                    var name="";
+                    if(data.creator.firstName)
+                    {
+                        name=data.creator.firstName+" ";
+                    }
+                    if(data.creator.lastName)
+                    {
+                        name=name+data.creator.lastName+" ";
+                    }
+                    jQuery(creatorDIVP).append(jQuery("<span>"+" "+name+"</span>"));
+                }
+            }else{
+                jQuery(creatorDIVP).attr("onclick","window.location='"+TIMETY_HOSTNAME+reqUserUserName+"';");
+                var url=reqUserPic;
                 if(url==null || url=="" )
                 {
                     url=TIMETY_HOSTNAME+"images/anonymous.png"; 
@@ -455,16 +492,8 @@ function wookmarkHTML(dataArray,userId)
                     url=TIMETY_HOSTNAME+url; 
                 }
                 jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
-                var name="";
-                if(data.creator.firstName)
-                {
-                    name=data.creator.firstName+" ";
-                }
-                if(data.creator.lastName)
-                {
-                    name=name+data.creator.lastName+" ";
-                }
-                jQuery(creatorDIVP).append(jQuery("<span>"+" "+name+"</span>"));
+                jQuery(creatorDIVP).append(jQuery("<span>"+" "+reqUserFullName+"</span>"));
+                jQuery(creatorDIVP).append(jQuery("<span>"+" "+getUserLastActivityString(data,selectedUser)+"</span>"));
             }
             
             
@@ -714,4 +743,52 @@ function showProfileBatch(type){
             elem.prependTo("#dump");
         }
     }
+}
+
+function getUserLastActivityString(data,selectedUser){
+    var REDIS_USER_INTERACTION_UPDATED= 'updated';
+    var REDIS_USER_INTERACTION_CREATED= 'created';
+    var REDIS_USER_INTERACTION_JOIN= 'join';
+    var REDIS_USER_INTERACTION_MAYBE= 'maybe';
+    var REDIS_USER_INTERACTION_LIKE= 'like';
+    var REDIS_USER_INTERACTION_RESHARE= 'reshare';
+    var REDIS_USER_INTERACTION_FOLLOW= 'follow';
+    var REDIS_USER_UPDATE= 'update';
+    var REDIS_USER_COMMENT= 'comment';
+    
+    if(data && selectedUser){
+        if(data.userEventLog && data.userEventLog.length>0){
+            var action="";
+            var log=data.userEventLog[0];
+            if(log){
+                action = log.action;
+                if (action == REDIS_USER_INTERACTION_CREATED) {
+                    return "created this";
+                }
+            }
+            
+            for (var i = data.userEventLog.length - 1; i >= 0; i--) {
+                log = data.userEventLog[i];
+                if (log) {
+                    if (log.userId == selectedUser) {
+                        action = log.action;
+                        break;
+                    }
+                }
+            }
+            if (action == REDIS_USER_INTERACTION_UPDATED || action == REDIS_USER_INTERACTION_CREATED || action == REDIS_USER_UPDATE || action == REDIS_USER_COMMENT) {
+                return "created this";
+            } else if (action == REDIS_USER_INTERACTION_JOIN || action == REDIS_USER_INTERACTION_MAYBE) {
+                return "joined this";
+            } else if (action == REDIS_USER_INTERACTION_LIKE) {
+                return "liked this";
+            } else if (action == REDIS_USER_INTERACTION_RESHARE) {
+                return "reshared this";
+            } else if (action == REDIS_USER_INTERACTION_FOLLOW) {
+                return "followed this";
+            }
+            return action;
+        }
+    }
+    return ""
 }

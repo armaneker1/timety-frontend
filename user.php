@@ -306,6 +306,11 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
             </div>
             <div class="main_event">
                 <!-- profil box -->
+                <script>
+                    reqUserPic='<?=$p_user->getUserPic()?>';
+                    reqUserFullName='<?=$p_user->getFullName()?>';
+                    reqUserUserName='<?=$p_user->userName?>';
+                </script>
                 <?php if (!empty($p_user) && !empty($p_user->id)) { ?>
                     <div class="profil_box main_event_box">
                         <div class="profil_resim">
