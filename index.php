@@ -1144,24 +1144,28 @@ if (empty($user)) {
                 <?= $main_event->title ?>
                                         </div>
                                         <div class="m_e_com">
-                                            <p>
+                                            
                                                 <?php
                                                 if (!empty($main_event->creatorId)) {
                                                     $crt = $main_event->creator;
                                                     $crt = UtilFunctions::cast("User", $crt);
                                                     if (!empty($crt) && !empty($crt->id)) {
+                                                        $usr_url = HOSTNAME . $crt->userName;
                                                         ?>
+                                                        <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
                                                         <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $crt->getFullName() ?></span>
+                                                        </p>
                                                         <?php
                                                     }
                                                 } else {
                                                     ?>
+                                                    <p>
                                                     <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" />
                                                     <span> </span>
+                                                    </p>
                                                 <?php }
                                                 ?>
-                                            </p>
                                         </div>
                                         <div class="m_e_ackl">
                 <?= $main_event->description ?>
