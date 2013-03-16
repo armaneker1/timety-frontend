@@ -545,24 +545,28 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                             <?= $main_event->title ?>
                                         </div>
                                         <div class="m_e_com">
-                                            <p>
-                                                <?php
-                                                if (!empty($main_event->creatorId)) {
-                                                    $evt_result=  EventUtil::getUserLastActivityString($main_event, $p_user_id);
-                                                    if (!empty($p_user) && !empty($p_user->id)) {
-                                                        ?>
+
+                                            <?php
+                                            if (!empty($main_event->creatorId)) {
+                                                $evt_result = EventUtil::getUserLastActivityString($main_event, $p_user_id);
+                                                $usr_url = HOSTNAME . $p_user->userName;
+                                                if (!empty($p_user) && !empty($p_user->id)) {
+                                                    ?>
+                                                    <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
                                                         <img src="<?= PAGE_GET_IMAGEURL . $p_user->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $p_user->getFullName() ?></span>
                                                         <span><?= " " . $evt_result ?></span>
-                                                        <?php
-                                                    }
-                                                } else {
-                                                    ?>
+                                                    </p>
+                                                    <?php
+                                                }
+                                            } else {
+                                                ?>
+                                                <p>
                                                     <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" />
                                                     <span> </span>
-                                                <?php }
-                                                ?>
-                                            </p>
+                                                </p>
+                                            <?php }
+                                            ?>
                                         </div>
                                         <div class="m_e_ackl">
                                             <?= $main_event->description ?>
