@@ -256,6 +256,46 @@ class EventUtil {
         }
     }
 
+    public static function getUserLastActivityString($event, $userId) {
+        if (!empty($userId) && !empty($event)) {
+            if (!empty($event->userEventLog)) {
+                $action = "";
+                $log = $event->userEventLog[0];
+                if (!empty($log)) {
+                    if ($log->userId == $userId) {
+                        $action = $log->action;
+                        if ($action == REDIS_USER_INTERACTION_CREATED) {
+                            return "created this";
+                        }
+                    }
+                }
+
+                for ($i = sizeof($event->userEventLog) - 1; $i >= 0; $i--) {
+                    $log = $event->userEventLog[$i];
+                    if (!empty($log)) {
+                        if ($log->userId == $userId) {
+                            $action = $log->action;
+                            break;
+                        }
+                    }
+                }
+                if ($action == REDIS_USER_INTERACTION_UPDATED || $action == REDIS_USER_INTERACTION_CREATED || $action == REDIS_USER_UPDATE || $action == REDIS_USER_COMMENT) {
+                    return "created this";
+                } else if ($action == REDIS_USER_INTERACTION_JOIN || $action == REDIS_USER_INTERACTION_MAYBE) {
+                    return "joined this";
+                } else if ($action == REDIS_USER_INTERACTION_LIKE) {
+                    return "liked this";
+                } else if ($action == REDIS_USER_INTERACTION_RESHARE) {
+                    return "reshared this";
+                } else if ($action == REDIS_USER_INTERACTION_FOLLOW) {
+                    return "followed this";
+                }
+                return $action;
+            }
+        }
+        return "";
+    }
+
 }
 
 ?>

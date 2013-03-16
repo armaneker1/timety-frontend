@@ -503,7 +503,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                        		      
+                                                                                                                                                                                                                                                                                                                                		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -642,34 +642,36 @@ if (empty($user)) {
                             return true;
                         },
                         processPrePopulate : false,
-                        prePopulate : <?php if (!empty($var_tags)) {
-                                        echo $var_tags;
-                                    } else {
-                                        echo "[]";
-                                    } ?>	
-                    });	
-                    
-                   jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
-                        theme: "custom",
-                        userId :"<?= $user->id ?>",
-                        queryParam : "term",
-                        minChars : 2,
-                        placeholder : "add people manually",
-                        preventDuplicates : true,
-                        input_width:160,
-                        add_maunel:true,
-                        add_mauel_validate_function : validateEmailRegex,
-                        propertyToSearch: "label",
-                        resultsFormatter:function(item) {
-                            return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
-                        },
-                        onAdd: function() {
-                            return true;
-                        },
-                        processPrePopulate : false,
-                        prePopulate : <?= $var_usr ?>
-                    });
+                        prePopulate : <?php
+        if (!empty($var_tags)) {
+            echo $var_tags;
+        } else {
+            echo "[]";
+        }
+        ?>	
+                });	
+                            
+                jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
+                    theme: "custom",
+                    userId :"<?= $user->id ?>",
+                    queryParam : "term",
+                    minChars : 2,
+                    placeholder : "add people manually",
+                    preventDuplicates : true,
+                    input_width:160,
+                    add_maunel:true,
+                    add_mauel_validate_function : validateEmailRegex,
+                    propertyToSearch: "label",
+                    resultsFormatter:function(item) {
+                        return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
+                    },
+                    onAdd: function() {
+                        return true;
+                    },
+                    processPrePopulate : false,
+                    prePopulate : <?= $var_usr ?>
                 });
+            });
             </script>
         <?php } ?>
         <!--auto complete-->
@@ -743,7 +745,7 @@ if (empty($user)) {
         $json_response = str_replace("'", "\\'", $json_response);
         echo $json_response;
         ?>');
-            });
+                });
             </script>
 
 
@@ -764,15 +766,17 @@ if (empty($user)) {
         <script>
             jQuery(document).ready(function(){
                 if(location.hash){
-
                     var ch=0;
                     if(location.hash=='#mytimety'){
                         ch=2;
-                    } else if(location.hash=='#popular') {
-                        ch=0;
-                    } else if(location.hash=='#following') {
+                    }  else if(location.hash=='#following') {
                         ch=3; }
-                    jQuery("a[channelId|='"+ch+"']").click();
+                    
+                    // else if(location.hash=='#popular') {
+                    //    ch=0;
+                    // }
+                    if(ch>0)
+                        jQuery("a[channelId|='"+ch+"']").click();
                 }
             });
         </script>
@@ -785,9 +789,9 @@ if (empty($user)) {
             </script>
             <!-- channel -->
         <?php } ?>
-            
-            
-            <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
+
+
+        <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
             <!-- channel -->
             <script>
                 jQuery(document).ready(function(){
@@ -894,8 +898,10 @@ if (empty($user)) {
                                                     ?>   
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
                                                         <h1><?= $evt->title ?></h1>
-                                                        <p>Today @<?php $dt = strtotime($evt->startDateTime);
-                                        echo date('H:i', $dt); ?></p>
+                                                        <p>Today @<?php
+                                        $dt = strtotime($evt->startDateTime);
+                                        echo date('H:i', $dt);
+                                        ?></p>
                                                        <!-- <p><?= $evtDesc ?></p> -->
                                                         <script>
                                                             var tmpDataJSON='<?php
@@ -903,9 +909,9 @@ if (empty($user)) {
                                         $json_response = str_replace("'", "\\'", $json_response);
                                         echo str_replace('"', '\\"', $json_response);
                                         ?>';
-                                                            tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                            var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                            localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                                         </script>
                                                     </div>
                                                     <?php
@@ -943,7 +949,7 @@ if (empty($user)) {
                 if (!empty($user)) {
                     $user_id = $user->id;
                 }
-                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1,-1);
+                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1, -1);
                 $main_pages_events = json_decode($main_pages_events);
                 if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     $main_event = new Event();
@@ -1020,7 +1026,7 @@ if (empty($user)) {
                                     echo "false";
                                 }
                                 ?>"  
-                                style="<?php
+                                                     style="<?php
                                 if ($main_event->creatorId == $user->id) {
                                     echo "display:none;";
                                 }
@@ -1046,7 +1052,7 @@ if (empty($user)) {
                                     echo "false";
                                 }
                                 ?>" 
-                                style="<?php
+                                                     style="<?php
                                 if ($main_event->creatorId == $user->id) {
                                     echo "display:none;";
                                 }
@@ -1077,7 +1083,7 @@ if (empty($user)) {
                                     echo "false";
                                 }
                                 ?>" 
-                                style="<?php
+                                                     style="<?php
                                 if ($main_event->creatorId == $user->id) {
                                     echo "display:none;";
                                 }
@@ -1185,9 +1191,9 @@ if (empty($user)) {
                 $json_response = str_replace("'", "\\'", $json_response);
                 echo str_replace('"', '\\"', $json_response);
                 ?>';
-                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>

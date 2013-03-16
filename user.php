@@ -548,12 +548,12 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                             <p>
                                                 <?php
                                                 if (!empty($main_event->creatorId)) {
-                                                    $crt = $main_event->creator;
-                                                    $crt = UtilFunctions::cast("User", $crt);
-                                                    if (!empty($crt) && !empty($crt->id)) {
+                                                    $evt_result=  EventUtil::getUserLastActivityString($main_event, $p_user_id);
+                                                    if (!empty($p_user) && !empty($p_user->id)) {
                                                         ?>
-                                                        <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
-                                                        <span><?= " " . $crt->getFullName() ?></span>
+                                                        <img src="<?= PAGE_GET_IMAGEURL . $p_user->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
+                                                        <span><?= " " . $p_user->getFullName() ?></span>
+                                                        <span><?= " " . $evt_result ?></span>
                                                         <?php
                                                     }
                                                 } else {
