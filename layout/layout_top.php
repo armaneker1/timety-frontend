@@ -346,7 +346,12 @@ if (empty($user)) {
                             </div>
                         </li>
                         <li id="top_menu_populer" class="t_m_line">
-                            <a id="populer_top_menu_a" href="#popular" channelId="1" onclick="changeChannel(this)" class="top_menu_ul_li_a_selected">Populer</a>
+                            <?php $upcoming_class="top_menu_ul_li_a_selected";
+                                if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user")) {
+                                    $upcoming_class="top_menu_ul_li_a";
+                                }
+                            ?>
+                            <a id="populer_top_menu_a" href="#popular" channelId="1" onclick="changeChannel(this)" class="<?=$upcoming_class?>">Upcoming</a>
                             <div id="populer_top_menu" class="my_timete_popup_popular_container" style="display: none;">
                                 <div  class="my_timete_popup" >
                                     <div class="kck_detay_ok"></div>
