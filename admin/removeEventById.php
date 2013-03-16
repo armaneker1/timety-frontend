@@ -31,7 +31,7 @@ if (isset($_GET['eventId']) && !empty($_GET['eventId'])) {
         $events = $redis->zrevrange($key, 0, -1);
         foreach ($events as $item) {
             $evt = json_decode($item);
-            if ($evt->id == $id) {
+            if (!empty($evt) && $evt->id == $id) {
                 RedisUtils::removeItem($redis, $key, $item);
                 break;
             }
