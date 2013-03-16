@@ -242,7 +242,7 @@ if (empty($user)) {
             <?php
             if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
                 ?>
-                <?php if ((isset($profile_page_type) && $profile_page_type == "profile") || (isset($editevent_page_type) && $editevent_page_type == "eidtevent")) {
+                <?php if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user")) {
                     ?>
                     <script type="text/javascript">
                         jQuery("#add_event_button").click(function(){
@@ -287,7 +287,7 @@ if (empty($user)) {
 
             <?php
             if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
-                if (!((isset($profile_page_type) && $profile_page_type == "profile") || (isset($editevent_page_type) && $editevent_page_type == "eidtevent"))) {
+                if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user"))) {
                     ?>
                     <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js"></script>
     <?php }
@@ -300,7 +300,7 @@ if (empty($user)) {
             if ($user->status > 2) {
                 ?>
                 <script>
-        <?php if ((isset($profile_page_type) && $profile_page_type == "profile") || (isset($editevent_page_type) && $editevent_page_type == "eidtevent")) {
+        <?php if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user")) {
             ?>
                     function changeChannel(item){
                         var channel=jQuery(item).attr("channelId");

@@ -922,17 +922,17 @@ class Neo4jFuctions {
      * 7=i reshared
      * 8=i joined
      * 9= categories
+     * 10=i created
+     * 11=i liked
+     * 12=i reshared
+     * 13=i joined
      * $query search paramaters deeafult "" all
      * $pageNumber deafult 0
      * $pageItemCount default 15
      */
-    
-    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1, $all = 1, $categoryId = -1) {
-        /*
-          $teg="<p/>getEvents-   ";
-          echo  $teg."Started<p/>";
-          echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-         */
+
+    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 4, $all = 1, $categoryId = -1, $reqUserId = -1) {
+
         $array = array();
         if ($userId == -1) {
             $userId = "*";
@@ -947,10 +947,6 @@ class Neo4jFuctions {
             $type = 1;
         }
 
-        /*
-          echo  $teg."Date calculating <p/>";
-          echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-         */
         if (empty($date) || substr($date, 0, 1) == "0") {
             $date = strtotime("now");
         } else {
@@ -989,35 +985,19 @@ class Neo4jFuctions {
             }
             $date = strtotime($date);
         }
-        /*
-          echo  $teg."Date calculated<p/>";
-          echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-         */
         $eventIds = "";
         if ($type == 4) {
-            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-            $query_ = $query;
-            $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
-                    "MATCH (user)-[r:" . REL_EVENTS_JOINS . "]->(event)  " .
-                    "WHERE (HAS (r." . PROP_JOIN_TYPE . ") AND (r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_YES . " OR r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_MAYBE . ")) AND (event." . PROP_EVENT_PRIVACY . "='true') AND (event." . PROP_EVENT_START_DATE . ">" . $date . ") ";
-            if (!empty($query_)) {
-                $query = $query . " AND (event." . PROP_EVENT_TITLE . " =~ '.*(?i)" . $query_ . ".*' OR " .
-                        "event." . PROP_EVENT_DESCRIPTION . " =~ '.*(?i)" . $query_ . ".*') ";
-            }
-            $query = $query . "RETURN event, count(*) ORDER BY event." . PROP_EVENT_START_DATE . " ASC SKIP " . $pageNumber . " LIMIT " . $pageItemCount;
-            $query = new Cypher\Query($client, $query, null);
-            $result = $query->getResultSet();
-            foreach ($result as $row) {
-                $evt = new Event();
-                $evt->createNeo4j($row['event'], TRUE, $userId);
-                $eventIds = $eventIds . $evt->id . ",";
-                array_push($array, $evt);
-            }
+            return RedisUtils::getUserPublicEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all, $reqUserId);
         } else if ($type == 3) {
-            /* $resultArray = Neo4jRecommendationUtils::getFollowingFriendsEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
-              $array = $resultArray[0];
-              $eventIds = $resultArray[1]; */
             return RedisUtils::getFollowingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+        } else if ($type == 10) {
+            return RedisUtils::getUserCreatedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$reqUserId);
+        } else if ($type == 11) {
+            return RedisUtils::getUserLikedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$reqUserId);
+        } else if ($type == 12) {
+            return RedisUtils::getUserResahredEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$reqUserId);
+        } else if ($type == 13) {
+            return RedisUtils::getUserJoinedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$reqUserId);
         } else if ($type == 5) {
             return RedisUtils::getCreatedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
         } else if ($type == 6) {
@@ -1028,32 +1008,9 @@ class Neo4jFuctions {
             return RedisUtils::getJoinedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
         } else if ($type == 2) {
             return RedisUtils::getOwnerEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
-            /* $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-              $query_ = $query;
-              $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":*" . $userId . "*') " .
-              "MATCH (user)-[r:" . REL_EVENTS_JOINS . "]->(event)  " .
-              "WHERE (HAS (r." . PROP_JOIN_TYPE . ") AND (r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_YES . " OR r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_MAYBE . ")) AND (event." . PROP_EVENT_START_DATE . ">" . $date . ") ";
-              if (!empty($query_)) {
-              $query = $query . " AND (event." . PROP_EVENT_TITLE . " =~ '.*(?i)" . $query_ . ".*' OR " .
-              "event." . PROP_EVENT_DESCRIPTION . " =~ '.*(?i)" . $query_ . ".*') ";
-              }
-              $query = $query . "RETURN event, count(*) ORDER BY event." . PROP_EVENT_START_DATE . " ASC SKIP " . $pageNumber . " LIMIT " . $pageItemCount;
-              $query = new Cypher\Query($client, $query, null);
-              $result = $query->getResultSet();
-              foreach ($result as $row) {
-              $evt = new Event();
-              $evt->createNeo4j($row['event'], TRUE, $userId);
-              $eventIds = $eventIds . $evt->id . ",";
-              array_push($array, $evt);
-              } */
         } else if ($type == 9) {
-            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$categoryId);
+            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all, $categoryId);
         } else {
-            /*
-              echo  $teg."getAllOtherEvents start<p/>";
-              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-             */
-            //$array1 = Neo4jRecommendationUtils::getAllOtherEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
             $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date, $query, $all);
             $check = false;
             if ($pageNumber == 0 || $pageNumber == "0") {
@@ -1073,114 +1030,12 @@ class Neo4jFuctions {
             } else {
                 return $recommended;
             }
-
-            /*
-              echo  $teg."getAllOtherEvents end size : ".  sizeof($array1)."<p/>";
-              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-             */
-
-            /*
-              echo  $teg."getPopularEventsByLike start<p/>";
-              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-             */
-            //$array2 = null; //Neo4jRecommendationUtils::getPopularEventsByLike($userId, $pageNumber, $count, $date, $query);
-            /*
-              echo  $teg."getPopularEventsByLike end size : ".  sizeof($array2)."<p/>";
-              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-             */
-
-            /*
-              echo  $teg."merge arrays start<p/>";
-              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-             */
-            /* $dublicateKeys = array();
-              if (!empty($array1)) {
-              if (!empty($array2)) {
-              foreach ($array2 as $evt) {
-              if (!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys)) {
-              $evt->title = $evt->title . "(*)";
-              array_push($array, $evt);
-              array_push($dublicateKeys, $evt->id);
-              }
-              }
-              foreach ($array1 as $evt) {
-              if (!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys)) {
-              array_push($array, $evt);
-              array_push($dublicateKeys, $evt->id);
-              }
-              }
-              } else {
-              $array = $array1;
-              }
-              } else if (!empty($array2)) {
-              foreach ($array2 as $evt) {
-              if (!empty($evt) && !empty($evt->id) && !in_array($evt->id, $dublicateKeys)) {
-              $evt->title = $evt->title . "(*)";
-              array_push($array, $evt);
-              array_push($dublicateKeys, $evt->id);
-              }
-              }
-              } */
-            /*
-              echo  $teg."merge arrays end <p/>";
-              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-             */
-
-            /* if ($type == 1 && $pageNumber == 0 && false) {
-              $evtAd = new Event();
-              $evtAd->ad = true;
-              $evtAd->id = -1;
-              $evtAd->url = "http://www.thehobbit.com/";
-              $evtAd->img = "/images/ads.jpeg";
-              $evtAd->imgWidth = 186;
-              $evtAd->imgHeight = 275;
-              $evtAd->people = 2;
-              $evtAd->comment = 0;
-              $evtAd->time = "10d";
-              array_unshift($tmparray, $evtAd);
-              } */
-
-            /*
-              echo  $teg."sort arrays start <p/>";
-              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-             */
-            //sort by date
-            /* $dublicateKeys = array();
-              $low = new Event();
-              $evnt = new Event();
-              if (!empty($array)) {
-              $low = $array[0];
-              $low_indx = 0;
-              array_push($dublicateKeys, $low->id);
-              $eventIds = $eventIds . $low->id . ",";
-              for ($i = 1; $i < sizeof($array); $i++) {
-              $evnt = $array[$i];
-              if (!in_array($evnt->id, $dublicateKeys)) {
-              array_push($dublicateKeys, $evnt->id);
-              $eventIds = $eventIds . $evnt->id . ",";
-              }
-              if ($low->startDateTimeLong > $evnt->startDateTimeLong) {
-              $array[$i] = $array[$low_indx];
-              $array[$low_indx] = $evnt;
-              $low = $evnt;
-              $low_indx = $i;
-              }
-              }
-              } */
-            /*
-              echo  $teg."sort arrays end <p/>";
-              echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-             */
         }
 
         if (!empty($eventIds)) {
             $eventIds = substr($eventIds, 0, strlen($eventIds) - 1);
         }
 
-        /*
-          echo  $teg."get Event Images from mysql start <p/>";
-          echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-         */
         $images = ImageUtil::getAllHeaderImageList($eventIds);
         $tmparray = array();
         $img = new Image();
@@ -1199,10 +1054,6 @@ class Neo4jFuctions {
                 array_push($tmparray, $evt);
             }
         }
-        /*
-          echo  $teg."get Event Images from mysql end <p/>";
-          echo  UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-         */
         return json_encode($tmparray);
     }
 

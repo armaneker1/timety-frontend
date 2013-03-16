@@ -18,7 +18,7 @@ if (isset($_GET['finish']) && isset($_SESSION['id'])) {
     $params = array(array('name', $user->firstName), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
     MailUtil::sendSESMailFromFile("confirm_mail.html", $params, $user->email, "Please confirm your email");
     header('Location: ' . HOSTNAME);
-    exit();
+    exit(1);
 }
 
 $confirm_msg = "";
@@ -943,7 +943,7 @@ if (empty($user)) {
                 if (!empty($user)) {
                     $user_id = $user->id;
                 }
-                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1);
+                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1,-1);
                 $main_pages_events = json_decode($main_pages_events);
                 if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     $main_event = new Event();

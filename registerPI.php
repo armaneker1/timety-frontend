@@ -480,7 +480,6 @@ if (empty($birhtdate)) {
                         jQuery("#te_hometown").val(te_hometown);
                     } else{
                         jQuery("#te_hometown").val(results[0].formatted_address);
-                
                     }
                 
                 }else

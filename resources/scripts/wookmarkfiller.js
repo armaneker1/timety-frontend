@@ -6,12 +6,32 @@ var wookmark_channel=1;
 var wookmark_category=-1;
 localStorage.clear();
 var selectedDate=null;
+var selectedUser=null;
+
+/*
+     * $userId= user id that logged in -1 default guest
+     * list events after given date dafault current date
+     * $type = events type 1=Popular,2=Mytimete,3=following,4=an other user's public events default 1
+     * 5=i created
+     * 6=i liked
+     * 7=i reshared
+     * 8=i joined
+     * 9= categories
+     * 10=i created
+     * 11=i liked
+     * 12=i reshared
+     * 13=i joined
+     * $query search paramaters deeafult "" all
+     * $pageNumber deafult 0
+     * $pageItemCount default 15
+     */
+
 
 function wookmarkFiller(options,clear,loader,channel_)
 {
     clear  = typeof clear !== 'undefined' ? clear : false;
     loader = typeof loader !== 'undefined' ? loader : false;
-    
+    var userSelected=-1;
     var pager = 40;
     var page = page_wookmark;
     var categoryId=wookmark_category;
@@ -19,6 +39,9 @@ function wookmarkFiller(options,clear,loader,channel_)
     var channel =channel_;
     if(!channel){
         channel = wookmark_channel;
+    }
+    if(selectedUser){
+        userSelected=selectedUser;
     }
     var searchText = jQuery('#searchText').val() || '';
     if(searchText==jQuery('#searchText').attr('placeholder'))
@@ -92,7 +115,8 @@ function wookmarkFiller(options,clear,loader,channel_)
                 'query':searchText,
                 'type':channel,
                 'popular_all':allParameter,
-                'category':categoryId
+                'category':categoryId,
+                'reqUserId':userSelected
             },
             error: function (request, status, error) {
                 if(post_wookmark) {
@@ -669,12 +693,17 @@ var checkAllFriends=function(){
 function showProfileBatch(type){
     var elem=null;
     var clone=null;
-    // 2 5 6 7 8
+    // 2 5 6 7 8 4 10 11 12 13
     if(type==2 || type=="2" ||
         type==5 || type=="5" ||
         type==6 || type=="6" ||
         type==7 || type=="7" ||
-        type==8 || type=="8" ){
+        type==8 || type=="8" ||
+        type==4 || type=="4" ||
+        type==10 || type=="10" ||
+        type==11 || type=="11" ||
+        type==12 || type=="12" ||
+        type==13 || type=="13"){
         elem=jQuery("#dump .profil_box");
         if(elem){
             elem.prependTo(".main_event");

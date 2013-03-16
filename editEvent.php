@@ -13,7 +13,7 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/utils/Functions.php';
 
-$editevent_page_type="eidtevent";
+$page_id="editevent";
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
 

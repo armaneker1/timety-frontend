@@ -103,10 +103,10 @@ class InterestUtil {
      * $pageItemCount default 15
      */
 
-    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1) {
+    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 1,$reqUserId=-1) {
         if (!empty($userId)) {
             $n = new Neo4jFuctions();
-            $array = $n->getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type);
+            $array = $n->getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type,$reqUserId);
             return $array;
         } else {
             return null;

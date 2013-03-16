@@ -27,7 +27,7 @@ foreach ($users as $user) {
         echo " -> done </h4>";
     }
     echo "<h3>followers</h3>";
-    $followers = Neo4jUserUtil::getUserFollowList($user->id);
+    $followers = Neo4jUserUtil::getUserFollowerList($user->id);
     foreach ($followers as $f) {
         echo "<h4>->" . $f->getFullName() . "($f->id)";
         RedisUtils::addUserFollower($user->id, $f->id,true);

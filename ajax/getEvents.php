@@ -37,12 +37,33 @@ $category = "-1";
 if (isset($_GET["category"]))
     $category = $_GET["category"];
 
+$reqUserId = "-1";
+if (isset($_GET["reqUserId"]))
+    $reqUserId = $_GET["reqUserId"];
+
 $res = new Result();
 $res->error = true;
 $res->success = false;
+/*
+ * $userId= user id that logged in -1 default guest
+ * list events after given date dafault current date
+ * $type = events type 1=Popular,2=Mytimete,3=following,4=an other user's public events default 1
+ * 5=i created
+ * 6=i liked
+ * 7=i reshared
+ * 8=i joined
+ * 9= categories
+ * 10=user created
+ * 11=user liked
+ * 12=user reshared
+ * 13=user joined
+ * $query search paramaters deeafult "" all
+ * $pageNumber deafult 0
+ * $pageItemCount default 15
+ */
 
 if ($userId != null && $pageNumber != "" && $pageItemCount != null && $type != null) {
-    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $popular_all,$category);
+    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $popular_all, $category, $reqUserId);
 } else {
     $json_response = json_encode($res);
     echo $json_response;

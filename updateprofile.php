@@ -312,7 +312,7 @@ if (isset($_POST['update'])) {
     <head>
         <?php
         $timety_header = "Timety | Update Profile";
-        $profile_page_type = "profile";
+        $page_id = "profile";
         include('layout/layout_header.php');
         ?>
 
