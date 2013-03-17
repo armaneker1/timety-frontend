@@ -20,7 +20,7 @@ class RedisUtils {
         $events = $redis->zrangebyscore(REDIS_LIST_CATEGORY_EVENTS . $categryId, $date, "+inf");
         //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
         $result = "[";
-        for ($i = 0; $i < sizeof($events); $i++) {
+        for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
                     $r = ",";
@@ -56,7 +56,7 @@ class RedisUtils {
         $events = $redis->zrangebyscore(REDIS_LIST_UPCOMING_EVENTS, $date, "+inf");
         //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
         $result = "[";
-        for ($i = 0; $i < sizeof($events); $i++) {
+        for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
                     $r = ",";
@@ -93,7 +93,7 @@ class RedisUtils {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $date, "+inf");
             //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
             $result = "[";
-            for ($i = 0; $i < sizeof($events); $i++) {
+            for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
                 if ($i >= $pgStart && $i <= $pgEnd) {
                     try {
                         $r = ",";
@@ -131,7 +131,7 @@ class RedisUtils {
         $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_FOLLOWING, $date, "+inf");
         //$log->logInfo("RedisUtils > getFollowingEvents > size " . sizeof($events));
         $result = "[";
-        for ($i = 0; $i < sizeof($events); $i++) {
+        for ($i = 0; !empty($events) &&$i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
                     $r = ",";
@@ -165,7 +165,7 @@ class RedisUtils {
         $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
         //$log->logInfo("RedisUtils > getOwnerEvents > size " . sizeof($events));
         $result = "[";
-        for ($i = 0; $i < !empty($events) && sizeof($events); $i++) {
+        for ($i = 0; !empty($events) && $i <  sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
                     $r = ",";
