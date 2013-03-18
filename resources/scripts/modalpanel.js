@@ -1,7 +1,9 @@
 var lastCommentId=-1;
 var sending=false;
+var oldUrl=null;
 
 jQuery(document).ready(function(){
+    oldUrl=window.location.href;
     jQuery("#sendComment").keyup(function(event){
         if(event.keyCode==13)
         {
@@ -268,13 +270,41 @@ function openModalPanel(event_id,custom) {
         {
             jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
             setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.creator.userPicture);
-        //set Event Creator
-        /* jQuery.post(TIMETY_PAGE_AJAX_GET_USER_INFO, {
-                'userId':data.creatorId
-            }, function(data){
-                jQuery("#name_creator").text(data.firstName+" "+data.lastName);
-                setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.userPicture);
-            }, "json"); */
+            if(data.creator.about && data.creator.about!="null"){
+                jQuery("#about_creator").text(data.creator.about);
+            }else{
+                jQuery("#about_creator").text("");
+            }
+            jQuery.sessionphp.get('id',function(userId){
+                if(userId){
+                    var button=document.getElementById("foll_modal_creator");
+                    var prefix="modal_";
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: TIMETY_PAGE_AJAX_CHECK_USER_FOLLOW_STATUS,
+                        data: {
+                            'userId':userId,
+                            'fUserId':data.creatorId 
+                        },
+                        error: function(data2){
+                            jQuery(button).removeAttr("disabled");
+                        },
+                        success: function(data2){
+                            jQuery(button).removeAttr("disabled");
+                            if(data2==1 || data2=="1"){
+                                button.className = prefix+'followed_btn';
+                                button.innerHTML = 'unfollow';
+                                button.setAttribute('onclick', 'unfollowUser('+userId+','+data.creatorId+',this,"modal_");');
+                            }else{
+                                button.className = prefix+'follow_btn';
+                                button.innerHTML = 'follow';
+                                button.setAttribute('onclick', 'followUser('+userId+','+data.creatorId+',this,"modal_");');
+                            }
+                        }
+                    },"json");
+                }
+            });
+            
         }else
         {
         // do something show empty image          
@@ -555,7 +585,8 @@ function addUrlEventId(event_id,title)
                 window.History.pushState(null, null, "event/"+event_id+"/"+title);  
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title);
+                if(pSUPERFLY)
+                    pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title);
             }else
             {
                 path="";
@@ -566,7 +597,8 @@ function addUrlEventId(event_id,title)
                 window.History.pushState(null, null, path+"/"+"event/"+event_id);  
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                pSUPERFLY.virtualPage("/event/"+event_id, event_id);
+                if(pSUPERFLY)
+                    pSUPERFLY.virtualPage("/event/"+event_id, event_id);
             }
         }
     }
@@ -582,20 +614,24 @@ function addUrlEventId(event_id,title)
 function remUrlEventId()
 {
     if (history.pushState) {
-        /*
-         * Url rewrite
-         */
-        var url_=window.location.href.split("/");
-        if(url_)
-        {
-            if(jQuery.inArray("event",url_)>=0)
+        if(oldUrl){
+            window.History.pushState(null, null,oldUrl);  
+        }else{
+            /*
+             * Url rewrite
+             */
+            var url_=window.location.href.split("/");
+            if(url_)
             {
-                var path="";
-                for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
+                if(jQuery.inArray("event",url_)>=0)
                 {
-                    path=path+"/"+url_[i];
+                    var path="";
+                    for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
+                    {
+                        path=path+"/"+url_[i];
+                    }
+                    window.History.pushState(null, null, path+"/");  
                 }
-                window.History.pushState(null, null, path+"/");  
             }
         }
     }

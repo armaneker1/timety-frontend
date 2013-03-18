@@ -1,4 +1,55 @@
 /* CSS Document */
 .modal_invisable{
-  display: none !important;   
+    display: none !important;   
+}
+
+.modal_followed_btn {
+    background-color: #71b35d;
+    box-shadow: inset 0px 1px 2px #629b51;
+    border-radius: 5px;
+    border: 1px solid #629b51;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-family: Arial;
+    font-size: 11px;
+    color: #FFF;
+    line-height: 18px;
+    min-width: 78px;
+    float: left;
+}
+
+.modal_follow_btn{
+    background-color: #b35d5d;
+    box-shadow: inset 0px 1px 2px #9b5151;
+    border-radius: 5px;
+    border: 1px solid #9b5151;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-family: Arial;
+    font-size: 11px;
+    color: #FFF;
+    line-height: 18px;
+    min-width: 78px;
+    float: left;
+}
+
+.about_creator{
+    font-size: 10px;
+    font-weight: normal;
+    overflow: hidden;
+    height: 14px;
+    color: #666666;
+    padding-top: 0px;
+    overflow: hidden;
+    height: 14px;
+}
+
+.name_creator{
+    font-family: arial;
+    font-size: 14px;
+    font-weight: bold;
+    color: #666666;
+    padding-top: 0px;
+    overflow: hidden;
+    height: 16px;
 }

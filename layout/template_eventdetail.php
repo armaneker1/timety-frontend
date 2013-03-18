@@ -11,7 +11,9 @@
                 <div class="gdy_creator_img gdy_bg_loader" id="image_creator" ></div>
             </div>
             <div class="bgln_user">
-                <h1 id="name_creator">Event Creator</h1>
+                <h1 id="name_creator" class="name_creator">Event Creator</h1>
+                <h1 id="about_creator" class="about_creator"></h1>
+                <button  type="button" name="" value="" disabled="disabled" class="modal_follow_btn" id="foll_modal_creator" onclick="followUser(null,null,this,'modal_');">follow</button>
             </div>
             <button type="button" class="gdy_btn" id="button_reshare">Reshare</button>
             <button type="button" class="gdy_btn" id="button_maybe">Maybe</button>

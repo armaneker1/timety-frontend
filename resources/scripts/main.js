@@ -1,5 +1,8 @@
-function followUser(fromUserId, toUSerId, button) {
-    button.className = 'followed_btn';
+function followUser(fromUserId, toUSerId, button,prefix) {
+    if(!prefix){
+        prefix="";
+    }
+    button.className = prefix+'followed_btn';
     button.innerHTML = 'unfollow';
     jQuery(button).attr("disabled","disabled");
     
@@ -9,21 +12,24 @@ function followUser(fromUserId, toUSerId, button) {
     }, function(data) {
         jQuery(button).removeAttr("disabled");
         if (data.success) {
-            button.className = 'followed_btn';
+            button.className = prefix+'followed_btn';
             button.innerHTML = 'unfollow';
             button.setAttribute('onclick', 'un'
                 + button.getAttribute('onclick'));
             updateBadge(4,1);
         } else {
-            button.className = 'follow_btn';
+            button.className = prefix+'follow_btn';
             button.innerHTML = 'follow';
             getInfo(true, data.error, "error", 4000);
         }
     }, "json");
 }
 
-function unfollowUser(fromUserId, toUSerId, button) {
-    button.className = 'follow_btn';
+function unfollowUser(fromUserId, toUSerId, button,prefix) {
+    if(!prefix){
+        prefix="";
+    }
+    button.className = prefix+'follow_btn';
     button.innerHTML = 'follow';
     jQuery(button).attr("disabled","disabled");
     
@@ -33,13 +39,13 @@ function unfollowUser(fromUserId, toUSerId, button) {
     }, function(data) {
         jQuery(button).removeAttr("disabled");
         if (data.success) {
-            button.className = 'follow_btn';
+            button.className = prefix+'follow_btn';
             button.innerHTML = 'follow';
             button.setAttribute('onclick', button.getAttribute('onclick')
                 .substring(2));
             updateBadge(4,-1);
         } else {
-            button.className = 'followed_btn';
+            button.className = prefix+'followed_btn';
             button.innerHTML = 'unfollow';
             getInfo(true, data.error, "error", 4000);
         }

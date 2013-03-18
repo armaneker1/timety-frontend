@@ -2194,13 +2194,6 @@ body {
     float: left;
     width: 160px;
 }
-.bgln_user h1 {
-    font-family: arial;
-    font-size: 14px;
-    font-weight: bold;
-    color: #666666;
-    padding-top: 12px;
-}
 .gdy_btn {
     background-color: transparent;
     background-image: url(images/dugme_bg.png);
