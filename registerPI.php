@@ -417,12 +417,12 @@ if (empty($birhtdate)) {
                     
                     //loca cor
                     var e=results[0].geometry.location;
-                    var te_loc_cor_x=e.Ya;
-                    var te_loc_cor_y=e.Za;
+                    var te_loc_cor_x=e.lat();
+                    var te_loc_cor_y=e.lng();
                     if(!te_loc_cor_x || !te_loc_cor_y)
                     {
-                        te_loc_cor_x=e.ib;
-                        te_loc_cor_y=e.jb;
+                        te_loc_cor_x=41.00527;
+                        te_loc_cor_y=28.97695;
                     }
                     
                     jQuery("#te_location_cor_x").val(te_loc_cor_x);
@@ -454,7 +454,7 @@ if (empty($birhtdate)) {
                             for(var i=0;i<results[0].address_components.length;i++){
                                 var obj=results[0].address_components[i];
                                 if(obj && obj.types && obj.types.length>0){
-                                    if(jQuery.inArray("political",obj.types)>=0 && ( jQuery.inArray("administrative_area_level_1",obj.types)>=0 || jQuery.inArray("locality",obj.types)>=0)){
+                                    if(jQuery.inArray("administrative_area_level_1",obj.types)>=0){
                                         te_loc_city=obj.long_name;
                                         break;
                                     }
@@ -505,12 +505,12 @@ if (empty($birhtdate)) {
                         var point = place.geometry.location; 
                         if(point) 
                         {   
-                            var te_loc_cor_x=point.Ya;
-                            var te_loc_cor_y=point.Za;
+                            var te_loc_cor_x=point.lat();
+                            var te_loc_cor_y=point.lng();
                             if(!te_loc_cor_x || !te_loc_cor_y)
                             {
-                                te_loc_cor_x=point.ib;
-                                te_loc_cor_y=point.jb;
+                                te_loc_cor_x=41.00527;
+                                te_loc_cor_y=28.97695;
                             }
                             jQuery("#te_location_cor_x").val(te_loc_cor_x);
                             jQuery("#te_location_cor_y").val(te_loc_cor_y);

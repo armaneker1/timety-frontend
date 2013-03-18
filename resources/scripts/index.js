@@ -309,12 +309,7 @@ var autocompleteCreateEvent=null;
 function setMapLocation(result,status,res){
     if(status=="OK") {
         ce_loc=res.geometry.location;
-        if(!ce_loc.Ya)
-        {
-            ce_loc.Ya=ce_loc.hb;
-            ce_loc.Za=ce_loc.ib;
-        }
-        addMarker(ce_loc.Ya,ce_loc.Za);
+        addMarker(ce_loc.lat(),ce_loc.lng());
     }else{
         console.log(result);
     }
@@ -340,9 +335,18 @@ function openMap(mod,value){
     var lat=41.00527;
     var lng=28.97695;
     if(ce_loc) {
-        lat=ce_loc.Ya;
-        lng=ce_loc.Za;
+        lat=ce_loc.lat;
+        lng=ce_loc.lng;
     }
+    if(!lat || !lng) {
+        try{
+            lat=ce_loc.lat();
+            lng=ce_loc.lng();
+        }catch(exp){
+            console.log(exp);
+        }
+    }
+    
     if(!lat || !lng){
         lat=41.00527;
         lng=28.97695;
@@ -368,13 +372,8 @@ function addMarker(lat,lng) {
         });
         setMapLocationInput(lat, lng);
         google.maps.event.addListener(marker, 'dragend', function (e) {
-            var lat=e.latLng.Ya;
-            var lng=e.latLng.Za;
-            if(!lat || !lng)
-            {
-                lat=e.latLng.hb;
-                lng=e.latLng.ib;
-            }
+            var lat=e.latLng.lat();
+            var lng=e.latLng.lng();
             if(!lat || !lng){
                 lat=41.00527;
                 lng=28.97695;
@@ -383,14 +382,14 @@ function addMarker(lat,lng) {
         });
     }
     ce_loc=new Object();
-    ce_loc.Ya=lat;
-    ce_loc.Za=lng;
+    ce_loc.lat=lat;
+    ce_loc.lng=lng;
 }
 
 function setMapLocationInput(lat,lng)
 {
     ce_loc=new Object();
-    ce_loc.Ya=lat;
-    ce_loc.Za=lng;
+    ce_loc.lat=lat;
+    ce_loc.lng=lng;
     jQuery("#te_map_location").val(lat+","+lng);
 }

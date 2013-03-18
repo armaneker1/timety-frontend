@@ -555,11 +555,11 @@ if (!empty($_POST['rand_session_id'])) {
                 
 <?php if (!empty($event->loc_lat) && !empty($event->loc_lng)) { ?>
             ce_loc=new Object();
-            ce_loc.Ya=<?= $event->loc_lat ?>;
-            ce_loc.Za=<?= $event->loc_lng ?>;
+            ce_loc.lat=<?= $event->loc_lat ?>;
+            ce_loc.lng=<?= $event->loc_lng ?>;
 <?php } else { ?>
             if(ce_loc) {
-                addMarker(ce_loc.Ya,ce_loc.Za);
+                addMarker(ce_loc.lat,ce_loc.lng);
             }
 <?php } ?>
         setTimeout(function(){getCityLocation(setTempMapLocation);},50);

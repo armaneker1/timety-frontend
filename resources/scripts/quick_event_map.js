@@ -19,12 +19,7 @@ function effectQuickLocIcon(){
 function setQuickMapLocation(result,status,res){
     if(status=="OK") {
         q_ce_loc=res.geometry.location;
-        if(!q_ce_loc.Ya)
-        {
-            q_ce_loc.Ya=q_ce_loc.hb;
-            q_ce_loc.Za=q_ce_loc.ib;
-        }
-        addQuickMarker(q_ce_loc.Ya,q_ce_loc.Za);
+        addQuickMarker(q_ce_loc.lat(),q_ce_loc.lng());
     }else{
         console.log(result);
     }
@@ -56,8 +51,16 @@ function openQuickMap(mod,value){
     var lat=41.00527;
     var lng=28.97695;
     if(q_ce_loc) {
-        lat=q_ce_loc.Ya;
-        lng=q_ce_loc.Za;
+        lat=q_ce_loc.lat;
+        lng=q_ce_loc.lng;
+    }
+    if(!lat || !lng){
+        try{
+            lat=q_ce_loc.lat();
+            lng=q_ce_loc.lng();
+        }catch(exp){
+            console.log(exp);
+        }
     }
     if(!lat || !lng){
         lat=41.00527;
@@ -85,13 +88,8 @@ function addQuickMarker(lat,lng) {
         setQuickMapLocationInput(lat, lng);
         effectQuickLocIcon();
         google.maps.event.addListener(marker, 'dragend', function (e) {
-            var lat=e.latLng.Ya;
-            var lng=e.latLng.Za;
-            if(!lat || !lng)
-            {
-                lat=e.latLng.hb;
-                lng=e.latLng.ib;
-            }
+            var lat=e.latLng.lat();
+            var lng=e.latLng.lng();
             if(!lat || !lng){
                 lat=41.00527;
                 lng=28.97695;
@@ -100,15 +98,15 @@ function addQuickMarker(lat,lng) {
         });
     }
     q_ce_loc=new Object();
-    q_ce_loc.Ya=lat;
-    q_ce_loc.Za=lng;
+    q_ce_loc.lat=lat;
+    q_ce_loc.lng=lng;
 }
 
 function setQuickMapLocationInput(lat,lng)
 {
     q_ce_loc=new Object();
-    q_ce_loc.Ya=lat;
-    q_ce_loc.Za=lng;
+    q_ce_loc.lat=lat;
+    q_ce_loc.lng=lng;
     jQuery("#te_quick_event_loc_inpt").val(lat+","+lng);
 }
 

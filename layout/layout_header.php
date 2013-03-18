@@ -52,7 +52,6 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.history.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.sessionphp.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery-ui.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/date.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.mousewheel.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/slides.jquery.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/dragdrop.js"></script>
