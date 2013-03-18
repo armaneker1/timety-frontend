@@ -183,5 +183,7 @@ define('PROP_EVENT_CREATOR_L_NAME', 'creator_l_name');
 define('PROP_EVENT_CREATOR_IMAGE', 'creator_image');
 define('PROP_EVENT_LOC_LAT', 'loc_lat');
 define('PROP_EVENT_LOC_LNG', 'loc_lng');
+define('PROP_EVENT_LOC_COUNTRY', 'loc_country');
+define('PROP_EVENT_LOC_CITY', 'loc_city');
 
 ?>
