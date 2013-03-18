@@ -30,6 +30,6 @@ define('TBL_MENU_TAG' ,'timete_menu_tag');
 define('CLM_TIMETY_TAG_ID' ,'TIMETY_TAG_ID');
 define('CLM_TIMETY_NOTIFICATION_ID' ,'TIMETY_NOTIFICATION_ID');
 define('CLM_TIMETY_MENU_CAT_ID' ,'TIMETY_MENU_CAT_ID');
-
-
+define('TBL_CITY_MAP' ,'timete_city_map');
+define('CLM_CITY_ID' ,'CITY_ID');
 ?>
