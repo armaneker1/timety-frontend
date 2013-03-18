@@ -370,6 +370,8 @@ if ($showPopup) {
                         echo $event->location;
                     }
                     ?>" placeholder="location" />
+                    <input type="hidden" name="te_event_location_country" id="te_event_location_country" value="<?php if ($showPopup) { echo $event->loc_country; }?>"/>
+                    <input type="hidden" name="te_event_location_city" id="te_event_location_city" value="<?php if ($showPopup) { echo $event->loc_city; }?>"/>
                     <input type="hidden" name="te_map_location" id="te_map_location" value="<?php
                            if ($showPopup) {
                                echo $event->loc_lat . "," . $event->loc_lng;

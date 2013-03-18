@@ -3,7 +3,12 @@
  * event box like share button hover
  */
 jQuery(document).ready(function() {
-    
+    jQuery("#div_event_add_ekr").keypress(function(event){
+        if(event.which == 13 || event.keyCode == 13){
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    });
     /*
      * to close 
      */
@@ -306,14 +311,54 @@ var ce_loc=null;
 var autocompleteCreateEvent=null;                           
 
 
-function setMapLocation(result,status,res){
-    if(status=="OK") {
-        ce_loc=res.geometry.location;
-        addMarker(ce_loc.lat(),ce_loc.lng());
-    }else{
+function setMapLocation(results,status,onlycity)
+{
+    if(status=="OK" && results.length>0)
+    {
+        if(!onlycity){
+            ce_loc=results[0].geometry.location;
+            addMarker(ce_loc.lat(),ce_loc.lng());
+        }
+        var te_loc_country="";
+        var te_loc_city="";
+                    
+        //country
+        if(results[0]){
+            if(results[0].address_components.length>0){
+                for(var i=0;i<results[0].address_components.length;i++){
+                    var obj=results[0].address_components[i];
+                    if(obj && obj.types && obj.types.length>0){
+                        if(jQuery.inArray("country",obj.types)>=0){
+                            te_loc_country=obj.short_name;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        jQuery("#te_event_location_country").val(te_loc_country);
+                    
+        //city
+        if(results[0]){
+            if(results[0].address_components.length>0){
+                for(var i=0;i<results[0].address_components.length;i++){
+                    var obj=results[0].address_components[i];
+                    if(obj && obj.types && obj.types.length>0){
+                        if(jQuery.inArray("administrative_area_level_1",obj.types)>=0){
+                            te_loc_city=obj.long_name;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        jQuery("#te_event_location_city").val(te_loc_city);    
+    }else
+    {
         console.log(result);
     }
 }
+
 function openMap(mod,value){
     jQuery(document).unbind("click.cmap");
     if(mod)  {
@@ -378,6 +423,7 @@ function addMarker(lat,lng) {
                 lat=41.00527;
                 lng=28.97695;
             }
+            getCityLocationByCoordinates(lat,lng,setMapLocation);
             setMapLocationInput(lat, lng);
         });
     }

@@ -101,12 +101,12 @@ class User {
     public $location_cor_x;
     public $location_cor_y;
     //statistic
-    public $following_count=0;
-    public $followers_count=0;
-    public $likes_count=0;
-    public $reshares_count=0;
-    public $joined_count=0;
-    public $created_count=0;
+    public $following_count = 0;
+    public $followers_count = 0;
+    public $likes_count = 0;
+    public $reshares_count = 0;
+    public $joined_count = 0;
+    public $created_count = 0;
 
     public function getUserLang() {
         return $this->hometown;
@@ -258,6 +258,8 @@ class Event {
             $this->attach_link = $result['attach_link'];
             $this->loc_lat = $result['lat'];
             $this->loc_lng = $result['lng'];
+            $this->loc_country =$result['loc_country'];
+            $this->loc_city = $result['loc_city'];
             $this->creatorId = $result['creator_id'];
         }
         if (!empty($additionalData) && $additionalData) {
@@ -278,6 +280,9 @@ class Event {
             $this->loc_lat = $result->getProperty(PROP_EVENT_LOC_LAT);
             $this->loc_lng = $result->getProperty(PROP_EVENT_LOC_LNG);
             $this->privacy = $result->getProperty(PROP_EVENT_PRIVACY);
+            $this->loc_country = $result->getProperty(PROP_EVENT_LOC_COUNTRY);
+            $this->loc_city = $result->getProperty(PROP_EVENT_LOC_CITY);
+
             $this->commentCount = $result->getProperty(PROP_EVENT_COMMENT_COUNT);
             if (empty($this->commentCount)) {
                 $this->commentCount = 0;
@@ -337,6 +342,8 @@ class Event {
         $this->loc_lat = $tmp->loc_lat;
         $this->loc_lng = $tmp->loc_lng;
         $this->creatorId = $tmp->creatorId;
+        $this->loc_country = $tmp->loc_country;
+        $this->loc_city = $tmp->loc_city;
     }
 
     public function setAdditionalData($userId = -1) {
@@ -375,6 +382,8 @@ class Event {
     public $reminderSent = 0;
     public $loc_lat;
     public $loc_lng;
+    public $loc_country;
+    public $loc_city;
     /*
      * Additional Data
      */

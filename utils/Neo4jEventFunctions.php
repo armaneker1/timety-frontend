@@ -41,7 +41,7 @@ class Neo4jEventUtils {
             if (!empty($evnt)) {
 
                 //$evnt->setProperty(PROP_EVENT_ID, $eventId);
-                //$evnt->setProperty(PROP_EVENTS_ACC_TYPE, $user->type);
+                $evnt->setProperty(PROP_EVENTS_ACC_TYPE, $user->type);
                 $evnt->setProperty(PROP_EVENT_DESCRIPTION, $event->description);
                 $evnt->setProperty(PROP_EVENT_START_DATE, strtotime($event->startDateTime));
                 $evnt->setProperty(PROP_EVENT_END_DATE, strtotime($event->endDateTime));
@@ -52,14 +52,16 @@ class Neo4jEventUtils {
 
                 //$evnt->setProperty(PROP_EVENT_COMMENT_COUNT, 0);
                 //$evnt->setProperty(PROP_EVENT_ATTENDANCE_COUNT, 0);
-                //$evnt->setProperty(PROP_EVENT_CREATOR_ID, $user->id);
-                //$evnt->setProperty(PROP_EVENT_CREATOR_F_NAME, $user->firstName);
-                //$evnt->setProperty(PROP_EVENT_CREATOR_L_NAME, $user->lastName);
-                //$evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
-                //$evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
+                $evnt->setProperty(PROP_EVENT_CREATOR_ID, $user->id);
+                $evnt->setProperty(PROP_EVENT_CREATOR_F_NAME, $user->firstName);
+                $evnt->setProperty(PROP_EVENT_CREATOR_L_NAME, $user->lastName);
+                $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
+                $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
 
                 $evnt->setProperty(PROP_EVENT_LOC_LAT, $event->loc_lat);
                 $evnt->setProperty(PROP_EVENT_LOC_LNG, $event->loc_lng);
+                $evnt->setProperty(PROP_EVENT_LOC_COUNTRY, $event->loc_country);
+                $evnt->setProperty(PROP_EVENT_LOC_CITY, $event->loc_city);
                 $evnt->save();
 
 
@@ -271,6 +273,8 @@ class Neo4jEventUtils {
 
             $evnt->setProperty(PROP_EVENT_LOC_LAT, $event->loc_lat);
             $evnt->setProperty(PROP_EVENT_LOC_LNG, $event->loc_lng);
+            $evnt->setProperty(PROP_EVENT_LOC_COUNTRY, $event->loc_country);
+            $evnt->setProperty(PROP_EVENT_LOC_CITY, $event->loc_city);
             $evnt->save();
 
             $eventIndex->add($evnt, PROP_EVENT_ID, $eventId);

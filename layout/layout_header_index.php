@@ -66,7 +66,7 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.placeholder.1.3.min.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAPS_API_KEY ?>&sensor=true&libraries=places"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/gmaps.min.js"></script>
-<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/google.maps.api.min.js?2013030091212"></script>
+<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/google.maps.api.min.js?2013030095442"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/analyticstool.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/tooltip.min.js?201302251300"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.maxlength.min.js?5678"></script>

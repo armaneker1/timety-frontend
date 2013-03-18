@@ -12,8 +12,9 @@ session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/utils/Functions.php';
+require_once __DIR__ . '/apis/google/contrib/Google_CalendarService.php';
 
-$page_id="editevent";
+$page_id = "editevent";
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
 
@@ -102,6 +103,9 @@ if (!empty($_POST['rand_session_id'])) {
             $event->loc_lng = $arr[1];
         }
     }
+
+    $event->loc_country = $_POST['te_event_location_country'];
+    $event->loc_city = $_POST['te_event_location_city'];
 
     $event->description = $_POST["te_event_description"];
     if (empty($event->description)) {
@@ -496,7 +500,7 @@ if (!empty($_POST['rand_session_id'])) {
     /*
      * get tags
      */
-    $tags = Neo4jEventUtils::getEventTags($eventId,$user->language);
+    $tags = Neo4jEventUtils::getEventTags($eventId, $user->language);
     $var_tags = array();
     if (!empty($tags)) {
         $tag = new Interest();
@@ -550,6 +554,40 @@ if (!empty($_POST['rand_session_id'])) {
                     if(point) 
                     {  
                         addMarker(point.lat(),point.lng());
+                        
+                        var te_loc_country="";
+                        var te_loc_city="";
+                        //country                        
+                        if(place.address_components.length>0){
+                            for(var i=0;i<place.address_components.length;i++){
+                                var obj=place.address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("country",obj.types)>=0){
+                                        te_loc_country=obj.short_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        jQuery("#te_add_location_country").val(te_loc_country);
+                    
+                        //city
+                        if(place.address_components.length>0){
+                            for(var i=0;i<place.address_components.length;i++){
+                                var obj=place.address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("administrative_area_level_1",obj.types)>=0){
+                                        te_loc_city=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if(te_loc_city){
+                            jQuery("#te_add_location_city").val(te_loc_city);    
+                        }else{
+                            getCityLocationByCoordinates(point.lat(),point.lng(),setMapLocation);
+                        }
                     } 
                 });
                 
@@ -562,7 +600,7 @@ if (!empty($_POST['rand_session_id'])) {
                 addMarker(ce_loc.lat,ce_loc.lng);
             }
 <?php } ?>
-        setTimeout(function(){getCityLocation(setTempMapLocation);},50);
+        setTimeout(function(){getAllLocation(setTempMapLocation);},50);
     });
         </script>
 
@@ -1042,6 +1080,8 @@ if ($event->addsocial_tw == 1) {
                                    id="te_event_location" 
                                    onfocus="openMap(true,true);"
                                    value="<?= $event->location ?>" placeholder="location" />
+                            <input type="hidden" name="te_event_location_country" id="te_event_location_country" value="<?= $event->loc_country ?>"/>
+                            <input type="hidden" name="te_event_location_city" id="te_event_location_city" value="<?= $event->loc_city ?>"/>
                             <input type="hidden" name="te_map_location" id="te_map_location" value="<?= $event->loc_lat . "," . $event->loc_lng ?>"/>
                             <div class="left" style="float: right;">
                                 <div class="link_atac" style="display: none;left: -195px !important;">
@@ -1080,13 +1120,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                        <label
-                                                                            class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
-                                                                                onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                checked=""
-                                                                                name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
-                                                                                value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                        </label> <br /> 
+                                                                                                <label
+                                                                                                    class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
+                                                                                                        onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                        checked=""
+                                                                                                        name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
+                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                </label> <br /> 
                             <?php
                         }
                     }
@@ -1102,13 +1142,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                        <label
-                                                                            class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
-                                                                                onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                checked=""
-                                                                                name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
-                                                                                value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                        </label> <br /> 
+                                                                                                <label
+                                                                                                    class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
+                                                                                                        onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                        checked=""
+                                                                                                        name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
+                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                </label> <br /> 
                             <?php
                         }
                     }
@@ -1138,7 +1178,7 @@ if ($event->addsocial_tw == 1) {
                                 $iddd = $var_cats[$i]->id;
                             }
                             ?>
-                                                                jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
+                                                                                        jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
                             <?php
                         }
                     }

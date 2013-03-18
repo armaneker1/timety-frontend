@@ -142,6 +142,9 @@ if (empty($user)) {
                 $event->loc_lng = $arr[1];
             }
         }
+        
+        $event->loc_country=$_POST['te_event_location_country'];
+        $event->loc_city=$_POST['te_event_location_city'];
 
         $event->description = $_POST["te_event_description"];
         if (empty($event->description)) {
@@ -503,7 +506,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                		      
+                                                                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -520,7 +523,7 @@ if (empty($user)) {
 
         <script>
             jQuery(document).ready(function(){
-                setTimeout(function(){getCityLocation(setMapLocation);},100);
+                setTimeout(function(){getAllLocation(setMapLocation);},100);
                 var input = document.getElementById('te_event_location');
                 var options = { /*types: ['(cities)']*/ };
                 autocompleteCreateEvent = new google.maps.places.Autocomplete(input, options);
@@ -531,6 +534,41 @@ if (empty($user)) {
                     if(point) 
                     {  
                         addMarker(point.lat(),point.lng());
+                        
+                        var te_loc_country="";
+                        var te_loc_city="";
+                    
+                        //country                        
+                        if(place.address_components.length>0){
+                            for(var i=0;i<place.address_components.length;i++){
+                                var obj=place.address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("country",obj.types)>=0){
+                                        te_loc_country=obj.short_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        jQuery("#te_event_location_country").val(te_loc_country);
+                    
+                        //city
+                        if(place.address_components.length>0){
+                            for(var i=0;i<place.address_components.length;i++){
+                                var obj=place.address_components[i];
+                                if(obj && obj.types && obj.types.length>0){
+                                    if(jQuery.inArray("administrative_area_level_1",obj.types)>=0){
+                                        te_loc_city=obj.long_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if(te_loc_city){
+                            jQuery("#te_event_location_city").val(te_loc_city);    
+                        }else{
+                            getCityLocationByCoordinates(point.lat(),point.lng(),setMapLocation);
+                        }
                     } 
                 });
             });
@@ -650,7 +688,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                            
+                                                
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -745,7 +783,7 @@ if (empty($user)) {
         $json_response = str_replace("'", "\\'", $json_response);
         echo $json_response;
         ?>');
-                });
+            });
             </script>
 
 
@@ -901,14 +939,14 @@ if (empty($user)) {
                                                         <p>Today @<?php
                                         $dt = strtotime($evt->startDateTime);
                                         echo date('H:i', $dt);
-                                        ?></p>
+                                                    ?></p>
                                                        <!-- <p><?= $evtDesc ?></p> -->
                                                         <script>
                                                             var tmpDataJSON='<?php
-                                        $json_response = json_encode($evt);
-                                        $json_response = str_replace("'", "\\'", $json_response);
-                                        echo str_replace('"', '\\"', $json_response);
-                                        ?>';
+                                                $json_response = json_encode($evt);
+                                                $json_response = str_replace("'", "\\'", $json_response);
+                                                echo str_replace('"', '\\"', $json_response);
+                                                ?>';
                                                     tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
                                                     var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
                                                     localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
@@ -1011,25 +1049,25 @@ if (empty($user)) {
                                                      data-placement="bottom" 
                                                      title=""
                                                      class="ls_btn <?php
-                                if ($main_event->userRelation->like) {
-                                    echo "like_btn_aktif";
-                                } else {
-                                    echo "like_btn";
-                                }
+                if ($main_event->userRelation->like) {
+                    echo "like_btn_aktif";
+                } else {
+                    echo "like_btn";
+                }
                                 ?>"  
                                                      class_aktif="like_btn_aktif" 
                                                      class_pass="like_btn"      
                                                      pressed="<?php
-                                if ($main_event->userRelation->like) {
-                                    echo "true";
-                                } else {
-                                    echo "false";
-                                }
+                                     if ($main_event->userRelation->like) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
                                 ?>"  
                                                      style="<?php
-                                if ($main_event->creatorId == $user->id) {
-                                    echo "display:none;";
-                                }
+                                     if ($main_event->creatorId == $user->id) {
+                                         echo "display:none;";
+                                     }
                                 ?>"
                                                      onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_maybe_btn" 
@@ -1037,56 +1075,56 @@ if (empty($user)) {
                                                      data-placement="bottom" 
                                                      title=""
                                                      class="ls_btn <?php
-                                if ($main_event->userRelation->joinType == 2) {
-                                    echo "maybe_btn_aktif";
-                                } else {
-                                    echo "maybe_btn";
-                                }
+                                     if ($main_event->userRelation->joinType == 2) {
+                                         echo "maybe_btn_aktif";
+                                     } else {
+                                         echo "maybe_btn";
+                                     }
                                 ?>" 
                                                      class_aktif="maybe_btn_aktif" 
                                                      class_pass="maybe_btn" 
                                                      pressed="<?php
-                                if ($main_event->userRelation->joinType == 2) {
-                                    echo "true";
-                                } else {
-                                    echo "false";
-                                }
+                                     if ($main_event->userRelation->joinType == 2) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
                                 ?>" 
                                                      style="<?php
-                                if ($main_event->creatorId == $user->id) {
-                                    echo "display:none;";
-                                }
+                                     if ($main_event->creatorId == $user->id) {
+                                         echo "display:none;";
+                                     }
                                 ?>"
                                                      onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;" 
                                                      style="<?php
-                                if ($main_event->creatorId == $user->id) {
-                                    echo "display:none;";
-                                }
+                                     if ($main_event->creatorId == $user->id) {
+                                         echo "display:none;";
+                                     }
                                 ?>"></button>
                                             <button  id="div_share_btn" 
                                                      data-toggle="tooltip" 
                                                      data-placement="bottom" 
                                                      title=""
                                                      class="ls_btn <?php
-                                if ($main_event->userRelation->reshare) {
-                                    echo "share_btn_aktif";
-                                } else {
-                                    echo "share_btn";
-                                }
+                                     if ($main_event->userRelation->reshare) {
+                                         echo "share_btn_aktif";
+                                     } else {
+                                         echo "share_btn";
+                                     }
                                 ?>" 
                                                      class_aktif="share_btn_aktif" 
                                                      class_pass="share_btn" 
                                                      pressed="<?php
-                                if ($main_event->userRelation->reshare) {
-                                    echo "true";
-                                } else {
-                                    echo "false";
-                                }
+                                     if ($main_event->userRelation->reshare) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
                                 ?>" 
                                                      style="<?php
-                                if ($main_event->creatorId == $user->id) {
-                                    echo "display:none;";
-                                }
+                                     if ($main_event->creatorId == $user->id) {
+                                         echo "display:none;";
+                                     }
                                 ?>"
                                                      onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></button>
                                             <button  id="div_join_btn" 
@@ -1094,26 +1132,26 @@ if (empty($user)) {
                                                      data-placement="bottom" 
                                                      title=""
                                                      class="ls_btn <?php
-                                if ($main_event->userRelation->joinType == 1) {
-                                    echo "join_btn_aktif";
-                                } else {
-                                    echo "join_btn";
-                                }
+                                     if ($main_event->userRelation->joinType == 1) {
+                                         echo "join_btn_aktif";
+                                     } else {
+                                         echo "join_btn";
+                                     }
                                 ?>" 
                                                      class_aktif="join_btn_aktif" 
                                                      class_pass="join_btn" 
                                                      pressed="<?php
-                                if ($main_event->userRelation->joinType == 1) {
-                                    echo "true";
-                                } else {
-                                    echo "false";
-                                }
+                                     if ($main_event->userRelation->joinType == 1) {
+                                         echo "true";
+                                     } else {
+                                         echo "false";
+                                     }
                                 ?>"  
                                                      onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"
                                                      style="<?php
-                                if ($main_event->creatorId == $user->id) {
-                                    echo "display:none;";
-                                }
+                                     if ($main_event->creatorId == $user->id) {
+                                         echo "display:none;";
+                                     }
                                 ?>"></button>
                                             <button  id="div_edit_btn" 
                                                      data-toggle="tooltip" 
@@ -1124,9 +1162,9 @@ if (empty($user)) {
                                                      class_pass="edit_btn" 
                                                      onclick="openEditEvent(<?= $main_event->id ?>);return false;"
                                                      style="<?php
-                                if ($main_event->creatorId != $user->id) {
-                                    echo "display:none;";
-                                }
+                                     if ($main_event->creatorId != $user->id) {
+                                         echo "display:none;";
+                                     }
                                 ?>"></button>
                                         </div>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;">
@@ -1141,34 +1179,34 @@ if (empty($user)) {
                                     </div>
                                     <div class="m_e_metin">
                                         <div class="m_e_baslik">
-                <?= $main_event->title ?>
+                                            <?= $main_event->title ?>
                                         </div>
                                         <div class="m_e_com">
-                                            
-                                                <?php
-                                                if (!empty($main_event->creatorId)) {
-                                                    $crt = $main_event->creator;
-                                                    $crt = UtilFunctions::cast("User", $crt);
-                                                    if (!empty($crt) && !empty($crt->id)) {
-                                                        $usr_url = HOSTNAME . $crt->userName;
-                                                        ?>
-                                                        <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
+
+                                            <?php
+                                            if (!empty($main_event->creatorId)) {
+                                                $crt = $main_event->creator;
+                                                $crt = UtilFunctions::cast("User", $crt);
+                                                if (!empty($crt) && !empty($crt->id)) {
+                                                    $usr_url = HOSTNAME . $crt->userName;
+                                                    ?>
+                                                    <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
                                                         <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $crt->getFullName() ?></span>
-                                                        </p>
-                                                        <?php
-                                                    }
-                                                } else {
-                                                    ?>
-                                                    <p>
+                                                    </p>
+                                                    <?php
+                                                }
+                                            } else {
+                                                ?>
+                                                <p>
                                                     <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" />
                                                     <span> </span>
-                                                    </p>
-                                                <?php }
-                                                ?>
+                                                </p>
+                                            <?php }
+                                            ?>
                                         </div>
                                         <div class="m_e_ackl">
-                <?= $main_event->description ?>
+                                            <?= $main_event->description ?>
                                         </div>
                                         <div class="m_e_drm">
                                             <ul>
@@ -1191,13 +1229,13 @@ if (empty($user)) {
                                     </div>
                                     <script>
                                         var tmpDataJSON='<?php
-                $json_response = json_encode($main_event);
-                $json_response = str_replace("'", "\\'", $json_response);
-                echo str_replace('"', '\\"', $json_response);
-                ?>';
-                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                            $json_response = json_encode($main_event);
+                            $json_response = str_replace("'", "\\'", $json_response);
+                            echo str_replace('"', '\\"', $json_response);
+                            ?>';
+                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>
@@ -1235,7 +1273,7 @@ if (empty($user)) {
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
         <div id="dump" style="display: none">
             <!-- profil box -->
-<?php if (!empty($user) && !empty($user->id)) { ?>
+            <?php if (!empty($user) && !empty($user->id)) { ?>
                 <div class="profil_box main_event_box">
                     <div class="profil_resim">
                         <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
@@ -1273,10 +1311,10 @@ if (empty($user)) {
                         </script>
                     </div>
                 </div>
-<?php } ?>
+            <?php } ?>
             <!-- profil box -->
         </div>
         <div id="te_faux"  style="visibility: hidden;display: inline"></div>
     </body>
-<?php include('layout/template_createevent.php'); ?>
+    <?php include('layout/template_createevent.php'); ?>
 </html>

@@ -85,3 +85,23 @@ function getAllLocation(fn)
         console.log("fn not a function");  
     }
 }
+
+
+function getCityLocationByCoordinates(lat,lng,fn){
+    if(lat && lng){
+        var latlng = new google.maps.LatLng(lat, lng);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({
+            'latLng': latlng
+        }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results && results.length && results.length>0) {
+                    if( jQuery.isFunction( fn))
+                    {
+                        fn.call(this,results, "OK",true); 
+                    }
+                }
+            } 
+        });
+    }
+}
