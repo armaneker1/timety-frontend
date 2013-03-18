@@ -1242,7 +1242,7 @@ if (empty($user)) {
                     </div>
                     <div class="profil_user">
                         <div class="bgln_user">
-                            <h1><?php echo $user->getFullName() ?></h1>
+                            <h1 class="bgln_user_h1"><?php echo $user->getFullName() ?></h1>
                             <p><?php echo $user->about ?></p>
                         </div>
                         <div class="user_settings"><a href="<?= PAGE_UPDATE_PROFILE ?>"><img src="<?= HOSTNAME ?>images/settings.png" width="16" height="17" border="0" /></a></div>

@@ -1254,3 +1254,11 @@
     padding-right: 3px;
     width: auto;
 }
+
+.bgln_user_h1 {
+    font-family: arial;
+    font-size: 14px;
+    font-weight: bold;
+    color: #666666;
+    padding-top: 12px;
+}

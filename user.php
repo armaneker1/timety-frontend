@@ -318,7 +318,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                         </div>
                         <div class="profil_user">
                             <div class="bgln_user">
-                                <h1><?php echo $p_user->getFullName() ?></h1>
+                                <h1 class="bgln_user_h1"><?php echo $p_user->getFullName() ?></h1>
                                 <p><?php echo $p_user->about ?></p>
                             </div>
                         </div>
