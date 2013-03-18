@@ -26,11 +26,14 @@ if (isset($_GET['lng'])) {
 
 if (isset($_GET['coor'])) {
     $coor = $_GET['coor'];
-    $coors=  explode(',', $coor);
-    $lat=$coors[0];
-    $lng=$coors[1];
+    $coors = explode(',', $coor);
+    $lat = $coors[0];
+    $lng = $coors[1];
 }
 
 
-UtilFunctions::getCityCounrty($lat, $lng);
+//LocationUtils::getCityCounrty($lat, $lng);
+
+var_dump(LocationUtils::getCityId("Ankara"));
+var_dump(LocationUtils::getCountryId("Türkiye"));
 ?>

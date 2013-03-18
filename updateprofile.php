@@ -254,7 +254,7 @@ if (isset($_POST['update'])) {
     $user->gender = $te_gender;
     //location
     $user->location_country = $te_location_country;
-    $user->location_city = $te_location_city;
+    $user->location_city = LocationUtils::getCityId($te_location_city);
     $user->location_all_json = $te_location_all_json;
     $user->location_cor_x = $te_location_cor_x;
     $user->location_cor_y = $te_location_cor_y;
@@ -264,9 +264,19 @@ if (isset($_POST['update'])) {
     }
     $success = false;
     if ($param) {
+        if (!empty($te_location_country) && ( $te_location_country == "Turkey" ||
+                $te_location_country == "turkey" ||
+                $te_location_country == "Türkiye" ||
+                $te_location_country == "TR" ||
+                $te_location_country == "tr" ||
+                $te_location_country == "türkiye")) {
+            $user->language = LANG_TR_TR;
+        } else {
+            $user->language = LANG_EN_US;
+        }
         UserUtils::updateUser($_SESSION['id'], $user);
         $user = UserUtils::getUserById($_SESSION['id']);
-        UserUtils::addUserLocation($user->id, $te_location_country, $te_location_city, $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
+        UserUtils::addUserLocation($user->id, $te_location_country, LocationUtils::getCityId($te_location_city), $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
         UserUtils::addUserInfoNeo4j($user);
         $success = true;
         UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id']));
