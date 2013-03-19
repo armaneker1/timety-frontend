@@ -165,7 +165,7 @@ class RedisUtils {
         $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
         //$log->logInfo("RedisUtils > getOwnerEvents > size " . sizeof($events));
         $result = "[";
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -174,15 +174,16 @@ class RedisUtils {
                         $r = "";
                     }
                     $result = $result . $r . $events[$i];
+                    $ik++;
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+        if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
                         $r = ",";
                         if (strlen($result) < 2) {
@@ -217,7 +218,7 @@ class RedisUtils {
         $userRelationEmpty->joinType = 0;
         $userRelationEmpty->like = false;
         $userRelationEmpty->reshare = false;
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             $evt = json_decode($events[$i]);
             if ($evt->privacy == "true") {
@@ -229,18 +230,19 @@ class RedisUtils {
                         }
                         $evt->userRelation = $userRelationEmpty;
                         $result = $result . $r . json_encode($evt);
+                        $ik++;
                     } catch (Exception $exc) {
                         $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                     }
                 }
             }
         }
-        if ($i <= $pgEnd) {
+        if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
                 $evt = json_decode($events[$j]);
                 if ($evt->privacy == "true") {
-                    if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                    if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                         try {
                             $r = ",";
                             if (strlen($result) < 2) {
@@ -276,7 +278,7 @@ class RedisUtils {
         $userRelationEmpty->joinType = 0;
         $userRelationEmpty->like = false;
         $userRelationEmpty->reshare = false;
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -288,16 +290,17 @@ class RedisUtils {
                         }
                         $evt->userRelation = $userRelationEmpty;
                         $result = $result . $r . json_encode($evt);
+                        $ik++;
                     }
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+        if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
                         $evt = json_decode($events[$j]);
                         if ($evt->creatorId == $reqUserId && $evt->privacy == "true") {
@@ -336,7 +339,7 @@ class RedisUtils {
         $userRelationEmpty->joinType = 0;
         $userRelationEmpty->like = false;
         $userRelationEmpty->reshare = false;
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -349,22 +352,23 @@ class RedisUtils {
                         }
                         $evt->userRelation = $userRelationEmpty;
                         $result = $result . $r . json_encode($evt);
+                        $ik++;
                     }
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+        if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
                         $evt = json_decode($events[$j]);
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if (($rel->like . "" == "true" || $rel->like) && $evt->privacy == "true") {
                             $r = ",";
-                            if (($i + $j) == $pgStart) {
+                            if (strlen($result) < 2) {
                                 $r = "";
                             }
                             $evt->userRelation = $userRelationEmpty;
@@ -397,7 +401,7 @@ class RedisUtils {
         $userRelationEmpty->joinType = 0;
         $userRelationEmpty->like = false;
         $userRelationEmpty->reshare = false;
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -410,16 +414,17 @@ class RedisUtils {
                         }
                         $evt->userRelation = $userRelationEmpty;
                         $result = $result . $r . json_encode($evt);
+                        $ik++;
                     }
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+        if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
                         $evt = json_decode($events[$j]);
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
@@ -458,7 +463,7 @@ class RedisUtils {
         $userRelationEmpty->joinType = 0;
         $userRelationEmpty->like = false;
         $userRelationEmpty->reshare = false;
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -472,19 +477,19 @@ class RedisUtils {
                         }
                         $evt->userRelation = $userRelationEmpty;
                         $result = $result . $r . json_encode($evt);
+                        $ik++;
                     }
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+        if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
                         $evt = json_decode($events[$j]);
-
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if (($rel->reshare . "" == "true" || $rel->reshare) && $evt->privacy == "true") {
                             $r = ",";
@@ -546,7 +551,7 @@ class RedisUtils {
         $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
         //$log->logInfo("RedisUtils > getOwnerEvents > size " . sizeof($events));
         $result = "[";
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -557,21 +562,22 @@ class RedisUtils {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
+                        $ik++;
                     }
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+        if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
-                        $evt = json_decode($events[$i]);
+                        $evt = json_decode($events[$j]);
                         if ($evt->creatorId == $userId) {
                             $r = ",";
-                            if (($i + $j) == $pgStart) {
+                            if (strlen($result) < 2) {
                                 $r = "";
                             }
                             $result = $result . $r . $events[$j];
@@ -601,7 +607,7 @@ class RedisUtils {
         $pgEnd = $pgStart + $pageItemCount - 1;
         $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
         $result = "[";
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -613,22 +619,23 @@ class RedisUtils {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
+                        $ik++;
                     }
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+       if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
-                        $evt = json_decode($events[$i]);
+                        $evt = json_decode($events[$j]);
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if ($rel->like . "" == "true" || $rel->like) {
                             $r = ",";
-                            if (($i + $j) == $pgStart) {
+                            if (strlen($result) < 2) {
                                 $r = "";
                             }
                             $result = $result . $r . $events[$j];
@@ -656,7 +663,7 @@ class RedisUtils {
         $pgEnd = $pgStart + $pageItemCount - 1;
         $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
         $result = "[";
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -668,22 +675,23 @@ class RedisUtils {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
+                        $ik++;
                     }
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+       if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
-                        $evt = json_decode($events[$i]);
+                        $evt = json_decode($events[$j]);
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if ($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) {
                             $r = ",";
-                            if (($i + $j) == $pgStart) {
+                            if (strlen($result) < 2) {
                                 $r = "";
                             }
                             $result = $result . $r . $events[$j];
@@ -711,7 +719,7 @@ class RedisUtils {
         $pgEnd = $pgStart + $pageItemCount - 1;
         $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, $date, "+inf");
         $result = "[";
-        $i = 0;
+        $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($i >= $pgStart && $i <= $pgEnd) {
                 try {
@@ -724,22 +732,23 @@ class RedisUtils {
                             $r = "";
                         }
                         $result = $result . $r . $events[$i];
+                        $ik++;
                     }
                 } catch (Exception $exc) {
                     $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                 }
             }
         }
-        if ($i <= $pgEnd) {
+        if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
-                if (($i + $j) >= $pgStart && ($i + $j) <= $pgEnd) {
+                if (($ik + $j) >= $pgStart && ($ik + $j) <= $pgEnd) {
                     try {
-                        $evt = json_decode($events[$i]);
+                        $evt = json_decode($events[$j]);
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if ($rel->reshare . "" == "true" || $rel->reshare) {
                             $r = ",";
-                            if (($i + $j) == $pgStart) {
+                            if (strlen($result) < 2) {
                                 $r = "";
                             }
                             $result = $result . $r . $events[$j];
