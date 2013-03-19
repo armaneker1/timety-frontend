@@ -545,17 +545,26 @@ function wookmarkHTML(dataArray,userId)
             jQuery(durumUL).append(liTuruncu);
 
             //li yesil
+            var remTime=calculateRemainingTime(data.startDateTime);
             var liYesil = document.createElement('li');
             var liYesilA = document.createElement('a');
             var liYesilAImg = document.createElement('img');
-            jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
+            if(remTime=="Past"){
+                jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn_k.png');
+            }else{
+                jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
+            }
             jQuery(liYesilAImg).attr('width',18);
             jQuery(liYesilAImg).attr('heigh',18);
             jQuery(liYesilAImg).attr('align','absmiddle');
             jQuery(liYesilAImg).attr('border',0);
             jQuery(liYesilA).attr('href','#');
             jQuery(liYesilA).attr('onclick','return false;');
-            jQuery(liYesilA).addClass('yesil_link');
+            if(remTime=="Past"){
+                jQuery(liYesilA).addClass('turuncu_link');
+            }else{
+                jQuery(liYesilA).addClass('yesil_link');
+            }
             jQuery(liYesilA).append(liYesilAImg);
             jQuery(liYesilA).append(calculateRemainingTime(data.startDateTime));
             jQuery(liYesil).append(liYesilA);
@@ -797,7 +806,7 @@ function calculateRemainingTime(date){
     if(date){
         var  d=moment(date,"YYYY.MM.DD HH:mm");
         if(d.isBefore(moment())){
-            return "past";
+            return "Past";
         }else{
             var y_=d.diff(moment(),"years");
             if(y_>0){
@@ -815,7 +824,7 @@ function calculateRemainingTime(date){
             if(m_>0){
                 return m_+"m";
             }
-            return "now";
+            return "Now";
         }
     }
 }

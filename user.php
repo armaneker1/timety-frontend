@@ -588,8 +588,8 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                             align="absmiddle" /><?= $main_event->commentCount ?>
                                                     </a>
                                                 </li>
-                                                <li><a href="#" class="yesil_link" onclick="return false;"> <img src="<?= HOSTNAME ?>images/zmn.png"
-                                                                                                                 width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
+                                                <li><a href="#" class="<?php $tt=$main_event->getRemainingTime(); if($tt=="Past"){echo "turuncu_link";} else {echo "yesil_link";}?>" onclick="return false;"> 
+                                                        <img src="<?= HOSTNAME ?>images/zmn<?php if($tt=="Past"){echo "_k";} ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
                                                     </a>
                                                 </li>
                                             </ul>
