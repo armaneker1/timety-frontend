@@ -265,13 +265,14 @@ function openModalPanel(event_id,custom) {
         }
         jQuery("#name_creator").text("");
         setImageBackGroundLoader(jQuery("#image_creator"));
-        
+        jQuery("#about_creator").hide();
         if(data.creatorId)
         {
             jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
             setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.creator.userPicture);
             if(data.creator.about && data.creator.about!="null"){
                 jQuery("#about_creator").text(data.creator.about);
+                jQuery("#about_creator").show();
             }else{
                 jQuery("#about_creator").text("");
             }

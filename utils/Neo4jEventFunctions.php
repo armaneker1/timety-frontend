@@ -58,6 +58,7 @@ class Neo4jEventUtils {
                 $evnt->setProperty(PROP_EVENT_CREATOR_L_NAME, $user->lastName);
                 $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
                 $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
+                $evnt->setProperty(PROP_EVENT_CREATOR_ABOUT, $user->about);
 
                 $evnt->setProperty(PROP_EVENT_LOC_LAT, $event->loc_lat);
                 $evnt->setProperty(PROP_EVENT_LOC_LNG, $event->loc_lng);
@@ -272,6 +273,7 @@ class Neo4jEventUtils {
             $evnt->setProperty(PROP_EVENT_CREATOR_L_NAME, $user->lastName);
             $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
             $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
+            $evnt->setProperty(PROP_EVENT_CREATOR_ABOUT, $user->about);
 
             $evnt->setProperty(PROP_EVENT_LOC_LAT, $event->loc_lat);
             $evnt->setProperty(PROP_EVENT_LOC_LNG, $event->loc_lng);

@@ -306,6 +306,7 @@ class Event {
             $cretorLName = $result->getProperty(PROP_EVENT_CREATOR_L_NAME);
             $cretorUsername = $result->getProperty(PROP_EVENT_CREATOR_USERNAME);
             $cretorImage = $result->getProperty(PROP_EVENT_CREATOR_IMAGE);
+            $cretorAbout = $result->getProperty(PROP_EVENT_CREATOR_ABOUT);
 
             $crt = new User();
             $crt->id = $cretorId;
@@ -314,6 +315,7 @@ class Event {
             $crt->lastName = $cretorLName;
             $crt->userName = $cretorUsername;
             $crt->userPicture = $cretorImage;
+            $crt->about=$cretorAbout;
             $this->creator = $crt;
             $this->creatorId = $cretorId;
         }

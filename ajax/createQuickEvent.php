@@ -16,7 +16,7 @@ if (isset($_GET)) {
      */
     $rand = rand(10000, 9999999);
     $dest_url = __DIR__ . '/../uploads/' . $rand . "_logo_fb.jpeg";
-    copy(__DIR__ . '/../images/logo_fb.jpeg', $dest_url);
+    copy(__DIR__ . '/../images/nopic.jpeg', $dest_url);
     $event->headerImage = $rand . "_logo_fb.jpeg";
     /*
      */

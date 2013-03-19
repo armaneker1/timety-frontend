@@ -1,11 +1,10 @@
 <?php
-
 session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
-if (isset($_GET['eventId']) && !empty($_GET['eventId'])) {
-    $id = $_GET['eventId'];
+if (isset($_POST['eventId']) && !empty($_POST['eventId'])) {
+    $id = $_POST['eventId'];
 
     //delete fromneo4j
     try {
@@ -37,5 +36,13 @@ if (isset($_GET['eventId']) && !empty($_GET['eventId'])) {
             }
         }
     }
+    echo "Event Deleted";
 }
 ?>
+
+<body>
+    <form action="" method="POST">
+        <input type="text" id="eventId" name="eventId" value="">
+        <input type="submit" name="save" value="Delete">
+    </form>
+</body>
