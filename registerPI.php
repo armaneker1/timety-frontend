@@ -66,7 +66,7 @@ if (!isset($_SESSION['id'])) {
         }
         $lastname = $_POST['te_lastname'];
         if (empty($lastname)) {
-            $ulastnameError= "Please enter your last name";
+            $ulastnameError = "Please enter your last name";
             $param = false;
         }
         $email = $_POST['te_email'];
@@ -140,8 +140,8 @@ if (!isset($_SESSION['id'])) {
                         $te_location_country == "tr" ||
                         $te_location_country == "türkiye")) {
                     $user->language = LANG_TR_TR;
-                }else{
-                     $user->language = LANG_EN_US;
+                } else {
+                    $user->language = LANG_EN_US;
                 }
                 UserUtils::updateUser($_SESSION['id'], $user);
                 $user = UserUtils::getUserById($_SESSION['id']);
@@ -567,7 +567,15 @@ if (empty($birhtdate)) {
         <div id="personel_info_h">
             <div class="create_acco_ust">Personel Information</div>
             <div class="personel_info">
-                <form action="" method="post" style="margin-left: 48px"
+                <script>
+                    jQuery("#per_info_form").keypress(function(event){
+                        if(event.which == 13 || event.keyCode == 13){
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                    });
+                </script>
+                <form id="per_info_form" action="" method="post" style="margin-left: 48px"
                       name="registerPI">
                     <input 
                         name="te_username" 

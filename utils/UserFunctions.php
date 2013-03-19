@@ -75,6 +75,22 @@ class UserUtils {
             return null;
         }
     }
+    
+    public static function getUserCityId($id) {
+        if (!empty($id)) {
+            $SQL = "SELECT location_city FROM " . TBL_USERS . " WHERE id=" . $id;
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $city = $result['location_city'];
+            if (!empty($city)) {
+                return $city;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
     public static function checkEmail($email) {
         if (!empty($email)) {

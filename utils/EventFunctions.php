@@ -20,8 +20,8 @@ class EventUtil {
         $headerImage = $event->headerImage;
         $id = DBUtils::getNextId(CLM_EVENTID);
 
-        $SQL = "INSERT INTO " . TBL_EVENTS . " (id, title, location, description, startDateTime, endDateTime,reminderType,reminderUnit,reminderValue,privacy,allday,repeat_,addsocial_fb,addsocial_gg,addsocial_fq,addsocial_tw,reminderSent,attach_link,lat,lng,creator_id,loc_country,loc_city) " .
-                " VALUES (" . $id . ",\"" . DBUtils::mysql_escape($event->title) . "\",\"" . DBUtils::mysql_escape($event->location) . "\",\"" . DBUtils::mysql_escape($event->description) . "\",\"$event->startDateTime\",\"$event->endDateTime\",\"$event->reminderType\",\"$event->reminderUnit\",$event->reminderValue,$event->privacy,$event->allday,$event->repeat,$event->addsocial_fb,$event->addsocial_gg,$event->addsocial_fq,$event->addsocial_tw,$event->reminderSent,\"$event->attach_link\"," . DBUtils::mysql_escape($event->loc_lat, 1) . "," . DBUtils::mysql_escape($event->loc_lng, 1) . "," . DBUtils::mysql_escape($user->id, 1) . ",'$event->loc_country','$event->loc_city')";
+        $SQL = "INSERT INTO " . TBL_EVENTS . " (id, title, location, description, startDateTime, endDateTime,reminderType,reminderUnit,reminderValue,privacy,allday,repeat_,addsocial_fb,addsocial_gg,addsocial_fq,addsocial_tw,reminderSent,attach_link,lat,lng,creator_id,loc_country,loc_city,worldwide) " .
+                " VALUES (" . $id . ",\"" . DBUtils::mysql_escape($event->title) . "\",\"" . DBUtils::mysql_escape($event->location) . "\",\"" . DBUtils::mysql_escape($event->description) . "\",\"$event->startDateTime\",\"$event->endDateTime\",\"$event->reminderType\",\"$event->reminderUnit\",$event->reminderValue,$event->privacy,$event->allday,$event->repeat,$event->addsocial_fb,$event->addsocial_gg,$event->addsocial_fq,$event->addsocial_tw,$event->reminderSent,\"$event->attach_link\"," . DBUtils::mysql_escape($event->loc_lat, 1) . "," . DBUtils::mysql_escape($event->loc_lng, 1) . "," . DBUtils::mysql_escape($user->id, 1) . ",'$event->loc_country','$event->loc_city'," . DBUtils::mysql_escape($event->worldwide, 1) . ")";
         mysql_query($SQL) or die(mysql_error());
         $event = EventUtil::getEventById($id);
         /*
@@ -97,7 +97,7 @@ class EventUtil {
         $headerImage = $event->headerImage;
         $id = $event->id;
 
-        $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1) . ",loc_country='$event->loc_country',loc_city='$event->loc_city' WHERE id=" . $id;
+        $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1) . ",loc_country='$event->loc_country',loc_city='$event->loc_city',worldwide=" . DBUtils::mysql_escape($event->worldwide, 1) . " WHERE id=" . $id;
         mysql_query($SQL) or die(mysql_error());
         $event = EventUtil::getEventById($id);
         /*
@@ -175,6 +175,20 @@ class EventUtil {
         }
     }
 
+    public static function updateLocation($eventId, $country, $city) {
+        if (!empty($eventId)) {
+            $SQL = "UPDATE " . TBL_EVENTS . " SET loc_city='" . $city . "',loc_country='" . $country . "' WHERE id=" . $eventId;
+            mysql_query($SQL);
+        }
+    }
+
+    public static function updateWorldWide($eventId, $value) {
+        if (!empty($eventId)) {
+            $SQL = "UPDATE " . TBL_EVENTS . " SET worldwide=" . $value . " WHERE id=" . $eventId;
+            mysql_query($SQL);
+        }
+    }
+
     public static function updateCreatorId($eventId, $value) {
         if (!empty($eventId) && !empty($value)) {
             $eventId = DBUtils::mysql_escape($eventId);
@@ -209,6 +223,37 @@ class EventUtil {
             $link = $result['attach_link'];
             if (!empty($link)) {
                 return $link;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+    public static function getEventCityId($id) {
+        if (!empty($id)) {
+            $SQL = "SELECT loc_city FROM " . TBL_EVENTS . " WHERE id=" . $id;
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $city = $result['loc_city'];
+            if (!empty($city)) {
+                return $city;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+    
+    public static function getEventWorldWide($id) {
+        if (!empty($id)) {
+            $SQL = "SELECT worldwide FROM " . TBL_EVENTS . " WHERE id=" . $id;
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $worldwide = $result['worldwide'];
+            if (!empty($worldwide)) {
+                return $worldwide;
             } else {
                 return null;
             }

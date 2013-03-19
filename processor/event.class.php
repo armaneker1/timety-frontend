@@ -23,6 +23,9 @@ class EventProcessor {
                 $event->getHeaderImage();
                 $event->images = array();
                 $event->getAttachLink();
+                $event->getTags();
+                $event->getLocCity();
+                $event->getWorldWide();
             } catch (Exception $exc) {
                 $log->logError("event > addEvent Error" . $exc->getTraceAsString());
             }
@@ -64,9 +67,13 @@ class EventProcessor {
                 if (!empty($followers)) {
                     foreach ($followers as $follower) {
                         if (!empty($follower) && !empty($follower->id)) {
+                            $follower->getLocationCity();
                             $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
                             if ($this->addUserEventLog(null, $event) && $event->privacy . "" == "true") {
-                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                                // todo :  add not same city find a way
+                                if (($event->worldwide == 1 || $event->worldwide == "1") || ($event->loc_city == $follower->location_city)) {
+                                    RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                                }
                             }
                         }
                     }
@@ -74,6 +81,22 @@ class EventProcessor {
             }
             /*
              * followers list
+             */
+
+            /*
+             * city list
+             */
+            if ($event->privacy . "" == "true") {
+                $event->userRelation = $userRelationEmpty;
+                $event->userEventLog = array();
+                $key = $event->loc_city;
+                if (empty($key)) {
+                    $key = "epmty";
+                }
+                RedisUtils::addItem($redis, REDIS_PREFIX_CITY . $key, json_encode($event), $event->startDateTimeLong);
+            }
+            /*
+             * city list
              */
 
             /*
@@ -101,6 +124,9 @@ class EventProcessor {
                 $event->getHeaderImage();
                 $event->images = array();
                 $event->getAttachLink();
+                $event->getTags();
+                $event->getLocCity();
+                $event->getWorldWide();
             } catch (Exception $exc) {
                 $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
             }
@@ -169,6 +195,7 @@ class EventProcessor {
                 if (!empty($followers)) {
                     foreach ($followers as $follower) {
                         if (!empty($follower) && !empty($follower->id)) {
+                            $follower->getLocationCity();
                             $events = $redis->zrevrange(REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, 0, -1);
                             $it = null;
                             foreach ($events as $item) {
@@ -183,7 +210,9 @@ class EventProcessor {
                             $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
                             if ($this->addUserEventLog($it, $event) && $event->privacy . "" == "true") {
                                 //insert new item
-                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                                if (($event->worldwide == 1 || $event->worldwide == "1") || ($event->loc_city == $follower->location_city)) {
+                                    RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                                }
                             }
                         }
                     }
@@ -209,19 +238,23 @@ class EventProcessor {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > findUserForEvents >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time . " added : " . $rem);
-        if (!empty($this->eventID) /* && !empty($this->userID) */) {
+        if (!empty($this->eventID)) {
             $event = new Event();
             $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
             $event->getHeaderImage();
             $event->images = array();
             $event->getAttachLink();
+            $event->getTags();
+            $event->getLocCity();
+            $event->getWorldWide();
             $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);
             $users = Neo4jRecommendationUtils::getUserForEvent($this->eventID);
             $log->logInfo("event > findUserForEvents >  recommened users : " . sizeof($users));
             foreach ($users as $user) {
                 $userId = $user->getProperty(PROP_USER_ID);
                 if (!empty($userId)) {
-                    /* && $userId != $this->userID */
+                    $usr = UserUtils::getUserById($userId);
+
                     $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->eventID, $userId);
                     $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                     $redis = new Predis\Client();
@@ -240,10 +273,12 @@ class EventProcessor {
                             }
                         }
                     }
-                    if (!empty($host) && !strpos($host, 'localhost') && $event->privacy . "" == "true") {
-                        RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
-                    } else {
-                        $log->logInfo("Redis addItem Item simulated");
+                    if (!empty($usr) && ($event->loc_city == $usr->location_city || ($event->worldwide == 1 || $event->worldwide == "1"))) {
+                        if (!empty($host) && !strpos($host, 'localhost') && $event->privacy . "" == "true") {
+                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
+                        } else {
+                            $log->logInfo("Redis addItem Item simulated");
+                        }
                     }
                 }
             }
@@ -275,8 +310,11 @@ class EventProcessor {
                         }
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                         if ($this->addUserEventLog($it, $event, $evt)) {
-                            //insert new item
-                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                            $usr = UserUtils::getUserById($this->userID);
+                            if (!empty($usr) && ($event->loc_city == $usr->location_city || ($event->worldwide == 1 || $event->worldwide == "1"))) {
+                                //insert new item
+                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                            }
                         }
                         unset($myevents);
                     }
@@ -310,8 +348,11 @@ class EventProcessor {
                         }
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                         if ($this->addUserEventLog($it, $event, $evt)) {
-                            //insert new item
-                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                            $usr = UserUtils::getUserById($this->userID);
+                            if (!empty($usr) && ($event->loc_city == $usr->location_city || ($event->worldwide == 1 || $event->worldwide == "1"))) {
+                                //insert new item
+                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
+                            }
                         }
                         unset($myevents);
                     }

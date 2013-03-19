@@ -115,6 +115,13 @@ class User {
     public function getFullName() {
         return $this->firstName . " " . $this->lastName;
     }
+    
+     public function getLocationCity() {
+        if (empty($this->location_city)) {;
+            $this->location_city = UserUtils::getUserCityId($this->id);
+        }
+        return $this->location_city;
+    }
 
     public function getUserPic() {
         if (!empty($this->userPicture)) {
@@ -258,9 +265,10 @@ class Event {
             $this->attach_link = $result['attach_link'];
             $this->loc_lat = $result['lat'];
             $this->loc_lng = $result['lng'];
-            $this->loc_country =$result['loc_country'];
+            $this->loc_country = $result['loc_country'];
             $this->loc_city = $result['loc_city'];
             $this->creatorId = $result['creator_id'];
+            $this->worldwide = $result['worldwide'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -282,6 +290,7 @@ class Event {
             $this->privacy = $result->getProperty(PROP_EVENT_PRIVACY);
             $this->loc_country = $result->getProperty(PROP_EVENT_LOC_COUNTRY);
             $this->loc_city = $result->getProperty(PROP_EVENT_LOC_CITY);
+            $this->worldwide = $result->getProperty(PROP_EVENT_WORLD_WIDE);
 
             $this->commentCount = $result->getProperty(PROP_EVENT_COMMENT_COUNT);
             if (empty($this->commentCount)) {
@@ -319,6 +328,26 @@ class Event {
         }
         return $this->attach_link;
     }
+    public function getLocCity() {
+        if (empty($this->loc_city)) {
+            $this->loc_city = EventUtil::getEventCityId($this->id);
+        }
+        return $this->loc_city;
+    }
+    public function getWorldWide() {
+        if (empty($this->worldwide)) {
+            $this->worldwide = EventUtil::getEventWorldWide($this->id);
+        }
+        return $this->worldwide;
+    }
+    
+    
+    public function getTags() {
+        if (!(!empty($this->tags) && is_array($this->tags))) {
+            $this->tags = Neo4jEventUtils::getEventTimetyTagsId($this->id);
+        }
+        return $this->attach_link;
+    }
 
     public function copyEvent($tmp) {
         $this->id = $tmp->id;
@@ -344,6 +373,7 @@ class Event {
         $this->creatorId = $tmp->creatorId;
         $this->loc_country = $tmp->loc_country;
         $this->loc_city = $tmp->loc_city;
+        $this->worldwide = $tmp->worldwide;
     }
 
     public function setAdditionalData($userId = -1) {
@@ -384,6 +414,7 @@ class Event {
     public $loc_lng;
     public $loc_country;
     public $loc_city;
+    public $worldwide;
     /*
      * Additional Data
      */

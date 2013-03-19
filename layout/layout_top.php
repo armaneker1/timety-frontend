@@ -194,7 +194,7 @@ if (empty($user)) {
                             var people=getPrepopulatePeopleList();
                             jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                                 theme: "custom",
-                                userId :"<?= $user->id ?>",
+                                userId :"<?php if(!empty($user)){ echo $user->id; }else {echo "''";}?>",
                                 queryParam : "term",
                                 minChars : 2,
                                 placeholder : "add people manually",

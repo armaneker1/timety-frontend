@@ -185,5 +185,6 @@ define('PROP_EVENT_LOC_LAT', 'loc_lat');
 define('PROP_EVENT_LOC_LNG', 'loc_lng');
 define('PROP_EVENT_LOC_COUNTRY', 'loc_country');
 define('PROP_EVENT_LOC_CITY', 'loc_city');
+define('PROP_EVENT_WORLD_WIDE', 'worldwide');
 
 ?>

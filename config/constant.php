@@ -124,9 +124,7 @@ define('REDIS_PREFIX_USER', 'user:events:');
 define('REDIS_PREFIX_USER_FRIEND', 'user:friend:');
 define('REDIS_SUFFIX_FRIEND_FOLLOWING', ':following');
 define('REDIS_SUFFIX_FRIEND_FOLLOWERS', ':follower');
-
-
-
+define('REDIS_PREFIX_CITY', 'events:city:');
 //LOG PATH
 define('KLOGGER_PATH', '/home/ubuntu/log/');
 

@@ -54,6 +54,8 @@ require_once __DIR__ . '/Neo4jUserSettings.php';
 
 require_once __DIR__ . '/Queue.php';
 require_once __DIR__ . '/RedisFunctions.php';
+require_once __DIR__ . '/../processor/scriptedcommands/RemoveItemById.class.php';
+require_once __DIR__ . '/../processor/scriptedcommands/SeacrhEventByTag.class.php';
 
 //HttpAuthUtils::checkHttpAuth();
 

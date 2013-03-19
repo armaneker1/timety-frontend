@@ -144,7 +144,7 @@ if (empty($user)) {
         }
         
         $event->loc_country=$_POST['te_event_location_country'];
-        $event->loc_city=$_POST['te_event_location_city'];
+        $event->loc_city=LocationUtils::getCityId($_POST['te_event_location_city']);
 
         $event->description = $_POST["te_event_description"];
         if (empty($event->description)) {

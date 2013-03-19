@@ -7,7 +7,7 @@ class DBUtils {
     public static function getConnection() {
         if (!self::$db) {
             try {
-                self::$db = new PDO('mysql:host='.DB_SERVER.';dbname='.DB_DATABASE.';charset=utf8', DB_USERNAME, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+                self::$db = new PDO('mysql:host=' . DB_SERVER . ';dbname=' . DB_DATABASE . ';charset=utf8', DB_USERNAME, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
                 self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 echo "Connection Error: " . $e->getMessage();
@@ -79,7 +79,10 @@ class DBUtils {
         if (!empty($str)) {
             $str = mysql_real_escape_string($str);
         }
-        if ($rtn == "1" && empty($str) && $str != "0") {
+        if ($rtn == "1" && ($rtn == "0" || $rtn == 0)) {
+            return 0;
+        }
+        if ($rtn == "1" && empty($str)) {
             return "null";
         }
         return $str;

@@ -49,6 +49,7 @@ class Neo4jEventUtils {
                 $evnt->setProperty(PROP_EVENT_TITLE, $event->title);
                 $evnt->setProperty(PROP_EVENT_PRIVACY, $event->privacy);
                 $evnt->setProperty(PROP_EVENT_WEIGHT, 10);
+                $evnt->setProperty(PROP_EVENT_WORLD_WIDE, $event->worldwide);
 
                 //$evnt->setProperty(PROP_EVENT_COMMENT_COUNT, 0);
                 //$evnt->setProperty(PROP_EVENT_ATTENDANCE_COUNT, 0);
@@ -262,6 +263,7 @@ class Neo4jEventUtils {
             $evnt->setProperty(PROP_EVENT_TITLE, $event->title);
             $evnt->setProperty(PROP_EVENT_PRIVACY, $event->privacy);
             $evnt->setProperty(PROP_EVENT_WEIGHT, 10);
+            $evnt->setProperty(PROP_EVENT_WORLD_WIDE, $event->worldwide);
 
             $evnt->setProperty(PROP_EVENT_COMMENT_COUNT, 0);
             $evnt->setProperty(PROP_EVENT_ATTENDANCE_COUNT, 0);
@@ -708,6 +710,21 @@ class Neo4jEventUtils {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('" . REL_TAGS . "')";
             //echo $query;
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $nresult = $query->getResultSet();
+            foreach ($nresult as $row) {
+                $tag = $row[0];
+                array_push($array, $tag);
+            }
+        }
+        return $array;
+    }
+    
+    public static function getEventTimetyTagsId($eventId) {
+        $array = array();
+        if (!empty($eventId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('" . REL_TAGS . "').timety_tag_id.dedup";
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
             $nresult = $query->getResultSet();
             foreach ($nresult as $row) {

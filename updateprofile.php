@@ -687,7 +687,15 @@ if (isset($_POST['update'])) {
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
-        <form action="" method="post" name="udateForm">
+        <script>
+            jQuery("#per_update_info_form").keypress(function(event){
+                if(event.which == 13 || event.keyCode == 13){
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
+        </script>
+        <form id="per_update_info_form" action="" method="post" name="udateForm">
             <div class="profil_form">
                 <div class="p_form_sol">
                     <p class="profil_etiket">E-Mail</p>    
