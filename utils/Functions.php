@@ -103,11 +103,11 @@ class UtilFunctions {
             if (!empty($result)) {
                 return $result;
             } else {
-                return "~m";
+                return "past";
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
-            return "~m";
+            return "past";
         }
     }
 

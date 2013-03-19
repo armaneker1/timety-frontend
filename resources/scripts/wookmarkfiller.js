@@ -208,8 +208,8 @@ function wookmarkFiller(options,clear,loader,channel_)
                         post_wookmark.abort();
                         post_wookmark=null;
                     }
-                    //}
-                    //setTimeout(tm,100);
+                //}
+                //setTimeout(tm,100);
                 } catch(err){
                     console.log(err);
                     if(post_wookmark) {
@@ -557,7 +557,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(liYesilA).attr('onclick','return false;');
             jQuery(liYesilA).addClass('yesil_link');
             jQuery(liYesilA).append(liYesilAImg);
-            jQuery(liYesilA).append(data.remainingtime);
+            jQuery(liYesilA).append(calculateRemainingTime(data.startDateTime));
             jQuery(liYesil).append(liYesilA);
             jQuery(durumUL).append(liYesil);
 
@@ -791,4 +791,31 @@ function getUserLastActivityString(data,selectedUser){
         }
     }
     return ""
+}
+
+function calculateRemainingTime(date){
+    if(date){
+        var  d=moment(date,"YYYY.MM.DD HH:mm");
+        if(d.isBefore(moment())){
+            return "past";
+        }else{
+            var y_=d.diff(moment(),"years");
+            if(y_>0){
+                return y_+"y";
+            }
+            var mo_=d.diff(moment(),"months");
+            if(mo_>0){
+                return mo_+"mo";
+            }
+            var d_=d.diff(moment(),"days");
+            if(d_>0){
+                return d_+"d";
+            }
+            var m_=d.diff(moment(),"minutes");
+            if(m_>0){
+                return m_+"m";
+            }
+            return "now";
+        }
+    }
 }

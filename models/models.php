@@ -115,9 +115,10 @@ class User {
     public function getFullName() {
         return $this->firstName . " " . $this->lastName;
     }
-    
-     public function getLocationCity() {
-        if (empty($this->location_city)) {;
+
+    public function getLocationCity() {
+        if (empty($this->location_city)) {
+;
             $this->location_city = UserUtils::getUserCityId($this->id);
         }
         return $this->location_city;
@@ -315,7 +316,7 @@ class Event {
             $crt->lastName = $cretorLName;
             $crt->userName = $cretorUsername;
             $crt->userPicture = $cretorImage;
-            $crt->about=$cretorAbout;
+            $crt->about = $cretorAbout;
             $this->creator = $crt;
             $this->creatorId = $cretorId;
         }
@@ -330,20 +331,21 @@ class Event {
         }
         return $this->attach_link;
     }
+
     public function getLocCity() {
         if (empty($this->loc_city)) {
             $this->loc_city = EventUtil::getEventCityId($this->id);
         }
         return $this->loc_city;
     }
+
     public function getWorldWide() {
         if (empty($this->worldwide)) {
             $this->worldwide = EventUtil::getEventWorldWide($this->id);
         }
         return $this->worldwide;
     }
-    
-    
+
     public function getTags() {
         if (!(!empty($this->tags) && is_array($this->tags))) {
             $this->tags = Neo4jEventUtils::getEventTimetyTagsId($this->id);
@@ -376,6 +378,11 @@ class Event {
         $this->loc_country = $tmp->loc_country;
         $this->loc_city = $tmp->loc_city;
         $this->worldwide = $tmp->worldwide;
+    }
+
+    public function getRemainingTime() {
+        $this->remainingtime = UtilFunctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
+        return $this->remainingtime;
     }
 
     public function setAdditionalData($userId = -1) {

@@ -1221,7 +1221,7 @@ if (empty($user)) {
                                                     </a>
                                                 </li>
                                                 <li><a href="#" class="yesil_link" onclick="return false;"> <img src="<?= HOSTNAME ?>images/zmn.png"
-                                                                                                                 width="19" height="18" border="0" align="absmiddle" /><?= $main_event->remainingtime ?>
+                                                                                                                 width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
                                                     </a>
                                                 </li>
                                             </ul>
