@@ -14,7 +14,7 @@ if(isset($_POST["tuser"]))
 
 $result=new Result();
 try {
-	if(!empty( $fromUserId) && !empty( $toUserId))
+	if(!empty( $fromUserId) && !empty( $toUserId) && $fromUserId!=$toUserId)
 	{
 		$result=  SocialUtil::followUser($fromUserId, $toUserId);
 	}
