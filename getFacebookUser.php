@@ -38,6 +38,7 @@ if (!empty($user)) {
             }
             header("Location: " . HOSTNAME);
         } else if ($type == 2) {
+            UtilFunctions::curl_post_async(PAGE_AJAX_FACEBOOK_USER_INTEREST, array("userId" => $user->id));
             header("Location: " . PAGE_ABOUT_YOU);
         }
     } else {

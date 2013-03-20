@@ -108,6 +108,8 @@ define('PAGE_AJAX_INIT_USER_REDIS', PAGE_AJAX_FOLDER . 'initUserRecommendation.p
 define('PAGE_AJAX_MARK_NOTF_READ', PAGE_AJAX_FOLDER . 'markNotificationsRead.php');
 define('PAGE_AJAX_UPDATE_USER_STATISTICS', PAGE_AJAX_FOLDER . 'updateUserStatistics.php');
 define('PAGE_AJAX_CHECK_USER_FOLLOW_STATUS', PAGE_AJAX_FOLDER . 'checkUserFollowStatus.php');
+define('PAGE_AJAX_TWITTER_USER_INTEREST', PAGE_AJAX_FOLDER . 'twiiterUserInterest.php');
+define('PAGE_AJAX_FACEBOOK_USER_INTEREST', PAGE_AJAX_FOLDER . 'facebookUserInterest.php');
 
 
 

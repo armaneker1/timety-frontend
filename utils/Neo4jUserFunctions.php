@@ -295,23 +295,35 @@ class Neo4jUserUtil {
         return null;
     }
 
-    public static function removeUserTag($userId, $tagId) {
+    public static function removeUserTag($userId, $tagId, $lang = null) {
+        $tr = true;
+        $en = true;
+        if (empty($lang)) {
+            
+        } else if ($lang == LANG_TR_TR) {
+            $en = FALSE;
+        } else if ($lang == LANG_EN_US) {
+            $tr = FALSE;
+        }
         if (!empty($userId) && !empty($tagId)) {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
-                        " tag=node:" . IND_TIMETY_TAG . "_" . LANG_EN_US . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "')" .
-                        " MATCH user-[r:" . REL_TIMETY_INTERESTS . "]->tag" .
-                        " DELETE r";
-                $query = new Cypher\Query($client, $query, null);
-                $result = $query->getResultSet();
-
-                $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
-                        " tag=node:" . IND_TIMETY_TAG . "_" . LANG_TR_TR . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "')" .
-                        " MATCH user-[r:" . REL_TIMETY_INTERESTS . "]->tag" .
-                        " DELETE r";
-                $query = new Cypher\Query($client, $query, null);
-                $result = $query->getResultSet();
+                if ($en) {
+                    $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
+                            " tag=node:" . IND_TIMETY_TAG . "_" . LANG_EN_US . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "')" .
+                            " MATCH user-[r:" . REL_TIMETY_INTERESTS . "]->tag" .
+                            " DELETE r";
+                    $query = new Cypher\Query($client, $query, null);
+                    $result = $query->getResultSet();
+                }
+                if ($tr) {
+                    $query = "START user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "'), " .
+                            " tag=node:" . IND_TIMETY_TAG . "_" . LANG_TR_TR . "('" . PROP_TIMETY_TAG_ID . ":" . $tagId . "')" .
+                            " MATCH user-[r:" . REL_TIMETY_INTERESTS . "]->tag" .
+                            " DELETE r";
+                    $query = new Cypher\Query($client, $query, null);
+                    $result = $query->getResultSet();
+                }
             } catch (Exception $e) {
                 echo "Error" . $e->getMessage();
             }
@@ -319,13 +331,33 @@ class Neo4jUserUtil {
         return null;
     }
 
-    public static function addUserTag($userId, $tagId) {
+    public static function addUserTag($userId, $tagId, $lang = null) {
+        $tr = true;
+        $en = true;
+        if (empty($lang)) {
+            
+        } else if ($lang == LANG_TR_TR) {
+            $en = FALSE;
+        } else if ($lang == LANG_EN_US) {
+            $tr = FALSE;
+        }
         if (!empty($userId) && !empty($tagId)) {
-            Neo4jUserUtil::removeUserTag($userId, $tagId);
+            Neo4jUserUtil::removeUserTag($userId, $tagId, $lang);
             try {
                 $userNode = Neo4jUserUtil::getUserNodeById($userId);
-                $tag = Neo4jTimetyTagUtil::getTimetyTagNodeById($tagId);
-                $userNode->relateTo($tag, REL_TIMETY_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, "10")->save();
+                if ($tr) {
+                    $tag = Neo4jTimetyTagUtil::getTimetyTagNodeById($tagId, LANG_TR_TR);
+                    if (!empty($userNode) && !empty($tag)) {
+                        $userNode->relateTo($tag, REL_TIMETY_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, "10")->save();
+                    }
+                }
+
+                if ($en) {
+                    $tag = Neo4jTimetyTagUtil::getTimetyTagNodeById($tagId, LANG_EN_US);
+                    if (!empty($userNode) && !empty($tag)) {
+                        $userNode->relateTo($tag, REL_TIMETY_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, "10")->save();
+                    }
+                }
             } catch (Exception $e) {
                 echo "Error" . $e->getMessage();
             }

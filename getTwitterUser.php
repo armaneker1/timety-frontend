@@ -37,6 +37,7 @@ if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empt
                 }
                 header("Location: " . HOSTNAME);
             } else if ($type == 2) {
+                UtilFunctions::curl_post_async(PAGE_AJAX_TWITTER_USER_INTEREST, array("userId" => $user->id));
                 header("Location: " . PAGE_ABOUT_YOU);
             }
         } else {

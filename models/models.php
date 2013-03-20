@@ -3,6 +3,8 @@
 require_once __DIR__ . '/TimeteNotification.class.php';
 require_once __DIR__ . '/TimeteMenuCategory.class.php';
 require_once __DIR__ . '/TimeteMenuTag.class.php';
+require_once __DIR__ . '/TimeteTwitterRecommendation.class.php';
+require_once __DIR__ . '/TimeteFacebookRecommendation.class.php';
 
 class User {
 
@@ -609,11 +611,13 @@ class TimetyTag {
         if (!empty($result)) {
             $this->id = $result->getProperty(PROP_TIMETY_TAG_ID);
             $this->name = $result->getProperty(PROP_TIMETY_TAG_NAME);
+            $this->lang = $result->getProperty(PROP_TIMETY_LANG_CODE);
         }
     }
 
     public $id;
     public $name;
+    public $lang;
 
 }
 

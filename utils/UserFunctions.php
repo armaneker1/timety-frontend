@@ -387,6 +387,33 @@ class UserUtils {
             return null;
         }
     }
+    
+    public static function getSocialProvider($uid,$type) {
+        if (!empty($uid) && !empty($type)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id = $uid and oauth_provider='$type'";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $array = array();
+            if (!empty($query)) {
+                $num = mysql_num_rows($query);
+                if ($num > 1) {
+                    while ($db_field = mysql_fetch_assoc($query)) {
+                        $provider = new SocialProvider();
+                        $provider->create($db_field);
+                        array_push($array, $provider);
+                    }
+                } else if ($num > 0) {
+                    $db_field = mysql_fetch_assoc($query);
+                    $provider = new SocialProvider();
+                    $provider->create($db_field);
+                    array_push($array, $provider);
+                }
+            }
+            return $array;
+        } else {
+            return null;
+        }
+    }
 
     public static function getSocialProviderWithOAUTHId($oauth_id, $oauth_provider) {
         if (!empty($oauth_id) && !empty($oauth_provider)) {

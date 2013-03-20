@@ -54,6 +54,22 @@ if (!isset($_SESSION['id'])) {
         header("location: " . HOSTNAME);
     }
 }
+
+$tags_ = Neo4jUserUtil::getUserTimetyTag($user->id);
+$tagList="[]";
+if (!empty($tags_) && sizeof($tags_)>0) {
+    $tagList=array();
+    foreach ($tags_ as $t){
+        if(!empty($t) && $t->lang==$user->language){
+            $tmp=new stdClass();
+            $tmp->id=$t->id;
+            $tmp->label=$t->name;
+            $tmp->image=1;
+            array_push($tagList, $tmp);
+        }
+    }
+    $tagList=json_encode($tagList);
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -62,7 +78,7 @@ if (!isset($_SESSION['id'])) {
         $timety_header = "Timety | Personal Information";
         include('layout/layout_header.php');
         ?>
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?10"></script>
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?30"></script>
 
         <script language="javascript"
         src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.js"></script>
@@ -83,6 +99,8 @@ if (!isset($_SESSION['id'])) {
                     jQuery("#add_like_ul").bind('DOMSubtreeModified',function(){
                         jQuery("#foot_add_ktg_sol").height(jQuery("#foot_add_footer").height()); 
                     });
+                    
+                    addDefaultsStorage('<?=$tagList?>',<?php echo $user->id; ?>);
                     
                     checkSessionStorage(<?php echo $user->id; ?>);
                     
@@ -154,7 +172,7 @@ if (!isset($_SESSION['id'])) {
             echo "";
         }
         ?>',false);">
-              <?php include('layout/layout_top.php'); ?>
+          <?php include('layout/layout_top.php'); ?>
         <div class="follow_trans"></div>
         <?php
         $fb = false;
@@ -207,7 +225,15 @@ if (!isset($_SESSION['id'])) {
                     <img src="<?= HOSTNAME ?>images/loader.gif" style="height: 20px;">     
                 </div>
             </div>
-            <form action="" method="post">
+            <script>
+                jQuery("#per_interest_form").keypress(function(event){
+                    if(event.which == 13 || event.keyCode == 13){
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                });
+            </script>
+            <form action="" method="post" id="per_interest_form">
                 <?php
                 for ($k = 0; $k < sizeof($categoryList); $k++) {
                     $cat = new AddLikeCategory();

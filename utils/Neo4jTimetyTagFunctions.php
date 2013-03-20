@@ -104,7 +104,7 @@ class Neo4jTimetyTagUtil {
             return null;
         }
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG."_".$lang);
+        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . $lang);
         $tag = $timetyTagIndex->findOne(PROP_TIMETY_TAG_ID, $id);
         if (!empty($tag)) {
             return $tag;
@@ -152,12 +152,12 @@ class Neo4jTimetyTagUtil {
         return 2;
     }
 
-    public static function updateTimetyTag($tagId, $tagName,$lang=LANG_EN_US) {
+    public static function updateTimetyTag($tagId, $tagName, $lang = LANG_EN_US) {
         if (($lang != LANG_EN_US && $lang != LANG_TR_TR) || empty($lang)) {
             $lang = LANG_EN_US;
         }
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG."_".$lang);
+        $timetyTagIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . $lang);
         try {
             $tag = $timetyTagIndex->findOne(PROP_TIMETY_TAG_ID, $tagId);
         } catch (Exception $exc) {

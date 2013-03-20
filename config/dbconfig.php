@@ -12,10 +12,6 @@ mysql_query("SET COLLATION_CONNECTION = 'UTF8' ");
 #DB TABLES
 define('TBL_SETTINGS' ,'timete_settings');
 define('TBL_KEYGENERATOR','timete_key_generator');
-define('CLM_EVENTID' ,'EVENT_ID');
-define('CLM_IMAGEID' ,'IMAGE_ID');
-define('CLM_USERID' ,'USER_ID');
-define('CLM_COMMENTID' ,'COMMENT_ID');
 define('TBL_EVENTS' ,'timete_events');
 define('TBL_USERS' ,'timete_users');
 define('TBL_USERS_SOCIALPROVIDER' ,'timete_user_socialprovider');
@@ -27,9 +23,17 @@ define('TBL_TIMETY_NOTIFICATION' ,'timete_notification');
 define('TBL_ADDLIKE_TAG' ,'timete_addlike_tag');
 define('TBL_MENU_CAT' ,'timete_menu_category');
 define('TBL_MENU_TAG' ,'timete_menu_tag');
+define('TBL_CITY_MAP' ,'timete_city_map');
+define('TBL_TWIITER_REC' ,'timete_twitter_recommendation');
+define('TBL_FACEBOOK_REC' ,'timete_facebook_recommendation');
+
+
+define('CLM_CITY_ID' ,'CITY_ID');
 define('CLM_TIMETY_TAG_ID' ,'TIMETY_TAG_ID');
 define('CLM_TIMETY_NOTIFICATION_ID' ,'TIMETY_NOTIFICATION_ID');
 define('CLM_TIMETY_MENU_CAT_ID' ,'TIMETY_MENU_CAT_ID');
-define('TBL_CITY_MAP' ,'timete_city_map');
-define('CLM_CITY_ID' ,'CITY_ID');
+define('CLM_EVENTID' ,'EVENT_ID');
+define('CLM_IMAGEID' ,'IMAGE_ID');
+define('CLM_USERID' ,'USER_ID');
+define('CLM_COMMENTID' ,'COMMENT_ID');
 ?>

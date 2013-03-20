@@ -5,7 +5,7 @@ var ELM_ADD_KEY="add_ineterest";
 var isRed = 'rgb(33, 206, 0)';
 
 
- 
+
 // auto complete and add /remove interest
 function insertItem(elementId, item) {
     item = item.item;
@@ -37,13 +37,13 @@ function removeItem(item,rm) {
     if (interests == null) {
         interests = new Array();
     }
-
+    
     var res = findItemAddById(item);
     var indx = res.indx;
     item = res.obj;
     interests = removeByIndex(interests, indx);
     saveIneterests(interests);
-
+    
     if((rm+'')=='1')
     {
         var element = document.getElementById("a_interest_item_" + item.id);
@@ -135,7 +135,7 @@ function registerIIBeforeSubmit() {
         }
     }
     btnClickPersonelLikes();
-        
+    
     document.getElementById(ELM_ADD_KEY).value = values.toJSON();
     sessionStorage.clear();
 }
@@ -147,9 +147,14 @@ function saveIneterests(interests)
 
 function getInterests()
 {
-    var interests = sessionStorage.getItem(INTEREST_ADD_KEY+USERIDS_ADD_KEY);
-    interests = JSON.parse(interests);
-    return interests;
+    try{
+        var interests = sessionStorage.getItem(INTEREST_ADD_KEY+USERIDS_ADD_KEY);
+        interests = JSON.parse(interests);
+        return interests;
+    }catch(exp){
+        console.log(exp);
+    }
+    return null;
 }
 
 function saveIneterestCats(cats)
@@ -222,6 +227,23 @@ function selectItemSpan(span,tile){
 /*
  * Genel
  */
+
+function addDefaultsStorage(list,user_id){
+    if(user_id)
+    {
+        USERIDS_ADD_KEY=user_id+"";
+    }
+    try{
+        if(typeof list == "string")  {
+            list= jQuery.parseJSON(list);
+        }
+        for(var i=0;i<list.length;i++){
+            addItem(list[i]);
+        }
+    }catch(exp){
+        console.log(exp);
+    }
+}
 
 function checkSessionStorage(user_id)
 {
@@ -371,7 +393,7 @@ function trackItemCountChange(){
             if(interests.length==4){
                 countLabelS.hide();
             }else{
-                  countLabelS.show();
+                countLabelS.show();
             }
         }else{
             initLabel.hide();
