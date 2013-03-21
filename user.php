@@ -259,10 +259,10 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     ?>   
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
                                                         <h1><?= $evt->title ?></h1>
-                                                        <p>Today @<?php
+                                                        <p>Today @<span class="date_timezone"><?php
                                         $dt = strtotime($evt->startDateTime);
                                         echo date('H:i', $dt);
-                                                    ?></p>
+                                        ?></span></p>
                                                        <!-- <p><?= $evtDesc ?></p> -->
                                                         <script>
                                                             var tmpDataJSON='<?php
@@ -283,6 +283,19 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
 
                                     </div>
                                     <script>
+                                        jQuery(document).ready(function(){
+                                            jQuery.each(jQuery(".date_timezone"),function(){
+                                                var text=jQuery(this).text();
+                                                if(text){
+                                                    try{
+                                                        jQuery(this).text( moment.utc(moment().format("YYYY-MM-DD")+text).local().format('HH:mm'));
+                                                    }catch(exp){
+                                                        console.log(exp);
+                                                    }
+                                                }
+                                            });
+                                        });
+                                        
                                         var slide_handler;
                                         function resizeSlide()
                                         {

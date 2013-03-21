@@ -25,7 +25,13 @@ function addToMyTimety(eventId,userId)
                         divT.append(divTh1);
                         
                         var divTp1=jQuery("<p>");
-                        divTp1.text(dataJSON.startDateTime);
+                        var dateString=dataJSON.startDateTime;
+                        try{
+                            dateString=moment.utc(dateString).local().format("YYYY-MM-DD HH:mm");
+                        }catch(exp){
+                            dateString=data.startDateTime;
+                        }
+                        divTp1.text(dateString);
                         divT.append(divTp1);
                         
                         var desc=dataJSON.description;

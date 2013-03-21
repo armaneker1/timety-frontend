@@ -230,7 +230,7 @@ function openModalPanel(event_id,custom) {
         jQuery("#gdy_event_title").text(data.title);
         //set event date
         try{
-            jQuery("#gdy_event_date").text(moment(data.startDateTime).format("YYYY-MM-DD HH:mm"));
+            jQuery("#gdy_event_date").text(moment.utc(data.startDateTime).local().format("YYYY-MM-DD HH:mm"));
         }catch(exp){
             jQuery("#gdy_event_date").text(data.startDateTime);
         }

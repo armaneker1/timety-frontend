@@ -1,5 +1,6 @@
 <?php
 
+date_default_timezone_set('UTC');
 /*
  * Dependencies
  */
@@ -319,17 +320,28 @@ class UtilFunctions {
         return $destination;
     }
 
-    
-    public static function findString($string,$search){
-        if(!empty($string) && !empty($search)){
-            $string=  strtolower($string);
-            $search=  strtolower($search);
-            if(!strpos($string, $search)){
+    // date must be Y-m-d H:i:s format 
+    public static function convertTimeZone($date, $zone) {
+        try {
+            $dateS = strtotime($date . $zone);
+            return date(DATETIME_DB_FORMAT, $dateS);
+        } catch (Exception $exc) {
+            error_log($exc->getTraceAsString());
+        }
+        return $date;
+    }
+
+    public static function findString($string, $search) {
+        if (!empty($string) && !empty($search)) {
+            $string = strtolower($string);
+            $search = strtolower($search);
+            if (!strpos($string, $search)) {
                 return true;
             }
         }
         return false;
     }
+
 }
 
 ?>

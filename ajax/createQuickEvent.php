@@ -16,7 +16,7 @@ if (isset($_GET)) {
      */
     $rand = rand(10000, 9999999);
     $dest_url = __DIR__ . '/../uploads/' . $rand . "_logo_fb.jpeg";
-    copy(__DIR__ . '/../images/nopic.jpeg', $dest_url);
+    copy(__DIR__ . '/../images/nopic.png', $dest_url);
     $event->headerImage = $rand . "_logo_fb.jpeg";
     /*
      */
@@ -83,6 +83,12 @@ if (isset($_GET)) {
 
     $event->startDateTime = $startDate . " " . $startTime . ":00";
     $event->endDateTime = $endDate . " " . $endTime . ":00";
+    $timezone = "+02:00";
+    if (isset($_GET['te_timezone'])) {
+        $timezone = $_GET['te_timezone'];
+    }
+    $event->startDateTime = UtilFunctions::convertTimeZone($event->startDateTime, $timezone);
+    $event->endDateTime = UtilFunctions::convertTimeZone($event->endDateTime, $timezone);
     $event->allday = 0;
     $event->repeat = 0;
     $event->addsocial_fb = 0;
@@ -120,7 +126,7 @@ if (isset($_GET)) {
             echo json_encode($result);
         }
     } else {
-        $result=new Result();
+        $result = new Result();
         $result->success = false;
         $result->error = true;
         $result->param = $msgs;

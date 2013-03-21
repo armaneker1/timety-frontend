@@ -142,9 +142,9 @@ if (empty($user)) {
                 $event->loc_lng = $arr[1];
             }
         }
-        
-        $event->loc_country=$_POST['te_event_location_country'];
-        $event->loc_city=LocationUtils::getCityId($_POST['te_event_location_city']);
+
+        $event->loc_country = $_POST['te_event_location_country'];
+        $event->loc_city = LocationUtils::getCityId($_POST['te_event_location_city']);
 
         $event->description = $_POST["te_event_description"];
         if (empty($event->description)) {
@@ -247,6 +247,14 @@ if (empty($user)) {
 
         $event->startDateTime = $startDate . " " . $startTime . ":00";
         $event->endDateTime = $endDate . " " . $endTime . ":00";
+
+
+        $timezone = "+02:00";
+        if (isset($_POST['te_timezone'])) {
+            $timezone = $_POST['te_timezone'];
+        }
+        $event->startDateTime = UtilFunctions::convertTimeZone($event->startDateTime, $timezone);
+        $event->endDateTime = UtilFunctions::convertTimeZone($event->endDateTime, $timezone);
 
         if (isset($_POST["te_event_allday"]) && $_POST["te_event_allday"] == "true") {
             $event->allday = 1;
@@ -506,7 +514,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                    		      
+                                                                                                                                                                                                                                                                                                                                                            		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -688,7 +696,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                
+                                                        
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -936,20 +944,20 @@ if (empty($user)) {
                                                     ?>   
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
                                                         <h1><?= $evt->title ?></h1>
-                                                        <p>Today @<?php
+                                                        <p>Today @<span class="date_timezone"><?php
                                         $dt = strtotime($evt->startDateTime);
                                         echo date('H:i', $dt);
-                                                    ?></p>
+                                                    ?></span></p>
                                                        <!-- <p><?= $evtDesc ?></p> -->
                                                         <script>
                                                             var tmpDataJSON='<?php
-                                                $json_response = json_encode($evt);
-                                                $json_response = str_replace("'", "\\'", $json_response);
-                                                echo str_replace('"', '\\"', $json_response);
-                                                ?>';
-                                                    tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                    var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                    localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                                    $json_response = json_encode($evt);
+                                                    $json_response = str_replace("'", "\\'", $json_response);
+                                                    echo str_replace('"', '\\"', $json_response);
+                                                    ?>';
+                                                        tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                                        var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                                        localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                                         </script>
                                                     </div>
                                                     <?php
@@ -960,6 +968,19 @@ if (empty($user)) {
 
                                     </div>
                                     <script>
+                                        jQuery(document).ready(function(){
+                                            jQuery.each(jQuery(".date_timezone"),function(){
+                                                var text=jQuery(this).text();
+                                                if(text){
+                                                    try{
+                                                        jQuery(this).text( moment.utc(moment().format("YYYY-MM-DD")+text).local().format('HH:mm'));
+                                                    }catch(exp){
+                                                        console.log(exp);
+                                                    }
+                                                }
+                                            });
+                                        });
+                                        
                                         var slide_handler;
                                         function resizeSlide()
                                         {
@@ -987,7 +1008,7 @@ if (empty($user)) {
                 if (!empty($user)) {
                     $user_id = $user->id;
                 }
-                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, -1, -1,-1);
+                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, -1, -1, -1);
                 $main_pages_events = json_decode($main_pages_events);
                 if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     $main_event = new Event();
@@ -1220,8 +1241,19 @@ if (empty($user)) {
                                                             align="absmiddle" /><?= $main_event->commentCount ?>
                                                     </a>
                                                 </li>
-                                                <li><a href="#" class="<?php $tt=$main_event->getRemainingTime(); if($tt=="Past"){echo "turuncu_link";} else {echo "yesil_link";}?>" onclick="return false;"> 
-                                                        <img src="<?= HOSTNAME ?>images/zmn<?php if($tt=="Past"){echo "_k";} ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
+                                                <li><a href="#" class="<?php
+                            $tt = $main_event->getRemainingTime();
+                            if ($tt == "Past") {
+                                echo "turuncu_link";
+                            } else {
+                                echo "yesil_link";
+                            }
+                            ?>" onclick="return false;"> 
+                                                        <img src="<?= HOSTNAME ?>images/zmn<?php
+                                             if ($tt == "Past") {
+                                                 echo "_k";
+                                             }
+                                             ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -1229,13 +1261,13 @@ if (empty($user)) {
                                     </div>
                                     <script>
                                         var tmpDataJSON='<?php
-                            $json_response = json_encode($main_event);
-                            $json_response = str_replace("'", "\\'", $json_response);
-                            echo str_replace('"', '\\"', $json_response);
-                            ?>';
-                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                             $json_response = json_encode($main_event);
+                                             $json_response = str_replace("'", "\\'", $json_response);
+                                             echo str_replace('"', '\\"', $json_response);
+                                             ?>';
+                                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>
@@ -1273,7 +1305,7 @@ if (empty($user)) {
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
         <div id="dump" style="display: none">
             <!-- profil box -->
-            <?php if (!empty($user) && !empty($user->id)) { ?>
+<?php if (!empty($user) && !empty($user->id)) { ?>
                 <div class="profil_box main_event_box">
                     <div class="profil_resim">
                         <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
@@ -1311,10 +1343,10 @@ if (empty($user)) {
                         </script>
                     </div>
                 </div>
-            <?php } ?>
+    <?php } ?>
             <!-- profil box -->
         </div>
         <div id="te_faux"  style="visibility: hidden;display: inline"></div>
     </body>
-    <?php include('layout/template_createevent.php'); ?>
+<?php include('layout/template_createevent.php'); ?>
 </html>

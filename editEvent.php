@@ -244,10 +244,27 @@ if (!empty($_POST['rand_session_id'])) {
     $event->startDateTime = $startDate . " " . $startTime . ":00";
     $event->endDateTime = $endDate . " " . $endTime . ":00";
 
-    $te_event_start_date = $startDate;
-    $te_event_end_date = $endDate;
-    $te_event_start_time = $startTime;
-    $te_event_end_time = $endTime;
+    $timezone = "+02:00";
+    if (isset($_POST['te_timezone'])) {
+        $timezone = $_POST['te_timezone'];
+    }
+    $event->startDateTime = UtilFunctions::convertTimeZone($event->startDateTime, $timezone);
+    $event->endDateTime = UtilFunctions::convertTimeZone($event->endDateTime, $timezone);
+
+    $event->startDateTimeLong = strtotime($event->startDateTime);
+    $event->endDateTimeLong = strtotime($event->endDateTime);
+
+    if (!empty($event->startDateTimeLong)) {
+        $te_event_start_date = date(DATE_FE_FORMAT_D, $event->startDateTimeLong);
+        $te_event_start_time = date("H:i", $event->startDateTimeLong);
+    }
+
+    $te_event_end_date = "";
+    $te_event_end_time = "";
+    if (!empty($event->endDateTimeLong) && $event->endDateTimeLong > 0) {
+        $te_event_end_date = date(DATE_FE_FORMAT_D, $event->endDateTimeLong);
+        $te_event_end_time = date("H:i", $event->endDateTimeLong);
+    }
 
     if (isset($_POST["te_event_allday"]) && $_POST["te_event_allday"] == "true") {
         $event->allday = 1;
@@ -607,7 +624,7 @@ if (!empty($_POST['rand_session_id'])) {
         <?php
         if (empty($var_tags)) {
             $var_tags = "[]";
-            $var_tags = Neo4jTimetyTagUtil::getTagListListByIdList($event->tags);
+            $var_tags = Neo4jFuctions::getTagListListByIdList($event->tags);
         }
 
         $var_usrs = "[]";
@@ -774,6 +791,12 @@ if ($event->addsocial_tw == 1) {
         include('layout/eventImageUpload.php');
         ?>
         <form action="" method="post" name="edit_event" >
+            <input type="hidden" name="te_timezone" id="te_timezone" value="+02:00"/>
+            <script>
+            jQuery(document).ready(function(){
+                jQuery("#te_timezone").val(moment().format("Z")); 
+            });
+            </script>
             <div  class="event_add_ekr" id="div_event_add_ekr" style="position: relative;"> 
                 <form id="add_event_form_id" name="add_event_form" action="" method="post">
                     <!-- Header Image-->
@@ -1120,13 +1143,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                                                <label
-                                                                                                    class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
-                                                                                                        onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                                        checked=""
-                                                                                                        name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
-                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                                                </label> <br /> 
+                                                                                                                                <label
+                                                                                                                                    class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
+                                                                                                                                        onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                                                        checked=""
+                                                                                                                                        name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
+                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                                                </label> <br /> 
                             <?php
                         }
                     }
@@ -1142,13 +1165,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                                                <label
-                                                                                                    class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
-                                                                                                        onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                                        checked=""
-                                                                                                        name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
-                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                                                </label> <br /> 
+                                                                                                                                <label
+                                                                                                                                    class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
+                                                                                                                                        onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                                                        checked=""
+                                                                                                                                        name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
+                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                                                </label> <br /> 
                             <?php
                         }
                     }
@@ -1178,7 +1201,7 @@ if ($event->addsocial_tw == 1) {
                                 $iddd = $var_cats[$i]->id;
                             }
                             ?>
-                                                                                        jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
+                                                                                                                        jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
                             <?php
                         }
                     }
@@ -1253,6 +1276,8 @@ if ($event->addsocial_tw == 1) {
                                         if(st_t.isAfter(ed_t)){
                                             jQuery("#te_event_end_time").val(st_t.add('hours', 1).format("HH:mm"));  
                                         }
+                                    }else if(st_t){
+                                        jQuery("#te_event_end_time").val(st_t.add('hours', 1).format("HH:mm"));  
                                     }
                                 }
                             }
@@ -1269,6 +1294,7 @@ if ($event->addsocial_tw == 1) {
                                     </I>
                                 </SPAN>
                                 <script>
+                                jQuery("#te_event_start_time").val(moment.utc(moment().format("YYYY-MM-DD")+' <?= $te_event_start_time ?>').local().format('HH:mm'));
                                 jQuery("#te_event_start_time").bind("change",checkCreateDateTime);
                                 </script>
                             </div>
@@ -1286,13 +1312,20 @@ if ($event->addsocial_tw == 1) {
                         </div>
                         <div class="ts_box">
                             <div class="ts_sorta input_border">
-                                <INPUT id="date2" name="te_event_end_date"
+                                <INPUT id="te_event_end_date" name="te_event_end_date"
                                        autocomplete='off'
                                        style="width: 83px !important;"
                                        value="<?= $te_event_end_date ?>"
                                        class=" date1 gldp ts_sorta_inpt" type="text">
                             </div>
                         </div>
+                        <script>
+                            <?php  if(!empty($te_event_end_time)) { ?>
+                            jQuery("#te_event_end_time").val(moment.utc(moment().format("YYYY-MM-DD")+' <?= $te_event_end_time ?>').local().format('HH:mm'));
+                            <?php } else { ?>
+                                checkCreateDateTime();
+                            <?php }?>
+                            </script>
                         <div class="ts_box" style="display: none;">
                             <label class="label_check" for="te_event_allday"> <input
                                     name="te_event_allday_" id="te_event_allday" value="false"

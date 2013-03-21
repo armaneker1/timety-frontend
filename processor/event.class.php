@@ -332,7 +332,7 @@ class EventProcessor {
                     $event = json_decode($evt);
                     if (!empty($event) && $event->privacy . "" == "true") {
                         $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
-                        $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $this->eventID);
+                        $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $event->id);
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                         if ($this->addUserEventLog($it, $event, $evt)) {
                             RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
@@ -356,7 +356,7 @@ class EventProcessor {
                     $event = json_decode($evt);
                     if (!empty($event) && $event->privacy . "" == "true") {
                         $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
-                        $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $this->eventID);
+                        $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $event->id);
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                         if ($this->addUserEventLog($it, $event, $evt)) {
                             RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
