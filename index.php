@@ -987,7 +987,7 @@ if (empty($user)) {
                 if (!empty($user)) {
                     $user_id = $user->id;
                 }
-                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, 1, -1);
+                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, -1, -1,-1);
                 $main_pages_events = json_decode($main_pages_events);
                 if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     $main_event = new Event();

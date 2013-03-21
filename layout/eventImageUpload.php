@@ -6,7 +6,7 @@
         var uploader = new qq.FileUploader({
             element: document.getElementById('te_event_image_div'),
             action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-            debug: true,
+            debug: false,
             allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
             params: {
                 imageName:'<?= "ImageEventHeader" . $_random_session_id . ".png" ?>'
@@ -29,7 +29,7 @@
             var uploader1 = new qq.FileUploader({
                 element: document.getElementById('event_image_1_div'),
                 action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                debug: true,
+                debug: false,
                 allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
                 params: {
                     imageName:'<?= "ImageEvent_1_" . $_random_session_id . ".png" ?>'
@@ -52,7 +52,7 @@
             var uploader2 = new qq.FileUploader({
                 element: document.getElementById('event_image_2_div'),
                 action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                debug: true,
+                debug: false,
                 allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
                 params: {
                     imageName:'<?= "ImageEvent_2_" . $_random_session_id . ".png" ?>'
@@ -76,7 +76,7 @@
             var uploader3 = new qq.FileUploader({
                 element: document.getElementById('event_image_3_div'),
                 action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                debug: true,
+                debug: false,
                 allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
                 params: {
                     imageName:'<?= "ImageEvent_3_" . $_random_session_id . ".png" ?>'
@@ -100,7 +100,7 @@
             var uploader4 = new qq.FileUploader({
                 element: document.getElementById('event_image_4_div'),
                 action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                debug: true,
+                debug: false,
                 allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
                 params: {
                     imageName:'<?= "ImageEvent_4_" . $_random_session_id . ".png" ?>'
@@ -124,7 +124,7 @@
             var uploader5 = new qq.FileUploader({
                 element: document.getElementById('event_image_5_div'),
                 action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                debug: true,
+                debug: false,
                 allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
                 params: {
                     imageName:'<?= "ImageEvent_5_" . $_random_session_id . ".png" ?>'
@@ -148,7 +148,7 @@
             var uploader6 = new qq.FileUploader({
                 element: document.getElementById('event_image_6_div'),
                 action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                debug: true,
+                debug: false,
                 allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
                 params: {
                     imageName:'<?= "ImageEvent_6_" . $_random_session_id . ".png" ?>'
@@ -171,7 +171,7 @@
             var uploader7 = new qq.FileUploader({
                 element: document.getElementById('event_image_7_div'),
                 action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=1',
-                debug: true,
+                debug: false,
                 allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
                 params: {
                     imageName:'<?= "ImageEvent_7_" . $_random_session_id . ".png" ?>'

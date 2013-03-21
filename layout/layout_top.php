@@ -269,7 +269,6 @@ if (empty($user)) {
                     </script>
                     <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879100"></script>
                     <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.js?2013080897276"></script>
-                    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_following.min.js"></script>
 
                 <?php
                 }

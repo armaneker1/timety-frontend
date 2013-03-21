@@ -1022,7 +1022,7 @@ $imgName = $user->id . "_" . time() . ".png";
         var uploader = new qq.FileUploader({
             element: document.getElementById('profil_image_id_div'),
             action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=2',
-            debug: true,
+            debug: false,
             allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
             params: {
                 imageName:'<?= $imgName ?>',

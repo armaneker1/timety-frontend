@@ -111,7 +111,7 @@ class User {
     public $created_count = 0;
 
     public function getUserLang() {
-        return $this->hometown;
+        return $this->language;
     }
 
     public function getFullName() {
@@ -120,7 +120,6 @@ class User {
 
     public function getLocationCity() {
         if (empty($this->location_city)) {
-;
             $this->location_city = UserUtils::getUserCityId($this->id);
         }
         return $this->location_city;

@@ -1,6 +1,6 @@
 <?php
 
-class RemoveItemById extends Predis\Command\ScriptedCommand {
+class RemoveItemByIdReturnItem extends Predis\Command\ScriptedCommand {
 
     public function getKeysCount() {
         return -1;
@@ -17,7 +17,7 @@ class RemoveItemById extends Predis\Command\ScriptedCommand {
         obj = cjson.decode(v)
         if tostring(obj.id) == tostring(rem_id) then
             redis.call('zrem',key_id,v)
-            result = 1
+            result = v
             break
         end
     end

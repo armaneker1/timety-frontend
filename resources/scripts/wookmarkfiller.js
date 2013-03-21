@@ -1,7 +1,6 @@
 var post_wookmark=null;
 var page_wookmark=1;
-var allCategories=1;
-var allFriends=1;
+var city_channel=-1;// ww -2 olcak 
 var wookmark_channel=1;
 var wookmark_category=-1;
 localStorage.clear();
@@ -67,14 +66,6 @@ function wookmarkFiller(options,clear,loader,channel_)
         if(post_wookmark) {
             return null;
         }
-        var allParameter=1;
-        if(channel==1)
-        {
-            allParameter=allCategories;
-        }else if(channel==3)
-        {
-            allParameter=allFriends;     
-        }
         /*
          * track event
          */
@@ -116,9 +107,9 @@ function wookmarkFiller(options,clear,loader,channel_)
                 'date':dateSelected,
                 'query':searchText,
                 'type':channel,
-                'popular_all':allParameter,
                 'category':categoryId,
-                'reqUserId':userSelected
+                'reqUserId':userSelected,
+                'city_channel': city_channel
             },
             error: function (request, status, error) {
                 if(post_wookmark) {
@@ -682,49 +673,6 @@ function wookmarkHTML(dataArray,userId)
         }
     }); 
     
-}
-
-
-var checkAllCategories=function(){
-    var ch=jQuery(this).data("ch");
-    if(ch==1)
-    {
-        if(this.value==1)
-            allCategories=1;
-        else
-            allCategories=0;
-        page_wookmark=0;
-        wookmarkFiller(document.optionsWookmark,true,true);
-        jQuery(this).data("ch",0);
-    }else
-    {
-        jQuery(this).data("ch",1); 
-        if(this.value==1) 
-            this.value=0; 
-        else 
-            this.value=1;
-    }
-}
-
-var checkAllFriends=function(){
-    var ch=jQuery(this).data("ch");
-    if(ch==1)
-    {
-        if(this.value==1)
-            allFriends=1;
-        else
-            allFriends=0;
-        page_wookmark=0;
-        wookmarkFiller(document.optionsWookmark,true,true);
-        jQuery(this).data("ch",0);
-    }else
-    {
-        jQuery(this).data("ch",1); 
-        if(this.value==1) 
-            this.value=0; 
-        else 
-            this.value=1;
-    }
 }
 
 

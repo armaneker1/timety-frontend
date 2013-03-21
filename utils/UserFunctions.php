@@ -75,17 +75,21 @@ class UserUtils {
             return null;
         }
     }
-    
+
     public static function getUserCityId($id) {
         if (!empty($id)) {
-            $SQL = "SELECT location_city FROM " . TBL_USERS . " WHERE id=" . $id;
-            $query = mysql_query($SQL) or die(mysql_error());
-            $result = mysql_fetch_array($query);
-            $city = $result['location_city'];
-            if (!empty($city)) {
-                return $city;
-            } else {
-                return null;
+            try {
+                $SQL = "SELECT location_city FROM " . TBL_USERS . " WHERE id=" . $id;
+                $query = mysql_query($SQL) or die(mysql_error());
+                $result = mysql_fetch_array($query);
+                $city = $result['location_city'];
+                if (!empty($city)) {
+                    return $city;
+                } else {
+                    return null;
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
             }
         } else {
             return null;
@@ -387,8 +391,8 @@ class UserUtils {
             return null;
         }
     }
-    
-    public static function getSocialProvider($uid,$type) {
+
+    public static function getSocialProvider($uid, $type) {
         if (!empty($uid) && !empty($type)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id = $uid and oauth_provider='$type'";

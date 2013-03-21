@@ -931,9 +931,8 @@ class Neo4jFuctions {
      * $pageItemCount default 15
      */
 
-    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 4, $all = 1, $categoryId = -1, $reqUserId = -1) {
+    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 4, $categoryId = -1, $reqUserId = -1, $city_channel = -1) {
 
-        $array = array();
         if ($userId == -1) {
             $userId = "*";
             $type = 1;
@@ -944,7 +943,13 @@ class Neo4jFuctions {
         }
 
         if ($type == 9 && $categoryId < 0) {
-            $type = 1;
+            // ww -2 olacak 
+            if ($city_channel > 0 || $city_channel == -1) {
+                $city = UserUtils::getUserCityId($userId);
+                if (!empty($city) && $city == $city_channel) {
+                    $type = 1;
+                }
+            }
         }
 
         if (empty($date) || substr($date, 0, 1) == "0") {
@@ -985,33 +990,32 @@ class Neo4jFuctions {
             }
             $date = strtotime($date);
         }
-        $eventIds = "";
         if ($type == 4) {
-            return RedisUtils::getUserPublicEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all, $reqUserId);
+            return RedisUtils::getUserPublicEvents($userId, $pageNumber, $pageItemCount, $date, $query, $reqUserId);
         } else if ($type == 3) {
-            return RedisUtils::getFollowingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            return RedisUtils::getFollowingEvents($userId, $pageNumber, $pageItemCount, $date, $query);
         } else if ($type == 10) {
-            return RedisUtils::getUserCreatedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$reqUserId);
+            return RedisUtils::getUserCreatedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $reqUserId);
         } else if ($type == 11) {
-            return RedisUtils::getUserLikedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$reqUserId);
+            return RedisUtils::getUserLikedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $reqUserId);
         } else if ($type == 12) {
-            return RedisUtils::getUserResahredEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$reqUserId);
+            return RedisUtils::getUserResahredEvents($userId, $pageNumber, $pageItemCount, $date, $query, $reqUserId);
         } else if ($type == 13) {
-            return RedisUtils::getUserJoinedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all,$reqUserId);
+            return RedisUtils::getUserJoinedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $reqUserId);
         } else if ($type == 5) {
-            return RedisUtils::getCreatedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            return RedisUtils::getCreatedEvents($userId, $pageNumber, $pageItemCount, $date, $query);
         } else if ($type == 6) {
-            return RedisUtils::getLikedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            return RedisUtils::getLikedEvents($userId, $pageNumber, $pageItemCount, $date, $query);
         } else if ($type == 7) {
-            return RedisUtils::getResahredEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            return RedisUtils::getResahredEvents($userId, $pageNumber, $pageItemCount, $date, $query);
         } else if ($type == 8) {
-            return RedisUtils::getJoinedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            return RedisUtils::getJoinedEvents($userId, $pageNumber, $pageItemCount, $date, $query);
         } else if ($type == 2) {
-            return RedisUtils::getOwnerEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            return RedisUtils::getOwnerEvents($userId, $pageNumber, $pageItemCount, $date, $query);
         } else if ($type == 9) {
-            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all, $categoryId);
+            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $query, $categoryId, $city_channel);
         } else {
-            $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+            $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date, $query);
             $check = false;
             if ($pageNumber == 0 || $pageNumber == "0") {
                 if ((empty($recommended) || strlen($recommended) < 3)) {
@@ -1026,35 +1030,11 @@ class Neo4jFuctions {
                 }
             }
             if ($check) {
-                return RedisUtils::getUpcomingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $all);
+                return RedisUtils::getUpcomingEvents($userId, $pageNumber, $pageItemCount, $date, $query);
             } else {
                 return $recommended;
             }
         }
-
-        if (!empty($eventIds)) {
-            $eventIds = substr($eventIds, 0, strlen($eventIds) - 1);
-        }
-
-        $images = ImageUtil::getAllHeaderImageList($eventIds);
-        $tmparray = array();
-        $img = new Image();
-        if (!empty($images)) {
-            foreach ($array as $evt) {
-                foreach ($images as $img) {
-                    if ($evt->id + "" == $img->eventId + "") {
-                        if (empty($evt->images)) {
-                            $evt->images = array();
-                        }
-                        array_push($evt->images, $img);
-                        $evt->headerImage = $img;
-                        break;
-                    }
-                }
-                array_push($tmparray, $evt);
-            }
-        }
-        return json_encode($tmparray);
     }
 
     public static function moveUser($fromUserId, $toUserId, User $tmpuser) {

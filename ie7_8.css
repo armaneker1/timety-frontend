@@ -320,6 +320,7 @@
     background-image: url(images/u_line.png);
     background-repeat: repeat-x;
     background-position: bottom;
+     word-wrap : break-word;
 }
 .m_e_alt {
     background-image: url(images/dkk.png);

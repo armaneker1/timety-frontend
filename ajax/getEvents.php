@@ -28,10 +28,6 @@ $type = null;
 if (isset($_GET["type"]))
     $type = $_GET["type"];
 
-$popular_all = "1";
-if (isset($_GET["popular_all"]))
-    $popular_all = $_GET["popular_all"];
-
 
 $category = "-1";
 if (isset($_GET["category"]))
@@ -40,6 +36,10 @@ if (isset($_GET["category"]))
 $reqUserId = "-1";
 if (isset($_GET["reqUserId"]))
     $reqUserId = $_GET["reqUserId"];
+
+$city_channel = "-1";
+if (isset($_GET["city_channel"]))
+    $city_channel = $_GET["city_channel"];
 
 $res = new Result();
 $res->error = true;
@@ -63,7 +63,7 @@ $res->success = false;
  */
 
 if ($userId != null && $pageNumber != "" && $pageItemCount != null && $type != null) {
-    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $popular_all, $category, $reqUserId);
+    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $category, $reqUserId,$city_channel);
 } else {
     $json_response = json_encode($res);
     echo $json_response;

@@ -9,8 +9,6 @@ class CategoryProcessor {
     public $time;
 
     public function addEvent() {
-        // for now
-        return;
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         $log->logInfo("category > addEvent > start eventId : " . $this->eventID . " time : " . $this->time);
 

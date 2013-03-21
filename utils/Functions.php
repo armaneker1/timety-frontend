@@ -57,6 +57,7 @@ require_once __DIR__ . '/Neo4jUserSettings.php';
 require_once __DIR__ . '/Queue.php';
 require_once __DIR__ . '/RedisFunctions.php';
 require_once __DIR__ . '/../processor/scriptedcommands/RemoveItemById.class.php';
+require_once __DIR__ . '/../processor/scriptedcommands/RemoveItemByIdReturnItem.class.php';
 require_once __DIR__ . '/../processor/scriptedcommands/SeacrhEventByTag.class.php';
 
 //HttpAuthUtils::checkHttpAuth();
@@ -318,6 +319,17 @@ class UtilFunctions {
         return $destination;
     }
 
+    
+    public static function findString($string,$search){
+        if(!empty($string) && !empty($search)){
+            $string=  strtolower($string);
+            $search=  strtolower($search);
+            if(!strpos($string, $search)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 ?>

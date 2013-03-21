@@ -1,5 +1,7 @@
 <?php
-ini_set('max_execution_time', 300); 
+
+ini_set('max_execution_time', 300);
+
 use Everyman\Neo4j\Transport,
     Everyman\Neo4j\Client,
     Everyman\Neo4j\Index,
@@ -20,7 +22,7 @@ $key = "deneme:1:1";
 
 
 /*
-for ($i = 1100; $i < 2200; $i++) {
+for ($i = 1100; $i < 1120; $i++) {
     $obj = new stdClass();
     $obj->id = $i;
     $obj->name = "Hasan" . $i;
@@ -37,25 +39,32 @@ for ($i = 1100; $i < 2200; $i++) {
     }
     $obj->tags = $array;
     $redis->zadd($key, $i, json_encode($obj));
-}*/
- 
-
-
-/*
-  $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
-  $a = $redis->removeItemById($key, 14);
-  var_dump($a);
+}
  */
 
 var_dump($redis->zrange($key, 0, -1));
 
-$timeparts = explode(" ",microtime());
-$currenttime1 = bcadd(($timeparts[0]*1000),bcmul($timeparts[1],1000));
-$redis->getProfile()->defineCommand('seacrhEventByTag', 'SeacrhEventByTag');
-$a = $redis->seacrhEventByTag($key, "[1,20,60]");
-$timeparts = explode(" ",microtime());
-$currenttime2 = bcadd(($timeparts[0]*1000),bcmul($timeparts[1],1000));
-echo ($currenttime2-$currenttime1)/1000;
-//var_dump($a);
+/*
+$redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+$a = $redis->removeItemByIdReturnItem($key, 1101);
+var_dump($a);
+ */
 
+/*
+$redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+$a = $redis->removeItemById($key, 14);
+var_dump($a);
+ */
+
+/*
+  var_dump($redis->zrange($key, 0, -1));
+
+  $timeparts = explode(" ",microtime());
+  $currenttime1 = bcadd(($timeparts[0]*1000),bcmul($timeparts[1],1000));
+  $redis->getProfile()->defineCommand('seacrhEventByTag', 'SeacrhEventByTag');
+  $a = $redis->seacrhEventByTag($key, "[1,20,60]");
+  $timeparts = explode(" ",microtime());
+  $currenttime2 = bcadd(($timeparts[0]*1000),bcmul($timeparts[1],1000));
+  echo ($currenttime2-$currenttime1)/1000; */
+//var_dump($a);
 ?>

@@ -67,13 +67,9 @@ class EventProcessor {
                 if (!empty($followers)) {
                     foreach ($followers as $follower) {
                         if (!empty($follower) && !empty($follower->id)) {
-                            $follower->getLocationCity();
                             $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
                             if ($this->addUserEventLog(null, $event) && $event->privacy . "" == "true") {
-                                // todo :  add not same city find a way
-                                if (($event->worldwide == 1 || $event->worldwide == "1") || ($event->loc_city == $follower->location_city)) {
-                                    RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
-                                }
+                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
                             }
                         }
                     }
@@ -91,9 +87,19 @@ class EventProcessor {
                 $event->userEventLog = array();
                 $key = $event->loc_city;
                 if (empty($key)) {
-                    $key = "epmty";
+                    if ($event->worldwide == 1 || $event->worldwide == "1") {
+                        $key = "ww";
+                    } else {
+                        $key = "epmty";
+                    }
+                    RedisUtils::addItem($redis, REDIS_PREFIX_CITY . $key, json_encode($event), $event->startDateTimeLong);
+                } else {
+                    if ($event->worldwide == 1 || $event->worldwide == "1") {
+                        RedisUtils::addItem($redis, REDIS_PREFIX_CITY . "ww", json_encode($event), $event->startDateTimeLong);
+                    } else {
+                        RedisUtils::addItem($redis, REDIS_PREFIX_CITY . $key, json_encode($event), $event->startDateTimeLong);
+                    }
                 }
-                RedisUtils::addItem($redis, REDIS_PREFIX_CITY . $key, json_encode($event), $event->startDateTimeLong);
             }
             /*
              * city list
@@ -131,27 +137,29 @@ class EventProcessor {
                 $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
             }
 
+            $effectedKeys = array();
+
             /*
              * my timety
              */
             if (!empty($this->userID)) {
-                $events = $redis->zrevrange(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, 0, -1);
-                $it = null;
-                foreach ($events as $item) {
-                    $evt = new Event();
-                    $evt = json_decode($item);
-                    if ($evt->id == $this->eventID) {
-                        $it = $item;
-                        //remove item
-                        RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, $item);
-                        break;
-                    }
-                }
+                $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, $this->eventID);
                 $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
-                //insert new item
                 if ($this->addUserEventLog($it, $event)) {
                     RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
                 }
+                array_push($effectedKeys, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY);
+            }
+
+            if (!empty($this->userID) && $this->userID != $event->creatorId) {
+                $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, $this->eventID);
+                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $event->creatorId);
+                if ($this->addUserEventLog($it, $event)) {
+                    RedisUtils::addItem($redis, REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY, json_encode($event), $event->startDateTimeLong);
+                }
+                array_push($effectedKeys, REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY);
             }
             /*
              * my timety
@@ -165,27 +173,20 @@ class EventProcessor {
             /*
              * upcoming event list
              */
-            // if ($this->type == REDIS_USER_INTERACTION_UPDATED) {
-            $events = $redis->zrevrange(REDIS_LIST_UPCOMING_EVENTS, 0, -1);
-            foreach ($events as $item) {
-                $evt = json_decode($item);
-                if ($evt->id == $this->eventID) {
-                    //remove item
-                    RedisUtils::removeItem($redis, REDIS_LIST_UPCOMING_EVENTS, $item);
-                    break;
-                }
-            }
+            $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+            $redis->removeItemById(REDIS_LIST_UPCOMING_EVENTS, $this->eventID);
             $log->logInfo(REDIS_LIST_UPCOMING_EVENTS . " > updateEvent >  Privacy - '" . $event->privacy . "'");
             if ($event->privacy . "" == "true") {
                 $event->userRelation = $userRelationEmpty;
                 $event->userEventLog = null;
-                //insert new item
                 RedisUtils::addItem($redis, REDIS_LIST_UPCOMING_EVENTS, json_encode($event), $event->startDateTimeLong);
+                array_push($effectedKeys, REDIS_LIST_UPCOMING_EVENTS);
             }
-            // }
             /*
              * upcoming event list
              */
+
+
 
             /*
              * followers list
@@ -195,25 +196,13 @@ class EventProcessor {
                 if (!empty($followers)) {
                     foreach ($followers as $follower) {
                         if (!empty($follower) && !empty($follower->id)) {
-                            $follower->getLocationCity();
-                            $events = $redis->zrevrange(REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, 0, -1);
-                            $it = null;
-                            foreach ($events as $item) {
-                                $evt = json_decode($item);
-                                if ($evt->id == $this->eventID) {
-                                    $it = $item;
-                                    //remove item
-                                    RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, $item);
-                                    break;
-                                }
-                            }
+                            $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                            $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, $this->eventID);
                             $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
                             if ($this->addUserEventLog($it, $event) && $event->privacy . "" == "true") {
-                                //insert new item
-                                if (($event->worldwide == 1 || $event->worldwide == "1") || ($event->loc_city == $follower->location_city)) {
-                                    RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
-                                }
+                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
                             }
+                            array_push($effectedKeys, REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING);
                         }
                     }
                 }
@@ -225,10 +214,62 @@ class EventProcessor {
             /*
              * find users that might interest this event
              */
-            $this->findUserForEvents(true);
+            $keyArray = $this->findUserForEvents(true);
             /*
              * find users that might interest this event
              */
+
+
+
+            /*
+             * city list
+             */
+
+            $event->userRelation = $userRelationEmpty;
+            $event->userEventLog = array();
+            $key = $event->loc_city;
+            if (empty($key)) {
+                if ($event->worldwide == 1 || $event->worldwide == "1") {
+                    $key = "ww";
+                } else {
+                    $key = "epmty";
+                }
+                $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+                $redis->removeItemById(REDIS_PREFIX_CITY . $key, $this->eventID);
+                if ($event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, REDIS_PREFIX_CITY . $key, json_encode($event), $event->startDateTimeLong);
+                }
+                array_push($effectedKeys, REDIS_PREFIX_CITY . $key);
+            } else {
+                $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+                $redis->removeItemById(REDIS_PREFIX_CITY . $key, $this->eventID);
+                if ($event->privacy . "" == "true") {
+                    if ($event->worldwide == 1 || $event->worldwide == "1") {
+                        RedisUtils::addItem($redis, REDIS_PREFIX_CITY . "ww", json_encode($event), $event->startDateTimeLong);
+                    } else {
+                        RedisUtils::addItem($redis, REDIS_PREFIX_CITY . $key, json_encode($event), $event->startDateTimeLong);
+                    }
+                }
+                array_push($effectedKeys, REDIS_PREFIX_CITY . $key);
+            }
+            /*
+             * city list
+             */
+
+
+            /*
+             * delete unused placed
+             */
+            $effectedKeys = array_merge($keyArray, $effectedKeys);
+            $friendsKeys = $redis->keys("user:friend*");
+            $effectedKeys = array_merge($friendsKeys, $effectedKeys);
+            $allkeys = $redis->keys("*");
+            foreach ($allkeys as $key) {
+                if (!in_array($key, $effectedKeys)) {
+                    $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+                    $redis->removeItemById($key, $this->eventID);
+                }
+            }
         } else {
             $log->logInfo("event > updateEvent >  event empty");
         }
@@ -238,6 +279,7 @@ class EventProcessor {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > findUserForEvents >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time . " added : " . $rem);
+        $keyArray = array();
         if (!empty($this->eventID)) {
             $event = new Event();
             $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
@@ -254,35 +296,27 @@ class EventProcessor {
                 $userId = $user->getProperty(PROP_USER_ID);
                 if (!empty($userId)) {
                     $usr = UserUtils::getUserById($userId);
-
                     $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->eventID, $userId);
                     $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                     $redis = new Predis\Client();
                     $log->logInfo("event > findUserForEvents >  remove ? : " . $rem);
                     if ($rem) {
-                        $upcomings = $redis->zrevrange(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, 0, -1);
-                        foreach ($upcomings as $etvJSON) {
-                            $etv = json_decode($etvJSON);
-                            if ($etv->id == $event->id) {
-                                if (!empty($host) && !strpos($host, 'localhost')) {
-                                    RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $etvJSON);
-                                } else {
-                                    $log->logInfo("Redis remove Item simulated");
-                                }
-                                break;
-                            }
-                        }
+                        $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+                        $redis->removeItemById(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $this->eventID);
                     }
-                    if (!empty($usr) && ($event->loc_city == $usr->location_city || ($event->worldwide == 1 || $event->worldwide == "1"))) {
+                    if (!empty($usr) && $event->loc_city == $usr->location_city) {
+                        //($event->worldwide == 1 || $event->worldwide == "1")
                         if (!empty($host) && !strpos($host, 'localhost') && $event->privacy . "" == "true") {
                             RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
                         } else {
                             $log->logInfo("Redis addItem Item simulated");
                         }
                     }
+                    array_push($keyArray, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING);
                 }
             }
         }
+        return $keyArray;
     }
 
     public function followUser() {
@@ -297,26 +331,12 @@ class EventProcessor {
                     $event = new Event();
                     $event = json_decode($evt);
                     if (!empty($event) && $event->privacy . "" == "true") {
-                        $myevents = $redis->zrevrange(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, 0, -1);
-                        $it = null;
-                        foreach ($myevents as $item) {
-                            $myevt = json_decode($item);
-                            if ($myevt->id == $event->id) {
-                                $it = $item;
-                                //remove item
-                                RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $item);
-                                break;
-                            }
-                        }
+                        $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                        $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $this->eventID);
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                         if ($this->addUserEventLog($it, $event, $evt)) {
-                            $usr = UserUtils::getUserById($this->userID);
-                            if (!empty($usr) && ($event->loc_city == $usr->location_city || ($event->worldwide == 1 || $event->worldwide == "1"))) {
-                                //insert new item
-                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
-                            }
+                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
                         }
-                        unset($myevents);
                     }
                 }
             }
@@ -335,26 +355,12 @@ class EventProcessor {
                     $event = new Event();
                     $event = json_decode($evt);
                     if (!empty($event) && $event->privacy . "" == "true") {
-                        $myevents = $redis->zrevrange(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, 0, -1);
-                        $it = null;
-                        foreach ($myevents as $item) {
-                            $myevt = json_decode($item);
-                            if ($myevt->id == $event->id) {
-                                $it = $item;
-                                //remove item
-                                RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $item);
-                                break;
-                            }
-                        }
+                        $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                        $it = $redis->removeItemByIdReturnItem(REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, $this->eventID);
                         $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
                         if ($this->addUserEventLog($it, $event, $evt)) {
-                            $usr = UserUtils::getUserById($this->userID);
-                            if (!empty($usr) && ($event->loc_city == $usr->location_city || ($event->worldwide == 1 || $event->worldwide == "1"))) {
-                                //insert new item
-                                RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
-                            }
+                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING, json_encode($event), $event->startDateTimeLong);
                         }
-                        unset($myevents);
                     }
                 }
             }
@@ -366,14 +372,14 @@ class EventProcessor {
 
         $log->logInfo("addUserEventLog > Start ");
         if (!empty($event)) {
-            // this user created that event
+// this user created that event
             $usrR = new UserEventLog();
             $usrR->action = $this->type;
             $usrR->eventId = $event->id;
             $usrR->userId = $this->userID;
             $usrR->time = null; //$this->time;
             if ($this->type == REDIS_USER_INTERACTION_CREATED) {
-                //new 
+//new 
                 $array = array();
                 array_push($array, $usrR);
                 $log->logInfo("addUserEventLog >  added array " . REDIS_USER_INTERACTION_CREATED);
@@ -443,7 +449,7 @@ class EventProcessor {
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_JOIN && $rel->userId == $this->userID) {
-                            //$rel->time = $this->time;
+//$rel->time = $this->time;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_JOIN);
                             $array[$i] = $rel;
                             $added = false;
@@ -461,7 +467,7 @@ class EventProcessor {
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_MAYBE && $rel->userId == $this->userID) {
-                            //$rel->time = $this->time;
+//$rel->time = $this->time;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_MAYBE);
                             $array[$i] = $rel;
                             $added = false;
@@ -487,7 +493,7 @@ class EventProcessor {
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
-                            //$rel->time = $this->time;
+//$rel->time = $this->time;
                             $array[$i] = $rel;
                             $added = false;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_LIKE);
@@ -513,7 +519,7 @@ class EventProcessor {
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
                         if ($rel->action == REDIS_USER_INTERACTION_RESHARE && $rel->userId == $this->userID) {
-                            //$rel->time = $this->time;
+//$rel->time = $this->time;
                             $array[$i] = $rel;
                             $added = false;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_RESHARE);
