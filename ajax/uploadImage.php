@@ -31,17 +31,19 @@ if (isset($_GET['type']) && $_GET['type'] == 1) {
         $image = imagecreatefrompng($source_url);
 
     $size = filesize($source_url);
-    $quality = 100;
+    $quality = 9;
     if ($size >= (100 * 1024) && $size < (512 * 1024)) {
-        $quality = 60;
+        $quality = 6;
     } else if ($size >= (512 * 1024) && $size < (1024 * 1024)) {
-        $quality = 40;
+        $quality = 4;
     } else if ($size >= (1024 * 1024) && $size < (3096 * 1024)) {
-        $quality = 30;
+        $quality = 3;
     } else if ($size >= (3096 * 1024)) {
-        $quality = 10;
+        $quality = 1;
     }
-    imagejpeg($image, $source_url, $quality);
+    imagealphablending($image, false);
+    imagesavealpha($image, true);
+    imagepng($image, $source_url, $quality);
     echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 }
 
