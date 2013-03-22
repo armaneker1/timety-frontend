@@ -1263,3 +1263,215 @@
     color: #666666;
     padding-top: 12px;
 }
+
+
+/* create account */
+
+#create_account {
+    position: relative;
+    left: 0px;
+    right: 0px;
+    width: 648px;
+    margin-right: auto;
+    margin-left: auto;
+    top: 150px;
+}
+
+.create_account_width {
+    width: 430px !important;
+}
+
+.create_account_outline {
+    outline: rgb(255, 255, 255) solid thick;
+    padding: 45px;
+    padding-top: 30px;
+    background-image: url('images/bg.png');
+}
+
+
+
+
+.create_acco_alt {
+    width: auto;
+    background-color: #efefef;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #cfcfcf;
+    border-right-color: #e4e4e4;
+    border-bottom-color: #dedede;
+    border-left-color: #e4e4e4;
+    border-radius:5px;
+    background-image: url(images/cizgi.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 236px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: inset 0px 1px 1px 0px #cfcfcf;
+}
+
+.create_acco_alt_height{
+    text-align: center;
+    height: 280px !important;
+    background-image:none !important;
+}
+
+.reg_btn{
+    font-family: Arial;
+    font-size: 11px;
+    color: #ffffff;
+    background: -moz-linear-gradient(top,#747d87 0%,#576270);
+    background: -webkit-gradient(linear, left top, left bottom, from(#747d87),to(#576270));
+    background: -o-linear-gradient(top,#747d87 0%,#576270);
+    background: -ms-linear-gradient(top,#747d87 0%,#576270);
+
+    background-color:#747d87;
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #6c7580;
+    -moz-box-shadow:
+        0px 0px 1px rgba(000,000,000,0.5),
+        inset 0px 1px 1px rgba(255,255,255,0.2);
+    -webkit-box-shadow:
+        0px 0px 1px rgba(000,000,000,0.5),
+        inset 0px 1px 1px rgba(255,255,255,0.2);
+    box-shadow:
+        0px 0px 1px rgba(000,000,000,0.5),
+        inset 0px 1px 1px rgba(255,255,255,0.2);
+    text-shadow:
+        0px -1px 0px rgba(000,000,000,1),
+        0px 0px 0px rgba(255,255,255,0);
+    font-weight: bold;
+    line-height: 28px;
+    height: 28px;
+
+}
+.reg_btn_width {
+    display: inline-block;
+    text-align: center;
+    margin-top: 25px;
+    width: 250px;
+}
+
+
+.account_sol_page {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    width: 285px;
+    margin-left: -2px;
+}
+
+.register_bg{
+    width: 100%;          
+    background-image: url('images/register/bg_reg.png');  
+    height: 100%;              
+    z-index: -10;  
+    position: fixed;
+    margin-top: 50px;
+}
+
+.onay_brdr{
+    /* border: 1px solid #8fae53; */
+}
+
+.onay {
+    background-image: none;
+    /* background-position: right -237px; */
+    height: 30px;
+    width: 20px;
+    display: block;
+    float: left;
+    background-repeat: no-repeat;
+}
+
+.user_inpt_pi_height{
+    height:40px;
+    width: 250px;
+    font-size: 14px;
+}
+
+.personel_info {
+    background-color: #EFEFEF !important;
+    background-repeat: no-repeat !important;
+    border-color: #CFCFCF #E4E4E4 #DEDEDE !important;
+    border-radius: 5px 5px 5px 5px !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    box-shadow: 0 1px 1px 0 #CFCFCF inset !important;
+    height: 400px !important;
+    padding-bottom: 10px !important;
+    padding-top: 30px !important;
+    width: 350px !important;
+}
+
+#personel_info_h {
+    position: relative !important;
+    left: 0px !important;
+    right: 0px !important;
+    width: 308px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    top: 150px !important;
+}
+
+/*  addlke */
+
+.add_ktg_sol {
+    background-color: #f9f9f9;
+    height: 110px;
+    width: 57px;
+    float: left;
+    text-align: center;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #dcdcdc;
+}
+
+.add_ktg_link {
+    font-size: 14px !important;
+}
+
+.reg_btn_addlike_width{
+    text-align: center;
+    margin-top: 8px;
+    width: 60px;
+    float: right;
+}
+
+.like_add {
+    width: 88%;
+}
+
+.create_acco_ust {
+    width: auto;
+    font-family: Arial;
+    font-size: 14px;
+    color: #858585;
+    background-image: url(images/iconlar.png);
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    margin-left: 30px;
+    margin-bottom: 5px;
+}
+
+
+/*  sugest friend */
+
+.friend_table_cell{
+    display: table-cell;
+    vertical-align: top;
+    padding-right: 10px;
+}
+.friend_table_row{
+    display: table-row;
+    vertical-align: top;
+}

@@ -1083,24 +1083,16 @@ class RedisUtils {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
             $log->logInfo("Redis Init User > userId : " . $userId);
+            $user_loc = UserUtils::getUserCityId($userId);
             $events = Neo4jRecommendationUtils::getUpcomingEventsForUser($userId);
             if (!empty($events) && sizeof($events) > 0) {
                 $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                 $redis = new Predis\Client();
-                $upcomings = $redis->zrevrange(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, 0, -1);
                 foreach ($events as $event) {
-                    foreach ($upcomings as $etvJSON) {
-                        $etv = json_decode($etvJSON);
-                        if ($etv->id == $event->id) {
-                            if (!empty($host) && !strpos($host, 'localhost')) {
-                                RedisUtils::removeItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $etvJSON);
-                            } else {
-                                $log->logInfo("Redis remove Item simulated");
-                            }
-                            break;
-                        }
-                    }
-                    if (!empty($host) && !strpos($host, 'localhost')) {
+                    $event->getLocCity();
+                    $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+                    $redis->removeItemById(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $event->id);
+                    if (!empty($host) && !strpos($host, 'localhost') && ($event->loc_city == $user_loc)) {
                         RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
                     } else {
                         $log->logInfo("Redis addItem Item simulated");

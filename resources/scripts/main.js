@@ -100,8 +100,8 @@ function setSpanWarning(field2, isValid,setMsg) {
 }
 
 function setInputWarning(field, inputClassName, isValid, removeIconBG,setMsg) {
-    var validCSS = "user_inpt icon_bg onay_brdr";
-    var NotValidCSS = "user_inpt icon_bg fail_brdr";
+    var validCSS = "user_inpt icon_bg onay_brdr user_inpt_pi_height";
+    var NotValidCSS = "user_inpt icon_bg fail_brdr user_inpt_pi_height";
     if (isValid !== undefined)
         isValid ? jQuery(field).attr('class', validCSS) : jQuery(field).attr('class',
             NotValidCSS);

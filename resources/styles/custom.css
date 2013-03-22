@@ -14,10 +14,6 @@
 	cursor: pointer !important;
 }
 
-.add_ktg_link {
-	font-size: 12px !important;
-}
-
 
 
 
@@ -43,29 +39,7 @@ a {
 	background-repeat: no-repeat !important;
 }
 
-.personel_info {
-	background-color: #EFEFEF !important;
-	background-repeat: no-repeat !important;
-	border-color: #CFCFCF #E4E4E4 #DEDEDE !important;
-	border-radius: 5px 5px 5px 5px !important;
-	border-style: solid !important;
-	border-width: 1px !important;
-	box-shadow: 0 1px 1px 0 #CFCFCF inset !important;
-	height: 340px !important;
-	padding-bottom: 10px !important;
-	padding-top: 10px !important;
-	width: auto !important;
-}
 
-#personel_info_h {
-	position: relative !important;
-	left: 0px !important;
-	right: 0px !important;
-	width: 308px !important;
-	margin-right: auto !important;
-	margin-left: auto !important;
-	top: 150px !important;
-}
 
 .spinner {
 	text-align: center !important;

@@ -242,7 +242,7 @@ if (empty($user)) {
             <?php
             if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
                 ?>
-                <?php if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user")) {
+                <?php if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" ||  $page_id == "registerPI")) {
                     ?>
                     <script type="text/javascript">
                         jQuery("#add_event_button").click(function(){
@@ -286,7 +286,7 @@ if (empty($user)) {
 
             <?php
             if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
-                if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user"))) {
+                if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" ||  $page_id == "registerPI"))) {
                     ?>
                     <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js"></script>
     <?php }
@@ -418,11 +418,11 @@ if (empty($user)) {
             $signin_class = "";
             $create_class = "";
 
-            if (!empty($sign_page_type) && $sign_page_type == "createaccount") {
+            if (!empty($page_id) && $page_id == "createaccount") {
                 $create_class = "cr_acc_hover";
             }
 
-            if (!empty($sign_page_type) && $sign_page_type == "signin") {
+            if (!empty($page_id) && $page_id == "signin") {
                 $signin_class = "sgn_in_hover";
             }
             ?>

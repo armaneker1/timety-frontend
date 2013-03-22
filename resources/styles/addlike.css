@@ -1,7 +1,7 @@
 
 .add_ktg_sag{
 		max-height:110px !important;
-                height: 106px !important;
+                height: 110px !important;
 		overflow: hidden !important;
 }
  
@@ -23,7 +23,8 @@
 	padding-left: 0px !important;
 	float: left !important;
 	font-family: Arial !important;
-	font-size: 11px !important;
+	font-size: 12px !important;
+        font-weight: bold;
 	color: #5a5a5a !important;
 	text-align: center !important;
 	padding-top: 0px !important;

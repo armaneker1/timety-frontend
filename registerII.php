@@ -34,10 +34,12 @@ if (!isset($_SESSION['id'])) {
             }
         }
 
-        $user->status = 2;
+        //by pass find friends
+        $user->status = 3;
         UtilFunctions::curl_post_async(PAGE_AJAX_INIT_USER_REDIS, array("userId" => $_SESSION['id']));
         UserUtils::updateUser($_SESSION['id'], $user);
-        header("Location : " . PAGE_WHO_TO_FOLLOW);
+        header("location: " . HOSTNAME);
+        exit(1);
     }
 
 
@@ -56,19 +58,19 @@ if (!isset($_SESSION['id'])) {
 }
 
 $tags_ = Neo4jUserUtil::getUserTimetyTag($user->id);
-$tagList="[]";
-if (!empty($tags_) && sizeof($tags_)>0) {
-    $tagList=array();
-    foreach ($tags_ as $t){
-        if(!empty($t) && $t->lang==$user->language){
-            $tmp=new stdClass();
-            $tmp->id=$t->id;
-            $tmp->label=$t->name;
-            $tmp->image=1;
+$tagList = "[]";
+if (!empty($tags_) && sizeof($tags_) > 0) {
+    $tagList = array();
+    foreach ($tags_ as $t) {
+        if (!empty($t) && $t->lang == $user->language) {
+            $tmp = new stdClass();
+            $tmp->id = $t->id;
+            $tmp->label = $t->name;
+            $tmp->image = 1;
             array_push($tagList, $tmp);
         }
     }
-    $tagList=json_encode($tagList);
+    $tagList = json_encode($tagList);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -78,7 +80,7 @@ if (!empty($tags_) && sizeof($tags_)>0) {
         $timety_header = "Timety | Personal Information";
         include('layout/layout_header.php');
         ?>
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?30"></script>
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?35"></script>
 
         <script language="javascript"
         src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.js"></script>
@@ -100,7 +102,7 @@ if (!empty($tags_) && sizeof($tags_)>0) {
                         jQuery("#foot_add_ktg_sol").height(jQuery("#foot_add_footer").height()); 
                     });
                     
-                    addDefaultsStorage('<?=$tagList?>',<?php echo $user->id; ?>);
+                    addDefaultsStorage('<?= $tagList ?>',<?php echo $user->id; ?>);
                     
                     checkSessionStorage(<?php echo $user->id; ?>);
                     
@@ -172,7 +174,7 @@ if (!empty($tags_) && sizeof($tags_)>0) {
             echo "";
         }
         ?>',false);">
-          <?php include('layout/layout_top.php'); ?>
+              <?php include('layout/layout_top.php'); ?>
         <div class="follow_trans"></div>
         <?php
         $fb = false;
@@ -193,7 +195,7 @@ if (!empty($tags_) && sizeof($tags_)>0) {
             }
         }
         ?>
-        <div class="add_timete_ekr" style="top: 50px;">
+        <div class="add_timete_ekr" style="top: 0px;">
             <div class="add_timete_ols">
                 <p class="find_friends">What are your interests? <span id="add_like_count_0" >Select at least 5 items.</span><span id="add_like_count_" style="display:none;"><span id="add_like_count">4</span> item<span id="add_like_count_s">s</span> remaining.</span><span id="add_like_done" style="display: none;">That's it.</span><br/><span class="add_t_k" style="line-height: 12px;"> Select some! When you visit Timety you will find
                         events you are interested in.</span>
@@ -225,14 +227,6 @@ if (!empty($tags_) && sizeof($tags_)>0) {
                     <img src="<?= HOSTNAME ?>images/loader.gif" style="height: 20px;">     
                 </div>
             </div>
-            <script>
-                jQuery("#per_interest_form").keypress(function(event){
-                    if(event.which == 13 || event.keyCode == 13){
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                });
-            </script>
             <form action="" method="post" id="per_interest_form">
                 <?php
                 for ($k = 0; $k < sizeof($categoryList); $k++) {
@@ -333,11 +327,20 @@ if (!empty($tags_) && sizeof($tags_)>0) {
                     </div>
                 <?php } ?>
                 <div class="add_footer" style="width: 100%">
-                    <div class="add_ktg_sol" id="foot_add_ktg_sol">
-                        <a href="#">Add Like</a>
+                    <div class="add_ktg_sol" id="foot_add_ktg_sol" style="height: 50px;">
+                        <a href="#" style="display: none">Add Like</a>
                     </div>
-                    <div class="add_ktg_sag" style="max-height: 100% !important;"
+                    <div class="add_ktg_sag" style="height: 50px !important;"
                          id="foot_add_footer">
+                        <div class="add_dgm" style="padding-bottom: 14px;">
+                            <input type="hidden" id="type" name="type" value="1" /> 
+                            <input type="hidden" id="add_ineterest" name="add_ineterest" /> 
+                            <input type="submit" value="Finish" onclick="return registerIIBeforeSubmit();"
+                                   class="reg_btn reg_btn_addlike_width">
+                        </div>
+
+                        <!-- 
+                        
                         <div class="add_dgm">
                             <ul id="add_like_ul">
 
@@ -345,21 +348,31 @@ if (!empty($tags_) && sizeof($tags_)>0) {
                         </div>
                         <div class="add_like">
                             <input name="add_like_autocomplete" type="text"
-                                   class="user_inpt like_add" id="add_like_autocomplete" value="" placeholder="Add Like">
-                                <!-- <button type="button" name="" value="" class="invite_btn"
-                                         onclick="addNewLike('add_like_autocomplete');">add</button>  -->
-                                <input type="hidden" id="type" name="type" value="1" /> 
-                                <input type="hidden" id="add_ineterest" name="add_ineterest" /> 
-                                <input type="submit" value="Next" onclick="return registerIIBeforeSubmit();"
-                                       class="invite_btn">
+                                   class="user_inpt like_add" id="add_like_autocomplete" value="" placeholder="Add Like"> 
+                        <button type="button" name="" value="" class="invite_btn"
+                                    onclick="addNewLike('add_like_autocomplete');">add</button> 
+                           <input type="hidden" id="type" name="type" value="1" /> 
+                           <input type="hidden" id="add_ineterest" name="add_ineterest" /> 
+                           <input type="submit" value="Next" onclick="return registerIIBeforeSubmit();"
+                                  class="reg_btn reg_btn_addlike_width">
 
-                                    </div>
-                                    </div>
-                                    <div class="temizle"></div>
-                                    </div>
-                                    </form>
-                                    </div>
-                                    <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>
-                                    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/firefox.js"></script>
-                                    </body>
-                                    </html>
+                       </div>
+
+                        -->
+                    </div>
+                    <div class="temizle"></div>
+                </div>
+            </form>
+            <script>
+                jQuery("#per_interest_form").keypress(function(event){
+                    if(event.which == 13 || event.keyCode == 13){
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                });
+            </script>
+        </div>
+        <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/firefox.js"></script>
+    </body>
+</html>

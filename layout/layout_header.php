@@ -7,15 +7,8 @@ if (!isset($timety_header)) {
 }
 ?>
 
-<title><?=$timety_header?></title>
+<title><?= $timety_header ?></title>
 
-<!-- Nocahce --> 
-<meta http-equiv="cache-control" content="max-age=0" />
-<meta http-equiv="cache-control" content="no-cache" />
-<meta http-equiv="expires" content="0" />
-<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-<meta http-equiv="pragma" content="no-cache" />
-<!-- Nocahce -->
 
 <!-- Config Script -->
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/html5shiv-printshiv.js"></script>
@@ -47,7 +40,7 @@ if (!isset($timety_header)) {
 
 
 <!-- Scripts -->
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.js?201302221535"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.js?201302221232"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery-1.8.2.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.history.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.sessionphp.js"></script>
@@ -65,7 +58,7 @@ if (!isset($timety_header)) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootbox.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js?201302221255"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js?2013022277855"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.dd.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/dateutil.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/register.js"></script>
@@ -91,5 +84,5 @@ if (!isset($timety_header)) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/ie.js"></script>
 <![endif]-->
 
-<link rel="icon" type="image/png"  href="<?=HOSTNAME."/images/favicon.ico"?>">
+<link rel="icon" type="image/png"  href="<?= HOSTNAME . "/images/favicon.ico" ?>">
 <?php include ('config/analytics.php'); ?>

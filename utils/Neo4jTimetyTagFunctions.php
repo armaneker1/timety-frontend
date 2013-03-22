@@ -20,7 +20,6 @@ class Neo4jTimetyTagUtil {
         $query = "START object=node:" . IND_TIMETY_TAG . "_" . $lang . "('" . PROP_TIMETY_TAG_ID . ":*') " .
                 " WHERE object." . PROP_TIMETY_TAG_NAME . "=~/.*(?i)" . $query . ".*/ " .
                 " RETURN object, count(*)";
-        //echo $query;
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         $array = array();

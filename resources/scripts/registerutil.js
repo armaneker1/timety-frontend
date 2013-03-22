@@ -238,7 +238,12 @@ function addDefaultsStorage(list,user_id){
             list= jQuery.parseJSON(list);
         }
         for(var i=0;i<list.length;i++){
-            addItem(list[i]);
+            if(list[i]){
+                var elem=jQuery("#interest_item_"+list[i].id);
+                if(elem && elem.length>0){
+                    addItem(list[i]);
+                }
+            }
         }
     }catch(exp){
         console.log(exp);

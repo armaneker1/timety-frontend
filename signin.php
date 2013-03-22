@@ -5,7 +5,7 @@ header("charset=utf8;Content-Type: text/html;");
 require_once __DIR__ . '/utils/Functions.php';
 
 
-$sign_page_type = "signin";
+$page_id = "signin";
 SessionUtil::checkNotLoggedinUser();
 $msgs = array();
 if (array_key_exists("login", $_GET)) {
@@ -65,8 +65,8 @@ if (array_key_exists("te_username", $_POST)) {
     $upass = null;
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
     <head>
         <?php $timety_header="Timety | Login"; include('layout/layout_header.php'); ?>
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>

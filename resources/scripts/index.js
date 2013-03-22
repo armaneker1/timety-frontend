@@ -158,7 +158,8 @@ function openCreatePopup() {
     /*
      * Clean Popup
      */
-    pSUPERFLY.virtualPage("/createevent","/createevent");
+    if(pSUPERFLY)
+        pSUPERFLY.virtualPage("/createevent","/createevent");
     jQuery('.php_errors').remove();
     
     jQuery("#div_follow_trans").unbind('click');
