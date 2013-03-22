@@ -120,7 +120,8 @@ if (array_key_exists("te_username", $_POST)) {
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
-        <div id="create_account">
+        <div class="register_bg"></div>
+        <div id="create_account" class="create_account_outline">
             <div class="create_acco_ust">Login</div>
             <div class="create_acco_alt">
                 <div class="account_sol">
