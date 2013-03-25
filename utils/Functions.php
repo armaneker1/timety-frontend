@@ -65,6 +65,25 @@ require_once __DIR__ . '/../processor/scriptedcommands/SeacrhEventByTag.class.ph
 
 class UtilFunctions {
 
+    public static function getBrowser() {
+        $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
+        if (preg_match('/(chromium)[ \/]([\w.]+)/', $ua))
+            $browser = 'chromium';
+        elseif (preg_match('/(chrome)[ \/]([\w.]+)/', $ua))
+            $browser = 'chrome';
+        elseif (preg_match('/(safari)[ \/]([\w.]+)/', $ua))
+            $browser = 'safari';
+        elseif (preg_match('/(opera)[ \/]([\w.]+)/', $ua))
+            $browser = 'opera';
+        elseif (preg_match('/(msie)[ \/]([\w.]+)/', $ua))
+            $browser = 'msie';
+        elseif (preg_match('/(mozilla)[ \/]([\w.]+)/', $ua))
+            $browser = 'mozilla';
+        preg_match('/(' . $browser . ')[ \/]([\w]+)/', $ua, $version);
+
+        return array($browser, $version[2], 'name' => $browser, 'version' => $version[2]);
+    }
+
     public static function startsWith($haystack, $needle) {
         return !strncmp($haystack, $needle, strlen($needle));
     }

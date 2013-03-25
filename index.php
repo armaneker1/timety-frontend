@@ -514,7 +514,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                            		      
+                                                                                                                                                                                                                                                                                                                                                                		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -696,7 +696,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                        
+                                                            
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -855,6 +855,28 @@ if (empty($user)) {
                     pSUPERFLY.virtualPage('/logout','/logout'); 
                 });  
             </script>
+        <?php } ?>
+
+
+        <?php
+        $br = UtilFunctions::getBrowser();
+        $br = $br[0];
+        if ($br == "mozilla") {
+            ?>
+            <style>
+                .iPhoneCheckHandle{
+                    width: 19px !important;
+                }
+                .iPhoneCheckContainer{
+                     width: 50px !important;
+                }
+                .iPhoneCheckLabelOn{
+                     width: 22px !important;
+                }
+                .iPhoneCheckLabelOff{
+                     width: 18px !important;
+                }
+            </style>
         <?php } ?>
     </head>
     <body class="bg">
@@ -1248,12 +1270,12 @@ if (empty($user)) {
                             } else {
                                 echo "yesil_link";
                             }
-                            ?>" onclick="return false;"> 
+                                            ?>" onclick="return false;"> 
                                                         <img src="<?= HOSTNAME ?>images/zmn<?php
-                                             if ($tt == "Past") {
-                                                 echo "_k";
-                                             }
-                                             ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
+                                       if ($tt == "Past") {
+                                           echo "_k";
+                                       }
+                                            ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -1265,9 +1287,9 @@ if (empty($user)) {
                                              $json_response = str_replace("'", "\\'", $json_response);
                                              echo str_replace('"', '\\"', $json_response);
                                              ?>';
-                                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>
@@ -1305,7 +1327,7 @@ if (empty($user)) {
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
         <div id="dump" style="display: none">
             <!-- profil box -->
-<?php if (!empty($user) && !empty($user->id)) { ?>
+            <?php if (!empty($user) && !empty($user->id)) { ?>
                 <div class="profil_box main_event_box">
                     <div class="profil_resim">
                         <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
@@ -1343,10 +1365,10 @@ if (empty($user)) {
                         </script>
                     </div>
                 </div>
-    <?php } ?>
+            <?php } ?>
             <!-- profil box -->
         </div>
         <div id="te_faux"  style="visibility: hidden;display: inline"></div>
     </body>
-<?php include('layout/template_createevent.php'); ?>
+    <?php include('layout/template_createevent.php'); ?>
 </html>

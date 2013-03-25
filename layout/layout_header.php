@@ -88,3 +88,14 @@ if (stripos($br, 'MSIE')) {
 
 <link rel="icon" type="image/png"  href="<?= HOSTNAME . "/images/favicon.ico" ?>">
 <?php include ('config/analytics.php'); ?>
+<?php
+$br = UtilFunctions::getBrowser();
+$br = $br[0];
+if ($br == "mozilla") {
+    ?>
+    <style>
+        .searchbtn2{
+            margin-left: 448px !important;
+        }
+    </style>
+<?php } ?>
