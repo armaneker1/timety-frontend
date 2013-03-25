@@ -538,7 +538,6 @@ if (!empty($_POST['rand_session_id'])) {
     <head>
         <?php
         $timety_header = "Timety | Edit Event";
-        $edit_event_page_type = "edit_event";
         include('layout/layout_header.php');
         ?>
 
@@ -789,6 +788,7 @@ if ($event->addsocial_tw == 1) {
         <?php
         include('layout/layout_top.php');
         include('layout/eventImageUpload.php');
+        
         ?>
         <form action="" method="post" name="edit_event" >
             <input type="hidden" name="te_timezone" id="te_timezone" value="+02:00"/>
@@ -1555,11 +1555,9 @@ if ($event->addsocial_tw == 1) {
                            }
                     ?>"></input>
 
-                </form>
-
                 <div id="div_maps" style="background-color: #fff;padding: 5px;width: 405px;height: 350px;left: 610px;position: absolute;z-index: 1000000;display: none;top: -5px;">
                     <span class="sil icon_bg" style="position: absolute; top: -18px;z-index: 10;left: -12px;" onclick="openMap(true, false);"></span>
-                    <div id="te_maps" style="height: 350px;"/>
+                    <div id="te_maps" style="height: 350px;"></div>
                 </div>
 
             </div>

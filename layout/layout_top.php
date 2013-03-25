@@ -326,7 +326,7 @@ if (empty($user)) {
                 <div class="top_menu">
                     <ul>
                         <li class="t_m_line">
-                            <a href="#mytimety" id="mytimety_top_menu" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timety</a><img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"></img>
+                            <a href="#mytimety" id="mytimety_top_menu" channelId="2" onclick="changeChannel(this)" class="top_menu_ul_li_a">My Timety</a> <!--<img width="150" height="150" src="<?= HOSTNAME ?>images/drop.png" class="main_dropable_"> --></img>
                         </li>
                         <li id="top_menu_following" class="t_m_line">
                             <a id="following_top_menu_a" href="#following" channelId="3" onclick="changeChannel(this)" class="top_menu_ul_li_a">Following</a>
