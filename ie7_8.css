@@ -13,45 +13,7 @@
     height: 4px;
     width: auto;
 }
-#top_blm {
-    width: 100%;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #d0d0d0;
-    height: 37px;
-    padding-right: 37px;
-    padding-left: 32px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    background-image: url(images/ie7_top_blm_bg.png);
-    background-repeat: repeat;
-    position: fixed;
-    top: 4px;
-    z-index: 100;
-    left: 0px;
-}
-#top_blm_sol {
-    display: inline-block;
-    float: left;
-}
-#top_blm_sag {
-    display: inline-block;
-    float: right;
-    width:420px;
-}
-.t_account {
-    background-color: #d9d9d9;
-    height: 36px;
-    border: 1px solid #bcbcbc;
-    border-radius:5px;
-    width: auto;
-    color: #bbbbbb;
-    line-height: 36px;
-    box-shadow: inset 0px 1px 1px #bcbcbc;
-    text-align: center;
-    margin-left: 140px;
-    display: inline-block;
-}
+
 .sgn_in {
     font-family: Arial;
     font-size: 12px;
@@ -320,7 +282,7 @@
     background-image: url(images/u_line.png);
     background-repeat: repeat-x;
     background-position: bottom;
-     word-wrap : break-word;
+    word-wrap : break-word;
 }
 .m_e_alt {
     background-image: url(images/dkk.png);
@@ -482,56 +444,7 @@ body {
     float: left;
     outline:none;
 }
-.username {
-    background-repeat: no-repeat;
-    background-position: 98% 10px;
-    background-color: #FFF;
-}
-.username_sil {
-    background-repeat: no-repeat;
-    background-position: 98% -270px;
-    background-color: #FFF;
-    border: 1px solid #b68080;
-    color: #b68080;
-}
-.password {
 
-    background-repeat: no-repeat;
-    background-position: 98% -50px;
-    background-color: #FFF;
-}
-.password_sil {
-
-    background-repeat: no-repeat;
-    background-position: 98% -20px;
-    background-color: #FFF;
-    border: 1px solid #b68080;
-    color: #b68080;
-}
-
-
-.email {
-    background-repeat: no-repeat;
-    background-position: 98% -80px;
-    background-color: #FFF;
-}
-.email_sil {
-    background-repeat: no-repeat;
-    background-position: 98% -300px;
-    background-color: #FFF;
-    border: 1px solid #b68080;
-    color: #b68080;
-}
-
-.sil {
-    background-position: right -108px;
-    height: 30px;
-    width: 20px;
-    display: block;
-    float: left;
-    background-repeat: no-repeat;
-    position: relative;
-}
 .icon_bg {
     background-image: url(images/iconlar.png);
 }
@@ -1396,7 +1309,7 @@ body {
 .left {
     float: left;
     margin-right: 10px;
-    margin-top: 13px;
+    margin-top: -4px;
     border-radius: 2px;
     position: relative;
 }
@@ -2280,32 +2193,6 @@ body {
     margin: 20px;
 }
 
-.create_acco_popup {
-    background-color: #d02e2e;
-    /*height: 37px;*/
-    height: auto;
-    width: 180px;
-    position: absolute;
-    z-index: 1000;
-    border-radius: 5px;
-    /* [disabled]right: -130px; */
-    /*top: -55px;*/
-    bottom: 28px;
-    font-family: Arial;
-    font-size: 11px;
-    color: #FFF;
-    padding: 10px;
-}
-.kok {
-    background-image: url(images/kok.png);
-    height: 12px;
-    width: 20px;
-    position: absolute;
-    bottom:16px;
-    /*left: 5px;*/
-    left: -15px;
-}
-
 /*popup baslangic*/
 .my_timety_notfication_container{
 
@@ -2348,37 +2235,6 @@ body {
     padding: 0px;
     list-style-type: none;
     display: table;
-}
-.my_timete_popup ul li {
-    line-height: 32px;
-    display: block;
-    min-height: 32px;
-    padding-right: 10px;
-    padding-left: 10px;
-    font-family: Arial;
-    font-size: 11px;
-    font-weight: bold;
-    color: #c2c2c2;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #343434;
-    box-shadow: 0px 1px 0px #545454;
-    float: left;
-}
-.my_timete_popup ul li:hover {
-    background-color:rgba(20,20,20,0.46);
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #252525;
-    box-shadow:inset 0px 1px 0px #373737, 0px 1px 0px #191919;
-    line-height: 32px;
-    min-height: 32px;
-    font-family: Arial;
-    font-size: 11px;
-    font-weight: bold;
-    color: #727272;
-    float: left;
-    width: 94%;
 }
 .aktiv_popup {
     background-color:rgba(20,20,20,0.46);
@@ -2486,44 +2342,6 @@ body {
     z-index: 750;
 }
 
-/* information pop up */
-
-.info_popup_open {
-    height: 30px;
-    width: 218px;
-    position: fixed;
-    z-index: 1000;
-    font-family: arial;
-    font-size: 11px;
-    line-height: 30px;
-    color: #FFF;
-    padding-left: 10px;
-    border-radius: 2px;
-    /*cursor:pointer;*/
-    margin-left: 45%;
-    margin-top: 10px;
-}
-
-.info_popup_open p{
-    margin-right: 25px;
-    text-align: center;
-}
-
-.info_popup_close {
-    background-color: transparent;
-    background-image: url(images/info_close.png);
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 11px;
-    width: 11px;
-    position: absolute;
-    right: 5px;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-    top: 10px;
-}
 .akare{
     background-image: url(images/akare.png);
     background-repeat: no-repeat;
@@ -2758,6 +2576,7 @@ body {
     color: #aeaeae;
     height: 110px;
     width: 555px;
+    overflow:auto;
     padding: 10px;
     background-image: url(images/dbg.png) ;
     background-repeat: repeat;
@@ -2768,4 +2587,42 @@ body {
     height: 150px;
     width: 575px;
     display: inline-block;
+}
+
+/* diff */
+.t_account {
+    height: 38px !important;
+}
+
+.reg_btn_width {
+    width: 260px !important;
+}
+
+.searchbtn2{
+    margin-left: 445px !important;
+}
+.my_timety_notfication_container{
+    right:-65px !important;
+}
+
+.create_acco_popup {
+    bottom: -5px;
+}
+.login_inpt_ie{
+    width: 230px !important;
+}
+.info_popup_open p{
+    margin-top: -1px;
+}
+.akt_tkvm {
+    height: 55px !important;
+    max-height: 55px !important;
+}
+
+.edit_evt_p{
+    margin-top: 13px !important;
+}
+.token-input-token-custom{
+    line-height: 2px !important;
+    height: 40px !important;
 }

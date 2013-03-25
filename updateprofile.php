@@ -314,10 +314,11 @@ if (isset($_POST['update'])) {
     $_SESSION['pr_location_cor_y'] = $te_location_cor_y;
 
 
-    header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+    header('Location: '.PAGE_UPDATE_PROFILE);
     exit(1);
 }
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <?php
@@ -808,7 +809,7 @@ if (isset($_POST['update'])) {
                             Male
                         </label>
                         <label class="label_radio" for="te_gender_female">
-                            <input name="te_gender" id="te_gender_female" <?php if ($te_gender == 0 || $te_gender == '0') echo "checked='checked'"; ?> value="0" type="radio" />
+                            <input name="te_gender" id="te_gender_female" <?php if ($te_gender."" == '0') echo "checked='checked'"; ?> value="0" type="radio" />
                             Female
                         </label>
                     </div>

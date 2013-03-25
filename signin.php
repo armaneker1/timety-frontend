@@ -24,7 +24,7 @@ $uname = null;
 $unameError = null;
 $upass = null;
 $upassError = null;
-$urmme = false;
+$urmme = true;
 $param=true;
 if (array_key_exists("te_username", $_POST)) {
     if (isset($_POST["te_username"]))
@@ -133,10 +133,10 @@ if (array_key_exists("te_username", $_POST)) {
                         href="?login&oauth_provider=<?=TWITTER_TEXT?>"><img src="<?= HOSTNAME ?>images/twitter.png"
                                                               width="251" height="42" border="0" class="user_account" /> </a>
                 </div>
-                <div class="account_sag" style="margin-top: 60px;">
+                <div class="account_sag" style="margin-top: 21px;padding-left: 40px;">
                     <form action="" name="formsignin" method="post">
                         <input name="te_username" type="text"
-                               class="user_inpt username  icon_bg" 
+                               class="user_inpt username  icon_bg user_inpt_pi_height login_inpt_ie" 
                                id="te_username"
                                name="te_username" value="<?= $uname ?>" 
                                placeholder="User Name"
@@ -161,7 +161,7 @@ if (array_key_exists("te_username", $_POST)) {
                         
                         <input
                             name="te_password" type="password"
-                            class="user_inpt password icon_bg" id="te_password"
+                            class="user_inpt password icon_bg user_inpt_pi_height login_inpt_ie"  id="te_password"
                             name="te_password" value="" placeholder="Password"
                          />
                          <!--  onkeyup="validatePassword(this,$('#te_password'),false,false);"
@@ -184,12 +184,15 @@ if (array_key_exists("te_username", $_POST)) {
                         
                         <div class="ts_box" style="font-size: 12px; margin-left: 0px;">
                             <label class="label_check" for="te_rememberme2"> <input
+                                    <?php if($urmme){ echo "checked='checked'";}?>
                                     name="te_rememberme2" id="te_rememberme2" value="<?= $urmme ?>"
                                     type="checkbox" onclick="$('#te_rememberme').value=this.checked" />
                                 Remember me
-                            </label> <input name="te_rememberme" id="te_rememberme"
+                            </label> 
+                            
+                            <input name="te_rememberme" id="te_rememberme"
                                             value="<?= $urmme ?>" type="hidden" />
-                            <button style="width: 79px;" type="submit" onclick="jQuery('.php_errors').remove();"
+                            <button style="width: 79px !important;margin-left: 58px;" type="submit" onclick="jQuery('.php_errors').remove();"
                                     class="reg_btn reg_btn_width" name="" value="">Login</button>
                             <br /> <a href="forgotpassword.php">forgot password</a> <br />
                             <div class="ts_box" style="font-size: 12px;">

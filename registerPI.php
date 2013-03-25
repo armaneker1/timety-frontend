@@ -555,7 +555,7 @@ if (isset($_POST['te_username'])) {
         <div id="personel_info_h">
             <div class="create_acco_ust">Personnel Information</div>
             <div class="personel_info">
-                <form id="per_info_form" action="" method="post" style="margin-left: 48px"
+                <form id="per_info_form" action="" method="post" style="margin-left: 48px;"
                       name="registerPI">
                     <input 
                         name="te_username" 
@@ -718,13 +718,12 @@ if (isset($_POST['te_username'])) {
                     <span id='te_repassword_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?= $display ?>;"><?= $upass2Error ?><div class="kok"></div></div>
                     </span> <br />
-
+                    <button type="submit" style="float: left"  class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
 
                     <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>
                     <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $username ?>" ></input>
                     <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?= $userProfilePic ?>" ></input>
                     <input type="hidden" id="userProfilePicType" name="userProfilePicType" value="<?= $userProfilePicType ?>" ></input>
-                    <button type="submit" class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
                 </form>
                 <script>
                     jQuery("#per_info_form").keypress(function(event){

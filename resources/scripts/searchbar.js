@@ -26,8 +26,9 @@ jQuery(document).ready( function() {
             && e.target.className != "searchbtn" 
             && e.target.className != "search_bar"
             && e.target.className != "cbtn icon_bg"){
-                jQuery(inputText).fadeOut('fast' ,function() {jQuery('.search_event_input').val("");});
-                jQuery(searchBtn).fadeOut('fast');
+            jQuery(inputText).hide();
+            jQuery('.search_event_input').val("");
+            jQuery(searchBtn).hide();
         }
     });
     
@@ -36,8 +37,8 @@ jQuery(document).ready( function() {
     });
 
     jQuery('.searchbtn').click( function() {  
-            page_wookmark=0;
-            wookmarkFiller(document.optionsWookmark, true,true);
+        page_wookmark=0;
+        wookmarkFiller(document.optionsWookmark, true,true);
     });
     
     jQuery('searchbtn').click(function(e) {

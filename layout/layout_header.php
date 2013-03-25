@@ -16,18 +16,20 @@ if (!isset($timety_header)) {
 <!-- Config Script -->
 
 
-<!--[if IE]>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?201302211731" rel="stylesheet" type="text/css" />
+<?php
+$br = strtoupper($_SERVER['HTTP_USER_AGENT']);
+if (stripos($br, 'MSIE')) {
+    ?>
+    <link  href="<?= HOSTNAME ?>ie7_8.css?201302331757" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
-<![endif]-->
-<!--[if !IE]><!-->
-<link  href="<?= HOSTNAME ?>all_css.css?20130221143" rel="stylesheet" type="text/css" />
-<link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
-<!--<![endif]-->
+<?php } else { ?>
+    <link  href="<?= HOSTNAME ?>all_css.css?20130233155" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
+<?php } ?>
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201302221241" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?2012233255" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />

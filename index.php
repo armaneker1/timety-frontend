@@ -1322,12 +1322,12 @@ if (empty($user)) {
                     </div>
                     <div class="profil_btn">
                         <ul>
-                            <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><a href="#">Following <p class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></p></a></li>
-                            <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><a href="#">Followers <p class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></p></a></li>
-                            <li onclick="changeChannelProfile(6);return false;"><a href="#">Likes <p class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></p></a></li>
-                            <li onclick="changeChannelProfile(7);return false;"><a href="#">Reshare <p class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></p></a></li>
-                            <li onclick="changeChannelProfile(8);return false;"><a href="#">Joined <p class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></p></a></li>
-                            <li onclick="changeChannelProfile(5);return false;"><a href="#">Created Event <p class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></p></a></li>
+                            <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><span class="profil_btn_ul_li_span">Following</span><span class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></span></a></li>
+                            <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><span class="profil_btn_ul_li_span">Followers</span><span class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></span></li>
+                            <li onclick="changeChannelProfile(6);return false;"><span class="profil_btn_ul_li_span">Likes</span><span class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></span></a></li>
+                            <li onclick="changeChannelProfile(7);return false;"><span class="profil_btn_ul_li_span">Reshare</span><span class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></span></a></li>
+                            <li onclick="changeChannelProfile(8);return false;"><span class="profil_btn_ul_li_span">Joined</span><span class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></span></a></li>
+                            <li onclick="changeChannelProfile(5);return false;"><span class="profil_btn_ul_li_span">Created Event</span><span class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></span></a></li>
                         </ul>
 
                         <script>
