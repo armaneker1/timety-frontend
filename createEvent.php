@@ -152,6 +152,12 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
 
     $event->startDateTime = $startDate . " " . $startTime . ":00";
     $event->endDateTime = $endDate . " " . $endTime . ":00";
+    $timezone = "+02:00";
+    if (isset($_POST['te_timezone'])) {
+        $timezone = $_POST['te_timezone'];
+    }
+    $event->startDateTime = UtilFunctions::convertTimeZone($event->startDateTime, $timezone);
+    $event->endDateTime = UtilFunctions::convertTimeZone($event->endDateTime, $timezone);
 
     if (isset($_POST["te_event_allday"]) && $_POST["te_event_allday"] == "true") {
         $event->allday = 1;
@@ -216,42 +222,67 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
     else
         $event->privacy = "false";
 
-    $event->categories = "";
-    if (isset($_POST["te_event_category1"])) {
-        $evt_cat = $_POST["te_event_category1"];
-        if (!empty($evt_cat)) {
-            $evt_cats = Neo4jTimetyCategoryUtil::getTimetyList($evt_cat);
-            if (!empty($evt_cats) && sizeof($evt_cats) > 0) {
-                $evt_cat = $evt_cats[0]->id;
-                if (!empty($evt_cat)) {
-                    $event->categories = $evt_cat;
-                }
-            }
-        }
-    }
-
-    if (isset($_POST["te_event_category2"])) {
-        $evt_cat = $_POST["te_event_category2"];
-        if (!empty($evt_cat)) {
-            $evt_cats = Neo4jTimetyCategoryUtil::getTimetyList($evt_cat);
-            if (!empty($evt_cats) && sizeof($evt_cats) > 0) {
-                $evt_cat = $evt_cats[0]->id;
-                if (!empty($evt_cat)) {
-                    if (empty($event->categories)) {
-                        $event->categories = $evt_cat;
-                    } else {
-                        $event->categories = $event->categories . "," . $evt_cat;
-                    }
-                }
-            }
-        }
-    }
-
     $event->attach_link = "";
     if (isset($_POST["te_event_attach_link"])) {
         $event->attach_link = $_POST["te_event_attach_link"];
     }
 
+
+    if (isset($_POST["te_event_lat"]))
+        $event->loc_lat = $_POST["te_event_lat"];
+    else {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "Event location lat empty";
+        array_push($msgs, $m);
+    }
+
+
+    if (isset($_POST["te_event_lng"]))
+        $event->loc_lng = $_POST["te_event_lng"];
+    else {
+        $error = true;
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = "Event location lng empty";
+        array_push($msgs, $m);
+    }
+
+    $response = LocationUtils::getCityCountry($event->loc_lat, $event->loc_lng);
+    if (!empty($response) && is_array($response) && sizeof($response) == 2) {
+        if (!empty($response['country'])) {
+            $event->loc_country = $response['country'];
+        }
+
+        if (!empty($response['city'])) {
+            $event->loc_city = LocationUtils::getCityId($response['city']);
+        }
+    }
+
+    if (empty($event->loc_city)) {
+        if (isset($_POST["te_event_city"]) && !empty($_POST["te_event_city"])) {
+            $event->loc_city = $_POST["te_event_city"];
+        } else {
+            $error = true;
+            $m = new HtmlMessage();
+            $m->type = "e";
+            $m->message = "City cannot be found";
+            array_push($msgs, $m);
+        }
+    }
+
+    if (empty($event->loc_country)) {
+        if (isset($_POST["te_event_country"]) && !empty($_POST["te_event_country"])) {
+            $event->loc_country = $_POST["te_event_country"];
+        } else {
+            $error = true;
+            $m = new HtmlMessage();
+            $m->type = "e";
+            $m->message = "Country cannot be found";
+            array_push($msgs, $m);
+        }
+    }
 
 
 
@@ -265,29 +296,29 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
 
                     $tagProps = explode(";*", $tag);
                     if (!empty($tagProps) && (sizeof($tagProps) == 1 || sizeof($tagProps) == 3)) {
-                        $tagsss = InterestUtil::searchInterests($tagProps[0]);
-                        if (!empty($tagsss) && sizeof($tagsss) > 0) {
-                            $tagsss = $tagsss[0];
+                        $t_tag = Neo4jTimetyTagUtil::findExactTag($tagProps[0]);
+                        if (!empty($t_tag)) {
                             if (empty($ttt)) {
-                                $ttt = $tagsss->id;
+                                $ttt = $t_tag->id;
                             } else {
-                                $ttt = $ttt . "," . $tagsss->id;
-                            }
-                        } else {
-                            $n = new Neo4jFuctions();
-                            $props = null;
-                            if (!empty($tagProps[1]) && !empty($tagProps[1])) {
-                                $props = array(array($tagProps[1], $tagProps[2]));
-                            }
-                            $tag = $n->addTag(null, $tagProps[0], "usercustomtag", $props);
-                            if (!empty($tag)) {
-                                if (empty($ttt)) {
-                                    $ttt = $tag;
-                                } else {
-                                    $ttt = $ttt . "," . $tag;
-                                }
+                                $ttt = $ttt . "," . $t_tag->id;
                             }
                         }
+                        /* else {
+                          $n = new Neo4jFuctions();
+                          $props = null;
+                          if (!empty($tagProps[1]) && !empty($tagProps[1])) {
+                          $props = array(array($tagProps[1], $tagProps[2]));
+                          }
+                          $tag = $n->addTag(null, $tagProps[0], "usercustomtag", $props);
+                          if (!empty($tag)) {
+                          if (empty($ttt)) {
+                          $ttt = $tag;
+                          } else {
+                          $ttt = $ttt . "," . $tag;
+                          }
+                          }
+                          } */
                     }
                 }
             }
@@ -295,29 +326,55 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
     }
 
 
+    $usr_id = null;
+    $usr = null;
     if (!isset($_POST['te_event_user_id'])) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "User not found";
+        $m->message = "User not found 001";
         array_push($msgs, $m);
+    } else {
+        $usr_id = $_POST['te_event_user_id'];
+        if (empty($usr_id)) {
+            $error = true;
+            $m = new HtmlMessage();
+            $m->type = "e";
+            $m->message = "User not found 002";
+            array_push($msgs, $m);
+        } else {
+            if (preg_match("/^[0-9]/", $usr_id)) {
+                $event->creatorId = $usr_id;
+                $usr = UserUtils::getUserById($usr_id);
+            } else {
+                $usr = UserUtils::getUserByUserName($usr_id);
+                if (!empty($usr)) {
+                    $event->creatorId = $usr->id;
+                }
+            }
+        }
     }
-
-    if (isset($_POST['te_event_user_id']) && empty($_POST['te_event_user_id'])) {
+    if (empty($usr)) {
+        /* $usr_name_id = 6618370;
+          $event->creatorId = $usr_name_id;
+          $usr_id = $usr_name_id;
+          $usr = UserUtils::getUserById($usr_id); */
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "User not found";
+        $m->message = "User not found 003";
         array_push($msgs, $m);
     }
 
     $event->tags = $ttt;
     $event->attendance = null;
+    $event->worldwide = 0;
+
     if (!$error) {
         try {
-            $eventDB = EventUtil::createEvent($event, UserUtils::getUserById($_POST['te_event_user_id']));
+            $eventDB = EventUtil::createEvent($event, $usr);
             if (!empty($eventDB) && !empty($eventDB->id)) {
-                Queue::addEvent($eventDB->id, $_POST['te_event_user_id']);
+                Queue::addEvent($eventDB->id, $usr->id);
             }
             $m = new HtmlMessage();
             $m->type = "s";

@@ -33,6 +33,8 @@ class Neo4jEventUtils {
             $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
             $groupIndex = new Index($client, Index::TypeNode, IND_GROUP_INDEX);
             $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
+            $tr_objectIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . LANG_TR_TR);
+            $en_objectIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG . "_" . LANG_EN_US);
             $rootIndex = new Index($client, Index::TypeNode, IND_ROOT_INDEX);
 
 
@@ -107,26 +109,33 @@ class Neo4jEventUtils {
                     if (is_array($tags) && sizeof($tags) > 0) {
                         foreach ($tags as $tag) {
                             if (!empty($tag)) {
-                                $tagTmp = null;
+                                $tagTmpTR = null;
+                                $tagTmpEN = null;
                                 try {
-                                    $tagTmp = $objectIndex->findOne(PROP_OBJECT_ID, $tag);
+                                    $tagTmpTR = $tr_objectIndex->findOne(PROP_TIMETY_TAG_ID, $tag);
+                                    $tagTmpEN = $en_objectIndex->findOne(PROP_TIMETY_TAG_ID, $tag);
                                 } catch (Exception $exc) {
-                                    $tagTmp = null;
+                                    $tagTmpTR = null;
+                                    $tagTmpEN = null;
                                 }
-                                if (!empty($tagTmp)) {
-                                    $tagTmp->relateTo($evnt, REL_TAGS)->save();
-                                } else {
-                                    $tags_ = explode(";", $tag);
-                                    if (sizeof($tags_) == 2) {
-                                        $tag_ = $n->addTag(null, $tags_[1], "usercustomtag");
-                                        if (!empty($tag_)) {
-                                            $tag_ = $objectIndex->findOne(PROP_OBJECT_ID, strtolower($tag_));
-                                            if (!empty($tag_)) {
-                                                $tag_->relateTo($evnt, REL_TAGS)->save();
-                                            }
-                                        }
-                                    }
+                                if (!empty($tagTmpTR)) {
+                                    $tagTmpTR->relateTo($evnt, REL_TAGS)->save();
                                 }
+                                if (!empty($tagTmpEN)) {
+                                    $tagTmpEN->relateTo($evnt, REL_TAGS)->save();
+                                }
+                                /* else {
+                                  $tags_ = explode(";", $tag);
+                                  if (sizeof($tags_) == 2) {
+                                  $tag_ = $n->addTag(null, $tags_[1], "usercustomtag");
+                                  if (!empty($tag_)) {
+                                  $tag_ = $objectIndex->findOne(PROP_TIMETY_TAG_ID, $tag_);
+                                  if (!empty($tag_)) {
+                                  $tag_->relateTo($evnt, REL_TAGS)->save();
+                                  }
+                                  }
+                                  }
+                                  } */
                             }
                         }
                     }
@@ -721,7 +730,7 @@ class Neo4jEventUtils {
         }
         return $array;
     }
-    
+
     public static function getEventTimetyTagsId($eventId) {
         $array = array();
         if (!empty($eventId)) {

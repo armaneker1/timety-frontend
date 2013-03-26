@@ -32,8 +32,43 @@ if (isset($_GET['coor'])) {
 }
 
 
-//LocationUtils::getCityCounrty($lat, $lng);
+$res = LocationUtils::getCityCountry($lat, $lng);
+var_dump($res);
 
-var_dump(LocationUtils::getCityId("Ankara"));
-var_dump(LocationUtils::getCountryId("Türkiye"));
+/*
+  //country
+  if(results[0]){
+  if(results[0].address_components.length>0){
+  for(var i = 0;
+  i<results[0].address_components.length;
+  i++){
+  var obj = results[0].address_components[i];
+  if(obj && obj.types && obj.types.length>0){
+  if(jQuery.inArray("country", obj.types)>=0){
+  te_loc_country = obj.short_name;
+  break;
+  }
+  }
+  }
+  }
+  }
+  jQuery("#te_location_country").val(te_loc_country);
+
+  //city
+  if(results[0]){
+  if(results[0].address_components.length>0){
+  for(var i = 0;
+  i<results[0].address_components.length;
+  i++){
+  var obj = results[0].address_components[i];
+  if(obj && obj.types && obj.types.length>0){
+  if(jQuery.inArray("administrative_area_level_1", obj.types)>=0){
+  te_loc_city = obj.long_name;
+  break;
+  }
+  }
+  }
+  }
+  }
+ */
 ?>

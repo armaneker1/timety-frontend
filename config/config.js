@@ -75,3 +75,14 @@ var FACEBOOK_TEXT='facebook';
 var FOURSQUARE_TEXT='foursquare';
 var GOOGLE_PLUS_TEXT='google_plus';
 var TWITTER_TEXT='twitter';
+
+
+function getLocalTime(time){
+    try{
+        return moment.utc(time).add({
+            hours:parseInt(moment().format('ZZ').substring(0,3))
+        });
+    }catch(exp){
+        console.log(exp);
+    }
+}

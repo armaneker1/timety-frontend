@@ -935,7 +935,6 @@ class Neo4jFuctions {
 
         if ($userId == -1) {
             $userId = "*";
-            $type = 1;
         }
 
         if (empty($query)) {

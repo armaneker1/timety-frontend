@@ -995,7 +995,7 @@ if (empty($user)) {
                                                 var text=jQuery(this).text();
                                                 if(text){
                                                     try{
-                                                        jQuery(this).text( moment.utc(moment().format("YYYY-MM-DD")+text).local().format('HH:mm'));
+                                                        jQuery(this).text( getLocalTime(moment().format("YYYY-MM-DD")+text).format('HH:mm'));
                                                     }catch(exp){
                                                         console.log(exp);
                                                     }

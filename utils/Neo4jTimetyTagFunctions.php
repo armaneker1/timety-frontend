@@ -31,6 +31,44 @@ class Neo4jTimetyTagUtil {
         return $array;
     }
 
+    public static function findExactTag($query_) {
+
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $tagTmp = null;
+        if (!empty($query_)) {
+
+            $query = "START object=node:" . IND_TIMETY_TAG . "_" . LANG_EN_US . "('" . PROP_TIMETY_TAG_ID . ":*') " .
+                    " WHERE object." . PROP_TIMETY_TAG_NAME . "=~/.*(?i)" . $query_ . ".*/ " .
+                    " RETURN object, count(*)";
+            $query = new Cypher\Query($client, $query, null);
+            $result = $query->getResultSet();
+            foreach ($result as $row) {
+                $tagTmp = new TimetyTag();
+                $tagTmp->createNeo4j($row['object']);
+                //var_dump($tagTmp->name." - ".$query_);
+                if (strtolower($tagTmp->name) == strtolower($query_)) {
+                    return $tagTmp;
+                }
+            }
+
+
+            $query = "START object=node:" . IND_TIMETY_TAG . "_" . LANG_TR_TR . "('" . PROP_TIMETY_TAG_ID . ":*') " .
+                    " WHERE object." . PROP_TIMETY_TAG_NAME . "=~/.*(?i)" . $query_ . ".*/ " .
+                    " RETURN object, count(*)";
+            $query = new Cypher\Query($client, $query, null);
+            $result = $query->getResultSet();
+            foreach ($result as $row) {
+                $tagTmp = new TimetyTag();
+                $tagTmp->createNeo4j($row['object']);
+                //var_dump($tagTmp->name." - ".$query_);
+                if (strtolower($tagTmp->name) == strtolower($query_)) {
+                    return $tagTmp;
+                }
+            }
+        }
+        return $tagTmp;
+    }
+
     public static function getTagListByIdList($list) {
         if (!empty($list)) {
             $tags = explode(",", $list);

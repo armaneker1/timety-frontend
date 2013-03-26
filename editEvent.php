@@ -1313,7 +1313,7 @@ if ($event->addsocial_tw == 1) {
                                     </I>
                                 </SPAN>
                                 <script>
-                                jQuery("#te_event_start_time").val(moment.utc(moment().format("YYYY-MM-DD")+' <?= $te_event_start_time ?>').local().format('HH:mm'));
+                                jQuery("#te_event_start_time").val(getLocalTime(moment().format("YYYY-MM-DD")+' <?= $te_event_start_time ?>').format('HH:mm'));
                                 jQuery("#te_event_start_time").bind("change",checkCreateDateTime);
                                 </script>
                             </div>
@@ -1340,7 +1340,7 @@ if ($event->addsocial_tw == 1) {
                         </div>
                         <script>
 <?php if (!empty($te_event_end_time)) { ?>
-                                jQuery("#te_event_end_time").val(moment.utc(moment().format("YYYY-MM-DD")+' <?= $te_event_end_time ?>').local().format('HH:mm'));
+                                jQuery("#te_event_end_time").val(getLocalTime(moment().format("YYYY-MM-DD")+' <?= $te_event_end_time ?>').format('HH:mm'));
 <?php } else { ?>
                                 checkCreateDateTime();
 <?php } ?>

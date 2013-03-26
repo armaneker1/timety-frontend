@@ -55,6 +55,8 @@ if (isset($_POST['te_username'])) {
         $usernameError = "Username cannot be empty";
         $param = false;
     } else {
+        $userName = preg_replace('/\s+/', ' ', $userName);
+        $username = strtolower($username);
         if (!UserUtils::checkUserName($username)) {
             if ($username != $_POST['te_default_username']) {
                 $usernameError = "Username already taken";
@@ -79,6 +81,8 @@ if (isset($_POST['te_username'])) {
         $emailError = "Email cannot be empty";
         $param = false;
     } else {
+        $email = preg_replace('/\s+/', ' ', $email);
+        $email = strtolower($email);
         if (!UtilFunctions::check_email_address($email)) {
             $emailError = "Email is not valid";
             $param = false;

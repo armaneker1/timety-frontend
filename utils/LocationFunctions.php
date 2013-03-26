@@ -2,7 +2,51 @@
 
 class LocationUtils {
 
-    public static function getCityCounrty($lat, $lng) {
+    public static function getCityCountry($lat, $lng) {
+        $res = LocationUtils::getCityCounrtyResponse($lat, $lng);
+        $loc_country = null;
+        $loc_city = null;
+        $city_type = 0;
+        if (!empty($res) && $res->status == "OK") {
+            $results = $res->results;
+            if (!empty($results) && is_array($results) && sizeof($results) > 0) {
+                foreach ($results as $result) {
+                    $address_components = $result->address_components;
+                    if (!empty($address_components) && is_array($address_components) && sizeof($address_components) > 0) {
+                        foreach ($address_components as $address_component) {
+                            $types = $address_component->types;
+                            if (!empty($types) && is_array($types) && sizeof($types) > 0) {
+                                if (in_array("country", $types)) {
+                                    $loc_country = $address_component->short_name;
+                                    break;
+                                }else if (in_array("city", $types) && $city_type < 4) {
+                                    $city_type = 4;
+                                    $loc_city = $address_component->long_name;
+                                    break;
+                                }else if (in_array("administrative_area_level_1", $types) && $city_type < 3) {
+                                    $loc_city = $address_component->long_name;
+                                    $city_type = 3;
+                                }else if (in_array("administrative_area_level_2", $types) && $city_type < 2) {
+                                    $loc_city = $address_component->long_name;
+                                    $city_type = 2;
+                                }else if (in_array("political", $types) && in_array("locality", $types) && $city_type < 1) {
+                                    $loc_city = $address_component->long_name;
+                                    $city_type = 1;
+                                }
+                            }
+                        }
+                    }
+
+                    if (!empty($loc_city) && !empty($loc_country)) {
+                        break;
+                    }
+                }
+            }
+        }
+        return array("country" => $loc_country, "city" => $loc_city);
+    }
+
+    public static function getCityCounrtyResponse($lat, $lng) {
         if (!empty($lat) && !empty($lng)) {
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -11,8 +55,8 @@ class LocationUtils {
                 CURLOPT_USERAGENT => 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2'
             ));
             $resp = curl_exec($curl);
-            print_r($resp);
             curl_close($curl);
+            return json_decode($resp);
         }
         return null;
     }

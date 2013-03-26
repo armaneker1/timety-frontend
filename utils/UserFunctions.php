@@ -46,6 +46,8 @@ class UserUtils {
 
     public static function checkUserName($userName) {
         if (!empty($userName)) {
+            $userName = preg_replace('/\s+/', ' ', $userName);
+            $userName = strtolower($userName);
             $userName = DBUtils::mysql_escape($userName);
             $SQL = "SELECT id FROM " . TBL_USERS . " WHERE userName = '$userName'";
             $query = mysql_query($SQL) or die(mysql_error());
@@ -62,6 +64,8 @@ class UserUtils {
 
     public static function login($userName, $pass) {
         if (!empty($userName) && !empty($pass)) {
+            $userName = preg_replace('/\s+/', ' ', $userName);
+            $userName = strtolower($userName);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName' AND password='$pass'";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
@@ -118,6 +122,8 @@ class UserUtils {
 
     public static function checkInvitedEmail($email) {
         if (UtilFunctions::check_email_address($email)) {
+            $email = preg_replace('/\s+/', ' ', $email);
+            $email = strtolower($email);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE email = '$email' AND invited=1";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
@@ -176,6 +182,8 @@ class UserUtils {
     }
 
     public static function findTemprorayUserName($userName) {
+        $userName = preg_replace('/\s+/', ' ', $userName);
+        $userName = strtolower($userName);
         if (UserUtils::checkUserName($userName)) {
             return $userName;
         }
@@ -211,10 +219,14 @@ class UserUtils {
 
     public static function getUserByUserName($userName) {
         if (!empty($userName)) {
+            $userName = preg_replace('/\s+/', ' ', $userName);
+            $userName = strtolower($userName);
             $userName = DBUtils::mysql_escape($userName);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName'";
+            //echo "<p>".$SQL."</p>";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
+            //var_dump($result);
             if (empty($result)) {
                 return null;
             } else {
@@ -249,11 +261,11 @@ class UserUtils {
     public static function updateUser($uid, User $user) {
         if (!empty($uid) && !empty($user)) {
             $uid = DBUtils::mysql_escape($uid);
-             $b="null";
-                if(!empty($user->birthdate)){
-                    $b="'".$user->birthdate."'";
-                }
-            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='$user->about',gender=".  DBUtils::mysql_escape($user->gender,1).",lang='$user->language'  WHERE id = $uid";
+            $b = "null";
+            if (!empty($user->birthdate)) {
+                $b = "'" . $user->birthdate . "'";
+            }
+            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='$user->about',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language'  WHERE id = $uid";
             //var_dump($SQL);
             error_log($SQL);
             mysql_query($SQL) or die(mysql_error());
@@ -342,9 +354,9 @@ class UserUtils {
                 if (isset($_SESSION["te_invitation_code"])) {
                     UtilFunctions::insertUserInvitation($userId, $_SESSION["te_invitation_code"]);
                 }
-                $b="null";
-                if(!empty($user->birthdate)){
-                    $b="'".$user->birthdate."'";
+                $b = "null";
+                if (!empty($user->birthdate)) {
+                    $b = "'" . $user->birthdate . "'";
                 }
                 $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited,lang) VALUES ($userId,'$user->userName','$user->email',$b,'$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited,'$user->language')";
                 mysql_query($SQL) or die(mysql_error());
