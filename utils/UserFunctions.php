@@ -68,7 +68,6 @@ class UserUtils {
             $userName = strtolower($userName);
             $pass = preg_replace('/\s+/', '', $pass);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName' AND password='$pass'";
-            echo $SQL;
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
             $user = new User();
