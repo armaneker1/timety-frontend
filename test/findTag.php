@@ -14,20 +14,15 @@ header("Content-Type: text/html; charset=utf8");
 require_once __DIR__ . '/../utils/Functions.php';
 
 
-$usr_name_id="12";
-if(preg_match("/^[0-9]/", $usr_name_id)){
-    var_dump("evet");
-}else{
-    var_dump("hayır");
-}
-
-var_dump(UserUtils::getUserByUserName("biletix"));
+$usr_name_id = "asdasda asdsad";
+$usr_name_id = preg_replace('/\s+/', '', $usr_name_id);
+var_dump($usr_name_id);
 /*
-var_dump(Neo4jTimetyTagUtil::findExactTag("Deneme1"));
-var_dump(Neo4jTimetyTagUtil::findExactTag("Deneme1"));
-var_dump(Neo4jTimetyTagUtil::findExactTag("Deneme1"));
-var_dump(Neo4jTimetyTagUtil::findExactTag("Deneme1"));
-var_dump(Neo4jTimetyTagUtil::findExactTag("Tes"));
+  var_dump(Neo4jTimetyTagUtil::findExactTag("Deneme1"));
+  var_dump(Neo4jTimetyTagUtil::findExactTag("Deneme1"));
+  var_dump(Neo4jTimetyTagUtil::findExactTag("Deneme1"));
+  var_dump(Neo4jTimetyTagUtil::findExactTag("Deneme1"));
+  var_dump(Neo4jTimetyTagUtil::findExactTag("Tes"));
  * 
  */
 ?>

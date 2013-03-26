@@ -46,7 +46,7 @@ class UserUtils {
 
     public static function checkUserName($userName) {
         if (!empty($userName)) {
-            $userName = preg_replace('/\s+/', ' ', $userName);
+            $userName = preg_replace('/\s+/', '', $userName);
             $userName = strtolower($userName);
             $userName = DBUtils::mysql_escape($userName);
             $SQL = "SELECT id FROM " . TBL_USERS . " WHERE userName = '$userName'";
@@ -64,9 +64,11 @@ class UserUtils {
 
     public static function login($userName, $pass) {
         if (!empty($userName) && !empty($pass)) {
-            $userName = preg_replace('/\s+/', ' ', $userName);
+            $userName = preg_replace('/\s+/', '', $userName);
             $userName = strtolower($userName);
+            $pass = preg_replace('/\s+/', '', $pass);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName' AND password='$pass'";
+            echo $SQL;
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
             $user = new User();
@@ -122,7 +124,7 @@ class UserUtils {
 
     public static function checkInvitedEmail($email) {
         if (UtilFunctions::check_email_address($email)) {
-            $email = preg_replace('/\s+/', ' ', $email);
+            $email = preg_replace('/\s+/', '', $email);
             $email = strtolower($email);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE email = '$email' AND invited=1";
             $query = mysql_query($SQL) or die(mysql_error());
@@ -182,7 +184,7 @@ class UserUtils {
     }
 
     public static function findTemprorayUserName($userName) {
-        $userName = preg_replace('/\s+/', ' ', $userName);
+        $userName = preg_replace('/\s+/', '', $userName);
         $userName = strtolower($userName);
         if (UserUtils::checkUserName($userName)) {
             return $userName;
@@ -219,7 +221,7 @@ class UserUtils {
 
     public static function getUserByUserName($userName) {
         if (!empty($userName)) {
-            $userName = preg_replace('/\s+/', ' ', $userName);
+            $userName = preg_replace('/\s+/', '', $userName);
             $userName = strtolower($userName);
             $userName = DBUtils::mysql_escape($userName);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName'";

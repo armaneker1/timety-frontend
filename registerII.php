@@ -195,7 +195,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
             }
         }
         ?>
-        <div class="add_timete_ekr" style="top: 0px;">
+        <div class="add_timete_ekr" style="top: 55px;">
             <div class="add_timete_ols">
                 <p class="find_friends">What are your interests? <span id="add_like_count_0" >Select at least 5 items.</span><span id="add_like_count_" style="display:none;"><span id="add_like_count">4</span> item<span id="add_like_count_s">s</span> remaining.</span><span id="add_like_done" style="display: none;">That's it.</span><br/><span class="add_t_k" style="line-height: 12px;"> Select some! When you visit Timety you will find
                         events you are interested in.</span>
@@ -347,7 +347,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                         <div class="add_dgm" style="padding-bottom: 14px;">
                             <input type="hidden" id="type" name="type" value="1" /> 
                             <input type="hidden" id="add_ineterest" name="add_ineterest" /> 
-                            <input type="submit" value="Finish" onclick="return registerIIBeforeSubmit();"
+                            <input type="submit" value="Finish" onclick="return registerIIBeforeSubmit();" style="cursor: pointer"
                                    class="reg_btn reg_btn_addlike_width">
                         </div>
 

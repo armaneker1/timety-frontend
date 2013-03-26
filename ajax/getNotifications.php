@@ -59,7 +59,7 @@ try {
                             $item = $item . "<img class='new_not' src='".HOSTNAME."images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
                         }
                         $item = $item . "<img src='".HOSTNAME."images/comment.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                        $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
+                        $item = $item . "<a onclick='window.location=\"".HOSTNAME.$usr->userName."\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
                         $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;commented on&nbsp;</span>";
                         $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
                     } else if ($res->getType() == NOTIFICATION_TYPE_LIKED) {
@@ -70,7 +70,7 @@ try {
                             $item = $item . "<img class='new_not' src='".HOSTNAME."images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
                         }
                         $item = $item . "<img src='".HOSTNAME."images/plus.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                        $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
+                        $item = $item . "<a onclick='window.location=\"".HOSTNAME.$usr->userName."\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
                         $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;liked&nbsp;</span>";
                         $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
                     } else if ($res->getType() == NOTIFICATION_TYPE_JOIN) {
@@ -81,7 +81,7 @@ try {
                             $item = $item . "<img class='new_not' src='".HOSTNAME."images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
                         }
                         $item = $item . "<img src='".HOSTNAME."images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                        $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
+                        $item = $item . "<a onclick='window.location=\"".HOSTNAME.$usr->userName."\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
                         $item = $item . "<span style='color:#C2C2C2;float:left;'>&nbsp;joined&nbsp;</span>";
                         $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
                     } else if ($res->getType() == NOTIFICATION_TYPE_MAYBE) {
@@ -92,7 +92,7 @@ try {
                             $item = $item . "<img class='new_not' src='".HOSTNAME."images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
                         }
                         $item = $item . "<img src='".HOSTNAME."images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                        $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
+                        $item = $item . "<a onclick='window.location=\"".HOSTNAME.$usr->userName."\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
                         $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;might join&nbsp;</span>";
                         $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
                     } else if ($res->getType() == NOTIFICATION_TYPE_SHARED) {
@@ -103,7 +103,7 @@ try {
                             $item = $item . "<img class='new_not' src='".HOSTNAME."images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
                         }
                         $item = $item . "<img src='".HOSTNAME."images/plus.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                        $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
+                        $item = $item . "<a onclick='window.location=\"".HOSTNAME.$usr->userName."\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
                         $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;reshared&nbsp;</span>";
                         $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
                     } else if ($res->getType() == NOTIFICATION_TYPE_FOLLOWED) {
@@ -113,7 +113,7 @@ try {
                             $item = $item . "<img class='new_not' src='".HOSTNAME."images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
                         }
                         $item = $item . "<img src='".HOSTNAME."images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                        $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
+                        $item = $item . "<a onclick='window.location=\"".HOSTNAME.$usr->userName."\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
                         $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;started following you &nbsp;</span>";
                     } else if ($res->getType() == NOTIFICATION_TYPE_INVITE) {
                         $usr = UserUtils::getUserById($res->getNotUserId());
@@ -122,7 +122,7 @@ try {
                             $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
                             $item = $item . "<img class='new_not' src='".HOSTNAME."images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
                             $item = $item . "<img src='".HOSTNAME."images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                            $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
+                            $item = $item . "<a onclick='window.location=\"".HOSTNAME.$usr->userName."\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
                             $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;invited you to join &nbsp;</span>";
                             $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
                             $item = $item . "<br class='notf_answer_class'/><a class='notf_answer_class' style='color:#C2C2C2;float:left;cursor:pointer' onclick='return responseEvent(" . $res->getId() . "," . $res->getUserId() . "," . $res->getNotEventId() . ",1);'>Join |&nbsp;</a>";
@@ -142,7 +142,7 @@ try {
                             }
                             $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
                             $item = $item . "<img src='".HOSTNAME."images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                            $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
+                            $item = $item . "<a onclick='window.location=\"".HOSTNAME.$usr->userName."\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
                             $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;invited you to join &nbsp;</span>";
                             $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
                             if (!empty($tmp)) {

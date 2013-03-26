@@ -267,7 +267,8 @@ input[type=text]::-ms-clear {
 
 .prinpt {
     font-family: arial;
-    font-size: 11px;
+    font-weight: bold;
+    font-size: 14px !important;
     color: #FFF;
     height: 22px;
     width: 33px;
@@ -1502,8 +1503,9 @@ input[type=text]::-ms-clear {
 .reg_btn_addlike_width{
     text-align: center;
     margin-top: 8px;
-    width: 60px;
     float: right;
+    width: 110px;
+    height: 33px;
 }
 
 .like_add {
