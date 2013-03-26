@@ -252,7 +252,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                             ?>
                             <div class="add_ktg_sol" <?php if (!$showSol) {
                                 echo "style='display:none;'";
-                            } ?>
+                            } ?>>
                                  <ol class="on_off" style="margin-top: 40px;margin-left: 8px;">
                                     <li><input class="on_off_check_box_style" type="checkbox"  cat_id="<?php echo $cat->id; ?>" id="checkbox_on_off_<?php echo $cat->id; ?>" checked="checked"/>
                                     </li>
