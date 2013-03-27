@@ -29,7 +29,7 @@ if (stripos($br, 'MSIE')) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201223325599" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?2012233255889" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -54,7 +54,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.js?201302221520"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.js?201302221325"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.js?2321312"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?201302211966"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?20130222988"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.jscroll.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootstrap.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootbox.js"></script>

@@ -26,7 +26,7 @@
             less_than: 'The %s field must contain a number less than %s.',
             alpha: 'Only enter alphabetical characters.',
             alpha_numeric: 'Only enter alpha-numeric characters.',
-            alpha_dash: 'The %s field must only contain alpha-numeric characters, underscores, and dashes.',
+            alpha_dash: 'invalid characters',
             alpha_turkish:'Only enter alphabetical characters.',
             numeric: 'Enter only numbers.',
             integer: 'The %s field must contain an integer.',
@@ -250,8 +250,10 @@
                 message = 'An error has occurred with the ' + field.display + ' field.';
 
                 if (source) {
-                    if(source.match(/%s/g).length>1){
+                    if(source.match(/%s/g) && source.match(/%s/g).length>1){
                         message = source.replace('%s', field.display);
+                    }else{
+                        message=source;
                     }
                     if (param) {
                         message = message.replace('%s', (this.fields[param]) ? this.fields[param].display : param);

@@ -1172,6 +1172,17 @@ class RedisUtils {
         }
     }
 
+    public static function isUserInFollowings($userId, $folowId) {
+        $redis = new Predis\Client();
+        $redis->getProfile()->defineCommand('seacrhUserById', 'SeacrhUserById');
+        $usr = $redis->seacrhUserById(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, $folowId);
+        if (empty($usr)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     public static function getUserFollowings($userId) {
         if (empty($userId) || $userId < 0) {
             return array();

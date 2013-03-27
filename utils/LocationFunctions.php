@@ -19,17 +19,17 @@ class LocationUtils {
                                 if (in_array("country", $types)) {
                                     $loc_country = $address_component->short_name;
                                     break;
-                                }else if (in_array("city", $types) && $city_type < 4) {
+                                } else if (in_array("city", $types) && $city_type < 4) {
                                     $city_type = 4;
                                     $loc_city = $address_component->long_name;
                                     break;
-                                }else if (in_array("administrative_area_level_1", $types) && $city_type < 3) {
+                                } else if (in_array("administrative_area_level_1", $types) && $city_type < 3) {
                                     $loc_city = $address_component->long_name;
                                     $city_type = 3;
-                                }else if (in_array("administrative_area_level_2", $types) && $city_type < 2) {
+                                } else if (in_array("administrative_area_level_2", $types) && $city_type < 2) {
                                     $loc_city = $address_component->long_name;
                                     $city_type = 2;
-                                }else if (in_array("political", $types) && in_array("locality", $types) && $city_type < 1) {
+                                } else if (in_array("political", $types) && in_array("locality", $types) && $city_type < 1) {
                                     $loc_city = $address_component->long_name;
                                     $city_type = 1;
                                 }
@@ -66,6 +66,18 @@ class LocationUtils {
             $id = null;
             $city = strtolower($city);
             $city = str_replace(' ', '', $city);
+
+            if (preg_match('/^[0-9]+$/', $city)) {
+
+                $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_id =" . $city;
+                $query = mysql_query($SQL) or die(mysql_error());
+                $result = mysql_fetch_array($query);
+                if (!empty($result)) {
+                    $id = $result['city_id'];
+                    return $id;
+                }
+            }
+
             $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_name ='" . $city . "'";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
@@ -79,7 +91,6 @@ class LocationUtils {
                 mysql_query($SQL) or die(mysql_error());
                 $id = $c_id;
             }
-
             return $id;
         }
         return null;

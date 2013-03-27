@@ -380,7 +380,7 @@ input[type=text]::-ms-clear {
 }
 .p_form_sag {
     float: right;
-    width: 380px;
+    width: 386px;
 }
 .profil_etiket {
     clear: both;
@@ -507,8 +507,8 @@ input[type=text]::-ms-clear {
 }
 
 .profil_g .maxlength-feedback{
-    left: -25px !important;
-    top: 20px !important;
+    left: 345px !important;
+    top: -24px !important;
     font-family: Arial;
     font-size: 11px !important;
     font-style: normal;
@@ -1398,12 +1398,6 @@ input[type=text]::-ms-clear {
     background-repeat: no-repeat;
 }
 
-.user_inpt_pi_height{
-    height:40px;
-    width: 250px;
-    font-size: 14px;
-}
-
 .personel_info {
     background-color: #EFEFEF !important;
     background-repeat: no-repeat !important;
@@ -1626,6 +1620,7 @@ input[type=text]::-ms-clear {
     display: inline-block;
     float: right;
     min-width: 420px;
+    margin-right: 10px;
 }
 
 /* information pop up */
@@ -1711,3 +1706,10 @@ input[type=text]::-ms-clear {
     outline:none;
     /* profile page */
 }
+
+.user_inpt_pi_height{
+    height:40px;
+    width: 250px;
+    font-size: 14px;
+}
+

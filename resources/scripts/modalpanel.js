@@ -16,6 +16,18 @@ jQuery(document).ready(function(){
  * Function List
  */
 
+function searchUserFromLocal(userId){
+    if(local_quick_follwer_list && local_quick_follwer_list.length>0){
+        for(var i=0;i<local_quick_follwer_list.length;i++){
+            usr= local_quick_follwer_list[i];
+            if(usr.id==userId){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 function getDataFromLocalStorage(event_id)
 {
     return  JSON.parse(localStorage.getItem('event_' + event_id));
@@ -175,6 +187,11 @@ function openModalPanel(event_id,custom) {
      *Clear dropable
      */
     jQuery(".main_dropable_").css('display','none'); 
+    var button=document.getElementById("foll_modal_creator");
+    button.className = 'modal_follow_btn';
+    button.innerHTML = 'follow';
+    jQuery(button).attr("disabled","disabled");
+    
     /*
      * get event data 
      */
@@ -236,6 +253,62 @@ function openModalPanel(event_id,custom) {
         }
         //set event description
         jQuery("#gdy_event_description").text(data.description);
+        jQuery("#name_creator").text("");
+        setImageBackGroundLoader(jQuery("#image_creator"));
+        jQuery("#about_creator").hide();
+        if(data.creatorId)
+        {
+            jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
+            setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.creator.userPicture);
+            if(data.creator.about && data.creator.about!="null"){
+                jQuery("#about_creator").text(data.creator.about);
+                jQuery("#about_creator").show();
+            }else{
+                jQuery("#about_creator").text("");
+            }
+            if(searchUserFromLocal(data.creatorId )>0){
+                button.className = prefix+'followed_btn';
+                button.innerHTML = 'unfollow';
+                button.setAttribute('onclick', 'unfollowUser('+userId+','+data.creatorId+',this,"modal_");');
+            }else{
+                jQuery.sessionphp.get('id',function(userId){
+                    if(userId){
+                        var button=document.getElementById("foll_modal_creator");
+                        button.className = 'modal_follow_btn';
+                        button.innerHTML = 'follow';
+                        button.setAttribute('onclick', 'followUser('+userId+','+data.creatorId+',this,"modal_");');
+                        jQuery(button).attr("disabled","disabled");
+                        var prefix="modal_";
+                        jQuery.ajax({
+                            type: 'POST',
+                            url: TIMETY_PAGE_AJAX_CHECK_USER_FOLLOW_STATUS,
+                            data: {
+                                'userId':userId,
+                                'fUserId':data.creatorId 
+                            },
+                            error: function(data2){
+                                jQuery(button).removeAttr("disabled");
+                            },
+                            success: function(data2){
+                                jQuery(button).removeAttr("disabled");
+                                if(data2==1 || data2=="1"){
+                                    button.className = prefix+'followed_btn';
+                                    button.innerHTML = 'unfollow';
+                                    button.setAttribute('onclick', 'unfollowUser('+userId+','+data.creatorId+',this,"modal_");');
+                                }else{
+                                    button.className = prefix+'follow_btn';
+                                    button.innerHTML = 'follow';
+                                    button.setAttribute('onclick', 'followUser('+userId+','+data.creatorId+',this,"modal_");');
+                                }
+                            }
+                        },"json");
+                    }
+                });
+            }
+        }else
+        {
+        // do something show empty image          
+        }
         //set Header Image
         var headerImage=jQuery("#big_image_header");
         /* loader */
@@ -263,53 +336,7 @@ function openModalPanel(event_id,custom) {
         {
             setHeaderImage(headerImage, data.headerImage);
         }
-        jQuery("#name_creator").text("");
-        setImageBackGroundLoader(jQuery("#image_creator"));
-        jQuery("#about_creator").hide();
-        if(data.creatorId)
-        {
-            jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
-            setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.creator.userPicture);
-            if(data.creator.about && data.creator.about!="null"){
-                jQuery("#about_creator").text(data.creator.about);
-                jQuery("#about_creator").show();
-            }else{
-                jQuery("#about_creator").text("");
-            }
-            jQuery.sessionphp.get('id',function(userId){
-                if(userId){
-                    var button=document.getElementById("foll_modal_creator");
-                    var prefix="modal_";
-                    jQuery.ajax({
-                        type: 'POST',
-                        url: TIMETY_PAGE_AJAX_CHECK_USER_FOLLOW_STATUS,
-                        data: {
-                            'userId':userId,
-                            'fUserId':data.creatorId 
-                        },
-                        error: function(data2){
-                            jQuery(button).removeAttr("disabled");
-                        },
-                        success: function(data2){
-                            jQuery(button).removeAttr("disabled");
-                            if(data2==1 || data2=="1"){
-                                button.className = prefix+'followed_btn';
-                                button.innerHTML = 'unfollow';
-                                button.setAttribute('onclick', 'unfollowUser('+userId+','+data.creatorId+',this,"modal_");');
-                            }else{
-                                button.className = prefix+'follow_btn';
-                                button.innerHTML = 'follow';
-                                button.setAttribute('onclick', 'followUser('+userId+','+data.creatorId+',this,"modal_");');
-                            }
-                        }
-                    },"json");
-                }
-            });
-            
-        }else
-        {
-        // do something show empty image          
-        }
+        
         //set share butons
         jQuery("#fb_share_button").unbind("click");
         jQuery("#tw_share_button").unbind("click");
@@ -587,7 +614,7 @@ function addUrlEventId(event_id,title)
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
                 if(pSUPERFLY)
-                    pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title);
+                    pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title+"");
             }else
             {
                 path="";
@@ -599,7 +626,7 @@ function addUrlEventId(event_id,title)
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
                 if(pSUPERFLY)
-                    pSUPERFLY.virtualPage("/event/"+event_id, event_id);
+                    pSUPERFLY.virtualPage("/event/"+event_id, event_id+"");
             }
         }
     }

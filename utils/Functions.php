@@ -60,6 +60,7 @@ require_once __DIR__ . '/RedisFunctions.php';
 require_once __DIR__ . '/../processor/scriptedcommands/RemoveItemById.class.php';
 require_once __DIR__ . '/../processor/scriptedcommands/RemoveItemByIdReturnItem.class.php';
 require_once __DIR__ . '/../processor/scriptedcommands/SeacrhEventByTag.class.php';
+require_once __DIR__ . '/../processor/scriptedcommands/SeacrhUserById.class.php';
 
 //HttpAuthUtils::checkHttpAuth();
 

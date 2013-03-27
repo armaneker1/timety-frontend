@@ -941,15 +941,17 @@ class Neo4jFuctions {
             $query = "";
         }
 
-        if ($type == 9 && $categoryId < 0) {
+        /*if ($type == 9 && $categoryId < 0) {
             // ww -2 olacak 
-            if ($city_channel > 0 || $city_channel == -1) {
+            if ($city_channel > 0) {
                 $city = UserUtils::getUserCityId($userId);
                 if (!empty($city) && $city == $city_channel) {
                     $type = 1;
                 }
+            } else if ($city_channel == -1) {
+                $type = 1;
             }
-        }
+        }*/
 
         if (empty($date) || substr($date, 0, 1) == "0") {
             $date = strtotime("now");

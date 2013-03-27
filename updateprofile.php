@@ -314,7 +314,7 @@ if (isset($_POST['update'])) {
     $_SESSION['pr_location_cor_y'] = $te_location_cor_y;
 
 
-    header('Location: '.PAGE_UPDATE_PROFILE);
+    header('Location: ' . PAGE_UPDATE_PROFILE);
     exit(1);
 }
 ?>
@@ -809,7 +809,7 @@ if (isset($_POST['update'])) {
                             Male
                         </label>
                         <label class="label_radio" for="te_gender_female">
-                            <input name="te_gender" id="te_gender_female" <?php if ($te_gender."" == '0') echo "checked='checked'"; ?> value="0" type="radio" />
+                            <input name="te_gender" id="te_gender_female" <?php if ($te_gender . "" == '0') echo "checked='checked'"; ?> value="0" type="radio" />
                             Female
                         </label>
                     </div>

@@ -18,16 +18,6 @@ if (isset($_GET["fUserId"]))
 if (isset($_POST["fUserId"]))
     $fUserId = $_POST["fUserId"];
 
-$array = RedisUtils::getUserFollowings($userId);
-$result = 0;
-for ($i = 0; !empty($array) && $i < sizeof($array); $i++) {
-    $usr = $array[$i];
-    if (!empty($usr)) {
-        if ($usr->id == $fUserId) {
-            $result = 1;
-            break;
-        }
-    }
-}
+$result = RedisUtils::isUserInFollowings($userId, $fUserId);
 echo $result;
 ?>

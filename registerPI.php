@@ -55,7 +55,7 @@ if (isset($_POST['te_username'])) {
         $usernameError = "Username cannot be empty";
         $param = false;
     } else {
-        $userName = preg_replace('/\s+/', '', $userName);
+        $username = preg_replace('/\s+/', '', $username);
         $username = strtolower($username);
         if (!UserUtils::checkUserName($username)) {
             if ($username != $_POST['te_default_username']) {
@@ -316,7 +316,7 @@ if (isset($_POST['te_username'])) {
                     {
                         name : 'te_username',
                         display : 'username',
-                        rules : 'required|min_length[3]|callback_check_username'
+                        rules : 'required|min_length[3]|alpha_dash|callback_check_username'
                     }, {
                         name : 'te_firstname',
                         display : 'firstname',
