@@ -395,7 +395,7 @@ if (!empty($user)) {
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;">Logout</a></li>
                     </ul>
                 </div>
-                <div id="te_avatar" class="avatar"> <a href="#"><img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
+                <div id="te_avatar" class="avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
         <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
         <?php } ?>
@@ -415,7 +415,7 @@ if (!empty($user)) {
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
-                <div class="avatar" id="te_avatar"> <a href="#"><img src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
+                <div class="avatar" id="te_avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
         <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
         <?php } ?>

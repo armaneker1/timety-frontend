@@ -145,24 +145,6 @@ p,h1,h2,h3,h4,h5{
     height: 32px;
     width: 32px;
 }
-.avtr_box {
-    background-color: #c45d33;
-    height: 13px;
-    width: 7px;
-    color: #fefefe;
-    border: 1px solid #232323;
-    font-family: Arial;
-    font-size: 8px;
-    font-weight: bold;
-    padding-right: 3px;
-    padding-left: 3px;
-    line-height: 13px;
-    margin-top: -42px;
-    margin-left: 23px;
-    z-index: 100;
-    position: relative;
-    cursor: pointer;
-}
 .days {
     float: left;
     background-image: url(images/timeicon.png);
