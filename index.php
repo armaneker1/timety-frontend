@@ -514,7 +514,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                		      
+                                                                                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -696,7 +696,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                            
+                                                                
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -868,13 +868,13 @@ if (empty($user)) {
                     width: 19px !important;
                 }
                 .iPhoneCheckContainer{
-                     width: 50px !important;
+                    width: 50px !important;
                 }
                 .iPhoneCheckLabelOn{
-                     width: 22px !important;
+                    width: 22px !important;
                 }
                 .iPhoneCheckLabelOff{
-                     width: 18px !important;
+                    width: 18px !important;
                 }
             </style>
         <?php } ?>
@@ -1330,7 +1330,7 @@ if (empty($user)) {
             <?php if (!empty($user) && !empty($user->id)) { ?>
                 <div class="profil_box main_event_box">
                     <div class="profil_resim">
-                        <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176" ?>" width="176" height="176" />
+                        <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176&zc=2" ?>" width="176" height="176" />
                     </div>
                     <div class="profil_user">
                         <div class="bgln_user">

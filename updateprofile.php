@@ -1010,7 +1010,7 @@ if (isset($_POST['update'])) {
 
                     <div class="profil_g">
                         <p class="profil_etiket">Profile</p>
-                        <div id="profil_image_id" class="profil_kul" style="background: url(<?= PAGE_GET_IMAGEURL . $te_image . "&w=106&h=106" ?>)"></div>
+                        <div id="profil_image_id" class="profil_kul" style="background: url(<?= PAGE_GET_IMAGEURL . $te_image . "&w=106&h=106&zc=2" ?>)"></div>
                         <div class="profil_kul" id="profil_image_id_div" style="background: none;position: absolute;"></div>
                         <div class="profil_al"> 
                             <p>import from</p>
@@ -1042,7 +1042,7 @@ $imgName = $user->id . "_" . time() . ".png";
                 }catch(e) {
                     console.log(e);
                 }
-                jQuery("#profil_image_id").css("background",'url(<?= PAGE_GET_IMAGEURL . HOSTNAME . UPLOAD_FOLDER . "users/" . $user->id . "/" . $imgName ?>&w=106&h=106)');
+                jQuery("#profil_image_id").css("background",'url(<?= PAGE_GET_IMAGEURL . HOSTNAME . UPLOAD_FOLDER . "users/" . $user->id . "/" . $imgName ?>&w=106&h=106&zc=2)');
             },
             messages: {
                 typeError: "{file} has invalid extension. Only {extensions} are allowed.",
