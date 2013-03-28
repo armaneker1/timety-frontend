@@ -54,7 +54,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.js?201302221525"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.js?201302221325"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.js?2321312"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?20130222979"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?20130222980"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.jscroll.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootstrap.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootbox.js"></script>

@@ -193,12 +193,16 @@ function openModalPanel(event_id,custom) {
     jQuery(button).attr("disabled","disabled");
     var like_button=jQuery("#div_like_btn_modal_panel");
     setButtonStatus(like_button,false);
+    like_button.show();
     var maybe_button=jQuery("#div_maybe_btn_modal_panel");
     setButtonStatus(maybe_button,false);
+    maybe_button.show();
     var reshare_button=jQuery("#div_share_btn_modal_panel");
     setButtonStatus(reshare_button,false);
+    reshare_button.show();
     var join_button=jQuery("#div_join_btn_modal_panel");
     setButtonStatus(join_button,false);
+    join_button.show();
     var edit_button=jQuery("#div_edit_btn_modal_panel");
     edit_button.hide();
     /*

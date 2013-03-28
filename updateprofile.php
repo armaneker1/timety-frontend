@@ -61,6 +61,9 @@ $about = $user->about;
 $aboutError = "";
 
 $te_birthday = $user->birthdate;
+if(!empty($te_birthday) && $te_birthday=="0000-00-00"){
+    $te_birthday="";
+}
 $te_birthdayError = "";
 
 $hometown = $user->hometown;
@@ -988,7 +991,7 @@ if (isset($_POST['update'])) {
                         class="user_inpt" 
                         style="width:356px;height:40px"
                         id="te_birthday" 
-                        value="<?php echo date(DATE_FE_FORMAT_D, strtotime($te_birthday)) ?>"
+                        value="<?php if(!empty($te_birthday)){ echo date(DATE_FE_FORMAT_D, strtotime($te_birthday)); } ?>"
                         onkeyup="validateInputDate(this,true,false)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInputDate(this,true,true) }" 
                         onchange="resetInputWarning(this);validateInputDate(this,true,true)"/> 
