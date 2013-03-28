@@ -194,43 +194,45 @@ if (empty($user)) {
                             var people=getPrepopulatePeopleList();
                             jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                                 theme: "custom",
-                                userId :"<?php if (!empty($user)) {
+                                userId :"<?php
+if (!empty($user)) {
     echo $user->id;
 } else {
     echo "''";
-} ?>",
-                                queryParam : "term",
-                                minChars : 2,
-                                placeholder : "add people manually",
-                                preventDuplicates : true,
-                                input_width:160,
-                                add_maunel:true,
-                                add_mauel_validate_function : validateEmailRegex,
-                                propertyToSearch: "label",
-                                resultsFormatter:function(item) {
-                                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
-                                },
-                                onAdd: function() {
-                                    return true;
-                                },
-                                processPrePopulate : false,
-                                prePopulate : people
-                            });
-                            /*
-                             * date and time  aleady set before
-                             */         
-                            openCreatePopup();
-                            /*
-                             * set time 
-                             */
-                            if(jQuery("#te_quick_event_time").val())
-                                jQuery("#te_event_start_time").val(jQuery("#te_quick_event_time").val());
-                            checkCreateDateTime();
-                            /*
-                             * clear and close quick add
-                             */
-                            clearAllQuickAdd();
-                        });
+}
+?>",
+            queryParam : "term",
+            minChars : 2,
+            placeholder : "add people manually",
+            preventDuplicates : true,
+            input_width:160,
+            add_maunel:true,
+            add_mauel_validate_function : validateEmailRegex,
+            propertyToSearch: "label",
+            resultsFormatter:function(item) {
+                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
+            },
+            onAdd: function() {
+                return true;
+            },
+            processPrePopulate : false,
+            prePopulate : people
+        });
+        /*
+         * date and time  aleady set before
+         */         
+        openCreatePopup();
+        /*
+         * set time 
+         */
+        if(jQuery("#te_quick_event_time").val())
+            jQuery("#te_event_start_time").val(jQuery("#te_quick_event_time").val());
+        checkCreateDateTime();
+        /*
+         * clear and close quick add
+         */
+        clearAllQuickAdd();
+    });
                     </script>
                 </div>
                 <div class="quick_add_time_hint_model" style="display: none;left: 0px;" id="quick_add_time_hint_model">
@@ -253,9 +255,9 @@ if (empty($user)) {
                             window.location=TIMETY_HOSTNAME+"?addevent=1";
                         }); 
                     </script>
-        <?php
-    } else {
-        ?>
+                    <?php
+                } else {
+                    ?>
                     <script type="text/javascript">
                         jQuery("#add_event_button").click(function(){
                             jQuery("#te_quick_add_event_bar").show();
@@ -293,22 +295,32 @@ if (empty($user)) {
                 if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI"))) {
                     ?>
                     <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js?23"></script>
-            <?php }
-        }
-        ?>
+                <?php
+                }
+            }
+            ?>
         </div>
     </div>
     <div id="top_blm_sag">
-<?php
-if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
-    if ($user->status > 2) {
-        ?>
+        <?php
+        if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
+            if ($user->status > 2) {
+                ?>
                 <script>
         <?php if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user")) {
             ?>
                     function changeChannel(item){
                         var channel=jQuery(item).attr("channelId");
-                        window.location=TIMETY_HOSTNAME+"?channel="+channel;
+                        if(channel==2 || channel=="2"){
+                            channel="#mytimety";
+                        }else if(channel==3 || channel=="3"){
+                            channel="#following";
+                        } else if(channel==1 || channel=="1"){
+                            channel="#popular";
+                        } else{
+                            channel= "?channel="+channel;
+                        }
+                        window.location=TIMETY_HOSTNAME+channel;
                     }  
             <?php
         } else {
@@ -350,12 +362,12 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
                             </div>
                         </li>
                         <li id="top_menu_populer" class="t_m_line">
-        <?php
-        $upcoming_class = "top_menu_ul_li_a_selected";
-        if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user")) {
-            $upcoming_class = "top_menu_ul_li_a";
-        }
-        ?>
+                            <?php
+                            $upcoming_class = "top_menu_ul_li_a_selected";
+                            if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user")) {
+                                $upcoming_class = "top_menu_ul_li_a";
+                            }
+                            ?>
                             <a id="populer_top_menu_a" href="#popular" channelId="1" onclick="changeChannel(this)" class="<?= $upcoming_class ?>">Upcoming</a>
                             <div id="populer_top_menu" class="my_timete_popup_popular_container" style="display: none;">
                                 <div  class="my_timete_popup" >
@@ -365,10 +377,10 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
                                             <button type="button" class="kapat icon_bg"></button>
                                             <span>Everything</span>
                                         </li>
-        <?php
-        $cats = MenuUtils::getCategories($user->language);
-        foreach ($cats as $cat) {
-            ?>
+                                        <?php
+                                        $cats = MenuUtils::getCategories($user->language);
+                                        foreach ($cats as $cat) {
+                                            ?>
                                             <li cat_id="<?= $cat->getId() ?>" id="cat_id<?= $cat->getId() ?>" style="cursor:pointer" title="<?= $cat->getName() ?>" slc="false">
                                                 <button type="button" class="ekle icon_bg"></button>
                                                 <span><?= $cat->getName() ?></span>

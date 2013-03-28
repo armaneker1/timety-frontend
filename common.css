@@ -249,12 +249,11 @@ input[type=text]::-ms-clear {
     border-top-color: #cfcfcf;
 }
 .profil_btn ul li {
-    background-image: url(images/addbtn.png);
     height: 37px;
-    background-position: left -1px;
-    background-repeat: repeat-x;
     line-height: 37px;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#e8e8e8));
     cursor: pointer;
+    border-bottom: 1px solid #cfcfcf;
 }
 .profil_btn_ul_li_span {
     font-family: arial;

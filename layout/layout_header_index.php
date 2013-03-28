@@ -28,7 +28,7 @@ if (stripos($br, 'MSIE')) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201304755998" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201304755990" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css?346" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -52,7 +52,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?201302221744"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?201986743"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?20130224288"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?20130224278"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20139989224388"></script>

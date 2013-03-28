@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;Content-Type: text/html;");
 
 require_once __DIR__ . '/utils/Functions.php';
-require_once __DIR__ . '/apis/google/contrib/Google_PlusService.php';
+require_once __DIR__ . '/apis/google/contrib/Google_Oauth2Service.php';
 
 
 $success = TRUE;
@@ -20,7 +20,7 @@ if (isset($_GET['error'])) {
     $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
     $google->setDeveloperKey(GG_DEVELOPER_KEY);
     try {
-        $plus = new Google_PlusService($google);
+        $oauth2 = new Google_Oauth2Service($google);
         if (isset($_GET['code'])) {
             $google->authenticate();
             $_SESSION['gg_access_token'] = $google->getAccessToken();
@@ -32,10 +32,11 @@ if (isset($_GET['error'])) {
         }
         $access = $google->getAccessToken();
         if ($access) {
-            $me = $plus->people->get('me');
+            $me = $oauth2->userinfo->get();
             if (!empty($me)) {
+                $email = $me['email'];
                 $userId = $me['id'];
-                $userName = $me['displayName'];
+                $userName = $me['name'];
                 $userName = strtolower($userName);
                 $userName = str_replace(" ", "", $userName);
                 if (isset($_SESSION["gg_type_social"]) && $_SESSION["gg_type_social"] == "add") {

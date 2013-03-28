@@ -13,6 +13,7 @@ class UserUtils {
             UserUtils::updateSocialProvider($provider);
             $user = UserUtils::getUserById($provider->user_id);
         } else {
+            $_SESSION["te_invitation_code"]="temp";
             if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
                 #user not present. Insert a new Record
                 $type = 2; //user doesn't exits create user and register user

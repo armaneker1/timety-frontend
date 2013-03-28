@@ -3,7 +3,7 @@ session_start();
 header("charset=utf8;Content-Type: text/html;");
 
 require_once __DIR__ . '/utils/Functions.php';
-require_once __DIR__ . '/apis/google/contrib/Google_PlusService.php';
+require_once __DIR__ . '/apis/google/contrib/Google_Oauth2Service.php';
 
 $page_id = "registerPI";
 
@@ -267,22 +267,21 @@ if (isset($_POST['te_username'])) {
                     $google->setClientSecret(GG_CLIENT_SECRET);
                     $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
                     $google->setDeveloperKey(GG_DEVELOPER_KEY);
-                    $plus = new Google_PlusService($google);
+                    $oauth2 = new Google_Oauth2Service($google);
                     $google->setAccessToken($provider->oauth_token);
-                    $me = $plus->people->get('me');
+                    $me = $oauth2->userinfo->get();
                     if (!empty($me)) {
-                        if (!empty($me['name'])) {
-                            if (!empty($me['name']['givenName'])) {
-                                $name = $me['name']['givenName'];
-                            }
-                            if (!empty($me['name']['familyName'])) {
-                                $lastname = $me['name']['familyName'];
-                            }
+                        if (!empty($me['email']))
+                            $email = $me['email'];
+                        if (!empty($me['given_name'])) {
+                            $name = $me['given_name'];
                         }
-                        $email = "";
+                        if (!empty($me['family_name'])) {
+                            $lastname = $me['family_name'];
+                        }
                         $hometown = "";
-                        if (!empty($me['image']) && sizeof($me['image']) > 0) {
-                            $userProfilePic = $me['image']['url'];
+                        if (!empty($me['picture'])) {
+                            $userProfilePic = $me['picture'];
                             $userProfilePicType = GOOGLE_PLUS_TEXT;
                         }
                     }

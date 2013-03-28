@@ -728,7 +728,7 @@ function sendComment(){
             var userId = id;
             var comment = jQuery("#sendComment").val();
             var eventId = jQuery("#sendComment").attr('eventId');
-            if(comment && comment.length>1 && eventId && userId)
+            if(comment && comment.length>1 && comment!=comment.attr("placeholder") && eventId && userId )
             {
                 sending=true;
                 jQuery.ajax({

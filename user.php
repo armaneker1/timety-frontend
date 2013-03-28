@@ -288,7 +288,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                 var text=jQuery(this).text();
                                                 if(text){
                                                     try{
-                                                        jQuery(this).text( getLocalTime(moment().format("YYYY-MM-DD")+text).format('HH:mm'));
+                                                        jQuery(this).text( getLocalTime(moment().format("YYYY-MM-DD")+" "+text).format('HH:mm'));
                                                     }catch(exp){
                                                         console.log(exp);
                                                     }
