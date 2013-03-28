@@ -120,6 +120,26 @@ if (array_key_exists("te_username", $_POST)) {
                 });
             });
         </script>
+        <script>
+            function openSocialLogin(type)
+            {
+                var url="<?= PAGE_SIGNUP ?>?login&oauth_provider=";
+                if(type=="fb")
+                {
+                    url=url+"<?= FACEBOOK_TEXT ?>";
+                }else if(type=="tw")
+                {
+                    url=url+"<?= TWITTER_TEXT ?>";
+                }else if(type=="gg")
+                {
+                    url=url+"<?= GOOGLE_PLUS_TEXT ?>";
+                }
+                url=url+"&invtitationcode="+jQuery("#te_invitation_code").val();
+                window.location=url;
+                return false;
+            }
+                    
+        </script>
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
@@ -127,14 +147,18 @@ if (array_key_exists("te_username", $_POST)) {
         <div id="create_account" class="create_account_outline">
             <div class="create_acco_ust">Login</div>
             <div class="create_acco_alt">
-                <div class="account_sol">
-                    <a href="?login&oauth_provider=<?= GOOGLE_PLUS_TEXT ?>"><img
-                            src="<?= HOSTNAME ?>images/google.png" width="251" height="42" border="0"
-                            class="user_account" /> </a> <a
-                        href="?login&oauth_provider=<?= FACEBOOK_TEXT ?>"><img src="<?= HOSTNAME ?>images/face.png"
-                                                                         width="251" height="42" border="0" class="user_account" /> </a> <a
-                        href="?login&oauth_provider=<?= TWITTER_TEXT ?>"><img src="<?= HOSTNAME ?>images/twitter.png"
-                                                                        width="251" height="42" border="0" class="user_account" /> </a>
+                <div class="account_sol" style="padding-top: 21px;">
+                     <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="return openSocialLogin('gg');">
+                        <b>Sign in with Google</b>
+                    </button>
+
+                    <button class="big-icon-f btn-sign-big fb facebook" onclick="return openSocialLogin('fb');">
+                        <b>Sign in with Facebook</b>
+                    </button>
+
+                    <button class="big-icon-t btn-sign-big tw twitter" onclick="return openSocialLogin('tw');">
+                        <b>Sign in with Twitter</b>
+                    </button>
                 </div>
                 <div class="account_sag" style="margin-top: 21px;padding-left: 40px;">
                     <form action="" name="formsignin" method="post">

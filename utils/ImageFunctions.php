@@ -91,7 +91,7 @@ class ImageUtil {
     public static function insert(Image $image) {
         if (!empty($image)) {
             $imageId = DBUtils::getNextId(CLM_IMAGEID);
-            $SQL = "INSERT INTO " . TBL_IMAGES . " (id,url,header,eventId,width,height) VALUES (" . $imageId . ",'" . DBUtils::mysql_escape($image->url) . "'," . DBUtils::mysql_escape($image->header) . "," . DBUtils::mysql_escape($image->eventId) . ",$image->width,$image->height)";
+            $SQL = "INSERT INTO " . TBL_IMAGES . " (id,url,header,eventId,width,height,org_width,org_height) VALUES (" . $imageId . ",'" . DBUtils::mysql_escape($image->url) . "'," . DBUtils::mysql_escape($image->header) . "," . DBUtils::mysql_escape($image->eventId) . ",$image->width,$image->height,$image->org_width,$image->org_height)";
             mysql_query($SQL) or die(mysql_error());
             return ImageUtil::getImageById($imageId);
         } else {
@@ -117,15 +117,16 @@ class ImageUtil {
     public static function getSize($imagePath) {
         $array = array();
         array_push($array, 186);
-        if (!empty($imagePath)) {
+        if (!empty($imagePath) && file_exists($imagePath)) {
             $size = getimagesize($imagePath);
             $val = $size[1] * 186;
             $height = floor($val / $size[0]);
             array_push($array, $height);
+            array_push($array, $size[0]);
+            array_push($array, $size[1]);
             return $array;
         }
         array_push($array, 0);
-        var_dump($array);
         return $array;
     }
 

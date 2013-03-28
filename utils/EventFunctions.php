@@ -46,6 +46,8 @@ class EventUtil {
                         $size = ImageUtil::getSize(__DIR__ . "/../" . $img->url);
                         $img->width = $size[0];
                         $img->height = $size[1];
+                        $img->org_width = $size[2];
+                        $img->org_height = $size[3];
                         if (!empty($img)) {
                             ImageUtil::insert($img);
                         }
@@ -73,6 +75,8 @@ class EventUtil {
                 $size = ImageUtil::getSize(__DIR__ . "/../" . $img->url);
                 $img->width = $size[0];
                 $img->height = $size[1];
+                $img->org_width = $size[2];
+                $img->org_height = $size[3];
                 if (!empty($img)) {
                     ImageUtil::insert($img);
                 }
@@ -130,6 +134,8 @@ class EventUtil {
                         $size = ImageUtil::getSize($img->url);
                         $img->width = $size[0];
                         $img->height = $size[1];
+                        $img->org_width = $size[2];
+                        $img->org_height = $size[3];
                         if (!empty($img)) {
                             ImageUtil::insert($img);
                         }
@@ -158,6 +164,8 @@ class EventUtil {
                 $size = ImageUtil::getSize($img->url);
                 $img->width = $size[0];
                 $img->height = $size[1];
+                $img->org_width = $size[2];
+                $img->org_height = $size[3];
                 if (!empty($img)) {
                     ImageUtil::insert($img);
                 }
@@ -230,6 +238,7 @@ class EventUtil {
             return null;
         }
     }
+
     public static function getEventCityId($id) {
         if (!empty($id)) {
             $SQL = "SELECT loc_city FROM " . TBL_EVENTS . " WHERE id=" . $id;
@@ -245,7 +254,7 @@ class EventUtil {
             return null;
         }
     }
-    
+
     public static function getEventWorldWide($id) {
         if (!empty($id)) {
             $SQL = "SELECT worldwide FROM " . TBL_EVENTS . " WHERE id=" . $id;

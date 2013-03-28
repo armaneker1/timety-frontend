@@ -487,6 +487,8 @@ class Image {
             $this->eventId = $result['eventId'];
             $this->width = $result['width'];
             $this->height = $result['height'];
+            $this->org_width = $result['org_width'];
+            $this->org_height = $result['org_height'];
         }
     }
 
@@ -496,6 +498,8 @@ class Image {
     public $eventId = null;
     public $width = null;
     public $height = null;
+    public $org_width = null;
+    public $org_height = null;
 
     public function getUrl() {
         if (!UtilFunctions::startsWith($this->url, "http")) {

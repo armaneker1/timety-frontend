@@ -325,15 +325,45 @@ function openModalPanel(event_id,custom) {
         //set Header Image
         var headerImage=jQuery("#big_image_header");
         /* loader */
-        jQuery(headerImage).attr('src', TIMETY_HOSTNAME+"images/loader.gif");  
+        var fail_h=true;
+        try {
+            var small_img=jQuery("img[eventid='"+data.id+"']");
+            if(small_img && small_img.length>0){
+                var w_org=data.headerImage.org_width;
+                var h_org=data.headerImage.org_height;
+                if(w_org>0 && h_org>0){
+                    if(w_org>561)
+                    {
+                        h_org=(561/w_org)*h_org;
+                        w_org=561;
+                    } 
+                    jQuery(headerImage).attr('height',h_org);
+                    jQuery(headerImage).attr('width', w_org);
+                    jQuery(headerImage).attr('src', small_img.attr("src"));
+                    fail_h=false;
+                }
+            }    
+        } catch(exp) {
+            console.log(exp);
+        }
+        
+        if(fail_h){
+            jQuery(headerImage).attr('src', TIMETY_HOSTNAME+"images/loader.gif");
+            jQuery(headerImage).attr('height',30);
+            jQuery(headerImage).attr('width', 30);
+        }
+        
         jQuery(headerImage).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
         jQuery(headerImage).css('min-height','30px');
         jQuery(headerImage).css('min-width', '30px');
         jQuery(headerImage).css('margin-bottom', '-3px');
-        jQuery(headerImage).attr('height',30);
-        jQuery(headerImage).attr('width', 30);
         jQuery(headerImage).css('cursor', 'pointer');
         jQuery(headerImage).unbind("click");
+        if(headerImage && data.headerImage && data.headerImage.url)
+        {
+            setHeaderImage(headerImage, data.headerImage);
+        }
+        
         
         if(data.attach_link){
             jQuery(headerImage).data("attach_link",data.attach_link);
@@ -345,10 +375,7 @@ function openModalPanel(event_id,custom) {
                 window.open(dataUrl,'_blank');
             });
         }
-        if(headerImage && data.headerImage && data.headerImage.url)
-        {
-            setHeaderImage(headerImage, data.headerImage);
-        }
+        
         
         //set share butons
         jQuery("#fb_share_button").unbind("click");

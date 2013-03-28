@@ -54,31 +54,20 @@ if (array_key_exists("login", $_GET)) {
         <div id="create_account" class="create_account_width create_account_outline">
             <div class="create_acco_ust">Create Account</div>
             <div class="create_acco_alt create_acco_alt_height">
-                <div class="account_sol_page">
-                    <a href="#" onclick="return openSocialLogin('gg');">
-                        <img src="<?= HOSTNAME ?>images/google.png" 
-                             width="251" 
-                             height="42" 
-                             border="0"
-                             class="user_account" /> 
-                    </a> 
-                    <a href="#" onclick="return openSocialLogin('fb');">
-                        <img src="<?= HOSTNAME ?>images/face.png"
-                             width="251" 
-                             height="42" 
-                             border="0" 
-                             class="user_account" /> 
-                    </a> 
+                <div class="account_sol_page" style="padding-top: 30px;">
+                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="return openSocialLogin('gg');">
+                        <b>Sign in with Google</b>
+                    </button>
 
-                    <a href="#" onclick="return openSocialLogin('tw');">
-                        <img src="<?= HOSTNAME ?>images/twitter.png"
-                             width="251" 
-                             height="42" 
-                             border="0" 
-                             class="user_account" /> 
-                    </a>
+                    <button class="big-icon-f btn-sign-big fb facebook" onclick="return openSocialLogin('fb');">
+                        <b>Sign in with Facebook</b>
+                    </button>
 
-                    <a class="reg_btn reg_btn_width" href="<?= PAGE_ABOUT_YOU . "?new" ?>">Register</a>
+                    <button class="big-icon-t btn-sign-big tw twitter" onclick="return openSocialLogin('tw');">
+                        <b>Sign in with Twitter</b>
+                    </button>
+                    
+                    <center style="font-size: 13px;">or, sign up with <a href="<?= PAGE_ABOUT_YOU . "?new" ?>">your email address.</a></center>
                 </div>
             </div>
         </div>
