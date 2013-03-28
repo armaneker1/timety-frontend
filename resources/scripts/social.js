@@ -84,7 +84,7 @@ function changeLocalData(eventId,type,value)
 }
 
 
-function reshareEvent(button,eventId)
+function reshareEvent(button,eventId,secondButton)
 {
     /*
      * disable button
@@ -97,6 +97,7 @@ function reshareEvent(button,eventId)
             if(jQuery(button).attr("pressed")=="true")
             {
                 setButtonStatus(button,false);
+                setButtonStatus(secondButton,false);
                 // not pressed goto not reshare post
                 jQuery.ajax({
                     type: 'POST',
@@ -119,24 +120,28 @@ function reshareEvent(button,eventId)
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                             setButtonStatus(button,true);
+                            setButtonStatus(secondButton,true);
                         }else {
                             updateBadge(2, -1);
                             setTooltipButton(button,"Reshare");
                             var msg='reverted reshared Event';
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
+                            setButtonStatus(secondButton,false);
                             changeLocalData(eventId,2,false);
                         }
                     },
                     error : function(error_data){
                         console.log(error_data);
                         setButtonStatus(button,true);
+                        setButtonStatus(secondButton,true);
                         jQuery(button).removeAttr("disabled"); 
                     }
                 },"json");
             }else
             {
                 setButtonStatus(button,true);
+                setButtonStatus(secondButton,true);
                 // not pressed goto reshare post
                 jQuery.ajax({
                     type: 'POST',
@@ -158,6 +163,7 @@ function reshareEvent(button,eventId)
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                             setButtonStatus(button,false);
+                            setButtonStatus(secondButton,false);
                         }else {
                             updateBadge(2, 1);
                             setTooltipButton(button,"Revert");
@@ -165,11 +171,13 @@ function reshareEvent(button,eventId)
                             //getInfo(true,msg,'info',4000);
                             changeLocalData(eventId,2,true);
                             setButtonStatus(button,true);
+                            setButtonStatus(secondButton,true);
                         }
                     },
                     error : function(error_data){
                         console.log(error_data);
                         setButtonStatus(button,false);
+                        setButtonStatus(secondButton,false);
                         jQuery(button).removeAttr("disabled"); 
                     }
                 },"json");
@@ -186,6 +194,8 @@ function reshareEvent(button,eventId)
 
 function sendResponseEvent(button,eventId,type)
 {
+    var modal_maybe=jQuery("#div_maybe_btn_modal_panel");
+    var modal_join=jQuery("#div_join_btn_modal_panel");
     /*
      * disable button
      */
@@ -199,19 +209,19 @@ function sendResponseEvent(button,eventId,type)
                 type=5;
                 setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
                 setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
-                setButtonStatus(jQuery("#button_join"),false);
-                setButtonStatus(jQuery("#button_maybe"),false);
+                setButtonStatus(modal_join,false);
+                setButtonStatus(modal_maybe,false);
             }else{
                 if(type==1){
                     setButtonStatus(button,true);
                     setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
                     setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),true);
-                    setButtonStatus(jQuery("#button_maybe"),false);
+                    setButtonStatus(modal_maybe,false);
                 }else if(type==2){
                     setButtonStatus(button,true);
                     setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
                     setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),true);
-                    setButtonStatus(jQuery("#button_join"),false);
+                    setButtonStatus(modal_join,false);
                 }else if(type==3){
                     setButtonStatus(button,false);
                 }
@@ -252,8 +262,8 @@ function sendResponseEvent(button,eventId,type)
                             //setButtonStatus(button,false);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
-                            setButtonStatus(jQuery("#button_join"),false);
-                            setButtonStatus(jQuery("#button_maybe"),false);
+                            setButtonStatus(modal_join,false);
+                            setButtonStatus(modal_maybe,false);
                             removeFromMyTimety(eventId);
                             changeLocalData(eventId,0,0);
                         }else if(type==1)
@@ -266,7 +276,7 @@ function sendResponseEvent(button,eventId,type)
                             setButtonStatus(button,true);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),true);
-                            setButtonStatus(jQuery("#button_maybe"),false);
+                            setButtonStatus(modal_maybe,false);
                             changeLocalData(eventId,0,1);
                         }else if(type==2)
                         {
@@ -278,7 +288,7 @@ function sendResponseEvent(button,eventId,type)
                             setButtonStatus(button,true);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),true);
-                            setButtonStatus(jQuery("#button_join"),false);
+                            setButtonStatus(modal_join,false);
                             changeLocalData(eventId,0,2);
                         }else if(type==3)
                         {
@@ -304,7 +314,7 @@ function sendResponseEvent(button,eventId,type)
     return false;
 }
 
-function likeEvent(button,eventId)
+function likeEvent(button,eventId,secondButton)
 {
     /*
      * disable button
@@ -317,6 +327,7 @@ function likeEvent(button,eventId)
             if(jQuery(button).attr("pressed")=="true")
             {
                 setButtonStatus(button,false);
+                setButtonStatus(secondButton,false);
                 jQuery.ajax({
                     type: 'POST',
                     url: TIMETY_PAGE_AJAX_LIKE_EVENT,
@@ -338,23 +349,27 @@ function likeEvent(button,eventId)
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                             setButtonStatus(button,true);
+                            setButtonStatus(secondButton,true);
                         }else {
                             updateBadge(3, -1);
                             setTooltipButton(button,"Like");
                             var msg='You unliked Event';
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
+                            setButtonStatus(secondButton,false);
                             changeLocalData(eventId,1,false);
                         }
                     },
                     error : function(error_data){
                         setButtonStatus(button,true);
+                        setButtonStatus(secondButton,true);
                         console.log(error_data);
                         jQuery(button).removeAttr("disabled"); 
                     }
                 },"json");
             }else{
                 setButtonStatus(button,true);
+                setButtonStatus(secondButton,true);
                 jQuery.ajax({
                     type: 'POST',
                     url: TIMETY_PAGE_AJAX_LIKE_EVENT,
@@ -375,17 +390,20 @@ function likeEvent(button,eventId)
                         if(data.error) {
                             getInfo(true,'Something went wrong :( Try again.','error',4000);
                             setButtonStatus(button,false);
+                            setButtonStatus(secondButton,false);
                         }else {
                             updateBadge(3, 1);
                             var msg='You liked Event';
                             setTooltipButton(button,"Unlike");
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
+                            setButtonStatus(secondButton,true);
                             changeLocalData(eventId,1,true);
                         }
                     },
                     error : function(error_data){
                         setButtonStatus(button,false);
+                        setButtonStatus(secondButton,false);
                         console.log(error_data);
                         jQuery(button).removeAttr("disabled"); 
                     }

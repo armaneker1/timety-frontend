@@ -15,10 +15,69 @@
                 <h1 id="about_creator" class="about_creator"></h1>
                 <button  type="button" name="" value="" disabled="disabled" class="modal_follow_btn" id="foll_modal_creator" onclick="followUser(null,null,this,'modal_');">follow</button>
             </div>
-            <button type="button" class="gdy_btn" id="button_reshare">Reshare</button>
+
+
+            <!-- like and share -->
+            <div class="likeshare" style="float: right;right: 12px;" id="likeshare_modal_panel">
+                <button  id="div_like_btn_modal_panel" 
+                         data-toggle="tooltip" 
+                         data-placement="bottom" 
+                         title=""
+                         class="ls_btn like_btn" 
+                         class_aktif="like_btn_aktif" 
+                         class_pass="like_btn"      
+                         pressed="false"  
+                         style=""
+                         onclick="return false;"></button>
+                <button  id="div_maybe_btn_modal_panel" 
+                         data-toggle="tooltip" 
+                         data-placement="bottom" 
+                         title=""
+                         class="ls_btn maybe_btn" 
+                         class_aktif="maybe_btn_aktif" 
+                         class_pass="maybe_btn"
+                         pressed="false"  
+                         style=""
+                         onclick="return false;" 
+                         style=""></button>
+                <button  id="div_share_btn_modal_panel" 
+                         data-toggle="tooltip" 
+                         data-placement="bottom" 
+                         title=""
+                         class="ls_btn share_btn" 
+                         class_aktif="share_btn_aktif" 
+                         class_pass="share_btn" 
+                         pressed="false" 
+                         style=""
+                         onclick="return false;"></button>
+                <button  id="div_join_btn_modal_panel" 
+                         data-toggle="tooltip" 
+                         data-placement="bottom" 
+                         title=""
+                         class="ls_btn join_btn" 
+                         class_aktif="join_btn_aktif" 
+                         class_pass="join_btn" 
+                         pressed="false"  
+                         onclick="return false;"
+                         style=""></button>
+                <button  id="div_edit_btn_modal_panel" 
+                         data-toggle="tooltip" 
+                         data-placement="bottom" 
+                         title=""
+                         class="edit_btn" 
+                         class_aktif="edit_btn_aktif" 
+                         class_pass="edit_btn" 
+                         onclick="return false;"
+                         style="display: none;margin-right: 6px;float: right;"></button>
+            </div>
+            <!-- like and share -->
+
+
+            <!--<button type="button" class="gdy_btn" id="button_reshare">Reshare</button>
             <button type="button" class="gdy_btn" id="button_maybe">Maybe</button>
             <button type="button" class="gdy_btn_mavi" id="button_join">
                 <img src="<?= HOSTNAME ?>images/ti.png" width="17" height="18" class="gdy_btn_res" />Join</button>
+            -->
         </div>
     </div>
     <div class="gdy_sag">

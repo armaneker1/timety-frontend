@@ -191,7 +191,16 @@ function openModalPanel(event_id,custom) {
     button.className = 'modal_follow_btn';
     button.innerHTML = 'follow';
     jQuery(button).attr("disabled","disabled");
-    
+    var like_button=jQuery("#div_like_btn_modal_panel");
+    setButtonStatus(like_button,false);
+    var maybe_button=jQuery("#div_maybe_btn_modal_panel");
+    setButtonStatus(maybe_button,false);
+    var reshare_button=jQuery("#div_share_btn_modal_panel");
+    setButtonStatus(reshare_button,false);
+    var join_button=jQuery("#div_join_btn_modal_panel");
+    setButtonStatus(join_button,false);
+    var edit_button=jQuery("#div_edit_btn_modal_panel");
+    edit_button.hide();
     /*
      * get event data 
      */
@@ -358,66 +367,65 @@ function openModalPanel(event_id,custom) {
             joinedType=data.userRelation.joinType;
         }
         //like not yet
+        // data.id
+        
         if(liked)
-        {}else{}
-        
-        var maybeButton=jQuery("#button_maybe");
-        var joinButton=jQuery("#button_join");
-        
-        //maybe 
-        jQuery(maybeButton).unbind("click");
-        jQuery(maybeButton).attr("class_aktif","tmp_aktif");
-        jQuery(maybeButton).attr("class_pass","tmp_pass");
-        jQuery(maybeButton).click(function(){
-            sendResponseEvent(this,data.id,2);
+        {
+            setButtonStatus(like_button,true);
+        }
+        like_button.unbind("click");
+        like_button.click(function(){
+            likeEvent(this,data.id,jQuery("#likeshare_"+data.id+" #div_like_btn"));
             return false;
         });
         if(joinedType==2 || joinedType=='2')
         {
-            setButtonStatus(maybeButton,true);
-        }else
-        {
-            setButtonStatus(maybeButton,false);
+            setButtonStatus(maybe_button,true);
         }
-        
-        //join 
-        jQuery(joinButton).unbind("click");
-        jQuery(joinButton).attr("class_aktif","tmp_aktif");
-        jQuery(joinButton).attr("class_pass","tmp_pass");
-        jQuery(joinButton).click(function(){
-            sendResponseEvent(this,data.id,1);
+        maybe_button.unbind("click");
+        maybe_button.click(function(){
+            sendResponseEvent(this,data.id,2);
             return false;
         });
         if(joinedType==1 || joinedType=='1')
         {
-            setButtonStatus(joinButton,true);
-        }else
-        {
-            setButtonStatus(joinButton,false);
+            setButtonStatus(join_button,true);
         }
-        //reshare
-        var reshareButton=jQuery("#button_reshare");
-        jQuery(reshareButton).unbind("click");
-        jQuery(reshareButton).attr("class_aktif","tmp_aktif");
-        jQuery(reshareButton).attr("class_pass","tmp_pass");
-        jQuery(reshareButton).click(function(){
-            reshareEvent(this,data.id)
+        join_button.unbind("click");
+        join_button.click(function(){
+            sendResponseEvent(this,data.id,1);
             return false;
         });
-        if(reshared)
+        if(reshared==1 || reshared=='1')
         {
-            setButtonStatus(reshareButton,true);
-        }else
-        {
-            setButtonStatus(reshareButton,false);
+            setButtonStatus(reshare_button,true);
         }
+        reshare_button.unbind("click");
+        reshare_button.click(function(){
+            reshareEvent(this,data.id,jQuery("#likeshare_"+data.id+" #div_share_btn"));
+            return false;
+        });
+        jQuery.sessionphp.get('id',function(userId){
+            if(userId+""==data.creatorId+""){
+                reshare_button.hide();
+                join_button.hide();
+                maybe_button.hide();
+                like_button.hide();
+                edit_button.show();
+                edit_button.unbind("click");
+                edit_button.click(function(){
+                    openEditEvent(data.id);
+                    return false;
+                });
+                
+            }
+        });
         
         /*
          * Set Images
          * tek image'e gecildi
          */
-        //jQuery("#gdy_images_div").children().remove();
-        //getImages(jQuery("#gdy_images_div"),event_id);
+        
         /*
          * Set Users
          */
