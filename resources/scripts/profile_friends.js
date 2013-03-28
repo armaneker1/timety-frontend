@@ -389,7 +389,7 @@ function fillFriendsUL(userId,data,type,customList,justFollow){
                     if(img && img.length>0) {
                         jQuery(img).attr('src',data[i].userPicture);
                     }
-                    var span=jQuery(item).find("span");
+                    var span=jQuery(item).find("span[class='follow_ad']");
                     if(span && span.length>0) {
                         var text=data[i].fullName+" ("+data[i].username+")";
                         if(text.length>30) {
