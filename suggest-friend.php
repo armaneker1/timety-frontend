@@ -130,13 +130,21 @@ if (!isset($_SESSION['id'])) {
 
                                          if ($key) {
                                         ?>
-                                            <button type="button" name="" value="" class="followed_btn"
-                                                    id="foll_<?php echo $friend->id; ?>"
-                                                    onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">unfollow</button>
-                                                <?php } else { ?>
-                                            <button type="button" name="" value="" class="follow_btn"
-                                                    id="foll_<?php echo $friend->id; ?>"
-                                                    onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
+                                            <a type="button" name="" value="" class="followed_btn"
+                                               id="foll_<?php echo $friend->id; ?>"
+                                               onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
+                                                <span class="follow_text">follow</span>
+                                                <span class="following_text">following</span>
+                                                <span class="unfollow_text">unfollow</span>
+                                            </a>
+                                        <?php } else { ?>
+                                            <a type="button" name="" value="" class="follow_btn"
+                                               id="foll_<?php echo $friend->id; ?>"
+                                               onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
+                                                <span class="follow_text">follow</span>
+                                                <span class="following_text">following</span>
+                                                <span class="unfollow_text">unfollow</span>
+                                            </a>
 
                                         <?php } ?>
                                     </li>
@@ -175,14 +183,22 @@ if (!isset($_SESSION['id'])) {
                                                      ?>
                                                 <!-- Bunlar ztn takip edilmediginden-->
                                             </span> <?php if (true) { ?>
-                                                <button type="button" name="" value="" class="follow_btn"
-                                                        id="foll_<?php echo $friend->id; ?>"
-                                                        onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-                                                    <?php } else { ?>
-                                                <button type="button" name="" value="" class="followed_btn"
-                                                        id="foll_<?php echo $friend->id; ?>"
-                                                        onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">follow</button>
-                                                    <?php } ?>
+                                                <a type="button" name="" value="" class="follow_btn"
+                                                   id="foll_<?php echo $friend->id; ?>"
+                                                   onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
+                                                    <span class="follow_text">follow</span>
+                                                    <span class="following_text">following</span>
+                                                    <span class="unfollow_text">unfollow</span>
+                                                </a>
+                                            <?php } else { ?>
+                                                <a type="button" name="" value="" class="followed_btn"
+                                                   id="foll_<?php echo $friend->id; ?>"
+                                                   onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
+                                                    <span class="follow_text">follow</span>
+                                                    <span class="following_text">following</span>
+                                                    <span class="unfollow_text">unfollow</span>
+                                                </a>
+                                            <?php } ?>
                                         </li>
                                         <?php
                                     }

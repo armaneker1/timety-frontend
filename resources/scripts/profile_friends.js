@@ -397,7 +397,7 @@ function fillFriendsUL(userId,data,type,customList,justFollow){
                         }
                         jQuery(span).text(text);
                     }
-                    var button=jQuery(item).find("button");
+                    var button=jQuery(item).find("a");
                     if(button && button.length>0) {
                         jQuery(button).attr('id','foll_'+data[i].id);
                     
@@ -452,13 +452,11 @@ function setFollowButton(button,type,userId,id)
     {  
         jQuery(button).removeClass('follow_btn');
         jQuery(button).addClass('followed_btn');
-        jQuery(button).text("unfollow");  
         jQuery(button).attr("onclick","unfollowUser("+userId+","+id+",this);");
     }else
     {
         jQuery(button).removeClass('followed_btn');
         jQuery(button).addClass('follow_btn');
-        jQuery(button).text("follow");     
         jQuery(button).attr("onclick","followUser("+userId+","+id+",this);");
     }
 }

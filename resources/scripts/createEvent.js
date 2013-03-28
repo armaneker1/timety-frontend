@@ -241,27 +241,25 @@ function addSocialButtonExport(){
 function toogleSocialButton(clickedPopupButton){
     var act=jQuery(clickedPopupButton).attr('act');
     var ty=jQuery(clickedPopupButton).attr('ty');
-    var className="create_event_export_socialfb";
+    var check_id="#big-icon-check-fb-id";
     var inputId="#te_event_addsocial_fb";
     if(ty=="fb"){
-        className="create_event_export_socialfb";
+        check_id="#big-icon-check-fb-id";
         inputId="#te_event_addsocial_fb";
     }else if(ty=="out"){
-        className="create_event_export_socialout";
+        check_id="#big-icon-check-out-id";
         inputId="#te_event_addsocial_out";
     }else if(ty=="gg"){
-        className="create_event_export_socialgg";
+        check_id="#big-icon-check-gg-id";
         inputId="#te_event_addsocial_gg";
     }
-    jQuery(clickedPopupButton).removeClass(className);
-    jQuery(clickedPopupButton).removeClass(className+'_act');
     if(act=="true"){
         jQuery(clickedPopupButton).attr('act','false');
-        jQuery(clickedPopupButton).addClass(className);
+        jQuery(check_id).hide();
         jQuery(inputId).val(false);
     }else{
         jQuery(clickedPopupButton).attr('act','true');
-        jQuery(clickedPopupButton).addClass(className+'_act');
+        jQuery(check_id).show();
         jQuery(inputId).val(true);
     }
 }

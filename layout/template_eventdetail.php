@@ -13,7 +13,11 @@
             <div class="bgln_user">
                 <h1 id="name_creator" class="name_creator">Event Creator</h1>
                 <h1 id="about_creator" class="about_creator"></h1>
-                <button  type="button" name="" value="" disabled="disabled" class="modal_follow_btn" id="foll_modal_creator" onclick="followUser(null,null,this,'modal_');">follow</button>
+                <a  type="button" name="" value="" disabled="disabled" class="modal_follow_btn" id="foll_modal_creator" onclick="followUser(null,null,this,'modal_');">
+                    <span class="follow_text">follow</span>
+                    <span class="following_text">following</span>
+                    <span class="unfollow_text">unfollow</span>
+                </a>
             </div>
 
 

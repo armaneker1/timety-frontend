@@ -1,4 +1,4 @@
-.gdy_sendp,h1,h2,h3,h4,h5{
+p,h1,h2,h3,h4,h5{
     margin:0px; 
     padding:0px
 }
@@ -707,36 +707,6 @@ body {
     height: 40px;
 }
 
-.follow_btn {
-    background-color: #b35d5d;
-    box-shadow: inset 0px 1px 2px #9b5151;
-    border-radius: 5px;
-    border: 1px solid #9b5151;
-    padding-right: 20px;
-    padding-left: 20px;
-    font-family: Arial;
-    font-size: 11px;
-    color: #FFF;
-    line-height: 21px;
-    min-width:90px;
-    float: right;
-    margin-top: 10px;
-}
-.followed_btn {
-    background-color: #71b35d;
-    box-shadow: inset 0px 1px 2px #629b51;
-    border-radius: 5px;
-    border: 1px solid #629b51;
-    padding-right: 20px;
-    padding-left: 20px;
-    font-family: Arial;
-    font-size: 11px;
-    color: #FFF;
-    line-height: 21px;
-    min-width:90px;
-    float: right;
-    margin-top: 10px;
-}
 
 .face_aktiv {
     background-repeat: no-repeat;
@@ -1765,24 +1735,7 @@ body {
     border-bottom-style: solid;
     border-bottom-color: #CCC;
 }
-.gdy_send {
-    background-color: #4a91c0;
-    line-height: 29px;
-    text-align: center;
-    height: 32px;
-    width: 56px;
-    border: 1px solid #5897c3;
-    cursor:pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    color: #FFF;
-    /* margin-top: 5px;*/
-    margin-right: 10px;
-    margin-bottom: 5px;
-    background-image: url(images/gdy_btn_mavi.png);
-    background-repeat: repeat-x;
-}
+
 .tumyorumlar a {
     color: #4d94c2;
     text-decoration: underline;

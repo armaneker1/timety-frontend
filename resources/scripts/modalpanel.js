@@ -189,7 +189,6 @@ function openModalPanel(event_id,custom) {
     jQuery(".main_dropable_").css('display','none'); 
     var button=document.getElementById("foll_modal_creator");
     button.className = 'modal_follow_btn';
-    button.innerHTML = 'follow';
     jQuery(button).attr("disabled","disabled");
     var like_button=jQuery("#div_like_btn_modal_panel");
     setButtonStatus(like_button,false);
@@ -281,14 +280,12 @@ function openModalPanel(event_id,custom) {
             }
             if(searchUserFromLocal(data.creatorId )>0){
                 button.className = prefix+'followed_btn';
-                button.innerHTML = 'unfollow';
                 button.setAttribute('onclick', 'unfollowUser('+userId+','+data.creatorId+',this,"modal_");');
             }else{
                 jQuery.sessionphp.get('id',function(userId){
                     if(userId){
                         var button=document.getElementById("foll_modal_creator");
                         button.className = 'modal_follow_btn';
-                        button.innerHTML = 'follow';
                         button.setAttribute('onclick', 'followUser('+userId+','+data.creatorId+',this,"modal_");');
                         jQuery(button).attr("disabled","disabled");
                         var prefix="modal_";
@@ -306,11 +303,9 @@ function openModalPanel(event_id,custom) {
                                 jQuery(button).removeAttr("disabled");
                                 if(data2==1 || data2=="1"){
                                     button.className = prefix+'followed_btn';
-                                    button.innerHTML = 'unfollow';
                                     button.setAttribute('onclick', 'unfollowUser('+userId+','+data.creatorId+',this,"modal_");');
                                 }else{
                                     button.className = prefix+'follow_btn';
-                                    button.innerHTML = 'follow';
                                     button.setAttribute('onclick', 'followUser('+userId+','+data.creatorId+',this,"modal_");');
                                 }
                             }

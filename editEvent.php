@@ -817,184 +817,193 @@ if ($event->addsocial_tw == 1) {
             });
             </script>
             <div  class="event_add_ekr" id="div_event_add_ekr" style="position: relative;"> 
-                    <form id="add_event_form_id" name="add_event_form" action="" method="post">
-                        <!-- Header Image-->
-                        <div class="cae_foto" style="z-index: -10;" id="event_header_image">
-                            <?php if (empty($event->headerImage)) { ?>
-                                <a href="#">click here to add image</a>
+                <form id="add_event_form_id" name="add_event_form" action="" method="post">
+                    <!-- Header Image-->
+                    <div class="cae_foto" style="z-index: -10;" id="event_header_image">
+                        <?php if (empty($event->headerImage)) { ?>
+                            <a href="#">click here to add image</a>
+                        <?php } else { ?>
+                            <script>
+                            jQuery(document).ready(function(){
+                                setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,106);
+                            });
+                            </script>
+                        <?php } ?>
+                    </div>
+                    <div class="cae_foto" id="te_event_image_div"
+                         style="position: absolute;"></div>
+                    <!-- Header Image-->
+
+                    <!-- Title, Images and Privacy-->
+                    <div class="eam_satir">
+
+                        <!-- Title and Privacy -->
+                        <div class="eam_bg">
+                            <div class="eam_bg_orta input_border" style="width: 450px;">
+                                <!-- Title -->
+                                <div class="title_max">
+                                    <input name="te_event_title" type="text" class="eam_inpt"
+                                           charlength="55"
+                                           id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
+                                    <script>
+                                    jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
+                                    </script>
+                                </div>
+                                <!-- Title -->
+                                <!-- Privacy -->
+                                <div class="left" style="float: right;" >
+                                    <p id="on_off_text" style="width: 46px;"><?php
+                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                            echo 'public';
+                        } else {
+                            echo 'private';
+                        }
+                        ?></p>
+                                    <ol class="on_off edit_evt_p">
+                                        <li style="width: 48px; height: 17px;"><input type="checkbox"
+                                                                                      id="on_off" name="te_event_privacy"
+                                                                                      tabindex="-1"
+                                                                                      value="<?php
+                                        if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                                            echo 'true';
+                                        } else {
+                                            echo 'false';
+                                        }
+                        ?>"
+                                                                                      <?php
+                                                                                      if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
+                                                                                          echo 'checked="checked"';
+                                                                                      }
+                                                                                      ?>
+                                                                                      style="width: 48px; height: 17px;" />
+                                        </li>
+                                    </ol>
+                                </div>
+                                <!-- Privacy -->
+                            </div>
+                        </div>
+                        <!-- Title and Privacy -->
+
+                        <!-- Social Buttons -->
+                        <div class="profil_g" style="margin-left: 9px;padding-top:0px ">
+                            <?php
+                            $fb = false;
+                            $tw = false;
+                            $fq = false;
+                            $gg = false;
+                            if (!empty($user)) {
+                                $providers = $user->socialProviders;
+                            }
+                            if (!empty($providers)) {
+                                foreach ($user->socialProviders as $provider) {
+                                    if ($provider->oauth_provider == FACEBOOK_TEXT) {
+                                        $fb = true;
+                                    } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
+                                        //$fq = true;
+                                    } else if ($provider->oauth_provider == TWITTER_TEXT) {
+                                        //$tw = true;
+                                    } else if ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
+                                        $gg = true;
+                                    }
+                                }
+                            }
+                            ?>
+                            <p style="font-family: arial;font-size: 15px;font-weight: bold;color: #aeaeae;">Export to</p>
+                            
+                            <button id="add_social_c_fb" type="button" ty="fb" act="false" class="big-icon-f-export btn-sign-big-export  fb facebook"
+                                <?php
+                                if (!$fb) {
+                                    echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fb');checkOpenPopup();\"";
+                                } else {
+                                    echo "onclick=\"toogleSocialButton(this);\"";
+                                }
+                                ?>>
+                                <b>Calendar</b> 
+                                <div id="big-icon-check-fb-id" class="big-icon-check" style="top:90px;display:none;"></div>
+                            </button>
+                            
+                            <button id="add_social_c_gg" type="button" ty="gg" act="false" class="big-icon-g-export btn-sign-big-export google"
+                                <?php
+                                if (!$gg) {
+                                    echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('gg');checkOpenPopup();\"";
+                                } else {
+                                    echo "onclick=\"toogleSocialButton(this);\"";
+                                }
+                                ?>>
+                                <b>Events</b> 
+                                <div id="big-icon-check-gg-id" class="big-icon-check" style="top:90px;display:none;"></div>
+                            </button>
+                            
+                            <button id="add_social_c_out" type="button" ty="out" act="false" class="big-icon-o-export btn-sign-big-export ou outlook"
+                                 onclick="toogleSocialButton(this);">
+                                <b>Outlook</b> 
+                                <div id="big-icon-check-out-id" class="big-icon-check" style="top:90px;display:none;"></div>
+                            </button>
+
+                            <input type="hidden" name="te_event_addsocial_fb" id="te_event_addsocial_fb" value="false"></input>
+                            <input type="hidden" name="te_event_addsocial_gg" id="te_event_addsocial_gg" value="false"></input>
+                            <input type="hidden" name="te_event_addsocial_out" id="te_event_addsocial_out" value="false"></input>
+
+
+                            <input type="hidden" name="te_event_addsocial_tw" id="te_event_addsocial_tw" value="<?php if ($tw) echo 'true'; else echo 'false' ?>"></input>
+                            <input type="hidden" name="te_event_addsocial_fq" id="te_event_addsocial_fq" value="<?php if ($fq) echo 'true'; else echo 'false' ?>"></input>
+                            <!-- <button id="add_social_fq" type="button" class="four_yeni<?php if ($fq) echo '_hover'; ?> icon_yeni" ty="fq" act="<?php if ($fq) echo 'true'; else echo 'false' ?>"
+                            <?php
+                            if (!$fq) {
+                                echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fq');checkOpenPopup();\"";
+                            } else {
+                                echo "onclick=\"toogleSocialButton(this);\"";
+                            }
+                            ?>>
+                            </button>-->
+                            <!-- <button id="add_social_tw" type="button" class="twiter_yeni<?php if ($tw) echo '_hover'; ?> icon_yeni" ty="tw" act="<?php if ($tw) echo 'true'; else echo 'false' ?>"
+                            <?php
+                            if (!$tw) {
+                                echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('tw');checkOpenPopup();\"";
+                            } else {
+                                echo "onclick=\"toogleSocialButton(this);\"";
+                            }
+                            ?>>
+                            </button> -->
+
+                        </div>
+                        <!-- Social Buttons -->
+
+                        <!-- Image 1 -->
+                        <div class="akare" style="z-index: -10;display: none;" id="event_image_1">
+                            <?php if (empty($event->images[0])) { ?>
+                                <a href="#" >click here to add image</a>
                             <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
-                                    setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,106);
+                                    setUploadImage('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>',50,50);
+                                    putDeleteButton('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>','event_image_1_input',jQuery("#event_image_1_div"));
                                 });
                                 </script>
                             <?php } ?>
                         </div>
-                        <div class="cae_foto" id="te_event_image_div"
-                             style="position: absolute;"></div>
-                        <!-- Header Image-->
-
-                        <!-- Title, Images and Privacy-->
-                        <div class="eam_satir">
-
-                            <!-- Title and Privacy -->
-                            <div class="eam_bg">
-                                <div class="eam_bg_orta input_border" style="width: 450px;">
-                                    <!-- Title -->
-                                    <div class="title_max">
-                                        <input name="te_event_title" type="text" class="eam_inpt"
-                                               charlength="55"
-                                               id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
-                                        <script>
-                                        jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
-                                        </script>
-                                    </div>
-                                    <!-- Title -->
-                                    <!-- Privacy -->
-                                    <div class="left" style="float: right;" >
-                                        <p id="on_off_text" style="width: 46px;"><?php
-                            if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                                echo 'public';
-                            } else {
-                                echo 'private';
-                            }
-                            ?></p>
-                                        <ol class="on_off edit_evt_p">
-                                            <li style="width: 48px; height: 17px;"><input type="checkbox"
-                                                                                          id="on_off" name="te_event_privacy"
-                                                                                          tabindex="-1"
-                                                                                          value="<?php
-                                            if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                                                echo 'true';
-                                            } else {
-                                                echo 'false';
-                                            }
-                            ?>"
-                                                                                          <?php
-                                                                                          if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                                                                                              echo 'checked="checked"';
-                                                                                          }
-                                                                                          ?>
-                                                                                          style="width: 48px; height: 17px;" />
-                                            </li>
-                                        </ol>
-                                    </div>
-                                    <!-- Privacy -->
-                                </div>
+                        <div class="akare" id="event_image_1_div" style="position: absolute;display: none;">
+                            <div class="akare_kapat">
+                                <span class="sil icon_bg">
+                                </span>
                             </div>
-                            <!-- Title and Privacy -->
+                        </div>
+                        <!-- Image 1 -->
 
-                            <!-- Social Buttons -->
-                            <div class="profil_g" style="margin-left: 9px;padding-top:0px ">
-                                <?php
-                                $fb = false;
-                                $tw = false;
-                                $fq = false;
-                                $gg = false;
-                                if (!empty($user)) {
-                                    $providers = $user->socialProviders;
-                                }
-                                if (!empty($providers)) {
-                                    foreach ($user->socialProviders as $provider) {
-                                        if ($provider->oauth_provider == FACEBOOK_TEXT) {
-                                            $fb = true;
-                                        } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
-                                            //$fq = true;
-                                        } else if ($provider->oauth_provider == TWITTER_TEXT) {
-                                            //$tw = true;
-                                        } else if ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
-                                            $gg = true;
-                                        }
-                                    }
-                                }
-                                ?>
-                                <p style="font-family: arial;font-size: 15px;font-weight: bold;color: #aeaeae;">Export to</p>
-                                                                                              <button id="add_social_c_fb" type="button" class="create_event_export_socialfb create_event_export_icon" ty="fb" act="<?php if ($fb) echo 'true'; else echo 'false' ?>"
-                                                                                              <?php
-                                                                                              if (!$fb) {
-                                                                                                  echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fb');checkOpenPopup();\"";
-                                                                                              } else {
-                                                                                                  echo "onclick=\"toogleSocialButton(this);\"";
-                                                                                              }
-                                                                                              ?>>
-                                                                                              </button>
-                                                                                              <button id="add_social_c_gg" type="button" class="create_event_export_socialgg create_event_export_icon" ty="gg" act="<?php if ($gg) echo 'true'; else echo 'false' ?>"
-                                                                                              <?php
-                                                                                              if (!$gg) {
-                                                                                                  echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('gg');checkOpenPopup();\"";
-                                                                                              } else {
-                                                                                                  echo "onclick=\"toogleSocialButton(this);\"";
-                                                                                              }
-                                                                                              ?>>
-                                                                                              </button>
-                                                                                              <button id="add_social_c_out" type="button" class="create_event_export_socialout create_event_export_icon" ty="out" act="false"
-                                                                                                      onclick="toogleSocialButton(this);">
-                                                                                              </button>
-
-                                                                                              <input type="hidden" name="te_event_addsocial_fb" id="te_event_addsocial_fb" value="false"></input>
-                                                                                              <input type="hidden" name="te_event_addsocial_gg" id="te_event_addsocial_gg" value="false"></input>
-                                                                                              <input type="hidden" name="te_event_addsocial_out" id="te_event_addsocial_out" value="false"></input>
-
-
-                                                                                              <input type="hidden" name="te_event_addsocial_tw" id="te_event_addsocial_tw" value="<?php if ($tw) echo 'true'; else echo 'false' ?>"></input>
-                                                                                              <input type="hidden" name="te_event_addsocial_fq" id="te_event_addsocial_fq" value="<?php if ($fq) echo 'true'; else echo 'false' ?>"></input>
-                                                                                              <!-- <button id="add_social_fq" type="button" class="four_yeni<?php if ($fq) echo '_hover'; ?> icon_yeni" ty="fq" act="<?php if ($fq) echo 'true'; else echo 'false' ?>"
-                                                                                              <?php
-                                                                                              if (!$fq) {
-                                                                                                  echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fq');checkOpenPopup();\"";
-                                                                                              } else {
-                                                                                                  echo "onclick=\"toogleSocialButton(this);\"";
-                                                                                              }
-                                                                                              ?>>
-                                                                                              </button>-->
-                                                                                              <!-- <button id="add_social_tw" type="button" class="twiter_yeni<?php if ($tw) echo '_hover'; ?> icon_yeni" ty="tw" act="<?php if ($tw) echo 'true'; else echo 'false' ?>"
-                                                                                              <?php
-                                                                                              if (!$tw) {
-                                                                                                  echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('tw');checkOpenPopup();\"";
-                                                                                              } else {
-                                                                                                  echo "onclick=\"toogleSocialButton(this);\"";
-                                                                                              }
-                                                                                              ?>>
-                                                                                              </button> -->
-
-                            </div>
-                            <!-- Social Buttons -->
-
-                            <!-- Image 1 -->
-                            <div class="akare" style="z-index: -10;display: none;" id="event_image_1">
-                                <?php if (empty($event->images[0])) { ?>
-                                    <a href="#" >click here to add image</a>
-                                <?php } else { ?>
-                                    <script>
-                                    jQuery(document).ready(function(){
-                                        setUploadImage('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>',50,50);
-                                        putDeleteButton('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>','event_image_1_input',jQuery("#event_image_1_div"));
-                                    });
-                                    </script>
-                                <?php } ?>
-                            </div>
-                            <div class="akare" id="event_image_1_div" style="position: absolute;display: none;">
-                                <div class="akare_kapat">
-                                    <span class="sil icon_bg">
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- Image 1 -->
-
-                            <!-- Image 2 -->
-                            <div class="akare" style="z-index: -10;display: none;" id="event_image_2">
-                                <?php if (empty($event->images[1])) { ?>
-                                    <a href="#" >click here to add image</a>
-                                <?php } else { ?>
-                                    <script>
-                                    jQuery(document).ready(function(){
-                                        setUploadImage('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>',50,50);
-                                        putDeleteButton('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>','event_image_2_input',jQuery("#event_image_2_div"));
-                                    });
-                                    </script>
-                                <?php } ?>
-                            </div>
-                            <div class="akare" id="event_image_2_div" style="position: absolute;left: 185px;display: none;">
+                        <!-- Image 2 -->
+                        <div class="akare" style="z-index: -10;display: none;" id="event_image_2">
+                            <?php if (empty($event->images[1])) { ?>
+                                <a href="#" >click here to add image</a>
+                            <?php } else { ?>
+                                <script>
+                                jQuery(document).ready(function(){
+                                    setUploadImage('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>',50,50);
+                                    putDeleteButton('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>','event_image_2_input',jQuery("#event_image_2_div"));
+                                });
+                                </script>
+                            <?php } ?>
+                        </div>
+                        <div class="akare" id="event_image_2_div" style="position: absolute;left: 185px;display: none;">
                             <div class="akare_kapat">
                                 <span class="sil icon_bg">
                                 </span>
@@ -1162,13 +1171,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                                                                                        <label
-                                                                                                                                            class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
-                                                                                                                                                onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                                                                                checked=""
-                                                                                                                                                name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
-                                                                                                                                                value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                                                                                        </label> <br /> 
+                                                                                                                                                <label
+                                                                                                                                                    class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
+                                                                                                                                                        onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                                                                        checked=""
+                                                                                                                                                        name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
+                                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                                                                </label> <br /> 
                             <?php
                         }
                     }
@@ -1184,13 +1193,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                                                                                        <label
-                                                                                                                                            class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
-                                                                                                                                                onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                                                                                checked=""
-                                                                                                                                                name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
-                                                                                                                                                value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                                                                                        </label> <br /> 
+                                                                                                                                                <label
+                                                                                                                                                    class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
+                                                                                                                                                        onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                                                                        checked=""
+                                                                                                                                                        name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
+                                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                                                                </label> <br /> 
                             <?php
                         }
                     }
@@ -1220,7 +1229,7 @@ if ($event->addsocial_tw == 1) {
                                 $iddd = $var_cats[$i]->id;
                             }
                             ?>
-                                                                                                                                jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
+                                                                                                                                        jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
                             <?php
                         }
                     }
@@ -1340,9 +1349,9 @@ if ($event->addsocial_tw == 1) {
                         </div>
                         <script>
 <?php if (!empty($te_event_end_time)) { ?>
-                                jQuery("#te_event_end_time").val(getLocalTime(moment().format("YYYY-MM-DD")+' <?= $te_event_end_time ?>').format('HH:mm'));
+    jQuery("#te_event_end_time").val(getLocalTime(moment().format("YYYY-MM-DD")+' <?= $te_event_end_time ?>').format('HH:mm'));
 <?php } else { ?>
-                                checkCreateDateTime();
+    checkCreateDateTime();
 <?php } ?>
                         </script>
                         <div class="ts_box" style="display: none;">
@@ -1500,81 +1509,81 @@ if ($event->addsocial_tw == 1) {
                     </div>
                     <!-- Buttons -->
                     <input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?= $event->allday ?>"></input> 
-                                       <input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?= $event->repeat ?>"></input>
+                    <input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?= $event->repeat ?>"></input>
 
-                                       <input type="hidden" name="te_event_category1" id="te_event_category1_hidden" value="<?php
+                    <input type="hidden" name="te_event_category1" id="te_event_category1_hidden" value="<?php
 if (isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
     echo $_POST['te_event_category1'];
 }
 ?>"></input>
 
-                                       <input type="hidden" name="te_event_category2" id="te_event_category2_hidden" value="<?php
-                                       if (isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
-                                           echo $_POST['te_event_category2'];
-                                       }
+                    <input type="hidden" name="te_event_category2" id="te_event_category2_hidden" value="<?php
+                           if (isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
+                               echo $_POST['te_event_category2'];
+                           }
 ?>"></input>
 
 
 
-                                       <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?= $_random_session_id ?>"></input>
-                                       <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php
-                                       if (!empty($event->headerImage) && $event->headerImage != '0') {
-                                           echo $event->headerImage;
-                                       } else {
-                                           echo "0";
-                                       }
+                    <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?= $_random_session_id ?>"></input>
+                    <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php
+                           if (!empty($event->headerImage) && $event->headerImage != '0') {
+                               echo $event->headerImage;
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
-                                       <input type="hidden" name="event_image_1_input" id="event_image_1_input" value="<?php
-                                       if (isset($event->images[0]) && $event->images[0] != '0') {
-                                           echo $event->images[0];
-                                       } else {
-                                           echo "0";
-                                       }
+                    <input type="hidden" name="event_image_1_input" id="event_image_1_input" value="<?php
+                           if (isset($event->images[0]) && $event->images[0] != '0') {
+                               echo $event->images[0];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
-                                       <input type="hidden" name="event_image_2_input" id="event_image_2_input" value="<?php
-                                       if (isset($event->images[1]) && $event->images[1] != '0') {
-                                           echo $event->images[1];
-                                       } else {
-                                           echo "0";
-                                       }
+                    <input type="hidden" name="event_image_2_input" id="event_image_2_input" value="<?php
+                           if (isset($event->images[1]) && $event->images[1] != '0') {
+                               echo $event->images[1];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
-                                       <input type="hidden" name="event_image_3_input" id="event_image_3_input" value="<?php
-                                       if (isset($event->images[2]) && $event->images[2] != '0') {
-                                           echo $event->images[2];
-                                       } else {
-                                           echo "0";
-                                       }
+                    <input type="hidden" name="event_image_3_input" id="event_image_3_input" value="<?php
+                           if (isset($event->images[2]) && $event->images[2] != '0') {
+                               echo $event->images[2];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
-                                       <input type="hidden" name="event_image_4_input" id="event_image_4_input" value="<?php
-                                       if (isset($event->images[3]) && $event->images[3] != '0') {
-                                           echo $event->images[3];
-                                       } else {
-                                           echo "0";
-                                       }
+                    <input type="hidden" name="event_image_4_input" id="event_image_4_input" value="<?php
+                           if (isset($event->images[3]) && $event->images[3] != '0') {
+                               echo $event->images[3];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
-                                       <input type="hidden" name="event_image_5_input" id="event_image_5_input" value="<?php
-                                       if (isset($event->images[4]) && $event->images[4] != '0') {
-                                           echo $event->images[4];
-                                       } else {
-                                           echo "0";
-                                       }
+                    <input type="hidden" name="event_image_5_input" id="event_image_5_input" value="<?php
+                           if (isset($event->images[4]) && $event->images[4] != '0') {
+                               echo $event->images[4];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
-                                       <input type="hidden" name="event_image_6_input" id="event_image_6_input" value="<?php
-                                       if (isset($event->images[5]) && $event->images[5] != '0') {
-                                           echo $event->images[5];
-                                       } else {
-                                           echo "0";
-                                       }
+                    <input type="hidden" name="event_image_6_input" id="event_image_6_input" value="<?php
+                           if (isset($event->images[5]) && $event->images[5] != '0') {
+                               echo $event->images[5];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
-                                       <input type="hidden" name="event_image_7_input" id="event_image_7_input" value="<?php
-                                       if (isset($event->images[6]) && $event->images[6] != '0') {
-                                           echo $event->images[6];
-                                       } else {
-                                           echo "0";
-                                       }
+                    <input type="hidden" name="event_image_7_input" id="event_image_7_input" value="<?php
+                           if (isset($event->images[6]) && $event->images[6] != '0') {
+                               echo $event->images[6];
+                           } else {
+                               echo "0";
+                           }
 ?>"></input>
 
-                                       <div id="div_maps" style="background-color: #fff;padding: 5px;width: 405px;height: 350px;left: 610px;position: absolute;z-index: 1000000;display: none;top: -5px;">
+                    <div id="div_maps" style="background-color: #fff;padding: 5px;width: 405px;height: 350px;left: 610px;position: absolute;z-index: 1000000;display: none;top: -5px;">
                         <span class="sil icon_bg" style="position: absolute; top: -18px;z-index: 10;left: -12px;" onclick="openMap(true, false);"></span>
                         <div id="te_maps" style="height: 350px;"></div>
                     </div>

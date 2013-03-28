@@ -68,9 +68,13 @@
                  height="30" border="0" align="absmiddle" class="follow_res" />
             <span class="follow_ad">
             </span> 
-            <button type="button" name="" value="" class="followed_btn"
-                    id="foll_id"
-                    onclick="unfollowUser(-1,-1,this);">follow</button>
+            <a type="button" name="" value="" class="followed_btn"
+               id="foll_id"
+               onclick="unfollowUser(-1,-1,this);">
+                <span class="follow_text">follow</span>
+                <span class="following_text">following</span>
+                <span class="unfollow_text">unfollow</span>
+            </a>
         </li>
     </ul>
 
