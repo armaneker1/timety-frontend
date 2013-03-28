@@ -26,6 +26,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+                $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
                 $log->logError("event > addEvent Error" . $exc->getTraceAsString());
             }
@@ -133,6 +135,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+                $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
                 $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
             }
@@ -289,6 +293,8 @@ class EventProcessor {
             $event->getTags();
             $event->getLocCity();
             $event->getWorldWide();
+            $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+            $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);
             $users = Neo4jRecommendationUtils::getUserForEvent($this->eventID);
             $log->logInfo("event > findUserForEvents >  recommened users : " . sizeof($users));
