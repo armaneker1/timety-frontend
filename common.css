@@ -1880,6 +1880,7 @@ input[type=text]::-ms-clear {
 
 
 .btn-sign-big-share {
+    cursor: pointer;
     width: 35px;
     height: 35px;
     text-align: left;
@@ -1941,6 +1942,7 @@ input[type=text]::-ms-clear {
     padding-top: 3px;
     padding-bottom: 3px;
     padding-left: 6px;
+    cursor: pointer;
 }
 
 
