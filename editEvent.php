@@ -931,7 +931,7 @@ if ($event->addsocial_tw == 1) {
                                     echo "onclick=\"toogleSocialButton(this);\"";
                                 }
                                 ?>>
-                                <b>Calendar</b> 
+                                <b>Events</b> 
                                 <div id="big-icon-check-fb-id" class="big-icon-check" style="top:90px;display:none;"></div>
                             </button>
                             
@@ -943,7 +943,7 @@ if ($event->addsocial_tw == 1) {
                                     echo "onclick=\"toogleSocialButton(this);\"";
                                 }
                                 ?>>
-                                <b>Events</b> 
+                                <b>Calendar</b> 
                                 <div id="big-icon-check-gg-id" class="big-icon-check" style="top:90px;display:none;"></div>
                             </button>
                             

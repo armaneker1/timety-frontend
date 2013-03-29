@@ -197,11 +197,11 @@ if ($showPopup) {
                             echo "onclick=\"toogleSocialButton(this);\"";
                         }
                         ?>>
-                            <b>Calendar</b> 
+                            <b>Events</b> 
                             <div id="big-icon-check-fb-id" class="big-icon-check" style="top:90px;<?php if (!$fb) echo 'display:none;'; ?>"></div>
                         </button>
 
-                        <button id="add_social_c_gg" type="button" ty="<?php if ($gg) echo 'true'; else echo 'false'; ?>" act="false" class="big-icon-g-export btn-sign-big-export google"
+                        <button id="add_social_c_gg" type="button" ty="gg" act="<?php if ($gg) echo 'true'; else echo 'false'; ?>"  class="big-icon-g-export btn-sign-big-export google"
                         <?php
                         if (!$gg) {
                             echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('gg');checkOpenPopup();\"";
@@ -209,7 +209,7 @@ if ($showPopup) {
                             echo "onclick=\"toogleSocialButton(this);\"";
                         }
                         ?>>
-                            <b>Events</b> 
+                            <b>Calendar</b> 
                             <div id="big-icon-check-gg-id" class="big-icon-check" style="top:90px;<?php if (!$gg) echo 'display:none;'; ?>"></div>
                         </button>
 
