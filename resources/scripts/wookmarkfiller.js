@@ -284,8 +284,10 @@ function wookmarkHTML(dataArray,userId)
             jQuery(likeShareDiv).css("display","none");
             jQuery(likeShareDiv).attr("id","likeshare_"+data.id);
 
-            var btnLike = document.createElement('button');
-            jQuery(btnLike).addClass('ls_btn');
+            var btnLikeDiv=document.createElement('a');
+            jQuery(btnLikeDiv).addClass("timelineLikes");
+            var btnLike = document.createElement('a');
+            jQuery(btnLike).addClass('timelineButton');
             jQuery(btnLike).attr('data-toggle','tooltip');
             jQuery(btnLike).attr('data-placement','bottom');
             jQuery(btnLike).attr('title','');
@@ -293,7 +295,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnLike).attr("id","div_like_btn");
             jQuery(btnLike).attr("class_pass","like_btn");
             if(userId==data.creatorId){
-                jQuery(btnLike).css("display","none");  
+                jQuery(btnLikeDiv).css("display","none");  
             }
             if(data.userRelation.like)
             {
@@ -308,9 +310,12 @@ function wookmarkHTML(dataArray,userId)
                 likeEvent(this,data.id);
                 return false;
             });
+            jQuery(btnLikeDiv).append(btnLike);
             
-            var btnMaybe = document.createElement('button');
-            jQuery(btnMaybe).addClass('ls_btn'); 
+            var btnMaybeDiv=document.createElement('a');
+            jQuery(btnMaybeDiv).addClass("timelineLikes");
+            var btnMaybe = document.createElement('a');
+            jQuery(btnMaybe).addClass('timelineButton'); 
             jQuery(btnMaybe).attr('data-toggle','tooltip');
             jQuery(btnMaybe).attr('data-placement','bottom');
             jQuery(btnMaybe).attr('title','');
@@ -321,7 +326,7 @@ function wookmarkHTML(dataArray,userId)
                 jQuery(btnMaybe).css("display","none");  
             }
             if(userId==data.creatorId){
-                jQuery(btnMaybe).css("display","none");  
+                jQuery(btnMaybeDiv).css("display","none");  
             }
             if(data.userRelation.joinType==2)
             {
@@ -336,9 +341,12 @@ function wookmarkHTML(dataArray,userId)
                 sendResponseEvent(this,data.id,2);
                 return false;
             });
+            jQuery(btnMaybeDiv).append(btnMaybe);
             
-            var btnShare = document.createElement('button');
-            jQuery(btnShare).addClass('ls_btn'); 
+            var btnShareDiv=document.createElement('a');
+            jQuery(btnShareDiv).addClass("timelineLikes");
+            var btnShare = document.createElement('a');
+            jQuery(btnShare).addClass('timelineButton'); 
             jQuery(btnShare).attr('data-toggle','tooltip');
             jQuery(btnShare).attr('data-placement','bottom');
             jQuery(btnShare).attr('title','');
@@ -346,7 +354,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnShare).attr("id","div_share_btn");
             jQuery(btnShare).attr("class_pass","share_btn");
             if(userId==data.creatorId){
-                jQuery(btnShare).css("display","none");  
+                jQuery(btnShareDiv).css("display","none");  
             }
             if(data.userRelation.reshare)
             {
@@ -361,9 +369,12 @@ function wookmarkHTML(dataArray,userId)
                 reshareEvent(this,data.id);
                 return false;
             });
+            jQuery(btnShareDiv).append(btnShare);
             
-            var btnJoin = document.createElement('button');
-            jQuery(btnJoin).addClass('ls_btn'); 
+            var btnJoinDiv=document.createElement('a');
+            jQuery(btnJoinDiv).addClass("timelineLikes");
+            var btnJoin = document.createElement('a');
+            jQuery(btnJoin).addClass('timelineButton'); 
             jQuery(btnJoin).attr('data-toggle','tooltip');
             jQuery(btnJoin).attr('data-placement','bottom');
             jQuery(btnJoin).attr('title','');
@@ -371,7 +382,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(btnJoin).attr("id","div_join_btn");
             jQuery(btnJoin).attr("class_pass","join_btn");
             if(userId==data.creatorId){
-                jQuery(btnJoin).css("display","none");  
+                jQuery(btnJoinDiv).css("display","none");  
             }
             if(data.userRelation.joinType==1)
             {
@@ -386,9 +397,12 @@ function wookmarkHTML(dataArray,userId)
                 sendResponseEvent(this,data.id,1);
                 return false;
             });
+            jQuery(btnJoinDiv).append(btnJoin);
             
-            
-            var editJoin = document.createElement('button');
+            var editJoinDiv=document.createElement('a');
+            jQuery(editJoinDiv).addClass("timelineLikes");
+            var editJoin = document.createElement('a');
+            jQuery(editJoin).addClass('timelineButton'); 
             jQuery(editJoin).attr('data-toggle','tooltip');
             jQuery(editJoin).attr('data-placement','bottom');
             jQuery(editJoin).attr('title','');
@@ -396,20 +410,21 @@ function wookmarkHTML(dataArray,userId)
             jQuery(editJoin).attr("id","div_edit_btn");
             jQuery(editJoin).attr("class_pass","edit_btn");
             if(userId!=data.creatorId){
-                jQuery(editJoin).css("display","none");  
+                jQuery(editJoinDiv).css("display","none");  
             }
             jQuery(editJoin).addClass('edit_btn');
             jQuery(editJoin).click(function() {
                 openEditEvent(data.id);
                 return false;
             });
+            jQuery(editJoinDiv).append(editJoin);
             // bind click event
             
-            jQuery(likeShareDiv).append(btnLike);
-            jQuery(likeShareDiv).append(btnMaybe);
-            jQuery(likeShareDiv).append(btnShare);
-            jQuery(likeShareDiv).append(btnJoin);
-            jQuery(likeShareDiv).append(editJoin);
+            jQuery(likeShareDiv).append(btnLikeDiv);
+            jQuery(likeShareDiv).append(btnShareDiv);
+            jQuery(likeShareDiv).append(btnMaybeDiv);
+            jQuery(likeShareDiv).append(btnJoinDiv);
+            jQuery(likeShareDiv).append(editJoinDiv);
             
             
             jQuery(imgDiv).append(likeShareDiv);

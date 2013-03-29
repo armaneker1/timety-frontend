@@ -19,10 +19,10 @@ if (!isset($timety_header)) {
 $br = strtoupper($_SERVER['HTTP_USER_AGENT']);
 if (stripos($br, 'MSIE')) {
     ?>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?20130233133795" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css?20130233133796" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
 <?php } else { ?>
-    <link  href="<?= HOSTNAME ?>all_css.css?2013023335595" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>all_css.css?2013023335596" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
 <?php } ?>
 
@@ -51,8 +51,8 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.min.js?201302221519"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?201302221744"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?201986743"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?20130224285"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?201986746"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?2013022428"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20139989224388"></script>

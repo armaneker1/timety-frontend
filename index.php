@@ -1087,128 +1087,124 @@ if (empty($user)) {
                                     <!-- event box -->
                                     <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
                                         <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>">
-                                            <button  id="div_like_btn" 
+                                            <!-- like button -->
+                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {   echo "display:none;"; } ?>"> 
+                                                <a  id="div_like_btn" 
                                                      data-toggle="tooltip" 
                                                      data-placement="bottom" 
                                                      title=""
-                                                     class="ls_btn <?php
-                if ($main_event->userRelation->like) {
-                    echo "like_btn_aktif";
-                } else {
-                    echo "like_btn";
-                }
-                                ?>"  
+                                                     class="timelineButton <?php
+                                                                    if ($main_event->userRelation->like) {
+                                                                        echo "like_btn_aktif";
+                                                                    } else {
+                                                                        echo "like_btn";
+                                                                    }
+                                                             ?>"  
                                                      class_aktif="like_btn_aktif" 
                                                      class_pass="like_btn"      
                                                      pressed="<?php
-                                     if ($main_event->userRelation->like) {
-                                         echo "true";
-                                     } else {
-                                         echo "false";
-                                     }
-                                ?>"  
-                                                     style="<?php
-                                     if ($main_event->creatorId == $user->id) {
-                                         echo "display:none;";
-                                     }
-                                ?>"
-                                                     onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></button>
-                                            <button  id="div_maybe_btn" 
+                                                                    if ($main_event->userRelation->like) {
+                                                                        echo "true";
+                                                                    } else {
+                                                                        echo "false";
+                                                                    }
+                                                               ?>"  
+                                                     onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></a>
+                                            </div>
+                                            <!-- like button -->
+                                            
+                                           
+                                            <!-- share button -->
+                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {   echo "display:none;"; } ?>"> 
+                                                <a  id="div_share_btn" 
                                                      data-toggle="tooltip" 
                                                      data-placement="bottom" 
                                                      title=""
-                                                     class="ls_btn <?php
-                                     if ($main_event->userRelation->joinType == 2) {
-                                         echo "maybe_btn_aktif";
-                                     } else {
-                                         echo "maybe_btn";
-                                     }
-                                ?>" 
-                                                     class_aktif="maybe_btn_aktif" 
-                                                     class_pass="maybe_btn" 
-                                                     pressed="<?php
-                                     if ($main_event->userRelation->joinType == 2) {
-                                         echo "true";
-                                     } else {
-                                         echo "false";
-                                     }
-                                ?>" 
-                                                     style="<?php
-                                     if ($main_event->creatorId == $user->id) {
-                                         echo "display:none;";
-                                     }
-                                ?>"
-                                                     onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;" 
-                                                     style="<?php
-                                     if ($main_event->creatorId == $user->id) {
-                                         echo "display:none;";
-                                     }
-                                ?>"></button>
-                                            <button  id="div_share_btn" 
-                                                     data-toggle="tooltip" 
-                                                     data-placement="bottom" 
-                                                     title=""
-                                                     class="ls_btn <?php
-                                     if ($main_event->userRelation->reshare) {
-                                         echo "share_btn_aktif";
-                                     } else {
-                                         echo "share_btn";
-                                     }
-                                ?>" 
+                                                     class="timelineButton <?php
+                                                                    if ($main_event->userRelation->reshare) {
+                                                                        echo "share_btn_aktif";
+                                                                    } else {
+                                                                        echo "share_btn";
+                                                                    }
+                                                             ?>"  
                                                      class_aktif="share_btn_aktif" 
-                                                     class_pass="share_btn" 
+                                                     class_pass="share_btn"      
                                                      pressed="<?php
-                                     if ($main_event->userRelation->reshare) {
-                                         echo "true";
-                                     } else {
-                                         echo "false";
-                                     }
-                                ?>" 
-                                                     style="<?php
-                                     if ($main_event->creatorId == $user->id) {
-                                         echo "display:none;";
-                                     }
-                                ?>"
-                                                     onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></button>
-                                            <button  id="div_join_btn" 
+                                                                    if ($main_event->userRelation->reshare) {
+                                                                        echo "true";
+                                                                    } else {
+                                                                        echo "false";
+                                                                    }
+                                                               ?>"  
+                                                     onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></a>
+                                            </div>
+                                            <!-- share button -->
+                                            
+                                             <!-- maybe button -->
+                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {   echo "display:none;"; } ?>"> 
+                                                <a  id="div_maybe_btn" 
                                                      data-toggle="tooltip" 
                                                      data-placement="bottom" 
                                                      title=""
-                                                     class="ls_btn <?php
-                                     if ($main_event->userRelation->joinType == 1) {
-                                         echo "join_btn_aktif";
-                                     } else {
-                                         echo "join_btn";
-                                     }
-                                ?>" 
+                                                     class="timelineButton <?php
+                                                                    if ($main_event->userRelation->joinType == 2) {
+                                                                        echo "maybe_btn_aktif";
+                                                                    } else {
+                                                                        echo "maybe_btn";
+                                                                    }
+                                                             ?>"  
+                                                     class_aktif="maybe_btn_aktif" 
+                                                     class_pass="maybe_btn"      
+                                                     pressed="<?php
+                                                                    if ($main_event->userRelation->joinType == 2) {
+                                                                        echo "true";
+                                                                    } else {
+                                                                        echo "false";
+                                                                    }
+                                                               ?>"  
+                                                     onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;"></a>
+                                            </div>
+                                            <!-- maybe button -->
+                                            
+                                            <!-- join button -->
+                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {   echo "display:none;"; } ?>"> 
+                                                <a  id="div_join_btn" 
+                                                     data-toggle="tooltip" 
+                                                     data-placement="bottom" 
+                                                     title=""
+                                                     class="timelineButton <?php
+                                                                    if ($main_event->userRelation->joinType == 1) {
+                                                                        echo "join_btn_aktif";
+                                                                    } else {
+                                                                        echo "join_btn";
+                                                                    }
+                                                             ?>"  
                                                      class_aktif="join_btn_aktif" 
-                                                     class_pass="join_btn" 
+                                                     class_pass="join_btn"      
                                                      pressed="<?php
-                                     if ($main_event->userRelation->joinType == 1) {
-                                         echo "true";
-                                     } else {
-                                         echo "false";
-                                     }
-                                ?>"  
-                                                     onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"
-                                                     style="<?php
-                                     if ($main_event->creatorId == $user->id) {
-                                         echo "display:none;";
-                                     }
-                                ?>"></button>
-                                            <button  id="div_edit_btn" 
+                                                                    if ($main_event->userRelation->joinType == 1) {
+                                                                        echo "true";
+                                                                    } else {
+                                                                        echo "false";
+                                                                    }
+                                                               ?>"  
+                                                     onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"></a>
+                                            </div>
+                                            <!-- join button -->
+                                            
+                                            <!-- edit button -->
+                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId != $user->id) { echo "display:none;";}?>"> 
+                                                <a  id="div_edit_btn" 
                                                      data-toggle="tooltip" 
                                                      data-placement="bottom" 
                                                      title=""
-                                                     class="edit_btn" 
+                                                     class="timelineButton edit_btn"  
                                                      class_aktif="edit_btn_aktif" 
                                                      class_pass="edit_btn" 
-                                                     onclick="openEditEvent(<?= $main_event->id ?>);return false;"
-                                                     style="<?php
-                                     if ($main_event->creatorId != $user->id) {
-                                         echo "display:none;";
-                                     }
-                                ?>"></button>
+                                                     onclick="openEditEvent(<?= $main_event->id ?>);return false;"></a>
+                                            </div>
+                                            <!-- edit button -->
+                                            
                                         </div>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;">
                                             <?php

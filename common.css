@@ -46,115 +46,6 @@ input[type=text]::-ms-clear {
 }
 
 
-.edit_btn {
-    background-color: transparent;
-    background-image: url(images/edit_event.png);
-    background-repeat: no-repeat;
-    height: 41px;
-    width: 41px;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-    cursor: pointer;
-    margin-left: 2px;
-}
-
-.edit_btn_aktif{
-    background-color: transparent;
-    background-image: url(images/edit_event.png);
-    background-repeat: no-repeat;
-    height: 41px;
-    width: 41px;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-    cursor: pointer;
-}
-.likeshare {
-    height: 100px;
-    width: 186px;
-    position: absolute;
-    z-index: 10;
-}
-
-.like_btn{
-    cursor: pointer;
-    background-position:left top;
-}
-.like_btn:hover{
-    cursor: pointer;
-    background-position:left bottom;
-}
-
-
-.like_btn_aktif{
-    cursor: pointer;
-    background-position:left bottom;
-}
-.like_btn_aktif:hover{
-    cursor: pointer;
-    /* background-position:left top;*/
-}
-
-
-.maybe_btn {
-    cursor: pointer;
-    background-position:-44px top;
-}
-.maybe_btn:hover{
-    cursor: pointer;
-    background-position:-44px bottom;
-}
-
-.maybe_btn_aktif{
-    cursor: pointer;
-    background-position:-44px bottom;
-}
-.maybe_btn_aktif:hover{
-    cursor: pointer;
-    /* background-position:-44px top;*/
-}
-
-
-.share_btn {
-    cursor: pointer;
-    background-position:-89px top;
-}
-.share_btn:hover{
-    cursor: pointer;
-    background-position:-89px bottom; 
-}
-
-
-.share_btn_aktif{
-    cursor: pointer;
-    background-position:-89px bottom;
-}
-.share_btn_aktif:hover{
-    cursor: pointer;
-    /*  background-position:-89px top; */
-}
-
-.join_btn {
-    background-position:right top;
-    cursor: pointer;
-}
-.join_btn:hover{
-    background-position:right bottom;
-    cursor: pointer;
-}
-
-.join_btn_aktif{
-    background-position:right bottom;
-    cursor: pointer;
-}
-.join_btn_aktif:hover{
-    /*  background-position:right top; */
-    cursor: pointer;
-}
-
 /*
  * Main event 
 */ 
@@ -2050,4 +1941,127 @@ input[type=text]::-ms-clear {
     padding-top: 3px;
     padding-bottom: 3px;
     padding-left: 6px;
+}
+
+
+/* like and share buttons */
+
+.likeshare {
+    height: 100px;
+    width: 186px;
+    position: absolute;
+    z-index: 10;
+    padding-left: 2px;
+    padding-top: 2px;
+}
+
+
+.timelineLikes {
+    float: left;
+    position: relative;
+    height: 40px;
+    width: 42px;
+    border-bottom: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    margin: 1px 0 -1px;
+    margin-right: 3px;
+    background: #e6e6e6  repeat-x 50% 50%;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15), 0 0 3px rgba(0, 0, 0, .1);
+    -moz-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15), 0 0 3px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15), 0 0 3px rgba(0, 0, 0, .1);
+}
+
+.timelineButton {
+    position: relative;
+    float: left;
+    display: inline;
+    height: 100%;
+    width: 42px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border-right: 1px solid #dddddd;
+    -webkit-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);
+    -moz-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);
+    background: url("images/timetyShareButtons.png") no-repeat;
+    cursor: pointer;
+}
+
+.like_btn {
+    background-position:  -28px 10px;
+}
+
+.like_btn:hover {
+    background-position:  11px 10px;
+}
+
+.like_btn_aktif{
+    background-position: 11px 10px;
+}
+
+.like_btn_aktif:hover{
+}
+
+.maybe_btn {
+    background-position:  -28px -83px;
+}
+.maybe_btn:hover{
+    background-position:  11px -83px;
+}
+
+.maybe_btn_aktif{
+    background-position:  11px -83px;
+}
+.maybe_btn_aktif:hover{
+
+}
+
+
+.share_btn {
+    background-position:  -28px -36px;
+}
+.share_btn:hover{
+    background-position:  13px -36px;
+}
+.share_btn_aktif{
+    background-position:  13px -36px;
+}
+.share_btn_aktif:hover{
+}
+
+.join_btn {
+    background-position:  -28px -130px;
+}
+.join_btn:hover{
+    background-position:  10px -130px;
+}
+
+.join_btn_aktif{
+    background-position:  10px -130px;
+}
+.join_btn_aktif:hover{
+}
+
+
+.edit_btn {
+    background-image: url(images/settings.png);
+    background-position: 12px;
+}
+
+.edit_btn:hover {
+    background-image: url(images/settings.png);
+    background-position: 12px;
+}
+
+.edit_btn_aktif{
+    background-image: url(images/settings.png);
+    background-position: 12px;
+}
+
+.edit_btn_aktif:hover{
+    background-image: url(images/settings.png);
+    background-position: 12px;
 }

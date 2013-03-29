@@ -190,20 +190,26 @@ function openModalPanel(event_id,custom) {
     var button=document.getElementById("foll_modal_creator");
     button.className = 'modal_follow_btn';
     jQuery(button).attr("disabled","disabled");
+    
     var like_button=jQuery("#div_like_btn_modal_panel");
     setButtonStatus(like_button,false);
-    like_button.show();
+    var like_button_div=jQuery("#div_like_btn_div_modal_panel");
+    like_button_div.show();
     var maybe_button=jQuery("#div_maybe_btn_modal_panel");
     setButtonStatus(maybe_button,false);
-    maybe_button.show();
+    var maybe_button_div=jQuery("#div_maybe_btn_div_modal_panel");
+    maybe_button_div.show();
     var reshare_button=jQuery("#div_share_btn_modal_panel");
     setButtonStatus(reshare_button,false);
-    reshare_button.show();
+    var reshare_button_div=jQuery("#div_share_btn_div_modal_panel");
+    reshare_button_div.show();
     var join_button=jQuery("#div_join_btn_modal_panel");
     setButtonStatus(join_button,false);
-    join_button.show();
+    var join_button_div=jQuery("#div_join_btn_div_modal_panel");
+    join_button_div.show();
     var edit_button=jQuery("#div_edit_btn_modal_panel");
-    edit_button.hide();
+    var edit_button_div=jQuery("#div_edit_btn_div_modal_panel");
+    edit_button_div.hide();
     /*
      * get event data 
      */
@@ -433,11 +439,11 @@ function openModalPanel(event_id,custom) {
         });
         jQuery.sessionphp.get('id',function(userId){
             if(userId+""==data.creatorId+""){
-                reshare_button.hide();
-                join_button.hide();
-                maybe_button.hide();
-                like_button.hide();
-                edit_button.show();
+                reshare_button_div.hide();
+                join_button_div.hide();
+                maybe_button_div.hide();
+                like_button_div.hide();
+                edit_button_div.show();
                 edit_button.unbind("click");
                 edit_button.click(function(){
                     openEditEvent(data.id);
