@@ -61,8 +61,8 @@ $about = $user->about;
 $aboutError = "";
 
 $te_birthday = $user->birthdate;
-if(!empty($te_birthday) && $te_birthday=="0000-00-00"){
-    $te_birthday="";
+if (!empty($te_birthday) && $te_birthday == "0000-00-00") {
+    $te_birthday = "";
 }
 $te_birthdayError = "";
 
@@ -273,7 +273,9 @@ if (isset($_POST['update'])) {
                 $te_location_country == "TR" ||
                 $te_location_country == "tr" ||
                 $te_location_country == "türkiye")) {
-            $user->language = LANG_TR_TR;
+            //$user->language = LANG_TR_TR;
+            // TODO 
+            $user->language = LANG_EN_US;
         } else {
             $user->language = LANG_EN_US;
         }
@@ -404,7 +406,6 @@ if (isset($_POST['update'])) {
             {
                 if(status=="OK" && results.length>0)
                 {
-                    var te_hometown="";
                     var te_loc_country="";
                     var te_loc_city="";
                     var te_loc_all_json="";
@@ -445,14 +446,27 @@ if (isset($_POST['update'])) {
                     jQuery("#te_location_country").val(te_loc_country);
                     
                     //city
+                    var city_type=0;
                     if(results[0]){
                         if(results[0].address_components.length>0){
                             for(var i=0;i<results[0].address_components.length;i++){
                                 var obj=results[0].address_components[i];
                                 if(obj && obj.types && obj.types.length>0){
-                                    if(jQuery.inArray("administrative_area_level_1",obj.types)>=0){
+                                    if(jQuery.inArray("city",obj.types)>=0 && city_type<4){
                                         te_loc_city=obj.long_name;
-                                        break;
+                                        city_type=4;
+                                    }
+                                    else if(jQuery.inArray("administrative_area_level_1",obj.types)>=0 && city_type<3){
+                                        te_loc_city=obj.long_name;
+                                        city_type=3;
+                                    }
+                                    else if(jQuery.inArray("administrative_area_level_2",obj.types)>=0 && city_type<2){
+                                        te_loc_city=obj.long_name;
+                                        city_type=2;
+                                    }
+                                    else if(jQuery.inArray("political",obj.types)>=0 && jQuery.inArray("locality",obj.types)>=0   && city_type<1){
+                                        te_loc_city=obj.long_name; 
+                                        city_type=1;
                                     }
                                 }
                             }
@@ -460,20 +474,8 @@ if (isset($_POST['update'])) {
                     }
                     jQuery("#te_location_city").val(te_loc_city);
                     
-                    //home town
-                    for(var i=0;i<results.length;i++)
-                    {
-                        if(Array.isArray(results[i].types)) 
-                        {
-                            if(jQuery.inArray("locality",results[i].types)>=0 && jQuery.inArray("political",results[i].types)>=0)
-                            {
-                                te_hometown=results[i].formatted_address;
-                                break;
-                            }
-                        }
-                    }
-                    if(te_hometown){
-                        jQuery("#te_hometown").val(te_hometown);
+                    if(te_loc_city){
+                        jQuery("#te_hometown").val(te_loc_city);
                     } else{
                         jQuery("#te_hometown").val(results[0].formatted_address);
                 
@@ -535,13 +537,26 @@ if (isset($_POST['update'])) {
                         
                         //city
                         var te_loc_city="";
+                        var city_type=0;
                         if(place.address_components.length>0){
                             for(var i=0;i<place.address_components.length;i++){
                                 var obj=place.address_components[i];
                                 if(obj && obj.types && obj.types.length>0){
-                                    if(jQuery.inArray("administrative_area_level_1",obj.types)>=0){
+                                    if(jQuery.inArray("city",obj.types)>=0 && city_type<4){
                                         te_loc_city=obj.long_name;
-                                        break;
+                                        city_type=4;
+                                    }
+                                    else if(jQuery.inArray("administrative_area_level_1",obj.types)>=0 && city_type<3){
+                                        te_loc_city=obj.long_name;
+                                        city_type=3;
+                                    }
+                                    else if(jQuery.inArray("administrative_area_level_2",obj.types)>=0 && city_type<2){
+                                        te_loc_city=obj.long_name;
+                                        city_type=2;
+                                    }
+                                    else if(jQuery.inArray("political",obj.types)>=0 && jQuery.inArray("locality",obj.types)>=0   && city_type<1){
+                                        te_loc_city=obj.long_name; 
+                                        city_type=1;
                                     }
                                 }
                             }
@@ -691,14 +706,6 @@ if (isset($_POST['update'])) {
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
-        <script>
-            jQuery("#per_update_info_form").keypress(function(event){
-                if(event.which == 13 || event.keyCode == 13){
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            });
-        </script>
         <form id="per_update_info_form" action="" method="post" name="udateForm">
             <div class="profil_form">
                 <div class="p_form_sol">
@@ -991,7 +998,9 @@ if (isset($_POST['update'])) {
                         class="user_inpt" 
                         style="width:356px;height:40px"
                         id="te_birthday" 
-                        value="<?php if(!empty($te_birthday)){ echo date(DATE_FE_FORMAT_D, strtotime($te_birthday)); } ?>"
+                        value="<?php if (!empty($te_birthday)) {
+                            echo date(DATE_FE_FORMAT_D, strtotime($te_birthday));
+                        } ?>"
                         onkeyup="validateInputDate(this,true,false)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInputDate(this,true,true) }" 
                         onchange="resetInputWarning(this);validateInputDate(this,true,true)"/> 
@@ -1146,5 +1155,13 @@ $imgName = $user->id . "_" . time() . ".png";
 
             </div>
         </form>
+        <script>
+            jQuery("#per_update_info_form").keypress(function(event){
+                if(event.which == 13 || event.keyCode == 13){
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
+        </script>
     </body>
 </html>

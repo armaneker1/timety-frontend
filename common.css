@@ -1965,10 +1965,14 @@ input[type=text]::-ms-clear {
     border-left: 1px solid #dddddd;
     margin: 1px 0 -1px;
     margin-right: 3px;
-    background: #e6e6e6  repeat-x 50% 50%;
-    -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15), 0 0 3px rgba(0, 0, 0, .1);
+    background: #e6e6e6 url("images/white-gradient-100px.png") repeat-x 50% 50%;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    border-radius: 2px;
+    /*-webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15), 0 0 3px rgba(0, 0, 0, .1);
     -moz-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15), 0 0 3px rgba(0, 0, 0, .1);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15), 0 0 3px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .15), 0 0 3px rgba(0, 0, 0, .1); */
 }
 
 .timelineButton {
@@ -1982,12 +1986,12 @@ input[type=text]::-ms-clear {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    border-right: 1px solid #dddddd;
-    -webkit-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);
-    -moz-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);
-    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);
     background: url("images/timetyShareButtons.png") no-repeat;
     cursor: pointer;
+    /*border-right: 1px solid #dddddd;
+    -webkit-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);
+    -moz-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.9);*/
 }
 
 .like_btn {
