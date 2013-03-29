@@ -284,6 +284,15 @@ function openModalPanel(event_id,custom) {
             }else{
                 jQuery("#about_creator").text("");
             }
+            jQuery.sessionphp.get('id',function(userId){
+                if(userId){
+                    if(data.creatorId==userId){
+                        jQuery(button).hide();
+                        return;
+                    }
+                }
+                jQuery(button).show();
+            });
             if(searchUserFromLocal(data.creatorId )>0){
                 button.className = prefix+'followed_btn';
                 button.setAttribute('onclick', 'unfollowUser('+userId+','+data.creatorId+',this,"modal_");');

@@ -81,7 +81,7 @@
                 <!-- join button -->
 
                 <!-- edit button -->
-                <div id="div_edit_btn_div_modal_panel" class="timelineLikes" style=""> 
+                <div id="div_edit_btn_div_modal_panel" class="timelineLikes" style="float: right;margin-right: 9px;"> 
                     <a  id="div_edit_btn_modal_panel" 
                         data-toggle="tooltip" 
                         data-placement="bottom" 
