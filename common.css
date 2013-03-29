@@ -1984,3 +1984,70 @@ input[type=text]::-ms-clear {
 .follow_btn:hover {
     background:#84C449;
 }
+
+/* modal panel share buttons */
+
+
+.btn-sign-big-share {
+    width: 35px;
+    height: 35px;
+    text-align: left;
+    color: #FFFFFF;
+    border-radius: 5px;
+    border: 0;
+    font-size: 100%;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -kthtml-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.btn-sign-big-share.google, .btn-sign-liner-share.google {
+    background-color: #dd4b39;
+}
+.btn-sign-big-share.fb, .btn-sign-liner-share.fb {
+    background-color:#526996;
+}
+.btn-sign-big-share.tw, .btn-sign-liner-share.tw {
+    background-color: #4bace2;
+}
+.btn-sign-big-share:hover {
+    opacity:0.85;
+    filter:alpha(opacity=85);
+    -webkit-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -kthtml-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.big-icon-g-share {
+    background: url('images/social_icons.png') no-repeat;
+    background-position: 5px -81px;
+    background-size: 24px 110px;
+}
+.big-icon-f-share {
+    background: url('images/social_icons.png') no-repeat;
+    background-position: 5px 9px;
+    background-size: 24px 110px;
+}
+.big-icon-t-share {
+    background: url('images/social_icons.png') no-repeat;
+    background-position: 7px -37px;
+    background-size: 24px 110px;
+}
+.btn-sign-big-share .icon {
+    display: block;
+    width: 62px;
+    height: 60px;
+    margin: 0 auto 14px;
+}
+
+.sosyal_btn {
+    clear: both;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 6px;
+}

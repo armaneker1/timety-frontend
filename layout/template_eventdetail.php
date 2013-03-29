@@ -86,13 +86,13 @@
     </div>
     <div class="gdy_sag">
         <div class="sosyal_btn">
-            <button id="fb_share_button" type="button" name="" value="" class="face back_btn sosyal_icon"></button>
+            <button id="fb_share_button" type="button" class="big-icon-f-share btn-sign-big-share fb facebook" ></button>
         </div>
         <div class="sosyal_btn">
-            <button id="tw_share_button" type="button" name="" value="" class="tweet back_btn sosyal_icon"></button>
+            <button id="gg_share_button" type="button" class="big-icon-g-share btn-sign-big-share google"></button>
         </div>
         <div class="sosyal_btn">
-            <button id="gg_share_button" type="button" name="" value="" class="googl_plus back_btn sosyal_icon"></button>
+            <button id="tw_share_button" type="button"  class="big-icon-t-share btn-sign-big-share tw twitter"></button>
         </div>
     </div>
     <div class="gdy_alt">
