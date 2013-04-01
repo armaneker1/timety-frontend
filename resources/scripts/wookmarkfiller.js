@@ -6,7 +6,7 @@ var wookmark_category=-1;
 localStorage.clear();
 var selectedDate=null;
 var selectedUser=null;
-
+var isearching=false;
 /*
  * $userId= user id that logged in -1 default guest
  * list events after given date dafault current date
@@ -117,6 +117,9 @@ function wookmarkFiller(options,clear,loader,channel_)
                     post_wookmark=null;
                 }
                 getLoader(false);
+                if(isearching)
+                    getInfo(true, "No result found", "info", 3000);
+                isearching=false;
                 showProfileBatch(channel);
             },
             success: function(data){
@@ -180,6 +183,9 @@ function wookmarkFiller(options,clear,loader,channel_)
                     {
                         if(loader)
                             getLoader(false);
+                        if(isearching)
+                            getInfo(true, "No result found", "info", 3000);
+                        isearching=false;
                         return;
                     }
                     wookmarkHTML(dataJSON,userId);

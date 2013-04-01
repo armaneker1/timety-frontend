@@ -46,9 +46,10 @@ class Client implements ClientInterface
      * @param mixed $parameters Connection parameters for one or multiple servers.
      * @param mixed $options Options that specify certain behaviours for the client.
      */
-    public function __construct($parameters = 'tcp://54.228.209.226:6379', $options = null)
+    public function __construct($parameters =null, $options = null)
     {
-        
+        //79.125.9.136
+        $parameters = 'tcp://'.REDIS_IP.':'.REDIS_PORT;
         $this->options = $this->filterOptions($options);
         $this->profile = $this->options->profile;
         $this->connections = $this->options->connections;

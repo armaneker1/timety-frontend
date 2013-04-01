@@ -309,8 +309,7 @@ if (isset($_POST['te_username'])) {
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
         <script type="text/javascript">
             jQuery(function() {
-                jQuery.Placeholder.init();
-                        
+                jQuery('input, textarea').placeholder();
                 var validator = new FormValidator(
                 'registerPI',
                 [

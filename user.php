@@ -124,7 +124,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         <!--Placeholder-->
         <script>
             jQuery(function(){
-                jQuery.Placeholder.init();
+                jQuery('input, textarea').placeholder();
             });
         </script>
         <!--Placeholder-->

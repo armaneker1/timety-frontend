@@ -38,6 +38,12 @@ define("SETTINGS_GG_APP_CLIENT_SECRET", "google_app_client_secret");
 define("SETTINGS_GG_APP_DEVELOPER_KEY", "google_app_developer_key");
 define("SETTINGS_GG_APP_SCOPE", "google_app_scope");
 
+define("SETTINGS_REDIS_IP", "redis_ip");
+define("SETTINGS_REDIS_PORT", "redis_port");
+define("SETTINGS_MQ_IP", "mq_ip");
+define("SETTINGS_MQ_PORT", "mq_port");
+
+
 class SettingsUtil {
 
     public static function getSetting($param = null) {

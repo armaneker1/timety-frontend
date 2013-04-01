@@ -8,6 +8,7 @@ jQuery(document).ready( function() {
     var searchBtn = jQuery('.searchbtn');
 
     inputBtn.click( function() {
+        inputText.val("");
         jQuery(inputText).show(); 
         jQuery(searchBtn).show(); 
     });
@@ -15,6 +16,7 @@ jQuery(document).ready( function() {
     jQuery('#searchText').keypress(function(e) {
         if(e.keyCode == 13) {    
             page_wookmark=0;
+            isearching=true;
             wookmarkFiller(document.optionsWookmark, true);
             inputText.blur();
         }
@@ -27,7 +29,6 @@ jQuery(document).ready( function() {
             && e.target.className != "search_bar"
             && e.target.className != "cbtn icon_bg"){
             jQuery(inputText).hide();
-            jQuery('.search_event_input').val("");
             jQuery(searchBtn).hide();
         }
     });
@@ -38,13 +39,16 @@ jQuery(document).ready( function() {
 
     jQuery('.searchbtn').click( function() {  
         page_wookmark=0;
+        isearching=true;
         wookmarkFiller(document.optionsWookmark, true,true);
+        inputText.blur();
     });
     
     jQuery('searchbtn').click(function(e) {
         if(e.keyCode == 13)
         {  
             page_wookmark=0;
+            isearching=true;
             wookmarkFiller(document.optionsWookmark, true,true);
             inputText.blur();
         }

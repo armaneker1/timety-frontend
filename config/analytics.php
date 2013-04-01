@@ -1,6 +1,6 @@
 <!-- start Chartbeat -->
 <script type="text/javascript">
-    var _sf_async_config = { uid: 46088, domain: 'timety.com' };
+    var _sf_async_config = { uid: 46088, domain: 'qa.timety.com' };
     (function() {
         function loadChartbeat() {
             window._sf_endpt = (new Date()).getTime();

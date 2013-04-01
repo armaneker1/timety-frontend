@@ -737,7 +737,7 @@ if (empty($user)) {
         <!--Placeholder-->
         <script>
             jQuery(function(){
-                jQuery.Placeholder.init();
+                jQuery('input, textarea').placeholder();
             });
         </script>
         <!--Placeholder-->

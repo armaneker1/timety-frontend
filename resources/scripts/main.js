@@ -122,7 +122,10 @@ function resetInputWarning(field)
 function validatePassword(field2, fieldEqual, isSync,setMsg) {
     var field = document.getElementById(jQuery(field2).attr('id'));
     var cssClassAttr = 'password';
-    var result = !(field.value == null || field.value == "");
+    var result = false;
+    if(field && field.value){
+        result=true;
+    }
     result=result && !validatePlaceHolder(field, true,false);
     if(!result)
     {

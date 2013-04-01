@@ -32,7 +32,11 @@ define('LANG_EN_US', 'en_US');
 define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
 define('INDEX_POST_SESSION_KEY', 'index_post_session');
 
-
+//REDIS IP ADDRS
+define('REDIS_IP',  SettingsUtil::getSetting(SETTINGS_REDIS_IP));
+define('REDIS_PORT',  SettingsUtil::getSetting(SETTINGS_REDIS_PORT));
+define('MQ_IP',  SettingsUtil::getSetting(SETTINGS_MQ_IP));
+define('MQ_PORT',  SettingsUtil::getSetting(SETTINGS_MQ_PORT));
 
 //URLLER
 define('PAGE_TEST', HOSTNAME . 'test');
@@ -145,6 +149,8 @@ define('REDIS_USER_INTERACTION_FOLLOW', 'follow');
 define('REDIS_USER_INTERACTION_UNFOLLOW', 'unfollow');
 define('REDIS_USER_UPDATE', 'update');
 define('REDIS_USER_COMMENT', 'comment');
+
+
 
 
 // NOTIFICATION TYPES

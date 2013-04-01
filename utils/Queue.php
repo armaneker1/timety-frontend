@@ -23,10 +23,10 @@ class Queue {
             "type" => REDIS_USER_INTERACTION_CREATED,
             "time" => time()
         ));
-        /*self::send("category", "addEvent", array(
-            "eventID" => $eventId,
-            "time" => time()
-        ));*/
+        /* self::send("category", "addEvent", array(
+          "eventID" => $eventId,
+          "time" => time()
+          )); */
     }
 
     public static function updateEvent($eventId, $userId) {
@@ -36,10 +36,10 @@ class Queue {
             "type" => REDIS_USER_INTERACTION_UPDATED,
             "time" => time()
         ));
-        /*self::send("category", "updateEvent", array(
-            "eventID" => $eventId,
-            "time" => time()
-        ));*/
+        /* self::send("category", "updateEvent", array(
+          "eventID" => $eventId,
+          "time" => time()
+          )); */
     }
 
     public static function socialInteraction($eventId, $userId, $type) {
@@ -49,10 +49,10 @@ class Queue {
             "type" => $type,
             "time" => time()
         ));
-        /*self::send("category", "updateEvent", array(
-            "eventID" => $eventId,
-            "time" => time()
-        ));*/
+        /* self::send("category", "updateEvent", array(
+          "eventID" => $eventId,
+          "time" => time()
+          )); */
     }
 
     public static function followUser($fromUserId, $toUserId) {
@@ -104,7 +104,7 @@ class Queue {
 
     private static function getConnection() {
         try {
-            $conn = new Stomp("tcp://54.228.209.226:61613");
+            $conn = new Stomp("tcp://" . MQ_IP . ":" . MQ_PORT);
             $conn->connect();
             return $conn;
         } catch (StompException $e) {

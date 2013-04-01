@@ -95,7 +95,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
             <script type="text/javascript">
                 
                 jQuery(function(){
-                    jQuery.Placeholder.init();
+                    jQuery('input, textarea').placeholder();
                     
                     // resize
                     jQuery("#add_like_ul").bind('DOMSubtreeModified',function(){
