@@ -635,7 +635,7 @@ if (!empty($_POST['rand_session_id'])) {
         <?php
         if (empty($var_tags)) {
             $var_tags = "[]";
-            $var_tags = Neo4jFuctions::getTagListListByIdList($event->tags);
+            $var_tags = Neo4jTimetyTagUtil::getTagListByIdList($event->tags);
         }
 
         $var_usrs = "[]";

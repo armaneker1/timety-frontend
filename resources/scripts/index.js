@@ -172,7 +172,7 @@ function openCreatePopup() {
     /*
      * Set Hours
      */
-    if(jQuery("#te_event_start_time").attr("empty")=="1" || jQuery("#te_event_end_time").attr("empty")=="1"){
+    /*if(jQuery("#te_event_start_time").attr("empty")=="1" || jQuery("#te_event_end_time").attr("empty")=="1"){
         var min=moment().format("mm");
         var plus=1;
         if(min<10){
@@ -189,7 +189,7 @@ function openCreatePopup() {
         }
         jQuery("#te_event_start_time").val(moment().add('hours', plus).format("HH")+":"+min);
         jQuery("#te_event_end_time").val(moment().add('hours', (plus+1)).format("HH")+":"+min);
-    }
+    }*/
     document.body.style.overflow = "hidden";
     /*
      * Show Popup

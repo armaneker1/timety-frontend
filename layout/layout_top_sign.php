@@ -22,6 +22,7 @@ if (empty($user)) {
     }
 }
 ?>
+<div style="position:absolute;left: 50%;margin-left: -317px;z-index: 1000000;font-size: 30;top: 83px;"><span>Discover, Share and Track Events All Around You</span></div>
 <div class="u_bg"></div>
 
 <!--Loader animation-->
@@ -34,8 +35,8 @@ if (empty($user)) {
 
 <div id="top_blm">
     <div id="top_blm_sol">
-        <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="120" height="45" border="0" /></a></div>
-        <div class="t_bs">
+        <div class="logo" style="position: absolute;left: 50%;margin-left: -100px;"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="120" height="45" border="0" /></a></div>
+        <div class="t_bs" style="display: none">
             <input type="button" name="" value="" id="add_event_button" class="add_event_btn" id="main_dropable" onclick="return false;"/>
             <input type="button" name="" value="" id="search_event_button" class="search_btn" onclick="return false;"/>
 

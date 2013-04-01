@@ -94,8 +94,10 @@ if (empty($user)) {
     /*
      * $_SESSION["te_invitation_code"] 
      */
-    header("location: " . PAGE_SIGNUP);
-    exit(1);
+    if (!isset($_GET['eventId'])) {
+        header("location: " . PAGE_SIGNUP);
+        exit(1);
+    }
 } else {
     SessionUtil::checkUserStatus($user);
     $_random_session_id = $user->id . "_" . $_random_session_id;
@@ -433,6 +435,7 @@ if (empty($user)) {
                             error_log($exc->getTraceAsString());
                         }
                     }
+                    exit(1);
                     if (isset($_POST["te_event_addsocial_out"]) && $_POST["te_event_addsocial_out"] == "true") {
                         $_SESSION[INDEX_MSG_SESSION_KEY . "eventId"] = $eventDB->id;
                     } else {
@@ -468,7 +471,7 @@ if (empty($user)) {
     }
 }
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
         <?php include('layout/layout_header_index.php'); ?>
@@ -514,7 +517,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                    		      
+                                                                                                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -674,12 +677,7 @@ if (empty($user)) {
                 $nf = new Neo4jFuctions();
                 $var_cat = $nf->getCategoryListByIdList($event->categories);
                 $var_usr = $nf->getUserGroupListByIdList($event->attendance);
-                $var_tag = Neo4jTimetyTagUtil::getTagListByIdList($event->tags);
-            }
-            try {
-                $var_cat = json_decode($var_cat);
-            } catch (Exception $exc) {
-                error_log($exc->getTraceAsString());
+                $var_tags = Neo4jTimetyTagUtil::getTagListByIdList($event->tags);
             }
             ?>
             <script>
@@ -702,35 +700,35 @@ if (empty($user)) {
                         },
                         processPrePopulate : false,
                         prePopulate : <?php
-                        if (!empty($var_tags)) {
-                            echo $var_tags;
-                        } else {
-                            echo "[]";
-                        }
-                        ?>	
-                });	
-                                                                                
-                jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
-                    theme: "custom",
-                    userId :"<?= $user->id ?>",
-                    queryParam : "term",
-                    minChars : 2,
-                    placeholder : "add people manually",
-                    preventDuplicates : true,
-                    input_width:160,
-                    add_maunel:true,
-                    add_mauel_validate_function : validateEmailRegex,
-                    propertyToSearch: "label",
-                    resultsFormatter:function(item) {
-                        return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
-                    },
-                    onAdd: function() {
-                        return true;
-                    },
-                    processPrePopulate : false,
-                    prePopulate : <?= $var_usr ?>
-                });
-            });
+        if (!empty($var_tags)) {
+            echo $var_tags;
+        } else {
+            echo "[]";
+        }
+        ?>	
+                                });	
+                                                                                    
+                                jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
+                                    theme: "custom",
+                                    userId :"<?= $user->id ?>",
+                                    queryParam : "term",
+                                    minChars : 2,
+                                    placeholder : "add people manually",
+                                    preventDuplicates : true,
+                                    input_width:160,
+                                    add_maunel:true,
+                                    add_mauel_validate_function : validateEmailRegex,
+                                    propertyToSearch: "label",
+                                    resultsFormatter:function(item) {
+                                        return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
+                                    },
+                                    onAdd: function() {
+                                        return true;
+                                    },
+                                    processPrePopulate : false,
+                                    prePopulate : <?= $var_usr ?>
+                                });
+                            });
             </script>
         <?php } ?>
         <!--auto complete-->
@@ -805,11 +803,11 @@ if (empty($user)) {
         $json_response = str_replace("'", "\\'", $json_response);
         echo $json_response;
         ?>');
-                                        } catch (exp ){
-                                            console.log(exp);
-                                        }
-                                    });
-                        
+                } catch (exp ){
+                    console.log(exp);
+                }
+            });
+                            
             </script>
 
 
@@ -1244,13 +1242,13 @@ if (empty($user)) {
                                             <!-- edit button -->
 
                                         </div>
-                                        <?php 
-                                        $margin_h=0;
-                                        if($height<125){
-                                            $margin_h=(int)((125-$height)/2);
+                                        <?php
+                                        $margin_h = 0;
+                                        if ($height < 125) {
+                                            $margin_h = (int) ((125 - $height) / 2);
                                         }
                                         ?>
-                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?=$margin_h?>px;margin-bottom:<?=$margin_h?>px;">
+                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
                                             <?php
                                             $headerImageTmp = "";
                                             if (!empty($main_event) && !empty($main_event->headerImage))

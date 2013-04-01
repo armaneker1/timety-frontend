@@ -656,14 +656,16 @@ if ($showPopup) {
                             <SPAN class="add-on"> <INPUT
                                     empty="<?php
                                if ($showPopup && isset($_POST["te_event_start_time"])) {
-                                   echo "0";
+                                   echo "1";
                                } else {
                                    echo "1";
                                }
                 ?>"
                                     value="<?php
-                                if ($showPopup && isset($_POST["te_event_start_time"])) {
+                                if ($showPopup && isset($_POST["te_event_start_time"]) && !empty($_POST["te_event_start_time"])) {
                                     echo $_POST["te_event_start_time"];
+                                }else{
+                                    echo date("H", strtotime ("+4 hour")).":00";
                                 }
                 ?>"
                                     class="ts_sorta_time input-small timepicker-default"
@@ -682,14 +684,16 @@ if ($showPopup) {
                                     id="te_event_end_time" name="te_event_end_time"
                                     empty="<?php
                                 if ($showPopup && isset($_POST["te_event_start_time"])) {
-                                    echo "0";
+                                    echo "1";
                                 } else {
                                     echo "1";
                                 }
                 ?>"
                                     value="<?php
-                                if ($showPopup && isset($_POST["te_event_end_time"])) {
+                                if ($showPopup && isset($_POST["te_event_end_time"]) &&  !empty($_POST["te_event_end_time"])) {
                                     echo $_POST["te_event_end_time"];
+                                }else{
+                                    echo date("H", strtotime ("+5 hour")).":00";
                                 }
                 ?>"
                                     class="ts_sorta_time input-small timepicker-default" type="text">
