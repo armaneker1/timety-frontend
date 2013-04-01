@@ -386,6 +386,6 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/firefox.js"></script>
-       <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/chrome.js"></script> -->
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/chrome.js"></script>
     </body>
 </html>

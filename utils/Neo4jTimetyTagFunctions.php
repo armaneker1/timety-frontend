@@ -74,7 +74,7 @@ class Neo4jTimetyTagUtil {
             $tags = explode(",", $list);
             if (is_array($tags) && sizeof($tags) > 0) {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-                $tobjectIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG);
+                $tobjectIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG."_".LANG_EN_US);
                 $result = array();
                 foreach ($tags as $tag) {
                     if (!empty($tag)) {
