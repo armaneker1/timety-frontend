@@ -723,7 +723,7 @@ if (isset($_POST['te_username'])) {
                         class="user_inpt password icon_bg user_inpt_pi_height"
                         id="te_repassword" 
                         value="" 
-                        placeholder="Re-type password"
+                        placeholder="Confirm password"
                         onblur="validatePassword(this,$('#te_password'),true,true)" />
                         <?php
                         $display = "none";

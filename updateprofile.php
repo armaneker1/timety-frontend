@@ -786,15 +786,15 @@ if (isset($_POST['update'])) {
                     </span> <br />
 
 
-                    <p class="profil_etiket">Re-Type New Password</p>
+                    <p class="profil_etiket">Confirm password</p>
 
                     <input 
                         name="te_new_repassword"
                         type="password" 
                         class="user_inpt password icon_bg"
                         id="te_new_repassword" 
-                        value="" 
-                        placeholder="Re-Type Password"
+                        value=""
+                        placeholder="Confirm password"
                         style="width:356px;height:40px"
                         onkeyup="validatePassword(this,jQuery('#te_new_password'),true)" 
                         onblur="validatePassword(this,jQuery('#te_new_password'),true,true);"/>

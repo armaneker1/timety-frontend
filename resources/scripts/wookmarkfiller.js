@@ -266,6 +266,12 @@ function wookmarkHTML(dataArray,userId)
                 if(data.headerImage.height && data.headerImage.height!=0)
                 {
                     jQuery(img).attr('height',data.headerImage.height);
+                    var margin_h=0;
+                    if(data.headerImage.height<125){
+                        margin_h=((125-data.headerImage.height)/2);
+                    }
+                    jQuery(imgDivEdge).css('margin-bottom',margin_h+'px');
+                    jQuery(imgDivEdge).css('margin-top',margin_h+'px');
                     jQuery(imgDivEdge).css('height',data.headerImage.height+'px');
                     param=param+"&h="+data.headerImage.height;
                      

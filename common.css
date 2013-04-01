@@ -2130,3 +2130,7 @@ input[type=text]::-ms-clear {
 }
 
 */
+
+.m_e_img {
+    cursor: pointer !important;
+}

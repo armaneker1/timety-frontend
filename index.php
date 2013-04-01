@@ -702,12 +702,12 @@ if (empty($user)) {
                         },
                         processPrePopulate : false,
                         prePopulate : <?php
-        if (!empty($var_tags)) {
-            echo $var_tags;
-        } else {
-            echo "[]";
-        }
-        ?>	
+                        if (!empty($var_tags)) {
+                            echo $var_tags;
+                        } else {
+                            echo "[]";
+                        }
+                        ?>	
                 });	
                                                                                 
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
@@ -1244,7 +1244,13 @@ if (empty($user)) {
                                             <!-- edit button -->
 
                                         </div>
-                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;">
+                                        <?php 
+                                        $margin_h=0;
+                                        if($height<125){
+                                            $margin_h=(int)((125-$height)/2);
+                                        }
+                                        ?>
+                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?=$margin_h?>px;margin-bottom:<?=$margin_h?>px;">
                                             <?php
                                             $headerImageTmp = "";
                                             if (!empty($main_event) && !empty($main_event->headerImage))

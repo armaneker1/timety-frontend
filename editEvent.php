@@ -345,7 +345,6 @@ if (!empty($_POST['rand_session_id'])) {
 
     $event->tags = $_POST["te_event_tag"];
     $event->attendance = $_POST["te_event_people"];
-
     if (!$error) {
         try {
             $eventDB = EventUtil::updateEvent($event, $user);
@@ -522,7 +521,7 @@ if (!empty($_POST['rand_session_id'])) {
     if (!empty($tags)) {
         $tag = new Interest();
         foreach ($tags as $tag) {
-            $obj = array('id' => $tag->getProperty(PROP_OBJECT_ID), 'label' => $tag->getProperty(PROP_OBJECT_NAME));
+            $obj = array('id' => $tag->getProperty(PROP_TIMETY_TAG_ID), 'label' => $tag->getProperty(PROP_OBJECT_NAME));
             array_push($var_tags, $obj);
         }
     }
@@ -1257,7 +1256,7 @@ if ($event->addsocial_tw == 1) {
                              style="width: 555px; height: auto; border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
 
                             <input name="te_event_tag" type="text" class="eam_inpt_b"
-                                   id="te_event_tag" placeholder="tag" />
+                                   id="te_event_tag" placeholder="tag"  />
                         </div>
                     </div>
                     <!-- Tags -->

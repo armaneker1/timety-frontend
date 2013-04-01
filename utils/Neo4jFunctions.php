@@ -882,18 +882,18 @@ class Neo4jFuctions {
             $tags = explode(",", $list);
             if (is_array($tags) && sizeof($tags) > 0) {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-                $objectIndex = new Index($client, Index::TypeNode, IND_OBJECT_INDEX);
+                $objectIndex = new Index($client, Index::TypeNode, IND_TIMETY_TAG."_".LANG_EN_US);
                 $result = array();
                 foreach ($tags as $tag) {
                     if (!empty($tag)) {
                         $tagObj = null;
                         try {
-                            $tagObj = $objectIndex->findOne(PROP_OBJECT_ID, $tag);
+                            $tagObj = $objectIndex->findOne(PROP_TIMETY_TAG_ID, $tag);
                         } catch (Exception $exc) {
                             $tagObj = null;
                         }
                         if (!empty($tagObj)) {
-                            $obj = array('id' => $tagObj->getProperty(PROP_OBJECT_ID), 'label' => $tagObj->getProperty(PROP_OBJECT_NAME));
+                            $obj = array('id' => $tagObj->getProperty(PROP_TIMETY_TAG_ID), 'label' => $tagObj->getProperty(PROP_TIMETY_TAG_NAME));
                             array_push($result, $obj);
                         } else {
                             $tags_ = explode(";", $tag);
