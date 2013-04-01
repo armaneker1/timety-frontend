@@ -794,7 +794,7 @@ class Neo4jEventUtils {
                     " MATCH  user-[r:" . REL_EVENTS_JOINS . "]->(event) " .
                     " WHERE ( r." . PROP_JOIN_CREATE . "=1 OR r." . PROP_JOIN_CREATE . "='1')" .
                     " RETURN  event,count(*)";
-            echo $query;
+            //echo $query;
             $query = new Cypher\Query($client, $query, null);
             $nresult = $query->getResultSet();
             foreach ($nresult as $row) {

@@ -29,7 +29,7 @@ foreach ($users as $user) {
     echo "<p/>Reshare    Count E :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
 
     echo "<p/>Joined     Count S :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-    echo "<p/>Joined     Count R :" . Neo4jUserUtil::getUserJoinsCount($user->id,TYPE_JOIN_YES);
+    echo "<p/>Joined     Count R :" . Neo4jUserUtil::getUserJoinsCount($user->id, TYPE_JOIN_YES);
     echo "<p/>Joined     Count E :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
 
     echo "<p/>Created    Count S :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
@@ -39,7 +39,12 @@ foreach ($users as $user) {
     echo "<p/>Updated    Count S :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
     echo "<p/>Updated    Count R :" . Neo4jUserUtil::updateUserStatistics($user->id);
     echo "<p/>Updated    Count E :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-    
+
+    echo "<p/>Update user for events    Count S :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+    echo "<p/>Update user for events    Count R :" . Neo4jEventUtils::updateUserEventsCreator($user->id);
+    echo "<p/>Update user for events    Count E :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
+
+
     echo "<h3>Ended   : " . UtilFUnctions::udate(DATETIME_DB_FORMAT2) . "</h3>";
 }
 ?>
