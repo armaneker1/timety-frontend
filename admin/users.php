@@ -4,6 +4,8 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
 
+HttpAuthUtils::checkHttpAuth();
+
 $error = null;
 if (isset($_GET["action"]) && $_GET["action"] == "delete") {
     if (isset($_GET["userId"]) && !empty($_GET["userId"])) {

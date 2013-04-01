@@ -12,7 +12,7 @@ session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
-
+HttpAuthUtils::checkHttpAuth();
 
 echo "<p><h1>All User Events</h1></p>";
 $array = Neo4jUserUtil::getAllUsersNode("");

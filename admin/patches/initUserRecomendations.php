@@ -12,7 +12,7 @@ session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
-
+HttpAuthUtils::checkHttpAuth();
 $users = UserUtils::getUserList(0, 100000);
 foreach ($users as $user) {
     RedisUtils::initUser($user->id);

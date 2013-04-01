@@ -3,6 +3,7 @@
  * Dependencies
  */
 require_once __DIR__.'/../utils/SettingsUtil.php';
+HttpAuthUtils::checkHttpAuth();
 
 $hostname="";
 $fb_app_id="";

@@ -4,7 +4,7 @@ session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
-
+HttpAuthUtils::checkHttpAuth();
 
 $SQL = "SELECT * from " . TBL_IMAGES;
 $query = mysql_query($SQL) or die(mysql_error());

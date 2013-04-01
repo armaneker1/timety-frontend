@@ -13,7 +13,7 @@ header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
 require_once __DIR__ . '/../utils/Queue.php';
-
+HttpAuthUtils::checkHttpAuth();
 
 ini_set('max_execution_time', 300);
 $redis = new Predis\Client();

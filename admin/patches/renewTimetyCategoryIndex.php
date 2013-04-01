@@ -12,7 +12,7 @@ session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
-
+HttpAuthUtils::checkHttpAuth();
 
 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 $timetyCategoryIndex = new Index($client, Index::TypeNode, IND_TIMETY_CATEGORY);

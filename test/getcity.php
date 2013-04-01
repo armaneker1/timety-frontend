@@ -12,7 +12,7 @@ session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+HttpAuthUtils::checkHttpAuth();
 $lat = 40.72815749999999;
 $lng = -74.07764170000002;
 

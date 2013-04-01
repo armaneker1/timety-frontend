@@ -12,6 +12,7 @@ session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
+HttpAuthUtils::checkHttpAuth();
 
 $array_del = array();
 array_push($array_del, 54);

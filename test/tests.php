@@ -3,7 +3,7 @@
 session_start();
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+HttpAuthUtils::checkHttpAuth();
 $key = "events:city:5";
 
 $redis = new Predis\Client();

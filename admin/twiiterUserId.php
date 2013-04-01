@@ -12,7 +12,7 @@ session_start();
 header("Content-Type: text/html; charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+HttpAuthUtils::checkHttpAuth();
 
 if (isset($_POST['screenname']) && !empty($_POST['screenname'])) {
     $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET);
