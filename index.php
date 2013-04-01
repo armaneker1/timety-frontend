@@ -1102,6 +1102,7 @@ if (empty($user)) {
                                 <div class="main_event_box" date="<?= $main_event->startDateTime ?>">
                                     <!-- event box -->
                                     <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
+                                        <?php if(!empty($user)) { ?>
                                         <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>">
                                             <!-- like button -->
                                             <div class="timelineLikes" style="<?php
@@ -1242,6 +1243,7 @@ if (empty($user)) {
                                             <!-- edit button -->
 
                                         </div>
+                                        <?php } ?>
                                         <?php
                                         $margin_h = 0;
                                         if ($height < 125) {

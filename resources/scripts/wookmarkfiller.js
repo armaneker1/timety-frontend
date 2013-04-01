@@ -438,9 +438,9 @@ function wookmarkHTML(dataArray,userId)
             jQuery(likeShareDiv).append(btnJoinDiv);
             jQuery(likeShareDiv).append(editJoinDiv);
             
-            
-            jQuery(imgDiv).append(likeShareDiv);
-            
+            if(userId){
+                jQuery(imgDiv).append(likeShareDiv);
+            }
             //binding DIV with Image
             jQuery(imgDiv).attr('id','div_img_event_'+data.id);
             jQuery(imgDivEdge).append(img);
