@@ -260,7 +260,7 @@ function openModalPanel(event_id,custom) {
             return false;
         });
         //set windows title
-        document.title="Timety | "+data.title;
+        document.title=data.title;
         //set event title
         jQuery("#gdy_event_title").text(data.title);
         //set event date

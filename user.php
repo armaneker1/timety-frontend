@@ -86,7 +86,13 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <?php include('layout/layout_header_index.php'); ?>
+
+        <?php
+        if (!empty($p_user)) {
+            $timety_header = $p_user->getFullName();
+        }
+        include('layout/layout_header_index.php');
+        ?>
 
         <script language="javascript">
             var handler = null;
@@ -159,7 +165,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                     openFriendsPopup(<?= $user->id ?>,3);
                 });
             </script>
-        <?php } ?>
+<?php } ?>
         <!-- Open find friends -->
         <!-- User fb info  -->
         <?php
@@ -171,20 +177,20 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="<?= $p_user->about ?>"/>
-            <meta property="og:url " content="<?= PAGE_USER . $p_user->id ?>"/>
-            <meta property="fb:app_id  " content="<?= FB_APP_ID ?>"/>
+            <meta property="og:url" content="<?= PAGE_USER . $p_user->id ?>"/>
+            <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
             <?php
         } else {
             ?>
             <meta property="og:title" content="Timety"/>
-            <meta property="og:image" content="<?= HOSTNAME ?>images/logo_fb.jpeg"/>
+            <meta property="og:image" content="<?= HOSTNAME ?>images/timeteB.jpeg"/>
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="Timety"/>
-            <meta property="og:url " content="<?= HOSTNAME ?>"/>
-            <meta property="fb:app_id  " content="<?= FB_APP_ID ?>"/>
+            <meta property="og:url" content="<?= HOSTNAME ?>"/>
+            <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
 
-        <?php } ?>
+<?php } ?>
         <!-- User fb info -->
 
         <?php if (isset($_GET['l']) && $_GET['l'] == "1") {
@@ -194,11 +200,11 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                     pSUPERFLY.virtualPage('/logout','/logout'); 
                 });  
             </script>
-        <?php } ?>
+<?php } ?>
     </head>
     <body class="bg">
         <?php $page_id = "user"; ?>
-        <?php include('layout/layout_top.php'); ?>
+<?php include('layout/layout_top.php'); ?>
 
         <div class="main_sol" style="width:91%;">
             <div class="ust_blm">
@@ -217,7 +223,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                             <td colspan="3">
                                 <div id="slides" style="overflow: hidden;max-height: 120px;">
                                     <div id="slides_container">
-                                        <?php if (empty($user)) { ?>
+<?php if (empty($user)) { ?>
                                             <div class="slide_item" id="create_event_empty">
                                                 <div class="akt_tkvm">
                                                     <a href="<?= HOSTNAME ?>login"  class="add_event_link">Click Here to Add Event</a>
@@ -260,16 +266,16 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
                                                         <h1><?= $evt->title ?></h1>
                                                         <p>Today @<span class="date_timezone"><?php
-                                        $dt = strtotime($evt->startDateTime);
-                                        echo date('H:i', $dt);
-                                        ?></span></p>
+                                                    $dt = strtotime($evt->startDateTime);
+                                                    echo date('H:i', $dt);
+                                                    ?></span></p>
                                                        <!-- <p><?= $evtDesc ?></p> -->
                                                         <script>
                                                             var tmpDataJSON='<?php
-                                                $json_response = json_encode($evt);
-                                                $json_response = str_replace("'", "\\'", $json_response);
-                                                echo str_replace('"', '\\"', $json_response);
-                                                ?>';
+                                                    $json_response = json_encode($evt);
+                                                    $json_response = str_replace("'", "\\'", $json_response);
+                                                    echo str_replace('"', '\\"', $json_response);
+                                                    ?>';
                                                     tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
                                                     var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
                                                     localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
@@ -320,11 +326,11 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
             <div class="main_event">
                 <!-- profil box -->
                 <script>
-                    reqUserPic='<?=$p_user->getUserPic()?>';
-                    reqUserFullName='<?=$p_user->getFullName()?>';
-                    reqUserUserName='<?=$p_user->userName?>';
+                    reqUserPic='<?= $p_user->getUserPic() ?>';
+                    reqUserFullName='<?= $p_user->getFullName() ?>';
+                    reqUserUserName='<?= $p_user->userName ?>';
                 </script>
-                <?php if (!empty($p_user) && !empty($p_user->id)) { ?>
+<?php if (!empty($p_user) && !empty($p_user->id)) { ?>
                     <div class="profil_box main_event_box">
                         <div class="profil_resim">
                             <img src="<?php echo PAGE_GET_IMAGEURL . $p_user->getUserPic() . "&h=176&w=176&zc=2" ?>" width="176" height="176" />
@@ -368,7 +374,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                 if (!empty($user)) {
                     $user_id = $user->id;
                 }
-                $main_pages_events = Neo4jFuctions::getEvents($userId, 0, 40, null, null, 4, -1, $p_user_id,-1);
+                $main_pages_events = Neo4jFuctions::getEvents($userId, 0, 40, null, null, 4, -1, $p_user_id, -1);
                 $main_pages_events = json_decode($main_pages_events);
                 if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     $main_event = new Event();
@@ -424,135 +430,145 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                 <div class="main_event_box" date="<?= $main_event->startDateTime ?>" >
                                     <!-- event box -->
                                     <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
-                                        <?php if(!empty($user)) { ?>
-                                        <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>" >
-                                            <!-- like button -->
-                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {   echo "display:none;"; } ?>"> 
-                                                <a  id="div_like_btn" 
-                                                     data-toggle="tooltip" 
-                                                     data-placement="bottom" 
-                                                     title=""
-                                                     class="timelineButton <?php
-                                                                    if ($main_event->userRelation->like) {
-                                                                        echo "like_btn_aktif";
-                                                                    } else {
-                                                                        echo "like_btn";
-                                                                    }
-                                                             ?>"  
-                                                     class_aktif="like_btn_aktif" 
-                                                     class_pass="like_btn"      
-                                                     pressed="<?php
-                                                                    if ($main_event->userRelation->like) {
-                                                                        echo "true";
-                                                                    } else {
-                                                                        echo "false";
-                                                                    }
-                                                               ?>"  
-                                                     onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></a>
+                <?php if (!empty($user)) { ?>
+                                            <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>" >
+                                                <!-- like button -->
+                                                <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {
+                        echo "display:none;";
+                    } ?>"> 
+                                                    <a  id="div_like_btn" 
+                                                        data-toggle="tooltip" 
+                                                        data-placement="bottom" 
+                                                        title=""
+                                                        class="timelineButton <?php
+                    if ($main_event->userRelation->like) {
+                        echo "like_btn_aktif";
+                    } else {
+                        echo "like_btn";
+                    }
+                    ?>"  
+                                                        class_aktif="like_btn_aktif" 
+                                                        class_pass="like_btn"      
+                                                        pressed="<?php
+                    if ($main_event->userRelation->like) {
+                        echo "true";
+                    } else {
+                        echo "false";
+                    }
+                    ?>"  
+                                                        onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></a>
+                                                </div>
+                                                <!-- like button -->
+
+
+                                                <!-- share button -->
+                                                <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {
+                        echo "display:none;";
+                    } ?>"> 
+                                                    <a  id="div_share_btn" 
+                                                        data-toggle="tooltip" 
+                                                        data-placement="bottom" 
+                                                        title=""
+                                                        class="timelineButton <?php
+                    if ($main_event->userRelation->reshare) {
+                        echo "share_btn_aktif";
+                    } else {
+                        echo "share_btn";
+                    }
+                    ?>"  
+                                                        class_aktif="share_btn_aktif" 
+                                                        class_pass="share_btn"      
+                                                        pressed="<?php
+                                    if ($main_event->userRelation->reshare) {
+                                        echo "true";
+                                    } else {
+                                        echo "false";
+                                    }
+                                    ?>"  
+                                                        onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></a>
+                                                </div>
+                                                <!-- share button -->
+
+                                                <!-- maybe button -->
+                                                <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {
+                                        echo "display:none;";
+                                    } ?>"> 
+                                                    <a  id="div_maybe_btn" 
+                                                        data-toggle="tooltip" 
+                                                        data-placement="bottom" 
+                                                        title=""
+                                                        class="timelineButton <?php
+                                    if ($main_event->userRelation->joinType == 2) {
+                                        echo "maybe_btn_aktif";
+                                    } else {
+                                        echo "maybe_btn";
+                                    }
+                    ?>"  
+                                                        class_aktif="maybe_btn_aktif" 
+                                                        class_pass="maybe_btn"      
+                                                        pressed="<?php
+                                    if ($main_event->userRelation->joinType == 2) {
+                                        echo "true";
+                                    } else {
+                                        echo "false";
+                                    }
+                                    ?>"  
+                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;"></a>
+                                                </div>
+                                                <!-- maybe button -->
+
+                                                <!-- join button -->
+                                                <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {
+                                        echo "display:none;";
+                                    } ?>"> 
+                                                    <a  id="div_join_btn" 
+                                                        data-toggle="tooltip" 
+                                                        data-placement="bottom" 
+                                                        title=""
+                                                        class="timelineButton <?php
+                                    if ($main_event->userRelation->joinType == 1) {
+                                        echo "join_btn_aktif";
+                                    } else {
+                                        echo "join_btn";
+                                    }
+                    ?>"  
+                                                        class_aktif="join_btn_aktif" 
+                                                        class_pass="join_btn"      
+                                                        pressed="<?php
+                                    if ($main_event->userRelation->joinType == 1) {
+                                        echo "true";
+                                    } else {
+                                        echo "false";
+                                    }
+                                    ?>"  
+                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"></a>
+                                                </div>
+                                                <!-- join button -->
+
+                                                <!-- edit button -->
+                                                <div class="timelineLikes" style="<?php if ($main_event->creatorId != $user->id) {
+                                        echo "display:none;";
+                                    } ?>"> 
+                                                    <a  id="div_edit_btn" 
+                                                        data-toggle="tooltip" 
+                                                        data-placement="bottom" 
+                                                        title=""
+                                                        class="timelineButton edit_btn"  
+                                                        class_aktif="edit_btn_aktif" 
+                                                        class_pass="edit_btn" 
+                                                        onclick="openEditEvent(<?= $main_event->id ?>);return false;"></a>
+                                                </div>
+                                                <!-- edit button -->
+
                                             </div>
-                                            <!-- like button -->
-                                           
-                                            
-                                            <!-- share button -->
-                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {   echo "display:none;"; } ?>"> 
-                                                <a  id="div_share_btn" 
-                                                     data-toggle="tooltip" 
-                                                     data-placement="bottom" 
-                                                     title=""
-                                                     class="timelineButton <?php
-                                                                    if ($main_event->userRelation->reshare) {
-                                                                        echo "share_btn_aktif";
-                                                                    } else {
-                                                                        echo "share_btn";
-                                                                    }
-                                                             ?>"  
-                                                     class_aktif="share_btn_aktif" 
-                                                     class_pass="share_btn"      
-                                                     pressed="<?php
-                                                                    if ($main_event->userRelation->reshare) {
-                                                                        echo "true";
-                                                                    } else {
-                                                                        echo "false";
-                                                                    }
-                                                               ?>"  
-                                                     onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></a>
-                                            </div>
-                                            <!-- share button -->
-                                            
-                                             <!-- maybe button -->
-                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {   echo "display:none;"; } ?>"> 
-                                                <a  id="div_maybe_btn" 
-                                                     data-toggle="tooltip" 
-                                                     data-placement="bottom" 
-                                                     title=""
-                                                     class="timelineButton <?php
-                                                                    if ($main_event->userRelation->joinType == 2) {
-                                                                        echo "maybe_btn_aktif";
-                                                                    } else {
-                                                                        echo "maybe_btn";
-                                                                    }
-                                                             ?>"  
-                                                     class_aktif="maybe_btn_aktif" 
-                                                     class_pass="maybe_btn"      
-                                                     pressed="<?php
-                                                                    if ($main_event->userRelation->joinType == 2) {
-                                                                        echo "true";
-                                                                    } else {
-                                                                        echo "false";
-                                                                    }
-                                                               ?>"  
-                                                     onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;"></a>
-                                            </div>
-                                            <!-- maybe button -->
-                                            
-                                            <!-- join button -->
-                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId == $user->id) {   echo "display:none;"; } ?>"> 
-                                                <a  id="div_join_btn" 
-                                                     data-toggle="tooltip" 
-                                                     data-placement="bottom" 
-                                                     title=""
-                                                     class="timelineButton <?php
-                                                                    if ($main_event->userRelation->joinType == 1) {
-                                                                        echo "join_btn_aktif";
-                                                                    } else {
-                                                                        echo "join_btn";
-                                                                    }
-                                                             ?>"  
-                                                     class_aktif="join_btn_aktif" 
-                                                     class_pass="join_btn"      
-                                                     pressed="<?php
-                                                                    if ($main_event->userRelation->joinType == 1) {
-                                                                        echo "true";
-                                                                    } else {
-                                                                        echo "false";
-                                                                    }
-                                                               ?>"  
-                                                     onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"></a>
-                                            </div>
-                                            <!-- join button -->
-                                            
-                                            <!-- edit button -->
-                                            <div class="timelineLikes" style="<?php if ($main_event->creatorId != $user->id) { echo "display:none;";}?>"> 
-                                                <a  id="div_edit_btn" 
-                                                     data-toggle="tooltip" 
-                                                     data-placement="bottom" 
-                                                     title=""
-                                                     class="timelineButton edit_btn"  
-                                                     class_aktif="edit_btn_aktif" 
-                                                     class_pass="edit_btn" 
-                                                     onclick="openEditEvent(<?= $main_event->id ?>);return false;"></a>
-                                            </div>
-                                            <!-- edit button -->
-                                                
-                                        </div>
-                                        <?php } ?>
-                                        <?php
-                                        $margin_h=0;
-                                        if($height<125){
-                                            $margin_h=(int)((125-$height)/2);
-                                        }
-                                        ?>
-                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?=$margin_h?>px;margin-bottom:<?=$margin_h?>px;">
+                                            <?php } ?>
+                                            <?php
+                                            $margin_h = 0;
+                                            if ($height < 125) {
+                                                $margin_h = (int) ((125 - $height) / 2);
+                                            }
+                                            ?>
+                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
                                             <?php
                                             $headerImageTmp = "";
                                             if (!empty($main_event) && !empty($main_event->headerImage))
@@ -564,7 +580,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     </div>
                                     <div class="m_e_metin">
                                         <div class="m_e_baslik">
-                                            <?= $main_event->title ?>
+                <?= $main_event->title ?>
                                         </div>
                                         <div class="m_e_com">
 
@@ -587,11 +603,11 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" />
                                                     <span> </span>
                                                 </p>
-                                            <?php }
-                                            ?>
+                <?php }
+                ?>
                                         </div>
                                         <div class="m_e_ackl">
-                                            <?= $main_event->description ?>
+                <?= $main_event->description ?>
                                         </div>
                                         <div class="m_e_drm">
                                             <ul>
@@ -605,8 +621,15 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                             align="absmiddle" /><?= $main_event->commentCount ?>
                                                     </a>
                                                 </li>
-                                                <li><a href="#" class="<?php $tt=$main_event->getRemainingTime(); if($tt=="Past"){echo "turuncu_link";} else {echo "yesil_link";}?>" onclick="return false;"> 
-                                                        <img src="<?= HOSTNAME ?>images/zmn<?php if($tt=="Past"){echo "_k";} ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
+                                                <li><a href="#" class="<?php $tt = $main_event->getRemainingTime();
+                if ($tt == "Past") {
+                    echo "turuncu_link";
+                } else {
+                    echo "yesil_link";
+                } ?>" onclick="return false;"> 
+                                                        <img src="<?= HOSTNAME ?>images/zmn<?php if ($tt == "Past") {
+                    echo "_k";
+                } ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -614,22 +637,22 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     </div>
                                     <script>
                                         var tmpDataJSON='<?php
-                            $json_response = json_encode($main_event);
-                            $json_response = str_replace("'", "\\'", $json_response);
-                            echo str_replace('"', '\\"', $json_response);
-                            ?>';
+                $json_response = json_encode($main_event);
+                $json_response = str_replace("'", "\\'", $json_response);
+                echo str_replace('"', '\\"', $json_response);
+                ?>';
                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>
-                                <?php
-                            }
-                        }
-                    }
-                }
-                ?>
+                <?php
+            }
+        }
+    }
+}
+?>
             </div>
         </div>
         <div class="main_sag_header" style="z-index: 9">
@@ -661,5 +684,5 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         </div>
         <div id="te_faux"  style="visibility: hidden;display: inline"></div>
     </body>
-    <?php include('layout/template_createevent.php'); ?>
+<?php include('layout/template_createevent.php'); ?>
 </html>
