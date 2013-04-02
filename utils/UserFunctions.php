@@ -265,7 +265,8 @@ class UserUtils {
             $uid = DBUtils::mysql_escape($uid);
             $b = "null";
             if (!empty($user->birthdate)) {
-                $b = "'" . $user->birthdate . "'";
+                $b0=strtotime($user->birthdate);
+                $b = "'" . date(DATETIME_DB_FORMAT,$b0) . "'";
             }
             $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='$user->about',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language'  WHERE id = $uid";
             //var_dump($SQL);
