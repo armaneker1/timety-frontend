@@ -2030,19 +2030,6 @@ body {
     outline: none;
 }
 
-.search_event_input {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    color: #b1b1b1;
-    background-color: transparent;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-    width: 400px;
-    outline: none;
-}
 
 .drop_event_here {
     background-image: url(images/p_bg.png);

@@ -1022,7 +1022,6 @@ input[type=text]::-ms-clear {
     background-position: bottom;
     padding-top: 20px;
     margin-bottom: 15px;
-    display: table;
 }
 
 .add_event_link {
@@ -1058,12 +1057,14 @@ input[type=text]::-ms-clear {
     padding-bottom: 0px;
     padding-left: 5px;
     margin-left: 94px;
+    position: relative;
 }
 
 .searchbtn2{
     /* margin-left: 530px !important;  ie */
     margin-top: -38px !important;
     position: absolute !important;
+    display: block;
 }
 
 .quick_add_time_hint_model {
@@ -1072,7 +1073,7 @@ input[type=text]::-ms-clear {
     width: auto;
     position: relative;
     z-index: 1000;
-    top: -10px;
+    top: 0px;
     right: -13px;
     border-radius: 5px;
     padding-top: 10px;
@@ -2214,4 +2215,19 @@ span.roll {
     cursor: pointer;
     margin-right: auto;
     margin-left: auto;
+}
+
+/* search input */
+.search_event_input {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #b1b1b1;
+    background-color: transparent;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    width: 400px;
+    outline: none;
 }
