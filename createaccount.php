@@ -77,6 +77,8 @@ if (array_key_exists("login", $_GET)) {
                     <center style="font-size: 13px;">or, sign up with <a href="<?= PAGE_ABOUT_YOU . "?new" ?>">your email address.</a></center>
                 </div>
             </div>
+            <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button">About Timety</a></div>
         </div>
+        <?php include('layout/templete_aboutus.php'); ?>
     </body>
 </html>

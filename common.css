@@ -2143,7 +2143,7 @@ span.roll {
     position: absolute;
     height: 63px;
     width: 63px;
-    display: block;
+    display: table;
     z-index: 10;
     margin-top: 6px;
     margin-left: 9px;
@@ -2155,4 +2155,63 @@ span.roll {
 
 .qq-upload-button input{
     height: 100%;
+}
+
+/* about us */
+/* signin create accoutn */
+.aboutus_div {
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    border-top: rgb(255, 255, 255) solid thick;
+    padding: 30px;
+    height: 150px;
+    margin-right: 2px;
+    background-image: url('images/bg.png');
+    text-align: center;
+}
+.aboutus_div_row{
+    display: inline-block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.aboutus_div_cell {
+    display: inline-block;
+    width: 400px;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: center;
+}
+
+.aboutus_header{
+    font-size: 30px;
+}
+
+.aboutus_img{
+    background-image: url('images/aboutus_icons.png');
+    width: 100px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.aboutus_img_track{
+    background-position: 0px 100px;
+}
+.aboutus_img_share{
+    background-position: 100px 100px;
+}
+.aboutus_img_discover{
+    background-position: 0px 0px;
+}
+
+.about_timety_button{
+    font-size: 16px;
+    color: #858585;
+    cursor: pointer;
+    margin-right: auto;
+    margin-left: auto;
 }

@@ -269,7 +269,7 @@ class UserUtils {
             }
             $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='$user->about',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language'  WHERE id = $uid";
             //var_dump($SQL);
-            error_log($SQL);
+            //error_log($SQL);
             mysql_query($SQL) or die(mysql_error());
         }
     }

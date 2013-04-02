@@ -71,7 +71,8 @@ if (array_key_exists("te_username", $_POST)) {
 <html>
     <head>
         <?php $timety_header = "Timety | Login";
-        include('layout/layout_header.php'); ?>
+        include('layout/layout_header.php');
+        ?>
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
         <script type="text/javascript">
             $(function() {
@@ -142,13 +143,13 @@ if (array_key_exists("te_username", $_POST)) {
         </script>
     </head>
     <body class="bg">
-        <?php include('layout/layout_top_sign.php'); ?>
+<?php include('layout/layout_top_sign.php'); ?>
         <div class="register_bg"></div>
         <div id="create_account" class="create_account_outline">
             <div class="create_acco_ust">Login</div>
             <div class="create_acco_alt">
                 <div class="account_sol" style="padding-top: 21px;">
-                     <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="return openSocialLogin('gg');">
+                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="return openSocialLogin('gg');">
                         <b>Sign in with Google</b>
                     </button>
 
@@ -180,7 +181,7 @@ if (array_key_exists("te_username", $_POST)) {
                         ?>
                         <span id='te_username_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_username_span_msg" style="display:<?= $display ?>;">
-                                <?= $unameError ?><div class="kok"></div>
+<?= $unameError ?><div class="kok"></div>
                             </div>
                         </span>  <br /> 
 
@@ -203,7 +204,7 @@ if (array_key_exists("te_username", $_POST)) {
                         ?>
                         <span id='te_password_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_password_span_msg" style="display:<?= $display ?>;">
-                                <?= $upassError ?><div class="kok"></div>
+<?= $upassError ?><div class="kok"></div>
                             </div>
                         </span>
 
@@ -211,9 +212,11 @@ if (array_key_exists("te_username", $_POST)) {
 
                         <div class="ts_box" style="font-size: 12px; margin-left: 0px;">
                             <label class="label_check" for="te_rememberme2"> <input
-                                <?php if ($urmme) {
+                                <?php
+                                if ($urmme) {
                                     echo "checked='checked'";
-                                } ?>
+                                }
+                                ?>
                                     name="te_rememberme2" id="te_rememberme2" value="<?= $urmme ?>"
                                     type="checkbox" onclick="$('#te_rememberme').value=this.checked" />
                                 Remember me
@@ -240,6 +243,8 @@ if (array_key_exists("te_username", $_POST)) {
                     </form>
                 </div>
             </div>
+            <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button">About Timety</a></div>
         </div>
+<?php include('layout/templete_aboutus.php'); ?>
     </body>
 </html>
