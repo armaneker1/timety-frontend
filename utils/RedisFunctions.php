@@ -38,7 +38,7 @@ class RedisUtils {
                 error_log($exc->getTraceAsString());
             }
             $tags = MenuUtils::getTagByCategory($lang, $categryId);
-            if (!empty($tags) && sizeof($tags)) {
+            if (!empty($tags) && sizeof($tags) > 0) {
                 $tagIds = array();
                 foreach ($tags as $tag) {
                     if (!empty($tag)) {
@@ -50,7 +50,7 @@ class RedisUtils {
                 }
                 $tagIds = json_encode($tagIds);
                 $redis->getProfile()->defineCommand('seacrhEventByTag', 'SeacrhEventByTag');
-                $events = $redis->seacrhEventByTag($key, $tagIds);
+                $events = $redis->seacrhEventByTag($key, $tagIds, $date, '');
             }
         }
         $result = "[";

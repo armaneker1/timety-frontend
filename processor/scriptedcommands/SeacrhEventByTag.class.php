@@ -11,8 +11,9 @@ class SeacrhEventByTag extends Predis\Command\ScriptedCommand {
     public function getScript() {
         return <<<LUA
     local key_id = KEYS[1]
-    local tag_ids = cjson.decode(ARGV[1])
-    local data = redis.call('zrange',key_id,0,-1)
+    local tag_ids = cjson.decode(KEYS[2])
+    local time = KEYS[3]
+    local data = redis.call('zrangebyscore',key_id,time,'+inf')
     local obj
     local result = {}
     local indx = 0

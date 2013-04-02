@@ -348,7 +348,7 @@ class Event {
     }
 
     public function getTags() {
-        if (!(!empty($this->tags) && is_array($this->tags))) {
+        if (empty($this->tags)) {
             $this->tags = Neo4jEventUtils::getEventTimetyTagsId($this->id);
         }
         return $this->attach_link;
