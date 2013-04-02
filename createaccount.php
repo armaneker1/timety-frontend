@@ -23,6 +23,13 @@ if (array_key_exists("login", $_GET)) {
 <!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>       
+        <meta property="og:title" content="Timety"/>
+        <meta property="og:image" content="<?= HOSTNAME ?>images/timeteB.png"/>
+        <meta property="og:site_name" content="Timety"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:description" content="Timety"/>
+        <meta property="og:url" content="<?= HOSTNAME ?>"/>
+        <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
         <?php
         $timety_header = "Timety | Signup ";
         include('layout/layout_header.php');
@@ -66,7 +73,7 @@ if (array_key_exists("login", $_GET)) {
                     <button class="big-icon-t btn-sign-big tw twitter" onclick="return openSocialLogin('tw');">
                         <b>Sign in with Twitter</b>
                     </button>
-                    
+
                     <center style="font-size: 13px;">or, sign up with <a href="<?= PAGE_ABOUT_YOU . "?new" ?>">your email address.</a></center>
                 </div>
             </div>

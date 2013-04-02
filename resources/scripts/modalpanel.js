@@ -366,7 +366,7 @@ function openModalPanel(event_id,custom) {
         jQuery(headerImage).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
         jQuery(headerImage).css('min-height','30px');
         jQuery(headerImage).css('min-width', '30px');
-        jQuery(headerImage).css('margin-bottom', '-3px');
+        jQuery(headerImage).css('margin-bottom', '3px');
         jQuery(headerImage).css('cursor', 'pointer');
         jQuery(headerImage).unbind("click");
         if(headerImage && data.headerImage && data.headerImage.url)

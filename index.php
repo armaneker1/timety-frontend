@@ -792,8 +792,8 @@ if (empty($user)) {
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="<?= $prm_event->description ?>"/>
-            <meta property="og:url " content="<?= PAGE_EVENT . $prm_event->id ?>"/>
-            <meta property="fb:app_id  " content="<?= FB_APP_ID ?>"/>
+            <meta property="og:url" content="<?= PAGE_EVENT . $prm_event->id ?>"/>
+            <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
 
 
             <script>
@@ -816,12 +816,12 @@ if (empty($user)) {
         } else {
             ?>
             <meta property="og:title" content="Timety"/>
-            <meta property="og:image" content="<?= HOSTNAME ?>images/logo_fb.jpeg"/>
+            <meta property="og:image" content="<?= HOSTNAME ?>images/timeteB.png"/>
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="Timety"/>
-            <meta property="og:url " content="<?= HOSTNAME ?>"/>
-            <meta property="fb:app_id  " content="<?= FB_APP_ID ?>"/>
+            <meta property="og:url" content="<?= HOSTNAME ?>"/>
+            <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
 
         <?php } ?>
         <!-- Open Event Popup -->

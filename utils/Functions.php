@@ -80,9 +80,15 @@ class UtilFunctions {
             $browser = 'msie';
         elseif (preg_match('/(mozilla)[ \/]([\w.]+)/', $ua))
             $browser = 'mozilla';
+        else {
+            $browser = 'other';
+        }
         preg_match('/(' . $browser . ')[ \/]([\w]+)/', $ua, $version);
-
-        return array($browser, $version[2], 'name' => $browser, 'version' => $version[2]);
+        $v = "";
+        if (!empty($version) && sizeof($version) > 2) {
+            $v = $version[2];
+        }
+        return array($browser, $v, 'name' => $browser, 'version' => $v);
     }
 
     public static function startsWith($haystack, $needle) {
