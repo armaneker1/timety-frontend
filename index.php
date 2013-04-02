@@ -1032,6 +1032,7 @@ if (empty($user)) {
                                             var left=(fullWidth-width)/2+25;
                                             jQuery(".main_sol").css("margin-left",left+"px");
                                             jQuery("#slides").width(width);
+                                            jQuery(".ust_blm").width(jQuery(window).width()-left-150);
                                             if(slide_handler) slide_handler.lemmonSlider('destroy');
                                             slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
                                         }
