@@ -435,7 +435,6 @@ if (empty($user)) {
                             error_log($exc->getTraceAsString());
                         }
                     }
-                    exit(1);
                     if (isset($_POST["te_event_addsocial_out"]) && $_POST["te_event_addsocial_out"] == "true") {
                         $_SESSION[INDEX_MSG_SESSION_KEY . "eventId"] = $eventDB->id;
                     } else {
