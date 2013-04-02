@@ -1264,9 +1264,9 @@ if ($event->addsocial_tw == 1) {
 
                     <!-- Description -->
                     <div class="eam_bg" style="height: auto;">
-                        <div class="desc_orta input_border desc_area" style="height: auto;width: 575px;margin-top: 6px;overflow: visible;">
+                        <div class="desc_orta input_border desc_area" style="height: auto;width: 575px;margin-top: 6px;overflow: visible;display: table;">
                             <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
-                                       style="font-size: 16px;resize: none;margin-top: 0px;background-image: none;height: 29px;width: 542px;"
+                                       style="font-size: 16px;resize: none;margin-top: 0px;background-image: none;height: 29px;width: 520px;"
                                        value=""
                                        charlength="256"
                                        id="te_event_description" placeholder="description" ><?= $event->description ?></textarea>

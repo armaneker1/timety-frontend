@@ -20,10 +20,10 @@ $br = strtoupper($_SERVER['HTTP_USER_AGENT']);
 if (stripos($br, 'MSIE')) {
     ?>
     <link  href="<?= HOSTNAME ?>ie7_8.css?20130233133796" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?4567890" rel="stylesheet" type="text/css" />
 <?php } else { ?>
     <link  href="<?= HOSTNAME ?>all_css.css?2013023335596" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom.css?45678" rel="stylesheet" type="text/css" />
 <?php } ?>
 
 

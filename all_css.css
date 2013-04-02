@@ -1298,7 +1298,6 @@ body {
 }
 .ts_sorta_inpt {
     background-color: transparent;
-    width: 60px;
     border: none;
     outline:none;
     font-family: arial;
@@ -1310,6 +1309,7 @@ body {
     background-position: right center;
     padding-right: 15px;
     margin-top: 10px;
+    width: 80px;
 }
 .ts_sorta_time {
     background-color: transparent;

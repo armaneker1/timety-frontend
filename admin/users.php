@@ -20,6 +20,9 @@ if (isset($_GET["action"]) && $_GET["action"] == "delete") {
             UserUtils::deleteUserSocialProviders($userId);
             // delete user from tbale
             UserUtils::deleteUser($userId);
+            //remove user all events 
+            // update all events user itreeact 
+            
             echo "Silindi";
         } catch (Exception $exc) {
             $error = "Erro while deleting";

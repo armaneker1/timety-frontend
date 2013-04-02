@@ -210,8 +210,8 @@ function openCreatePopup() {
         widthConstant : 3, 
         widthConstant2 : 4,
         statusChange : changePublicPrivate,
-        checkedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pyes.png" width="14" heght="10">', 
-        uncheckedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pno.png" style="margin-left:4px;" width="10" heght="10">'
+        checkedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pyes.png" class="add_event_iphone_check_img" width="14" heght="10">', 
+        uncheckedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pno.png" class="add_event_iphone_check_img" style="margin-left:4px;" width="10" heght="10">'
     });
 }
 

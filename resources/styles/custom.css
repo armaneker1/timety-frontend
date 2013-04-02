@@ -209,9 +209,7 @@ span.rollover:hover {
 	background-color: #000;
 }
 
-.ts_sorta_inpt{
-	width: 65px !important;
-}
+
 
 .eam_cate {
 	overflow: auto;
@@ -291,4 +289,8 @@ span.rollover:hover {
                 border-left-style: solid;
                 border-left-color: #bbbbbb;
                 line-height: 36px;
+}
+
+.add_event_iphone_check_img{
+    margin-top: 3px;
 }
