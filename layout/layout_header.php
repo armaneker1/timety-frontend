@@ -86,7 +86,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/ie.js"></script>
 <![endif]-->
 
-<link rel="icon" type="image/png"  href="<?= HOSTNAME . "/images/favicon.ico" ?>">
+<link rel="icon" type="image/png"  href="<?= HOSTNAME . "favicon.ico" ?>">
 <?php include ('config/analytics.php'); ?>
 <?php
 $br = UtilFunctions::getBrowser();
