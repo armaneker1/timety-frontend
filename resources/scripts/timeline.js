@@ -1,7 +1,7 @@
 jQuery(document).ready(function(){ 
     jQuery('.main_sag').jScroll({
         speed:"0", 
-        top:68,
+        top:100,
         limit:145,
         tmax:220
     });

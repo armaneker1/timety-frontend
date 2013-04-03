@@ -75,7 +75,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/bootstrap/bootstrap-tooltip.js?201302251210"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_event_invite_people.min.js?223d0225116"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_add_event.min.js?22320223212"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/timeline.min.js?3"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/timeline.min.js?4"></script>
 <script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.min.js?20131224226332" type="text/javascript"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/moment.min.js?22320225213"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/shortcut.min.js?22320225213"></script>
