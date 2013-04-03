@@ -800,15 +800,15 @@ function calculateRemainingTime(date){
                 if(d_==1){
                     return  "Tomorrow";
                 }else{
-                    var week = d.format('d');
+                    var week = parseInt(d.format('d'));
                     week = week + d_;
                     if (week <= 7) {
                         return d.add("days", week).format("dddd");
                     } else if (week > 7 && week <= 14) {
                         return "Next week";
                     } else {
-                        var ms = d.format("M");
-                        var me = d.add("M", week).format("dddd");
+                        var ms = parseInt(d.format("M"));
+                        var me = parseInt(d.add("days", week).format("M"));
                         if (me == ms) {
                             if (week > 14 && week <= 21) {
                                 return "2 weeks";
@@ -826,8 +826,8 @@ function calculateRemainingTime(date){
             
             var h_=d.diff(moment(),"hours");
             if(h_>0){
-                var ds = d.format('D');
-                var de = d.add("hours", h_).format('D');
+                var ds = parseInt(d.format('D'));
+                var de = parseInt(d.add("hours", h_).format('D'));
                 if (ds == de) {
                     return h_+ ' hours';
                 } else {
