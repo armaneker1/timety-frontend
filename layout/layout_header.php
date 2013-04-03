@@ -1,4 +1,3 @@
-<?php header("charset=utf8;Content-Type: text/html;"); ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
 <?php

@@ -66,7 +66,7 @@ require_once __DIR__ . '/../processor/scriptedcommands/SeacrhUserById.class.php'
 
 class UtilFunctions {
 
-    public static function isBroserFacebook() {
+    public static function isBrowserFacebook() {
         if (!(stristr($_SERVER["HTTP_USER_AGENT"], 'facebook') === FALSE)) {
             return true;
         }

@@ -9,7 +9,7 @@ use Everyman\Neo4j\Transport,
     Everyman\Neo4j\Cypher;
 
 session_start();
-header("Content-Type: text/html; charset=utf8");
+header("charset=utf8");
 HttpAuthUtils::checkHttpAuth();
 
 

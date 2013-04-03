@@ -865,6 +865,7 @@ class RedisUtils {
         }
         if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
+            $ij=0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
                 if (($ik + $ij) <= $pgEnd) {
                     try {
