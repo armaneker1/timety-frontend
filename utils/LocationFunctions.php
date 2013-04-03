@@ -61,6 +61,43 @@ class LocationUtils {
         return null;
     }
 
+    public static function getCityName($id) {
+        if (!empty($id)) {
+            $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_id =" . $id;
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            if (!empty($result)) {
+                $name = $result['city_name'];
+                return $name;
+            }
+        }
+        return "";
+    }
+
+    public static function getCityMaps() {
+        $array = array();
+        $SQL = "SELECT * FROM " . TBL_CITY_MAP;
+        $result = mysql_query($SQL) or die(mysql_error());
+        if (!empty($result)) {
+            $num = mysql_num_rows($result);
+            if ($num > 1) {
+                while ($db_field = mysql_fetch_assoc($result)) {
+                    $obj = new stdClass();
+                    $obj->id = $db_field['city_id'];
+                    $obj->name = $db_field['city_name'];
+                    array_push($array, $obj);
+                }
+            } else if ($num > 0) {
+                $db_field = mysql_fetch_assoc($result);
+                $obj = new stdClass();
+                $obj->id = $db_field['city_id'];
+                $obj->name = $db_field['city_id'];
+                array_push($array, $obj);
+            }
+        }
+        return $array;
+    }
+
     public static function getCityId($city) {
         if (!empty($city)) {
             $id = null;

@@ -33,10 +33,10 @@ define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
 define('INDEX_POST_SESSION_KEY', 'index_post_session');
 
 //REDIS IP ADDRS
-define('REDIS_IP',  SettingsUtil::getSetting(SETTINGS_REDIS_IP));
-define('REDIS_PORT',  SettingsUtil::getSetting(SETTINGS_REDIS_PORT));
-define('MQ_IP',  SettingsUtil::getSetting(SETTINGS_MQ_IP));
-define('MQ_PORT',  SettingsUtil::getSetting(SETTINGS_MQ_PORT));
+define('REDIS_IP', SettingsUtil::getSetting(SETTINGS_REDIS_IP));
+define('REDIS_PORT', SettingsUtil::getSetting(SETTINGS_REDIS_PORT));
+define('MQ_IP', SettingsUtil::getSetting(SETTINGS_MQ_IP));
+define('MQ_PORT', SettingsUtil::getSetting(SETTINGS_MQ_PORT));
 
 //URLLER
 define('PAGE_TEST', HOSTNAME . 'test');
@@ -114,6 +114,8 @@ define('PAGE_AJAX_UPDATE_USER_STATISTICS', PAGE_AJAX_FOLDER . 'updateUserStatist
 define('PAGE_AJAX_CHECK_USER_FOLLOW_STATUS', PAGE_AJAX_FOLDER . 'checkUserFollowStatus.php');
 define('PAGE_AJAX_TWITTER_USER_INTEREST', PAGE_AJAX_FOLDER . 'twiiterUserInterest.php');
 define('PAGE_AJAX_FACEBOOK_USER_INTEREST', PAGE_AJAX_FOLDER . 'facebookUserInterest.php');
+define('PAGE_AJAX_GET_CITY_MAPS', PAGE_AJAX_FOLDER . 'getCityMaps.php');
+define('PAGE_AJAX_GET_CITY_ID', PAGE_AJAX_FOLDER . 'getCityId.php');
 
 
 

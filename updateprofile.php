@@ -483,7 +483,7 @@ if (isset($_POST['update'])) {
                 
                 }else
                 {
-                    console.log(result);
+                    console.log(results);
                 }
             }
             

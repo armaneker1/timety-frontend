@@ -49,6 +49,38 @@ if (empty($user)) {
 
             <!-- search button end -->
 
+            <!-- Location -->
+            <?php
+            if (!empty($page_id) && $page_id == "index" && !empty($user)) {
+                $city_top_name = "";
+                $city_id = "";
+                if (!empty($user)) {
+                    $city_top = $user->hometown;
+                    $city_id = $user->location_city;
+                }
+
+                if (!empty($city_id)) {
+                    echo "<script>city_channel=" . $city_id . ";</script>";
+                    if(empty($city_top_name)){
+                        $city_top_name=  LocationUtils::getCityName($city_id);
+                    }
+                }
+                ?>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/cityutil.js"></script>
+                <div class="div_city_top">
+                    <input 
+                        name="city_top"
+                        type="text" 
+                        placeholder="Select City" 
+                        class="user_inpt"
+                        id="city_top" 
+                        autocomplete="off"
+                        style="width:356px;height:40px"
+                        value="<?=$city_top_name?>"/> 
+                </div>
+            <?php } ?>
+            <!-- Location -->
+
             <!-- Add Quick Event -->
             <div id="te_quick_add_event_bar" 
                  class="quick_add_event_bar" style="display: none;">
@@ -133,6 +165,8 @@ if (empty($user)) {
                         }
                     });
                 </script>
+
+
 
                 <div style="display: none;position: relative;">
                     <!-- display: inline-block; -->

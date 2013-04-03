@@ -7,6 +7,7 @@ require_once __DIR__ . '/apis/google/contrib/Google_CalendarService.php';
 
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
+$page_id="index";
 
 //finish registeration
 if (isset($_GET['finish']) && isset($_SESSION['id'])) {

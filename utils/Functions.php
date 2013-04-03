@@ -119,17 +119,22 @@ class UtilFunctions {
             $end_date = new DateTime($dateend, new DateTimeZone('GMT'));
             $since_start = $start_date->diff($end_date);
             $result = null;
-            if ($since_start->y > 0 && empty($result))
-                $result = $since_start->y . 'y';
-            if ($since_start->m > 0 && empty($result))
-                $result = $since_start->m . 'mo';
-            if ($since_start->d > 0 && empty($result))
-                $result = $since_start->d . 'd';
-            if ($since_start->h > 0 && empty($result))
-                $result = $since_start->h . 'h';
-            if ($since_start->i > 0 && empty($result))
-                $result = $since_start->i . 'm';
-
+            if ($since_start->invert == 0) {
+                var_dump($since_start);
+                if ($since_start->y > 0 && empty($result))
+                    $result = $since_start->y . 'y';
+                if ($since_start->m > 0 && empty($result))
+                    $result = $since_start->m . 'mo';
+                if ($since_start->d > 0 && empty($result))
+                {
+                    $result = $since_start->d . 'd';
+                    
+                }
+                if ($since_start->h > 0 && empty($result))
+                    $result = $since_start->h . 'h';
+                if ($since_start->i > 0 && empty($result))
+                    $result = $since_start->i . 'm';
+            }
             if (!empty($result)) {
                 return $result;
             } else {
