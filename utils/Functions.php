@@ -120,20 +120,54 @@ class UtilFunctions {
             $since_start = $start_date->diff($end_date);
             $result = null;
             if ($since_start->invert == 0) {
-                var_dump($since_start);
                 if ($since_start->y > 0 && empty($result))
-                    $result = $since_start->y . 'y';
-                if ($since_start->m > 0 && empty($result))
-                    $result = $since_start->m . 'mo';
-                if ($since_start->d > 0 && empty($result))
-                {
-                    $result = $since_start->d . 'd';
-                    
+                    $result = $since_start->y . ' years';
+                if ($since_start->m > 0 && empty($result)) {
+                    if ($since_start->m == 1) {
+                        $result = "Next month";
+                    } else {
+                        $result = $since_start->m . ' months';
+                    }
                 }
-                if ($since_start->h > 0 && empty($result))
-                    $result = $since_start->h . 'h';
+                if ($since_start->d > 0 && empty($result)) {
+                    //$result = $since_start->d . 'd';
+                    if ($since_start->d == 1) {
+                        $result = "Tomorrow";
+                    } else {
+                        $week = date('N', strtotime($datestart));
+                        $week = $week + $since_start->d;
+                        if ($week <= 7) {
+                            $result = date('l', strtotime($datestart . ' ' . $since_start->d . ' day'));
+                        } else if ($week > 7 && $week <= 14) {
+                            $result = "Next week";
+                        } else {
+                            $ms = date('m', strtotime($datestart));
+                            $me = date('m', strtotime($datestart . ' ' . $since_start->d . ' day'));
+                            if ($me == $ms) {
+                                if ($week > 14 && $week <= 21) {
+                                    $result = "2 weeks";
+                                } else if ($week > 21 && $week <= 28) {
+                                    $result = "3 weeks";
+                                } else {
+                                    $result = "4 weeks";
+                                }
+                            } else {
+                                $result = "Next month";
+                            }
+                        }
+                    }
+                }
+                if ($since_start->h > 0 && empty($result)) {
+                    $ds = date('j', strtotime($datestart));
+                    $de = date('j', strtotime($datestart . ' ' . $since_start->h . ' hour'));
+                    if ($ds == $de) {
+                        $result = $since_start->h . ' hours';
+                    } else {
+                        $result = "Tomorrow";
+                    }
+                }
                 if ($since_start->i > 0 && empty($result))
-                    $result = $since_start->i . 'm';
+                    $result = $since_start->i . ' minutes';
             }
             if (!empty($result)) {
                 return $result;

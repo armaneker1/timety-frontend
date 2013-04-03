@@ -785,19 +785,59 @@ function calculateRemainingTime(date){
         }else{
             var y_=d.diff(moment(),"years");
             if(y_>0){
-                return y_+"y";
+                return y_+" years";
             }
             var mo_=d.diff(moment(),"months");
             if(mo_>0){
-                return mo_+"mo";
+                if (mo_ == 1) {
+                    return  "Next month";
+                } else {
+                    return  mo_+' months';
+                }
             }
             var d_=d.diff(moment(),"days");
             if(d_>0){
-                return d_+"d";
+                if(d_==1){
+                    return  "Tomorrow";
+                }else{
+                    var week = d.format('d');
+                    week = week + d_;
+                    if (week <= 7) {
+                        return d.add("days", week).format("dddd");
+                    } else if (week > 7 && week <= 14) {
+                        return "Next week";
+                    } else {
+                        var ms = d.format("M");
+                        var me = d.add("M", week).format("dddd");
+                        if (me == ms) {
+                            if (week > 14 && week <= 21) {
+                                return "2 weeks";
+                            } else if (week > 21 && week <= 28) {
+                                return "3 weeks";
+                            } else {
+                                return "4 weeks";
+                            }
+                        } else {
+                            return "Next month";
+                        }
+                    } 
+                }
             }
+            
+            var h_=d.diff(moment(),"hours");
+            if(h_>0){
+                var ds = d.format('D');
+                var de = d.add("hours", h_).format('D');
+                if (ds == de) {
+                    return h_+ ' hours';
+                } else {
+                    return "Tomorrow";
+                }
+            }
+            
             var m_=d.diff(moment(),"minutes");
             if(m_>0){
-                return m_+"m";
+                return m_+" minutes";
             }
             return "Now";
         }
