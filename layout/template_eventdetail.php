@@ -145,7 +145,7 @@
         </div>
         <div id="write_comment" class="gdy_satir" style="display: none;">
             <div class="gdy_alt_sol_yorum">
-                <img src="<?= HOSTNAME ?>images/yz.png" width="22" height="23" align="middle" style="margin-top: -5px;">
+                <img src="<?= HOSTNAME ?>images/yz.png" width="22" height="23" align="middle" style="margin-top: -20px;">
             </div>
             <div class="gdy_alt_orta_yorum gdy_alt_orta_yorum_bggri_sendbtn bggri">
                 <input name="" type="text" class="gdyorum" id="sendComment" eventid="" placeholder="Leave a comment...">

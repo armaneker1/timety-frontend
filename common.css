@@ -2244,11 +2244,11 @@ span.roll {
     border-right-width: 1px;
     border-right-style: solid;
     border-right-color: #CCC;
-    padding-right: 14px;
+    padding-right: 5px;
 }
 
 .gdyorum {
-    height: 33px;
+    height: 26px;
     width: 460px;
     float: left;
     margin-right: 10px;
