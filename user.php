@@ -83,7 +83,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
     exit(1);
 }
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
 
