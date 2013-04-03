@@ -779,15 +779,16 @@ function getUserLastActivityString(data,selectedUser){
 
 function calculateRemainingTime(date){
     if(date){
-        var  d=moment(date,"YYYY.MM.DD HH:mm");
-        if(d.isBefore(moment())){
+        var  d=moment(getLocalTime(date).format('YYYY.MM.DD HH:mm'),"YYYY.MM.DD HH:mm");
+        var  now=moment().utc();
+        if(d.isBefore(now)){
             return "Past";
         }else{
-            var y_=d.diff(moment(),"years");
+            var y_=d.diff(now,"years");
             if(y_>0){
                 return y_+" years";
             }
-            var mo_=d.diff(moment(),"months");
+            var mo_=d.diff(now,"months");
             if(mo_>0){
                 if (mo_ == 1) {
                     return  "Next month";
@@ -795,7 +796,7 @@ function calculateRemainingTime(date){
                     return  mo_+' months';
                 }
             }
-            var d_=d.diff(moment(),"days");
+            var d_=d.diff(now,"days");
             if(d_>0){
                 if(d_==1){
                     return  "Tomorrow";
@@ -803,12 +804,12 @@ function calculateRemainingTime(date){
                     var week = parseInt(d.format('d'));
                     week = week + d_;
                     if (week <= 7) {
-                        return d.add("days", week).format("dddd");
+                        return now.add("days", week).format("dddd");
                     } else if (week > 7 && week <= 14) {
                         return "Next week";
                     } else {
                         var ms = parseInt(d.format("M"));
-                        var me = parseInt(d.add("days", week).format("M"));
+                        var me = parseInt(now.add("days", week).format("M"));
                         if (me == ms) {
                             if (week > 14 && week <= 21) {
                                 return "2 weeks";
@@ -824,10 +825,10 @@ function calculateRemainingTime(date){
                 }
             }
             
-            var h_=d.diff(moment(),"hours");
+            var h_=d.diff(now,"hours");
             if(h_>0){
                 var ds = parseInt(d.format('D'));
-                var de = parseInt(d.add("hours", h_).format('D'));
+                var de = parseInt(now.add("hours", h_).format('D'));
                 if (ds == de) {
                     return h_+ ' hours';
                 } else {
@@ -835,7 +836,7 @@ function calculateRemainingTime(date){
                 }
             }
             
-            var m_=d.diff(moment(),"minutes");
+            var m_=d.diff(now,"minutes");
             if(m_>0){
                 return m_+" minutes";
             }
