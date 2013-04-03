@@ -66,6 +66,12 @@ require_once __DIR__ . '/../processor/scriptedcommands/SeacrhUserById.class.php'
 
 class UtilFunctions {
 
+    public static function isBroserFacebook() {
+        if (!(stristr($_SERVER["HTTP_USER_AGENT"], 'facebook') === FALSE)) {
+            return true;
+        }
+    }
+
     public static function getBrowser() {
         $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
         if (preg_match('/(chromium)[ \/]([\w.]+)/', $ua))
