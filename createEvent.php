@@ -125,7 +125,23 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
 
     $endTime = UtilFunctions::checkTime($endTime);
     if (!$endTime) {
-        $endTime = "00:00";
+        try {
+            $dd = explode(':', $startTime);
+            $h = (int) $dd[0];
+            $m = (int) $dd[1];
+            $h = $h + 2;
+            $h = $h . "";
+            $m = $m . "";
+            if (strlen($h) < 2) {
+                $h = "0" . $h;
+            }
+            if (strlen($m) < 2) {
+                $m = "0" . $m;
+            }
+            $endTime = $h . ":" . $m;
+        } catch (Exception $exc) {
+            $endTime = "00:00";
+        }
     }
 
     $endDate = UtilFunctions::checkDate($endDate);

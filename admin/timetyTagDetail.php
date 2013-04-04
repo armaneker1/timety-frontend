@@ -42,9 +42,6 @@ if (!empty($tagId) && (!empty($tag_tr) || !empty($tag_en))) {
     exit();
 }
 ?>
-
-
-
 <html>
     <head>
 
