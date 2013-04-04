@@ -570,7 +570,7 @@ if (isset($_POST['te_username'])) {
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
         <div id="personel_info_h">
-            <div class="create_acco_ust">Personnel Information</div>
+            <div class="create_acco_ust">Personal Information</div>
             <div class="personel_info">
                 <form id="per_info_form" action="" method="post" style="margin-left: 48px;"
                       name="registerPI">
