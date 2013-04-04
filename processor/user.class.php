@@ -86,6 +86,7 @@ class UserProcessor {
                                 $events = $redis->zrevrange($key, 0, -1);
                                 foreach ($events as $item) {
                                     $evt = json_decode($item);
+                                    $evt=  UtilFunctions::cast('Event', $evt);
                                     if ($evt->creatorId == $this->userID) {
                                         RedisUtils::removeItem($redis, $key, $item);
                                         $event = Neo4jEventUtils::getNeo4jEventById($evt->id);
