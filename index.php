@@ -482,6 +482,7 @@ if (empty($user)) {
         if (!empty($prm_event)) {
             $timety_header = $prm_event->title;
         }
+
         include('layout/layout_header_index.php');
         ?>
         <?php
@@ -526,7 +527,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                    		      
+                                                                                                                                                                                                                                                                                                                                                                                                            		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -716,7 +717,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                
+                                                                                                        
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -810,7 +811,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                        
+                                                
             </script>
 
 
@@ -900,7 +901,13 @@ if (empty($user)) {
         <?php } ?>
     </head>
     <body class="bg">
-        <?php include('layout/layout_top.php'); ?>
+        <?php
+        if (!empty($user) && $user->id == 6618346) {
+            include('layout/layout_top_exp.php');
+        } else {
+            include('layout/layout_top.php');
+        }
+        ?>
         <?php
         if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
             $m = new HtmlMessage();
@@ -1332,9 +1339,9 @@ if (empty($user)) {
                                              $json_response = str_replace("'", "\\'", $json_response);
                                              echo str_replace('"', '\\"', $json_response);
                                              ?>';
-                                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                            tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                            var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                            localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>

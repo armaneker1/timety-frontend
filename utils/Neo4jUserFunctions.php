@@ -295,6 +295,24 @@ class Neo4jUserUtil {
         return null;
     }
 
+    public static function getUserTimetyTags($userId) {
+        $array = array();
+        if (!empty($userId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
+                    ".out('" . REL_TIMETY_INTERESTS . "').dedup";
+            echo $query;
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $result = $query->getResultSet();
+            foreach ($result as $row) {
+                $t = new TimetyTag();
+                $t->createNeo4j($row[0]);
+                array_push($array, $t);
+            }
+        }
+        return $array;
+    }
+
     public static function removeUserTag($userId, $tagId, $lang = null) {
         $tr = true;
         $en = true;

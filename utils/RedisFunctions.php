@@ -126,18 +126,51 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUpcomingEventsForUser($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null) {
+    public static function getUpcomingEventsForUser($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $city_channel = -1) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
             if (empty($date)) {
                 $date = time();
+            }
+            if (!empty($userId) && $userId > 0) {
+                $key = REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING;
+            } else {
+                if (!empty($city_channel) && $city_channel > 0) {
+                    $key = REDIS_PREFIX_CITY . $city_channel;
+                } ELSE {
+                    $key = REDIS_PREFIX_CITY . "ww";
+                }
+            }
+
+            if (!empty($city_channel) && $city_channel > 0) {
+                $key = REDIS_PREFIX_CITY . $city_channel;
             }
             $redis = new Predis\Client();
             //$log->logInfo("RedisUtils > getUpcomingEvents > start");
             $pgStart = $pageNumber * $pageItemCount;
             $pgEnd = $pgStart + $pageItemCount - 1;
             //$log->logInfo("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
-            $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $date, "+inf");
+            if (!empty($city_channel) && $city_channel > 0 && !empty($userId) && $userId > 0) {
+                $tags = Neo4jUserUtil::getUserTimetyTags($userId);
+                if (!empty($tags) && sizeof($tags) > 0) {
+                    $tagIds = array();
+                    foreach ($tags as $tag) {
+                        if (!empty($tag)) {
+                            $id = $tag->id;
+                            if (!empty($id) && !in_array($id, $tagIds)) {
+                                array_push($tagIds, $id);
+                            }
+                        }
+                    }
+                    $tagIds = json_encode($tagIds);
+                    $redis->getProfile()->defineCommand('seacrhEventByTag', 'SeacrhEventByTag');
+                    $events = $redis->seacrhEventByTag($key, $tagIds, $date, '');
+                } else {
+                    $events = $redis->zrangebyscore($key, $date, "+inf");
+                }
+            } else {
+                $events = $redis->zrangebyscore($key, $date, "+inf");
+            }
             //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
             $result = "[";
             $ik = 0;
@@ -865,7 +898,7 @@ class RedisUtils {
         }
         if ($ik <= $pgEnd) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
-            $ij=0;
+            $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
                 if (($ik + $ij) <= $pgEnd) {
                     try {

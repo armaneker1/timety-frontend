@@ -60,7 +60,7 @@ if (empty($user)) {
                 }
 
                 if (!empty($city_id)) {
-                    echo "<script>city_channel=" . $city_id . ";</script>";
+                    //echo "<script>city_channel=" . $city_id . ";</script>";
                     if(empty($city_top_name)){
                         $city_top_name=  LocationUtils::getCityName($city_id);
                     }
@@ -75,7 +75,7 @@ if (empty($user)) {
                         class="user_inpt"
                         id="city_top" 
                         autocomplete="off"
-                        style="width:356px;height:40px"
+                        style="width:356px;height:34px"
                         value="<?=$city_top_name?>"/> 
                 </div>
             <?php } ?>
