@@ -11,18 +11,88 @@ if (isset($_GET["action"]) && $_GET["action"] == "delete") {
     if (isset($_GET["userId"]) && !empty($_GET["userId"])) {
         try {
             $userId = $_GET["userId"];
-            // get events user created from neo4j
-            //$events=Neo4jUserUtil::getUserCreatedEvents($userId);
-            //var_dump($events);
-            // delete user node with relation from neo4j
+            //get user events 
+            try {
+                $events = Neo4jUserUtil::getUserCreatedEvents($userId);
+                if (!empty($events) && sizeof($events) > 0) {
+                    foreach ($events as $evt) {
+                        if (!empty($evt)) {
+                            $id = $evt->getProperty(PROP_USER_ID);
+                            if (!empty($id)) {
+                                try {
+                                    Neo4jEventUtils::removeEventById($id);
+                                } catch (Exception $exc) {
+                                    echo $exc->getTraceAsString();
+                                }
+
+                                //delete from mysql
+                                $SQL = "DELETE  FROM " . TBL_EVENTS . " WHERE id=" . $id;
+                                mysql_query($SQL) or die(mysql_error());
+
+                                $SQL = "DELETE  FROM " . TBL_COMMENT . " WHERE event_id=" . $id;
+                                mysql_query($SQL) or die(mysql_error());
+
+                                $SQL = "DELETE  FROM " . TBL_IMAGES . " WHERE eventId=" . $id;
+                                mysql_query($SQL) or die(mysql_error());
+
+                                //delete from redis
+                                $redis = new Predis\Client();
+                                $keys = $redis->keys("*");
+                                $friendsKeys = $redis->keys("user:friend*");
+                                foreach ($keys as $key) {
+                                    if (!in_array($key, $friendsKeys)) {
+                                        $events = $redis->zrevrange($key, 0, -1);
+                                        foreach ($events as $item) {
+                                            $evt = json_decode($item);
+                                            if (!empty($evt) && $evt->id == $id) {
+                                                RedisUtils::removeItem($redis, $key, $item);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+
+
             Neo4jUserUtil::removeUserById($userId);
-            // delete user social providers
             UserUtils::deleteUserSocialProviders($userId);
-            // delete user from tbale
             UserUtils::deleteUser($userId);
-            //remove user all events 
-            // update all events user itreeact 
-            
+
+            try {
+                $redis = new Predis\Client();
+                $redis->del(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS);
+                $redis->del(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING);
+                $redis->del(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY);
+                $redis->del(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING);
+                $redis->del(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_FOLLOWING);
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+
+
+            try {
+                $redis = new Predis\Client();
+                $friendsKeys = $redis->keys("user:friend*");
+                foreach ($friendsKeys as $key) {
+                    $friends = $redis->zrevrange($key, 0, -1);
+                    foreach ($friends as $item) {
+                        $user = json_decode($item);
+                        $user = UtilFunctions::cast('User', $user);
+                        if (!empty($user) && $user->id == $userId) {
+                            RedisUtils::removeItem($redis, $key, $item);
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
             echo "Silindi";
         } catch (Exception $exc) {
             $error = "Erro while deleting";

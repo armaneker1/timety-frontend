@@ -28,13 +28,16 @@ if (isset($_POST['eventId']) && !empty($_POST['eventId'])) {
     //delete from redis
     $redis = new Predis\Client();
     $keys = $redis->keys("*");
+    $friendsKeys = $redis->keys("user:friend*");
     foreach ($keys as $key) {
-        $events = $redis->zrevrange($key, 0, -1);
-        foreach ($events as $item) {
-            $evt = json_decode($item);
-            if (!empty($evt) && $evt->id == $id) {
-                RedisUtils::removeItem($redis, $key, $item);
-                break;
+        if (!in_array($key, $friendsKeys)) {
+            $events = $redis->zrevrange($key, 0, -1);
+            foreach ($events as $item) {
+                $evt = json_decode($item);
+                if (!empty($evt) && $evt->id == $id) {
+                    RedisUtils::removeItem($redis, $key, $item);
+                    break;
+                }
             }
         }
     }
