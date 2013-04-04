@@ -1316,11 +1316,17 @@ class RedisUtils {
         }
         if (!is_array($array)) {
             $array = json_decode($array);
+        } else {
+            error_log("Not Array 1:'" . json_encode($array) . "'");
         }
-        foreach ($array as $a) {
-            if (!empty($a)) {
-                array_push($result, $a);
+        if (is_array($array)) {
+            foreach ($array as $a) {
+                if (!empty($a)) {
+                    array_push($result, $a);
+                }
             }
+        }else{
+             error_log("Not Array 2:'" . json_encode($array) . "'");
         }
         return $result;
     }
