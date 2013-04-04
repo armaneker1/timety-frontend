@@ -8,7 +8,6 @@ require_once __DIR__ . '/../apis/facebook/facebook.php';
 require_once __DIR__ . '/../apis/twitter/twitteroauth.php';
 require_once __DIR__ . '/../apis/foursquare/FoursquareAPI.php';
 require_once __DIR__ . '/../apis/google/Google_Client.php';
-//require_once __DIR__ . '/../apis/google/contrib/Google_PlusService.php';
 
 require_once __DIR__ . '/../config/dbconfig.php';
 require_once __DIR__ . '/../config/constant.php';
@@ -65,6 +64,18 @@ require_once __DIR__ . '/../processor/scriptedcommands/SeacrhUserById.class.php'
 //HttpAuthUtils::checkHttpAuth();
 
 class UtilFunctions {
+
+    public static function json_encode($string) {
+        $json = '[]';
+        if (!empty($string)) {
+            $json = json_encode($string);
+            $json = empty($string) ? '[]' : $json;
+            $search = array('\\', "\n", "\r", "\f", "\t", "\b", "'");
+            $replace = array('\\\\', "\\n", "\\r", "\\f", "\\t", "\\b", "&#039");
+            $json = str_replace($search, $replace, $json);
+        }
+        return $json;
+    }
 
     public static function isBrowserFacebook() {
         if (!(stristr($_SERVER["HTTP_USER_AGENT"], 'facebook') === FALSE)) {

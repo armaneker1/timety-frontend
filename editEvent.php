@@ -391,7 +391,7 @@ if (!empty($_POST['rand_session_id'])) {
                             basename($fileName) => '@' . $fileName
                         );
                         $result = $facebook->api('me/events', 'post', $event_info);
-                        error_log("Fcebook event log " . json_encode($result));
+                        error_log("Fcebook event log " . UtilFunctions::json_encode($result));
                     } catch (Exception $exc) {
                         error_log($exc->getTraceAsString());
                     }
@@ -448,7 +448,7 @@ if (!empty($_POST['rand_session_id'])) {
                 $m = new HtmlMessage();
                 $m->type = "s";
                 $m->message = "Event updated.";
-                $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
+                $_SESSION[INDEX_MSG_SESSION_KEY] = UtilFunctions::json_encode($m);
                 exit(header('Location: ' . HOSTNAME));
             } else {
                 $error = true;
@@ -467,7 +467,7 @@ if (!empty($_POST['rand_session_id'])) {
     }
 
     if ($error && !$notpost) {
-        $_SESSION[INDEX_POST_SESSION_KEY] = json_encode($_POST);
+        $_SESSION[INDEX_POST_SESSION_KEY] = UtilFunctions::json_encode($_POST);
         exit(header('Location: ' . PAGE_EDIT_EVENT . "?eventId=" . $eventId));
     }
 } else {
@@ -526,7 +526,7 @@ if (!empty($_POST['rand_session_id'])) {
         }
     }
     if (!empty($var_tags) && sizeof($var_tags) > 0) {
-        $var_tags = json_encode($var_tags);
+        $var_tags = UtilFunctions::json_encode($var_tags);
     } else {
         $var_tags = "[]";
     }

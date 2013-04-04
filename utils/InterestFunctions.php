@@ -53,7 +53,7 @@ class InterestUtil {
                 array_push($result, $val);
             }
         }
-        $json_response = json_encode($result);
+        $json_response = UtilFunctions::json_encode($result);
         echo $json_response;
     }
 

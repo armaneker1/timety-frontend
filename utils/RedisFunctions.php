@@ -48,7 +48,7 @@ class RedisUtils {
                         }
                     }
                 }
-                $tagIds = json_encode($tagIds);
+                $tagIds = UtilFunctions::json_encode($tagIds);
                 $redis->getProfile()->defineCommand('seacrhEventByTag', 'SeacrhEventByTag');
                 $events = $redis->seacrhEventByTag($key, $tagIds, $date, '');
             }
@@ -162,7 +162,7 @@ class RedisUtils {
                             }
                         }
                     }
-                    $tagIds = json_encode($tagIds);
+                    $tagIds = UtilFunctions::json_encode($tagIds);
                     $redis->getProfile()->defineCommand('seacrhEventByTag', 'SeacrhEventByTag');
                     $events = $redis->seacrhEventByTag($key, $tagIds, $date, '');
                 } else {
@@ -1292,7 +1292,7 @@ class RedisUtils {
         if (!empty($redis) && !empty($key)) {
             $log->logInfo($key . " > addItem > inserting item");
             $return = $redis->zadd($key, $score, $item);
-            $log->logInfo($key . " > addItem >  inserted item " . json_encode($return));
+            $log->logInfo($key . " > addItem >  inserted item " . UtilFunctions::json_encode($return));
             return $return;
         }
         return null;
@@ -1303,7 +1303,7 @@ class RedisUtils {
         if (!empty($redis) && !empty($key)) {
             $log->logInfo($key . " > removeItem > removing item");
             $return = $redis->zrem($key, $item);
-            $log->logInfo($key . " > removeItem >  removed item " . json_encode($return));
+            $log->logInfo($key . " > removeItem >  removed item " . UtilFunctions::json_encode($return));
             return $return;
         }
         return null;

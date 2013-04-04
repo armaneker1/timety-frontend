@@ -829,7 +829,7 @@ class Neo4jFuctions {
                         }
                     }
                 }
-                $json_response = json_encode($result);
+                $json_response = UtilFunctions::json_encode($result);
                 return $json_response;
             }
         }
@@ -870,7 +870,7 @@ class Neo4jFuctions {
                         }
                     }
                 }
-                $json_response = json_encode($result);
+                $json_response = UtilFunctions::json_encode($result);
                 return $json_response;
             }
         }
@@ -902,7 +902,7 @@ class Neo4jFuctions {
                         }
                     }
                 }
-                $json_response = json_encode($result);
+                $json_response = UtilFunctions::json_encode($result);
                 return $json_response;
             }
         }

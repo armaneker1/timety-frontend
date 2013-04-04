@@ -272,9 +272,8 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                        <!-- <p><?= $evtDesc ?></p> -->
                                                         <script>
                                                             var tmpDataJSON='<?php
-                                                    $json_response = json_encode($evt);
-                                                    $json_response = str_replace("'", "\\'", $json_response);
-                                                    echo str_replace('"', '\\"', $json_response);
+                                                    $json_response = UtilFunctions::json_encode($evt);
+                                                    echo $json_response;
                                                     ?>';
                                                     tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
                                                     var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
@@ -638,9 +637,8 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     </div>
                                     <script>
                                         var tmpDataJSON='<?php
-                $json_response = json_encode($main_event);
-                $json_response = str_replace("'", "\\'", $json_response);
-                echo str_replace('"', '\\"', $json_response);
+                $json_response = UtilFunctions::json_encode($main_event);
+                echo $json_response;
                 ?>';
                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);

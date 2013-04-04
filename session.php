@@ -8,16 +8,6 @@ if (array_key_exists("debug", $_GET)) {
     $debug = true;
 }
 
-/*if (array_key_exists("clear", $_POST)) {
-    var_dump(session_status());
-    if ((session_status() == PHP_SESSION_)) {
-        session_unset();
-        session_destroy();
-        echo json_encode(true);
-    }
-    echo json_encode(false);
-}*/
-
 
 if (array_key_exists("key", $_GET)) {
     try {
@@ -26,11 +16,11 @@ if (array_key_exists("key", $_GET)) {
             $value = $_SESSION[$key];
         }
         if (isset($value)) {
-            $json_response = json_encode($value);
+            $json_response = UtilFunctions::json_encode($value);
             echo $json_response;
         }
     } catch (Exception $e) {
-        echo json_encode(false);
+        echo UtilFunctions::json_encode(false);
     }
 }
 
@@ -39,10 +29,10 @@ if (array_key_exists("key", $_POST) && array_key_exists("value", $_POST)) {
         $key = $_POST["key"];
         $value = $_POST["value"];
         $_SESSION[$key] = $value;
-        $json_response = json_encode($value);
+        $json_response = UtilFunctions::json_encode($value);
         echo $json_response;
     } catch (Exception $e) {
-        echo json_encode(false);
+        echo UtilFunctions::json_encode(false);
     }
 }
 
@@ -54,22 +44,22 @@ if (array_key_exists("key", $_POST) && array_key_exists("remove", $_POST)) {
             var_dump($key);
             if ($key !== false) {
                 unset($_SESSION[$_POST["key"]]);
-                $json_response = json_encode(true);
+                $json_response = UtilFunctions::json_encode(true);
                 echo $json_response;
             } else {
-                echo json_encode(false);
+                echo UtilFunctions::json_encode(false);
             }
         }
     } catch (Exception $e) {
-        echo json_encode(false);
+        echo UtilFunctions::json_encode(false);
     }
 }
 
 if (array_key_exists("all", $_GET)) {
     try {
-        echo json_encode($_SESSION);
+        echo UtilFunctions::json_encode($_SESSION);
     } catch (Exception $e) {
-        echo json_encode(false);
+        echo UtilFunctions::json_encode(false);
     }
 }
 
