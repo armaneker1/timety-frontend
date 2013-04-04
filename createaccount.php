@@ -18,7 +18,6 @@ if (array_key_exists("login", $_GET)) {
     }
 }
 ?>
-<!DOCTYPE HTML>
 <html  xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>       
         <meta property="og:title" content="Timety"/>
