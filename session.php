@@ -16,11 +16,11 @@ if (array_key_exists("key", $_GET)) {
             $value = $_SESSION[$key];
         }
         if (isset($value)) {
-            $json_response = UtilFunctions::json_encode($value);
+            $json_response = json_encode($value);
             echo $json_response;
         }
     } catch (Exception $e) {
-        echo UtilFunctions::json_encode(false);
+        echo json_encode(false);
     }
 }
 
@@ -29,10 +29,10 @@ if (array_key_exists("key", $_POST) && array_key_exists("value", $_POST)) {
         $key = $_POST["key"];
         $value = $_POST["value"];
         $_SESSION[$key] = $value;
-        $json_response = UtilFunctions::json_encode($value);
+        $json_response = json_encode($value);
         echo $json_response;
     } catch (Exception $e) {
-        echo UtilFunctions::json_encode(false);
+        echo json_encode(false);
     }
 }
 
@@ -44,22 +44,22 @@ if (array_key_exists("key", $_POST) && array_key_exists("remove", $_POST)) {
             var_dump($key);
             if ($key !== false) {
                 unset($_SESSION[$_POST["key"]]);
-                $json_response = UtilFunctions::json_encode(true);
+                $json_response = json_encode(true);
                 echo $json_response;
             } else {
-                echo UtilFunctions::json_encode(false);
+                echo json_encode(false);
             }
         }
     } catch (Exception $e) {
-        echo UtilFunctions::json_encode(false);
+        echo json_encode(false);
     }
 }
 
 if (array_key_exists("all", $_GET)) {
     try {
-        echo UtilFunctions::json_encode($_SESSION);
+        echo json_encode($_SESSION);
     } catch (Exception $e) {
-        echo UtilFunctions::json_encode(false);
+        echo json_encode(false);
     }
 }
 
