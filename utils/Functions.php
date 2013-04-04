@@ -71,7 +71,7 @@ class UtilFunctions {
             $json = json_encode($string);
             $json = empty($string) ? '[]' : $json;
             $search = array('\\', "\n", "\r", "\f", "\t", "\b", "'");
-            $replace = array('\\\\', "\\n", "\\r", "\\f", "\\t", "\\b", "&#039");
+            $replace = array('\\\\', "\\n", "\\r", "\\f", "\\t", "\\b", "\\'");
             $json = str_replace($search, $replace, $json);
         }
         return $json;
@@ -147,14 +147,17 @@ class UtilFunctions {
                     }
                 }
                 if ($since_start->d > 0 && empty($result)) {
-                    //$result = $since_start->d . 'd';
-                    if ($since_start->d == 1) {
+                    $ds = (int) date('j', strtotime($datestart));
+                    $de = (int) date('j', strtotime($dateend));
+                    $day_dif = $de - $ds;
+
+                    if ($day_dif == 1) {
                         $result = "Tomorrow";
                     } else {
                         $week = date('N', strtotime($datestart));
-                        $week = $week + $since_start->d;
+                        $week = $week + $day_dif;
                         if ($week <= 7) {
-                            $result = date('l', strtotime($datestart . ' ' . $since_start->d . ' day'));
+                            $result = date('l', strtotime($dateend));
                         } else if ($week > 7 && $week <= 14) {
                             $result = "Next week";
                         } else {
@@ -178,7 +181,10 @@ class UtilFunctions {
                     $ds = date('j', strtotime($datestart));
                     $de = date('j', strtotime($dateend));
                     if ($ds == $de) {
-                        $result = $since_start->h . ' hours';
+                        $hs = (int) date('G', strtotime($datestart));
+                        $he = (int) date('G', strtotime($dateend));
+                        $hour_dif = $he - $hs;
+                        $result = $hour_dif . ' hours';
                     } else {
                         $result = "Tomorrow";
                     }
