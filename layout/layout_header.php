@@ -16,7 +16,10 @@ if (!isset($timety_header)) {
 
 
 <?php
-$br = strtoupper($_SERVER['HTTP_USER_AGENT']);
+$br = "";
+if (isset($_SERVER['HTTP_USER_AGENT'])) {
+    $br = strtoupper($_SERVER['HTTP_USER_AGENT']);
+}
 if (stripos($br, 'MSIE')) {
     ?>
     <link  href="<?= HOSTNAME ?>ie7_8.css?2013023317544" rel="stylesheet" type="text/css" />

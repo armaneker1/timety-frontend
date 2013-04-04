@@ -84,7 +84,10 @@ class UtilFunctions {
     }
 
     public static function getBrowser() {
-        $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $ua = "";
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
+        }
         if (preg_match('/(chromium)[ \/]([\w.]+)/', $ua))
             $browser = 'chromium';
         elseif (preg_match('/(chrome)[ \/]([\w.]+)/', $ua))

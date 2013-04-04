@@ -15,7 +15,10 @@ if (!isset($timety_header)) {
 
 
 <?php
-$br = strtoupper($_SERVER['HTTP_USER_AGENT']);
+$br = "";
+if (isset($_SERVER['HTTP_USER_AGENT'])) {
+    $br = strtoupper($_SERVER['HTTP_USER_AGENT']);
+}
 if (stripos($br, 'MSIE')) {
     ?>
     <link  href="<?= HOSTNAME ?>ie7_8.css?20130233133744" rel="stylesheet" type="text/css" />
@@ -94,7 +97,7 @@ if ($br == "mozilla") {
     ?>
     <style>
         .searchbtn2{
-             margin-left: 448px !important;
+            margin-left: 448px !important;
         }
     </style>
 <?php } ?>
