@@ -2177,14 +2177,15 @@ span.roll {
     display: inline-block;
     margin-right: auto;
     margin-left: auto;
+    width: 100%;
 }
 
 .aboutus_div_cell {
     display: inline-block;
-    width: 400px;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-right: 2px;
     text-align: center;
+    vertical-align: top;
+    width: 30%;
 }
 
 .aboutus_header{
