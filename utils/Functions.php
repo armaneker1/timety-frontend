@@ -148,7 +148,7 @@ class UtilFunctions {
                             $result = "Next week";
                         } else {
                             $ms = date('m', strtotime($datestart));
-                            $me = date('m', strtotime($datestart . ' ' . $since_start->d . ' day'));
+                            $me = date('m', strtotime($dateend));
                             if ($me == $ms) {
                                 if ($week > 14 && $week <= 21) {
                                     $result = "2 weeks";
@@ -165,7 +165,7 @@ class UtilFunctions {
                 }
                 if ($since_start->h > 0 && empty($result)) {
                     $ds = date('j', strtotime($datestart));
-                    $de = date('j', strtotime($datestart . ' ' . $since_start->h . ' hour'));
+                    $de = date('j', strtotime($dateend));
                     if ($ds == $de) {
                         $result = $since_start->h . ' hours';
                     } else {

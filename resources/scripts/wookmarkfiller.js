@@ -808,8 +808,8 @@ function calculateRemainingTime(date){
                     } else if (week > 7 && week <= 14) {
                         return "Next week";
                     } else {
-                        var ms = parseInt(d.format("M"));
-                        var me = parseInt(now.add("days", week).format("M"));
+                        var ms = parseInt(now.format("M"));
+                        var me = parseInt(d.format("M"));
                         if (me == ms) {
                             if (week > 14 && week <= 21) {
                                 return "2 weeks";
@@ -827,8 +827,8 @@ function calculateRemainingTime(date){
             
             var h_=d.diff(now,"hours");
             if(h_>0){
-                var ds = parseInt(d.format('D'));
-                var de = parseInt(now.add("hours", h_).format('D'));
+                var ds = parseInt(now.format('D'));
+                var de = parseInt(d.format('D'));
                 if (ds == de) {
                     return h_+ ' hours';
                 } else {
