@@ -703,6 +703,13 @@ if (isset($_POST['update'])) {
        
             });
         </script>
+        <meta property="og:title" content="Timety"/>
+        <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
+        <meta property="og:site_name" content="Timety"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:description" content="Timety"/>
+        <meta property="og:url" content="<?= HOSTNAME ?>"/>
+        <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg">
         <?php include('layout/layout_top.php'); ?>
@@ -998,9 +1005,11 @@ if (isset($_POST['update'])) {
                         class="user_inpt" 
                         style="width:356px;height:40px"
                         id="te_birthday" 
-                        value="<?php if (!empty($te_birthday)) {
+                        value="<?php
+                        if (!empty($te_birthday)) {
                             echo date(DATE_FE_FORMAT_D, strtotime($te_birthday));
-                        } ?>"
+                        }
+                        ?>"
                         onkeyup="validateInputDate(this,true,false)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInputDate(this,true,true) }" 
                         onchange="resetInputWarning(this);validateInputDate(this,true,true)"/> 

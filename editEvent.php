@@ -801,6 +801,14 @@ if ($event->addsocial_tw == 1) {
                 }
             </style>
         <?php } ?>
+
+        <meta property="og:title" content="Timety"/>
+        <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
+        <meta property="og:site_name" content="Timety"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:description" content="Timety"/>
+        <meta property="og:url" content="<?= HOSTNAME ?>"/>
+        <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
 
     <body class="bg">
@@ -921,33 +929,33 @@ if ($event->addsocial_tw == 1) {
                             }
                             ?>
                             <p style="font-family: arial;font-size: 15px;font-weight: bold;color: #aeaeae;">Export to</p>
-                            
+
                             <button id="add_social_c_fb" type="button" ty="fb" act="false" class="big-icon-f-export btn-sign-big-export  fb facebook"
-                                <?php
-                                if (!$fb) {
-                                    echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fb');checkOpenPopup();\"";
-                                } else {
-                                    echo "onclick=\"toogleSocialButton(this);\"";
-                                }
-                                ?>>
+                            <?php
+                            if (!$fb) {
+                                echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fb');checkOpenPopup();\"";
+                            } else {
+                                echo "onclick=\"toogleSocialButton(this);\"";
+                            }
+                            ?>>
                                 <b>Events</b> 
                                 <div id="big-icon-check-fb-id" class="big-icon-check" style="top:90px;display:none;"></div>
                             </button>
-                            
+
                             <button id="add_social_c_gg" type="button" ty="gg" act="false" class="big-icon-g-export btn-sign-big-export google"
-                                <?php
-                                if (!$gg) {
-                                    echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('gg');checkOpenPopup();\"";
-                                } else {
-                                    echo "onclick=\"toogleSocialButton(this);\"";
-                                }
-                                ?>>
+                            <?php
+                            if (!$gg) {
+                                echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('gg');checkOpenPopup();\"";
+                            } else {
+                                echo "onclick=\"toogleSocialButton(this);\"";
+                            }
+                            ?>>
                                 <b>Calendar</b> 
                                 <div id="big-icon-check-gg-id" class="big-icon-check" style="top:90px;display:none;"></div>
                             </button>
-                            
+
                             <button id="add_social_c_out" type="button" ty="out" act="false" class="big-icon-o-export btn-sign-big-export ou outlook"
-                                 onclick="toogleSocialButton(this);">
+                                    onclick="toogleSocialButton(this);">
                                 <b>Outlook</b> 
                                 <div id="big-icon-check-out-id" class="big-icon-check" style="top:90px;display:none;"></div>
                             </button>
@@ -1183,13 +1191,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                                                                                                <label
-                                                                                                                                                    class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
-                                                                                                                                                        onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                                                                                        checked=""
-                                                                                                                                                        name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
-                                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                                                                                                </label> <br /> 
+                                                                                                                                                        <label
+                                                                                                                                                            class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
+                                                                                                                                                                onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                                                                                checked=""
+                                                                                                                                                                name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
+                                                                                                                                                                value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                                                                        </label> <br /> 
                             <?php
                         }
                     }
@@ -1205,13 +1213,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                                                                                                <label
-                                                                                                                                                    class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
-                                                                                                                                                        onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                                                                                        checked=""
-                                                                                                                                                        name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
-                                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                                                                                                </label> <br /> 
+                                                                                                                                                        <label
+                                                                                                                                                            class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
+                                                                                                                                                                onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                                                                                checked=""
+                                                                                                                                                                name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
+                                                                                                                                                                value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                                                                        </label> <br /> 
                             <?php
                         }
                     }
@@ -1241,7 +1249,7 @@ if ($event->addsocial_tw == 1) {
                                 $iddd = $var_cats[$i]->id;
                             }
                             ?>
-                                                                                                                                        jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
+                                                                                                                                                jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
                             <?php
                         }
                     }

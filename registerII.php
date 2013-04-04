@@ -165,16 +165,23 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                     });
                 });
             </script>
+            <meta property="og:title" content="Timety"/>
+            <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
+            <meta property="og:site_name" content="Timety"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:description" content="Timety"/>
+            <meta property="og:url" content="<?= HOSTNAME ?>"/>
+            <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg"
           onload="checkInterestReady('<?= PAGE_LIKES ?>','#spinner','<?php
-          if (!empty($user)) {
-              echo $user->id;
-          } else {
-              echo "";
-          }
-?>',false);">
-        <?php include('layout/layout_top.php'); ?>
+        if (!empty($user)) {
+            echo $user->id;
+        } else {
+            echo "";
+        }
+        ?>',false);">
+              <?php include('layout/layout_top.php'); ?>
         <div class="follow_trans"></div>
         <?php
         $fb = false;
@@ -204,18 +211,18 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                     <!--<button type="button" name="" value=""
                             class="zmn back_btn sosyal_icon" /> -->
                     <button type="button" name="" value=""
-                            <?php if (!$fb) echo "onclick=\"jQuery('#spinner').show();openPopup('fb');checkOpenPopup();\""; ?>
+                    <?php if (!$fb) echo "onclick=\"jQuery('#spinner').show();openPopup('fb');checkOpenPopup();\""; ?>
                             class="face<?php if ($fb) echo '_aktiv'; ?> back_btn sosyal_icon"></button>  
-                    <?php if ($tw) { ?>
+                            <?php if ($tw) { ?>
                         <button type="button" name="" value=""
-                                <?php if (!$tw) echo "onclick=\"jQuery('#spinner').show();openPopup('tw');checkOpenPopup();\""; ?>
+                        <?php if (!$tw) echo "onclick=\"jQuery('#spinner').show();openPopup('tw');checkOpenPopup();\""; ?>
                                 class="tweet<?php if ($tw) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
                             <?php } ?>
-                    <?php if ($fq) { ?>
+                            <?php if ($fq) { ?>
                         <button type="button" name="" value=""
-                                <?php if (!$fq) echo "onclick=\"jQuery('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
+                        <?php if (!$fq) echo "onclick=\"jQuery('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
                                 class="googl_plus<?php if ($fq) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
-<?php } ?>
+                            <?php } ?>
                     <button style="display: none;" id="addSocialReturnButton" type="button"
                             onclick="socialWindowButtonCliked=true;checkInterestReady('<?php echo PAGE_LIKES; ?>','#spinner','<?php echo $user->id; ?>',true);"></button>
                     <button style="display: none;" id="addSocialErrorReturnButton" type="button" errorText=""
@@ -236,11 +243,11 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                     <div class="add_kategori" style="min-width: 850px;">
                         <div
                             class="<?php
-                    if (($k % 2) == 0) {
-                        echo "add_kategori_a";
-                    } else {
-                        echo "add_kategori_k";
-                    }
+                if (($k % 2) == 0) {
+                    echo "add_kategori_a";
+                } else {
+                    echo "add_kategori_k";
+                }
                     ?>  add_bg">
                             <?php
                             $showSol = true;
@@ -250,10 +257,12 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                                 $showSol = false;
                             }
                             ?>
-                            <div class="add_ktg_sol" <?php if (!$showSol) {
-                                echo "style='display:none;'";
-                            } ?>>
-                                 <ol class="on_off" style="margin-top: 40px;margin-left: 8px;">
+                            <div class="add_ktg_sol" <?php
+                        if (!$showSol) {
+                            echo "style='display:none;'";
+                        }
+                        ?>>
+                                <ol class="on_off" style="margin-top: 40px;margin-left: 8px;">
                                     <li><input class="on_off_check_box_style" type="checkbox"  cat_id="<?php echo $cat->id; ?>" id="checkbox_on_off_<?php echo $cat->id; ?>" checked="checked"/>
                                     </li>
                                 </ol>
@@ -335,11 +344,13 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                             <div style="clear: both"></div>
                         </div>
                     </div>
-<?php } ?>
+                    <?php } ?>
                 <div class="add_footer" style="width: 100%">
-                    <div class="add_ktg_sol" id="foot_add_ktg_sol" style="height: 50px;<?php if (!$showSol) {
-    echo "display:none;";
-} ?>">
+                    <div class="add_ktg_sol" id="foot_add_ktg_sol" style="height: 50px;<?php
+                    if (!$showSol) {
+                        echo "display:none;";
+                    }
+                    ?>">
                         <a href="#" style="display: none">Add Like</a>
                     </div>
                     <div class="add_ktg_sag" style="height: 50px !important;"

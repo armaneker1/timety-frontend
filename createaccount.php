@@ -24,7 +24,7 @@ if (array_key_exists("login", $_GET)) {
 <html>
     <head>       
         <meta property="og:title" content="Timety"/>
-        <meta property="og:image" content="<?= HOSTNAME ?>images/timeteB.png"/>
+        <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.png"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
         <meta property="og:description" content="Timety"/>

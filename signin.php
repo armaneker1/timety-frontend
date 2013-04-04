@@ -70,7 +70,8 @@ if (array_key_exists("te_username", $_POST)) {
 <!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-        <?php $timety_header = "Timety | Login";
+        <?php
+        $timety_header = "Timety | Login";
         include('layout/layout_header.php');
         ?>
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
@@ -141,6 +142,13 @@ if (array_key_exists("te_username", $_POST)) {
             }
                     
         </script>
+        <meta property="og:title" content="Timety"/>
+        <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
+        <meta property="og:site_name" content="Timety"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:description" content="Timety"/>
+        <meta property="og:url" content="<?= HOSTNAME ?>"/>
+        <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg">
 <?php include('layout/layout_top_sign.php'); ?>

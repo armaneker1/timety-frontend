@@ -183,7 +183,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         } else {
             ?>
             <meta property="og:title" content="Timety"/>
-            <meta property="og:image" content="<?= HOSTNAME ?>images/timeteB.jpeg"/>
+            <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="Timety"/>
