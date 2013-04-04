@@ -387,10 +387,8 @@ if (empty($user)) {
                                 basename($fileName) => '@' . $fileName
                             );
                             $result = $facebook->api('me/events', 'post', $event_info);
-                            var_dump($result);
                             error_log("Fcebook event log " . json_encode($result));
                         } catch (Exception $exc) {
-                            var_dump($exc);
                             error_log($exc->getTraceAsString());
                         }
                     }
