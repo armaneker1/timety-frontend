@@ -527,7 +527,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                                		      
+                                                                                                                                                                                                                                                                                                                                                                                                                            		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -717,7 +717,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                            
+                                                                                                                        
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -810,7 +810,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                    
+                                                                
             </script>
 
 
@@ -1334,7 +1334,7 @@ if (empty($user)) {
                                     <script>
                                         var tmpDataJSON='<?php
                                              $json_response = UtilFunctions::json_encode($main_event);
-                                             echo  $json_response;
+                                             echo $json_response;
                                              ?>';
                                                  tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
                                                  var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
