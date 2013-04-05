@@ -301,7 +301,7 @@ class Neo4jUserUtil {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
                     ".out('" . REL_TIMETY_INTERESTS . "').dedup";
-            echo $query;
+            //echo $query;
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
             $result = $query->getResultSet();
             foreach ($result as $row) {

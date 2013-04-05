@@ -2,6 +2,20 @@ var post_notifications=null;
 var post_notifications_count=null;
 var notf_click_check;
 jQuery(document).ready(function(){ 
+    
+    
+    //new
+    jQuery('#top_notification_button').click(function(e) {
+        jQuery.sessionphp.get("id", function(userId){
+            if(userId)
+            {
+                closeOtherNotf();
+                showNotifications(userId);  
+            }
+        });
+    });
+    
+    //old 
     jQuery('#te_avatar').click(function(e) {
         jQuery.sessionphp.get("id", function(userId){
             if(userId)
@@ -47,7 +61,11 @@ function checkNotifications(userId)
                 if(!notf.length)
                 {
                     notf=jQuery('<div id="avtr_box_not" class="avtr_box">'+data+'</div>'); 
+                    //old
                     var notfDiv=jQuery("#te_avatar");
+                    notfDiv.append(notf);
+                    //new 
+                    notfDiv=jQuery("#top_notification_button");
                     notfDiv.append(notf);
                 }else
                 {
@@ -65,7 +83,7 @@ function checkNotifications(userId)
 
 function closeNotifications(e)
 {
-    if((e && e.target && !((e.target.id+"")=="te_avatar" || jQuery(e.target).parents().is("#te_avatar") ||(e.target.id+"")=="my_timety_notf_container" || jQuery(e.target).parents().is("#my_timety_notf_container"))))
+    if((e && e.target && !((e.target.id+"")=="te_avatar" || jQuery(e.target).parents().is("#te_avatar") || (e.target.id+"")=="top_notification_button" || jQuery(e.target).parents().is("#top_notification_button") ||(e.target.id+"")=="my_timety_notf_container" || jQuery(e.target).parents().is("#my_timety_notf_container"))))
     {
         jQuery("body").unbind('click.notfs');
         jQuery("#my_timety_notf_container").hide();

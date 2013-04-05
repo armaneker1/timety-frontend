@@ -1,5 +1,16 @@
 jQuery(document).ready(function(){ 
+    //old menu
     jQuery('#top_menu_populer').hover(
+        function () {
+            closeOtherPoppular();
+            openMyTimety();
+        }, 
+        function () {
+            closeMyTimety();
+        }
+        );
+    //new menu       
+    jQuery('#category_select_btn').hover(
         function () {
             closeOtherPoppular();
             openMyTimety();

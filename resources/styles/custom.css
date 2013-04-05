@@ -204,7 +204,7 @@ span.rollover:hover {
 	padding-left: 11px !important;
 }
 
-.top_menu_ul_li_a_selected {
+.top_menu .top_menu_ul_li_a_selected {
                 position: relative;
                 font-family: Arial;
                 font-size: 12px;

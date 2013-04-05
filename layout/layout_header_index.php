@@ -21,16 +21,16 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
 }
 if (stripos($br, 'MSIE')) {
     ?>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?20130233133744" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?4567890" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css?20130233133755" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?4567877" rel="stylesheet" type="text/css" />
 <?php } else { ?>
-    <link  href="<?= HOSTNAME ?>all_css.css?2013023335544" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom.css?45678" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>all_css.css?2013023335555" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom.css?45677" rel="stylesheet" type="text/css" />
 <?php } ?>
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201304755355" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201304755366" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css?34677" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -54,10 +54,10 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?201302221744"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?201986700"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?2013022499"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?2013022499"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20139989224388"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20139989224366"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.dd.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery-placeholder.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAPS_API_KEY ?>&sensor=true&libraries=places"></script>

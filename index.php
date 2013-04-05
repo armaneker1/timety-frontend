@@ -527,7 +527,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                                            		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -717,7 +717,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                        
+                                                                                                                                    
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -810,7 +810,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                
+                                                                            
             </script>
 
 
@@ -857,17 +857,6 @@ if (empty($user)) {
         <?php } ?>
 
 
-        <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
-            <!-- channel -->
-            <script>
-                jQuery(document).ready(function(){
-                    jQuery("#add_event_button").click();
-                    jQuery("#te_quick_event_desc").focus();
-                });
-            </script>
-            <!-- channel -->
-        <?php } ?>
-
         <?php if (isset($_GET['l']) && $_GET['l'] == "1") {
             ?>
             <script>
@@ -900,13 +889,35 @@ if (empty($user)) {
         <?php } ?>
     </head>
     <body class="bg">
-        <?php
-        if (!empty($user) && $user->id == 6618346) {
-            include('layout/layout_top_exp.php');
-        } else {
-            include('layout/layout_top.php');
-        }
-        ?>
+        <?php include('layout/layout_top.php'); ?>
+        <!-- Add Event -->
+        <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
+            <!-- channel -->
+            <script>
+                jQuery(document).ready(function(){
+                    //old
+                    jQuery("#add_event_button").click();
+                    jQuery("#te_quick_event_desc").focus();
+                    //new
+                    jQuery(".top_addeventButton").click();
+                });
+            </script>
+            <!-- channel -->
+        <?php } ?>
+        <script>
+            jQuery(document).ready(function(){
+                if(location.hash){
+                    if(location.hash=='#addevent'){
+                        //old
+                        jQuery("#add_event_button").click();
+                        jQuery("#te_quick_event_desc").focus();
+                        //new
+                       jQuery(".top_addeventButton").click();
+                    }  
+                }
+            });
+        </script>
+        <!-- Add Event -->
         <?php
         if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
             $m = new HtmlMessage();

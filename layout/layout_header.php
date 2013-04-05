@@ -22,16 +22,16 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
 }
 if (stripos($br, 'MSIE')) {
     ?>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?2013023317544" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css?2013023317555" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?77" rel="stylesheet" type="text/css" />
 <?php } else { ?>
-    <link  href="<?= HOSTNAME ?>all_css.css?2013023315544" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom.css" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>all_css.css?2013023315555" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom.css?77" rel="stylesheet" type="text/css" />
 <?php } ?>
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?2012233255855" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?2012233255866" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css?77" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -62,7 +62,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootbox.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js?2013022277855"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js?2013022277866"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.dd.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/dateutil.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/register.js"></script>

@@ -17,13 +17,14 @@ jQuery(document).ready( function() {
         if(e.keyCode == 13) {    
             page_wookmark=0;
             isearching=true;
-            wookmarkFiller(document.optionsWookmark, true);
+            wookmarkFiller(document.optionsWookmark, true,true);
             inputText.blur();
         }
     });
     
     jQuery('*').click( function(e) {
         if(e.target.className != "search_btn" 
+            && e.target.id != "search_event_button" 
             && e.target.className != "search_event_input" 
             && e.target.className != "searchbtn" 
             && e.target.className != "search_bar"
@@ -37,20 +38,19 @@ jQuery(document).ready( function() {
         jQuery('.search_event_input').val("");
     });
 
-    jQuery('.searchbtn').click( function() {  
+    //new 
+    jQuery('#search_event_btn').click( function() {  
         page_wookmark=0;
         isearching=true;
         wookmarkFiller(document.optionsWookmark, true,true);
         inputText.blur();
     });
-    
-    jQuery('searchbtn').click(function(e) {
-        if(e.keyCode == 13)
-        {  
-            page_wookmark=0;
-            isearching=true;
-            wookmarkFiller(document.optionsWookmark, true,true);
-            inputText.blur();
-        }
+
+    //old
+    jQuery('.searchbtn').click( function() {  
+        page_wookmark=0;
+        isearching=true;
+        wookmarkFiller(document.optionsWookmark, true,true);
+        inputText.blur();
     });
 });

@@ -158,7 +158,7 @@ function openCreatePopup() {
     /*
      * Clean Popup
      */
-    if(pSUPERFLY)
+    if(typeof pSUPERFLY != "undefined")
         pSUPERFLY.virtualPage("/createevent","/createevent");
     jQuery('.php_errors').remove();
     
