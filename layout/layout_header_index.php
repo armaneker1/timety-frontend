@@ -39,6 +39,8 @@ if (stripos($br, 'MSIE')) {
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.core.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.datepicker.css" rel="stylesheet">
 <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
+<link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css?201303011635" rel="stylesheet" type="text/css" />
+<link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css" rel="stylesheet">
 <!-- CSS -->
 
 
@@ -82,6 +84,11 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/moment.min.js?22320225213"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/register.min.js?22320225213"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/shortcut.min.js?22320225213"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.js"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.widget.js"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.position.js"></script>
+<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
 <!-- Scripts -->
 
 <!--[if IE]>

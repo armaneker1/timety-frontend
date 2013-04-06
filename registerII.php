@@ -82,15 +82,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
         ?>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?35"></script>
 
-        <script language="javascript"
-        src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.js"></script>
-        <script language="javascript"
-        src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.widget.js"></script>
-        <script language="javascript"
-        src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.position.js"></script>
-        <script language="javascript"
-        src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
-        <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css" rel="stylesheet">
+        
 
             <script type="text/javascript">
                 

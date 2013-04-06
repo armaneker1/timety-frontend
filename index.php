@@ -674,10 +674,7 @@ if (empty($user)) {
         <link href="<?= HOSTNAME ?>js/saat/timepicker.css" rel="stylesheet" type="text/css" />
         <!--saat-->
 
-        <!--auto complete-->
-        <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css?201303011635" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
-
+       
         <?php
         if (!empty($user)) {
             $var_cat = "[]";
@@ -837,7 +834,6 @@ if (empty($user)) {
                         ch=2;
                     }  else if(location.hash=='#following') {
                         ch=3; }
-                    
                     // else if(location.hash=='#popular') {
                     //    ch=0;
                     // }

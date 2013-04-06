@@ -40,6 +40,8 @@ if (stripos($br, 'MSIE')) {
 <link  href="<?= HOSTNAME ?>style.css" rel="stylesheet" type="text/css"  />
 <!-- <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet"> -->
 <link href="<?= HOSTNAME ?>resources/styles/jquery.ui.css" rel="stylesheet">
+<link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css?201303011635" rel="stylesheet" type="text/css" />
+<link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css" rel="stylesheet">
 <!-- CSS -->
 
 
@@ -81,7 +83,11 @@ if (stripos($br, 'MSIE')) {
 <script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.min.js?20131224226332" type="text/javascript"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/moment.min.js?22320225213"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/shortcut.min.js?22320225213"></script>
-
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.js"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.widget.js"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.position.js"></script>
+<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.autocomplete.js"></script>
 
 
 <!--[if IE]>

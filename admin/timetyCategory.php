@@ -10,7 +10,7 @@ Neo4jTimetyCategoryUtil::checkTimetyCategoryExits();
 if (isset($_POST['save'])) {
     $new_cat = $_POST['cat_name'];
     if (!empty($new_cat)) {
-        $res=Neo4jTimetyCategoryUtil::insertTimetyCategory($new_cat);
+        $res = Neo4jTimetyCategoryUtil::insertTimetyCategory($new_cat);
         if ($res == 3) {
             echo "Timety cateory saved";
         } elseif ($res == 1) {
@@ -60,13 +60,13 @@ $array = Neo4jTimetyCategoryUtil::getTimetyList("");
             <h3>Categories</h3>
             <select name="categories[]" multiple style="width: 250px;height: 200px;">
                 <?php foreach ($array as $cat) { ?>
-                    <option value="<?= $cat->id ?>"><?= $cat->name."(".$cat->id.")" ?></option>
+                    <option value="<?= $cat->id ?>"><?= $cat->name . "(" . $cat->id . ")" ?></option>
                 <?php } ?>
             </select>
-            
-            <input type="submit" name="select" value="Select"></form>
+
+            <input type="submit" name="select" value="Select">
             <br/>
             <input type="submit" name="delete" value="Delete">
-    </form>
-</body>
+        </form>
+    </body>
 </html>

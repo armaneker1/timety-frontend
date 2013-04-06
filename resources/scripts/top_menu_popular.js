@@ -30,10 +30,20 @@ jQuery(document).ready(function(){
             button.addClass("kapat");
             jQuery(this).attr("slc","true");
         }
-        wookmark_channel=9;
-        wookmark_category=jQuery(this).attr("cat_id");
-        page_wookmark=0;
-        wookmarkFiller(document.optionsWookmark,true,true);
+        if(jQuery(this).attr("channelid")>0){
+            page_wookmark=0;
+            jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
+            jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+            wookmark_channel=jQuery(this).attr("channelid") || 1;
+            wookmarkFiller(document.optionsWookmark,true,true);
+            _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+            _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
+        }else{
+            wookmark_channel=9;
+            wookmark_category=jQuery(this).attr("cat_id");
+            page_wookmark=0;
+            wookmarkFiller(document.optionsWookmark,true,true);
+        }
     });
 });
 

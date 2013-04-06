@@ -1,5 +1,5 @@
 <?php
-if (!empty($user) && ($user->id == 6618346 /* || $user->id == 6618356 || $user->id == 6618370*/)) {
+if (!empty($user) && ($user->id == 6618346 /* || $user->id == 6618356  */  || $user->id == 6618370)) {
     include('layout/layout_top_exp.php');
 } else {
     $user = null;

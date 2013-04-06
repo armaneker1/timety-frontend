@@ -85,7 +85,7 @@ class Neo4jTimetyCategoryUtil {
         foreach ($result as $row) {
             $langTmp = $row[0]->getProperty(PROP_TIMETY_LANG_CODE);
             if ($lang == $langTmp) {
-               return  $row[0];
+                return $row[0];
             }
         }
         return null;
@@ -136,6 +136,18 @@ class Neo4jTimetyCategoryUtil {
             $timetyCategoryIndex->add($catNode, PROP_TIMETY_CAT_ID, $id);
             $timetyCategoryIndex->add($catNode, PROP_TIMETY_CAT_NAME, $catName);
             $timetyCategoryIndex->save();
+
+
+
+            $nodeTR_TR = $client->makeNode();
+            $nodeTR_TR->setProperty(PROP_TIMETY_LANG_CODE, LANG_TR_TR);
+            $nodeTR_TR->save();
+            $catNode->relateTo($nodeTR_TR, REL_TIMETY_LANG)->save();
+
+            $nodeEN_US = $client->makeNode();
+            $nodeEN_US->setProperty(PROP_TIMETY_LANG_CODE, LANG_EN_US);
+            $nodeEN_US->save();
+            $catNode->relateTo($nodeEN_US, REL_TIMETY_LANG)->save();
             // ok
             return 3;
         }
@@ -200,7 +212,7 @@ class Neo4jTimetyCategoryUtil {
             }
         }
     }
-    
+
 }
 
 ?>

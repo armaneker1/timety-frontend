@@ -551,11 +551,6 @@ if (!empty($_POST['rand_session_id'])) {
 
         <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
         <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
-        <!--auto complete-->
-        <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input.css" rel="stylesheet" type="text/css" />
-        <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css" rel="stylesheet" type="text/css" />
-        <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-facebook.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js"></script>
 
         <script>
             jQuery(document).ready(function(){                

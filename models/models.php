@@ -126,9 +126,7 @@ class User {
     }
 
     public function getLocationCity() {
-        if (empty($this->location_city)) {
-            $this->location_city = UserUtils::getUserCityId($this->id);
-        }
+        $this->location_city = UserUtils::getUserCityId($this->id);
         return $this->location_city;
     }
 
@@ -155,18 +153,10 @@ class User {
     }
 
     public function getUserNotificationCount() {
-        /* $array = InviteUtil::getEventInvitesByUserId($this->id);
-          if (!empty($array)) {
-          return sizeof($array);
-          } */
         return NotificationUtils::getUnreadNotificationCount($this->id);
     }
 
     public function getUserNotifications($unread = TRUE, $limit = NULL) {
-        /* $array = InviteUtil::getEventInvitesByUserId($this->id);
-          if (!empty($array)) {
-          return $array;
-          } */
         return NotificationUtils::getNotificationList($this->id, $unread, $limit);
     }
 
@@ -334,31 +324,23 @@ class Event {
     }
 
     public function getAttachLink() {
-        if (empty($this->attach_link)) {
-            $this->attach_link = EventUtil::getEventAttachLink($this->id);
-        }
+        $this->attach_link = EventUtil::getEventAttachLink($this->id);
         return $this->attach_link;
     }
 
     public function getLocCity() {
-        if (empty($this->loc_city)) {
-            $this->loc_city = EventUtil::getEventCityId($this->id);
-        }
+        $this->loc_city = EventUtil::getEventCityId($this->id);
         return $this->loc_city;
     }
 
     public function getWorldWide() {
-        if (empty($this->worldwide)) {
-            $this->worldwide = EventUtil::getEventWorldWide($this->id);
-        }
+        $this->worldwide = EventUtil::getEventWorldWide($this->id);
         return $this->worldwide;
     }
 
     public function getTags() {
-        if (empty($this->tags)) {
-            $this->tags = Neo4jEventUtils::getEventTimetyTagsId($this->id);
-        }
-        return $this->attach_link;
+        $this->tags = Neo4jEventUtils::getEventTimetyTagsId($this->id);
+        return $this->tags;
     }
 
     public function copyEvent($tmp) {

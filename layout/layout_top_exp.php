@@ -73,8 +73,12 @@ if (empty($user)) {
                             <div  class="my_timete_popup" >
                                 <div class="kck_detay_ok"></div>
                                 <ul id="populer_top_menu_ul">
-                                    <li cat_id="-1" id="cat_id_all" style="cursor:pointer"  slc="true">
+                                    <li channelid="1" id="cat_id_all" style="cursor:pointer"  slc="true">
                                         <button type="button" class="kapat icon_bg"></button>
+                                        <span>Recommandations</span>
+                                    </li>
+                                    <li cat_id="-1" id="cat_id_all" style="cursor:pointer"  slc="false">
+                                        <button type="button" class="ekle icon_bg"></button>
                                         <span>Everything</span>
                                     </li>
                                     <?php
@@ -113,6 +117,19 @@ if (empty($user)) {
                 </div>
             </div>
             <!-- Search -->
+            <!-- Tag token input -->
+            <div id="autocomplete_search"></div>
+            <script>
+                jQuery(document).ready(function(){
+                    jQuery( "#searchText" ).autocomplete({ 
+                        source: "<?= PAGE_AJAX_GET_TIMETY_TAG . "?lang=" . LANG_EN_US ?>", 
+                        minLength: 2,
+                        appendTo: "#autocomplete_search" ,
+                        select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label)},50); }	
+                    });	
+                });
+            </script>
+            <!-- Tag token input -->
         </div>
         <!--city & sarch -->
     </div>
@@ -235,15 +252,15 @@ if (empty($user)) {
                             </div>
                         </div>
                         <ul>
-                            <li>
-                                <?php
-                                $upcoming_class = "";
-                                if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user"))) {
-                                    $upcoming_class = "top_menu_ul_li_a_selected";
-                                }
-                                ?>
-                                <a id="populer_top_menu_a" class="child <?= $upcoming_class ?>" channelId="1" onclick="changeChannel(this)" href="#popular">Upcoming</a>
-                            </li>
+                            <!--  <li>
+                            <?php
+                            $upcoming_class = "";
+                            if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user"))) {
+                                $upcoming_class = "top_menu_ul_li_a_selected";
+                            }
+                            ?>
+                                  <a id="populer_top_menu_a" class="child <?= $upcoming_class ?>" channelId="1" onclick="changeChannel(this)" href="#popular">Upcoming</a>
+                              </li> -->
                             <li>
                                 <a id="mytimety_top_menu" class="child" channelId="2" onclick="changeChannel(this)" href="#mytimety">My Timety</a>
                             </li>
