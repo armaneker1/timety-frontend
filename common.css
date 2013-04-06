@@ -2717,6 +2717,7 @@ span.roll {
     padding-left: 15px;
     width: 200px;
     display: inline-block;
+    cursor: pointer;
 }
 #autocomplete_search .ui-menu .ui-menu-item a.ui-state-hover,
 #autocomplete_search .ui-menu .ui-menu-item a.ui-state-active {
@@ -2741,4 +2742,5 @@ span.roll {
     width: 200px;
     box-shadow: inset 1px 1px 0px #FFF;
     display: inline-blrock;
+    cursor: pointer;
 }
