@@ -18,7 +18,8 @@ class User {
             $this->birthdate = $result['birthdate'];
             $this->hometown = $result['hometown'];
             $this->status = $result['status'];
-            $this->password = $result['password'];
+            $this->password = null;
+            $this->password_db = $result['password'];
             $this->type = $result['type'];
             $this->confirm = $result['confirm'];
             $this->userPicture = $result['userPicture'];
@@ -55,7 +56,8 @@ class User {
                 $this->birthdate = $tmp->birthdate;
                 $this->hometown = $tmp->hometown;
                 $this->status = $tmp->status;
-                $this->password = $tmp->password;
+                $this->password = null;
+                $this->password_db = $result['password'];
                 $this->type = $tmp->type;
                 $this->confirm = $tmp->confirm;
                 $this->userPicture = $tmp->userPicture;
@@ -87,6 +89,7 @@ class User {
     public $status;
     public $saved;
     public $password;
+    private $password_db;
     public $type; // 1 verified 0 normal account
     public $socialProviders = array();
     public $confirm = 0;
@@ -112,6 +115,10 @@ class User {
 
     public function getUserLang() {
         return $this->language;
+    }
+
+    public function getPassword() {
+        return $this->password_db;
     }
 
     public function getFullName() {
