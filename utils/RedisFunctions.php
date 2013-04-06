@@ -1317,7 +1317,7 @@ class RedisUtils {
         if (!is_array($array)) {
             $array = json_decode($array);
         } else {
-            error_log("Not Array 1:'" . json_encode($array) . "'");
+            //error_log("Not Array 1:'" . json_encode($array) . "'");
         }
         if (is_array($array)) {
             foreach ($array as $a) {
@@ -1326,7 +1326,7 @@ class RedisUtils {
                 }
             }
         }else{
-             error_log("Not Array 2:'" . json_encode($array) . "'");
+             //error_log("Not Array 2:'" . json_encode($array) . "'");
         }
         return $result;
     }

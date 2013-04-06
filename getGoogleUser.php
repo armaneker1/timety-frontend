@@ -77,8 +77,8 @@ if (isset($_GET['error'])) {
                     if (!empty($user)) {
                         session_start();
                         $_SESSION['id'] = $user->id;
-                        $_SESSION['oauth_id'] = $uid;
-                        $_SESSION['username'] = $user->username;
+                        //$_SESSION['oauth_id'] = $uid;
+                        $_SESSION['username'] = $user->userName;
                         $_SESSION['oauth_provider'] = GOOGLE_PLUS_TEXT;
                         setcookie(COOKIE_KEY_UN, base64_encode($user->userName), time() + (365 * 24 * 60 * 60), "/");
                         setcookie(COOKIE_KEY_PSS, base64_encode($user->password), time() + (365 * 24 * 60 * 60), "/");
