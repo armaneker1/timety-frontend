@@ -51,7 +51,7 @@ if (array_key_exists("te_username", $_POST)) {
             $_SESSION['id'] = $user->id;
             if (isset($_POST["te_rememberme"]) && $_POST["te_rememberme"]) {
                 setcookie(COOKIE_KEY_UN, base64_encode($user->userName), time() + (365 * 24 * 60 * 60), "/");
-                setcookie(COOKIE_KEY_PSS, base64_encode($user->password), time() + (365 * 24 * 60 * 60), "/");
+                setcookie(COOKIE_KEY_PSS, base64_encode($user->getPassword()), time() + (365 * 24 * 60 * 60), "/");
                 setcookie(COOKIE_KEY_RM, true, time() + (365 * 24 * 60 * 60), "/");
             } else {
                 setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");

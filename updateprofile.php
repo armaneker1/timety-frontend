@@ -205,7 +205,7 @@ if (isset($_POST['update'])) {
     if (!empty($uoldpass) || !empty($unewpass) || !empty($unewrepass)) {
         if (!empty($uoldpass) && strlen($uoldpass) > 5) {
             $uoldpass = sha1($uoldpass);
-            if ($uoldpass == $user->password) {
+            if ($uoldpass == $user->getPassword()) {
                 if (!empty($unewpass) && strlen($unewpass) > 5) {
                     if (!empty($unewrepass) && strlen($unewrepass) > 5) {
                         if ($unewpass == $unewrepass) {
