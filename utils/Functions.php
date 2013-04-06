@@ -422,7 +422,7 @@ class UtilFunctions {
         return $date;
     }
 
-    public static function findString($string, $search) {
+    public static function findString($string=null, $search=null) {
         if (!empty($string) && !empty($search)) {
             $string = strtolower($string);
             $search = strtolower($search);

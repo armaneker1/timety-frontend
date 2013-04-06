@@ -191,7 +191,8 @@ class RedisUtils {
                             }
                             $ik++;
                         } catch (Exception $exc) {
-                            $log->logError("RedisUtils > getUpcomingEvents > $i Error : " . $exc->getTraceAsString());
+                            $error=$exc->getTraceAsString();
+                            $log->logError("RedisUtils > getUpcomingEvents > " . $i . " Error : " . $error);
                         }
                     }
                 } else {
@@ -1325,8 +1326,8 @@ class RedisUtils {
                     array_push($result, $a);
                 }
             }
-        }else{
-             //error_log("Not Array 2:'" . json_encode($array) . "'");
+        } else {
+            //error_log("Not Array 2:'" . json_encode($array) . "'");
         }
         return $result;
     }

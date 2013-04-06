@@ -184,11 +184,12 @@ if (isset($_POST['update'])) {
     }
 
     $te_birthday = $_POST['te_birthday'];
-    if (!UtilFunctions::checkDate($te_birthday)) {
-        $te_birthdayError = "Birthday is not valid";
-        $param = false;
+    if (!empty($te_birthday)) {
+        if (!UtilFunctions::checkDate($te_birthday)) {
+            $te_birthdayError = "Birthday is not valid";
+            $param = false;
+        }
     }
-
     $hometown = $_POST['te_hometown'];
     if (empty($hometown)) {
         $hometownError = "Please enter location";
@@ -237,7 +238,10 @@ if (isset($_POST['update'])) {
 
     $website = $_POST['te_web_site'];
     $about = $_POST['te_about'];
-    $te_gender = $_POST['te_gender'];
+    $te_gender = null;
+    if (isset($_POST['te_gender'])) {
+        $te_gender = $_POST['te_gender'];
+    }
 
     //location
     $te_location_country = $_POST['te_location_country'];
@@ -602,7 +606,7 @@ if (isset($_POST['update'])) {
                     }, {
                         name : 'te_birthday',
                         display : 'birthday',
-                        rules : 'requiredcal|callback_check_birthdate'
+                        rules : 'callback_check_birthdate'
                     }, {
                         name : 'te_hometown',
                         display : 'hometown',
@@ -677,7 +681,11 @@ if (isset($_POST['update'])) {
                 'Username already exists');
                 
                 validator.registerCallback('check_birthdate', function(value) {
-                    return validateInputDate(jQuery('#te_birthday'),true,false);
+                    if(jQuery('#te_birthday').val()){
+                        return validateInputDate(jQuery('#te_birthday'),true,false);
+                    }else{
+                        return true;
+                    }
                 }).setMessage('check_birthdate',
                 'Enter valid date');
                 
