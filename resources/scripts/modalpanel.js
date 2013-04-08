@@ -226,6 +226,10 @@ function openModalPanel(event_id,custom) {
             console.log(exp);
         }
         if (!data) {
+            console.log("there is no data on local. Data =");
+            console.log(data);
+            console.log("local storage data =");
+            console.log(localStorage.getItem('event_' + event_id));
             closeModalPanel();
             return;
         }
@@ -359,9 +363,11 @@ function openModalPanel(event_id,custom) {
         }
         
         if(fail_h){
-            jQuery(headerImage).attr('src', TIMETY_HOSTNAME+"images/loader.gif");
-            jQuery(headerImage).attr('height',30);
-            jQuery(headerImage).attr('width', 30);
+            try{
+                jQuery(headerImage).attr('src', data.headerImage.url);
+            }catch(exp){
+                console.log(exp);
+            }
         }
         
         jQuery(headerImage).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
