@@ -5,6 +5,7 @@ header("charset=utf8;");
 require_once __DIR__ . '/utils/Functions.php';
 
 
+SessionUtil::checkNotLoggedinUser();
 $page_id = "signin";
 $msgs = array();
 if (array_key_exists("login", $_GET)) {
@@ -150,8 +151,7 @@ if (array_key_exists("te_username", $_POST)) {
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg">
-<?php include('layout/layout_top_sign.php'); 
-      SessionUtil::checkNotLoggedinUser();?>
+        <?php include('layout/layout_top_sign.php'); ?>
         <div class="register_bg"></div>
         <div id="create_account" class="create_account_outline">
             <div class="create_acco_ust">Login</div>
@@ -189,7 +189,7 @@ if (array_key_exists("te_username", $_POST)) {
                         ?>
                         <span id='te_username_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_username_span_msg" style="display:<?= $display ?>;">
-<?= $unameError ?><div class="kok"></div>
+                                <?= $unameError ?><div class="kok"></div>
                             </div>
                         </span>  <br /> 
 
@@ -212,7 +212,7 @@ if (array_key_exists("te_username", $_POST)) {
                         ?>
                         <span id='te_password_span' class="<?= $class ?>">
                             <div class="create_acco_popup" id="te_password_span_msg" style="display:<?= $display ?>;">
-<?= $upassError ?><div class="kok"></div>
+                                <?= $upassError ?><div class="kok"></div>
                             </div>
                         </span>
 
@@ -253,6 +253,6 @@ if (array_key_exists("te_username", $_POST)) {
             </div>
             <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button">About Timety</a></div>
         </div>
-<?php include('layout/templete_aboutus.php'); ?>
+        <?php include('layout/templete_aboutus.php'); ?>
     </body>
 </html>

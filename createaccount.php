@@ -2,6 +2,8 @@
 session_start();
 header("charset=utf8;");
 require_once __DIR__ . '/utils/Functions.php';
+
+SessionUtil::checkNotLoggedinUser();
 $page_id = "createaccount";
 
 if (array_key_exists("login", $_GET)) {
@@ -53,8 +55,8 @@ if (array_key_exists("login", $_GET)) {
         </script>
     </head>
     <body class="bg">
-        <?php include('layout/layout_top_sign.php'); 
-              SessionUtil::checkNotLoggedinUser(); ?>
+        <?php include('layout/layout_top_sign.php');
+        ?>
         <div class="register_bg"></div>
         <div id="create_account" class="create_account_width create_account_outline">
             <div class="create_acco_ust">Create Account</div>
