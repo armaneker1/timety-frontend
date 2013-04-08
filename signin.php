@@ -6,7 +6,6 @@ require_once __DIR__ . '/utils/Functions.php';
 
 
 $page_id = "signin";
-SessionUtil::checkNotLoggedinUser();
 $msgs = array();
 if (array_key_exists("login", $_GET)) {
     $oauth_provider = $_GET['oauth_provider'];
@@ -151,7 +150,8 @@ if (array_key_exists("te_username", $_POST)) {
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg">
-<?php include('layout/layout_top_sign.php'); ?>
+<?php include('layout/layout_top_sign.php'); 
+      SessionUtil::checkNotLoggedinUser();?>
         <div class="register_bg"></div>
         <div id="create_account" class="create_account_outline">
             <div class="create_acco_ust">Login</div>
