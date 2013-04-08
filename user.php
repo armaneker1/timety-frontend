@@ -333,7 +333,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
 <?php if (!empty($p_user) && !empty($p_user->id)) { ?>
                     <div class="profil_box main_event_box">
                         <div class="profil_resim">
-                            <img src="<?php echo PAGE_GET_IMAGEURL . $p_user->getUserPic() . "&h=176&w=176&zc=2" ?>" width="176" height="176" />
+                            <img src="<?php echo PAGE_GET_IMAGEURL . urlencode($p_user->getUserPic()) . "&h=176&w=176&zc=2" ?>" width="176" height="176" />
                         </div>
                         <div class="profil_user">
                             <div class="bgln_user">
@@ -574,7 +574,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                             if (!empty($main_event) && !empty($main_event->headerImage))
                                                 $headerImageTmp = $main_event->headerImage->url
                                                 ?>
-                                            <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $headerImageTmp . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                            <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                                  class="main_draggable" />
                                         </div>
                                     </div>
@@ -591,7 +591,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                 if (!empty($p_user) && !empty($p_user->id)) {
                                                     ?>
                                                     <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
-                                                        <img src="<?= PAGE_GET_IMAGEURL . $p_user->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
+                                                        <img src="<?= PAGE_GET_IMAGEURL . urlencode($p_user->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $p_user->getFullName() ?></span>
                                                         <span><?= " " . $evt_result ?></span>
                                                     </p>

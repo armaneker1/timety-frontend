@@ -1281,7 +1281,7 @@ if (empty($user)) {
                                             if (!empty($main_event) && !empty($main_event->headerImage))
                                                 $headerImageTmp = $main_event->headerImage->url
                                                 ?>
-                                            <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $headerImageTmp . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                            <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                                  class="main_draggable" />
                                         </div>
                                     </div>
@@ -1299,7 +1299,7 @@ if (empty($user)) {
                                                     $usr_url = HOSTNAME . $crt->userName;
                                                     ?>
                                                     <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
-                                                        <img src="<?= PAGE_GET_IMAGEURL . $crt->getUserPic() . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
+                                                        <img src="<?= PAGE_GET_IMAGEURL . urlencode($crt->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $crt->getFullName() ?></span>
                                                     </p>
                                                     <?php
@@ -1394,7 +1394,7 @@ if (empty($user)) {
 <?php if (!empty($user) && !empty($user->id)) { ?>
                 <div class="profil_box main_event_box">
                     <div class="profil_resim">
-                        <img src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=176&w=176&zc=2" ?>" width="176" height="176" />
+                        <img src="<?php echo PAGE_GET_IMAGEURL . urlencode($user->getUserPic()) . "&h=176&w=176&zc=2" ?>" width="176" height="176" />
                     </div>
                     <div class="profil_user">
                         <div class="bgln_user">
