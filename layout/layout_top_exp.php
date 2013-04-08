@@ -128,12 +128,24 @@ if (empty($user)) {
             <!-- Tag token input -->
             <div id="autocomplete_search"></div>
             <script>
+                function searchTag(tagId){
+                    if(tagIds){
+                        //tagIds=tagIds+","+tagId;
+                        tagIds=tagId;
+                    }else{
+                        tagIds=tagId;
+                    }
+                    page_wookmark=0;
+                    isearching=true;
+                    wookmarkFiller(document.optionsWookmark, true,true);
+                }
+                
                 jQuery(document).ready(function(){
                     jQuery( "#searchText" ).autocomplete({ 
                         source: "<?= PAGE_AJAX_GET_TIMETY_TAG . "?lang=" . LANG_EN_US ?>", 
                         minLength: 2,
                         appendTo: "#autocomplete_search" ,
-                        select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label)},10); },
+                        select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label);  searchTag(ui.item.id);},10); },
                         focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label)},10); }	
                     });	
                 });
