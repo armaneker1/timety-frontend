@@ -125,7 +125,8 @@ if (empty($user)) {
                         source: "<?= PAGE_AJAX_GET_TIMETY_TAG . "?lang=" . LANG_EN_US ?>", 
                         minLength: 2,
                         appendTo: "#autocomplete_search" ,
-                        select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label)},50); }	
+                        select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label)},10); },
+                        focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label)},10); }	
                     });	
                 });
             </script>
