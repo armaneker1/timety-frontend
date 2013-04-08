@@ -182,6 +182,35 @@ function setHeaderImage(headerImage,data)
     }
 }
 
+function getEventDetailFromServer(eventId){
+    jQuery.ajax({
+        type: 'POST',
+        url: TIMETY_PAGE_AJAX_GETEVENT,
+        data: {
+            'eventId':eventId
+        },
+        success: function(data){
+            var dataJSON =null;
+            try{
+                if(typeof data == "string")  {
+                    dataJSON= jQuery.parseJSON(data);
+                } else   {
+                    dataJSON=data;   
+                }
+            }catch(e) {
+                console.log(e);
+                console.log(data);
+            }
+            if(dataJSON && dataJSON.id){
+                localStorage.setItem('event_'+dataJSON.id,data);
+                openModalPanel(dataJSON.id, null);
+            }else{
+                closeModalPanel();
+            }
+        }
+    },"json");
+}
+
 function openModalPanel(event_id,custom) {
     /*
      *Clear dropable
@@ -226,11 +255,8 @@ function openModalPanel(event_id,custom) {
             console.log(exp);
         }
         if (!data) {
-            console.log("there is no data on local. Data =");
-            console.log(data);
-            console.log("local storage data =");
-            console.log(localStorage.getItem('event_' + event_id));
-            closeModalPanel();
+            getEventDetailFromServer(event_id);
+            //closeModalPanel();
             return;
         }
         // set url 
@@ -245,7 +271,8 @@ function openModalPanel(event_id,custom) {
         data = JSON.parse(custom);
         event_id=data.id;
         if (!data) {
-            closeModalPanel();
+            getEventDetailFromServer(event_id);
+            //closeModalPanel();
             return;
         }
     }
