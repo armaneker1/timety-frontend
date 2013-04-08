@@ -22,7 +22,7 @@ if (empty($user)) {
     }
 }
 ?>
-<div style="position:absolute;left: 50%;margin-left: -317px;z-index: 1000000;font-size: 30;top: 83px;"><span>Discover, Share and Track Events All Around You</span></div>
+<div style="position:absolute;left: 50%;margin-left: -317px;z-index: 1000000;font-size: 30px;top: 83px;"><span>Discover, Share and Track Events All Around You</span></div>
 <div class="u_bg"></div>
 
 <!--Loader animation-->
