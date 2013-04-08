@@ -41,6 +41,10 @@ $city_channel = "-1";
 if (isset($_GET["city_channel"]))
     $city_channel = $_GET["city_channel"];
 
+$tagIds = null;
+if (isset($_GET["tagIds"]))
+    $tagIds = $_GET["tagIds"];
+
 $res = new Result();
 $res->error = true;
 $res->success = false;
@@ -63,7 +67,7 @@ $res->success = false;
  */
 
 if ($userId != null && $pageNumber != "" && $pageItemCount != null && $type != null) {
-    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $category, $reqUserId,$city_channel);
+    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $category, $reqUserId, $city_channel,$tagIds);
 } else {
     $json_response = json_encode($res);
     echo $json_response;
