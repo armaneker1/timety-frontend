@@ -682,6 +682,6 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
 
         </div>
         <div id="te_faux"  style="visibility: hidden;display: inline"></div>
+        <?php include('layout/template_createevent.php'); ?>
     </body>
-<?php include('layout/template_createevent.php'); ?>
 </html>
