@@ -804,6 +804,8 @@ if (empty($user)) {
         echo $json_response;
         ?>');
                 } catch (exp ){
+                    console.log("error while parsing json. data =");
+                    console.log('<?php  $json_response = UtilFunctions::json_encode($prm_event); echo $json_response;  ?>');
                     console.log(exp);
                 }
             });
