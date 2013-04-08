@@ -7,6 +7,7 @@ localStorage.clear();
 var selectedDate=null;
 var selectedUser=null;
 var isearching=false;
+var tagIds=null;
 /*
  * $userId= user id that logged in -1 default guest
  * list events after given date dafault current date
@@ -90,8 +91,14 @@ function wookmarkFiller(options,clear,loader,channel_)
         }else if(channel==9){
             track="/index/events/category/"+categoryId+"?pageId="+page;
         }
-        if(typeof(something) != "undefined")
+        if(typeof(pSUPERFLY) != "undefined")
             pSUPERFLY.virtualPage(track,track);
+        var tagIdsParam=null;
+        try{
+            tagIdsParam=JSON.stringify(tagIds);
+        }catch(exp){
+            console.log(exp);
+        }
         /*
          * track event
          */
@@ -109,7 +116,8 @@ function wookmarkFiller(options,clear,loader,channel_)
                 'type':channel,
                 'category':categoryId,
                 'reqUserId':userSelected,
-                'city_channel': city_channel
+                'city_channel': city_channel,
+                'tagIds': tagIdsParam
             },
             error: function (request, status, error) {
                 if(post_wookmark) {
