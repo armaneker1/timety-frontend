@@ -1,5 +1,5 @@
 <?php
-if (!empty($user) && ($user->id == 6618346 || $user->id == 6618344   || $user->id == 6618370)) {
+if (!empty($user) && ($user->id == 6618346 || $user->id == 6618344 || $user->id == 6618370)) {
     include('layout/layout_top_exp.php');
 } else {
     $user = null;
@@ -204,38 +204,38 @@ if (!empty($user) && ($user->id == 6618346 || $user->id == 6618344   || $user->i
         echo "''";
     }
     ?>",
-                            queryParam : "term",
-                            minChars : 2,
-                            placeholder : "add people manually",
-                            preventDuplicates : true,
-                            input_width:160,
-                            add_maunel:true,
-                            add_mauel_validate_function : validateEmailRegex,
-                            propertyToSearch: "label",
-                            resultsFormatter:function(item) {
-                                return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
-                            },
-                            onAdd: function() {
-                                return true;
-                            },
-                            processPrePopulate : false,
-                            prePopulate : people
-                        });
-                        /*
-                         * date and time  aleady set before
-                         */         
-                        openCreatePopup();
-                        /*
-                         * set time 
-                         */
-                        if(jQuery("#te_quick_event_time").val())
-                            jQuery("#te_event_start_time").val(jQuery("#te_quick_event_time").val());
-                        checkCreateDateTime();
-                        /*
-                         * clear and close quick add
-                         */
-                        clearAllQuickAdd();
-                    });
+                queryParam : "term",
+                minChars : 2,
+                placeholder : "add people manually",
+                preventDuplicates : true,
+                input_width:160,
+                add_maunel:true,
+                add_mauel_validate_function : validateEmailRegex,
+                propertyToSearch: "label",
+                resultsFormatter:function(item) {
+                    return "<li>" + item["label"] + " <div class=\"drsp_sag\"><button type=\"button\"  class=\"drp_add_btn\">Add</button></div></li>";
+                },
+                onAdd: function() {
+                    return true;
+                },
+                processPrePopulate : false,
+                prePopulate : people
+            });
+            /*
+             * date and time  aleady set before
+             */         
+            openCreatePopup();
+            /*
+             * set time 
+             */
+            if(jQuery("#te_quick_event_time").val())
+                jQuery("#te_event_start_time").val(jQuery("#te_quick_event_time").val());
+            checkCreateDateTime();
+            /*
+             * clear and close quick add
+             */
+            clearAllQuickAdd();
+        });
                         </script>
                     </div>
                     <div class="quick_add_time_hint_model" style="display: none;left: 0px;" id="quick_add_time_hint_model">
@@ -283,7 +283,7 @@ if (!empty($user) && ($user->id == 6618346 || $user->id == 6618344   || $user->i
                     }
                 }
                 ?>
-    <?php if (empty($user->id)) { ?>
+                <?php if (empty($user->id)) { ?>
                     <script>sessionStorage.setItem('id','');</script>
                     <script type="text/javascript">
                         function  to_home() {
@@ -401,7 +401,7 @@ if (!empty($user) && ($user->id == 6618346 || $user->id == 6618344   || $user->i
                     <div id="te_avatar" class="avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
                         <?php if ($user->getUserNotificationCount()) { ?>
                             <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-            <?php } ?>
+                        <?php } ?>
                     </div>
                     <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                         <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
@@ -421,7 +421,7 @@ if (!empty($user) && ($user->id == 6618346 || $user->id == 6618344   || $user->i
                     <div class="avatar" id="te_avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
                         <?php if ($user->getUserNotificationCount()) { ?>
                             <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-            <?php } ?>
+                        <?php } ?>
                     </div>
                     <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                         <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
@@ -449,7 +449,7 @@ if (!empty($user) && ($user->id == 6618346 || $user->id == 6618344   || $user->i
                 ?>
                 <div class="t_account"><a href="<?= PAGE_SIGNUP ?>" class="cr_acc <?= $create_class ?>">create account</a><a href="<?= PAGE_LOGIN ?>" class="sgn_in <?= $signin_class ?>">sign-in </a></div>
 
-    <?php } ?>
+            <?php } ?>
         </div>
     </div>
 
