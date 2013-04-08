@@ -108,7 +108,7 @@ if (empty($user)) {
                 <input 
                     name="searchText"
                     type="text" 
-                    placeholder="Seacrh for events" 
+                    placeholder="Search for events" 
                     class="user_inpt search_top_input"
                     id="searchText" 
                     value=""/> 
