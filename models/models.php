@@ -57,7 +57,7 @@ class User {
                 $this->hometown = $tmp->hometown;
                 $this->status = $tmp->status;
                 $this->password = null;
-                $this->password_db = $result['password'];
+                $this->password_db = $tmp->getPassword();
                 $this->type = $tmp->type;
                 $this->confirm = $tmp->confirm;
                 $this->userPicture = $tmp->userPicture;
