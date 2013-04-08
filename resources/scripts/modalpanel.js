@@ -95,7 +95,7 @@ function onloadImage(url,defWidth,defHeight,div,myImage,afterWidth){
     var param="";
     var cWidth=myImage.width;
     var cHeight=myImage.height;
-                
+    
     if(cWidth<1 && cHeight<1)
     { 
         cWidth=width;
@@ -117,7 +117,7 @@ function onloadImage(url,defWidth,defHeight,div,myImage,afterWidth){
                 cHeight=defHeight;  
             }
         }
-                    
+        
         jQuery(div).attr('height',cHeight);
         if(afterWidth && afterWidth>0)
         {
@@ -167,7 +167,7 @@ function setHeaderImage(headerImage,data)
                     jQuery(headerImage).attr('height',height);
                     jQuery(headerImage).attr('width', width);
                 }, 10);
-                
+            
             //param=param+"&h="+height;
             //param=param+"&w="+width;
             }else
@@ -332,7 +332,7 @@ function openModalPanel(event_id,custom) {
                     },"json");
                 }
             });
-            
+        
         }else
         {
         // do something show empty image          
@@ -465,7 +465,9 @@ function openModalPanel(event_id,custom) {
                     openEditEvent(data.id);
                     return false;
                 });
-                
+            
+            }else if(userId){
+                getEventUserRelation(userId,data.id,like_button,maybe_button,join_button,reshare_button);
             }
         });
         
@@ -535,7 +537,7 @@ function getComments(event_id)
                     jQuery(commentItemDIV).show();
                 }
                 
-               
+                
                 if(data.count)
                 {    
                     var tumyorumlar=jQuery("#tumyorumlar");
@@ -816,5 +818,54 @@ function sendComment(){
                 });
             }
         });
+    }
+}
+
+function getEventUserRelation(userId,eventId,like_button,maybe_button,join_button,reshare_button){
+    if(userId && eventId){
+        jQuery.ajax({
+            type: 'GET',
+            url: TIMETY_PAGE_AJAX_GET_EVENT_USER_RELATION,
+            dataType:'json',
+            contentType: "application/json",
+            data: {
+                'userId':userId,
+                'eventId':eventId
+            },
+            success: function(dataJson){
+                try{
+                    if(typeof dataJson == "string") {
+                        dataJson= jQuery.parseJSON(dataJson);
+                    }
+                }catch(e) {
+                    console.log(e);
+                    console.log(data);
+                }
+                
+                if(dataJson)
+                {
+                    if(dataJson.joinType==1)
+                    {
+                        setButtonStatus(join_button,true);
+                        setButtonStatus(maybe_button,false);
+                    }else if(dataJson.joinType==2) {
+                        setButtonStatus(join_button,false);
+                        setButtonStatus(maybe_button,true);
+                    }
+                    
+                    if(dataJson.like){
+                        setButtonStatus(like_button,true);
+                    }else{
+                        setButtonStatus(like_button,false);
+                    }
+                    
+                    if(dataJson.reshare) {
+                        setButtonStatus(reshare_button,true);
+                    } else{
+                        setButtonStatus(reshare_button,false);
+                    }
+                }
+            }
+        },"json");
     }
 }
