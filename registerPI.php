@@ -232,8 +232,9 @@ if (isset($_POST['te_username'])) {
                     //$birhtdate=$fbUser['birthday'];
                     $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?type=large";
                     $userProfilePicType = FACEBOOK_TEXT;
-                    if (isset($fbUser['hometown']))
-                        $hometown = $fbUser['hometown']['name'];
+                    $hometown = "";
+                    //if (isset($fbUser['hometown']))
+                    //    $hometown = $fbUser['hometown']['name'];
                 } elseif ($provider->oauth_provider == TWITTER_TEXT) {
                     $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);
                     $user_info = $twitteroauth->get('account/verify_credentials');
@@ -245,7 +246,8 @@ if (isset($_POST['te_username'])) {
                         $name = $keywords[0];
                         $lastname = $keywords[sizeof($keywords) - 1];
                         $email = "";
-                        $hometown = $user_info->location;
+                        $hometown = "";
+                        //$hometown = $user_info->location;
                         $userProfilePic = $user_info->profile_image_url;
                         $userProfilePicType = TWITTER_TEXT;
                     }
@@ -259,7 +261,8 @@ if (isset($_POST['te_username'])) {
                     $name = $user->firstName;
                     $lastname = $user->lastName;
                     $email = $user->contact->email;
-                    $hometown = $user->homeCity;
+                    //$hometown = $user->homeCity;
+                    $hometown = "";
                     $userProfilePic = $user->photo;
                     $userProfilePicType = FOURSQUARE_TEXT;
                 } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
