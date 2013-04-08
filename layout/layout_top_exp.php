@@ -36,8 +36,14 @@ if (empty($user)) {
 <div id="top_blm">
     <!--top_blm_sol-->
     <div id="top_blm_sol">
+
+        <?php if (empty($user)) { ?>
+            <div style="  display: inline-block; position: absolute; margin-top: 5px; width: 100%;text-align: center;margin-left: -105px;z-index: -1;">
+                <span style=" font-size: 23px; ">Sign Up Now to Discover, Share and Track All Events Around You</span>
+            </div>
+        <?php } ?>
         <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="120" height="45" border="0" /></a></div>
-        <!--city & sarch -->
+        <!--city & search -->
         <div class="t_bs">
             <!-- Location -->
             <?php
@@ -104,18 +110,20 @@ if (empty($user)) {
             <!-- Location -->
 
             <!-- Search -->
-            <div class="div_search_top">
-                <input 
-                    name="searchText"
-                    type="text" 
-                    placeholder="Search for events" 
-                    class="user_inpt search_top_input"
-                    id="searchText" 
-                    value=""/> 
-                <div id="search_event_btn" class="search_top_btn">
-                    <div class="search_top_bg"></div>
+            <?php if (!empty($user)) { ?>
+                <div class="div_search_top">
+                    <input 
+                        name="searchText"
+                        type="text" 
+                        placeholder="Search for events" 
+                        class="user_inpt search_top_input"
+                        id="searchText" 
+                        value=""/> 
+                    <div id="search_event_btn" class="search_top_btn">
+                        <div class="search_top_bg"></div>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
             <!-- Search -->
             <!-- Tag token input -->
             <div id="autocomplete_search"></div>
@@ -248,7 +256,7 @@ if (empty($user)) {
                     <li> 
                         <div class="parent">
                             <div class="arrow" id="te_arrow"></div>
-                            <div id="te_avatar_img" class="avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo PAGE_GET_IMAGEURL . $user->getUserPic() . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
+                            <div id="te_avatar_img" class="avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo PAGE_GET_IMAGEURL . urlencode($user->getUserPic()) . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
 
                             </div>
                         </div>
