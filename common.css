@@ -346,11 +346,13 @@ input[type=text]::-ms-clear {
 .profil_al {
     display: inline-block;
     float: left;
-    padding-top: 55px;
-    padding-left: 10px;
+    margin-top: -54px;
+    margin-left: 120px;
 }
 .profil_kul {
     background-image: url(images/profil.png);
+    background-repeat: no-repeat !important;
+    cursor: pointer;
     float: left;
     height: 107px;
     width: 106px;
@@ -2451,7 +2453,7 @@ span.roll {
 #navbar li .parent {
     display: table;
     float: right;
-    width: 50px;
+    width: 52px;
     padding: 1px;
     padding-left: 0px;
     text-decoration: none;
@@ -2743,4 +2745,42 @@ span.roll {
     box-shadow: inset 1px 1px 0px #FFF;
     display: inline-blrock;
     cursor: pointer;
+}
+
+/*upload profile photo */
+#uploaded_image_div{
+    margin-top: 150px;
+}
+
+.jcrop-holder #preview-pane {
+    display: block;
+    position: absolute;
+    z-index: 2000;
+    top: -130px;
+    padding: 2px;
+    background-color: white;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+#uploaded_image{
+  max-width: 500px;
+}
+
+#thumbnail_form{
+    position: absolute;
+    top: 106px;
+    right: 47px;
+    float: right;
+}
+
+#preview-pane .preview-container {
+    width: 250px;
+    height: 170px;
+    overflow: hidden;
+
 }

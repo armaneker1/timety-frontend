@@ -61,6 +61,8 @@ require_once __DIR__ . '/../processor/scriptedcommands/RemoveItemByIdReturnItem.
 require_once __DIR__ . '/../processor/scriptedcommands/SeacrhEventByTag.class.php';
 require_once __DIR__ . '/../processor/scriptedcommands/SeacrhUserById.class.php';
 
+require_once __DIR__ . '/image_functions.php';
+
 //HttpAuthUtils::checkHttpAuth();
 
 class UtilFunctions {
@@ -422,11 +424,52 @@ class UtilFunctions {
         return $date;
     }
 
-    public static function findString($string=null, $search=null) {
-        if (!empty($string) && !empty($search)) {
-            $string = strtolower($string);
-            $search = strtolower($search);
-            if (!strpos($string, $search)) {
+    public static function findString($object = null, $search = null, $isstring = true, $tagIds = null) {
+        //reverse true means not found
+        if (empty($object)) {
+            return true;
+        }
+        if (!empty($search)) {
+            $event = new Event();
+            if ($isstring) {
+                try {
+                    $event = json_decode($object);
+                    $event = UtilFunctions::cast('Event', $event);
+                } catch (Exception $exc) {
+                    error_log("Error UtilFunctions::findString :=");
+                    error_log($exc->getTraceAsString());
+                    return true;
+                }
+            } else {
+                try {
+                    if (get_class($event) != 'Event') {
+                        $event = UtilFunctions::cast('Event', $event);
+                    }
+                } catch (Exception $exc) {
+                    error_log("Error UtilFunctions::findString 2 :=");
+                    error_log($exc->getTraceAsString());
+                    return true;
+                }
+            }
+            if (!empty($event) && get_class($event) == 'Event') {
+                $title = strtolower($event->title);
+                $desc = strtolower($event->description);
+                $search = strtolower($search);
+
+                if (preg_match('/' . $search . '/', $title) || preg_match('/' . $search . '/', $desc)) {
+                    return false;
+                } else if (!empty($tagIds) && !empty($event->tags) && sizeof($event->tags) > 0) {
+                    $tagIds = explode(',', $tagIds);
+                    foreach ($tagIds as $t) {
+                        if (in_array($t, $event->tags)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                } else {
+                    return true;
+                }
+            } else {
                 return true;
             }
         }

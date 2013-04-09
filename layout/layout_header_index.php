@@ -41,11 +41,14 @@ if (stripos($br, 'MSIE')) {
 <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
 <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css?201303011635" rel="stylesheet" type="text/css" />
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css" rel="stylesheet">
+<link href="<?= HOSTNAME ?>resources/styles/jquery.Jcrop.min.css" rel="stylesheet">
 <!-- CSS -->
 
 
 <!-- Scripts -->
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.ocupload-packed.js"></script>
+<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.Jcrop.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.datepicker.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.history.js"></script>

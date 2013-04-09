@@ -341,8 +341,6 @@ if (isset($_POST['update'])) {
         <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js"></script>
 
-        <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
-        <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
 
         <?php if (isset($success) && $success) { ?>
             <script>
@@ -1036,49 +1034,12 @@ if (isset($_POST['update'])) {
 
                     <div class="profil_g">
                         <p class="profil_etiket">Profile</p>
-                        <div id="profil_image_id" class="profil_kul" style="background: url(<?= PAGE_GET_IMAGEURL . urlencode($te_image) . "&w=106&h=106&zc=2" ?>)"></div>
-                        <div class="profil_kul" id="profil_image_id_div" style="background: none;position: absolute;"></div>
+                        <div id="profil_image_id"  class="profil_kul" style="background: url(<?= PAGE_GET_IMAGEURL . urlencode($te_image) . "&w=106&h=106&zc=2" ?>)"></div>
                         <div class="profil_al"> 
                             <p>import from</p>
                             <a style="cursor: pointer;" id="import_from_facebook"><img src="images/faceal.png" width="99" height="32" border="0" /></a>
                             <a style="cursor: pointer;" id="import_from_twitter"><img src="images/twiter_al.png" width="99" height="32" border="0" /></a>
                         </div>
-                        <script>
-<?php
-$imgName = $user->id . "_" . time() . ".png";
-?>
-    jQuery(document).ready(function() {
-                                                
-        var uploader = new qq.FileUploader({
-            element: document.getElementById('profil_image_id_div'),
-            action: '<?= PAGE_AJAX_UPLOADIMAGE ?>?type=2',
-            debug: false,
-            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-            params: {
-                imageName:'<?= $imgName ?>',
-                userId:'<?= $user->id ?>'
-            },
-            sizeLimit : 10*1024*1024,
-            multiple:false,
-            onComplete: function(id, fileName, responseJSON){
-                try{
-                    if(typeof data == "string"){
-                        responseJSON= jQuery.parseJSON(responseJSON);
-                    }
-                }catch(e) {
-                    console.log(e);
-                }
-                jQuery("#profil_image_id").css("background",'url(<?= PAGE_GET_IMAGEURL . urlencode(HOSTNAME . UPLOAD_FOLDER . "users/" . $user->id . "/" . $imgName) ?>&w=106&h=106&zc=2)');
-            },
-            messages: {
-                typeError: "{file} has invalid extension. Only {extensions} are allowed.",
-                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-                emptyError: "{file} is empty, please select files again without it.",
-                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
-            }
-        }
-    ); });</script>
                     </div>
                     <div class="profil_g">
                         <p class="profil_etiket">Short Bio</p>
@@ -1180,5 +1141,54 @@ $imgName = $user->id . "_" . time() . ".png";
                 }
             });
         </script>
+
+        <div id="div_follow_trans_" class="follow_trans" style="overflow-y: scroll;display:none;">
+            <div class="genel_detay_yeni" id="genel_detay_yeni" style="position: relative;">
+                <div class="gdy_sol" style="padding-bottom: 40px;">
+                    <center>
+                        <div id="progress_div" style="margin: 20px;">
+                            <img id="progress_gif" src="<?= HOSTNAME ?>images/loader.gif"/>
+                            <span id="progress"></span>
+                            <br/>
+                            <button style="cursor: pointer;padding-top: 10px;padding-bottom: 4px;" type="button" name="cancel_btn" class="dugme dugme_esit" value="Cancel" id="crop_cancel_btn" onclick="cancelUpload();">Cancel</button>
+                        </div>
+                    </center>
+                    <div>
+                        <div id="upload_text" style="position: absolute;   float: left;  display: inline-block;   margin-left: 160px;  margin-top: 23px; width: 60%;">
+                            <span style="
+                                  font-size: 12px;
+                                  font-weight: bold;
+                                  ">To the left is what your profile photo will look like.</span>
+                            <p style="
+                               font-size: 12px;
+                               margin-top: 5px;
+                               ">To make adjustments, you can drag around and resize the yellow square below. When you are happy with your photo click the "Save Photo" button.</p></div>
+                        <div id="thumbnail_form" style="display:none;">
+                            <form name="form" action="" method="post">
+                                <input type="hidden" name="x1" value="" id="x1" />
+                                <input type="hidden" name="y1" value="" id="y1" />
+                                <input type="hidden" name="x2" value="" id="x2" />
+                                <input type="hidden" name="y2" value="" id="y2" />
+                                <input type="hidden" name="w" value="" id="w" />
+                                <input type="hidden" name="h" value="" id="h" />
+                                <button style="cursor: pointer;padding-top: 4px;padding-bottom: 4px;" type="button" name="save_btn" class="dugme dugme_esit" value="Save" id="crop_save_btn" >Save</button>
+                                <br/>
+                                <button style="cursor: pointer;padding-top: 4px;padding-bottom: 4px;" type="button" name="cancel_btn" class="dugme dugme_esit" value="Cancel" id="crop_cancel_btn" onclick="cancelUpload();">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="uploaded_image_div">
+                        <img src="" 
+                             style="float: left;margin-top: 60px;" 
+                             id="uploaded_image" />
+                        <div id="preview-pane">
+                            <div  class="preview-container" style="width: 106px;height: 106px;">
+                                <img id="preview_image" src="" class="jcrop-preview" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

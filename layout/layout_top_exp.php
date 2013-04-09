@@ -22,6 +22,15 @@ if (empty($user)) {
     }
 }
 ?>
+<?php if (!empty($user) && !empty($user->id)) { ?>
+    <script>
+        sessionStorage.setItem('id',<?= $user->id ?>);
+    </script>
+<?php } else { ?>
+    <script>
+        sessionStorage.setItem('id',null);
+    </script>
+<?php } ?>
 <div class="u_bg"></div>
 
 <!--Loader animation-->

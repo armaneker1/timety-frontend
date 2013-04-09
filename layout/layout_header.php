@@ -42,12 +42,15 @@ if (stripos($br, 'MSIE')) {
 <link href="<?= HOSTNAME ?>resources/styles/jquery.ui.css" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css?201303011635" rel="stylesheet" type="text/css" />
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css" rel="stylesheet">
+<link href="<?= HOSTNAME ?>resources/styles/jquery.Jcrop.min.css" rel="stylesheet">
 <!-- CSS -->
 
 
 <!-- Scripts -->
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.js?201302221255"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.ocupload-packed.js"></script>
+<script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.Jcrop.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.history.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.sessionphp.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery-ui.js"></script>
