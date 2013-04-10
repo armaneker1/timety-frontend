@@ -1032,7 +1032,7 @@ if (isset($_POST['update'])) {
                     </span><br />    
 
 
-                    <div class="profil_g">
+                    <div class="profil_g" id="upload_photo">
                         <p class="profil_etiket">Profile</p>
                         <div id="profil_image_id"  class="profil_kul" style="background: url(<?= PAGE_GET_IMAGEURL . urlencode($te_image) . "&w=106&h=106&zc=2" ?>)"></div>
                         <div class="profil_al"> 

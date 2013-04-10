@@ -253,6 +253,21 @@ jQuery(document).ready(function () {
         },
         autoSubmit: true,
         onSubmit: function() {
+            var filename= jQuery("#upload_photo input[type='file']").val();
+            var ext = filename.match(/\.([^\.]+)$/)[1];
+            switch(ext)
+            {
+                case 'jpg': break;
+                case 'jpeg':break;
+                case 'bmp':break;
+                case 'png':break;
+                case 'gif':break;
+                default:{
+                    alert('not allowed fie type');
+                    jQuery("#upload_photo input[type='file']").val("");
+                    return false;
+                }
+            }
             jQuery('#div_follow_trans_').show();
             loadingmessage('Please wait, uploading file...', 'show');
             jQuery('#thumbnail_form').hide();

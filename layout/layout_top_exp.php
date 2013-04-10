@@ -90,7 +90,7 @@ if (empty($user)) {
                                 <ul id="populer_top_menu_ul">
                                     <li channelid="1" id="cat_id_all" style="cursor:pointer"  slc="true">
                                         <button type="button" class="kapat icon_bg"></button>
-                                        <span>Recommendation</span>
+                                        <span>Recommended</span>
                                     </li>
                                     <li cat_id="-1" id="cat_id_all" style="cursor:pointer"  slc="false">
                                         <button type="button" class="ekle icon_bg"></button>
