@@ -226,7 +226,7 @@ if (empty($user)) {
                     function changeChannel(item){
                         var channel=jQuery(item).attr("channelId");
                         if(channel==2 || channel=="2"){
-                            channel="#mytimety";
+                            channel="/"+<?= $user->userName ?>;
                         }else if(channel==3 || channel=="3"){
                             channel="#following";
                         } else if(channel==1 || channel=="1"){
@@ -239,7 +239,6 @@ if (empty($user)) {
             <?php
         } else {
             ?>
-
                     function changeChannel(item){
                         page_wookmark=0;
                         jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
@@ -292,7 +291,7 @@ if (empty($user)) {
                                   <a id="populer_top_menu_a" class="child <?= $upcoming_class ?>" channelId="1" onclick="changeChannel(this)" href="#popular">Upcoming</a>
                               </li> -->
                             <li>
-                                <a id="mytimety_top_menu" class="child" channelId="2" onclick="changeChannel(this)" href="#mytimety">My Timety</a>
+                                <a id="mytimety_top_menu" class="child" channelId="2" onclick="" href="<?=HOSTNAME.$user->userName?>">My Timety</a>
                             </li>
                             <li>
                                 <a id="following_top_menu_a" class="child" channelId="3" onclick="changeChannel(this)" href="#following" >Following</a>
