@@ -12,6 +12,7 @@ class UserUtils {
             // update social provider
             UserUtils::updateSocialProvider($provider);
             $user = UserUtils::getUserById($provider->user_id);
+            UserUtils::updateLastLoginTime($provider->user_id);
         } else {
             $_SESSION["te_invitation_code"] = "temp";
             if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
@@ -82,7 +83,7 @@ class UserUtils {
                     $userId=$cookie->getUserId();
                     $user = UserUtils::getUserById($userId);
                     if (!empty($user)) {
-                        UserUtils::updateLastLoginTime($user->id);
+                        UserUtils::updateLastLoginTime($userId);
                         return $user;
                     }
                 }
