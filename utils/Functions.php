@@ -67,11 +67,10 @@ require_once __DIR__ . '/image_functions.php';
 
 class UtilFunctions {
 
-    public static function json_encode($string) {
+    public static function json_encode($object) {
         $json = '[]';
-        if (!empty($string)) {
-            $json = json_encode($string);
-            $json = empty($string) ? '[]' : $json;
+        if (!empty($object)) {
+            $json = json_encode($object);
             $search = array('\\', "\n", "\r", "\f", "\t", "\b", "'");
             $replace = array('\\\\', "\\n", "\\r", "\\f", "\\t", "\\b", "\\'");
             $json = str_replace($search, $replace, $json);
