@@ -597,7 +597,7 @@ function getComments(event_id)
                     var userNameElem=jQuery(commentItemDIV).find("#comment_user");
                     var commentElem=jQuery(commentItemDIV).find("#comment_text");
                     setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, e.userPic,56);
-                    jQuery(userNameElem).text(e.userName);
+                    jQuery(userNameElem).text(e.userFullName);
                     jQuery(commentElem).text(e.comment);
                     jQuery(commentItemDIV).show();
                 }
@@ -644,8 +644,9 @@ function getUsers(gdy_altDIVOrta_users,event_id,tooltip)
                     {
                         var imageDiv=document.createElement('div');
                         jQuery(imageDiv).unbind("click");
+                        jQuery(imageDiv).data("userName",data[i].userName);
                         jQuery(imageDiv).click(function(){
-                            window.location=TIMETY_HOSTNAME+""+data.userName;
+                            window.location=TIMETY_HOSTNAME+jQuery(this).data("userName");
                         });
                         jQuery(imageDiv).addClass('gdy_alt_rsm');
                         jQuery(imageDiv).attr("id","users_"+data[i].id);
@@ -842,7 +843,7 @@ function openNextComments(count)
                     var userNameElem=jQuery(commentItemDIV).find("#comment_user");
                     var commentElem=jQuery(commentItemDIV).find("#comment_text");
                     setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, e.userPic,56);
-                    jQuery(userNameElem).text(e.userName);
+                    jQuery(userNameElem).text(e.userFullName);
                     jQuery(commentElem).text(e.comment);
                     jQuery(commentItemDIV).show();
                 }
@@ -899,7 +900,7 @@ function sendComment(){
                             var userNameElem=jQuery(commentItemDIV).find("#comment_user");
                             var commentElem=jQuery(commentItemDIV).find("#comment_text");
                             setImageBackGroundCenter(imageDiv, 32, 31, 0, 0, data.userPic,56);
-                            jQuery(userNameElem).text(data.userName);
+                            jQuery(userNameElem).text(data.userFullName);
                             jQuery(commentElem).text(data.comment);
                             jQuery(commentItemDIV).show();
                             jQuery("#sendComment").val("");
