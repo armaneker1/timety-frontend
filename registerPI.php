@@ -534,7 +534,7 @@ if (isset($_POST['te_username'])) {
                         
                         
                         //city
-                        var city_type=0;
+                        /*var city_type=0;
                         var te_loc_city="";
                         if(place.address_components.length>0){
                             for(var i=0;i<place.address_components.length;i++){
@@ -558,8 +558,8 @@ if (isset($_POST['te_username'])) {
                                     }
                                 }
                             }
-                        }
-                        jQuery("#te_location_city").val(te_loc_city);
+                        }*/
+                        getCityLocationByCoordinates(point.lat(),point.lng(),setLocation);
                     }
                     validateInput(jQuery("#te_hometown"),true,true,3);
                 });
