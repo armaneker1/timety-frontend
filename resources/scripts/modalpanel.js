@@ -306,10 +306,19 @@ function openModalPanel(event_id,custom) {
         jQuery("#name_creator").text("");
         setImageBackGroundLoader(jQuery("#image_creator"));
         jQuery("#about_creator").hide();
+        jQuery("#image_creator").unbind("click");
         if(data.creatorId)
         {
             jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
             setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.creator.userPicture);
+            if(data.creator.userName){
+                jQuery("#image_creator").click(function(){
+                    window.location=TIMETY_HOSTNAME+""+data.creator.userName;
+                });
+                jQuery("#name_creator").click(function(){
+                    window.location=TIMETY_HOSTNAME+""+data.creator.userName;
+                });
+            }
             if(data.creator.about && data.creator.about!="null"){
                 jQuery("#about_creator").text(data.creator.about);
                 jQuery("#about_creator").show();
@@ -606,6 +615,10 @@ function getUsers(gdy_altDIVOrta_users,event_id,tooltip)
                     if(data[i].pic && !tmp.length)
                     {
                         var imageDiv=document.createElement('div');
+                        jQuery(imageDiv).unbind("click");
+                        jQuery(imageDiv).click(function(){
+                            window.location=TIMETY_HOSTNAME+""+data.userName;
+                        });
                         jQuery(imageDiv).addClass('gdy_alt_rsm');
                         jQuery(imageDiv).attr("id","users_"+data[i].id);
                         jQuery(imageDiv).attr("title", data[i].fullName);

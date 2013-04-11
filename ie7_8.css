@@ -1772,6 +1772,7 @@ body {
     float: left;
     margin-right: 4px;
     margin-left: 4px;
+    cursor: pointer;
 }
 .gdy_alt_sag {
     background-color: #f9f9f9;

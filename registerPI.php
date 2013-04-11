@@ -589,6 +589,7 @@ if (isset($_POST['te_username'])) {
                         type="text"
                         class="user_inpt username icon_bg user_inpt_pi_height" 
                         id="te_username"
+                        tabindex="1"
                         value="<?php echo $username ?>" 
                         placeholder="Username"
                         suc="true"
@@ -612,6 +613,7 @@ if (isset($_POST['te_username'])) {
                         type="text" 
                         class="user_inpt user_inpt_pi_height" 
                         id="te_firstname"
+                        tabindex="2"
                         value="<?php echo $name ?>" 
                         placeholder="First Name"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
@@ -633,6 +635,7 @@ if (isset($_POST['te_username'])) {
                         type="text" 
                         class="user_inpt user_inpt_pi_height" 
                         id="te_lastname"
+                        tabindex="3"
                         value="<?php echo $lastname ?>" 
                         placeholder="Last Name" 
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
@@ -653,6 +656,7 @@ if (isset($_POST['te_username'])) {
                         name="te_email" 
                         type="text"
                         suc="true"
+                        tabindex="4"
                         placeholder="Email" 
                         class="user_inpt email icon_bg user_inpt_pi_height" 
                         id="te_email"
@@ -681,6 +685,7 @@ if (isset($_POST['te_username'])) {
                         <input 
                             name="te_hometown"
                             type="text" 
+                            tabindex="5"
                             placeholder="Location" 
                             class="user_inpt user_inpt_pi_height"
                             id="te_hometown" 
@@ -712,6 +717,7 @@ if (isset($_POST['te_username'])) {
                         class="user_inpt password icon_bg user_inpt_pi_height" 
                         id="te_password" 
                         value=""
+                        tabindex="6"
                         placeholder="Password"
                         onblur="validatePassword(this,jQuery('#te_repassword'),false,true);" />
                         <?php
@@ -732,6 +738,7 @@ if (isset($_POST['te_username'])) {
                         class="user_inpt password icon_bg user_inpt_pi_height"
                         id="te_repassword" 
                         value="" 
+                        tabindex="7"
                         placeholder="Confirm password"
                         onblur="validatePassword(this,$('#te_password'),true,true)" />
                         <?php
