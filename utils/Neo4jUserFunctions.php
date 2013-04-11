@@ -440,6 +440,7 @@ class Neo4jUserUtil {
                 $user->save();
 
                 UserUtils::updateUserStatistic($userId, $following_count, $followers_count, $likes_count, $reshares_count, $joined_count, $created_count);
+                Queue::updateProfile($userId);
             } catch (Exception $e) {
                 error_log("Error" . $e->getMessage());
             }

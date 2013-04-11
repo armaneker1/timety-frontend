@@ -41,6 +41,8 @@ class User {
             $this->reshares_count = $result['reshares_count'];
             $this->joined_count = $result['joined_count'];
             $this->created_count = $result['created_count'];
+            $this->last_login_date = $result['register_date'];
+            $this->register_date = $result['last_login_date'];
         }
     }
 
@@ -73,6 +75,9 @@ class User {
                 $this->reshares_count = $tmp->reshares_count;
                 $this->joined_count = $tmp->joined_count;
                 $this->created_count = $tmp->created_count;
+
+                $this->last_login_date = $tmp->getLastLoginDate();
+                $this->register_date = $tmp->getRegisterDate();
             } else {
                 $this->id = null;
             }
@@ -99,6 +104,8 @@ class User {
     public $about;
     public $gender;
     public $language;
+    private $register_date;
+    private $last_login_date;
     //location
     public $location_country;
     public $location_city;
@@ -115,6 +122,22 @@ class User {
 
     public function getUserLang() {
         return $this->language;
+    }
+
+    public function getRegisterDate() {
+        return $this->register_date;
+    }
+
+    public function setRegisterDate($value) {
+        $this->register_date = $value;
+    }
+
+    public function getLastLoginDate() {
+        return $this->last_login_date;
+    }
+
+    public function setLastLoginDate($value) {
+        $this->last_login_date = $value;
     }
 
     public function getPassword() {
