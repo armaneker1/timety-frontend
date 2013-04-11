@@ -345,7 +345,12 @@ if (empty($user)) {
         $event->attendance = $_POST["te_event_people"];
         if (!$error) {
             try {
+                $socialLog = KLogger::instance(KLOGGER_PATH . "/social/", KLogger::DEBUG);
+                $socialLog->logInfo("---");
+                $socialLog->logInfo("---");
                 $eventDB = EventUtil::createEvent($event, $user);
+                $socialLog->logInfo("Created Event : ");
+                $socialLog->logInfo(UtilFunctions::json_encode($eventDB));
                 if (!empty($eventDB) && !empty($eventDB->id)) {
                     Queue::addEvent($eventDB->id, $user->id);
                     $providers = UserUtils::getSocialProviderList($user->id);
@@ -361,6 +366,7 @@ if (empty($user)) {
                         }
                     }
                     if (($eventDB->addsocial_fb == "1" || $eventDB->addsocial_fb == 1 || $eventDB->addsocial_fb == "true" || $eventDB->addsocial_fb) && !empty($fbProv)) {
+                        $socialLog->logInfo("FB add event  : ");
                         try {
                             $facebook = new Facebook(array(
                                         'appId' => FB_APP_ID,
@@ -381,25 +387,31 @@ if (empty($user)) {
                                 "privacy_type" => $pr,
                                 "name" => $eventDB->title,
                                 "host" => "Me",
-                                "start_time" => strtotime($sDate),
-                                "end_time" => strtotime($eDate),
+                                "start_time" => $sDate,
+                                "end_time" => $eDate,
                                 "location" => $eventDB->location,
                                 "description" => $eventDB->description,
                                 "ticket_uri" => HOSTNAME . "/events/" . $eventDB->id,
                                 basename($fileName) => '@' . $fileName
                             );
-                            var_dump($event_info);
+                            $socialLog->logInfo("FB  Event before send : ");
+                            $socialLog->logInfo(UtilFunctions::json_encode($event_info));
+                            //var_dump($event_info);
                             $result = $facebook->api('me/events', 'post', $event_info);
+                            $socialLog->logInfo("FB  Event send result : ");
+                            $socialLog->logInfo(UtilFunctions::json_encode($result));
                             //var_dump($result);
                             //error_log("Fcebook event log " . UtilFunctions::json_encode($result));
                         } catch (Exception $exc) {
                             //var_dump($exc);
-                            //echo $exc->xdebug_message;
-                            error_log($exc->getTraceAsString());
+                            error_log(UtilFunctions::json_encode($exc));
+                            $socialLog->logInfo("FB  Event error 1 : ");
+                            $socialLog->logInfo(UtilFunctions::json_encode($exc));
                         }
                     }
                     if (($eventDB->addsocial_gg == "1" || $eventDB->addsocial_gg == 1 || $eventDB->addsocial_gg == "true" || $eventDB->addsocial_gg) && !empty($ggProv)) {
                         try {
+                            $socialLog->logInfo("GG add Event  : ");
                             $google = new Google_Client();
                             $google->setUseObjects(true);
                             $google->setApplicationName(GG_APP_NAME);
@@ -434,10 +446,16 @@ if (empty($user)) {
                             $event->setAnyoneCanAddSelf($pr);
                             $event->setVisibility($pr2);
                             $event->setHtmlLink(HOSTNAME . "events/" . $eventDB->id);
+                            $socialLog->logInfo("GG  Event before send  : ");
+                            $socialLog->logInfo(UtilFunctions::json_encode($event));
                             $createdEvent = $cal->events->insert('primary', $event);
                             //echo $createdEvent->getId();
-                            var_dump($createdEvent);
+                            $socialLog->logInfo("GG  Event send result : ");
+                            $socialLog->logInfo(UtilFunctions::json_encode($createdEvent));
+                            //var_dump($createdEvent);
                         } catch (Exception $exc) {
+                            $socialLog->logInfo("GG  Event send error : ");
+                            $socialLog->logInfo(UtilFunctions::json_encode($exc));
                             error_log($exc->getTraceAsString());
                         }
                     }
@@ -531,7 +549,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -718,7 +736,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                        
+                                                                                                                                                                    
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -816,7 +834,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                
+                                                                                                            
             </script>
 
 
