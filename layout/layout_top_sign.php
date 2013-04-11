@@ -1,26 +1,8 @@
 <?php
-$user = null;
-
-if (empty($user)) {
-    if (isset($_SESSION['id'])) {
-        $user = new User();
-        $user = UserUtils::getUserById($_SESSION['id']);
-    } else {
-        //check cookie
-        $rmm = false;
-        if (isset($_COOKIE[COOKIE_KEY_RM]))
-            $rmm = $_COOKIE[COOKIE_KEY_RM];
-        if ($rmm && isset($_COOKIE[COOKIE_KEY_UN]) && isset($_COOKIE[COOKIE_KEY_PSS])) {
-            $uname = base64_decode($_COOKIE[COOKIE_KEY_UN]);
-            $upass = base64_decode($_COOKIE[COOKIE_KEY_PSS]);
-            if (!empty($uname) && !empty($upass)) {
-                $user = UserUtils::login($uname, $upass);
-                if (!empty($user))
-                    $_SESSION['id'] = $user->id;
-            }
-        }
-    }
+if (!isset($checkUserStatus)) {
+    $checkUserStatus = true;
 }
+$user = SessionUtil::checkLoggedinUser($checkUserStatus);
 ?>
 <div style="position:absolute;left: 50%;margin-left: -317px;z-index: 1000000;font-size: 30px;top: 83px;"><span>Discover, Share and Track Events All Around You</span></div>
 <div class="u_bg"></div>
@@ -117,7 +99,7 @@ if (empty($user)) {
                                style="margin-left: 18px;color:rgb(174, 174, 174) "
                                placeholder="Date"
                                class="date1 gldp ts_sorta_inpt" type="text"></input>
-                        <INPUT value="<?php echo date("H", strtotime ("+4 hour")).":00" ; ?>"
+                        <INPUT value="<?php echo date("H", strtotime("+4 hour")) . ":00"; ?>"
                                style="color: rgb(174, 174, 174)"
                                class="ts_sorta_time input-small timepicker-default"
                                id="te_quick_event_time" name="te_quick_event_time" type="text">
@@ -249,8 +231,8 @@ if (!empty($user)) {
             <?php
             if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
                 ?>
-    <?php if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI")) {
-        ?>
+                <?php if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI")) {
+                    ?>
                     <script type="text/javascript">
                         jQuery("#add_event_button").click(function(){
                             window.location=TIMETY_HOSTNAME+"?addevent=1";
@@ -281,7 +263,7 @@ if (!empty($user)) {
                 }
             }
             ?>
-<?php if (empty($user->id)) { ?>
+            <?php if (empty($user->id)) { ?>
                 <script>sessionStorage.setItem('id','');</script>
                 <script type="text/javascript">
                     function  to_home() {
@@ -296,7 +278,7 @@ if (!empty($user)) {
                 if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI"))) {
                     ?>
                     <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js?23"></script>
-                <?php
+                    <?php
                 }
             }
             ?>
@@ -386,9 +368,9 @@ if (!empty($user)) {
                                                 <button type="button" class="ekle icon_bg"></button>
                                                 <span><?= $cat->getName() ?></span>
                                             </li>
-            <?php
-        }
-        ?>
+                                            <?php
+                                        }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
@@ -397,9 +379,9 @@ if (!empty($user)) {
                     </ul>
                 </div>
                 <div id="te_avatar" class="avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo PAGE_GET_IMAGEURL . urlencode($user->getUserPic()) . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
-        <?php if ($user->getUserNotificationCount()) { ?>
+                    <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-        <?php } ?>
+                    <?php } ?>
                 </div>
                 <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                     <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
@@ -409,17 +391,17 @@ if (!empty($user)) {
                         </ul>
                     </div>
                 </div>
-    <?php } else {
-        ?>
+            <?php } else {
+                ?>
                 <div class="top_menu">
                     <ul>
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a">Logout</a></li>
                     </ul>
                 </div>
                 <div class="avatar" id="te_avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
-        <?php if ($user->getUserNotificationCount()) { ?>
+                    <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-        <?php } ?>
+                    <?php } ?>
                 </div>
                 <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                     <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
@@ -447,7 +429,7 @@ if (!empty($user)) {
             ?>
             <div class="t_account"><a href="<?= PAGE_SIGNUP ?>" class="cr_acc <?= $create_class ?>">create account</a><a href="<?= PAGE_LOGIN ?>" class="sgn_in <?= $signin_class ?>">sign-in </a></div>
 
-<?php } ?>
+        <?php } ?>
     </div>
 </div>
 

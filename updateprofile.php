@@ -4,28 +4,7 @@ header("charset=utf8;");
 
 require_once __DIR__ . '/utils/Functions.php';
 
-$user = null;
-if (isset($_SESSION['id'])) {
-    $user = new User();
-    $user = UserUtils::getUserById($_SESSION['id']);
-    if (!empty($user)) {
-        SessionUtil::checkUserStatus($user);
-    }
-} else {
-    //check cookie
-    $rmm = false;
-    if (isset($_COOKIE[COOKIE_KEY_RM]))
-        $rmm = $_COOKIE[COOKIE_KEY_RM];
-    if ($rmm && isset($_COOKIE[COOKIE_KEY_UN]) && isset($_COOKIE[COOKIE_KEY_PSS])) {
-        $uname = base64_decode($_COOKIE[COOKIE_KEY_UN]);
-        $upass = base64_decode($_COOKIE[COOKIE_KEY_PSS]);
-        if (!empty($uname) && !empty($upass)) {
-            $user = UserUtils::login($uname, $upass);
-            if (!empty($user))
-                $_SESSION['id'] = $user->id;
-        }
-    }
-}
+$user = SessionUtil::checkLoggedinUser();
 
 if (empty($user)) {
     header("location: " . HOSTNAME);

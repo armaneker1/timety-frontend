@@ -4,13 +4,12 @@ header("charset=utf8;");
 
 require_once __DIR__ . '/utils/Functions.php';
 
-
-if (!isset($_SESSION['id'])) {
+$checkUserStatus=false;
+$user = SessionUtil::checkLoggedinUser($checkUserStatus);
+if (empty($user)) {
     // Redirection to login page twitter or facebook or foursquare
     header("location: " . HOSTNAME);
 } else {
-    $user = UserUtils::getUserById($_SESSION['id']);
-
     if (isset($_POST['type']) && !empty($user)) {
         $userId = $user->id;
         if (isset($_POST['add_ineterest']))
@@ -42,19 +41,13 @@ if (!isset($_SESSION['id'])) {
         exit(1);
     }
 
-
-
-    if ($user != null && $user->status != 1) {
+    if (!empty($user) && $user->status!=1) {
         SessionUtil::checkUserStatus($user);
     }
-
+    
     //get data
     $categoryList = array();
-    if (!empty($user)) {
-        $categoryList = AddLikeUtils::getCategories($user->language);
-    } else {
-        header("location: " . HOSTNAME);
-    }
+    $categoryList = AddLikeUtils::getCategories($user->language);
 }
 
 $tags_ = Neo4jUserUtil::getUserTimetyTag($user->id);
@@ -82,88 +75,88 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
         ?>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?35"></script>
 
-        
 
-            <script type="text/javascript">
+
+        <script type="text/javascript">
                 
-                jQuery(function(){
-                    jQuery('input, textarea').placeholder();
+            jQuery(function(){
+                jQuery('input, textarea').placeholder();
                     
-                    // resize
-                    jQuery("#add_like_ul").bind('DOMSubtreeModified',function(){
-                        jQuery("#foot_add_ktg_sol").height(jQuery("#foot_add_footer").height()); 
-                    });
-                    
-                    addDefaultsStorage('<?= $tagList ?>',<?php echo $user->id; ?>);
-                    
-                    checkSessionStorage(<?php echo $user->id; ?>);
-                    
-                    jQuery('div[id^="catULDIV_"]').each(function () {
-                        jQuery(this).slides({
-                            preload: false,
-                            generateNextPrev: false,
-                            prev:"prev_button_"+this.id,
-                            next:"next_button_"+this.id,
-                            container: 'slides_container',
-                            pagination :false,
-                            generatePagination :false,
-                            childrenWidth : 680
-                        }); 
-                    });
-                    
-                    jQuery( "#add_like_autocomplete" ).autocomplete({ 
-                        source: "<?= PAGE_AJAX_GET_TIMETY_TAG . "?lang=" . $user->language ?>", 
-                        minLength: 2,
-                        select: function( event, ui ) { setTimeout(function(){jQuery("#add_like_autocomplete").val("")},50); insertItem("add_like_ul",ui,'0'); }	
-                    });	
-                    jQuery( "#add_like_autocomplete" ).keypress(function(event){
-                        if(event.keyCode == 13) {
-                            <!-- addNewLike('add_like_autocomplete'); -->
-                            <!--return false' - preventing to submit form-->
-                            return false;
-                        }
-                    });
-                    
-                    
-                    
-                    // OPACITY OF BUTTON SET TO 0%
-                    jQuery(".roll").css("opacity","0");
-                    // ON MOUSE OVER
-                    jQuery(".roll").hover(
-                    function () {
-                        var tile=document.getElementById(this.getAttribute('item_id'));
-                        if(tile.getAttribute('status')!=='true')
-                        {
-                            // SET OPACITY TO 70%
-                            jQuery(this).css({ opacity: 0.8 });
-                        }
-                    }, 
-                    function () {
-                        // SET OPACITY BACK TO 50%
-                        jQuery(this).css({ opacity: 0});
-                    });  	   
+                // resize
+                jQuery("#add_like_ul").bind('DOMSubtreeModified',function(){
+                    jQuery("#foot_add_ktg_sol").height(jQuery("#foot_add_footer").height()); 
                 });
-            </script>
+                    
+                addDefaultsStorage('<?= $tagList ?>',<?php echo $user->id; ?>);
+                    
+                checkSessionStorage(<?php echo $user->id; ?>);
+                    
+                jQuery('div[id^="catULDIV_"]').each(function () {
+                    jQuery(this).slides({
+                        preload: false,
+                        generateNextPrev: false,
+                        prev:"prev_button_"+this.id,
+                        next:"next_button_"+this.id,
+                        container: 'slides_container',
+                        pagination :false,
+                        generatePagination :false,
+                        childrenWidth : 680
+                    }); 
+                });
+                    
+                jQuery( "#add_like_autocomplete" ).autocomplete({ 
+                    source: "<?= PAGE_AJAX_GET_TIMETY_TAG . "?lang=" . $user->language ?>", 
+                    minLength: 2,
+                    select: function( event, ui ) { setTimeout(function(){jQuery("#add_like_autocomplete").val("")},50); insertItem("add_like_ul",ui,'0'); }	
+                });	
+                jQuery( "#add_like_autocomplete" ).keypress(function(event){
+                    if(event.keyCode == 13) {
+                        <!-- addNewLike('add_like_autocomplete'); -->
+                        <!--return false' - preventing to submit form-->
+                        return false;
+                    }
+                });
+                    
+                    
+                    
+                // OPACITY OF BUTTON SET TO 0%
+                jQuery(".roll").css("opacity","0");
+                // ON MOUSE OVER
+                jQuery(".roll").hover(
+                function () {
+                    var tile=document.getElementById(this.getAttribute('item_id'));
+                    if(tile.getAttribute('status')!=='true')
+                    {
+                        // SET OPACITY TO 70%
+                        jQuery(this).css({ opacity: 0.8 });
+                    }
+                }, 
+                function () {
+                    // SET OPACITY BACK TO 50%
+                    jQuery(this).css({ opacity: 0});
+                });  	   
+            });
+        </script>
 
-            <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
-            <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
-            <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
-            <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js"></script>
-            <script>
-                jQuery(document).ready(function() {
-                    jQuery('.on_off_check_box_style').each(function (){
-                        var id=this.id;
-                        new iPhoneStyle('#'+id,{widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="<?= HOSTNAME ?>images/pyes1.png" width="14" heght="10" style="margin-top:3px;">', uncheckedLabel: '<img src="<?= HOSTNAME ?>images/pno1.png" style="margin-top: 3px;margin-left: 1px;" width="10" heght="10">',  statusChange: function() {changeCheckBoxStatus(id);}});
-                    });
+        <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js"></script>
+        <script>
+            jQuery(document).ready(function() {
+                jQuery('.on_off_check_box_style').each(function (){
+                    var id=this.id;
+                    new iPhoneStyle('#'+id,{widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="<?= HOSTNAME ?>images/pyes1.png" width="14" heght="10" style="margin-top:3px;">', uncheckedLabel: '<img src="<?= HOSTNAME ?>images/pno1.png" style="margin-top: 3px;margin-left: 1px;" width="10" heght="10">',  statusChange: function() {changeCheckBoxStatus(id);}});
                 });
-            </script>
-            <meta property="og:title" content="Timety"/>
-            <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
-            <meta property="og:site_name" content="Timety"/>
-            <meta property="og:type" content="website"/>
-            <meta property="og:description" content="Timety"/>
-            <meta property="og:url" content="<?= HOSTNAME ?>"/>
-            <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
+            });
+        </script>
+        <meta property="og:title" content="Timety"/>
+        <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
+        <meta property="og:site_name" content="Timety"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:description" content="Timety"/>
+        <meta property="og:url" content="<?= HOSTNAME ?>"/>
+        <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg"
           onload="checkInterestReady('<?= PAGE_LIKES ?>','#spinner','<?php
@@ -253,7 +246,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                         if (!$showSol) {
                             echo "style='display:none;'";
                         }
-                        ?>>
+                            ?>>
                                 <ol class="on_off" style="margin-top: 40px;margin-left: 8px;">
                                     <li><input class="on_off_check_box_style" type="checkbox"  cat_id="<?php echo $cat->id; ?>" id="checkbox_on_off_<?php echo $cat->id; ?>" checked="checked"/>
                                     </li>
@@ -320,7 +313,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                                              ?>
                                     </div>
                                 </div>
-    <?php if ($item_count < $size) { ?>
+                                <?php if ($item_count < $size) { ?>
                                     <div style="position: absolute; right: 5px; z-index: 1000">
                                         <input type="button"
                                                id="prev_button_catULDIV_<?php echo $cat->id; ?>" class="solscrl"
@@ -329,20 +322,20 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                                                class="sagscrl"
                                                style="position: absolute; right: 0; margin-top: 35px;" />
                                     </div>
-    <?php } ?>
+                                <?php } ?>
                             </div>
                             <!-- add_kag_sag -->
                             <div id="add_like_span_div_<?php echo $cat->id; ?>" class="add_ktg_sag add_like_span_div_enable"></div>
                             <div style="clear: both"></div>
                         </div>
                     </div>
-                    <?php } ?>
+                <?php } ?>
                 <div class="add_footer" style="width: 100%">
                     <div class="add_ktg_sol" id="foot_add_ktg_sol" style="height: 50px;<?php
-                    if (!$showSol) {
-                        echo "display:none;";
-                    }
-                    ?>">
+                if (!$showSol) {
+                    echo "display:none;";
+                }
+                ?>">
                         <a href="#" style="display: none">Add Like</a>
                     </div>
                     <div class="add_ktg_sag" style="height: 50px !important;"

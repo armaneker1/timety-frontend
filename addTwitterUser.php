@@ -7,11 +7,10 @@ require_once __DIR__.'/utils/Functions.php';
 
 $success=TRUE;
 $errortext="";
-
-if (isset($_SESSION['id']) && !empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empty($_SESSION['oauth_token_secret'])) {
+$l_user=  SessionUtil::checkLoggedinUser();
+if (!empty($l_user) && !empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empty($_SESSION['oauth_token_secret'])) {
 
 	$userFunctions = new UserUtils();
-	$l_user=$userFunctions->getUserById($_SESSION['id']);
 
 	$twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
 	$access_token = $twitteroauth->getAccessToken($_GET['oauth_verifier']);

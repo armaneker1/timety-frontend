@@ -48,14 +48,13 @@ if (array_key_exists("te_username", $_POST)) {
         $upass = preg_replace('/\s+/', '', $upass);
         $user = UserUtils::login($uname, sha1($upass));
         if (!empty($user)) {
-            $_SESSION['id'] = $user->id;
+            //$rmb=false;
+            //for now
+            $rmb=true;
             if (isset($_POST["te_rememberme"]) && $_POST["te_rememberme"]) {
-                setcookie(COOKIE_KEY_UN, base64_encode($user->userName), time() + (365 * 24 * 60 * 60), "/");
-                setcookie(COOKIE_KEY_PSS, base64_encode($user->getPassword()), time() + (365 * 24 * 60 * 60), "/");
-                setcookie(COOKIE_KEY_RM, true, time() + (365 * 24 * 60 * 60), "/");
-            } else {
-                setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
-            }
+                $rmb=true;
+            } 
+            SessionUtil::storeLoggedinUser($user,$rmb);
             header("location: " . HOSTNAME);
         } else {
             $m = new HtmlMessage();

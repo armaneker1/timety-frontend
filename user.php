@@ -7,42 +7,12 @@ require_once __DIR__ . '/apis/google/contrib/Google_CalendarService.php';
 
 $msgs = array();
 
-$user = null;
+$user = SessionUtil::checkLoggedinUser();
 $userId = null;
-if (isset($_SESSION['id'])) {
-    $userId = $_SESSION['id'];
-    $user = new User();
-    $user = UserUtils::getUserById($_SESSION['id']);
-    if (!empty($user)) {
-        SessionUtil::checkUserStatus($user);
-    }
-} else {
-    //check cookie
-    $rmm = false;
-    if (isset($_COOKIE[COOKIE_KEY_RM]))
-        $rmm = $_COOKIE[COOKIE_KEY_RM];
-    if ($rmm && isset($_COOKIE[COOKIE_KEY_UN]) && isset($_COOKIE[COOKIE_KEY_PSS])) {
-        $uname = base64_decode($_COOKIE[COOKIE_KEY_UN]);
-        $upass = base64_decode($_COOKIE[COOKIE_KEY_PSS]);
-        if (!empty($uname) && !empty($upass)) {
-            $user = UserUtils::login($uname, $upass);
-            if (!empty($user))
-                $_SESSION['id'] = $user->id;
-        }
-    }
-    unset($rmm);
+if(!empty($user)){
+    $userId=$user->id;
 }
-//check user
-if (empty($user)) {
-    unset($_SESSION['id']);
-    unset($_SESSION['username']);
-    unset($_SESSION['oauth_provider']);
-    setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
-    setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
-    setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
-} else {
-    SessionUtil::checkUserStatus($user);
-}
+
 
 $p_user_id = null;
 $p_user = null;

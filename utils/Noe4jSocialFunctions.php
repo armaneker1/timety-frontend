@@ -400,7 +400,7 @@ class SocialUtil {
     }
 
     public static function getUserSocialFriend($userId) {
-        $user = UserUtils::getUserById($_SESSION['id']);
+        $user = UserUtils::getUserById($userId);
         $friendList = array();
         $friendIdList = array();
         if (!empty($user)) {

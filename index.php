@@ -9,10 +9,10 @@ $msgs = array();
 $_random_session_id = rand(10000, 9999999);
 $page_id = "index";
 
+$user = new User();
+$user=  SessionUtil::checkLoggedinUser();
 //finish registeration
-if (isset($_GET['finish']) && isset($_SESSION['id'])) {
-    $user = new User();
-    $user = UserUtils::getUserById($_SESSION['id']);
+if (isset($_GET['finish']) && !empty($user)) {
     $user->status = 3;
     UserUtils::updateUser($user->id, $user);
     $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
@@ -59,39 +59,11 @@ if (array_key_exists("guid", $_GET)) {
     unset($guid);
 }
 
-$user = null;
-if (isset($_SESSION['id'])) {
-    $user = new User();
-    $user = UserUtils::getUserById($_SESSION['id']);
-    if (!empty($user)) {
-        SessionUtil::checkUserStatus($user);
-    }
-} else {
-    //check cookie
-    $rmm = false;
-    if (isset($_COOKIE[COOKIE_KEY_RM]))
-        $rmm = $_COOKIE[COOKIE_KEY_RM];
-    if ($rmm && isset($_COOKIE[COOKIE_KEY_UN]) && isset($_COOKIE[COOKIE_KEY_PSS])) {
-        $uname = base64_decode($_COOKIE[COOKIE_KEY_UN]);
-        $upass = base64_decode($_COOKIE[COOKIE_KEY_PSS]);
-        if (!empty($uname) && !empty($upass)) {
-            $user = UserUtils::login($uname, $upass);
-            if (!empty($user))
-                $_SESSION['id'] = $user->id;
-        }
-    }
-    unset($rmm);
-}
 
 $notpost = false;
 //check user
 if (empty($user)) {
-    unset($_SESSION['id']);
-    unset($_SESSION['username']);
-    unset($_SESSION['oauth_provider']);
-    setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
-    setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
-    setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
+    SessionUtil::deleteLoggedinUser();
     /*
      * $_SESSION["te_invitation_code"] 
      */

@@ -63,6 +63,34 @@ class UserUtils {
         }
     }
 
+    public static function updateLastLoginTime($userId) {
+        if (!empty($userId)) {
+            $userId = DBUtils::mysql_escape($userId);
+            $t = date(DATETIME_DB_FORMAT);
+            $SQL = "UPDATE " . TBL_USERS . " set last_login_date='$t' WHERE id = $userId";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function cookieLogin($timeHash, $clientGuid) {
+        if (!empty($timeHash) && !empty($clientGuid)) {
+            $SQL = "SELECT * FROM " . TBL_USER_COOKIE . " WHERE time_hash = '$timeHash' AND client_guid='$clientGuid'";
+            $cookie = TimeteUserCookie::findBySql(DBUtils::getConnection(), $SQL);
+            if (!empty($cookie)) {
+                $cookie = $cookie[0];
+                if (!empty($cookie)) {
+                    $userId=$cookie->getUserId();
+                    $user = UserUtils::getUserById($userId);
+                    if (!empty($user)) {
+                        UserUtils::updateLastLoginTime($user->id);
+                        return $user;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public static function login($userName, $pass) {
         if (!empty($userName) && !empty($pass)) {
             $userName = preg_replace('/\s+/', '', $userName);
@@ -73,13 +101,12 @@ class UserUtils {
             $result = mysql_fetch_array($query);
             $user = new User();
             $user->create($result);
-            if (!empty($user->id))
+            if (!empty($user->id)) {
+                UserUtils::updateLastLoginTime($user->id);
                 return $user;
-            else
-                return null;
-        } else {
-            return null;
+            }
         }
+        return null;
     }
 
     public static function getUserCityId($id) {

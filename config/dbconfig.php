@@ -26,6 +26,7 @@ define('TBL_MENU_TAG' ,'timete_menu_tag');
 define('TBL_CITY_MAP' ,'timete_city_map');
 define('TBL_TWIITER_REC' ,'timete_twitter_recommendation');
 define('TBL_FACEBOOK_REC' ,'timete_facebook_recommendation');
+define('TBL_USER_COOKIE' ,'timete_user_cookie');
 
 
 define('CLM_CITY_ID' ,'CITY_ID');

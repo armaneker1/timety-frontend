@@ -5,6 +5,7 @@ require_once __DIR__ . '/TimeteMenuCategory.class.php';
 require_once __DIR__ . '/TimeteMenuTag.class.php';
 require_once __DIR__ . '/TimeteTwitterRecommendation.class.php';
 require_once __DIR__ . '/TimeteFacebookRecommendation.class.php';
+require_once __DIR__ . '/TimeteUserCookie.class.php';
 
 class User {
 

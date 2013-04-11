@@ -75,14 +75,7 @@ if (isset($_GET['error'])) {
                     $user = new User();
                     $user = $result['user'];
                     if (!empty($user)) {
-                        session_start();
-                        $_SESSION['id'] = $user->id;
-                        //$_SESSION['oauth_id'] = $uid;
-                        $_SESSION['username'] = $user->userName;
-                        $_SESSION['oauth_provider'] = GOOGLE_PLUS_TEXT;
-                        setcookie(COOKIE_KEY_UN, base64_encode($user->userName), time() + (365 * 24 * 60 * 60), "/");
-                        setcookie(COOKIE_KEY_PSS, base64_encode($user->getPassword()), time() + (365 * 24 * 60 * 60), "/");
-                        setcookie(COOKIE_KEY_RM, true, time() + (365 * 24 * 60 * 60), "/");
+                        SessionUtil::storeLoggedinUser($user);
                         if ($type == 1) {
                             if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
                                 UtilFunctions::incInvitationCodeCount($_SESSION["te_invitation_code"]);

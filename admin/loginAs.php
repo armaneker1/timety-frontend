@@ -16,6 +16,8 @@ if (isset($_POST['userId'])) {
 }
 
 if (!empty($userId)) {
-    $_SESSION['id'] = $userId;
+    SessionUtil::storeLoggedinUser(UserUtils::getUserById($userId));
+    header("Location : " . HOSTNAME);
+    exit(1);
 }
 ?>

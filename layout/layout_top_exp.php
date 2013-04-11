@@ -1,26 +1,8 @@
 <?php
-$user = null;
-
-if (empty($user)) {
-    if (isset($_SESSION['id'])) {
-        $user = new User();
-        $user = UserUtils::getUserById($_SESSION['id']);
-    } else {
-        //check cookie
-        $rmm = false;
-        if (isset($_COOKIE[COOKIE_KEY_RM]))
-            $rmm = $_COOKIE[COOKIE_KEY_RM];
-        if ($rmm && isset($_COOKIE[COOKIE_KEY_UN]) && isset($_COOKIE[COOKIE_KEY_PSS])) {
-            $uname = base64_decode($_COOKIE[COOKIE_KEY_UN]);
-            $upass = base64_decode($_COOKIE[COOKIE_KEY_PSS]);
-            if (!empty($uname) && !empty($upass)) {
-                $user = UserUtils::login($uname, $upass);
-                if (!empty($user))
-                    $_SESSION['id'] = $user->id;
-            }
-        }
-    }
+if (!isset($checkUserStatus)) {
+    $checkUserStatus = true;
 }
+$user = SessionUtil::checkLoggedinUser($checkUserStatus);
 ?>
 <?php if (!empty($user) && !empty($user->id)) { ?>
     <script>
@@ -291,7 +273,7 @@ if (empty($user)) {
                                   <a id="populer_top_menu_a" class="child <?= $upcoming_class ?>" channelId="1" onclick="changeChannel(this)" href="#popular">Upcoming</a>
                               </li> -->
                             <li>
-                                <a id="mytimety_top_menu" class="child" channelId="2" onclick="" href="<?=HOSTNAME.$user->userName?>">My Timety</a>
+                                <a id="mytimety_top_menu" class="child" channelId="2" onclick="" href="<?= HOSTNAME . $user->userName ?>">My Timety</a>
                             </li>
                             <li>
                                 <a id="following_top_menu_a" class="child" channelId="3" onclick="changeChannel(this)" href="#following" >Following</a>

@@ -4,27 +4,17 @@ header("charset=utf8;");
 
 require_once __DIR__ . '/utils/Functions.php';
 
-
-if (!isset($_SESSION['id'])) {
-    // Redirection to login page twitter or facebook or foursquare
+$user = new User();
+$checkUserStatus = false;
+$user = SessionUtil::checkLoggedinUser($checkUserStatus);
+if (empty($user)) {
     header("location: " . HOSTNAME);
 } else {
-    $user = new User();
-    $user = UserUtils::getUserById($_SESSION['id']);
-
-    /*
-     * suggest friends
-     */
-
-    if (!empty($user)) {
-        //post ile gelinmemisse
-        if ($user->status != 2) {
-            SessionUtil::checkUserStatus($user);
-        }
-        $friendList = SocialUtil::getUserSocialFriend($user->id);
-    } else {
-        header("location: " . HOSTNAME);
+    //post ile gelinmemisse
+    if ($user->status != 2) {
+        SessionUtil::checkUserStatus($user);
     }
+    $friendList = SocialUtil::getUserSocialFriend($user->id);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
