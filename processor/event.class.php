@@ -312,7 +312,7 @@ class EventProcessor {
                     }
                     if (!empty($usr) && $event->loc_city == $usr->location_city) {
                         //($event->worldwide == 1 || $event->worldwide == "1")
-                        if (!empty($host) && !strpos($host, 'localhost') && $event->privacy . "" == "true") {
+                        if (!empty($host) && strpos($host, 'localhost')<0 && $event->privacy . "" == "true") {
                             RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
                         } else {
                             $log->logInfo("Redis addItem Item simulated");

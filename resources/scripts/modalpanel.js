@@ -1,6 +1,7 @@
 var lastCommentId=-1;
 var sending=false;
 var oldUrl=null;
+var popup_userName=null;
 
 jQuery(document).ready(function(){
     oldUrl=window.location.href;
@@ -682,6 +683,15 @@ function closeModalPanel() {
 
 function addUrlEventId(event_id,title)
 {
+    if(title){ 
+        title=title.replace(/\s{2,}/g,'-');
+        title=title.replace(/ /g, '-');
+        title=title.replace(/-{2,}/g,'-');
+        title=turkishreplace(title);
+        title=title.replace(/[^A-Za-z0-9-]+/g, '');
+    }else{
+        title="";  
+    }
     if (history.pushState) {
         /*
          * Url rewrite
@@ -691,14 +701,10 @@ function addUrlEventId(event_id,title)
         {
             if(jQuery.inArray("event",url_)<0)
             {
-                if(title){ 
-                    title=title.replace(/ /g, '-');
-                    title=title.replace(/[^A-Za-z0-9-]+/g, '');
-                }
                 window.History.pushState(null, null, "event/"+event_id+"/"+title);  
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                if(pSUPERFLY)
+                if(typeof pSUPERFLY != "undefined")
                     pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title+"");
             }else
             {
@@ -707,18 +713,16 @@ function addUrlEventId(event_id,title)
                 {
                     path=path+"/"+url_[i];
                 }
-                window.History.pushState(null, null, path+"/"+"event/"+event_id);  
+                window.History.pushState(null, null, path+"/"+"event/"+event_id+"/"+title);  
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                if(pSUPERFLY)
-                    pSUPERFLY.virtualPage("/event/"+event_id, event_id+"");
+                if(typeof pSUPERFLY != "undefined")
+                    pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title+"");
             }
         }
-    }
-    else
-    {
+    } else {
         getLoader(true);
-        window.location=TIMETY_PAGE_EVENT_DETAIL+event_id;
+        window.location=TIMETY_PAGE_EVENT_DETAIL+event_id+"/"+title;
         return false;
     }
     return true;
@@ -727,27 +731,45 @@ function addUrlEventId(event_id,title)
 function remUrlEventId()
 {
     if (history.pushState) {
-        if(oldUrl){
+        if(oldUrl && false){
             window.History.pushState(null, null,oldUrl);  
         }else{
             /*
              * Url rewrite
              */
             var url_=window.location.href.split("/");
-            if(url_)
-            {
-                if(jQuery.inArray("event",url_)>=0)
-                {
+            if(url_)  {
+                if(jQuery.inArray("event",url_)>=0)  {
                     var path="";
-                    for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
-                    {
+                    for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)  {
                         path=path+"/"+url_[i];
                     }
-                    window.History.pushState(null, null, path+"/");  
+                    if(popup_userName){
+                        window.History.pushState(null, null,path+"/"+popup_userName);  
+                    } else{
+                        window.History.pushState(null, null, path+"/");
+                    }
                 }
             }
         }
     }
+}
+
+function turkishreplace(sData){
+    var newphrase=sData;
+    newphrase = newphrase.replace(/[Ü]/g,"U");
+    newphrase = newphrase.replace(/[Ş]/g,"S");
+    newphrase = newphrase.replace(/[Ğ]/g,"G");
+    newphrase = newphrase.replace(/[Ç]/g,"C");
+    newphrase = newphrase.replace(/[İ]/g,"I");
+    newphrase = newphrase.replace(/[Ö]/g,"O");
+    newphrase = newphrase.replace(/[ü]/g,"u");
+    newphrase = newphrase.replace(/[ş]/g,"s");
+    newphrase = newphrase.replace(/[ç]/g,"c");
+    newphrase = newphrase.replace(/[ı]/g,"i");
+    newphrase = newphrase.replace(/[ö]/g,"o");
+    newphrase = newphrase.replace(/[ğ]/g,"g");
+    return newphrase;
 }
 
 

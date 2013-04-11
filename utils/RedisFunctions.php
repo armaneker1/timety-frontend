@@ -1152,7 +1152,7 @@ class RedisUtils {
                     $event->getLocCity();
                     $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
                     $redis->removeItemById(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $event->id);
-                    if (!empty($host) && !strpos($host, 'localhost') && ($event->loc_city == $user_loc)) {
+                    if (!empty($host) && strpos($host, 'localhost')<0 && ($event->loc_city == $user_loc)) {
                         RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
                     } else {
                         $log->logInfo("Redis addItem Item simulated");
@@ -1176,7 +1176,7 @@ class RedisUtils {
                 foreach ($follows as $f) {
                     $fllw = json_decode($f);
                     if ($fllw->id == $follow->id) {
-                        if (!empty($host) && !strpos($host, 'localhost')) {
+                        if (!empty($host) && strpos($host, 'localhost')<0) {
                             RedisUtils::removeItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, $f);
                         } else {
                             $log->logInfo("Redis remove Item simulated");
@@ -1184,7 +1184,7 @@ class RedisUtils {
                         break;
                     }
                 }
-                if (!empty($host) && $add && !strpos($host, 'localhost')) {
+                if (!empty($host) && $add && strpos($host, 'localhost')<0) {
                     RedisUtils::addItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, json_encode($follow), 10);
                 } else {
                     if ($add)
@@ -1210,7 +1210,7 @@ class RedisUtils {
                 foreach ($followers as $f) {
                     $fllw = json_decode($f);
                     if ($fllw->id == $follower->id) {
-                        if (!empty($host) && !strpos($host, 'localhost')) {
+                        if (!empty($host) && strpos($host, 'localhost')<0) {
                             RedisUtils::removeItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, $f);
                         } else {
                             $log->logInfo("Redis remove Item simulated");
@@ -1218,7 +1218,7 @@ class RedisUtils {
                         break;
                     }
                 }
-                if (!empty($host) && $add && !strpos($host, 'localhost')) {
+                if (!empty($host) && $add && strpos($host, 'localhost')<0) {
                     RedisUtils::addItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, json_encode($follower), 10);
                 } else {
                     if ($add)

@@ -91,13 +91,12 @@ class Queue {
     //--------------------------------------------------------------------------
 
     private static function send($method, $action, $obj) {
-        $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
-        if (!empty($host) && !strpos($host, 'localhost')) {
-
+        $strposhost = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
+        if (!empty($host) && strpos($host, 'localhost')<0) {
             $obj["method"] = $method;
             $obj["action"] = $action;
             $conn = self::getConnection();
-            self::getConnection()->send("timety", json_encode($obj), array('persistent' => 'true'));
+            $conn->send("timety", json_encode($obj), array('persistent' => 'true'));
             $conn->disconnect();
         }
     }

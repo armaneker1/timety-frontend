@@ -248,11 +248,13 @@ if (empty($user)) {
             }
         }
 
+        $sDate=$startDate . " " . $startTime . ":00";
+        $eDate=$endDate . " " . $endTime . ":00";
         $event->startDateTime = $startDate . " " . $startTime . ":00";
         $event->endDateTime = $endDate . " " . $endTime . ":00";
 
 
-        $timezone = "+02:00";
+        $timezone = "+00:00";
         if (isset($_POST['te_timezone'])) {
             $timezone = $_POST['te_timezone'];
         }
@@ -358,7 +360,7 @@ if (empty($user)) {
                             }
                         }
                     }
-                    if (($eventDB->addsocial_fb == "1" || $eventDB->addsocial_fb == 1) && !empty($fbProv)) {
+                    if (($eventDB->addsocial_fb == "1" || $eventDB->addsocial_fb == 1 || $eventDB->addsocial_fb == "true" || $eventDB->addsocial_fb) && !empty($fbProv)) {
                         try {
                             $facebook = new Facebook(array(
                                         'appId' => FB_APP_ID,
@@ -379,20 +381,24 @@ if (empty($user)) {
                                 "privacy_type" => $pr,
                                 "name" => $eventDB->title,
                                 "host" => "Me",
-                                "start_time" => date($eventDB->startDateTime),
-                                "end_time" => date($eventDB->endDateTime),
+                                "start_time" =>  strtotime($sDate),
+                                "end_time" => strtotime($eDate), 
                                 "location" => $eventDB->location,
                                 "description" => $eventDB->description,
                                 "ticket_uri" => HOSTNAME . "/events/" . $eventDB->id,
                                 basename($fileName) => '@' . $fileName
                             );
+                            var_dump($event_info);
                             $result = $facebook->api('me/events', 'post', $event_info);
-                            error_log("Fcebook event log " . UtilFunctions::json_encode($result));
+                            //var_dump($result);
+                            //error_log("Fcebook event log " . UtilFunctions::json_encode($result));
                         } catch (Exception $exc) {
+                            //var_dump($exc);
+                            //echo $exc->xdebug_message;
                             error_log($exc->getTraceAsString());
                         }
                     }
-                    if (($eventDB->addsocial_gg == "1" || $eventDB->addsocial_gg == 1) && !empty($ggProv)) {
+                    if (($eventDB->addsocial_gg == "1" || $eventDB->addsocial_gg == 1 || $eventDB->addsocial_gg == "true" || $eventDB->addsocial_gg) && !empty($ggProv)) {
                         try {
                             $google = new Google_Client();
                             $google->setUseObjects(true);
@@ -412,11 +418,11 @@ if (empty($user)) {
                             $event->setLocation($eventDB->location);
 
                             $start = new Google_EventDateTime();
-                            $start->setDateTime(date('Y-m-d\TH:i:s.B+02:00', strtotime($eventDB->startDateTime)));
+                            $start->setDateTime(date('Y-m-d\TH:i:s.B'.$timezone, strtotime($sDate)));
                             $event->setStart($start);
 
                             $end = new Google_EventDateTime();
-                            $end->setDateTime(date('Y-m-d\TH:i:s.B+02:00', strtotime($eventDB->endDateTime)));
+                            $end->setDateTime(date('Y-m-d\TH:i:s.B'.$timezone, strtotime($eDate)));
                             $event->setEnd($end);
 
                             $pr = false;
@@ -429,9 +435,8 @@ if (empty($user)) {
                             $event->setVisibility($pr2);
                             $event->setHtmlLink(HOSTNAME . "events/" . $eventDB->id);
                             $createdEvent = $cal->events->insert('primary', $event);
-
                             //echo $createdEvent->getId();
-                            //var_dump($createdEvent);
+                            var_dump($createdEvent);
                         } catch (Exception $exc) {
                             error_log($exc->getTraceAsString());
                         }
@@ -445,7 +450,6 @@ if (empty($user)) {
                     $m->type = "s";
                     $m->message = "Event created successfully.";
                     $_SESSION[INDEX_MSG_SESSION_KEY] = UtilFunctions::json_encode($m);
-                    error_log("redirected " . $_random_session_id);
                     exit(header('Location: ' . HOSTNAME));
                 } else {
                     $error = true;
@@ -527,7 +531,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                                                            		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -714,7 +718,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                        
+                                                                                                                                                
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -805,12 +809,14 @@ if (empty($user)) {
         ?>');
                 } catch (exp ){
                     console.log("error while parsing json. data =");
-                    console.log('<?php $json_response = UtilFunctions::json_encode($prm_event);
-        echo $json_response; ?>');
+                    console.log('<?php
+        $json_response = UtilFunctions::json_encode($prm_event);
+        echo $json_response;
+        ?>');
                     console.log(exp);
                 }
             });
-                                                                                
+                                                                                        
             </script>
 
 
@@ -1017,8 +1023,10 @@ if (empty($user)) {
                                                             localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                                         } catch(exp){ 
                                                             console.log("error while parsing json2. data =");
-                                                            console.log('<?php $json_response = UtilFunctions::json_encode($evt);
-                                                                         echo $json_response; ?>');
+                                                            console.log('<?php
+                                                    $json_response = UtilFunctions::json_encode($evt);
+                                                    echo $json_response;
+                                                    ?>');
                                                         }
                                                         </script>
                                                     </div>
@@ -1351,9 +1359,9 @@ if (empty($user)) {
                                         $json_response = UtilFunctions::json_encode($main_event);
                                         echo $json_response;
                                         ?>';
-                                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                            tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                            var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                            localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>
@@ -1433,6 +1441,6 @@ if (empty($user)) {
             <!-- profil box -->
         </div>
         <div id="te_faux"  style="visibility: hidden;display: inline"></div>
-        <?php include('layout/template_createevent.php'); ?>
+<?php include('layout/template_createevent.php'); ?>
     </body>
 </html>
