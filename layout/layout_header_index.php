@@ -59,7 +59,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?201302221744"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?20198688"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?2013022499"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?2013022411"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20139989224366"></script>
