@@ -1,8 +1,17 @@
 <div class="genel_detay_yeni" id="genel_detay_yeni" style="position: relative; display: none;padding-bottom: 45px;">
     <div class="gdy_sol">
         <h1 class="gdy_baslik" id="gdy_event_title">Event Title</h1>
-        <h2 class="gdy_zaman"  id="gdy_event_date">Event Date</h2>
         <p class="gdy_metin"   id="gdy_event_description">Event Description</p>
+        <p class="gdy_zaman"  id="gdy_event_date">
+            <span class="gn">DD</span> 
+            <span class="ay">MM</span> 
+            <span class="yil">YYYY</span> 
+            <span class="hd_line">|</span> 
+            <span class="gn d_day">dddd</span>
+            <span class="">at</span> 
+            <span class="gn d_hour">HH:mm</span>
+        </p>
+        <p class="gdy_location"  id="gdy_event_location">Event Location</p>
         <div class="gdy_resim">
             <img id="big_image_header" src="<?= HOSTNAME ?>images/loader.gif" width="30" height="30" border="0" />
         </div>
@@ -37,7 +46,7 @@
                 </div>
                 <!-- like button -->
 
-                
+
                 <!-- share button -->
                 <div id="div_share_btn_div_modal_panel" class="timelineLikes" style=""> 
                     <a  id="div_share_btn_modal_panel" 
@@ -51,7 +60,7 @@
                         onclick="return false;"></a>
                 </div>
                 <!-- share button -->
-                
+
                 <!-- maybe button -->
                 <div id="div_maybe_btn_div_modal_panel" class="timelineLikes" style=""> 
                     <a  id="div_maybe_btn_modal_panel" 

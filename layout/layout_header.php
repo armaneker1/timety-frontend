@@ -22,16 +22,16 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
 }
 if (stripos($br, 'MSIE')) {
     ?>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?2013023317566" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?77" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css?2013023317577" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?88" rel="stylesheet" type="text/css" />
 <?php } else { ?>
-    <link  href="<?= HOSTNAME ?>all_css.css?2013023315566" rel="stylesheet" type="text/css" />
-    <link  href="<?= HOSTNAME ?>resources/styles/custom.css?77" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>all_css.css?2013023315577" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>resources/styles/custom.css?88" rel="stylesheet" type="text/css" />
 <?php } ?>
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?2012233255899" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?2012233255800" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css?7799" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -61,7 +61,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.js?201302221525"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.js?201302221325"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.js?2321377"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?20130222988"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?20130222999"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.jscroll.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootstrap.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootbox.js"></script>

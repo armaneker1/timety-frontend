@@ -297,9 +297,37 @@ function openModalPanel(event_id,custom) {
         jQuery("#gdy_event_title").text(data.title);
         //set event date
         try{
-            jQuery("#gdy_event_date").text(getLocalTime(data.startDateTime).format("YYYY-MM-DD HH:mm"));
+            var localDate=getLocalTime(data.startDateTime);
+            jQuery("#gdy_event_date .gn").text(localDate.format("DD"));
+            jQuery("#gdy_event_date .ay").text(localDate.format("MMM"));
+            jQuery("#gdy_event_date .yil").text(localDate.format("YYYY"));
+            jQuery("#gdy_event_date .d_day").text(localDate.format("dddd"));
+            jQuery("#gdy_event_date .d_hour").text(localDate.format("HH:mm"));
         }catch(exp){
-            jQuery("#gdy_event_date").text(data.startDateTime);
+            jQuery("#gdy_event_date .gn").stext("");
+            jQuery("#gdy_event_date .ay").text("");
+            jQuery("#gdy_event_date .yil").text("");
+            jQuery("#gdy_event_date .d_day").text("");
+            jQuery("#gdy_event_date .d_hour").text(data.tartDateTime);
+        }
+        //set event location
+        if(data.location){
+            jQuery("#gdy_event_location").text(data.location);
+            jQuery("#gdy_event_location").unbind("click");
+            if(data.loc_lat && data.loc_lng){
+                jQuery("#gdy_event_location").click(function(){
+                    window.open('https://maps.google.com/maps?&q='+data.loc_lat+','+data.loc_lng, '_blank');
+                });
+            }else{
+                jQuery("#gdy_event_location").click(function(){
+                    window.open('https://maps.google.com/maps?&q='+data.location, '_blank');
+                });
+            }
+           
+            jQuery("#gdy_event_location").show();
+        }else{
+            jQuery("#gdy_event_location").text("Event Location");
+            jQuery("#gdy_event_location").hide();
         }
         //set event description
         jQuery("#gdy_event_description").text(data.description);
