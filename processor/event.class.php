@@ -303,7 +303,6 @@ class EventProcessor {
                 if (!empty($userId)) {
                     $usr = UserUtils::getUserById($userId);
                     $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->eventID, $userId);
-                    $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                     $redis = new Predis\Client();
                     $log->logInfo("event > findUserForEvents >  remove ? : " . $rem);
                     if ($rem) {
@@ -312,7 +311,7 @@ class EventProcessor {
                     }
                     if (!empty($usr) && $event->loc_city == $usr->location_city) {
                         //($event->worldwide == 1 || $event->worldwide == "1")
-                        if (!empty($host) && strpos($host, 'localhost')<0 && $event->privacy . "" == "true") {
+                        if (SERVER_PROD && $event->privacy . "" == "true") {
                             RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
                         } else {
                             $log->logInfo("Redis addItem Item simulated");

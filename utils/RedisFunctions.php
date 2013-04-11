@@ -1146,13 +1146,12 @@ class RedisUtils {
             $user_loc = UserUtils::getUserCityId($userId);
             $events = Neo4jRecommendationUtils::getUpcomingEventsForUser($userId);
             if (!empty($events) && sizeof($events) > 0) {
-                $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                 $redis = new Predis\Client();
                 foreach ($events as $event) {
                     $event->getLocCity();
                     $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
                     $redis->removeItemById(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $event->id);
-                    if (!empty($host) && strpos($host, 'localhost')<0 && ($event->loc_city == $user_loc)) {
+                    if (SERVER_PROD && ($event->loc_city == $user_loc)) {
                         RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
                     } else {
                         $log->logInfo("Redis addItem Item simulated");
@@ -1170,13 +1169,12 @@ class RedisUtils {
             $log->logInfo("Redis addUserFollow  > userId : " . $userId . " follow : " . $followId . " add " . $add);
             $follow = UserUtils::getUserById($followId);
             if (!empty($follow)) {
-                $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                 $redis = new Predis\Client();
                 $follows = $redis->zrevrange(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, 0, -1);
                 foreach ($follows as $f) {
                     $fllw = json_decode($f);
                     if ($fllw->id == $follow->id) {
-                        if (!empty($host) && strpos($host, 'localhost')<0) {
+                        if (SERVER_PROD) {
                             RedisUtils::removeItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, $f);
                         } else {
                             $log->logInfo("Redis remove Item simulated");
@@ -1184,7 +1182,7 @@ class RedisUtils {
                         break;
                     }
                 }
-                if (!empty($host) && $add && strpos($host, 'localhost')<0) {
+                if (SERVER_PROD) {
                     RedisUtils::addItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, json_encode($follow), 10);
                 } else {
                     if ($add)
@@ -1204,13 +1202,12 @@ class RedisUtils {
             $log->logInfo("Redis addUserFollower  > userId : " . $userId . " follower : " . $followerId . " add " . $add);
             $follower = UserUtils::getUserById($followerId);
             if (!empty($follower)) {
-                $host = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
                 $redis = new Predis\Client();
                 $followers = $redis->zrevrange(REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, 0, -1);
                 foreach ($followers as $f) {
                     $fllw = json_decode($f);
                     if ($fllw->id == $follower->id) {
-                        if (!empty($host) && strpos($host, 'localhost')<0) {
+                        if (SERVER_PROD) {
                             RedisUtils::removeItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, $f);
                         } else {
                             $log->logInfo("Redis remove Item simulated");
@@ -1218,7 +1215,7 @@ class RedisUtils {
                         break;
                     }
                 }
-                if (!empty($host) && $add && strpos($host, 'localhost')<0) {
+                if (SERVER_PROD) {
                     RedisUtils::addItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, json_encode($follower), 10);
                 } else {
                     if ($add)

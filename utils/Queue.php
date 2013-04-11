@@ -91,8 +91,7 @@ class Queue {
     //--------------------------------------------------------------------------
 
     private static function send($method, $action, $obj) {
-        $strposhost = SettingsUtil::getSetting(SETTINGS_HOSTNAME);
-        if (!empty($host) && strpos($host, 'localhost')<0) {
+        if (SERVER_PROD) {
             $obj["method"] = $method;
             $obj["action"] = $action;
             $conn = self::getConnection();

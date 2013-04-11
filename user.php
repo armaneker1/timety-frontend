@@ -56,12 +56,12 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         header('Location: ' . HOSTNAME);
         exit(1);
     } else {
-        if (!empty($user)) {
+        /*if (!empty($user)) {
             if ($user->id == $p_user->id) {
                 header('Location: ' . PAGE_UPDATE_PROFILE);
                 exit(1);
             }
-        }
+        }*/
     }
 } else if (isset($_GET['userName']) && !empty($_GET['userName'])) {
     $p_user_name = strtolower($_GET['userName']);
@@ -81,12 +81,12 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
             header('Location: ' . HOSTNAME);
             exit(1);
         } else {
-            if (!empty($user)) {
+           /* if (!empty($user)) {
                 if ($user->id == $p_user->id) {
                     header('Location: ' . PAGE_UPDATE_PROFILE);
                     exit(1);
                 }
-            }
+            }*/
         }
     } else {
         header('Location: ' . HOSTNAME);
