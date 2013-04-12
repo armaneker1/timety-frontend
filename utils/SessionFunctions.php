@@ -79,6 +79,8 @@ class SessionUtil {
         if (isset($_SESSION['id'])) {
             $user = new User();
             $user = UserUtils::getUserById($_SESSION['id']);
+            header("location: " . HOSTNAME);
+            exit(1);
         } else {
             //check cookie
             $rmm = false;
@@ -92,6 +94,7 @@ class SessionUtil {
                     if (!empty($user)) {
                         $_SESSION['id'] = $user->id;
                         header("location: " . HOSTNAME);
+                        exit(1);
                     }
                 }
             }
