@@ -336,6 +336,8 @@ if (empty($user)) {
                             }
                         }
                     }
+                    $sDate = $startDate . " " . $startTime . ":00";
+                    $eDate = $endDate . " " . $endTime . ":00";
                     if (($eventDB->addsocial_fb == "1" || $eventDB->addsocial_fb == 1 || $eventDB->addsocial_fb == "true" || $eventDB->addsocial_fb) && !empty($fbProv)) {
                         $socialLog->logInfo("FB add event  : ");
                         try {
@@ -354,14 +356,13 @@ if (empty($user)) {
                             $eventDB->getHeaderImage();
                             $fileName = __DIR__ . "/" . $eventDB->headerImage->url;
 
-                            $fbsDate = $startDate . "T" . $startTime . ":00"."-0000";
-                            $fbeDate = $endDate . "T" . $endTime . ":00"."-0000";
+
                             $event_info = array(
                                 "privacy_type" => $pr,
                                 "name" => $eventDB->title,
                                 "host" => "Me",
-                                "start_time" => $fbsDate,
-                                "end_time" => $fbeDate,
+                                "start_time" => date('Y-m-d\TH:i:s' . $timezone, strtotime($sDate)),
+                                "end_time" => date('Y-m-d\TH:i:s.B' . $timezone, strtotime($eDate)),
                                 "location" => $eventDB->location,
                                 "description" => $eventDB->description,
                                 "ticket_uri" => HOSTNAME . "/events/" . $eventDB->id,
@@ -403,8 +404,6 @@ if (empty($user)) {
 
 
                             $cal = new Google_CalendarService($google);
-                            $sDate = $startDate . " " . $startTime . ":00";
-                            $eDate = $endDate . " " . $endTime . ":00";
                             $event = new Google_Event();
                             $event->setSummary($eventDB->title);
                             $event->setDescription($eventDB->description . "\n" . HOSTNAME . "events/" . $eventDB->id);
@@ -429,6 +428,9 @@ if (empty($user)) {
                             $event->setHtmlLink(HOSTNAME . "events/" . $eventDB->id);
                             $socialLog->logInfo("GG  Event before send  : ");
                             $socialLog->logInfo(UtilFunctions::json_encode($event));
+                            if ($user->id == 6618346 || $user->id == 6618344 || !SERVER_PROD) {
+                                var_dump($event);
+                            }
                             $createdEvent = $cal->events->insert('primary', $event);
                             //echo $createdEvent->getId();
                             $socialLog->logInfo("GG  Event send result : ");
@@ -437,7 +439,7 @@ if (empty($user)) {
                             //var_dump($createdEvent);
                         } catch (Exception $exc) {
                             //dump
-                            if ($user->id == 6618346 || !SERVER_PROD) {
+                            if ($user->id == 6618346 || $user->id == 6618344 || !SERVER_PROD) {
                                 var_dump($exc);
                                 exit(1);
                             }
@@ -537,7 +539,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -724,7 +726,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                    
+                                                                                                                                                                                                                    
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -822,7 +824,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                            
+                                                                                                                                                            
             </script>
 
 
