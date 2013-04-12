@@ -1,4 +1,8 @@
 function followUser(fromUserId, toUSerId, button,prefix) {
+    if(!(fromUserId && toUSerId)){
+        window.location=TIMETY_PAGE_LOGIN;
+        return;
+    }
     if(!prefix){
         prefix="";
     }
@@ -17,12 +21,16 @@ function followUser(fromUserId, toUSerId, button,prefix) {
             updateBadge(4,1);
         } else {
             button.className = prefix+'follow_btn';
-            getInfo(true, data.error, "error", 4000);
+            getInfo(true, 'Error occured try again', "error", 4000);
         }
     }, "json");
 }
 
 function unfollowUser(fromUserId, toUSerId, button,prefix) {
+    if(!(fromUserId && toUSerId)){
+        window.location=TIMETY_PAGE_LOGIN;
+        return;
+    }
     if(!prefix){
         prefix="";
     }
@@ -41,7 +49,7 @@ function unfollowUser(fromUserId, toUSerId, button,prefix) {
             updateBadge(4,-1);
         } else {
             button.className = prefix+'followed_btn';
-            getInfo(true, data.error, "error", 4000);
+            getInfo(true, 'Error occured try again', "error", 4000);
         }
     }, "json");
 }

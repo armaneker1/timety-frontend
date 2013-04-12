@@ -31,7 +31,7 @@ if (stripos($br, 'MSIE')) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?2012233255800" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?2012233255811" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css?7799" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -47,7 +47,7 @@ if (stripos($br, 'MSIE')) {
 
 
 <!-- Scripts -->
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.js?201302221255"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.js?201302221277"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.ocupload-packed.js"></script>
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.Jcrop.min.js"></script>

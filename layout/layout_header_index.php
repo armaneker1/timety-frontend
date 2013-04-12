@@ -30,7 +30,7 @@ if (stripos($br, 'MSIE')) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201304755300" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201304755311" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css?34688" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
@@ -52,7 +52,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.core.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.datepicker.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.history.js"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.min.js?2013022215155"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/main.min.js?2013022215177"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.sessionphp.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.wookmark.min.js?201302201800"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.min.js?201302221519"></script>
