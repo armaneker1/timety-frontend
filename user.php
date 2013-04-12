@@ -9,8 +9,8 @@ $msgs = array();
 
 $user = SessionUtil::checkLoggedinUser();
 $userId = null;
-if(!empty($user)){
-    $userId=$user->id;
+if (!empty($user)) {
+    $userId = $user->id;
 }
 
 
@@ -26,12 +26,12 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         header('Location: ' . HOSTNAME);
         exit(1);
     } else {
-        /*if (!empty($user)) {
-            if ($user->id == $p_user->id) {
-                header('Location: ' . PAGE_UPDATE_PROFILE);
-                exit(1);
-            }
-        }*/
+        /* if (!empty($user)) {
+          if ($user->id == $p_user->id) {
+          header('Location: ' . PAGE_UPDATE_PROFILE);
+          exit(1);
+          }
+          } */
     }
 } else if (isset($_GET['userName']) && !empty($_GET['userName'])) {
     $p_user_name = strtolower($_GET['userName']);
@@ -51,12 +51,12 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
             header('Location: ' . HOSTNAME);
             exit(1);
         } else {
-           /* if (!empty($user)) {
-                if ($user->id == $p_user->id) {
-                    header('Location: ' . PAGE_UPDATE_PROFILE);
-                    exit(1);
-                }
-            }*/
+            /* if (!empty($user)) {
+              if ($user->id == $p_user->id) {
+              header('Location: ' . PAGE_UPDATE_PROFILE);
+              exit(1);
+              }
+              } */
         }
     } else {
         header('Location: ' . HOSTNAME);
@@ -80,11 +80,11 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         }
         include('layout/layout_header_index.php');
         ?>
-        
-        <?php if(!empty($p_user)) { ?>
-        <script>
-            popup_userName='<?=$p_user->userName?>';
-        </script>
+
+        <?php if (!empty($p_user)) { ?>
+            <script>
+                popup_userName='<?= $p_user->userName ?>';
+            </script>
         <?php } ?>
 
         <script language="javascript">
@@ -182,18 +182,19 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                 jQuery(document).ready(function() { 
                     try{
                         openModalPanel('<?= $_GET["eventId"] ?>','<?php
-                        $json_response = UtilFunctions::json_encode($prm_event);
-                        echo $json_response;
-                        ?>');
-                    } catch (exp ){
-                        console.log("error while parsing json. data =");
-                        console.log('<?php $json_response = UtilFunctions::json_encode($prm_event);
-                        echo $json_response;
-                        ?>');
-                        console.log(exp);
-                    }
-            });
-                                                                                    
+        $json_response = UtilFunctions::json_encode($prm_event);
+        echo $json_response;
+        ?>');
+                                } catch (exp ){
+                                    console.log("error while parsing json. data =");
+                                    console.log('<?php
+        $json_response = UtilFunctions::json_encode($prm_event);
+        echo $json_response;
+        ?>');
+                                    console.log(exp);
+                                }
+                            });
+                                                                                        
             </script>
 
 
@@ -661,7 +662,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     </a>
                                                 </li>
                                                 <li><a href="#" class="<?php
-                $tt = $main_event->getRemainingTime();
+                $tt = $main_event->getRemainingTime($user->time_zone);
                 if ($tt == "Past") {
                     echo "turuncu_link";
                 } else {
@@ -683,9 +684,9 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                         $json_response = UtilFunctions::json_encode($main_event);
                                         echo $json_response;
                                         ?>';
-                                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                            tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                            var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                            localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>

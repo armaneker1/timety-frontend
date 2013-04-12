@@ -134,8 +134,12 @@ class UtilFunctions {
         return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
     }
 
-    public static function getTimeDiffString($datestart, $dateend) {
+    public static function getTimeDiffString($datestart, $dateend, $time_zone = null) {
         try {
+            if (!empty($time_zone)) {
+                $datestart = UtilFunctions::convertTimeZone($datestart, $time_zone);
+                $dateend = UtilFunctions::convertTimeZone($dateend, $time_zone);
+            }
             $start_date = new DateTime($datestart, new DateTimeZone('GMT'));
             $end_date = new DateTime($dateend, new DateTimeZone('GMT'));
             $since_start = $start_date->diff($end_date);
@@ -151,10 +155,7 @@ class UtilFunctions {
                     }
                 }
                 if ($since_start->d > 0 && empty($result)) {
-                    $ds = (int) date('j', strtotime($datestart));
-                    $de = (int) date('j', strtotime($dateend));
-                    $day_dif = $de - $ds;
-
+                    $day_dif = $since_start->d;
                     if ($day_dif == 1) {
                         $result = "Tomorrow";
                     } else {
@@ -185,10 +186,7 @@ class UtilFunctions {
                     $ds = date('j', strtotime($datestart));
                     $de = date('j', strtotime($dateend));
                     if ($ds == $de) {
-                        $hs = (int) date('G', strtotime($datestart));
-                        $he = (int) date('G', strtotime($dateend));
-                        $hour_dif = $he - $hs;
-                        $result = $hour_dif . ' hours';
+                        $result = $since_start->h . ' hours';
                     } else {
                         $result = "Tomorrow";
                     }

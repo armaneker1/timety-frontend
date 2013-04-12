@@ -806,9 +806,6 @@ function calculateRemainingTime(date){
             }
             var d_=d.diff(now,"days");
             if(d_>0){
-                var ds = parseInt(now.format('D'));
-                var de = parseInt(d.format('D'));
-                d_=de-ds;
                 if(d_==1){
                     return  "Tomorrow";
                 }else{
@@ -838,13 +835,10 @@ function calculateRemainingTime(date){
             
             var h_=d.diff(now,"hours");
             if(h_>0){
-                ds = parseInt(now.format('D'));
-                de = parseInt(d.format('D'));
+                var ds = parseInt(now.format('D'));
+                var de = parseInt(d.format('D'));
                 if (ds == de) {
-                    var hs = parseInt(now.format('H'));
-                    var he = parseInt(d.format('H'));
-                    var dif_hour=he-hs;
-                    return dif_hour+ ' hours';
+                    return h_+ ' hours';
                 } else {
                     return "Tomorrow";
                 }

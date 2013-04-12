@@ -73,6 +73,14 @@ class UserUtils {
         }
     }
 
+    public static function updateUserTimeZone($userId, $zone) {
+        if (!empty($userId) && !empty($zone) && strlen($zone) == 6) {
+            $userId = DBUtils::mysql_escape($userId);
+            $SQL = "UPDATE " . TBL_USERS . " set time_zone='$zone' WHERE id = $userId";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
     public static function cookieLogin($timeHash, $clientGuid) {
         if (!empty($timeHash) && !empty($clientGuid)) {
             $SQL = "SELECT * FROM " . TBL_USER_COOKIE . " WHERE time_hash = '$timeHash' AND client_guid='$clientGuid'";

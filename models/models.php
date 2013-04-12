@@ -44,6 +44,7 @@ class User {
             $this->created_count = $result['created_count'];
             $this->last_login_date = $result['register_date'];
             $this->register_date = $result['last_login_date'];
+            $this->time_zone = $result['time_zone'];
         }
     }
 
@@ -76,7 +77,7 @@ class User {
                 $this->reshares_count = $tmp->reshares_count;
                 $this->joined_count = $tmp->joined_count;
                 $this->created_count = $tmp->created_count;
-
+                $this->time_zone = $tmp->time_zone;
                 $this->last_login_date = $tmp->getLastLoginDate();
                 $this->register_date = $tmp->getRegisterDate();
             } else {
@@ -107,6 +108,7 @@ class User {
     public $language;
     private $register_date;
     private $last_login_date;
+    public $time_zone;
     //location
     public $location_country;
     public $location_city;
@@ -394,8 +396,8 @@ class Event {
         $this->worldwide = $tmp->worldwide;
     }
 
-    public function getRemainingTime() {
-        $this->remainingtime = UtilFunctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime);
+    public function getRemainingTime($time_one = null) {
+        $this->remainingtime = UtilFunctions::getTimeDiffString(date(DATETIME_DB_FORMAT), $this->startDateTime, $time_one);
         return $this->remainingtime;
     }
 

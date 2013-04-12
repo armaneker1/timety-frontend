@@ -1327,7 +1327,7 @@ if (empty($user)) {
                                                     </a>
                                                 </li>
                                                 <li><a href="#" class="<?php
-                            $tt = $main_event->getRemainingTime();
+                            $tt = $main_event->getRemainingTime($user->time_zone);
                             if ($tt == "Past") {
                                 echo "turuncu_link";
                             } else {

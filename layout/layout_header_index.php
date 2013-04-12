@@ -62,7 +62,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?2013022411"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20139989224366"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?20139989224377"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.dd.min.js"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery-placeholder.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAPS_API_KEY ?>&sensor=true&libraries=places"></script>

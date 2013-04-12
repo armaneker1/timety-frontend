@@ -67,7 +67,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/bootbox.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.js"></script>
-<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js?2013022277866"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.js?20130222778677"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.dd.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/dateutil.js"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/register.js"></script>

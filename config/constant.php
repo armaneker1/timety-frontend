@@ -119,6 +119,7 @@ define('PAGE_AJAX_FACEBOOK_USER_INTEREST', PAGE_AJAX_FOLDER . 'facebookUserInter
 define('PAGE_AJAX_GET_CITY_MAPS', PAGE_AJAX_FOLDER . 'getCityMaps.php');
 define('PAGE_AJAX_GET_CITY_ID', PAGE_AJAX_FOLDER . 'getCityId.php');
 define('PAGE_AJAX_IMG_UPLOAD', PAGE_AJAX_FOLDER . 'image_handling.php');
+define('PAGE_AJAX_SET_USER_TIMEZONE', PAGE_AJAX_FOLDER . 'setUserTimeZone.php');
 
 
 
