@@ -80,11 +80,15 @@ class UserUtils {
             if (!empty($cookie)) {
                 $cookie = $cookie[0];
                 if (!empty($cookie)) {
-                    $userId=$cookie->getUserId();
+                    $userId = $cookie->getUserId();
                     $user = UserUtils::getUserById($userId);
                     if (!empty($user)) {
-                        UserUtils::updateLastLoginTime($userId);
-                        return $user;
+                        if ($cookie->getClientGuid() == SessionUtil::getClientGUID($userId)) {
+                            UserUtils::updateLastLoginTime($userId);
+                            return $user;
+                        } else {
+                            $cookie->deleteFromDatabase(DBUtils::getConnection());
+                        }
                     }
                 }
             }
