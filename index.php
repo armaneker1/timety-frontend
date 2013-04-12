@@ -10,7 +10,7 @@ $_random_session_id = rand(10000, 9999999);
 $page_id = "index";
 
 $user = new User();
-$user=  SessionUtil::checkLoggedinUser();
+$user = SessionUtil::checkLoggedinUser();
 //finish registeration
 if (isset($_GET['finish']) && !empty($user)) {
     $user->status = 3;
@@ -220,8 +220,7 @@ if (empty($user)) {
             }
         }
 
-        $sDate = $startDate . " " . $startTime . ":00";
-        $eDate = $endDate . " " . $endTime . ":00";
+
         $event->startDateTime = $startDate . " " . $startTime . ":00";
         $event->endDateTime = $endDate . " " . $endTime . ":00";
 
@@ -355,12 +354,14 @@ if (empty($user)) {
                             $eventDB->getHeaderImage();
                             $fileName = __DIR__ . "/" . $eventDB->headerImage->url;
 
+                            $fbsDate = $startDate . "T" . $startTime . ":00"."-0000";
+                            $fbeDate = $endDate . "T" . $endTime . ":00"."-0000";
                             $event_info = array(
                                 "privacy_type" => $pr,
                                 "name" => $eventDB->title,
                                 "host" => "Me",
-                                "start_time" => $sDate,
-                                "end_time" => $eDate,
+                                "start_time" => $fbsDate,
+                                "end_time" => $fbeDate,
                                 "location" => $eventDB->location,
                                 "description" => $eventDB->description,
                                 "ticket_uri" => HOSTNAME . "/events/" . $eventDB->id,
@@ -368,14 +369,21 @@ if (empty($user)) {
                             );
                             $socialLog->logInfo("FB  Event before send : ");
                             $socialLog->logInfo(UtilFunctions::json_encode($event_info));
-                            //var_dump($event_info);
+                            if ($user->id == 6618346 || !SERVER_PROD) {
+                                var_dump($event_info);
+                            }
                             $result = $facebook->api('me/events', 'post', $event_info);
                             $socialLog->logInfo("FB  Event send result : ");
                             $socialLog->logInfo(UtilFunctions::json_encode($result));
-                            //var_dump($result);
-                            //error_log("Fcebook event log " . UtilFunctions::json_encode($result));
+                            if ($user->id == 6618346 || !SERVER_PROD) {
+                                var_dump($result);
+                            }
+                            //exit(1);
                         } catch (Exception $exc) {
-                            //var_dump($exc);
+                            if ($user->id == 6618346 || !SERVER_PROD) {
+                                var_dump($exc);
+                                exit(1);
+                            }
                             error_log(UtilFunctions::json_encode($exc));
                             $socialLog->logInfo("FB  Event error 1 : ");
                             $socialLog->logInfo(UtilFunctions::json_encode($exc));
@@ -395,7 +403,8 @@ if (empty($user)) {
 
 
                             $cal = new Google_CalendarService($google);
-
+                            $sDate = $startDate . " " . $startTime . ":00";
+                            $eDate = $endDate . " " . $endTime . ":00";
                             $event = new Google_Event();
                             $event->setSummary($eventDB->title);
                             $event->setDescription($eventDB->description . "\n" . HOSTNAME . "events/" . $eventDB->id);
@@ -424,13 +433,20 @@ if (empty($user)) {
                             //echo $createdEvent->getId();
                             $socialLog->logInfo("GG  Event send result : ");
                             $socialLog->logInfo(UtilFunctions::json_encode($createdEvent));
+                            //dump
                             //var_dump($createdEvent);
                         } catch (Exception $exc) {
+                            //dump
+                            if ($user->id == 6618346 || !SERVER_PROD) {
+                                var_dump($exc);
+                                exit(1);
+                            }
                             $socialLog->logInfo("GG  Event send error : ");
                             $socialLog->logInfo(UtilFunctions::json_encode($exc));
                             error_log($exc->getTraceAsString());
                         }
                     }
+                    //exit(1);
                     if (isset($_POST["te_event_addsocial_out"]) && $_POST["te_event_addsocial_out"] == "true") {
                         $_SESSION[INDEX_MSG_SESSION_KEY . "eventId"] = $eventDB->id;
                     } else {
@@ -521,7 +537,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -708,7 +724,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                    
+                                                                                                                                                                                                    
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -806,7 +822,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                            
+                                                                                                                                            
             </script>
 
 
