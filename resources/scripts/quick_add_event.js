@@ -121,7 +121,7 @@ jQuery(document).ready(function(){
         jQuery("#quick_add_time_hint_model_ul").focus();
         return false;
     },{
-        target:jQuery("#te_quick_event_desc")[0]
+        'target':document.getElementById("te_quick_event_desc")
     });
         
     shortcut.add("tab", function(){
@@ -129,7 +129,7 @@ jQuery(document).ready(function(){
         jQuery("#quick_add_time_hint_model_ul").focus();
         return false;
     },{
-        target:jQuery("#te_quick_event_desc")[0]
+        'target':document.getElementById("te_quick_event_desc")
     });
     
 });
