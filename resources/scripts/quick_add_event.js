@@ -116,22 +116,27 @@ jQuery(document).ready(function(){
                 checkQuickEventInput(e)
             },30);
     });
-    shortcut.add("down", function(){
-        jQuery("#quick_add_time_hint_model_ul").select();
-        jQuery("#quick_add_time_hint_model_ul").focus();
-        return false;
-    },{
-        'target':document.getElementById("te_quick_event_desc")
-    });
-        
-    shortcut.add("tab", function(){
-        jQuery("#quick_add_time_hint_model_ul").select();
-        jQuery("#quick_add_time_hint_model_ul").focus();
-        return false;
-    },{
-        'target':document.getElementById("te_quick_event_desc")
-    });
+    var ele=document.getElementById("te_quick_event_desc");
+    if(ele){
+        shortcut.add("down", function(){
+            jQuery("#quick_add_time_hint_model_ul").select();
+            jQuery("#quick_add_time_hint_model_ul").focus();
+            return false;
+        },{
+            'target':document.getElementById("te_quick_event_desc")
+        });
+    }
     
+    ele=document.getElementById("te_quick_event_desc");
+    if(ele){
+        shortcut.add("tab", function(){
+            jQuery("#quick_add_time_hint_model_ul").select();
+            jQuery("#quick_add_time_hint_model_ul").focus();
+            return false;
+        },{
+            'target':document.getElementById("te_quick_event_desc")
+        });
+    }
 });
 var create_event_post=null;
 
