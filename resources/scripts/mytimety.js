@@ -27,21 +27,21 @@ function addToMyTimety(eventId,userId)
                         var divTp1=jQuery("<p>");
                         var dateString=dataJSON.startDateTime;
                         try{
-                            dateString=getLocalTime(dateString).format("YYYY-MM-DD HH:mm");
+                            dateString=getLocalTime(dateString).format("HH:mm");
                         }catch(exp){
                             dateString=data.startDateTime;
                         }
-                        divTp1.text(dateString);
+                        divTp1.append("Today @"+"<span class='date_timezone'>"+dateString+"</span>");
                         divT.append(divTp1);
                         
-                        var desc=dataJSON.description;
+                        /*var desc=dataJSON.description;
                         if(desc.length>55)
                         {
                             desc=dataJSON.description.substring(0,55);
                         }
                         var divTp2=jQuery("<p>");
                         divTp2.text(desc);
-                        divT.append(divTp2);
+                        divT.append(divTp2);*/
                         
                         
                         var slides=jQuery("#slides_container");
