@@ -10,7 +10,7 @@ if (!isset($timety_header)) {
 
 <!-- Config Script -->
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/html5shiv-printshiv.js"></script>
-<script language="javascript" src="<?= HOSTNAME ?>config/config.js?2013722119937"></script>
+<script language="javascript" src="<?= HOSTNAME ?>config/config.js?2013722119944"></script>
 <!-- Config Script -->
 
 
