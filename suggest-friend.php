@@ -9,12 +9,14 @@ $checkUserStatus = false;
 $user = SessionUtil::checkLoggedinUser($checkUserStatus);
 if (empty($user)) {
     header("location: " . HOSTNAME);
+    exit(1);
 } else {
     //post ile gelinmemisse
     if ($user->status != 2) {
         SessionUtil::checkUserStatus($user);
     }
     $friendList = SocialUtil::getUserSocialFriend($user->id);
+    RegisterAnaliticsUtils::increasePageRegisterCount("who-to-follow");
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

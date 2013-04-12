@@ -4,11 +4,12 @@ header("charset=utf8;");
 
 require_once __DIR__ . '/utils/Functions.php';
 
-$checkUserStatus=false;
+$checkUserStatus = false;
 $user = SessionUtil::checkLoggedinUser($checkUserStatus);
 if (empty($user)) {
     // Redirection to login page twitter or facebook or foursquare
     header("location: " . HOSTNAME);
+    exit(1);
 } else {
     if (isset($_POST['type']) && !empty($user)) {
         $userId = $user->id;
@@ -39,12 +40,14 @@ if (empty($user)) {
         UserUtils::updateUser($_SESSION['id'], $user);
         header("location: " . HOSTNAME);
         exit(1);
+    } else {
+        RegisterAnaliticsUtils::increasePageRegisterCount("likes");
     }
 
-    if (!empty($user) && $user->status!=1) {
+    if (!empty($user) && $user->status != 1) {
         SessionUtil::checkUserStatus($user);
     }
-    
+
     //get data
     $categoryList = array();
     $categoryList = AddLikeUtils::getCategories($user->language);

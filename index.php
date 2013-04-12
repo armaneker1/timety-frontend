@@ -18,6 +18,7 @@ if (isset($_GET['finish']) && !empty($user)) {
     $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
     $params = array(array('name', $user->firstName), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
     MailUtil::sendSESMailFromFile("confirm_mail.html", $params, $user->email, "Please confirm your email");
+    RegisterAnaliticsUtils::increasePageRegisterCount("index.php?complete=1");
     header('Location: ' . HOSTNAME);
     exit(1);
 }

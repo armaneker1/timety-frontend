@@ -43,6 +43,7 @@ require_once __DIR__ . '/MenuFunctions.php';
 require_once __DIR__ . '/LocationFunctions.php';
 require_once __DIR__ . '/TwitterFunctions.php';
 require_once __DIR__ . '/FacebookFunctions.php';
+require_once __DIR__ . '/RegisterAnaliticsFunctions.php';
 
 require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/Neo4jTimetyCategoryFunctions.php';

@@ -206,6 +206,11 @@ if (isset($_POST['te_username'])) {
         }
     }
 } else {
+    if (isset($_GET['new'])) {
+        RegisterAnaliticsUtils::increasePageRegisterCount("about-you?new");
+    } else {
+        RegisterAnaliticsUtils::increasePageRegisterCount("about-you");
+    }
     $user = null;
     if (isset($_SESSION['id']))
         $user = UserUtils::getUserById($_SESSION['id']);

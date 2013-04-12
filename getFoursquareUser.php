@@ -82,11 +82,13 @@ if (isset($_GET['error'])) {
             if (!empty($user)) {
                 SessionUtil::storeLoggedinUser($user);
                 if ($type == 1) {
+                    RegisterAnaliticsUtils::increasePageRegisterCount("getFoursquareUser.php?login=1");
                     if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
                         UtilFunctions::incInvitationCodeCount($_SESSION["te_invitation_code"]);
                     }
                     header("Location: " . HOSTNAME);
                 } else if ($type == 2) {
+                    RegisterAnaliticsUtils::increasePageRegisterCount("getFoursquareUser.php?signup=1");
                     header("Location: " . PAGE_ABOUT_YOU);
                 }
             } else {

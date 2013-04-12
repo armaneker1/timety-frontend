@@ -17,6 +17,9 @@ if (array_key_exists("login", $_GET)) {
     } else if ($oauth_provider == GOOGLE_PLUS_TEXT) {
         header("Location: " . PAGE_GG_LOGIN);
     }
+    exit(1);
+} else {
+    RegisterAnaliticsUtils::increasePageRegisterCount("signup");
 }
 ?>
 <!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

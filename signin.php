@@ -19,6 +19,7 @@ if (array_key_exists("login", $_GET)) {
     } else if ($oauth_provider == GOOGLE_PLUS_TEXT) {
         header("Location: " . PAGE_GG_LOGIN);
     }
+    exit(1);
 }
 $uname = null;
 $unameError = null;
@@ -65,6 +66,7 @@ if (array_key_exists("te_username", $_POST)) {
     }
     $upass = null;
 }
+RegisterAnaliticsUtils::increasePageRegisterCount("login");
 ?>
 <!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>

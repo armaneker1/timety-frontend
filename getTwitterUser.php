@@ -26,11 +26,13 @@ if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empt
         if (!empty($user)) {
             SessionUtil::storeLoggedinUser($user);
             if ($type == 1) {
+                RegisterAnaliticsUtils::increasePageRegisterCount("getTwitterUser.php?login=1");
                 if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
                     UtilFunctions::incInvitationCodeCount($_SESSION["te_invitation_code"]);
                 }
                 header("Location: " . HOSTNAME);
             } else if ($type == 2) {
+                RegisterAnaliticsUtils::increasePageRegisterCount("getTwitterUser.php?signup=1");
                 UtilFunctions::curl_post_async(PAGE_AJAX_TWITTER_USER_INTEREST, array("userId" => $user->id));
                 header("Location: " . PAGE_ABOUT_YOU);
             }
