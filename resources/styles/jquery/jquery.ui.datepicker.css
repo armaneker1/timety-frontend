@@ -12,6 +12,7 @@
 .ui-datepicker { 
 width: 17em;  
 display: none; 
+margin-top: 12px;
 }
 .ui-datepicker .ui-datepicker-header {
 	position:relative;

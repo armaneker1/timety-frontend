@@ -22,10 +22,10 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
 }
 if (stripos($br, 'MSIE')) {
     ?>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?2013023317599" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css?2013023317500" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?88" rel="stylesheet" type="text/css" />
 <?php } else { ?>
-    <link  href="<?= HOSTNAME ?>all_css.css?2013023315599" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>all_css.css?2013023315500" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom.css?88" rel="stylesheet" type="text/css" />
 <?php } ?>
 
@@ -38,7 +38,7 @@ if (stripos($br, 'MSIE')) {
 <link  href="<?= HOSTNAME ?>resources/styles/addlike.css?8" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/dd.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>style.css" rel="stylesheet" type="text/css"  />
-<!-- <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.all.css" rel="stylesheet"> -->
+<link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.datepicker.css?4" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery.ui.css" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css?201303011635" rel="stylesheet" type="text/css" />
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css" rel="stylesheet">
