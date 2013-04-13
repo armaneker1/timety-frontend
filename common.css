@@ -787,11 +787,25 @@ input[type=text]::-ms-clear {
 
 /* create event */
 .input_border{
-    border-style: dotted !important;
+    border-style: solid !important;
     border-width: 1px !important;
-    border-color: rgb(199, 199, 199) !important;
-    background-image: url(images/dbg.png) !important;
+    border-color: #ddd !important;
+    background-color: #fdfdfd  !important;
     background-repeat: repeat !important;
+
+    -webkit-box-shadow: rgba(255,255,255,0) 0 0 1px 0,#dcdbd7 0 1px 1px inset,#fff 0 1px 0 0;
+    -moz-box-shadow: rgba(255,255,255,0) 0 0 1px 0,#dcdbd7 0 1px 1px inset,#fff 0 1px 0 0;
+    -ms-box-shadow: rgba(255,255,255,0) 0 0 1px 0,#dcdbd7 0 1px 1px inset,#fff 0 1px 0 0;
+    -o-box-shadow: rgba(255,255,255,0) 0 0 1px 0,#dcdbd7 0 1px 1px inset,#fff 0 1px 0 0;
+    box-shadow: rgba(255,255,255,0) 0 0 1px 0,#dcdbd7 0 1px 1px inset,#fff 0 1px 0 0;
+    border: 1px solid #ddd;
+    border-color: #d2d1cd #dcdbd7 #e6e5e0;
+    background-color: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .create_event_export_icon{

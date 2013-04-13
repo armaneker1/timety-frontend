@@ -1058,7 +1058,7 @@ body {
     margin-right: auto;
     margin-left: auto;
     position: absolute;
-    background-image: url(images/abbg.png);
+    background-image: url(images/bg.png);
     z-index: 600;
     top: 100px;
     border: 5px solid #FFF;
@@ -1169,8 +1169,6 @@ body {
     width: 5px;
 }
 .eam_bg_orta {
-    background-image: url(images/eam_ortabg.png);
-    background-repeat: repeat-x;
     float: left;
     height: 42px;
     font-family: arial;
@@ -1305,8 +1303,6 @@ body {
     width: 5px;
 }
 .ts_sorta {
-    background-image: url(images/ts_ortabg.png);
-    background-repeat: repeat-x;
     display: inline-block;
     float: left;
     height: 36px;
@@ -1330,9 +1326,6 @@ body {
     font-size: 12px;
     font-weight: bold;
     color: #717171;
-    background-image: url(images/dates.png);
-    background-repeat: no-repeat;
-    background-position: right center;
     padding-right: 15px;
     margin-top: 10px;
 }

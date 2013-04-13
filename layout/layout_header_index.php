@@ -21,16 +21,16 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
 }
 if (stripos($br, 'MSIE')) {
     ?>
-    <link  href="<?= HOSTNAME ?>ie7_8.css?20130233133777" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>ie7_8.css?20130233133799" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?4567877" rel="stylesheet" type="text/css" />
 <?php } else { ?>
-    <link  href="<?= HOSTNAME ?>all_css.css?2013023335577" rel="stylesheet" type="text/css" />
+    <link  href="<?= HOSTNAME ?>all_css.css?2013023335599" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom.css?45677" rel="stylesheet" type="text/css" />
 <?php } ?>
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201304755311" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201304755388" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css?34688" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />
