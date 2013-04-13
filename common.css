@@ -1268,7 +1268,7 @@ input[type=text]::-ms-clear {
 }
 .reg_btn_width {
     text-align: center;
-    margin-top: 25px;
+    margin-top: 12px;
     width: 250px;
     display: inline-block;
 }
@@ -2894,4 +2894,19 @@ span.roll {
 
 .profile_follow_btn:hover {
     background:#84C449;
+}
+
+/*  terms */
+
+.privacy_terms{
+    font-size: 12px;
+    display: inline-block;
+    padding-right: 50px;
+    padding-left: 10px;
+    padding-top: 5px;
+    color: #858585;
+}
+
+.privacy_terms a{
+    cursor: pointer;
 }

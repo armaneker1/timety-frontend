@@ -757,6 +757,8 @@ if (isset($_POST['te_username'])) {
                     <span id='te_repassword_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?= $display ?>;"><?= $upass2Error ?><div class="kok"></div></div>
                     </span> <br />
+                    <div class="privacy_terms">By creating an account, I accept Timety's <a href="http://about.timety.com/terms-of-service/" target="_blank">Terms of Service</a> and <a href="http://about.timety.com/privacy-policy/" target="_blank">Privacy Policy</>.</div>
+                    <br/>
                     <button type="submit" style="float: left"  class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
 
                     <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>
