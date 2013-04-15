@@ -11,7 +11,6 @@ $page_id = "index";
 
 $user = new User();
 $user = SessionUtil::checkLoggedinUser();
-//finish registeration
 if (isset($_GET['finish']) && !empty($user)) {
     $user->status = 3;
     UserUtils::updateUser($user->id, $user);
