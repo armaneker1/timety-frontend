@@ -1,6 +1,3 @@
-<!--
-email_address
--->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -25,10 +22,15 @@ email_address
                         <td colspan="2"><p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px"> You have a new follower on Timety! </p></td>
                     </tr>
                     <tr>
-                        <td style="width:2%"><a href="${$profileUrl}" target="_blank"><img style="-webkit-border-radius: 5px;width: 90px;height: 90px;" src="${img}"/></a></td>
+                        <td style="width:2%"><a href="${$profileUrl}" target="_blank"><img style="width: 90px;height: 90px;-webkit-border-radius: 5px;" src="${img}"/></a></td>
                         <td class="bodyText" style="text-align: justify;width: 30%; vertical-align:top">
                             <a href="${$profileUrl}" target="_blank" style="text-decoration: none;font-weight: bold;font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px;  margin-bottom:0px">${followerName} ${followerSurname} (${followerUsername})</a>
-                            <p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px">${bio}</p></td>
+                            <p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px">${bio}</p>
+                            <a href="${$profileUrl}" target="_blank" style="text-decoration: none;border-radius: 4px;color: #fff;font-family: Arial;font-size: 18px;color: #FFF;line-height: 35px;min-width: 130px;float: left;cursor: pointer;width: 130px;height:36px;text-align:center;-webkit-border-radius: 4px;background: ${folw_bg_color}; " >
+                                <span style="padding-left: 2px;">${folw_text}</span>
+                            </a>
+
+                        </td>
                     </tr>
                     <tr>
                         <td class="bodyText" style="text-align: justify;"><p style="font-size: 16px;color: #6a6a6a;font-family: Arial;">

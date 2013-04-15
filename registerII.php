@@ -8,7 +8,8 @@ $checkUserStatus = false;
 $user = SessionUtil::checkLoggedinUser($checkUserStatus);
 if (empty($user)) {
     // Redirection to login page twitter or facebook or foursquare
-    header("location: " . HOSTNAME);
+    unset($_SESSION['id']);
+    header('Location: ' . PAGE_SIGNUP);
     exit(1);
 } else {
     if (isset($_POST['type']) && !empty($user)) {
@@ -74,6 +75,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
     <head>
         <?php
         $timety_header = "Timety | Personal Information";
+        $checkUserStatus=false;
         include('layout/layout_header.php');
         ?>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?35"></script>

@@ -38,6 +38,7 @@ $te_location_cor_y = "";
 
 if (!isset($_SESSION['id'])) {
     if (!isset($_GET['new'])) {
+        unset($_SESSION['id']);
         header("location: " . HOSTNAME);
         exit(1);
     }
@@ -302,7 +303,8 @@ if (isset($_POST['te_username'])) {
             $username = $user->userName;
         }
     } else {
-        // header('Location: ' . HOSTNAME);
+        unset($_SESSION['id']);
+        header('Location: ' . PAGE_SIGNUP);
     }
 }
 ?>
@@ -583,7 +585,7 @@ if (isset($_POST['te_username'])) {
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg">
-        <?php include('layout/layout_top.php'); ?>
+        <?php $checkUserStatus=false; include('layout/layout_top.php');?>
         <div id="personel_info_h">
             <div class="create_acco_ust">Personal Information</div>
             <div class="personel_info">

@@ -47,7 +47,7 @@ if (empty($user)) {
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg">
-        <?php include('layout/layout_top.php'); ?>
+        <?php $checkUserStatus =false;include('layout/layout_top.php'); ?>
         <div class="follow_trans"></div>
         <div class="follow_ekr" style="display: table">
             <div class="f_friend friend_table_row">

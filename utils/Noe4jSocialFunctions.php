@@ -337,7 +337,19 @@ class SocialUtil {
                     $fu->createFromNeo4j($fromUsr);
                     $tu = new User();
                     $tu->createFromNeo4j($toUsr);
-                    $params = array(array('name', $tu->firstName),
+                    
+                    $follow_color="#588cc8";
+                    $following_color="#84C449";
+                    $style=$follow_color;
+                    $flw_text="follow";
+                    if(RedisUtils::isUserInFollowings($fromUserId, $toUserId)){
+                        $style=$following_color;
+                        $flw_text="following";
+                    }
+                    $params = array(
+                        array('folw_bg_color',$style),
+                        array('folw_text',$flw_text),
+                        array('name', $tu->firstName),
                         array('followerName', $fu->firstName),
                         array('followerSurname', $fu->lastName),
                         array('followerUsername', $fu->userName),
