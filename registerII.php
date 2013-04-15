@@ -26,7 +26,6 @@ if (empty($user)) {
                             if (!empty($id))
                                 InterestUtil::saveUserInterest($userId, $id);
                         }else {
-                            //InterestUtil::saveUserInterest($userId, $interest->id);
                             Neo4jUserUtil::addUserTag($userId, $interest->id);
                         }
                     }
@@ -38,6 +37,7 @@ if (empty($user)) {
         $user->status = 3;
         UtilFunctions::curl_post_async(PAGE_AJAX_INIT_USER_REDIS, array("userId" => $_SESSION['id']));
         UserUtils::updateUser($_SESSION['id'], $user);
+        sleep(2);
         header("location: " . HOSTNAME);
         exit(1);
     } else {

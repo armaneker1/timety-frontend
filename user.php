@@ -692,7 +692,11 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     </a>
                                                 </li>
                                                 <li><a href="#" class="<?php
-                            $tt = $main_event->getRemainingTime($user->time_zone);
+                                                $time_zone="+00:00";
+                                                if(!empty($user)){
+                                                    $time_zone=$user->time_zone;
+                                                }
+                            $tt = $main_event->getRemainingTime($time_zone);
                             if ($tt == "Past") {
                                 echo "turuncu_link";
                             } else {
