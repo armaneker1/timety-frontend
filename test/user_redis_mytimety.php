@@ -14,7 +14,7 @@ require_once __DIR__ . '/../utils/Functions.php';
 HttpAuthUtils::checkHttpAuth();
 
 $redis = new Predis\Client();
-$events = $redis->zrangebyscore("user:events:6618414:mytimety", 1379894400, "+inf");
+$events = $redis->zrangebyscore("user:events:6618346:mytimety", "-inf", "+inf");
 
 for ($i = 0; $i < sizeof($events); $i++) {
     $event = json_decode($events[$i]);

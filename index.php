@@ -316,12 +316,7 @@ if (empty($user)) {
         $event->attendance = $_POST["te_event_people"];
         if (!$error) {
             try {
-                $socialLog = KLogger::instance(KLOGGER_PATH . "/social/", KLogger::DEBUG);
-                $socialLog->logInfo("---");
-                $socialLog->logInfo("---");
                 $eventDB = EventUtil::createEvent($event, $user);
-                $socialLog->logInfo("Created Event : ");
-                $socialLog->logInfo(UtilFunctions::json_encode($eventDB));
                 if (!empty($eventDB) && !empty($eventDB->id)) {
                     Queue::addEvent($eventDB->id, $user->id);
                     $providers = UserUtils::getSocialProviderList($user->id);
@@ -339,7 +334,6 @@ if (empty($user)) {
                     $sDate = $startDate . " " . $startTime . ":00";
                     $eDate = $endDate . " " . $endTime . ":00";
                     if (($eventDB->addsocial_fb == "1" || $eventDB->addsocial_fb == 1 || $eventDB->addsocial_fb == "true" || $eventDB->addsocial_fb) && !empty($fbProv)) {
-                        $socialLog->logInfo("FB add event  : ");
                         try {
                             $facebook = new Facebook(array(
                                         'appId' => FB_APP_ID,
@@ -368,14 +362,10 @@ if (empty($user)) {
                                 "ticket_uri" => HOSTNAME . "/events/" . $eventDB->id,
                                 basename($fileName) => '@' . $fileName
                             );
-                            $socialLog->logInfo("FB  Event before send : ");
-                            $socialLog->logInfo(UtilFunctions::json_encode($event_info));
                             if ($user->id == 6618346 || !SERVER_PROD) {
                                 var_dump($event_info);
                             }
                             $result = $facebook->api('me/events', 'post', $event_info);
-                            $socialLog->logInfo("FB  Event send result : ");
-                            $socialLog->logInfo(UtilFunctions::json_encode($result));
                             if ($user->id == 6618346 || !SERVER_PROD) {
                                 var_dump($result);
                             }
@@ -386,13 +376,10 @@ if (empty($user)) {
                                 exit(1);
                             }
                             error_log(UtilFunctions::json_encode($exc));
-                            $socialLog->logInfo("FB  Event error 1 : ");
-                            $socialLog->logInfo(UtilFunctions::json_encode($exc));
                         }
                     }
                     if (($eventDB->addsocial_gg == "1" || $eventDB->addsocial_gg == 1 || $eventDB->addsocial_gg == "true" || $eventDB->addsocial_gg) && !empty($ggProv)) {
                         try {
-                            $socialLog->logInfo("GG add Event  : ");
                             $google = new Google_Client();
                             $google->setUseObjects(true);
                             $google->setApplicationName(GG_APP_NAME);
@@ -426,15 +413,11 @@ if (empty($user)) {
                             $event->setAnyoneCanAddSelf($pr);
                             $event->setVisibility($pr2);
                             $event->setHtmlLink(HOSTNAME . "events/" . $eventDB->id);
-                            $socialLog->logInfo("GG  Event before send  : ");
-                            $socialLog->logInfo(UtilFunctions::json_encode($event));
                             if ($user->id == 6618346 || $user->id == 6618344 || !SERVER_PROD) {
                                 var_dump($event);
                             }
                             $createdEvent = $cal->events->insert('primary', $event);
                             //echo $createdEvent->getId();
-                            $socialLog->logInfo("GG  Event send result : ");
-                            $socialLog->logInfo(UtilFunctions::json_encode($createdEvent));
                             //dump
                             //var_dump($createdEvent);
                         } catch (Exception $exc) {
@@ -443,8 +426,6 @@ if (empty($user)) {
                                 var_dump($exc);
                                 exit(1);
                             }
-                            $socialLog->logInfo("GG  Event send error : ");
-                            $socialLog->logInfo(UtilFunctions::json_encode($exc));
                             error_log($exc->getTraceAsString());
                         }
                     }
