@@ -303,8 +303,8 @@ if (isset($_POST['te_username'])) {
             $username = $user->userName;
         }
     } else {
-        unset($_SESSION['id']);
-        header('Location: ' . PAGE_SIGNUP);
+        //unset($_SESSION['id']);
+        //header('Location: ' . PAGE_SIGNUP);
     }
 }
 ?>
