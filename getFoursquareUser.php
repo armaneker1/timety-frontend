@@ -13,7 +13,6 @@ $errortext = "";
 if (isset($_GET['error'])) {
     header('Location: ' . PAGE_LOGIN);
 } else if (isset($_GET['add'])) {
-
     if (isset($_SESSION['id'])) {
         $l_user = UserUtils::getUserById($_SESSION['id']);
 
@@ -98,7 +97,7 @@ if (isset($_GET['error'])) {
             echo 'Error -> ' . $e->getMessage();
         }
     } else {
-        header('Location: ' . PAGE_FQ_LOGIN);
+        header('Location: ' . PAGE_SIGNUP);
     }
 }
 ?>

@@ -12,6 +12,11 @@ $facebook = new Facebook(array(
             'cookie' => true
         ));
 
+if (isset($_GET['error']) || isset($_GET['error_reason']) || isset($_GET['error_description'])) {
+    RegisterAnaliticsUtils::increasePageRegisterCount("getFacebookUser.php?denied=1");
+    header('Location: ' . PAGE_SIGNUP);
+    exit(1);
+}
 
 try {
     $uid = $facebook->getUser();
@@ -41,9 +46,9 @@ if (!empty($user)) {
             header("Location: " . PAGE_ABOUT_YOU);
         }
     } else {
-        header("Location: " . HOSTNAME);
+       header('Location: ' . PAGE_SIGNUP);
     }
 } else {
-    header('Location: ' . PAGE_FB_LOGIN);
+    header('Location: ' . PAGE_SIGNUP);
 }
 ?>

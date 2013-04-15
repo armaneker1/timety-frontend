@@ -13,6 +13,7 @@ if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empt
     $user_info = $twitteroauth->get('account/verify_credentials');
     if (isset($user_info->error)) {
         // Something's wrong, go back to square 1
+        RegisterAnaliticsUtils::increasePageRegisterCount("getTwitterUser.php?denied=1");
         header('Location: ' . PAGE_TW_LOGIN);
     } else {
         $uid = $user_info->id;

@@ -11,7 +11,8 @@ $success = TRUE;
 $errortext = "";
 
 if (isset($_GET['error'])) {
-    header('Location: ' . PAGE_LOGIN);
+    RegisterAnaliticsUtils::increasePageRegisterCount("getGoogleUser.php?denied=1");
+    header('Location: ' . PAGE_SIGNUP);
 } else {
     $google = new Google_Client();
     $google->setApplicationName(GG_APP_NAME);
