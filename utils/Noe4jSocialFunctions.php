@@ -317,7 +317,7 @@ class SocialUtil {
     }
 
     public static function followUser($fromUserId, $toUserId) {
-        $result = new Result();
+        $res = new Result();
         try {
             if (!SocialUtil::checkFollowStatus($fromUserId, $toUserId)) {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
@@ -326,7 +326,7 @@ class SocialUtil {
                 $toUsr = $userIndex->findOne(PROP_USER_ID, $toUserId);
                 if (!empty($fromUsr) && !empty($toUsr)) {
                     $fromUsr->relateTo($toUsr, REL_FOLLOWS)->save();
-                    $result->success = true;
+                    $res->success = true;
                     NotificationUtils::insertNotification(NOTIFICATION_TYPE_FOLLOWED, $toUserId, $fromUserId, null, null);
                     RedisUtils::addUserFollow($fromUserId, $toUserId, true);
                     RedisUtils::addUserFollower($toUserId, $fromUserId, true);
@@ -334,16 +334,16 @@ class SocialUtil {
                     UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId));
                     UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId));
                 } else {
-                    $result->error = "Userlar bulunamadı";
+                    $res->error = "Users not found";
                 }
             } else {
-                $result->success = true;
+                $res->success = true;
             }
         } catch (Exception $e) {
             log("Error", $e->getMessage());
-            $result->error = $e->getMessage();
+            $res->error = $e->getMessage();
         }
-        return $result;
+        return $res;
     }
 
     public static function checkFollowStatus($fromUserId, $toUserId) {
@@ -364,7 +364,7 @@ class SocialUtil {
     }
 
     public static function unfollowUser($fromUserId, $toUserId) {
-        $result = new Result();
+        $res = new Result();
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START fuser=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $fromUserId . "'), " .
@@ -373,7 +373,7 @@ class SocialUtil {
                     "DELETE  r";
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
-            $result->success = true;
+            $res->success = true;
             RedisUtils::addUserFollow($fromUserId, $toUserId, false);
             RedisUtils::addUserFollower($toUserId, $fromUserId, false);
             Queue::unFollowUser($fromUserId, $toUserId);
@@ -381,9 +381,9 @@ class SocialUtil {
             UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId));
         } catch (Exception $e) {
             log("Error", $e->getMessage());
-            $result->error = $e->getMessage();
+            $res->error = $e->getMessage();
         }
-        return $result;
+        return $res;
     }
 
     public static function in_array($array, $id) {

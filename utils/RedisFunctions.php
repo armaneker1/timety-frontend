@@ -1182,7 +1182,7 @@ class RedisUtils {
                         break;
                     }
                 }
-                if (SERVER_PROD) {
+                if (SERVER_PROD && $add) {
                     RedisUtils::addItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWING, json_encode($follow), 10);
                 } else {
                     if ($add)
@@ -1215,7 +1215,7 @@ class RedisUtils {
                         break;
                     }
                 }
-                if (SERVER_PROD) {
+                if (SERVER_PROD && $add) {
                     RedisUtils::addItem($redis, REDIS_PREFIX_USER_FRIEND . $userId . REDIS_SUFFIX_FRIEND_FOLLOWERS, json_encode($follower), 10);
                 } else {
                     if ($add)
