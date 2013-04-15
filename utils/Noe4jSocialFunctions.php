@@ -338,12 +338,13 @@ class SocialUtil {
                     $tu = new User();
                     $tu->createFromNeo4j($toUsr);
                     $params = array(array('name', $tu->firstName),
-                        array('followerName', $tu->firstName),
-                        array('followerSurname', $tu->lastName),
-                        array('followerUsername', $tu->userName),
-                        array('bio', $tu->about),
-                        array('img', PAGE_GET_IMAGEURL . urlencode($tu->getUserPic()) . "&h=90&w=90"),
-                        array('email_address', $fu->email));
+                        array('followerName', $fu->firstName),
+                        array('followerSurname', $fu->lastName),
+                        array('followerUsername', $fu->userName),
+                        array('bio', $fu->about),
+                        array('img', PAGE_GET_IMAGEURL . urlencode($fu->getUserPic()) . "&h=90&w=90"),
+                        array('$profileUrl',HOSTNAME.$fu->userName),
+                        array('email_address', $tu->email));
                     MailUtil::sendSESMailFromFile("followedBy.html", $params, "".$tu->getFullName()." <".$tu->email.">", "You have a new follower on Timety!");
                 } else {
                     $res->error = "Users not found";

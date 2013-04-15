@@ -5,50 +5,54 @@ email_address
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    </head>
-    <body style="background-image: url(http://timety.com/images/bg.png);font-family: Arial;">
-        
-        <!--HEADER PART /Message / without image-->
-        <table style="margin-left: auto;margin-right: auto; width:35%">
-            <tr>
-                <td colspan="2" class="rowHead" style="text-align: center;padding-top: 50px;"><img src="http://timety.com/images/timety.png"/></td>
-            </tr>
-            <tr>            
-                <td colspan="2" class="mainLine" style="background-image: url(http://timety.com/images/u_line.png);background-repeat: repeat-x;background-position: center center;height: 45px;"></td>
-            </tr>
-            <tr>
-                <td colspan="2"><h1 style="font-size: 18px;color: #6a6a6a;font-family: Arial;">Hi ${name},</h1></td>
-            </tr>
-			<tr>
-                <td colspan="2"><p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px"> You have a new follower on Timety! </p></td>
-            </tr>
-            <tr>
-			    <td style="width:2%"><img style="-webkit-border-radius: 5px;width: 90px;height: 90px;" src="${img}"/></td>
-                <td class="bodyText" style="text-align: justify;width: 30%; vertical-align:top">
-						<p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px;  margin-bottom:0px">${followerName} ${followerSurname} (${followerUsername})</p>
-						<p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px">${bio}</p>
-						<p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px">Follow</p></td>
-            </tr>
-            <tr>
-                <td class="bodyText" style="text-align: justify;"><p style="font-size: 16px;color: #6a6a6a;font-family: Arial;">
-                        </p></td>
-            </tr>
-        </table>
-        <!--HEADER PART-->
 
-        <!--TRAILER PART PART-->
-        <table style="margin-left: auto;margin-right: auto;">
-            <tr>            
-                <td class="mainLine" style="background-image: url(http://timety.com/images/u_line.png);background-repeat: repeat-x;background-position: center center;height: 45px;width: 611px;"></td>
-            </tr>
-            <tr>            
-                <td style="text-align: center; width: 500px"><p style="font-size: 12px; color: #6a6a6a; font-family: Arial"/></td>
-            </tr>
-            <tr>            
-                <td style="text-align: center; width: 500px"><p style="font-size: 12px; color: #6a6a6a; font-family: Arial">©2013 Timety, Inc. | All Rights Reserved.</p></td>
-            </tr>
-        </table>
-        <!--TRAILER PART PART-->
-        
+    </head>
+    <body style="font-family: Arial;">
+        <center>
+            <div style="background-image: url(http://timety.com/images/bg.png);width: 900px;">
+                <!--HEADER PART /Message / without image-->
+                <table style="margin-left: auto;margin-right: auto; width:68%">
+                    <tr>
+                        <td colspan="2" class="rowHead" style="text-align: center;padding-top: 50px;"><img src="http://timety.com/images/timety.png"/></td>
+                    </tr>
+                    <tr>            
+                        <td colspan="2" class="mainLine" style="background-image: url(http://timety.com/images/u_line.png);background-repeat: repeat-x;background-position: center center;height: 45px;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><h1 style="font-size: 18px;color: #6a6a6a;font-family: Arial;">Hi ${name},</h1></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px"> You have a new follower on Timety! </p></td>
+                    </tr>
+                    <tr>
+                        <td style="width:2%"><a href="${$profileUrl}" target="_blank"><img style="-webkit-border-radius: 5px;width: 90px;height: 90px;" src="${img}"/></a></td>
+                        <td class="bodyText" style="text-align: justify;width: 30%; vertical-align:top">
+                            <a href="${$profileUrl}" target="_blank" style="text-decoration: none;font-weight: bold;font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px;  margin-bottom:0px">${followerName} ${followerSurname} (${followerUsername})</a>
+                            <p style="font-size: 16px;color: #6a6a6a;font-family: Arial; margin-top:0px">${bio}</p></td>
+                    </tr>
+                    <tr>
+                        <td class="bodyText" style="text-align: justify;"><p style="font-size: 16px;color: #6a6a6a;font-family: Arial;">
+                            </p></td>
+                    </tr>
+                </table>
+                <!--HEADER PART-->
+
+                <!--TRAILER PART PART-->
+                <table style="margin-left: auto;margin-right: auto;">
+                    <tr>            
+                        <td class="mainLine" style="background-image: url(http://timety.com/images/u_line.png);background-repeat: repeat-x;background-position: center center;height: 45px;width: 611px;"></td>
+                    </tr>
+                    <tr>            
+                        <td style="text-align: center; width: 500px"><p style="font-size: 12px; color: #6a6a6a; font-family: Arial">
+                                This email was sent to ${email_address}.<br/> 
+                            </p></td>
+                    </tr>
+                    <tr>            
+                        <td style="text-align: center; width: 500px"><p style="font-size: 12px; color: #6a6a6a; font-family: Arial">©2013 Timety, Inc. | All Rights Reserved.</p></td>
+                    </tr>
+                </table>
+                <!--TRAILER PART PART-->
+            </div>
+        </center>
     </body>
 </html>
