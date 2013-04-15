@@ -148,7 +148,9 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     <!--top_blm_sol-->
 
     <?php
-    if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
+    if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) { ?>
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879133"></script>
+        <?php 
         if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI")) {
             ?>
             <script type="text/javascript">
@@ -168,7 +170,6 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     });
                 });
             </script>
-            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879133"></script>
             <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js?201308089744"></script>
             <?php
         }
