@@ -2,6 +2,15 @@
 
 class SessionUtil {
 
+    public static function isUser($userId=null) {
+        if (!empty($userId)) {
+            if (!empty($_SESSION['id']) && $_SESSION['id'] == $userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static function checkLoggedinUser($checkStatus = true) {
         if (isset($_SESSION['id'])) {
             $user = new User();

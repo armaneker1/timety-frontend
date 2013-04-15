@@ -10,6 +10,12 @@ try {
     $query = null;
     if (isset($_POST["user"]))
         $query = $_POST["user"];
+    if (!SessionUtil::isUser($query)) {
+        $res->error = "user not logged in";
+        $json_response = json_encode($res);
+        echo $json_response;
+        exit(1);
+    }
     $result->success = true;
     try {
         if (!empty($query)) {

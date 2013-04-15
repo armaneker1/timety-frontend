@@ -94,7 +94,7 @@ class MailUtil {
                 $array = explode(";", $to);
                 if (!empty($array) && sizeof($array) > 0) {
                     foreach ($array as $mail) {
-                        if (!empty($mail) && UtilFunctions::check_email_address($mail)) {
+                        if (!empty($mail)) {
                             array_push($tos, $mail);
                         } else {
                             error_log($mail . " not valid");

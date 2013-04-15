@@ -166,7 +166,7 @@ class SocialUtil {
         }
     }
 
-    public static function checkUserInterestTag($userId, $tagId, $property, $type, $lang = null) {
+    public static function checkUserInterestTag($userId, $tagId, $property, $type=null, $lang = null) {
         if (($lang != LANG_EN_US && $lang != LANG_TR_TR) || empty($lang)) {
             $lang = LANG_EN_US;
         }
@@ -333,6 +333,18 @@ class SocialUtil {
                     Queue::followUser($fromUserId, $toUserId);
                     UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId));
                     UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId));
+                    $fu = new User();
+                    $fu->createFromNeo4j($fromUsr);
+                    $tu = new User();
+                    $tu->createFromNeo4j($toUsr);
+                    $params = array(array('name', $tu->firstName),
+                        array('followerName', $tu->firstName),
+                        array('followerSurname', $tu->lastName),
+                        array('followerUsername', $tu->userName),
+                        array('bio', $tu->about),
+                        array('img', PAGE_GET_IMAGEURL . urlencode($tu->getUserPic()) . "&h=90&w=90"),
+                        array('email_address', $fu->email));
+                    MailUtil::sendSESMailFromFile("followedBy.html", $params, "".$tu->getFullName()." <".$tu->email.">", "You have a new follower on Timety!");
                 } else {
                     $res->error = "Users not found";
                 }
