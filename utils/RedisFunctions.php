@@ -236,7 +236,7 @@ class RedisUtils {
         }
     }
 
-    public static function getFollowingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null) {
+    public static function getFollowingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -282,7 +282,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getOwnerEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null) {
+    public static function getOwnerEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -323,7 +323,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -356,7 +356,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserPublicEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null) {
+    public static function getUserPublicEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
@@ -402,7 +402,7 @@ class RedisUtils {
                 }
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -438,7 +438,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null) {
+    public static function getUserCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
@@ -484,7 +484,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -520,7 +520,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null) {
+    public static function getUserLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
@@ -568,7 +568,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -605,7 +605,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null) {
+    public static function getUserJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
@@ -652,7 +652,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -689,7 +689,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null) {
+    public static function getUserResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
@@ -737,7 +737,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -800,7 +800,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null) {
+    public static function getCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -844,7 +844,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -880,7 +880,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null) {
+    public static function getLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (empty($userId) || $userId < 0) {
             return "[]";
@@ -923,7 +923,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -959,7 +959,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null) {
+    public static function getJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -1001,7 +1001,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
@@ -1037,7 +1037,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null) {
+    public static function getResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -1079,7 +1079,7 @@ class RedisUtils {
                 break;
             }
         }
-        if ($ik <= $pgEnd) {
+        if ($ik <= $pgEnd && $dateCalc) {
             $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_MY_TIMETY, "-inf", $date);
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
