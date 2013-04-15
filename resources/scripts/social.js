@@ -1,16 +1,27 @@
-function updateBadge(field,val) {
+function updateBadge(field,val,userPage) {
+    if(!userPage){
+        userPage=false;
+    }
     var element=null;
     if(field==1) {
-        element=jQuery("#prof_joins_count");
-    } else if(field==2) {
-        element=jQuery("#prof_reshares_count");
+        if(!userPage){
+            element=jQuery("#prof_joins_count");
+        }
+    } else if(field==2 ) {
+        if(!userPage){
+            element=jQuery("#prof_reshares_count");
+        }
     } else if(field==3) {
-        element=jQuery("#prof_likes_count");
+        if(!userPage){
+            element=jQuery("#prof_likes_count");
+        }
     } else if(field==4) {
-        element=jQuery("#prof_following_count");
+        if(userPage){
+            element=jQuery("#prof_followers_count");
+        }else{
+            element=jQuery("#prof_following_count");
+        }
     }
-    //prof_created_count
-    //prof_followers_count
     if(element) {
         try{
             var v=jQuery(element).text();

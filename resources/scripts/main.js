@@ -1,10 +1,13 @@
-function followUser(fromUserId, toUSerId, button,prefix) {
+function followUser(fromUserId, toUSerId, button,prefix,userPage) {
     if(!(fromUserId && toUSerId)){
         window.location=TIMETY_PAGE_LOGIN;
         return;
     }
     if(!prefix){
         prefix="";
+    }
+    if(!userPage){
+        userPage=false;
     }
     button.className = prefix+'followed_btn';
     jQuery(button).attr("disabled","disabled");
@@ -18,7 +21,7 @@ function followUser(fromUserId, toUSerId, button,prefix) {
             button.className = prefix+'followed_btn';
             button.setAttribute('onclick', 'un'
                 + button.getAttribute('onclick'));
-            updateBadge(4,1);
+            updateBadge(4,1,userPage);
         } else {
             button.className = prefix+'follow_btn';
             getInfo(true, 'Error occured try again', "error", 4000);
@@ -26,13 +29,16 @@ function followUser(fromUserId, toUSerId, button,prefix) {
     }, "json");
 }
 
-function unfollowUser(fromUserId, toUSerId, button,prefix) {
+function unfollowUser(fromUserId, toUSerId, button,prefix,userPage) {
     if(!(fromUserId && toUSerId)){
         window.location=TIMETY_PAGE_LOGIN;
         return;
     }
     if(!prefix){
         prefix="";
+    }
+    if(!userPage){
+        userPage=false;
     }
     button.className = prefix+'follow_btn';
     jQuery(button).attr("disabled","disabled");
@@ -46,7 +52,7 @@ function unfollowUser(fromUserId, toUSerId, button,prefix) {
             button.className = prefix+'follow_btn';
             button.setAttribute('onclick', button.getAttribute('onclick')
                 .substring(2));
-            updateBadge(4,-1);
+            updateBadge(4,-1,userPage);
         } else {
             button.className = prefix+'followed_btn';
             getInfo(true, 'Error occured try again', "error", 4000);

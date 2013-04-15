@@ -381,10 +381,10 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                         }
                         if ($showFollow) {
                             $isFollow = false;
-                            $tuId = $p_user->id;
-                            $fuId = "null";
+                            $fuId = $p_user->id;
+                            $tuId = "null";
                             if (!empty($user) && !empty($user->id)) {
-                                $fuId = $user->id;
+                                $tuId = $user->id;
                                 if (RedisUtils::isUserInFollowings($user->id, $p_user->id) > 0) {
                                     $isFollow = true;
                                 }
@@ -397,7 +397,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                             }
                             ?>
                             <div class="profil_user profil_user_follow">
-                                <a  type="button" name="" value="" class="<?= $followClass ?>" id="foll_profile_user" onclick="<?= $followJS ?>(<?= $tuId ?>,<?= $fuId ?>,this,'profile_');">
+                                <a  type="button" name="" value="" class="<?= $followClass ?>" id="foll_profile_user" onclick="<?= $followJS ?>(<?= $tuId ?>,<?= $fuId ?>,this,'profile_',true);">
                                     <span class="follow_text">follow</span>
                                     <span class="following_text">following</span>
                                     <span class="unfollow_text">unfollow</span>
