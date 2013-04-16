@@ -99,6 +99,14 @@ class Queue {
             "time" => time()
         ));
     }
+    
+     public static function findInterestedPeopleForEvent($eventId) {
+        self::send("event", "findInterestedPeopleForEvent", array(
+            "eventID" => $eventId,
+            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "time" => time()
+        ));
+    }
 
     public static function addEventToFollowers($eventId, $userId, $type) {
         self::send("event", "addEventToFollowers", array(
