@@ -85,7 +85,7 @@ class SocialUtil {
                 SocialUtil::incReshareCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
-                Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
+                Queue::reshareEvent($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 4));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
@@ -114,7 +114,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 SocialUtil::decReshareCountAsync($userId, $eventId);
-                Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_UNSHARE);
+                Queue::reshareEvent($eventId, $userId, REDIS_USER_INTERACTION_UNSHARE);
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 4));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());

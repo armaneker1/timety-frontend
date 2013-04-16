@@ -85,7 +85,7 @@ foreach ($array as $usr) {
         foreach ($events as $evt) {
             echo "<p>$i -- $j Event Id :" . $evt->getProperty(PROP_EVENT_ID) . "</p>";
             $j++;
-            Queue::socialInteraction($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_RESHARE);
+            Queue::reshareEvent($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_RESHARE);
         }
 
         echo "<p><h2>$i User Id :" . $usr->getProperty(PROP_USER_ID) . " Sended</h2></p>";

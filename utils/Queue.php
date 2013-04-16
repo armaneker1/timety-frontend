@@ -41,10 +41,6 @@ class Queue {
             "type" => REDIS_USER_INTERACTION_UPDATED,
             "time" => time()
         ));
-        /* self::send("category", "updateEvent", array(
-          "eventID" => $eventId,
-          "time" => time()
-          )); */
     }
     
     public static function addEventToFollowers($eventId, $userId, $type){
@@ -58,6 +54,15 @@ class Queue {
 
     public static function likeEvent($eventId, $userId, $type) {
         self::send("event", "likeEvent", array(
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => $type,
+            "time" => time()
+        ));
+    }
+    
+    public static function reshareEvent($eventId, $userId, $type) {
+        self::send("event", "reshareEvent", array(
             "eventID" => $eventId,
             "userID" => $userId,
             "type" => $type,
