@@ -8,7 +8,7 @@ class EventUtil {
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
                 Neo4jEventUtils::createEvent($event, $user);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $user->id,"type" => 6));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $user->id, "type" => 6));
                 return $eventDB;
             }
         }
@@ -312,39 +312,47 @@ class EventUtil {
 
     public static function getUserLastActivityString($event, $userId) {
         if (!empty($userId) && !empty($event)) {
-            if (!empty($event->userEventLog)) {
-                $action = "";
-                $log = $event->userEventLog[0];
-                if (!empty($log)) {
-                    if ($log->userId == $userId) {
-                        $action = $log->action;
-                        if ($action == REDIS_USER_INTERACTION_CREATED) {
-                            return "created this";
-                        }
+            try {
+                if (!empty($event->userEventLog)) {
+                    $action = "";
+                    if (is_array($event->userEventLog)) {
+                        $log = $event->userEventLog[0];
+                    } else {
+                        $log = $event->userEventLog;
                     }
-                }
-
-                for ($i = sizeof($event->userEventLog) - 1; $i >= 0; $i--) {
-                    $log = $event->userEventLog[$i];
                     if (!empty($log)) {
                         if ($log->userId == $userId) {
                             $action = $log->action;
-                            break;
+                            if ($action == REDIS_USER_INTERACTION_CREATED) {
+                                return "created this";
+                            }
                         }
                     }
+
+                    for ($i = sizeof($event->userEventLog) - 1; $i >= 0; $i--) {
+                        $log = $event->userEventLog[$i];
+                        if (!empty($log)) {
+                            if ($log->userId == $userId) {
+                                $action = $log->action;
+                                break;
+                            }
+                        }
+                    }
+                    if ($action == REDIS_USER_INTERACTION_UPDATED || $action == REDIS_USER_INTERACTION_CREATED || $action == REDIS_USER_UPDATE || $action == REDIS_USER_COMMENT) {
+                        return "created this";
+                    } else if ($action == REDIS_USER_INTERACTION_JOIN || $action == REDIS_USER_INTERACTION_MAYBE) {
+                        return "joined this";
+                    } else if ($action == REDIS_USER_INTERACTION_LIKE) {
+                        return "liked this";
+                    } else if ($action == REDIS_USER_INTERACTION_RESHARE) {
+                        return "reshared this";
+                    } else if ($action == REDIS_USER_INTERACTION_FOLLOW) {
+                        return "followed this";
+                    }
+                    return $action;
                 }
-                if ($action == REDIS_USER_INTERACTION_UPDATED || $action == REDIS_USER_INTERACTION_CREATED || $action == REDIS_USER_UPDATE || $action == REDIS_USER_COMMENT) {
-                    return "created this";
-                } else if ($action == REDIS_USER_INTERACTION_JOIN || $action == REDIS_USER_INTERACTION_MAYBE) {
-                    return "joined this";
-                } else if ($action == REDIS_USER_INTERACTION_LIKE) {
-                    return "liked this";
-                } else if ($action == REDIS_USER_INTERACTION_RESHARE) {
-                    return "reshared this";
-                } else if ($action == REDIS_USER_INTERACTION_FOLLOW) {
-                    return "followed this";
-                }
-                return $action;
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
             }
         }
         return "";
