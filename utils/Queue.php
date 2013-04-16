@@ -63,6 +63,14 @@ class Queue {
         ));
     }
 
+    public static function updateEventInfo($eventId) {
+        self::send("event", "updateEventInfo", array(
+            "eventID" => $eventId,
+            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "time" => time()
+        ));
+    }
+
     /*
      * low priority
      */
@@ -84,8 +92,8 @@ class Queue {
         ));
     }
 
-    public static function updateEventInfo($eventId) {
-        self::send("event", "updateEventInfo", array(
+    public static function updateEventInfoForOthers($eventId) {
+        self::send("event", "updateEventInfoForOthers", array(
             "eventID" => $eventId,
             "type" => REDIS_USER_INTERACTION_UPDATED,
             "time" => time()

@@ -365,9 +365,10 @@ class EventProcessor {
     }
 
     public function updateEventInfo() {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
 
         $log->logInfo("event > updateEventInfo >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
+
         $redis = new Predis\Client();
         $event = new Event();
         $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
@@ -382,7 +383,53 @@ class EventProcessor {
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
-                $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
+                $log->logError("event > updateEventInfo Error" . $exc->getTraceAsString());
+                return;
+            }
+
+            /*
+             *  adding creator my timety
+             */
+            if (!empty($event->creatorId)) {
+                $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                $key = REDIS_PREFIX_USER . $event->creatorId . REDIS_SUFFIX_MY_TIMETY;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //get user rel to event
+                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $event->creatorId);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result) {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+            }
+            Queue::updateEventInfoForOthers($this->eventID);
+        } else {
+            $log->logInfo("event > updateEventInfo >  event empty");
+        }
+    }
+
+    public function updateEventInfoForOthers() {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+
+        $log->logInfo("event > updateEventInfoForOthers >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
+        $redis = new Predis\Client();
+        $event = new Event();
+        $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
+        if (!empty($event)) {
+            try {
+                $event->getHeaderImage();
+                $event->images = array();
+                $event->getAttachLink();
+                $event->getTags();
+                $event->getLocCity();
+                $event->getWorldWide();
+                $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+                $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+            } catch (Exception $exc) {
+                $log->logError("event > updateEventInfoForOthers Error" . $exc->getTraceAsString());
             }
 
             $keyList = EventKeyListUtil::getEventKeyList($event->id);
@@ -397,7 +444,7 @@ class EventProcessor {
                         $event->userEventLog = $evt->userEventLog;
                         RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
                     } else {
-                        $log->logError("event > updateEvent Event and empty");
+                        $log->logError("event > updateEventInfoForOthers Event and empty");
                     }
                 }
             }
