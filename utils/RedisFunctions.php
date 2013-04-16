@@ -72,7 +72,7 @@ class RedisUtils {
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($ik <= $pgEnd) {
                 $add = true;
-                if (UtilFunctions::findString($events[$i], $query,true, null)) {
+                if (UtilFunctions::findString($events[$i], $query, true, null)) {
                     $add = false;
                 }
                 if ($add) {
@@ -114,7 +114,7 @@ class RedisUtils {
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($ik <= $pgEnd) {
                 $add = true;
-                if (UtilFunctions::findString($events[$i], $query,true, $tagIds)) {
+                if (UtilFunctions::findString($events[$i], $query, true, $tagIds)) {
                     $add = false;
                 }
                 if ($add) {
@@ -205,7 +205,7 @@ class RedisUtils {
             for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
                 if ($ik <= $pgEnd) {
                     $add = true;
-                    if (UtilFunctions::findString($events[$i], $query,true, $searchtagIds)) {
+                    if (UtilFunctions::findString($events[$i], $query, true, $searchtagIds)) {
                         $add = false;
                     }
                     if ($add) {
@@ -236,7 +236,7 @@ class RedisUtils {
         }
     }
 
-    public static function getFollowingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
+    public static function getFollowingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null, $dateCalc = false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -256,7 +256,7 @@ class RedisUtils {
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($ik <= $pgEnd) {
                 $add = true;
-                if (UtilFunctions::findString($events[$i], $query,true, $tagIds)) {
+                if (UtilFunctions::findString($events[$i], $query, true, $tagIds)) {
                     $add = false;
                 }
                 if ($add) {
@@ -282,7 +282,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getOwnerEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
+    public static function getOwnerEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null, $dateCalc = false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -302,7 +302,7 @@ class RedisUtils {
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($ik <= $pgEnd) {
                 $add = true;
-                if (UtilFunctions::findString($events[$i], $query,true, $tagIds)) {
+                if (UtilFunctions::findString($events[$i], $query, true, $tagIds)) {
                     $add = false;
                 }
                 if ($add) {
@@ -329,7 +329,7 @@ class RedisUtils {
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
                 if (($ik + $ij) <= $pgEnd) {
                     $add = true;
-                    if (UtilFunctions::findString($events[$j], $query,true, $tagIds)) {
+                    if (UtilFunctions::findString($events[$j], $query, true, $tagIds)) {
                         $add = false;
                     }
                     if ($add) {
@@ -356,7 +356,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserPublicEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
+    public static function getUserPublicEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null, $dateCalc = false) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
@@ -379,7 +379,7 @@ class RedisUtils {
             if ($evt->privacy == "true") {
                 if ($ik <= $pgEnd) {
                     $add = true;
-                    if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                    if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                         $add = false;
                     }
                     if ($add) {
@@ -410,7 +410,7 @@ class RedisUtils {
                 if ($evt->privacy == "true") {
                     if (($ik + $ij) <= $pgEnd) {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -438,7 +438,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
+    public static function getUserCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null, $dateCalc = false) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
@@ -462,7 +462,7 @@ class RedisUtils {
                     $evt = json_decode($events[$i]);
                     if ($evt->creatorId == $reqUserId && $evt->privacy == "true") {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -493,7 +493,7 @@ class RedisUtils {
                         $evt = json_decode($events[$j]);
                         if ($evt->creatorId == $reqUserId && $evt->privacy == "true") {
                             $add = true;
-                            if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                            if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
                             }
                             if ($add) {
@@ -520,7 +520,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
+    public static function getUserLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null, $dateCalc = false) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
@@ -546,7 +546,7 @@ class RedisUtils {
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
                     if (($rel->like . "" == "true" || $rel->like) && $evt->privacy == "true") {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -578,7 +578,7 @@ class RedisUtils {
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if (($rel->like . "" == "true" || $rel->like) && $evt->privacy == "true") {
                             $add = true;
-                            if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                            if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
                             }
                             if ($add) {
@@ -605,7 +605,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
+    public static function getUserJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null, $dateCalc = false) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
@@ -630,7 +630,7 @@ class RedisUtils {
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
                     if (($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) && $evt->privacy == "true") {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -662,7 +662,7 @@ class RedisUtils {
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if (($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) && $evt->privacy == "true") {
                             $add = true;
-                            if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                            if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
                             }
                             if ($add) {
@@ -689,7 +689,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null,$dateCalc=false) {
+    public static function getUserResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $reqUserId = -1, $tagIds = null, $dateCalc = false) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
@@ -715,7 +715,7 @@ class RedisUtils {
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
                     if (($rel->reshare . "" == "true" || $rel->reshare) && $evt->privacy == "true") {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -747,7 +747,7 @@ class RedisUtils {
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if (($rel->reshare . "" == "true" || $rel->reshare) && $evt->privacy == "true") {
                             $add = true;
-                            if (UtilFunctions::findString($evt, $query,false,$tagIds)) {
+                            if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
                             }
                             if ($add) {
@@ -800,7 +800,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
+    public static function getCreatedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null, $dateCalc = false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -823,7 +823,7 @@ class RedisUtils {
                     $evt = json_decode($events[$i]);
                     if ($evt->creatorId == $userId) {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -853,7 +853,7 @@ class RedisUtils {
                         $evt = json_decode($events[$j]);
                         if ($evt->creatorId == $userId) {
                             $add = true;
-                            if (UtilFunctions::findString($evt, $query,false,$tagIds)) {
+                            if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
                             }
                             if ($add) {
@@ -880,7 +880,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
+    public static function getLikedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null, $dateCalc = false) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (empty($userId) || $userId < 0) {
             return "[]";
@@ -902,7 +902,7 @@ class RedisUtils {
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
                     if ($rel->like . "" == "true" || $rel->like) {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -933,7 +933,7 @@ class RedisUtils {
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if ($rel->like . "" == "true" || $rel->like) {
                             $add = true;
-                            if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                            if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
                             }
                             if ($add) {
@@ -959,7 +959,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
+    public static function getJoinedEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null, $dateCalc = false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -980,7 +980,7 @@ class RedisUtils {
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
                     if ($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query, false,$tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -1011,7 +1011,7 @@ class RedisUtils {
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if ($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) {
                             $add = true;
-                            if (UtilFunctions::findString($evt, $query,false, $tagIds)) {
+                            if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
                             }
                             if ($add) {
@@ -1037,7 +1037,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null,$dateCalc=false) {
+    public static function getResahredEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null, $dateCalc = false) {
         if (empty($userId) || $userId < 0) {
             return "[]";
         }
@@ -1058,7 +1058,7 @@ class RedisUtils {
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
                     if ($rel->reshare . "" == "true" || $rel->reshare) {
                         $add = true;
-                        if (UtilFunctions::findString($evt, $query, false,$tagIds)) {
+                        if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
                         }
                         if ($add) {
@@ -1089,7 +1089,7 @@ class RedisUtils {
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
                         if ($rel->reshare . "" == "true" || $rel->reshare) {
                             $add = true;
-                            if (UtilFunctions::findString($evt, $query,false ,$tagIds)) {
+                            if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
                             }
                             if ($add) {
@@ -1151,10 +1151,13 @@ class RedisUtils {
                     $event->getLocCity();
                     $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
                     $redis->removeItemById(REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, $event->id);
-                    if (SERVER_PROD && ($event->loc_city == $user_loc)) {
-                        RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
-                    } else {
-                        $log->logInfo("Redis addItem Item simulated");
+                    if (SERVER_PROD) {
+                        if (($event->loc_city == $user_loc)) {
+                            RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
+                            EventKeyListUtil::updateEventKey($event->id, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING);
+                        }else{
+                            EventKeyListUtil::deleteRecordForEvent($event->id, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING);
+                        }
                     }
                 }
             }
@@ -1331,7 +1334,7 @@ class RedisUtils {
         }
         return null;
     }
-    
+
     public static function fixArray($array = null) {
         $result = array();
         if (empty($array)) {

@@ -3,22 +3,15 @@
 class EventKeyListUtil {
 
     // action true add false remove
-    public static function updateEventKey($eventId, $key, $action = true) {
+    public static function updateEventKey($eventId, $key) {
         if (!empty($eventId) && !empty($key)) {
             try {
-                if ($action) {
-                    $record = TimeteEventKeyList::findById(DBUtils::getConnection(), $eventId, $key);
-                    if (empty($record)) {
-                        $record = new TimeteEventKeyList();
-                        $record->setEventId($eventId);
-                        $record->setKey($key);
-                        $record->insertIntoDatabase(DBUtils::getConnection());
-                    }
-                } else {
-                    $record = TimeteEventKeyList::findById(DBUtils::getConnection(), $eventId, $key);
-                    if (!empty($record)) {
-                        $record->deleteFromDatabase(DBUtils::getConnection());
-                    }
+                $record = TimeteEventKeyList::findById(DBUtils::getConnection(), $eventId, $key);
+                if (empty($record)) {
+                    $record = new TimeteEventKeyList();
+                    $record->setEventId($eventId);
+                    $record->setKey($key);
+                    $record->insertIntoDatabase(DBUtils::getConnection());
                 }
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());
