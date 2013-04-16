@@ -41,7 +41,7 @@ foreach ($users as $user) {
     
     
     echo "<p/>Updated    Count S :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
-    echo "<p/>Updated    Count R :" . Neo4jUserUtil::updateUserStatistics($user->id);
+    echo "<p/>Updated    Count R :" . Neo4jUserUtil::updateUserStatistics($user->id,0);
     echo "<p/>Updated    Count E :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);
 
     /* echo "<p/>Update user for events    Count S :" . UtilFUnctions::udate(DATETIME_DB_FORMAT2);

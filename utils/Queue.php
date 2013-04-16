@@ -23,10 +23,15 @@ class Queue {
             "type" => REDIS_USER_INTERACTION_CREATED,
             "time" => time()
         ));
-        /* self::send("category", "addEvent", array(
-          "eventID" => $eventId,
-          "time" => time()
-          )); */
+    }
+    
+    public static function addEventForOthers($eventId, $userId) {
+        self::send("event", "addEventForOthers", array(
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => REDIS_USER_INTERACTION_CREATED_FOR_OTHER,
+            "time" => time()
+        ));
     }
 
     public static function updateEvent($eventId, $userId) {

@@ -26,7 +26,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 3));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -55,7 +55,7 @@ class SocialUtil {
                 $result->error = false;
                 SocialUtil::decLikeCountAsync($userId, $eventId);
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_UNLIKE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 3));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -86,7 +86,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 4));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -115,7 +115,7 @@ class SocialUtil {
                 $result->error = false;
                 SocialUtil::decReshareCountAsync($userId, $eventId);
                 Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_UNSHARE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 4));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
@@ -331,8 +331,8 @@ class SocialUtil {
                     RedisUtils::addUserFollow($fromUserId, $toUserId, true);
                     RedisUtils::addUserFollower($toUserId, $fromUserId, true);
                     Queue::followUser($fromUserId, $toUserId);
-                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId));
-                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId));
+                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId,"type" => 2));
+                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId,"type" => 1));
                     $fu = new User();
                     $fu->createFromNeo4j($fromUsr);
                     $tu = new User();
@@ -402,8 +402,8 @@ class SocialUtil {
             RedisUtils::addUserFollow($fromUserId, $toUserId, false);
             RedisUtils::addUserFollower($toUserId, $fromUserId, false);
             Queue::unFollowUser($fromUserId, $toUserId);
-            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId));
-            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId));
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId,"type" => 2));
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId,"type" => 1));
         } catch (Exception $e) {
             log("Error", $e->getMessage());
             $res->error = $e->getMessage();

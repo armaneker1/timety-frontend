@@ -10,8 +10,19 @@ if (isset($_GET["userId"]))
     $userId = $_GET["userId"];
 if (isset($_POST["userId"]))
     $userId = $_POST["userId"];
-if (!empty($userId)) {
-    Neo4jUserUtil::updateUserStatistics($userId);
+
+
+$type = null;
+if (isset($_GET["type"]))
+    $type = $_GET["type"];
+if (isset($_POST["type"]))
+    $type = $_POST["type"];
+
+if (empty($type)) {
+    $type = 0;
 }
 
+if (!empty($userId)) {
+    Neo4jUserUtil::updateUserStatistics($userId, $type);
+}
 ?>

@@ -143,6 +143,7 @@ define('KLOGGER_PATH', '/home/ubuntu/log/');
 //USER INTERACTION
 define('REDIS_USER_INTERACTION_UPDATED', 'updated');
 define('REDIS_USER_INTERACTION_CREATED', 'created');
+define('REDIS_USER_INTERACTION_CREATED_FOR_OTHER', 'created_for_other');
 define('REDIS_USER_INTERACTION_JOIN', 'join');
 define('REDIS_USER_INTERACTION_DECLINE', 'decline');
 define('REDIS_USER_INTERACTION_MAYBE', 'maybe');

@@ -1331,7 +1331,7 @@ class RedisUtils {
         }
         return null;
     }
-
+    
     public static function fixArray($array = null) {
         $result = array();
         if (empty($array)) {

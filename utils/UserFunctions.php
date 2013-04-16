@@ -558,6 +558,54 @@ class UserUtils {
         }
     }
 
+    public static function updateUserFollowingStat($uid, $following_count) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set following_count=$following_count WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function updateUserFollowerStat($uid, $followers_count) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set followers_count=$followers_count WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function updateUserLikeStat($uid, $likes_count) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set likes_count=$likes_count WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function updateUserReshareLikeStat($uid, $reshares_count) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set reshares_count=$reshares_count WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function updateUserJoinLikeStat($uid, $joined_count) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set joined_count=$joined_count WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function updateUserCreatedLikeStat($uid, $created_count) {
+        if (!empty($uid)) {
+            $uid = DBUtils::mysql_escape($uid);
+            $SQL = "UPDATE " . TBL_USERS . " set created_count=$created_count WHERE id = $uid";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
 }
 
 ?>

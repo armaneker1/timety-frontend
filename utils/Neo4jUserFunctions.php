@@ -420,27 +420,59 @@ class Neo4jUserUtil {
         }
     }
 
-    public static function updateUserStatistics($userId) {
+    public static function updateUserStatistics($userId, $type = 0) {
         if (!empty($userId)) {
             try {
-                $following_count = Neo4jUserUtil::getUserFollowingCount($userId);
-                $followers_count = Neo4jUserUtil::getUserFollowersCount($userId);
-                $likes_count = Neo4jUserUtil::getUserLikesCount($userId);
-                $reshares_count = Neo4jUserUtil::getUserResharesCount($userId);
-                $joined_count = Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES);
-                $created_count = Neo4jUserUtil::getUserCreatedCount($userId);
-
                 $user = Neo4jUserUtil::getUserNodeById($userId);
-                $user->setProperty(PROP_USER_STA_FOLLOWINGS_COUNT, $following_count);
-                $user->setProperty(PROP_USER_STA_FOLLOWERS_COUNT, $followers_count);
-                $user->setProperty(PROP_USER_STA_LIKES_COUNT, $likes_count);
-                $user->setProperty(PROP_USER_STA_RESHARES_COUNT, $reshares_count);
-                $user->setProperty(PROP_USER_STA_JOINED_COUNT, $joined_count);
-                $user->setProperty(PROP_USER_STA_CREATED_COUNT, $created_count);
-                $user->save();
-
-                UserUtils::updateUserStatistic($userId, $following_count, $followers_count, $likes_count, $reshares_count, $joined_count, $created_count);
-                Queue::updateProfile($userId);
+                if ($type == 0) {
+                    $following_count = Neo4jUserUtil::getUserFollowingCount($userId);
+                    $user->setProperty(PROP_USER_STA_FOLLOWINGS_COUNT, $following_count);
+                    $followers_count = Neo4jUserUtil::getUserFollowersCount($userId);
+                    $user->setProperty(PROP_USER_STA_FOLLOWERS_COUNT, $followers_count);
+                    $likes_count = Neo4jUserUtil::getUserLikesCount($userId);
+                    $user->setProperty(PROP_USER_STA_LIKES_COUNT, $likes_count);
+                    $reshares_count = Neo4jUserUtil::getUserResharesCount($userId);
+                    $user->setProperty(PROP_USER_STA_RESHARES_COUNT, $reshares_count);
+                    $joined_count = Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES);
+                    $user->setProperty(PROP_USER_STA_JOINED_COUNT, $joined_count);
+                    $created_count = Neo4jUserUtil::getUserCreatedCount($userId);
+                    $user->setProperty(PROP_USER_STA_CREATED_COUNT, $created_count);
+                    $user->save();
+                    UserUtils::updateUserStatistic($userId, $following_count, $followers_count, $likes_count, $reshares_count, $joined_count, $created_count);
+                } else if ($type == 1) {
+                    $following_count = Neo4jUserUtil::getUserFollowingCount($userId);
+                    $user->setProperty(PROP_USER_STA_FOLLOWINGS_COUNT, $following_count);
+                    $user->save();
+                    UserUtils::updateUserFollowingStat($userId, $following_count);
+                } else if ($type == 2) {
+                    $followers_count = Neo4jUserUtil::getUserFollowersCount($userId);
+                    $user->setProperty(PROP_USER_STA_FOLLOWERS_COUNT, $followers_count);
+                    $user->save();
+                    UserUtils::updateUserFollowerStat($userId, $followers_count);
+                } else if ($type == 3) {
+                    $likes_count = Neo4jUserUtil::getUserLikesCount($userId);
+                    $user->setProperty(PROP_USER_STA_LIKES_COUNT, $likes_count);
+                    $user->save();
+                    UserUtils::updateUserLikeStat($userId, $likes_count);
+                } else if ($type == 4) {
+                    $reshares_count = Neo4jUserUtil::getUserResharesCount($userId);
+                    $user->setProperty(PROP_USER_STA_RESHARES_COUNT, $reshares_count);
+                    $user->save();
+                    UserUtils::updateUserReshareLikeStat($userId, $reshares_count);
+                } else if ($type == 5) {
+                    $joined_count = Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES);
+                    $user->setProperty(PROP_USER_STA_JOINED_COUNT, $joined_count);
+                    $user->save();
+                    UserUtils::updateUserJoinLikeStat($userId, $joined_count);
+                } else if ($type == 6) {
+                    $created_count = Neo4jUserUtil::getUserCreatedCount($userId);
+                    $user->setProperty(PROP_USER_STA_CREATED_COUNT, $created_count);
+                    $joined_count = Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES);
+                    $user->setProperty(PROP_USER_STA_JOINED_COUNT, $joined_count);
+                    $user->save();
+                    UserUtils::updateUserCreatedLikeStat($userId, $created_count);
+                    UserUtils::updateUserJoinLikeStat($userId, $joined_count);
+                }
             } catch (Exception $e) {
                 error_log("Error" . $e->getMessage());
             }

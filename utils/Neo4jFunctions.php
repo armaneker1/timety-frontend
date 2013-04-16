@@ -122,7 +122,7 @@ class Neo4jFuctions {
                     $result->success = false;
                     $result->error = true;
                 }
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 5));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
                 $result->error = $e->getMessage();
