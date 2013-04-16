@@ -154,6 +154,7 @@ define('REDIS_USER_INTERACTION_RESHARE', 'reshare');
 define('REDIS_USER_INTERACTION_UNSHARE', 'unshare');
 define('REDIS_USER_INTERACTION_FOLLOW', 'follow');
 define('REDIS_USER_INTERACTION_UNFOLLOW', 'unfollow');
+define('REDIS_USER_INTERACTION_COMMENTTED', 'commented');
 define('REDIS_USER_UPDATE', 'update');
 define('REDIS_USER_COMMENT', 'comment');
 

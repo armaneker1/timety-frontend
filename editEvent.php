@@ -345,7 +345,7 @@ if (!empty($_POST['rand_session_id'])) {
         try {
             $eventDB = EventUtil::updateEvent($event, $user);
             if (!empty($eventDB) && !empty($eventDB->id)) {
-                Queue::updateEvent($eventId);
+                Queue::updateEvent($eventId,$user->id);
                 $providers = UserUtils::getSocialProviderList($user->id);
                 $fbProv = null;
                 $ggProv = null;

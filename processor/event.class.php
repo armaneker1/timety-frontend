@@ -324,7 +324,7 @@ class EventProcessor {
                 }
             }
             Queue::addEventToFollowers($this->eventID, $this->userID, $this->type);
-            Queue::updateEventInfo($this->eventID);
+            Queue::updateEventInfo($this->eventID, $this->userID, $this->type);
         } else {
             $log->logInfo("event > joinEvent >  event empty");
         }
@@ -371,7 +371,7 @@ class EventProcessor {
                     EventKeyListUtil::deleteRecordForEvent($event->id, $key);
                 }
             }
-            Queue::updateEventInfoForOthers($this->eventID);
+            Queue::updateEventInfoForOthers($this->eventID, $this->userID, $this->type);
         } else {
             $log->logInfo("event > updateEventInfo >  event empty");
         }
@@ -476,8 +476,8 @@ class EventProcessor {
                     }
                 }
             }
-            Queue::updateEventInfoForOthers($event->id);
-            Queue::findInterestedPeopleForEvent($event->id);
+            Queue::updateEventInfoForOthers($event->id, $this->userID, $this->type);
+            Queue::findInterestedPeopleForEvent($event->id, $this->userID, $this->type);
         }
     }
 
@@ -565,7 +565,7 @@ class EventProcessor {
                 }
             }
             Queue::addEventToFollowers($event->id, $event->creatorId, $this->type);
-            Queue::updateEventForOthers($event->id);
+            Queue::updateEventForOthers($event->id, $event->creatorId, $this->type);
         } else {
             $log->logInfo("event > updateEvent >  event empty");
         }
@@ -738,8 +738,8 @@ class EventProcessor {
                     $log->logInfo("addUserEventLog >  array " . sizeof($array));
                     for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $r = $array[$i];
-                        $log->logInfo("addUserEventLog >  array " . $r->userId . " follow " . $this->followID);
-                        if ($r->userId == $this->followID) {
+                        $log->logInfo("addUserEventLog >  array " . $r->userId . " unfollow " . $this->followID);
+                        if ($r->userId == $this->followID || $r->userId == null || $r->userId == "null") {
                             unset($array[$i]);
                         }
                     }
@@ -788,7 +788,7 @@ class EventProcessor {
                 } else if ($this->type == REDIS_USER_INTERACTION_DECLINE || $this->type == REDIS_USER_INTERACTION_IGNORE) {
                     for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $rel = $array[$i];
-                        if (($rel->action == REDIS_USER_INTERACTION_JOIN || $rel->action == REDIS_USER_INTERACTION_MAYBE) && $rel->userId == $this->userID) {
+                        if (($rel->action == REDIS_USER_INTERACTION_JOIN || $rel->action == REDIS_USER_INTERACTION_MAYBE) && ( $rel->userId == $this->userID || $rel->userId == null || $rel->userId == "null" )) {
                             unset($array[$i]);
                             $log->logInfo("addUserEventLog >  removed array " . REDIS_USER_INTERACTION_DECLINE . " rel -> " . $rel->action);
                         }
@@ -840,11 +840,13 @@ class EventProcessor {
                 } else if ($this->type == REDIS_USER_INTERACTION_UNSHARE) {
                     for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $rel = $array[$i];
-                        if ($rel->action == REDIS_USER_INTERACTION_RESHARE && $rel->userId == $this->userID) {
+                        if ($rel->action == REDIS_USER_INTERACTION_RESHARE && ( $rel->userId == $this->userID || $rel->userId == null || $rel->userId == "null" )) {
                             unset($array[$i]);
                             $log->logInfo("addUserEventLog >  removed array " . REDIS_USER_INTERACTION_UNSHARE);
                         }
                     }
+                } else if ($this->type == REDIS_USER_INTERACTION_COMMENTTED) {
+                    // do nothng
                 }
                 $event->userEventLog = $array;
                 if (empty($array) || sizeof($array) < 1) {

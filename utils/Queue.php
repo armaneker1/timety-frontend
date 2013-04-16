@@ -28,9 +28,10 @@ class Queue {
         ));
     }
 
-    public static function updateEvent($eventId) {
+    public static function updateEvent($eventId, $userId) {
         self::send("event", "updateEvent", array(
             "eventID" => $eventId,
+            "userID" => $userId,
             "type" => REDIS_USER_INTERACTION_UPDATED,
             "time" => time()
         ));
@@ -63,10 +64,11 @@ class Queue {
         ));
     }
 
-    public static function updateEventInfo($eventId) {
+    public static function updateEventInfo($eventId, $userId, $type) {
         self::send("event", "updateEventInfo", array(
             "eventID" => $eventId,
-            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "userID" => $userId,
+            "type" => $type,
             "time" => time()
         ));
     }
@@ -84,26 +86,29 @@ class Queue {
         ));
     }
 
-    public static function updateEventForOthers($eventId) {
+    public static function updateEventForOthers($eventId, $userId, $type) {
         self::send("event", "updateEventForOthers", array(
             "eventID" => $eventId,
-            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "userID" => $userId,
+            "type" => $type,
             "time" => time()
         ));
     }
 
-    public static function updateEventInfoForOthers($eventId) {
+    public static function updateEventInfoForOthers($eventId, $userId, $type) {
         self::send("event", "updateEventInfoForOthers", array(
             "eventID" => $eventId,
-            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "userID" => $userId,
+            "type" => $type,
             "time" => time()
         ));
     }
-    
-     public static function findInterestedPeopleForEvent($eventId) {
+
+    public static function findInterestedPeopleForEvent($eventId, $userId, $type) {
         self::send("event", "findInterestedPeopleForEvent", array(
             "eventID" => $eventId,
-            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "userID" => $userId,
+            "type" => $type,
             "time" => time()
         ));
     }

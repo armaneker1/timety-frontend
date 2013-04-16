@@ -107,7 +107,7 @@ class Neo4jFuctions {
                     $result->success = true;
                     $result->error = false;
                     SocialUtil::incJoinCountAsync($userId, $eventId);
-                    Queue::joinEvent($eventId, $userId, "maybe");
+                    Queue::joinEvent($eventId, $userId, REDIS_USER_INTERACTION_MAYBE);
                 } else if ($resp == 3 || $resp == 4) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_IGNORE);
                     if ($resp == 4) {
