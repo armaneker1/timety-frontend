@@ -416,24 +416,21 @@ class EventProcessor {
                 $secondArray = RedisUtils::fixArray($secondArray);
 
                 if ($this->type == REDIS_USER_INTERACTION_FOLLOW) {
-                    $added = false;
                     foreach ($secondArray as $r) {
                         if ($r->userId == $this->followID) {
                             $exits = true;
                             foreach ($array as $p) {
                                 if ($r->userId == $p->userId && $r->action == $p->action) {
                                     $exits = false;
-                                    $added = true;
                                 }
                             }
                             if ($exits) {
                                 array_push($array, $r);
-                                $added = true;
                             }
                         }
                     }
                     $event->userEventLog = $array;
-                    return $added;
+                    return true;
                 } else if ($this->type == REDIS_USER_INTERACTION_UNFOLLOW) {
                     $log->logInfo("addUserEventLog >  array " . sizeof($array));
                     for ($i = sizeof($array) - 1; $i >= 0; $i--) {
