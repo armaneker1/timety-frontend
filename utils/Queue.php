@@ -15,6 +15,9 @@ require_once __DIR__ . '/SettingFunctions.php';
  * @author mehmet
  */
 class Queue {
+    /*
+     * high priority
+     */
 
     public static function addEvent($eventId, $userId) {
         self::send("event", "addEvent", array(
@@ -25,29 +28,10 @@ class Queue {
         ));
     }
 
-    public static function addEventForOthers($eventId, $userId) {
-        self::send("event", "addEventForOthers", array(
-            "eventID" => $eventId,
-            "userID" => $userId,
-            "type" => REDIS_USER_INTERACTION_CREATED_FOR_OTHER,
-            "time" => time()
-        ));
-    }
-
-    public static function updateEvent($eventId, $userId) {
+    public static function updateEvent($eventId) {
         self::send("event", "updateEvent", array(
             "eventID" => $eventId,
-            "userID" => $userId,
             "type" => REDIS_USER_INTERACTION_UPDATED,
-            "time" => time()
-        ));
-    }
-    
-    public static function addEventToFollowers($eventId, $userId, $type){
-        self::send("event", "addEventToFollowers", array(
-            "eventID" => $eventId,
-            "userID" => $userId,
-            "type" => $type,
             "time" => time()
         ));
     }
@@ -60,7 +44,7 @@ class Queue {
             "time" => time()
         ));
     }
-    
+
     public static function reshareEvent($eventId, $userId, $type) {
         self::send("event", "reshareEvent", array(
             "eventID" => $eventId,
@@ -70,8 +54,46 @@ class Queue {
         ));
     }
 
-    public static function socialInteraction($eventId, $userId, $type) {
-        self::send("event", "updateEvent", array(
+    public static function joinEvent($eventId, $userId, $type) {
+        self::send("event", "joinEvent", array(
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => $type,
+            "time" => time()
+        ));
+    }
+
+    /*
+     * low priority
+     */
+
+    public static function addEventForOthers($eventId, $userId) {
+        self::send("event", "addEventForOthers", array(
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => REDIS_USER_INTERACTION_CREATED_FOR_OTHER,
+            "time" => time()
+        ));
+    }
+
+    public static function updateEventForOthers($eventId) {
+        self::send("event", "updateEventForOthers", array(
+            "eventID" => $eventId,
+            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "time" => time()
+        ));
+    }
+
+    public static function updateEventInfo($eventId) {
+        self::send("event", "updateEventInfo", array(
+            "eventID" => $eventId,
+            "type" => REDIS_USER_INTERACTION_UPDATED,
+            "time" => time()
+        ));
+    }
+
+    public static function addEventToFollowers($eventId, $userId, $type) {
+        self::send("event", "addEventToFollowers", array(
             "eventID" => $eventId,
             "userID" => $userId,
             "type" => $type,
@@ -101,13 +123,6 @@ class Queue {
         self::send("user", "updateUser", array(
             "userID" => $userId,
             "type" => REDIS_USER_UPDATE,
-            "time" => time()
-        ));
-    }
-
-    public static function addCategory($categoryID) {
-        self::send("category", "addCategory", array(
-            "categoryID" => $categoryID,
             "time" => time()
         ));
     }

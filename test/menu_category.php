@@ -13,6 +13,5 @@ header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
 HttpAuthUtils::checkHttpAuth();
-Queue::addCategory(4615498);
 
 ?>

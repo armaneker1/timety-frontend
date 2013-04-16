@@ -44,7 +44,7 @@ foreach ($eventList as $event) {
             $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $creator->userName);
             $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $creator->userPicture);
             $evnt->save();
-            Queue::updateEvent($id, $creator->id);
+            Queue::updateEvent($id);
         }
     } catch (Exception $exc) {
         echo $exc->getTraceAsString();

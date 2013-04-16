@@ -268,7 +268,7 @@ class EventProcessor {
             $log->logInfo("event > likeEvent >  event empty");
         }
     }
-    
+
     public function reshareEvent() {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
 
@@ -316,6 +316,94 @@ class EventProcessor {
         }
     }
 
+    public function joinEvent() {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+
+        $log->logInfo("event > joinEvent >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
+
+        $redis = new Predis\Client();
+        $event = new Event();
+        $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
+        if (!empty($event)) {
+            try {
+                $event->getHeaderImage();
+                $event->images = array();
+                $event->getAttachLink();
+                $event->getTags();
+                $event->getLocCity();
+                $event->getWorldWide();
+                $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+                $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+            } catch (Exception $exc) {
+                $log->logError("event > joinEvent Error" . $exc->getTraceAsString());
+                return;
+            }
+
+            /*
+             *  adding my timety
+             */
+            if (!empty($this->userID)) {
+                $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //get user rel to event
+                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result && $event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+            }
+            Queue::addEventToFollowers($this->eventID, $this->userID, $this->type);
+            Queue::updateEventInfo($this->eventID);
+        } else {
+            $log->logInfo("event > joinEvent >  event empty");
+        }
+    }
+
+    public function updateEventInfo() {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+
+        $log->logInfo("event > updateEventInfo >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
+        $redis = new Predis\Client();
+        $event = new Event();
+        $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
+        if (!empty($event)) {
+            try {
+                $event->getHeaderImage();
+                $event->images = array();
+                $event->getAttachLink();
+                $event->getTags();
+                $event->getLocCity();
+                $event->getWorldWide();
+                $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+                $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+            } catch (Exception $exc) {
+                $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
+            }
+
+            $keyList = EventKeyListUtil::getEventKeyList($event->id);
+            if (!empty($keyList)) {
+                foreach ($keyList as $key) {
+                    $key = $key->getKey();
+                    $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                    $it = $redis->removeItemByIdReturnItem($key, $event->id);
+                    if (!empty($it)) {
+                        $evt = json_decode($it);
+                        $evt = UtilFunctions::cast('Event', $evt);
+                        $event->userEventLog = $evt->userEventLog;
+                        RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    } else {
+                        $log->logError("event > updateEvent Event and empty");
+                    }
+                }
+            }
+        }
+    }
+
     public function updateEvent() {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
@@ -337,11 +425,9 @@ class EventProcessor {
             } catch (Exception $exc) {
                 $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
             }
-
-            $effectedKeys = array();
-
+            $this->userID = $event->creatorId;
             /*
-             * my timety
+             * creator my timety
              */
             if (!empty($this->userID)) {
                 $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');

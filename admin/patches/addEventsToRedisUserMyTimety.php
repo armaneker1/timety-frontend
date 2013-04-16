@@ -57,7 +57,7 @@ foreach ($array as $usr) {
         foreach ($events as $evt) {
             echo "<p>$i -- $j Event Id :" . $evt->getProperty(PROP_EVENT_ID) . "</p>";
             $j++;
-            Queue::socialInteraction($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_JOIN);
+            Queue::joinEvent($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_JOIN);
         }
 
         echo "<p><h3>$i User Id :" . $usr->getProperty(PROP_USER_ID) . " said maybe </h3></p>";
@@ -66,7 +66,7 @@ foreach ($array as $usr) {
         foreach ($events as $evt) {
             echo "<p>$i -- $j Event Id :" . $evt->getProperty(PROP_EVENT_ID) . "</p>";
             $j++;
-            Queue::socialInteraction($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_MAYBE);
+            Queue::joinEvent($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_MAYBE);
         }
 
 

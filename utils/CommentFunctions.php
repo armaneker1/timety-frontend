@@ -95,7 +95,7 @@ class CommentUtil {
             $ev=new Event();
             $ev=  EventUtil::getEventById($comment->eventId);
             NotificationUtils::insertNotification(NOTIFICATION_TYPE_COMMENT, $ev->creatorId, $comment->userId,$comment->eventId);
-            Queue::updateEvent($comment->eventId, null);
+            Queue::updateEventInfo($comment->eventId);
             return CommentUtil::getCommentById($id);
         } else {
             return null;
