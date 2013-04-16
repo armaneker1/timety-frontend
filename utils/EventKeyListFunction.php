@@ -34,10 +34,21 @@ class EventKeyListUtil {
         }
     }
 
-    public static function deleteRecordForEvent($eventId) {
+    public static function deleteAllRecordForEvent($eventId) {
         if (!empty($eventId)) {
             $SQL = "DELETE  from " . TBL_EVENT_KEY_LIST . " WHERE eventId=" . $eventId;
             mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
+    public static function deleteRecordForEvent($eventId, $key) {
+        if (!empty($eventId)) {
+            try {
+                $SQL = "DELETE  from " . TBL_EVENT_KEY_LIST . " WHERE eventId=" . $eventId . " AND key='" . $key . "'";
+                mysql_query($SQL);
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
         }
     }
 

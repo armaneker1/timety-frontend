@@ -177,6 +177,98 @@ class EventProcessor {
         }
     }
 
+    public function addEventToFollowers() {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log->logInfo("event > addEventToFollowers >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
+        $redis = new Predis\Client();
+        $event = new Event();
+        $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
+        if (!empty($event)) {
+            try {
+                $event->getHeaderImage();
+                $event->images = array();
+                $event->getAttachLink();
+                $event->getTags();
+                $event->getLocCity();
+                $event->getWorldWide();
+                $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+                $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+            } catch (Exception $exc) {
+                $log->logError("event > likeEvent Error" . $exc->getTraceAsString());
+                return;
+            }
+            /*
+             * adding followers list
+             */
+            if (!empty($this->userID)) {
+                $followers = Neo4jUserUtil::getUserFollowerList($this->userID);
+                if (!empty($followers)) {
+                    foreach ($followers as $follower) {
+                        if (!empty($follower) && !empty($follower->id)) {
+                            $key = REDIS_PREFIX_USER . $follower->id . REDIS_SUFFIX_FOLLOWING;
+                            $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                            $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                            $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $follower->id);
+                            if ($this->addUserEventLog($it, $event) && $event->privacy . "" == "true") {
+                                RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                                EventKeyListUtil::updateEventKey($this->eventID, $key);
+                            } else {
+                                EventKeyListUtil::deleteRecordForEvent($this->eventID, $key);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function likeEvent() {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+
+        $log->logInfo("event > likeEvent >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
+
+        $redis = new Predis\Client();
+        $event = new Event();
+        $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
+        if (!empty($event)) {
+            try {
+                $event->getHeaderImage();
+                $event->images = array();
+                $event->getAttachLink();
+                $event->getTags();
+                $event->getLocCity();
+                $event->getWorldWide();
+                $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+                $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+            } catch (Exception $exc) {
+                $log->logError("event > likeEvent Error" . $exc->getTraceAsString());
+                return;
+            }
+
+            /*
+             *  adding my timety
+             */
+            if (!empty($this->userID)) {
+                $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //get user rel to event
+                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result && $event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+            }
+            Queue::addEventToFollowers($this->eventID, $this->userID, $this->type);
+        } else {
+            $log->logInfo("event > likeEvent >  event empty");
+        }
+    }
+
     public function updateEvent() {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 

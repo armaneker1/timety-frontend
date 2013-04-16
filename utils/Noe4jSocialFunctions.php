@@ -25,7 +25,7 @@ class SocialUtil {
                 SocialUtil::incLikeCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
-                Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
+                Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 3));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());
@@ -54,7 +54,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 SocialUtil::decLikeCountAsync($userId, $eventId);
-                Queue::socialInteraction($eventId, $userId, REDIS_USER_INTERACTION_UNLIKE);
+                Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_UNLIKE);
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 3));
             } catch (Exception $e) {
                 log("Error" + $e->getMessage());

@@ -76,7 +76,7 @@ foreach ($array as $usr) {
         foreach ($events as $evt) {
             echo "<p>$i -- $j Event Id :" . $evt->getProperty(PROP_EVENT_ID) . "</p>";
             $j++;
-            Queue::socialInteraction($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_LIKE);
+            Queue::likeEvent($evt->getProperty(PROP_EVENT_ID), $id, REDIS_USER_INTERACTION_LIKE);
         }
 
         echo "<p><h3>$i User Id :" . $usr->getProperty(PROP_USER_ID) . " reshared </h3></p>";

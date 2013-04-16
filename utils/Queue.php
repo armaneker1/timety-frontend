@@ -24,7 +24,7 @@ class Queue {
             "time" => time()
         ));
     }
-    
+
     public static function addEventForOthers($eventId, $userId) {
         self::send("event", "addEventForOthers", array(
             "eventID" => $eventId,
@@ -46,6 +46,24 @@ class Queue {
           "time" => time()
           )); */
     }
+    
+    public static function addEventToFollowers($eventId, $userId, $type){
+        self::send("event", "addEventToFollowers", array(
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => $type,
+            "time" => time()
+        ));
+    }
+
+    public static function likeEvent($eventId, $userId, $type) {
+        self::send("event", "likeEvent", array(
+            "eventID" => $eventId,
+            "userID" => $userId,
+            "type" => $type,
+            "time" => time()
+        ));
+    }
 
     public static function socialInteraction($eventId, $userId, $type) {
         self::send("event", "updateEvent", array(
@@ -54,10 +72,6 @@ class Queue {
             "type" => $type,
             "time" => time()
         ));
-        /* self::send("category", "updateEvent", array(
-          "eventID" => $eventId,
-          "time" => time()
-          )); */
     }
 
     public static function followUser($fromUserId, $toUserId) {
