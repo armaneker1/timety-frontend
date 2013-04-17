@@ -22,7 +22,7 @@ class EventKeyListUtil {
     public static function getEventKeyList($evetnId) {
         if (!empty($evetnId)) {
             $SQL = "SELECT * FROM " . TBL_EVENT_KEY_LIST . " WHERE eventId=" . $evetnId;
-            $keyList = TimeteEventKeyList::findByFilter(DBUtils::getConnection(), $SQL);
+            $keyList = TimeteEventKeyList::findBySql(DBUtils::getConnection(), $SQL);
             return $keyList;
         }
     }

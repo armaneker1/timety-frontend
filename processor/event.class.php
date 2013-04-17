@@ -400,6 +400,7 @@ class EventProcessor {
 
             $keyList = EventKeyListUtil::getEventKeyList($event->id);
             if (!empty($keyList)) {
+                $log->logError("event > updateEventInfoForOthers size keylist : ".  sizeof($keyList));
                 foreach ($keyList as $key) {
                     $key = $key->getKey();
                     $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
