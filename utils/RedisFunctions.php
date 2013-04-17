@@ -97,7 +97,7 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUpcomingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $tagIds = null) {
+    public static function getUpcomingEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $city_channel = -1, $tagIds = null) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (empty($date)) {
             $date = time();
@@ -107,7 +107,23 @@ class RedisUtils {
         $pgStart = $pageNumber * $pageItemCount;
         $pgEnd = $pgStart + $pageItemCount - 1;
         //$log->logInfo("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
-        $events = $redis->zrangebyscore(REDIS_LIST_UPCOMING_EVENTS, $date, "+inf");
+        $key = REDIS_PREFIX_CITY . "5";
+        if ($city_channel > 0) {
+            $key = REDIS_PREFIX_CITY . $city_channel;
+        } else {
+            if (!empty($userId)) {
+                $c = UserUtils::getUserCityId($userId);
+                if (!empty($c)) {
+                    $key = REDIS_PREFIX_CITY . $c;
+                } else {
+                    $key = REDIS_PREFIX_CITY . "5";
+                }
+            } else {
+                $key = REDIS_PREFIX_CITY . "5";
+            }
+        }
+
+        $events = $redis->zrangebyscore($key, $date, "+inf");
         //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
         $result = "[";
         $ik = 0;
@@ -1155,7 +1171,7 @@ class RedisUtils {
                         if (($event->loc_city == $user_loc)) {
                             RedisUtils::addItem($redis, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING, json_encode($event), $event->startDateTimeLong);
                             EventKeyListUtil::updateEventKey($event->id, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING);
-                        }else{
+                        } else {
                             EventKeyListUtil::deleteRecordForEvent($event->id, REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING);
                         }
                     }

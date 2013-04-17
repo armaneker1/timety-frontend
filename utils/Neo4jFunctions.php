@@ -1052,7 +1052,7 @@ class Neo4jFuctions {
                 }
             }
             if ($check) {
-                return RedisUtils::getUpcomingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $tagIds);
+                return RedisUtils::getUpcomingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $city_channel, $tagIds);
             } else {
                 return $recommended;
             }
