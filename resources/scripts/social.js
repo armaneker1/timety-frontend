@@ -1,6 +1,14 @@
 function updateBadge(field,val,userPage) {
     if(!userPage){
         userPage=false;
+        try{
+            var isuser=document.isuser;
+            if(isuser){
+                userPage=true;
+            }
+        }catch(exp){
+            console.log(exp);
+        }
     }
     var element=null;
     if(field==1) {

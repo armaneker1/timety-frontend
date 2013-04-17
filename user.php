@@ -194,7 +194,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                        
+                                                                                                                                            
             </script>
 
 
@@ -235,6 +235,20 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
     <body class="bg">
         <?php $page_id = "user"; ?>
         <?php include('layout/layout_top.php'); ?>
+
+        <?php
+        $isProfile = false;
+        if (!empty($user)) {
+            if ($user->id == $p_user_id) {
+                $isProfile = true;
+            }
+        }
+        if (!$isProfile) {
+            ?>
+            <script>
+                document.isuser=true;
+            </script>
+        <?php } ?>
 
         <div class="main_sol" style="width:91%;">
             <div class="ust_blm">
@@ -692,10 +706,10 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     </a>
                                                 </li>
                                                 <li><a href="#" class="<?php
-                                                $time_zone="+00:00";
-                                                if(!empty($user)){
-                                                    $time_zone=$user->time_zone;
-                                                }
+                            $time_zone = "+00:00";
+                            if (!empty($user)) {
+                                $time_zone = $user->time_zone;
+                            }
                             $tt = $main_event->getRemainingTime($time_zone);
                             if ($tt == "Past") {
                                 echo "turuncu_link";
