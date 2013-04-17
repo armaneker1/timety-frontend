@@ -408,6 +408,7 @@ class EventProcessor {
                     if (!empty($it)) {
                         $evt = json_decode($it);
                         $evt = UtilFunctions::cast('Event', $evt);
+                        $event->userRelation = $evt->userRelation;
                         $event->userEventLog = $evt->userEventLog;
                         RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
                     } else {
