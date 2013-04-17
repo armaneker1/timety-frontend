@@ -229,18 +229,22 @@ if (isset($_POST['update'])) {
     $te_location_cor_x = $_POST['te_location_cor_x'];
     $te_location_cor_y = $_POST['te_location_cor_y'];
 
-    $updateEvents = false;
+    $updateEvents = false; 
     if ($user->userName != $username) {
         $updateEvents = true;
-    }
-    $user->userName = $username;
+    } 
     if ($user->firstName != $name) {
         $updateEvents = true;
-    }
-    $user->firstName = $name;
+    } 
     if ($user->lastName != $lastname) {
         $updateEvents = true;
     }
+    if ($user->about != $about) {
+        $updateEvents = true;
+    }
+
+    $user->userName = $username;
+    $user->firstName = $name;
     $user->lastName = $lastname;
     $user->email = $email;
     $user->birthdate = $te_birthday;
@@ -278,7 +282,9 @@ if (isset($_POST['update'])) {
         UserUtils::addUserInfoNeo4j($user);
         $success = true;
         if ($updateEvents)
+        {
             UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id']));
+        }
     }
 
     $_SESSION['pr_email'] = $email;

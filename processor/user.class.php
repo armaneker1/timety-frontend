@@ -12,7 +12,7 @@ class UserProcessor {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("user > updateUser >  start userId : " . $this->userID . " type : " . $this->type . " time : " . $this->time);
-
+        
         $redis = new Predis\Client();
         if (!empty($this->userID)) {
             $user = UserUtils::getUserById($this->userID);
@@ -43,7 +43,7 @@ class UserProcessor {
                             $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($evt->id, $this->userID);
 
                             $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
-                            $redis->removeItemByIdReturnItem($key, $evt->id);
+                            $redis->removeItemById($key, $evt->id);
                             RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
                             Queue::updateEventInfoForOthers($evt->id, $evt->creatorId, REDIS_USER_INTERACTION_UPDATED);
                         }
