@@ -131,7 +131,7 @@ if (isset($_POST["save_thumb"]) && $_POST["save_thumb"] == "Save Thumbnail") {
             }
             echo "success|" . HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . $_SESSION['user_file_ext'] . "|" . HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . $_SESSION['user_file_ext'];
 
-            UserUtils::changeserProfilePic($userId, HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . $_SESSION['user_file_ext'], "UPLOAD");
+            UserUtils::changeserProfilePic($userId, HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . $_SESSION['user_file_ext'], "UPLOAD", TRUE);
             $_SESSION['random_key'] = "";
             $_SESSION['user_file_ext'] = "";
 

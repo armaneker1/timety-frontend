@@ -87,7 +87,7 @@ if (isset($_GET['type']) && $_GET['type'] == 2 && $_GET['userId'] && !empty($_GE
         $quality = 10;
     }
     imagejpeg($image, $source_url, $quality);
-    $result->userPic = UserUtils::changeserProfilePic($_GET['userId'], HOSTNAME . UPLOAD_FOLDER . 'users/' . $_GET['userId'] . '/' . $imgName, null);
+    //$result->userPic = UserUtils::changeserProfilePic($_GET['userId'], HOSTNAME . UPLOAD_FOLDER . 'users/' . $_GET['userId'] . '/' . $imgName, null);
     echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 }
 

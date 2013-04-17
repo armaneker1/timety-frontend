@@ -183,7 +183,7 @@ if (isset($_POST['te_username'])) {
                 $user->location_cor_y = $te_location_cor_y;
                 UserUtils::addUserLocation($user->id, $te_location_country, LocationUtils::getCityId($te_location_city), $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
                 UserUtils::addUserInfoNeo4j($user);
-                $userProfilePic = UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType);
+                $userProfilePic = UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType,FALSE);
                 /*
                  * check user is invited
                  */

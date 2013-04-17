@@ -229,8 +229,18 @@ if (isset($_POST['update'])) {
     $te_location_cor_x = $_POST['te_location_cor_x'];
     $te_location_cor_y = $_POST['te_location_cor_y'];
 
+    $updateEvents = false;
+    if ($user->userName != $username) {
+        $updateEvents = true;
+    }
     $user->userName = $username;
+    if ($user->firstName != $name) {
+        $updateEvents = true;
+    }
     $user->firstName = $name;
+    if ($user->lastName != $lastname) {
+        $updateEvents = true;
+    }
     $user->lastName = $lastname;
     $user->email = $email;
     $user->birthdate = $te_birthday;
@@ -267,7 +277,8 @@ if (isset($_POST['update'])) {
         UserUtils::addUserLocation($user->id, $te_location_country, LocationUtils::getCityId($te_location_city), $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
         UserUtils::addUserInfoNeo4j($user);
         $success = true;
-        UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id']));
+        if ($updateEvents)
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id']));
     }
 
     $_SESSION['pr_email'] = $email;

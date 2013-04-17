@@ -348,7 +348,7 @@ class UserUtils {
         }
     }
 
-    public static function changeserProfilePic($uid, $url, $type) {
+    public static function changeserProfilePic($uid, $url, $type, $updateInfo = false) {
         if (!empty($uid)) {
             if (empty($url)) {
                 $url = "images/anonymous.jpg";
@@ -360,7 +360,8 @@ class UserUtils {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid";
             mysql_query($SQL) or die(mysql_error());
-            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $uid));
+            if ($updateInfo)
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $uid));
         }
         return $url;
     }
