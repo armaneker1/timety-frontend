@@ -103,10 +103,8 @@ class RedisUtils {
             $date = time();
         }
         $redis = new Predis\Client();
-        //$log->logInfo("RedisUtils > getUpcomingEvents > start");
         $pgStart = $pageNumber * $pageItemCount;
         $pgEnd = $pgStart + $pageItemCount - 1;
-        //$log->logInfo("RedisUtils > getUpcomingEvents > index " . $pgStart . " end " . $pgEnd);
         $key = REDIS_PREFIX_CITY . "5";
         if ($city_channel > 0) {
             $key = REDIS_PREFIX_CITY . $city_channel;
@@ -122,9 +120,7 @@ class RedisUtils {
                 $key = REDIS_PREFIX_CITY . "5";
             }
         }
-
         $events = $redis->zrangebyscore($key, $date, "+inf");
-        //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
         $result = "[";
         $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
@@ -152,7 +148,6 @@ class RedisUtils {
             }
         }
         $result = $result . "]";
-        //$log->logInfo("RedisUtils > getUpcomingEvents > result  ");
         return $result;
     }
 
