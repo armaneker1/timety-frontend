@@ -434,6 +434,9 @@ class Neo4jUserUtil {
                     $reshares_count = Neo4jUserUtil::getUserResharesCount($userId);
                     $user->setProperty(PROP_USER_STA_RESHARES_COUNT, $reshares_count);
                     $joined_count = Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES);
+                    //maybe de sayılsın
+                    $joined_count = $joined_count + Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_MAYBE);
+                    //maybe de sayılsın
                     $user->setProperty(PROP_USER_STA_JOINED_COUNT, $joined_count);
                     $created_count = Neo4jUserUtil::getUserCreatedCount($userId);
                     $user->setProperty(PROP_USER_STA_CREATED_COUNT, $created_count);
