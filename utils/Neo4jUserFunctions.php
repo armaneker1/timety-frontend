@@ -439,7 +439,7 @@ class Neo4jUserUtil {
                     $user->setProperty(PROP_USER_STA_CREATED_COUNT, $created_count);
                     $user->save();
                     UserUtils::updateUserStatistic($userId, $following_count, $followers_count, $likes_count, $reshares_count, $joined_count, $created_count);
-                    error_log("User Id : ".$userId." ".$joined_count);
+                    error_log("User Id : " . $userId . " " . $joined_count);
                 } else if ($type == 1) {
                     $following_count = Neo4jUserUtil::getUserFollowingCount($userId);
                     $user->setProperty(PROP_USER_STA_FOLLOWINGS_COUNT, $following_count);
@@ -462,6 +462,9 @@ class Neo4jUserUtil {
                     UserUtils::updateUserReshareLikeStat($userId, $reshares_count);
                 } else if ($type == 5) {
                     $joined_count = Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_YES);
+                    //maybe de sayılsın
+                    $joined_count = $joined_count + Neo4jUserUtil::getUserJoinsCount($userId, TYPE_JOIN_MAYBE);
+                    //maybe de sayılsın
                     $user->setProperty(PROP_USER_STA_JOINED_COUNT, $joined_count);
                     $user->save();
                     UserUtils::updateUserJoinLikeStat($userId, $joined_count);

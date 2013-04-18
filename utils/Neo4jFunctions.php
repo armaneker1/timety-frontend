@@ -91,7 +91,6 @@ class Neo4jFuctions {
                     $result->success = true;
                     $result->error = false;
                     Neo4jEventUtils::increaseAttendanceCount($eventId);
-
                     Queue::joinEvent($eventId, $userId, REDIS_USER_INTERACTION_JOIN);
                 } else if ($resp == 0 || $resp == 5) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_NO);
