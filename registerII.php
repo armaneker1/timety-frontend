@@ -53,8 +53,6 @@ if (empty($user)) {
     if (!empty($user) && $user->status != 1) {
         if (!isset($_SESSION['renewlikes'])) {
             SessionUtil::checkUserStatus($user,true);
-        } else {
-            unset($_SESSION['renewlikes']);
         }
     }
 
