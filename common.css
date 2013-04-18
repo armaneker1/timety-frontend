@@ -1033,10 +1033,10 @@ input[type=text]::-ms-clear {
 
 .ust_blm {
     min-height: 115px;
-    /* width: 100%; */
+    /* width: 100%; 
     background-image: url(images/kare.png);
     background-repeat: repeat-x;
-    background-position: bottom;
+    background-position: bottom;*/
     padding-top: 20px;
     margin-bottom: 15px;
 }
@@ -2287,16 +2287,16 @@ span.roll {
 }
 
 .city_top_input{
-    width:155px;
-    height:35px;
+    width: 175px;
+    height: 35px;
     float: left;
     border: none;
     margin: 0px;
-    margin-left: 57px;
+    margin-left: 10px;
     padding-left: 20px;
     background-image: url('images/layout_top_icons.png');
     background-repeat: no-repeat;
-    background-position:0px -24px
+    background-position: 0px -24px;
 }
 
 /* div layout top search */
@@ -2909,4 +2909,58 @@ span.roll {
 
 .privacy_terms a{
     cursor: pointer;
+}
+
+/* my timty category  */
+
+.mytimety_category_item_recommended_div{
+    display: inline-block;
+    width: 160px;
+}
+
+.mytimety_category_item_everything_div{
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    margin-left: 5px;
+}
+
+
+.mytimety_category_table{
+    padding-top: 10px;
+    width: 100%;
+}
+
+.mytimety_category_item{
+    font-size: 15px;
+    line-height: 15px;
+    cursor: pointer;
+}
+
+.mytimety_category_item_selected{
+    font-weight: bold;
+}
+
+.mytimety_category_item_categories_btn{
+    display: inline-block;
+    width: 80px;
+}
+
+.mytimety_category_item_categories_container{
+    min-width: 230px;
+    min-height: 70px;
+    position: absolute;
+    height: auto;
+    margin-left: -55px;
+    margin-top: -5px;
+}
+.mytimety_category_item_categories_container .my_timete_popup{
+    width: 165px;
+}
+
+.mytimety_category_item_categories_container .kck_detay_ok{
+    right: 75px;
+}
+.mytimety_category_item_categories_container ul li{
+    width: 87% !important;
 }

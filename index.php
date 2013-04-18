@@ -520,7 +520,7 @@ if (empty($user)) {
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
                     new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -707,7 +707,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                    
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -805,7 +805,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                            
+                                                                                                                                                                            
             </script>
 
 
@@ -1059,6 +1059,7 @@ if (empty($user)) {
                                 </div>
                             </td>
                         </tr>
+                        <?php include('layout/layout_mytimety_menu.php'); ?>
                     </table>
                 </div>
             </div>
@@ -1326,10 +1327,10 @@ if (empty($user)) {
                                                     </a>
                                                 </li>
                                                 <li><a href="#" class="<?php
-                                                $time_zone="+00:00";
-                                                if(!empty($user)){
-                                                    $time_zone=$user->time_zone;
-                                                }
+                            $time_zone = "+00:00";
+                            if (!empty($user)) {
+                                $time_zone = $user->time_zone;
+                            }
                             $tt = $main_event->getRemainingTime($user->time_zone);
                             if ($tt == "Past") {
                                 echo "turuncu_link";

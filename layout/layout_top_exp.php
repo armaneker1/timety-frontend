@@ -63,38 +63,40 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                         id="city_top" 
                         autocomplete="off"
                         value="<?= $city_top_name ?>"/> 
-                    <div id="category_select_btn" class="category_select_btn">
-                        <div class="category_menu"></div>
-                        <span class="category_seperator">|</span>
-                        <div id="populer_top_menu" class="my_timete_popup_popular_container" style="display: none;">
-                            <div  class="my_timete_popup" >
-                                <div class="kck_detay_ok"></div>
-                                <ul id="populer_top_menu_ul">
-                                    <li channelid="1" id="cat_id_all" style="cursor:pointer"  slc="true">
-                                        <button type="button" class="kapat icon_bg"></button>
-                                        <span>Recommended</span>
-                                    </li>
-                                    <li cat_id="-1" id="cat_id_all" style="cursor:pointer"  slc="false">
-                                        <button type="button" class="ekle icon_bg"></button>
-                                        <span>Everything</span>
-                                    </li>
-                                    <?php
-                                    $cats = MenuUtils::getCategories($user->language);
-                                    foreach ($cats as $cat) {
-                                        ?>
-                                        <li cat_id="<?= $cat->getId() ?>" id="cat_id<?= $cat->getId() ?>" style="cursor:pointer"  slc="false">
+                        <?php if (false) { ?>
+                        <div id="category_select_btn" class="category_select_btn">
+                            <div class="category_menu"></div>
+                            <span class="category_seperator">|</span>
+                            <div id="populer_top_menu" class="my_timete_popup_popular_container" style="display: none;">
+                                <div  class="my_timete_popup" >
+                                    <div class="kck_detay_ok"></div>
+                                    <ul id="populer_top_menu_ul">
+                                        <li channelid="1" id="cat_id_all" style="cursor:pointer"  slc="true">
+                                            <button type="button" class="kapat icon_bg"></button>
+                                            <span>Recommended</span>
+                                        </li>
+                                        <li cat_id="-1" id="cat_id_all" style="cursor:pointer"  slc="false">
                                             <button type="button" class="ekle icon_bg"></button>
-                                            <span><?= $cat->getName() ?></span>
+                                            <span>Everything</span>
                                         </li>
                                         <?php
-                                    }
-                                    ?>
-                                </ul>
+                                        $cats = MenuUtils::getCategories($user->language);
+                                        foreach ($cats as $cat) {
+                                            ?>
+                                            <li cat_id="<?= $cat->getId() ?>" id="cat_id<?= $cat->getId() ?>" style="cursor:pointer"  slc="false">
+                                                <button type="button" class="ekle icon_bg"></button>
+                                                <span><?= $cat->getName() ?></span>
+                                            </li>
+                                            <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/cityutil.min.js"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/cityutil.js?55"></script>
 
 
             <?php } ?>
@@ -147,10 +149,9 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     </div>
     <!--top_blm_sol-->
 
-    <?php
-    if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) { ?>
+    <?php if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) { ?>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879133"></script>
-        <?php 
+        <?php
         if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI")) {
             ?>
             <script type="text/javascript">
@@ -170,7 +171,8 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     });
                 });
             </script>
-            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js?201308089744"></script>
+            <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js?201308089744"></script> -->
+            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popularv2.min.js?201308089788"></script>
             <?php
         }
     }

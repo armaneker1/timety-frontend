@@ -30,7 +30,7 @@ if (stripos($br, 'MSIE')) {
 
 
 <!-- CSS -->
-<link href="<?= HOSTNAME ?>common.css?201304755399" rel="stylesheet">
+<link href="<?= HOSTNAME ?>common.css?201304755311" rel="stylesheet">
 <link  href="<?= HOSTNAME ?>resources/styles/slide.css" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/modalpanel.css?34688" rel="stylesheet" type="text/css" />
 <link  href="<?= HOSTNAME ?>resources/styles/message.css" rel="stylesheet" type="text/css" />

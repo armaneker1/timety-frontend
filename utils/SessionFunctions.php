@@ -88,7 +88,7 @@ class SessionUtil {
         if (isset($_SESSION['id'])) {
             $user = new User();
             $user = UserUtils::getUserById($_SESSION['id']);
-            header("location: " . HOSTNAME);
+            @header("location: " . HOSTNAME);
             exit(1);
         } else {
             //check cookie
@@ -102,7 +102,7 @@ class SessionUtil {
                     $user = UserUtils::cookieLogin($timeHash, $clientGuid);
                     if (!empty($user)) {
                         $_SESSION['id'] = $user->id;
-                        header("location: " . HOSTNAME);
+                        @header("location: " . HOSTNAME);
                         exit(1);
                     }
                 }
@@ -118,11 +118,11 @@ class SessionUtil {
         if (!empty($user)) {
             $status = $user->status;
             if ($status == 0) {
-                header("location: " . PAGE_ABOUT_YOU);
+                @header("location: " . PAGE_ABOUT_YOU);
             } else if ($status == 1) {
-                header("location: " . PAGE_LIKES);
+                @header("location: " . PAGE_LIKES);
             } else if ($status == 2) {
-                header("location: " . PAGE_WHO_TO_FOLLOW);
+                @header("location: " . PAGE_WHO_TO_FOLLOW);
             } else {
                 $key = $user->id . "ieow";
                 $val = false;
@@ -136,12 +136,12 @@ class SessionUtil {
                         setcookie($key, false, time() + (5 * 24 * 60 * 60), "/");
                         $_SESSION["renewlikes"] = true;
                         $redirectHome = false;
-                        header("location: " . PAGE_LIKES);
+                        @header("location: " . PAGE_LIKES);
                     }
                 }
 
                 if ($redirectHome) {
-                    header("location: " . HOSTNAME);
+                    @header("location: " . HOSTNAME);
                 }
             }
         }
