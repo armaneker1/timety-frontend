@@ -4,7 +4,7 @@
  * Dependencies
  */
 require_once __DIR__ . '/../utils/SettingFunctions.php';
-
+error_reporting(E_ERROR | E_PARSE);
 define("SERVER_PROD", false);
 
 define('HOSTNAME', 'http://' . SettingsUtil::getSetting(SETTINGS_HOSTNAME));
