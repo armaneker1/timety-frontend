@@ -217,7 +217,7 @@ if (isset($_POST['te_username'])) {
         $user = UserUtils::getUserById($_SESSION['id']);
     if (!empty($user)) {
         if ($user->status != 0) {
-            SessionUtil::checkUserStatus($user);
+            SessionUtil::checkUserStatus($user,true);
         }
         $socialProviders = $user->socialProviders;
         if (!empty($socialProviders)) {

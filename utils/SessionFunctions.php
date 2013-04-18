@@ -2,7 +2,7 @@
 
 class SessionUtil {
 
-    public static function isUser($userId=null) {
+    public static function isUser($userId = null) {
         if (!empty($userId)) {
             if (!empty($_SESSION['id']) && $_SESSION['id'] == $userId) {
                 return true;
@@ -114,7 +114,7 @@ class SessionUtil {
     // 1-> user entered name,surname email.. user should see registerII.php
     // 2-> user entered his interests.. user should go friend requeste
     // 3-> user finished register
-    public static function checkUserStatus(User $user) {
+    public static function checkUserStatus(User $user, $redirectHome = false) {
         if (!empty($user)) {
             $status = $user->status;
             if ($status == 0) {
@@ -123,6 +123,26 @@ class SessionUtil {
                 header("location: " . PAGE_LIKES);
             } else if ($status == 2) {
                 header("location: " . PAGE_WHO_TO_FOLLOW);
+            } else {
+                $key = $user->id . "ieow";
+                $val = false;
+                if (isset($_COOKIE[$key]))
+                    $val = $_COOKIE[$key];
+                if (!(!empty($val) && $val)) {
+                    $tags = Neo4jUserUtil::getUserTimetyTags($user->id);
+                    if (!empty($tags) && sizeof($tags)) {
+                        setcookie($key, true, time() + (5 * 24 * 60 * 60), "/");
+                    } else {
+                        setcookie($key, false, time() + (5 * 24 * 60 * 60), "/");
+                        $_SESSION["renewlikes"] = true;
+                        $redirectHome = false;
+                        header("location: " . PAGE_LIKES);
+                    }
+                }
+
+                if ($redirectHome) {
+                    header("location: " . HOSTNAME);
+                }
             }
         }
     }
