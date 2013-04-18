@@ -364,6 +364,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                 </div>
                             </td>
                         </tr>
+                         <?php include('layout/layout_mytimety_menu.php'); ?>
                     </table>
                 </div>
             </div>
