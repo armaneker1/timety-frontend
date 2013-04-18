@@ -72,7 +72,13 @@ function importPicture(type,crop)
                             if(data.pic){
                                 c_responseLargeImage=data.pic;
                                 if(crop){
-                                    jQuery('#uploaded_image_div').find('#uploaded_image').attr("src",data.pic);
+                                    var current_width = data.width;
+                                    var current_height = data.height;
+                                    
+                                    var img=jQuery('#uploaded_image_div').find('#uploaded_image');
+                                    img.attr("src",data.pic);
+                                    img.css("width",current_width);
+                                    img.css("height",current_height);
                                     jQuery('#div_follow_trans_').show();
                                     jQuery('#thumbnail_form').show();
                                     jQuery('#upload_text').show();
@@ -87,13 +93,25 @@ function importPicture(type,crop)
 
                                     var preview = jQuery('#preview-pane');
                                     var pcnt = jQuery('#preview-pane .preview-container');
-                                    var pimg = jQuery('#preview-pane .preview-container img');
 
+                                    
+                
                                     var  xsize = pcnt.width();
                                     var  ysize = pcnt.height();
                 
-                                    var s_size=100;
+                                    var s_size=current_height;
+                
+                                    if(current_width<current_height){
+                                        s_size=current_width;
+                                    }
                             
+                                    if(jcrop_api){
+                                        try{
+                                            jcrop_api.destroy();
+                                        }catch(exp){
+                                            console.log(exp);
+                                        }
+                                    } 
                                     jQuery('#uploaded_image').Jcrop({
                                         onChange: updatePreviewCrop,
                                         onSelect: updatePreviewCrop,
@@ -257,11 +275,16 @@ jQuery(document).ready(function () {
             var ext = filename.match(/\.([^\.]+)$/)[1];
             switch(ext)
             {
-                case 'jpg': break;
-                case 'jpeg':break;
-                case 'bmp':break;
-                case 'png':break;
-                case 'gif':break;
+                case 'jpg':
+                    break;
+                case 'jpeg':
+                    break;
+                case 'bmp':
+                    break;
+                case 'png':
+                    break;
+                case 'gif':
+                    break;
                 default:{
                     alert('not allowed fie type');
                     jQuery("#upload_photo input[type='file']").val("");
@@ -284,7 +307,10 @@ jQuery(document).ready(function () {
                 var current_width = response[2];
                 var current_height = response[3];
                 
-                jQuery('#uploaded_image_div').find('#uploaded_image').attr("src",responseMsg);
+                var img=jQuery('#uploaded_image_div').find('#uploaded_image');
+                img.attr("src",responseMsg);
+                img.css("width",current_width);
+                img.css("height",current_height);
                 jQuery('#div_follow_trans_').show();
                 jQuery('#thumbnail_form').show();
                 jQuery('#upload_text').show();
@@ -299,7 +325,6 @@ jQuery(document).ready(function () {
 
                 var preview = jQuery('#preview-pane');
                 var pcnt = jQuery('#preview-pane .preview-container');
-                var pimg = jQuery('#preview-pane .preview-container img');
 
                 var  xsize = pcnt.width();
                 var  ysize = pcnt.height();
@@ -309,7 +334,13 @@ jQuery(document).ready(function () {
                 if(current_width<current_height){
                     s_size=current_width;
                 }
-                            
+                if(jcrop_api){
+                    try{
+                        jcrop_api.destroy();
+                    }catch(exp){
+                        console.log(exp);
+                    }
+                }    
                 jQuery('#uploaded_image').Jcrop({
                     onChange: updatePreviewCrop,
                     onSelect: updatePreviewCrop,

@@ -129,6 +129,19 @@ class ImageUtil {
         array_push($array, 0);
         return $array;
     }
+    
+    public static function getRealSize($imagePath) {
+        $array = array();
+        if (!empty($imagePath) && file_exists($imagePath)) {
+            $size = getimagesize($imagePath);
+            array_push($array, $size[0]);
+            array_push($array, $size[1]);
+            return $array;
+        }
+        array_push($array, -1);
+        array_push($array, -1);
+        return $array;
+    }
 
     public static function getSocialElementPhoto($id, $socialType) {
         $url = "";
