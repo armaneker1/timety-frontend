@@ -378,7 +378,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                 <?php if (!empty($p_user) && !empty($p_user->id)) { ?>
                     <div class="profil_box main_event_box">
                         <div class="profil_resim">
-                            <img src="<?php echo PAGE_GET_IMAGEURL . urlencode($p_user->getUserPic()) . "&h=176&w=176&zc=2" ?>" width="176" height="176" />
+                            <img src="<?php echo $p_user->getUserPic() ?>" width="176" height="176" />
                         </div>
                         <div class="profil_user">
                             <div class="bgln_user">
