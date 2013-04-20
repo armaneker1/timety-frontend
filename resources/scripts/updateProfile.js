@@ -273,6 +273,7 @@ jQuery(document).ready(function () {
         onSubmit: function() {
             var filename= jQuery("#upload_photo input[type='file']").val();
             var ext = filename.match(/\.([^\.]+)$/)[1];
+            ext=ext.toLowerCase();
             switch(ext)
             {
                 case 'jpg':
