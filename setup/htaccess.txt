@@ -1,57 +1,65 @@
 RewriteEngine On
 
-RewriteRule ^timety/gettingstarted/about-you/$ /timety/gettingstarted/about-you [R]
-RewriteRule ^timety/gettingstarted/about-you$ /timety/registerPI.php
 
-RewriteRule ^timety/gettingstarted/likes/$ /timety/registerII.php [R]
-RewriteRule ^timety/gettingstarted/likes$ /timety/registerII.php
+RewriteCond %{HTTP_USER_AGENT} ^
 
+RewriteRule ^gettingstarted/about-you/$ /gettingstarted/about-you [R]
+RewriteRule ^gettingstarted/about-you$ /registerPI.php
 
-RewriteRule ^timety/gettingstarted/who-to-follow/$ /timety/gettingstarted/who-to-follow [R]
-RewriteRule ^timety/gettingstarted/who-to-follow$ /timety/suggest-friend.php
-
-
-RewriteRule ^timety/signup/$ /timety/signup [R]
-RewriteRule ^timety/signup$ /timety/createaccount.php
+RewriteRule ^gettingstarted/likes/$ /registerII.php [R]
+RewriteRule ^gettingstarted/likes$ /registerII.php
 
 
-RewriteRule ^timety/login/$ /timety/login [R]
-RewriteRule ^timety/login$ /timety/signin.php
-
-RewriteRule ^timety/profile/$ /timety/profile [R]
-RewriteRule ^timety/profile$ /timety/updateprofile.php
-
-RewriteRule ^timety/logout/$ /timety/logout [R]
-RewriteRule ^timety/logout$ /timety/logout.php?logout=1
+RewriteRule ^gettingstarted/who-to-follow/$ /gettingstarted/who-to-follow [R]
+RewriteRule ^gettingstarted/who-to-follow$ /suggest-friend.php
 
 
-RewriteRule ^timety/forgot-password/$ /timety/forgot-password [R]
-RewriteRule ^timety/forgot-password$ /timety/forgotpassword.php
+RewriteRule ^signup/$ /signup [R]
+RewriteRule ^signup$ /createaccount.php
 
 
-RewriteRule ^timety/new-password/$ /timety/new-password [R]
-RewriteRule ^timety/new-password$ /timety/rememberpassword.php
+RewriteRule ^login/$ /login [R]
+RewriteRule ^login$ /signin.php
+
+RewriteRule ^profile/$ /profile [R]
+RewriteRule ^profile$ /updateprofile.php
 
 
-RewriteRule ^timety/confirm-user/$ /timety/confirm-user [R]
-RewriteRule ^timety/confirm-user$ /timety/confirm.php
+RewriteRule ^logout/$ /logout [R]
+RewriteRule ^logout$ /logout.php?logout=1
 
 
-RewriteRule ^timety/test/$ /timety/test [R]
-RewriteRule ^timety/test$ /timety/test.php
+RewriteRule ^forgot-password/$ /forgot-password [R]
+RewriteRule ^forgot-password$ /forgotpassword.php
 
-RewriteRule ^timety/event/([0-9]+)/([^/]+)/$ /timety/event/$1
-RewriteRule ^timety/event/([0-9]+)/([^/]+)$ /timety/event/$1
-RewriteRule ^timety/event/([0-9]+)/$ /timety/event/$1
-RewriteRule ^timety/event/([0-9]+)$ /timety/?eventId=$1
 
-RewriteRule ^timety/updateevent/([0-9]+)/([^/]+)/$ /timety/updateevent/$1
-RewriteRule ^timety/updateevent/([0-9]+)/([^/]+)$ /timety/updateevent/$1
-RewriteRule ^timety/updateevent/([0-9]+)/$ /timety/updateevent/$1
-RewriteRule ^timety/updateevent/([0-9]+)$ /timety/editEvent.php?eventId=$1
+RewriteRule ^new-password/$ /new-password [R]
+RewriteRule ^new-password$ /rememberpassword.php
 
-RewriteRule ^timety/event/$ /timety/ [R]
-RewriteRule ^timety/event$ /timety/ [R]
 
-RewriteRule ^timety/index.php/$ /timety/ [R]
-RewriteRule ^timety/index.php$ /timety/ [R]
+RewriteRule ^confirm-user/$ /confirm-user [R]
+RewriteRule ^confirm-user$ /confirm.php
+
+
+RewriteRule ^test/$ /test [R]
+RewriteRule ^test$ /test.php
+
+RewriteRule ^event/([0-9]+)/([^/]+)/$ /event/$1
+RewriteRule ^event/([0-9]+)/([^/]+)$ /event/$1
+RewriteRule ^event/([0-9]+)/$ /event/$1
+RewriteRule ^event/([0-9]+)$ /user.php?eventId=$1
+
+
+RewriteRule ^updateevent/([0-9]+)/([^/]+)/$ /updateevent/$1
+RewriteRule ^updateevent/([0-9]+)/([^/]+)$ /updateevent/$1
+RewriteRule ^updateevent/([0-9]+)/$ /updateevent/$1
+RewriteRule ^updateevent/([0-9]+)$ /editEvent.php?eventId=$1
+
+RewriteRule ^event/$ / [R]
+RewriteRule ^event$ / [R]
+
+RewriteRule ^index.php/$ / [R]
+RewriteRule ^index.php$ / [R]
+
+
+RewriteRule ^((?!.*\.html*.)(?!.*\.php*.)(?!.*\.js*.)(?!.*\.css*.)(?!.*\.jpg*.)(?!.*\.jpeg*.)(?!.*\.gif*.)(?!.*\.png*.)(?!.*\.svg*.)(?!.*\.txt*.)(?!.*\.ico*.)[a-zA-Z][a-zA-Z0-9\.\-_]{2,40})$ /user.php?userName=$1
