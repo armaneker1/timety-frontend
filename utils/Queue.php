@@ -25,7 +25,7 @@ class Queue {
             "userID" => $userId,
             "type" => REDIS_USER_INTERACTION_CREATED,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_HIGH);
     }
 
     public static function updateEvent($eventId, $userId) {
@@ -34,7 +34,7 @@ class Queue {
             "userID" => $userId,
             "type" => REDIS_USER_INTERACTION_UPDATED,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_HIGH);
     }
 
     public static function likeEvent($eventId, $userId, $type) {
@@ -43,7 +43,7 @@ class Queue {
             "userID" => $userId,
             "type" => $type,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_HIGH);
     }
 
     public static function reshareEvent($eventId, $userId, $type) {
@@ -52,7 +52,7 @@ class Queue {
             "userID" => $userId,
             "type" => $type,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_HIGH);
     }
 
     public static function joinEvent($eventId, $userId, $type) {
@@ -61,7 +61,7 @@ class Queue {
             "userID" => $userId,
             "type" => $type,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_HIGH);
     }
 
     public static function updateEventInfo($eventId, $userId, $type) {
@@ -70,7 +70,15 @@ class Queue {
             "userID" => $userId,
             "type" => $type,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_HIGH);
+    }
+
+    public static function updateProfile($userId) {
+        self::send("user", "updateUser", array(
+            "userID" => $userId,
+            "type" => REDIS_USER_UPDATE,
+            "time" => time()
+                ), QUEUE_PRIORITY_HIGH);
     }
 
     /*
@@ -83,7 +91,7 @@ class Queue {
             "userID" => $userId,
             "type" => REDIS_USER_INTERACTION_CREATED_FOR_OTHER,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_LOW);
     }
 
     public static function updateEventForOthers($eventId, $userId, $type) {
@@ -92,7 +100,7 @@ class Queue {
             "userID" => $userId,
             "type" => $type,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_LOW);
     }
 
     public static function updateEventInfoForOthers($eventId, $userId, $type) {
@@ -101,7 +109,7 @@ class Queue {
             "userID" => $userId,
             "type" => $type,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_LOW);
     }
 
     public static function findInterestedPeopleForEvent($eventId, $userId, $type) {
@@ -110,7 +118,7 @@ class Queue {
             "userID" => $userId,
             "type" => $type,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_LOW);
     }
 
     public static function addEventToFollowers($eventId, $userId, $type) {
@@ -119,7 +127,7 @@ class Queue {
             "userID" => $userId,
             "type" => $type,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_LOW);
     }
 
     public static function followUser($fromUserId, $toUserId) {
@@ -128,7 +136,7 @@ class Queue {
             "followID" => $toUserId,
             "type" => REDIS_USER_INTERACTION_FOLLOW,
             "time" => time()
-        ));
+                ), QUEUE_PRIORITY_LOW);
     }
 
     public static function unFollowUser($fromUserId, $toUserId) {
@@ -137,27 +145,29 @@ class Queue {
             "followID" => $toUserId,
             "type" => REDIS_USER_INTERACTION_UNFOLLOW,
             "time" => time()
-        ));
-    }
-
-    public static function updateProfile($userId) {
-        self::send("user", "updateUser", array(
-            "userID" => $userId,
-            "type" => REDIS_USER_UPDATE,
-            "time" => time()
-        ));
+                ), QUEUE_PRIORITY_LOW);
     }
 
     //--------------------------------------------------------------------------
 
-    private static function send($method, $action, $obj) {
+    private static function send($method, $action, $obj, $priority = QUEUE_PRIORITY_LOW) {
+        $queue = self::getQueue($priority);
         if (SERVER_PROD) {
             $obj["method"] = $method;
             $obj["action"] = $action;
             $conn = self::getConnection();
-            $conn->send("timety", json_encode($obj), array('persistent' => 'true'));
+            $conn->send($queue, json_encode($obj), array('persistent' => 'true'));
             $conn->disconnect();
         }
+    }
+
+    private static function getQueue($priority = QUEUE_PRIORITY_LOW) {
+        $queue = "timety";
+        if ($priority != QUEUE_PRIORITY_LOW && $priority != QUEUE_PRIORITY_NORMAL && $priority != QUEUE_PRIORITY_HIGH) {
+            $priority = QUEUE_PRIORITY_LOW;
+        }
+        //$queue = $queue . "." . $priority;
+        return $queue;
     }
 
     private static function getConnection() {

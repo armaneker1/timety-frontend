@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ERROR | E_PARSE);
 ini_set('error_reporting', E_ERROR | E_PARSE);
 
@@ -171,4 +172,10 @@ define('NOTIFICATION_TYPE_JOIN', 'joined');
 define('NOTIFICATION_TYPE_COMMENT', 'commented');
 define('NOTIFICATION_TYPE_INVITE', 'invite');
 define('NOTIFICATION_TYPE_NONE', 'none');
+
+
+//QUEUE
+define('QUEUE_PRIORITY_LOW', 'low');
+define('QUEUE_PRIORITY_NORMAL', 'normal');
+define('QUEUE_PRIORITY_HIGH', 'high');
 ?>
