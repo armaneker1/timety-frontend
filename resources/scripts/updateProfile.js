@@ -243,6 +243,7 @@ function saveCorpProfilePage(){
                             c_responseThumbImage=responseThumbImage;
                             jQuery('#div_follow_trans_').hide();
                             jQuery('#profil_image_id').css('background',"url('"+responseThumbImage+"')");
+                            jQuery('#profil_image_id').css('background-size',"cover");
                             getInfo(true, "Profile Image saved", 'info', 4000);
                         }else{
                             deleteImageCrop(c_responseLargeImage, c_responseThumbImage);

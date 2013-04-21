@@ -39,7 +39,7 @@ if (empty($user)) {
         UtilFunctions::curl_post_async(PAGE_AJAX_INIT_USER_REDIS, array("userId" => $_SESSION['id']));
         UserUtils::updateUser($_SESSION['id'], $user);
         sleep(2);
-        if (!isset($_SESSION['renewlikes']))
+        if (!isset($_SESSION['renewlikes']) && !isset($_GET['edit']))
             header("location: " . HOSTNAME . "?finish=true");
         else {
             unset($_SESSION['renewlikes']);
@@ -51,8 +51,8 @@ if (empty($user)) {
     }
 
     if (!empty($user) && $user->status != 1) {
-        if (!isset($_SESSION['renewlikes'])) {
-            SessionUtil::checkUserStatus($user,true);
+        if (!isset($_SESSION['renewlikes']) && !isset($_GET['edit'])) {
+            SessionUtil::checkUserStatus($user, true);
         }
     }
 
@@ -80,11 +80,11 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-<?php
-$timety_header = "Timety | Personal Information";
-$checkUserStatus = false;
-include('layout/layout_header.php');
-?>
+        <?php
+        $timety_header = "Timety | Personal Information";
+        $checkUserStatus = false;
+        include('layout/layout_header.php');
+        ?>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?35"></script>
 
 
@@ -177,28 +177,28 @@ include('layout/layout_header.php');
         } else {
             echo "";
         }
-?>',false);">
-          <?php include('layout/layout_top.php'); ?>
+        ?>',false);">
+              <?php include('layout/layout_top.php'); ?>
         <div class="follow_trans"></div>
-          <?php
-          $fb = false;
-          $tw = false;
-          $fq = false;
-          if (!empty($user)) {
-              $providers = $user->socialProviders;
-          }
-          if (!empty($providers)) {
-              foreach ($user->socialProviders as $provider) {
-                  if ($provider->oauth_provider == FACEBOOK_TEXT) {
-                      $fb = true;
-                  } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
-                      $fq = true;
-                  } else if ($provider->oauth_provider == TWITTER_TEXT) {
-                      $tw = true;
-                  }
-              }
-          }
-          ?>
+        <?php
+        $fb = false;
+        $tw = false;
+        $fq = false;
+        if (!empty($user)) {
+            $providers = $user->socialProviders;
+        }
+        if (!empty($providers)) {
+            foreach ($user->socialProviders as $provider) {
+                if ($provider->oauth_provider == FACEBOOK_TEXT) {
+                    $fb = true;
+                } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
+                    $fq = true;
+                } else if ($provider->oauth_provider == TWITTER_TEXT) {
+                    $tw = true;
+                }
+            }
+        }
+        ?>
         <div class="add_timete_ekr" style="top: 55px;">
             <div class="add_timete_ols">
                 <p class="find_friends">What are your interests? <span id="add_like_count_0" >Select at least 5 items.</span><span id="add_like_count_" style="display:none;"><span id="add_like_count">4</span> item<span id="add_like_count_s">s</span> remaining.</span><span id="add_like_done" style="display: none;">That's it.</span><br/><span class="add_t_k" style="line-height: 12px;"> Select some! When you visit Timety you will find
@@ -208,18 +208,18 @@ include('layout/layout_header.php');
                     <!--<button type="button" name="" value=""
                             class="zmn back_btn sosyal_icon" /> -->
                     <button type="button" name="" value=""
-<?php if (!$fb) echo "onclick=\"jQuery('#spinner').show();openPopup('fb');checkOpenPopup();\""; ?>
+                    <?php if (!$fb) echo "onclick=\"jQuery('#spinner').show();openPopup('fb');checkOpenPopup();\""; ?>
                             class="face<?php if ($fb) echo '_aktiv'; ?> back_btn sosyal_icon"></button>  
-                    <?php if ($tw) { ?>
+                            <?php if ($tw) { ?>
                         <button type="button" name="" value=""
-                                <?php if (!$tw) echo "onclick=\"jQuery('#spinner').show();openPopup('tw');checkOpenPopup();\""; ?>
+                        <?php if (!$tw) echo "onclick=\"jQuery('#spinner').show();openPopup('tw');checkOpenPopup();\""; ?>
                                 class="tweet<?php if ($tw) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
-                    <?php } ?>
-                    <?php if ($fq) { ?>
+                            <?php } ?>
+                            <?php if ($fq) { ?>
                         <button type="button" name="" value=""
-                                <?php if (!$fq) echo "onclick=\"jQuery('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
+                        <?php if (!$fq) echo "onclick=\"jQuery('#spinner').show();openPopup('fq');checkOpenPopup();\""; ?>
                                 class="googl_plus<?php if ($fq) echo '_aktiv'; ?> back_btn sosyal_icon"></button>
-                    <?php } ?>
+                            <?php } ?>
                     <button style="display: none;" id="addSocialReturnButton" type="button"
                             onclick="socialWindowButtonCliked=true;checkInterestReady('<?php echo PAGE_LIKES; ?>','#spinner','<?php echo $user->id; ?>',true);"></button>
                     <button style="display: none;" id="addSocialErrorReturnButton" type="button" errorText=""
@@ -232,11 +232,11 @@ include('layout/layout_header.php');
                 </div>
             </div>
             <form action="" method="post" id="per_interest_form">
-<?php
-for ($k = 0; $k < sizeof($categoryList); $k++) {
-    $cat = new AddLikeCategory();
-    $cat = $categoryList[$k];
-    ?>
+                <?php
+                for ($k = 0; $k < sizeof($categoryList); $k++) {
+                    $cat = new AddLikeCategory();
+                    $cat = $categoryList[$k];
+                    ?>
                     <div class="add_kategori" style="min-width: 850px;">
                         <div
                             class="<?php
@@ -245,7 +245,7 @@ for ($k = 0; $k < sizeof($categoryList); $k++) {
                 } else {
                     echo "add_kategori_k";
                 }
-    ?>  add_bg">
+                    ?>  add_bg">
                             <?php
                             $showSol = true;
                             $br = UtilFunctions::getBrowser();
@@ -277,55 +277,55 @@ for ($k = 0; $k < sizeof($categoryList); $k++) {
                                      class="category">
                                     <div class="slides_container" id="catUL_<?php echo $cat->id; ?>"
                                          style="padding-top: 0px;">
-    <?php
-    $size = 0;
-    $item_count = 8;
-    //$interests = InterestUtil::getUserOtherInterestsByCategory($user->id, $cat->id, 16);
-    $interests = AddLikeUtils::getTagByCategory($user->language, $cat->id);
-    if (!empty($interests) && sizeof($interests) > 0) {
+                                             <?php
+                                             $size = 0;
+                                             $item_count = 8;
+                                             //$interests = InterestUtil::getUserOtherInterestsByCategory($user->id, $cat->id, 16);
+                                             $interests = AddLikeUtils::getTagByCategory($user->language, $cat->id);
+                                             if (!empty($interests) && sizeof($interests) > 0) {
 
-        $resultHTML = "<div>";
-        $val = new AddLikeTag();
-        $size = sizeof($interests);
-        for ($i = 0; $i < sizeof($interests); $i++) {
-            $val = $interests[$i];
-            $url = HOSTNAME . "images/add_rsm_y.png";
-            //$url = ImageUtil::getSocialElementPhoto($val->id, $val->socialType);
-            if (empty($val->photoUrl))
-                $val->photoUrl = $url;
-            else
-                $val->photoUrl = HOSTNAME . $val->photoUrl;
-            /*
-             * JS
-             */
-            $className = "add_czg";
-            $classNameEnd = "add_czg_end";
-            $isClassed = "";
-            if (!(($i + 1) % $item_count == 0) && !($i == ($size - 1))) {
-                $isClassed = "class=\"" . $className . "\"";
-            } else {
-                $isClassed = "class=\"" . $classNameEnd . "\"";
-            }
-            $shortText = $val->name;
-            if (strlen($shortText) > 30) {
-                $shortText = substr($shortText, 0, 30) . "...";
-            }
-            $HTML1 = "<div " . $isClassed . " id='interest_item_" . $val->id . "' style='height: 80px;width:67px;overflow: hidden;'><span  class='roll' item_id='i_interest_item_" . $val->id . "' title='" . $val->name . "' onclick='return selectItemSpan(this,document.getElementById(\"i_interest_item_" . $val->id . "\"));' ></span>";
-            $HTML2 = "<img id='i_interest_item_" . $val->id . "' int_id='" . $val->id . "' status='false' cat_id='" . $cat->id . "' title='" . $val->name . "'"
-                    . "onclick='return selectItem(this)' style='cursor: pointer;' src='" . $val->photoUrl . "'  class='cerceve'>";
-            $HTML4 = "</img><span style='overflow: visible;word-wrap: break-word;'>" . $shortText . "</span></div>";
-            $resultHTML = $resultHTML . $HTML1 . $HTML2 . $HTML4;
-            if (($i + 1) % $item_count == 0 && ($i + 1) != sizeof($interests)) {
-                $resultHTML = $resultHTML . "</div><div>";
-            }
-        }
-        $resultHTML = $resultHTML . "</div>";
-        echo $resultHTML;
-    }
-    ?>
+                                                 $resultHTML = "<div>";
+                                                 $val = new AddLikeTag();
+                                                 $size = sizeof($interests);
+                                                 for ($i = 0; $i < sizeof($interests); $i++) {
+                                                     $val = $interests[$i];
+                                                     $url = HOSTNAME . "images/add_rsm_y.png";
+                                                     //$url = ImageUtil::getSocialElementPhoto($val->id, $val->socialType);
+                                                     if (empty($val->photoUrl))
+                                                         $val->photoUrl = $url;
+                                                     else
+                                                         $val->photoUrl = HOSTNAME . $val->photoUrl;
+                                                     /*
+                                                      * JS
+                                                      */
+                                                     $className = "add_czg";
+                                                     $classNameEnd = "add_czg_end";
+                                                     $isClassed = "";
+                                                     if (!(($i + 1) % $item_count == 0) && !($i == ($size - 1))) {
+                                                         $isClassed = "class=\"" . $className . "\"";
+                                                     } else {
+                                                         $isClassed = "class=\"" . $classNameEnd . "\"";
+                                                     }
+                                                     $shortText = $val->name;
+                                                     if (strlen($shortText) > 30) {
+                                                         $shortText = substr($shortText, 0, 30) . "...";
+                                                     }
+                                                     $HTML1 = "<div " . $isClassed . " id='interest_item_" . $val->id . "' style='height: 80px;width:67px;overflow: hidden;'><span  class='roll' item_id='i_interest_item_" . $val->id . "' title='" . $val->name . "' onclick='return selectItemSpan(this,document.getElementById(\"i_interest_item_" . $val->id . "\"));' ></span>";
+                                                     $HTML2 = "<img id='i_interest_item_" . $val->id . "' int_id='" . $val->id . "' status='false' cat_id='" . $cat->id . "' title='" . $val->name . "'"
+                                                             . "onclick='return selectItem(this)' style='cursor: pointer;' src='" . $val->photoUrl . "'  class='cerceve'>";
+                                                     $HTML4 = "</img><span style='overflow: visible;word-wrap: break-word;'>" . $shortText . "</span></div>";
+                                                     $resultHTML = $resultHTML . $HTML1 . $HTML2 . $HTML4;
+                                                     if (($i + 1) % $item_count == 0 && ($i + 1) != sizeof($interests)) {
+                                                         $resultHTML = $resultHTML . "</div><div>";
+                                                     }
+                                                 }
+                                                 $resultHTML = $resultHTML . "</div>";
+                                                 echo $resultHTML;
+                                             }
+                                             ?>
                                     </div>
                                 </div>
-                                             <?php if ($item_count < $size) { ?>
+                                <?php if ($item_count < $size) { ?>
                                     <div style="position: absolute; right: 5px; z-index: 1000">
                                         <input type="button"
                                                id="prev_button_catULDIV_<?php echo $cat->id; ?>" class="solscrl"
@@ -334,20 +334,20 @@ for ($k = 0; $k < sizeof($categoryList); $k++) {
                                                class="sagscrl"
                                                style="position: absolute; right: 0; margin-top: 35px;" />
                                     </div>
-    <?php } ?>
+                                <?php } ?>
                             </div>
                             <!-- add_kag_sag -->
                             <div id="add_like_span_div_<?php echo $cat->id; ?>" class="add_ktg_sag add_like_span_div_enable"></div>
                             <div style="clear: both"></div>
                         </div>
                     </div>
-<?php } ?>
+                <?php } ?>
                 <div class="add_footer" style="width: 100%">
                     <div class="add_ktg_sol" id="foot_add_ktg_sol" style="height: 50px;<?php
-if (!$showSol) {
-    echo "display:none;";
-}
-?>">
+                if (!$showSol) {
+                    echo "display:none;";
+                }
+                ?>">
                         <a href="#" style="display: none">Add Like</a>
                     </div>
                     <div class="add_ktg_sag" style="height: 50px !important;"

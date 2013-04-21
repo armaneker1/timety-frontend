@@ -23,6 +23,13 @@ if (isset($_POST['userId']))
 $tw_treshhold = 5;
 
 if (!empty($userId)) {
+    if (!SessionUtil::isUser($userId)) {
+        $res = new stdClass();
+        $res->error = "user not logged in";
+        $json_response = json_encode($res);
+        echo $json_response;
+        exit(1);
+    }
     $log->logInfo("Twiiter User Id : " . $userId);
     $provider = new SocialProvider();
     $provider = UserUtils::getSocialProvider($userId, TWITTER_TEXT);

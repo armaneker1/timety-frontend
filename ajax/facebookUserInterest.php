@@ -23,6 +23,13 @@ if (isset($_POST['userId']))
 $fb_treshhold = 3;
 
 if (!empty($userId)) {
+    if (!SessionUtil::isUser($userId)) {
+        $res = new stdClass();
+        $res->error = "user not logged in";
+        $json_response = json_encode($res);
+        echo $json_response;
+        exit(1);
+    }
     $log->logInfo("Facebook User Id : " . $userId);
     $provider = new SocialProvider();
     $provider = UserUtils::getSocialProvider($userId, FACEBOOK_TEXT);

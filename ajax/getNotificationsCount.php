@@ -13,6 +13,13 @@ try {
     $result->error = true;
 
     if (!empty($query)) {
+        if (!SessionUtil::isUser($query)) {
+            $res = new stdClass();
+            $res->error = "user not logged in";
+            $json_response = json_encode($res);
+            echo $json_response;
+            exit(1);
+        }
         $user = UserUtils::getUserById($query);
         if (!empty($user)) {
             $result = $user->getUserNotificationCount();

@@ -10,17 +10,24 @@ $res->error = true;
 $res->success = false;
 $res->param = "";
 
-$fuser=null;
+$fuser = null;
 if (isset($_GET["fuser"]))
     $fuser = $_GET["fuser"];
 
-$tuser=null;
+$tuser = null;
 if (isset($_GET["tuser"]))
     $tuser = $_GET["tuser"];
 
 try {
     if (!empty($tuser) && !empty($fuser)) {
-        $result = UserSettingsUtil::unsubscribeUserFriend($fuser,$tuser);
+        if (!SessionUtil::isUser($fuser)) {
+            $res = new stdClass();
+            $res->error = "user not logged in";
+            $json_response = json_encode($res);
+            echo $json_response;
+            exit(1);
+        }
+        $result = UserSettingsUtil::unsubscribeUserFriend($fuser, $tuser);
         if (!empty($result)) {
             $res->error = !$result;
             $res->success = $result;
@@ -30,6 +37,6 @@ try {
     $res->param = $e->getMessage();
 }
 
-    $json_response = json_encode($res);
-    echo $json_response;
+$json_response = json_encode($res);
+echo $json_response;
 ?>

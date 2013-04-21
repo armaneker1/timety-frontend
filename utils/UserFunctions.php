@@ -84,7 +84,13 @@ class UserUtils {
     public static function cookieLogin($timeHash, $clientGuid) {
         if (!empty($timeHash) && !empty($clientGuid)) {
             $SQL = "SELECT * FROM " . TBL_USER_COOKIE . " WHERE time_hash = '$timeHash' AND client_guid='$clientGuid'";
-            $cookie = TimeteUserCookie::findBySql(DBUtils::getConnection(), $SQL);
+            $cookie=null;
+            try {
+             $cookie = TimeteUserCookie::findBySql(DBUtils::getConnection(), $SQL);   
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+                error_log($SQL);
+            }
             if (!empty($cookie)) {
                 $cookie = $cookie[0];
                 if (!empty($cookie)) {
@@ -110,6 +116,24 @@ class UserUtils {
             $userName = strtolower($userName);
             $pass = preg_replace('/\s+/', '', $pass);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName' AND password='$pass'";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            $user = new User();
+            $user->create($result);
+            if (!empty($user->id)) {
+                UserUtils::updateLastLoginTime($user->id);
+                return $user;
+            }
+        }
+        return null;
+    }
+    
+    public static function loginEmail($email, $pass) {
+        if (!empty($email) && !empty($pass)) {
+            $email = preg_replace('/\s+/', '', $email);
+            $email = strtolower($email);
+            $pass = preg_replace('/\s+/', '', $pass);
+            $SQL = "SELECT * FROM " . TBL_USERS . " WHERE email = '$email' AND password='$pass'";
             $query = mysql_query($SQL) or die(mysql_error());
             $result = mysql_fetch_array($query);
             $user = new User();
@@ -411,7 +435,6 @@ class UserUtils {
                 $t = date(DATETIME_DB_FORMAT);
                 $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited,lang,register_date,last_login_date) VALUES ($userId,'$user->userName','$user->email',$b,'$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited,'$user->language','$t','$t')";
                 mysql_query($SQL) or die(mysql_error());
-                //create user for neo4j
                 $user_ = UserUtils::getUserByUserName($user->userName);
             }
         }

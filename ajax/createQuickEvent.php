@@ -8,6 +8,16 @@ $msgs = array();
 
 if (isset($_GET)) {
 
+    if (isset($_GET['userId']) && !empty($_GET['userId'])) {
+        if (!SessionUtil::isUser($_GET['userId'])) {
+            $res = new stdClass();
+            $res->error = "user not logged in";
+            $json_response = json_encode($res);
+            echo $json_response;
+            exit(1);
+        }
+    }
+
     $error = false;
     $event = new Event();
 

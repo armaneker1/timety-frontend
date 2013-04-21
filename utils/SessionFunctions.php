@@ -51,9 +51,9 @@ class SessionUtil {
                 $cookie->setUserId($user->id);
                 $cookie->setClientGuid(SessionUtil::getClientGUID($user->id));
                 $cookie->insertIntoDatabase(DBUtils::getConnection());
-                setcookie(COOKIE_KEY_RM, true, time() + (365 * 24 * 60 * 60), "/");
-                setcookie(COOKIE_KEY_UN, base64_encode($cookie->getTimeHash()), time() + (365 * 24 * 60 * 60), "/");
-                setcookie(COOKIE_KEY_PSS, base64_encode($cookie->getClientGuid()), time() + (365 * 24 * 60 * 60), "/");
+                @setcookie(COOKIE_KEY_RM, true, time() + (365 * 24 * 60 * 60), "/");
+                @setcookie(COOKIE_KEY_UN, base64_encode($cookie->getTimeHash()), time() + (365 * 24 * 60 * 60), "/");
+                @setcookie(COOKIE_KEY_PSS, base64_encode($cookie->getClientGuid()), time() + (365 * 24 * 60 * 60), "/");
             }
         }
     }
@@ -77,9 +77,9 @@ class SessionUtil {
             }
         }
         unset($_SESSION['id']);
-        setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
-        setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
-        setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
+        @setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
+        @setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
+        @setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
     }
 
     /*  */
@@ -131,9 +131,9 @@ class SessionUtil {
                 if (!(!empty($val) && $val)) {
                     $tags = Neo4jUserUtil::getUserTimetyTags($user->id);
                     if (!empty($tags) && sizeof($tags)) {
-                        setcookie($key, true, time() + (5 * 24 * 60 * 60), "/");
+                        @setcookie($key, true, time() + (5 * 24 * 60 * 60), "/");
                     } else {
-                        setcookie($key, false, time() + (5 * 24 * 60 * 60), "/");
+                        @setcookie($key, false, time() + (5 * 24 * 60 * 60), "/");
                         $_SESSION["renewlikes"] = true;
                         $redirectHome = false;
                         @header("location: " . PAGE_LIKES);

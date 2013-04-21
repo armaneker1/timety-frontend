@@ -12,6 +12,14 @@ if (isset($_POST["userId"]))
     $userId = $_POST["userId"];
 
 if (!empty($userId)) {
+    if (!SessionUtil::isUser($userId)) {
+        $res = new stdClass();
+        $res->error = "user not logged in";
+        $json_response = json_encode($res);
+        echo $json_response;
+        exit(1);
+    }
+
     $provider = UserUtils::getSocialProvider($userId, FACEBOOK_TEXT);
     if (!empty($provider) && sizeof($provider) > 0) {
         $provider = $provider[0];
@@ -33,7 +41,7 @@ if (!empty($userId)) {
                     'query' => 'select name, pic_big,host, description, start_time, end_time, location, venue,privacy,ticket_uri from event where eid="' . $event['id'] . '"'
                 );
 
-               var_dump( $facebook->api($params));
+                var_dump($facebook->api($params));
             }
         }
     }

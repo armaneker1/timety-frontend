@@ -45,6 +45,7 @@ require_once __DIR__ . '/TwitterFunctions.php';
 require_once __DIR__ . '/FacebookFunctions.php';
 require_once __DIR__ . '/RegisterAnaliticsFunctions.php';
 require_once __DIR__ . '/EventKeyListFunction.php';
+require_once __DIR__ . '/XMLFunctions.php';
 
 require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/Neo4jTimetyCategoryFunctions.php';

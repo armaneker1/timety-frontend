@@ -30,6 +30,9 @@ define("SETTINGS_GUEST_USER_PASS", "http.guest.user.pass");
 define("SETTINGS_ADMIN_USER", "http.admin.user");
 define("SETTINGS_ADMIN_USER_PASS", "http.admin.user.pass");
 
+define("SETTINGS_MOBILE_USER", "http.mobile.user");
+define("SETTINGS_MOBILE_USER_PASS", "http.mobile.user.pass");
+
 define("SETTINGS_GOOGLE_MAPS_API_KEY", "google.maps.api.key");
 
 define("SETTINGS_GG_APP_NAME", "google_app_name");

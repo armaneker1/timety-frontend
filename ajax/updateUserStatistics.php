@@ -23,6 +23,13 @@ if (empty($type)) {
 }
 
 if (!empty($userId)) {
+    if (!SessionUtil::isUser($userId)) {
+        $res = new stdClass();
+        $res->error = "user not logged in";
+        $json_response = json_encode($res);
+        echo $json_response;
+        exit(1);
+    }
     Neo4jUserUtil::updateUserStatistics($userId, $type);
 }
 ?>

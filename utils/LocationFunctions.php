@@ -43,7 +43,7 @@ class LocationUtils {
                 }
             }
         }
-        return array("country" => $loc_country, "city" => $loc_city);
+        return array(0 => $loc_country, 1 => $loc_city, "country" => $loc_country, "city" => $loc_city);
     }
 
     public static function getCityCounrtyResponse($lat, $lng) {

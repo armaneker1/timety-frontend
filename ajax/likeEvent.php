@@ -29,6 +29,13 @@ $res->success = false;
 
 try {
     if (!empty($eventId) && !empty($userId)) {
+        if (!SessionUtil::isUser($userId)) {
+            $res = new stdClass();
+            $res->error = "user not logged in";
+            $json_response = json_encode($res);
+            echo $json_response;
+            exit(1);
+        }
         if (!empty($revert) && $revert == 1) {
             $result = SocialUtil::revertLikeEvent($userId, $eventId);
         } else {

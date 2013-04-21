@@ -43,11 +43,13 @@ $large_image_name = $large_image_prefix . $_SESSION['random_key'];     // New na
 $thumb_image_name = $thumb_image_prefix . $_SESSION['random_key'];     // New name of the thumbnail image (append the timestamp to the filename)
 $max_file = "1";        // Maximum file size in MB
 $max_width = "500";       // Max width allowed for the large image
-$thumb_width = "100";      // Width of thumbnail image
-$thumb_height = "100";      // Height of thumbnail image
+$thumb_width = "176";      // Width of thumbnail image
+$thumb_height = "176";      // Height of thumbnail image
 // Only one of these image types should be allowed for upload
-$allowed_image_types = array('image/pjpeg' => "jpg", 'image/jpeg' => "jpg", 'image/jpg' => "jpg", 'image/png' => "png", 'image/x-png' => "png", 'image/gif' => "gif");
-$allowed_image_ext = array_unique($allowed_image_types); // Do not change this
+$allowed_image_types = array('image/pjpeg' => "jpg", 'image/jpeg' => "jpeg", 'image/jpg' => "jpg", 'image/png' => "png", 'image/x-png' => "png", 'image/gif' => "gif");
+$allowed_image_ext =array_unique($allowed_image_types); // Do not change this
+$allowed_image_ext_s= array("jpg", "jpeg",  "png", "gif","bmp");
+$allowed_image_type_s= array("image/jpg", "image/jpeg",  "image/png", "image/gif","image/bmp","image/pjpeg","image/x-png");
 $image_ext = "";
 foreach ($allowed_image_ext as $mime_type => $ext) {
     $image_ext.= strtoupper($ext) . " ";

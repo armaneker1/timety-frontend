@@ -2764,14 +2764,14 @@ span.roll {
 
 /*upload profile photo */
 #uploaded_image_div{
-    margin-top: 150px;
+    margin-top: 190px;
 }
 
 .jcrop-holder #preview-pane {
     display: block;
     position: absolute;
     z-index: 2000;
-    top: -130px;
+    top: -195px;
     padding: 2px;
     background-color: white;
     -webkit-border-radius: 2px;
@@ -2915,7 +2915,7 @@ span.roll {
 
 .mytimety_category_item_recommended_div{
     display: inline-block;
-    width: 160px;
+    width: 170px;
 }
 
 .mytimety_category_item_everything_div{

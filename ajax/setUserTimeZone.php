@@ -22,6 +22,13 @@ $result = new Result();
 $result->error = true;
 $result->success = false;
 if (!empty($zone) && !empty($userId)) {
+    if (!SessionUtil::isUser($userId)) {
+        $res = new stdClass();
+        $res->error = "user not logged in";
+        $json_response = json_encode($res);
+        echo $json_response;
+        exit(1);
+    }
     try {
         UserUtils::updateUserTimeZone($userId, $zone);
         $result->error = false;

@@ -346,7 +346,7 @@ if (isset($_POST['update'])) {
             </script>
         <?php } ?>
 
-        <script src="<?= HOSTNAME ?>resources/scripts/updateProfile.js?8976" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>resources/scripts/updateProfile.js?89765" type="text/javascript" charset="utf-8"></script>
         <script>          
             jQuery(document).ready(function() {
                 new iPhoneStyle('.on_off input[type=checkbox]',{ widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="<?= HOSTNAME ?>images/pyes1.png" width="14" heght="10">', uncheckedLabel: '<img src="<?= HOSTNAME ?>images/pno1.png" style="margin-top: 1px;margin-left: 1px;" width="10" heght="10">',statusChange : changeSettings});
@@ -1030,7 +1030,7 @@ if (isset($_POST['update'])) {
 
                     <div class="profil_g" id="upload_photo">
                         <p class="profil_etiket">Profile</p>
-                        <div id="profil_image_id"  class="profil_kul" style="background: url(<?= PAGE_GET_IMAGEURL . urlencode($te_image) . "&w=106&h=106&zc=2" ?>)"></div>
+                        <div id="profil_image_id"  class="profil_kul" style="background-size: cover;background: url(<?= PAGE_GET_IMAGEURL . urlencode($te_image) . "&w=106&h=106&zc=2" ?>)"></div>
                         <div class="profil_al"> 
                             <p>import from</p>
                             <a style="cursor: pointer;" id="import_from_facebook"><img src="images/faceal.png" width="99" height="32" border="0" /></a>
@@ -1150,7 +1150,7 @@ if (isset($_POST['update'])) {
                         </div>
                     </center>
                     <div>
-                        <div id="upload_text" style="position: absolute;   float: left;  display: inline-block;   margin-left: 160px;  margin-top: 23px; width: 60%;">
+                        <div id="upload_text" style="position: absolute;   float: left;  display: inline-block;   margin-left: 190px;  margin-top: 23px; width: 60%;">
                             <span style="
                                   font-size: 12px;
                                   font-weight: bold;
@@ -1178,7 +1178,7 @@ if (isset($_POST['update'])) {
                              style="float: left;margin-top: 60px;" 
                              id="uploaded_image" />
                         <div id="preview-pane">
-                            <div  class="preview-container" style="width: 106px;height: 106px;">
+                            <div  class="preview-container" style="width: 176px;height: 176px;">
                                 <img id="preview_image" src="" class="jcrop-preview" >
                             </div>
                         </div>

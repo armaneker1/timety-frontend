@@ -10,17 +10,24 @@ $res->error = true;
 $res->success = false;
 $res->param = "";
 
-$userId=null;
+$userId = null;
 if (isset($_GET["userId"]))
     $userId = $_GET["userId"];
 
-$categoryId=null;
+$categoryId = null;
 if (isset($_GET["categoryId"]))
     $categoryId = $_GET["categoryId"];
 
 try {
     if (!empty($userId) && !empty($categoryId)) {
-        $result = UserSettingsUtil::unsubscribeUserCategory($userId,$categoryId);
+        if (!SessionUtil::isUser($userId)) {
+            $res = new stdClass();
+            $res->error = "user not logged in";
+            $json_response = json_encode($res);
+            echo $json_response;
+            exit(1);
+        }
+        $result = UserSettingsUtil::unsubscribeUserCategory($userId, $categoryId);
         if (!empty($result)) {
             $res->error = !$result;
             $res->success = $result;
@@ -30,6 +37,6 @@ try {
     $res->param = $e->getMessage();
 }
 
-    $json_response = json_encode($res);
-    echo $json_response;
+$json_response = json_encode($res);
+echo $json_response;
 ?>

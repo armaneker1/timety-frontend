@@ -23,6 +23,13 @@ if (isset($_GET["crop"]))
 
 
 if (!empty($userId) && !empty($type) && ($type == 'fb' || $type == 'tw')) {
+    if (!SessionUtil::isUser($userId)) {
+        $res = new stdClass();
+        $res->error = "user not logged in";
+        $json_response = json_encode($res);
+        echo $json_response;
+        exit(1);
+    }
     $user = UserUtils::getUserById($userId);
     if (!empty($user) && !empty($user->id)) {
         $socialProviders = $user->socialProviders;
@@ -62,7 +69,7 @@ if (!empty($userId) && !empty($type) && ($type == 'fb' || $type == 'tw')) {
                     $user_info = $twitteroauth->get('account/verify_credentials');
                     if (!isset($user_info->error)) {
                         if (!empty($crop)) {
-                            $url=  UserUtils::handleTwitterImage($user_info->profile_image_url);
+                            $url = UserUtils::handleTwitterImage($user_info->profile_image_url);
                             $content = file_get_contents($url);
                             if (!file_exists($upload_path)) {
                                 mkdir($upload_path, 0777, true);
