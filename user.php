@@ -194,7 +194,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                            
+                                                                                                                                                        
             </script>
 
 
@@ -231,6 +231,9 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                 });  
             </script>
         <?php } ?>
+        <!-- Customize -->
+        <?php include('layout/layout_customize_style.php'); ?>
+        <!-- Customize -->
     </head>
     <body class="bg">
         <?php $page_id = "user"; ?>
@@ -364,7 +367,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                 </div>
                             </td>
                         </tr>
-                         <?php include('layout/layout_mytimety_menu.php'); ?>
+                        <?php include('layout/layout_mytimety_menu.php'); ?>
                     </table>
                 </div>
             </div>

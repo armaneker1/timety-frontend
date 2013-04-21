@@ -8,6 +8,7 @@ require_once __DIR__ . '/TimeteFacebookRecommendation.class.php';
 require_once __DIR__ . '/TimeteUserCookie.class.php';
 require_once __DIR__ . '/TimeteRegSta.class.php';
 require_once __DIR__ . '/TimeteEventKeyList.class.php';
+require_once __DIR__ . '/TimeteUserSettings.class.php';
 class User {
 
     function create($result) {

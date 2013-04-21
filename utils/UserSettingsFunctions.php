@@ -13,8 +13,7 @@ class UserSettingsUtil {
     public static function unsubscribeUserCategory($userId, $categoryId) {
         return Neo4jUserSettingsUtil::unsubscribeUserCategory($userId, $categoryId);
     }
-    
-    
+
     public static function getUserSubscribeFriends($userId) {
         return Neo4jUserSettingsUtil::getUserSubscribeFriends($userId);
     }
@@ -25,6 +24,16 @@ class UserSettingsUtil {
 
     public static function unsubscribeUserFriend($userId, $categoryId) {
         return Neo4jUserSettingsUtil::unsubscribeUserFriend($userId, $categoryId);
+    }
+
+    public static function getUserSettings($userId = null) {
+        if (!empty($userId)) {
+            $settings = TimeteUserSettings::findById(DBUtils::getConnection(), $userId);
+            if (!empty($settings)) {
+                return $settings;
+            }
+        }
+        return null;
     }
 
 }
