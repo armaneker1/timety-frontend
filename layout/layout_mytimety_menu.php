@@ -5,6 +5,9 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->stat
         $showMenu = false;
     }
 }
+if(empty($user)){
+    $showMenu = false;
+}
 ?>
 
 <tr>
