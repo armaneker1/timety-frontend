@@ -12,7 +12,7 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->stat
         <table class="mytimety_category_table" id="mytimety_category_table">
             <tr>
                 <?php if ($showMenu) { ?>
-                    <td width="375" valign="middle">
+                    <td width="375" valign="middle" id="populer_top_menus_my">
                         <div class="mytimety_category_item_recommended_div">
                             <span id="mytimety_category_item_recommended" channelid="1" class="mytimety_category_item mytimety_category_item_selected">Recommended Events</span>
                         </div> 
@@ -50,7 +50,7 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->stat
                 <?php } ?>
                 <td align="left" valign="middle" class="u_line" width="100%">
                     <?php if ($showMenu) { ?>
-                        <input type="button" class="gn_btn" />
+                        <input id="populer_top_menus_my_ico" type="button" class="gn_btn" />
                     <?php } ?>
                 </td>
             </tr>

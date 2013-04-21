@@ -88,3 +88,13 @@ function mySelectEverything(){
     page_wookmark=0;
     wookmarkFiller(document.optionsWookmark,true,true);
 }
+
+function showMenuPopular(){
+    jQuery("#populer_top_menus_my").show();
+    jQuery("#populer_top_menus_my_ico").show();
+}
+
+function hideMenuPopular(){
+    jQuery("#populer_top_menus_my").hide();
+    jQuery("#populer_top_menus_my_ico").hide();
+}
