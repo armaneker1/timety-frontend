@@ -23,6 +23,7 @@ define("SETTINGS_NEO4J_PORT", "neo4j_port");
 define("SETTINGS_AWS_SES_API_KEY", "aws_ses_mail_api_key");
 define("SETTINGS_AWS_SES_API_SECRET", "aws_ses_mail_api_secret");
 define("SETTINGS_AWS_SES_API_FROM", "aws_ses_mail_api_from");
+define("SETTINGS_AJAX_KEY", "ajax.key");
 
 define("SETTINGS_GUEST_USER", "http.guest.user");
 define("SETTINGS_GUEST_USER_PASS", "http.guest.user.pass");

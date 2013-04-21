@@ -383,9 +383,11 @@ class UserUtils {
             $url = DBUtils::mysql_escape($url);
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid";
+            error_log($SQL);
+            error_log("'".$updateInfo."'");
             mysql_query($SQL) or die(mysql_error());
             if ($updateInfo)
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $uid));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $uid,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         }
         return $url;
     }

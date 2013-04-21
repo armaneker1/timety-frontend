@@ -42,7 +42,7 @@ if (!empty($user)) {
             header("Location: " . HOSTNAME);
         } else if ($type == 2) {
             RegisterAnaliticsUtils::increasePageRegisterCount("getFacebookUser.php?signup=1");
-            UtilFunctions::curl_post_async(PAGE_AJAX_FACEBOOK_USER_INTEREST, array("userId" => $user->id));
+            UtilFunctions::curl_post_async(PAGE_AJAX_FACEBOOK_USER_INTEREST, array("userId" => $user->id,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             header("Location: " . PAGE_ABOUT_YOU);
         }
     } else {

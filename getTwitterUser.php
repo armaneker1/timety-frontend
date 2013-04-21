@@ -34,7 +34,7 @@ if (!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empt
                 header("Location: " . HOSTNAME);
             } else if ($type == 2) {
                 RegisterAnaliticsUtils::increasePageRegisterCount("getTwitterUser.php?signup=1");
-                UtilFunctions::curl_post_async(PAGE_AJAX_TWITTER_USER_INTEREST, array("userId" => $user->id));
+                UtilFunctions::curl_post_async(PAGE_AJAX_TWITTER_USER_INTEREST, array("userId" => $user->id,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
                 header("Location: " . PAGE_ABOUT_YOU);
             }
         } else {

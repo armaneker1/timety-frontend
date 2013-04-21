@@ -36,7 +36,7 @@ if (empty($user)) {
 
         //by pass find friends
         $user->status = 3;
-        UtilFunctions::curl_post_async(PAGE_AJAX_INIT_USER_REDIS, array("userId" => $_SESSION['id']));
+        UtilFunctions::curl_post_async(PAGE_AJAX_INIT_USER_REDIS, array("userId" => $_SESSION['id'],"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         UserUtils::updateUser($_SESSION['id'], $user);
         sleep(2);
         if (!isset($_SESSION['renewlikes']) && !isset($_GET['edit']))

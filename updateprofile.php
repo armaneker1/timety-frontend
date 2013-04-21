@@ -283,7 +283,7 @@ if (isset($_POST['update'])) {
         $success = true;
         if ($updateEvents)
         {
-            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id']));
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id'],"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         }
     }
 

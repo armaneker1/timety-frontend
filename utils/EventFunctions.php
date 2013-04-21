@@ -8,7 +8,7 @@ class EventUtil {
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
                 Neo4jEventUtils::createEvent($event, $user);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $user->id, "type" => 6));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $user->id, "type" => 6,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
                 return $eventDB;
             }
         }
