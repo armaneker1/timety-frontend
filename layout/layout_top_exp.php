@@ -282,7 +282,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                                 <a id="following_top_menu_a" class="child" channelId="3" onclick="changeChannel(this)" href="#following" >Following</a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child"  href="<?= PAGE_LIKES."?edit" ?>" >Add Like</a>
+                                <a id="logout_top_menu_a"  class="child"  href="<?= PAGE_LIKES."?edit" ?>" >Add Interest</a>
                             </li>
                             <li>
                                 <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_UPDATE_PROFILE ?>" >Settings</a>
