@@ -1507,7 +1507,7 @@ input[type=text]::-ms-clear {
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgba(0,0,0,0.15);
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255,255,255,0.9);
     height: 37px;
     padding-right: 37px;
     padding-left: 32px;
