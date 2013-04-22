@@ -35,6 +35,7 @@ define('LANG_EN_US', 'en_US');
 //SESSION constant
 define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
 define('INDEX_POST_SESSION_KEY', 'index_post_session');
+define('EDIT_POST_SESSION_KEY', 'edit_post_session');
 
 //REDIS IP ADDRS
 define('REDIS_IP', SettingsUtil::getSetting(SETTINGS_REDIS_IP));

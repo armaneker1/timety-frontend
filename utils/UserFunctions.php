@@ -15,28 +15,28 @@ class UserUtils {
             UserUtils::updateLastLoginTime($provider->user_id);
         } else {
             $_SESSION["te_invitation_code"] = "temp";
-            if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
-                #user not present. Insert a new Record
-                $type = 2; //user doesn't exits create user and register user
-                $user = new User();
-                $user->userName = UserUtils::findTemprorayUserName($username);
-                $user->status = 0;
-                $user = UserUtils::createUser($user);
-                //update social provider
-                $provider = new SocialProvider();
-                $provider->user_id = $user->id;
-                $provider->oauth_provider = $oauth_provider;
-                $provider->oauth_token = $accessToken;
-                $provider->oauth_token_secret = $accessTokenSecret;
-                $provider->oauth_uid = $uid;
-                $provider->status = 0;
-                UserUtils::updateSocialProvider($provider);
-            } else {
-                //invitation not valid
-                $_SESSION['invCodeError'] = "invitation code not valid";
-                $type = 3;
-                $user = null;
-            }
+            // if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
+            #user not present. Insert a new Record
+            $type = 2; //user doesn't exits create user and register user
+            $user = new User();
+            $user->userName = UserUtils::findTemprorayUserName($username);
+            $user->status = 0;
+            $user = UserUtils::createUser($user);
+            //update social provider
+            $provider = new SocialProvider();
+            $provider->user_id = $user->id;
+            $provider->oauth_provider = $oauth_provider;
+            $provider->oauth_token = $accessToken;
+            $provider->oauth_token_secret = $accessTokenSecret;
+            $provider->oauth_uid = $uid;
+            $provider->status = 0;
+            UserUtils::updateSocialProvider($provider);
+            /* } else {
+              //invitation not valid
+              $_SESSION['invCodeError'] = "invitation code not valid";
+              $type = 3;
+              $user = null;
+              } */
         }
 
         $array = array(
@@ -84,9 +84,9 @@ class UserUtils {
     public static function cookieLogin($timeHash, $clientGuid) {
         if (!empty($timeHash) && !empty($clientGuid)) {
             $SQL = "SELECT * FROM " . TBL_USER_COOKIE . " WHERE time_hash = '$timeHash' AND client_guid='$clientGuid'";
-            $cookie=null;
+            $cookie = null;
             try {
-             $cookie = TimeteUserCookie::findBySql(DBUtils::getConnection(), $SQL);   
+                $cookie = TimeteUserCookie::findBySql(DBUtils::getConnection(), $SQL);
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());
                 error_log($SQL);
@@ -127,7 +127,7 @@ class UserUtils {
         }
         return null;
     }
-    
+
     public static function loginEmail($email, $pass) {
         if (!empty($email) && !empty($pass)) {
             $email = preg_replace('/\s+/', '', $email);
@@ -385,7 +385,7 @@ class UserUtils {
             $SQL = "UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid";
             mysql_query($SQL) or die(mysql_error());
             if ($updateInfo)
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $uid,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $uid, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         }
         return $url;
     }
@@ -420,6 +420,7 @@ class UserUtils {
             UserUtils::updateUser($tmp_user->id, $user);
             $user_ = UserUtils::getUserById($tmp_user->id);
         } else {
+            $_SESSION["te_invitation_code"]="temp";
             if ((isset($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) || $invate) {
                 $userId = DBUtils::getNextId(CLM_USERID);
                 if (isset($_SESSION["te_invitation_code"])) {

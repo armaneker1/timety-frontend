@@ -438,7 +438,7 @@ if (empty($user)) {
                     $m = new HtmlMessage();
                     $m->type = "s";
                     $m->message = "Event created successfully.";
-                    $_SESSION[INDEX_MSG_SESSION_KEY] = UtilFunctions::json_encode($m);
+                    $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
                     exit(header('Location: ' . HOSTNAME));
                 } else {
                     $error = true;
