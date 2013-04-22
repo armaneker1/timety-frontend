@@ -388,12 +388,14 @@ class Neo4jEventUtils {
                                         $emailUser->password = sha1(rand(100000, 9999999));
                                         $emailUser->status = 0;
                                         $emailUser->invited = 1;
+                                        $_SESSION["te_invitation_code"]="suc";
                                         $emailUser = $uf->createUser($emailUser, USER_TYPE_INVITED);
                                         if (!empty($emailUser)) {
                                             $emailUser = $userIndex->findOne(PROP_USER_ID, $emailUser->id);
                                             if (!empty($emailUser)) {
                                                 $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                             }
+                                            //TODO
                                             $res = MailUtil::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
                                         }
                                     }

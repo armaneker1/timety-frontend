@@ -268,7 +268,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                         </tr>
                         <tr>
                             <td colspan="3">
-                                <div id="slides" style="overflow: hidden;max-height: 120px;">
+                                <div id="slides" style="overflow: hidden;max-height: 120px;display: none;">
                                     <div id="slides_container">
                                         <?php if (empty($user)) { ?>
                                             <div class="slide_item" id="create_event_empty">

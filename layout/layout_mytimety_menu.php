@@ -1,5 +1,6 @@
 <?php
 $showMenu = true;
+$hideBar= false;
 if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
     if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI")) {
         $showMenu = false;
@@ -7,6 +8,9 @@ if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->stat
 }
 if(empty($user)){
     $showMenu = false;
+}
+if (isset($page_id) && $page_id == "user"){
+    $hideBar = true;
 }
 ?>
 
@@ -51,7 +55,7 @@ if(empty($user)){
                         </div>
                     </td>
                 <?php } ?>
-                <td align="left" valign="middle" class="u_line" width="100%">
+                    <td align="left" valign="middle" class="u_line" width="100%" style='<?php if($hideBar) { echo 'display:none;'; } ?>'>
                     <?php if ($showMenu) { ?>
                         <input id="populer_top_menus_my_ico" type="button" class="gn_btn" />
                     <?php } ?>
