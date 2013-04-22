@@ -12,7 +12,7 @@ foreach ($array as $ar) {
    // echo "<h1>".$ar->name."(".$ar->id.")</h1>";
     $tags=  Neo4jTimetyTagUtil::getTimetyTagsFromCat($ar->id);
     foreach ($tags as $tag) {
-          echo "<h3>".$tag->name."(".$tag->id.")</h3>";
+          echo $tag->name."(".$tag->id.")<br/>";
     }
   //  echo "<p/><br/>";
 }
