@@ -457,7 +457,7 @@ if (empty($user)) {
         }
 
         if ($error && !$notpost) {
-            $_SESSION[INDEX_POST_SESSION_KEY] = UtilFunctions::json_encode($_POST);
+            $_SESSION[INDEX_POST_SESSION_KEY] = json_encode($_POST);
             error_log("redirected " . $_random_session_id);
             exit(header('Location: ' . HOSTNAME));
         }
