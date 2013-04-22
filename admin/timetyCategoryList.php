@@ -9,14 +9,11 @@ HttpAuthUtils::checkHttpAuth();
 $array = Neo4jTimetyCategoryUtil::getTimetyList("");
 echo "<table><tbody>";
 foreach ($array as $ar) {
-   // echo "<h1>".$ar->name."(".$ar->id.")</h1>";
     $tags=  Neo4jTimetyTagUtil::getTimetyTagsFromCat($ar->id);
     
     foreach ($tags as $tag) {
           echo "<tr><td>".$ar->name."(".$ar->id.")</td><td>".$tag->name."(".$tag->id.")</td></tr>";
     }
-    
-  //  echo "<p/><br/>";
 }
 echo "</tbody></table>";
 ?>
