@@ -269,7 +269,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
             <div class="ust_blm" style="<?php if($hideBar) { echo "display:none;";}?>">
                 <div class="trh_gn">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
+                        <tr style="display: none;">
                             <td width="180" valign="middle"><span class="gn"><?= date('d') ?></span> <span
                                     class="ay"> <?= strtoupper(date('M')) ?></span> <span class="yil"><?= date('Y') ?></span> <span
                                     class="hd_line">|</span> <span class="gn"><?= strtoupper(date('l')) ?></span>
