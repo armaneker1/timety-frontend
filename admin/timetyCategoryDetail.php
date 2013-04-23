@@ -88,70 +88,95 @@ if (!empty($catId) && !empty($cat)) {
 }
 ?>
 
-
-
 <html>
     <head>
-
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Dashboard - Admin Template</title>
+        <link rel="stylesheet" type="text/css" href="css/theme.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <script>
+            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '">');
+        </script>
+        <!--[if IE]>
+        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
+        <![endif]-->
     </head>
     <body>
-        <h1><?= $cat->name ?> (<?= $cat->id ?>)</h1>
-        <form action="" method="POST">
-            <input type="text" name="cat_name" value="<?= $cat->name ?>" style="width: 250px;">
-            <input type="hidden" name="catId" value="<?= $cat->id ?>" >
-            <input type="submit" name="update" value="Update">
-        </form>
+        <div id="container">
+            <div id="header">
+                <h2>Timety Administrator Panel</h2>
+                <div id="topmenu">
+                    <ul>
+                        <li><a href="index.php">Menu</a></li>
+                        <li><a href="timetyCategoryList.php">Categories</a></li>
+                        <li><a href="users.php">Users</a></li>
+                        <li class="current"><a href="timetyCategory.php">Categories</a></li>
+                        <li><a href="menuCategory.php">Menu Categories</a></li>
+                        <li><a href="addLikeCat.php">Add Interest</a></li>
+                        <li><a href="#">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="wrapper">
+                <div id="content">
+                    <h1><?= $cat->name ?> (<?= $cat->id ?>)</h1>
+                    <form action="" method="POST">
+                        <input type="text" name="cat_name" value="<?= $cat->name ?>" style="width: 250px;">
+                        <input type="hidden" name="catId" value="<?= $cat->id ?>" >
+                        <input type="submit" name="update" value="Update">
+                    </form>
 
-        <h3>Tags EN</h3>
-        <form action="" method="POST">
-            <input type="hidden" name="lang" value="<?= LANG_EN_US ?>">
-            <input type="text" name="tag_name" value="" style="width: 250px;">
-            <span>All Langs</span>
-            <input type="checkbox" name="both" value="false"  onclick="this.value=this.checked;">
-            <input type="submit" name="save" value="Save new tag">
-        </form>
-        <form action="" method="POST">
-            <input type="hidden" name="lang" value="<?= LANG_EN_US ?>">
-            <select name="tags[]" multiple style="width: 250px;height: 200px;">
-                <?php foreach ($array_en as $cat) { ?>
-                    <option value="<?= $cat->id ?>"><?= $cat->name ."(".$cat->id.")"?></option>
-                <?php } ?>
-            </select>
-
-
-            <input type="submit" name="select" value="Select">
-            <br/>
-            <span>All Langs</span>
-            <input type="checkbox" name="both2" value="false"  onclick="this.value=this.checked;">
-            <input type="submit" name="delete" value="Delete">
-
-        </form>
-
-
-        <h3>Tags TR</h3>
-        <form action="" method="POST">
-            <input type="hidden" name="lang" value="<?= LANG_TR_TR ?>">
-            <input type="text" name="tag_name" value="" style="width: 250px;">
-            <span>All Langs</span>
-            <input type="checkbox" name="both" value="false" onclick="this.value=this.checked;">
-            <input type="submit" name="save" value="Save new tag">
-        </form>
-        <form action="" method="POST">
-            <input type="hidden" name="lang" value="<?= LANG_TR_TR ?>">
-            <select name="tags[]" multiple style="width: 250px;height: 200px;">
-                <?php foreach ($array_tr as $cat) { ?>
-                    <option value="<?= $cat->id ?>"><?= $cat->name ."(".$cat->id.")"?></option>
-                <?php } ?>
-            </select>
+                    <h3>Tags EN</h3>
+                    <form action="" method="POST">
+                        <input type="hidden" name="lang" value="<?= LANG_EN_US ?>">
+                        <input type="text" name="tag_name" value="" style="width: 250px;">
+                        <span>All Langs</span>
+                        <input type="checkbox" name="both" value="false"  onclick="this.value=this.checked;">
+                        <input type="submit" name="save" value="Save new tag">
+                    </form>
+                    <form action="" method="POST">
+                        <input type="hidden" name="lang" value="<?= LANG_EN_US ?>">
+                        <select name="tags[]" multiple style="width: 250px;height: 200px;">
+                            <?php foreach ($array_en as $cat) { ?>
+                                <option value="<?= $cat->id ?>"><?= $cat->name . "(" . $cat->id . ")" ?></option>
+                            <?php } ?>
+                        </select>
 
 
-            <input type="submit" name="select" value="Select">
-            <br/>
-            <span>All Langs</span>
-            <input type="checkbox" name="both2" value="false"  onclick="this.value=this.checked;">
-            <input type="submit" name="delete" value="Delete">
+                        <input type="submit" name="select" value="Select">
+                        <br/>
+                        <span>All Langs</span>
+                        <input type="checkbox" name="both2" value="false"  onclick="this.value=this.checked;">
+                        <input type="submit" name="delete" value="Delete">
 
-        </form>
-        <input type="button" onclick="window.history.back();"value="Back">
+                    </form>
+
+
+                    <h3>Tags TR</h3>
+                    <form action="" method="POST">
+                        <input type="hidden" name="lang" value="<?= LANG_TR_TR ?>">
+                        <input type="text" name="tag_name" value="" style="width: 250px;">
+                        <span>All Langs</span>
+                        <input type="checkbox" name="both" value="false" onclick="this.value=this.checked;">
+                        <input type="submit" name="save" value="Save new tag">
+                    </form>
+                    <form action="" method="POST">
+                        <input type="hidden" name="lang" value="<?= LANG_TR_TR ?>">
+                        <select name="tags[]" multiple style="width: 250px;height: 200px;">
+                            <?php foreach ($array_tr as $cat) { ?>
+                                <option value="<?= $cat->id ?>"><?= $cat->name . "(" . $cat->id . ")" ?></option>
+                            <?php } ?>
+                        </select>
+
+
+                        <input type="submit" name="select" value="Select">
+                        <br/>
+                        <span>All Langs</span>
+                        <input type="checkbox" name="both2" value="false"  onclick="this.value=this.checked;">
+                        <input type="submit" name="delete" value="Delete">
+
+                    </form>
+                    <input type="button" onclick="window.history.back();"value="Back">
+                </div></div></div>
     </body>
 </html>

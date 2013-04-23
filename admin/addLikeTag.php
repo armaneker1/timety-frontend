@@ -28,7 +28,7 @@ if (!empty($_POST)) {
             if (isset($_POST['s_tags'])) {
                 $list = $_POST['s_tags'];
                 foreach ($list as $l) {
-                    $t = Neo4jTimetyTagUtil::getTimetyTagById($l,$lll);
+                    $t = Neo4jTimetyTagUtil::getTimetyTagById($l, $lll);
                     if (!empty($t)) {
                         AddLikeUtils::insertTag($catId, $t->id, $lll, $t->name);
                     }
@@ -38,7 +38,7 @@ if (!empty($_POST)) {
             if (isset($_POST['a_tags'])) {
                 $list = $_POST['a_tags'];
                 foreach ($list as $l) {
-                    $t = Neo4jTimetyTagUtil::getTimetyTagById($l,$lll);
+                    $t = Neo4jTimetyTagUtil::getTimetyTagById($l, $lll);
                     if (!empty($t)) {
                         AddLikeUtils::remTag($catId, $t->id, $lll);
                     }
@@ -58,57 +58,86 @@ $catsl = AddLikeUtils::getCategories($lll);
 ?>
 <html>
     <head>
-
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Dashboard - Admin Template</title>
+        <link rel="stylesheet" type="text/css" href="css/theme.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <script>
+            var StyleFile = "theme" + document.cookie.charAt(6) + ".css";
+            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '">');
+        </script>
+        <!--[if IE]>
+        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
+        <![endif]-->
     </head>
     <body>
-        <h1><?= $lll ?></h1>
-        <form action="" method="POST">
-            <div style="width: 235px;display: table-cell">
-                <h3>Selected Categories</h3>
-                <select name="category"  style="width: 250px;">
-                    <?php foreach ($catsl as $cat) { ?>
-                        <option value="<?= $cat->id ?>"><?= $cat->name . "(" . $cat->id . ")" ?></option>
-                    <?php } ?>
-                </select>
-                <br/>
-                <input type="submit" name="action" value="Select">
-            </div>
-        </form>
-
-
-        <?php if (!empty($catId)) { ?>
-            <form action="" method="POST">
-                <input value="<?= $catId ?>" name="category" type="hidden" />
-                <div style="display: table">
-                    <div style="width: 235px;display: table-cell">
-                        <h3>Tags</h3>
-                        <select name="s_tags[]" multiple style="width: 250px;height: 200px;">
-                            <?php foreach ($tagsl as $tag) { ?>
-                                <option value="<?= $tag->id ?>"><?= $tag->name . "(" . $tag->id . ")" ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div style="display: table-cell; width: 50px;">
-                        <input type="submit" name="action" value="Remove" ></form>
-                        <input type="submit" name="action" value="Add">
-                    </div>
-                    <div style="width: 235px;display: table-cell">
-                        <h3>Selected Tags</h3>
-                        <select name="a_tags[]" multiple style="width: 250px;height: 200px;">
-                            <?php foreach ($tagsa as $tag) { ?>
-                                <option value="<?= $tag->id ?>"><?= $tag->name . "(" . $tag->id . ")" ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
+        <div id="container">
+            <div id="header">
+                <h2>Timety Administrator Panel</h2>
+                <div id="topmenu">
+                    <ul>
+                        <li><a href="index.php">Statistics</a></li>
+                        <li><a href="timetyCategoryList.php">Category Lists</a></li>
+                        <li><a href="users.php">Users</a></li>
+                        <li><a href="timetyCategory.php">Categories</a></li>
+                        <li><a href="menuCategory.php">Menu Categories</a></li>
+                        <li class="current"><a href="addLikeCat.php">Add Interest</a></li>
+                        <li><a href="#">Settings</a></li>
+                    </ul>
                 </div>
-            </form>
-        <?php } ?>
+            </div>
+            <div id="wrapper">
+                <div id="content">
+                    <h1><?= $lll ?></h1>
+                    <form action="" method="POST">
+                        <div style="width: 235px;display: table-cell">
+                            <h3>Selected Categories</h3>
+                            <select name="category"  style="width: 250px;">
+                                <?php foreach ($catsl as $cat) { ?>
+                                    <option value="<?= $cat->id ?>"><?= $cat->name . "(" . $cat->id . ")" ?></option>
+                                <?php } ?>
+                            </select>
+                            <br/>
+                            <input type="submit" name="action" value="Select">
+                        </div>
+                    </form>
 
 
-        <a href="<?= HOSTNAME ?>admin/addLikeCat.php?lang=tr_TR">TR Categories</a><br/>
-        <a href="<?= HOSTNAME ?>admin/addLikeCat.php?lang=en_US">EN Categories</a><br/>
-        <a href="<?= HOSTNAME ?>admin/addLikeTag.php?lang=tr_TR&catId=<?=$catId?>"> TR Tags</a><br/>
-        <a href="<?= HOSTNAME ?>admin/addLikeTag.php?lang=en_US&catId=<?=$catId?>"> EN Tags</a>
+                    <?php if (!empty($catId)) { ?>
+                        <form action="" method="POST">
+                            <input value="<?= $catId ?>" name="category" type="hidden" />
+                            <div style="display: table">
+                                <div style="width: 235px;display: table-cell">
+                                    <h3>Tags</h3>
+                                    <select name="s_tags[]" multiple style="width: 250px;height: 200px;">
+                                        <?php foreach ($tagsl as $tag) { ?>
+                                            <option value="<?= $tag->id ?>"><?= $tag->name . "(" . $tag->id . ")" ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div style="display: table-cell; width: 50px;">
+                                    <input type="submit" name="action" value="Remove" ></form>
+                                    <input type="submit" name="action" value="Add">
+                                </div>
+                                <div style="width: 235px;display: table-cell">
+                                    <h3>Selected Tags</h3>
+                                    <select name="a_tags[]" multiple style="width: 250px;height: 200px;">
+                                        <?php foreach ($tagsa as $tag) { ?>
+                                            <option value="<?= $tag->id ?>"><?= $tag->name . "(" . $tag->id . ")" ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    <?php } ?>
+
+
+                    <a href="<?= HOSTNAME ?>admin/addLikeCat.php?lang=tr_TR">TR Categories</a><br/>
+                    <a href="<?= HOSTNAME ?>admin/addLikeCat.php?lang=en_US">EN Categories</a><br/>
+                    <a href="<?= HOSTNAME ?>admin/addLikeTag.php?lang=tr_TR&catId=<?= $catId ?>"> TR Tags</a><br/>
+                    <a href="<?= HOSTNAME ?>admin/addLikeTag.php?lang=en_US&catId=<?= $catId ?>"> EN Tags</a>
+                </div>
+            </div>
     </body>
 </html>
 
