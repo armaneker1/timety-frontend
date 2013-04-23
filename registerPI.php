@@ -125,8 +125,8 @@ if (isset($_POST['te_username'])) {
 
     if (sizeof($msgs) <= 0 && $param) {
         $firstOK = false;
+        $user = new User();
         if (isset($_GET['new'])) {
-            $user = new User();
             $user->email = $email;
             $user->userName = $username;
             $user->password = sha1($password);
@@ -150,7 +150,7 @@ if (isset($_POST['te_username'])) {
         }
 
         if ($firstOK) {
-            $user = UserUtils::getUserById($_SESSION['id']);
+            $user = UserUtils::getUserById($user->id);
             if ($user != null) {
                 $user->userName = $username;
                 $user->firstName = $name;
@@ -174,7 +174,7 @@ if (isset($_POST['te_username'])) {
                 } else {
                     $user->language = LANG_EN_US;
                 }
-                UserUtils::updateUser($_SESSION['id'], $user);
+                UserUtils::updateUser($user->id, $user);
                 $user = UserUtils::getUserById($_SESSION['id']);
                 $user->location_country = $te_location_country;
                 $user->location_city = LocationUtils::getCityId($te_location_city);
@@ -183,7 +183,7 @@ if (isset($_POST['te_username'])) {
                 $user->location_cor_y = $te_location_cor_y;
                 UserUtils::addUserLocation($user->id, $te_location_country, LocationUtils::getCityId($te_location_city), $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
                 UserUtils::addUserInfoNeo4j($user);
-                $userProfilePic = UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType,FALSE);
+                $userProfilePic = UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType, FALSE);
                 /*
                  * check user is invited
                  */
@@ -217,7 +217,7 @@ if (isset($_POST['te_username'])) {
         $user = UserUtils::getUserById($_SESSION['id']);
     if (!empty($user)) {
         if ($user->status != 0) {
-            SessionUtil::checkUserStatus($user,true);
+            SessionUtil::checkUserStatus($user, true);
         }
         $socialProviders = $user->socialProviders;
         if (!empty($socialProviders)) {
@@ -585,7 +585,8 @@ if (isset($_POST['te_username'])) {
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
     <body class="bg">
-        <?php $checkUserStatus=false; include('layout/layout_top.php');?>
+        <?php $checkUserStatus = false;
+        include('layout/layout_top.php'); ?>
         <div id="personel_info_h">
             <div class="create_acco_ust">Personal Information</div>
             <div class="personel_info">
