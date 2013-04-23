@@ -25,9 +25,9 @@ if (!empty($tagId) && (!empty($tag_tr) || !empty($tag_en))) {
             $lang = $_POST['lang'];
             if (Neo4jTimetyTagUtil::updateTimetyTag($tagId, $edit_tag, $lang) == 1) {
                 if ($lang == LANG_TR_TR) {
-                    $tag_tr = Neo4jTimetyTagUtil::getTimetyTagById($tagId,$lang);
+                    $tag_tr = Neo4jTimetyTagUtil::getTimetyTagById($tagId, $lang);
                 } else {
-                    $tag_en = Neo4jTimetyTagUtil::getTimetyTagById($tagId,$lang);
+                    $tag_en = Neo4jTimetyTagUtil::getTimetyTagById($tagId, $lang);
                 }
                 echo "Timety tag saved";
             } else {
@@ -44,27 +44,57 @@ if (!empty($tagId) && (!empty($tag_tr) || !empty($tag_en))) {
 ?>
 <html>
     <head>
-
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Dashboard - Admin Template</title>
+        <link rel="stylesheet" type="text/css" href="css/theme.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <script>
+            var StyleFile = "theme" + document.cookie.charAt(6) + ".css";
+            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '">');
+        </script>
+        <!--[if IE]>
+        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
+        <![endif]-->
     </head>
     <body>
-        <?php if(!empty($tag_en)) { ?>
-        <h1>Tag EN (<?= $tag_en->id ?>)</h1>
-        <form action="" method="POST">
-            <input type="hidden" name="lang" value="<?= LANG_EN_US ?>">
-            <input type="text" name="tag_name" value="<?= $tag_en->name ?>" style="width: 250px;">
-            <input type="hidden" name="tagId" value="<?= $tag_en->id ?>" >
-            <input type="submit" name="update" value="Update">
-        </form>
-        <?php } ?>
-        <?php if(!empty($tag_tr)) { ?>
-        <h1>Tag TR (<?= $tag_tr->id ?>)</h1>
-        <form action="" method="POST">
-            <input type="hidden" name="lang" value="<?= LANG_TR_TR ?>">
-            <input type="text" name="tag_name" value="<?= $tag_tr->name ?>" style="width: 250px;">
-            <input type="hidden" name="tagId" value="<?= $tag_tr->id ?>" >
-            <input type="submit" name="update" value="Update">
-        </form>
-        <?php } ?>
-        <input type="button" onclick="window.history.back();"value="Back">
+        <div id="container">
+            <div id="header">
+                <h2>Timety Administrator Panel</h2>
+                <div id="topmenu">
+                    <ul>
+                        <li><a href="index.php">Statistics</a></li>
+                        <li><a href="timetyCategoryList.php">Category Lists</a></li>
+                        <li><a href="users.php">Users</a></li>
+                        <li class="current"><a href="timetyCategory.php">Categories</a></li>
+                        <li><a href="menuCategory.php">Menu Categories</a></li>
+                        <li"><a href="addLikeCat.php">Add Interest</a></li>
+                        <li><a href="#">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="wrapper">
+                <div id="content">
+                    <?php if (!empty($tag_en)) { ?>
+                        <h1>Tag EN (<?= $tag_en->id ?>)</h1>
+                        <form action="" method="POST">
+                            <input type="hidden" name="lang" value="<?= LANG_EN_US ?>">
+                            <input type="text" name="tag_name" value="<?= $tag_en->name ?>" style="width: 250px;">
+                            <input type="hidden" name="tagId" value="<?= $tag_en->id ?>" >
+                            <input type="submit" name="update" value="Update">
+                        </form>
+                    <?php } ?>
+                    <?php if (!empty($tag_tr)) { ?>
+                        <h1>Tag TR (<?= $tag_tr->id ?>)</h1>
+                        <form action="" method="POST">
+                            <input type="hidden" name="lang" value="<?= LANG_TR_TR ?>">
+                            <input type="text" name="tag_name" value="<?= $tag_tr->name ?>" style="width: 250px;">
+                            <input type="hidden" name="tagId" value="<?= $tag_tr->id ?>" >
+                            <input type="submit" name="update" value="Update">
+                        </form>
+                    <?php } ?>
+                    <input type="button" onclick="window.history.back();"value="Back">
+                </div>
+            </div>
+        </div>
     </body>
 </html>
