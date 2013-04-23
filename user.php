@@ -194,7 +194,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                        
+                                                                                                                                                            
             </script>
 
 
@@ -254,10 +254,22 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         <?php } ?>
 
         <div class="main_sol" style="width:91%;">
-            <div class="ust_blm">
+            <?php
+            $hideBar = true;
+            if (!empty($p_user)) {
+                $settings = UserSettingsUtil::getUserSettings($p_user->id);
+                if (!empty($settings)) {
+                    if ($settings->getBgImageActive() == 1) {
+                        $hideBar = false;
+                    }
+                }
+            }
+            ?>
+            <div style="height: 20px;<?php if(!$hideBar) { echo "display:none;";}?>"></div>
+            <div class="ust_blm" style="<?php if($hideBar) { echo "display:none;";}?>">
                 <div class="trh_gn">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
+                        <tr style="display: none;">
                             <td width="180" valign="middle"><span class="gn"><?= date('d') ?></span> <span
                                     class="ay"> <?= strtoupper(date('M')) ?></span> <span class="yil"><?= date('Y') ?></span> <span
                                     class="hd_line">|</span> <span class="gn"><?= strtoupper(date('l')) ?></span>
