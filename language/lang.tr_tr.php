@@ -28,6 +28,8 @@ define('LANG_PAGE_INDEX_ADD_ERR_START_TIME_NOT_VALID', 'Etkinlik bitiş saati ge
 define('LANG_PAGE_INDEX_ADD_ERR_END_TIME_NOT_VALID', 'Bitiş saati geçersiz');
 define('LANG_PAGE_INDEX_ADD_ERR_END_DATE_NOT_VALID', 'Bitiş tarihi geçersiz');
 define('LANG_PAGE_INDEX_ADD_SUC_CREATED', 'Etkinlik başarıyla oluşturuldu.');
+define('LANG_PAGE_INDEX_ADD_PRI_PUBLIC','genel');
+define('LANG_PAGE_INDEX_ADD_PRI_PRIVATE','özel');
 
 #INDEX - ADD EVENT - UPLOAD IMAGE  {} degistirme
 define('LANG_PAGE_INDEX_ADD_UPL_TYPE_ERROR', '{file} dosya uzantısı geçersiz. Sadece {extensions} geçerlidir.');

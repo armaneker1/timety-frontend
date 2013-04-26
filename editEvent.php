@@ -872,9 +872,9 @@ if ($event->addsocial_tw == 1) {
                                 <div class="left" style="float: right;" >
                                     <p id="on_off_text" style="width: 46px;"><?php
                         if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-                            echo 'public';
+                            echo LanguageUtils::getText("LANG_PAGE_INDEX_ADD_PRI_PUBLIC");
                         } else {
-                            echo 'private';
+                            echo LanguageUtils::getText("LANG_PAGE_INDEX_ADD_PRI_PRIVATE");
                         }
                         ?></p>
                                     <ol class="on_off edit_evt_p">
@@ -1345,7 +1345,7 @@ if ($event->addsocial_tw == 1) {
                                 </script>
                             </div>
                         </div>
-                        <div class="ts_box">to</div>
+                        <div class="ts_box"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_DATE_TO")?></div>
                         <div class="ts_box">
                             <div class="ts_sorta input_border">
                                 <SPAN class="add-on"> <I class="icon-time"><INPUT

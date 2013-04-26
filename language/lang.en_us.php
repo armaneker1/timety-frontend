@@ -28,6 +28,8 @@ define('LANG_PAGE_INDEX_ADD_ERR_START_TIME_NOT_VALID', 'Event Start Time not val
 define('LANG_PAGE_INDEX_ADD_ERR_END_TIME_NOT_VALID', 'End Time is not valid');
 define('LANG_PAGE_INDEX_ADD_ERR_END_DATE_NOT_VALID', 'End Date is not valid');
 define('LANG_PAGE_INDEX_ADD_SUC_CREATED', 'Event created successfully.');
+define('LANG_PAGE_INDEX_ADD_PRI_PUBLIC','public');
+define('LANG_PAGE_INDEX_ADD_PRI_PRIVATE','private');
 
 #INDEX - ADD EVENT - UPLOAD IMAGE
 define('LANG_PAGE_INDEX_ADD_UPL_TYPE_ERROR', '{file} has invalid extension. Only {extensions} are allowed.');

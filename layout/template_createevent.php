@@ -148,7 +148,7 @@ if ($showPopup) {
                             <!-- Title -->
                             <!-- Privacy -->
                             <div class="left" style="margin-top:11px;" >
-                                <p id="on_off_text" style="width: 46px;">private</p>
+                                <p id="on_off_text" style="width: 46px;"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_PRI_PRIVATE")?></p>
                                 <ol class="on_off">
                                     <li style="width: 48px; height: 17px;"><input type="checkbox"
                                                                                   id="on_off" name="te_event_privacy"
