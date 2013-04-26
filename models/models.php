@@ -1,14 +1,16 @@
 <?php
 
+require_once __DIR__ . '/TimeteRegSta.class.php';
 require_once __DIR__ . '/TimeteNotification.class.php';
 require_once __DIR__ . '/TimeteMenuCategory.class.php';
 require_once __DIR__ . '/TimeteMenuTag.class.php';
 require_once __DIR__ . '/TimeteTwitterRecommendation.class.php';
 require_once __DIR__ . '/TimeteFacebookRecommendation.class.php';
 require_once __DIR__ . '/TimeteUserCookie.class.php';
-require_once __DIR__ . '/TimeteRegSta.class.php';
 require_once __DIR__ . '/TimeteEventKeyList.class.php';
 require_once __DIR__ . '/TimeteUserSettings.class.php';
+require_once __DIR__ . '/TimeteVideos.class.php';
+
 class User {
 
     function create($result) {
@@ -296,6 +298,7 @@ class Event {
             $this->loc_city = $result['loc_city'];
             $this->creatorId = $result['creator_id'];
             $this->worldwide = $result['worldwide'];
+            $this->has_video = $result['has_video'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -396,6 +399,7 @@ class Event {
         $this->loc_country = $tmp->loc_country;
         $this->loc_city = $tmp->loc_city;
         $this->worldwide = $tmp->worldwide;
+        $this->has_video = $tmp->has_video;
     }
 
     public function getRemainingTime($time_one = null) {
@@ -442,6 +446,7 @@ class Event {
     public $loc_country;
     public $loc_city;
     public $worldwide;
+    public $has_video;
     /*
      * Additional Data
      */
@@ -450,6 +455,7 @@ class Event {
     public $tags = array();
     public $images = array();
     public $headerImage;
+    public $headerVideo;
     public $commentCount;
     public $remainingtime;
     public $attendancecount;
@@ -481,6 +487,27 @@ class Event {
             }
         }
         return $this->headerImage;
+    }
+
+    public function hasVideo() {
+        if(!empty($this->id)){
+            $this->has_video=  EventUtil::hasEventVideo($this->id);
+        }else{
+            $this->has_video=0;
+        }
+        return $this->has_video;
+    }
+
+    public function getHeaderVideo() {
+        if (empty($this->headerVideo) && !empty($this->id)) {
+            $SQL = "SELECT * FROM " . TBL_VIDEOS . " WHERE eventId=" . $this->id;
+            $video = TimeteVideos::findBySql(DBUtils::getConnection(), $SQL);
+            var_dump($video);
+            if (!empty($video)) {
+                $this->headerVideo = $video[0];
+            }
+        }
+        return $this->headerVideo;
     }
 
     public function getCreator() {

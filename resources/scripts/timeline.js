@@ -29,13 +29,13 @@ function initTimeline(){
             firstMonth=false;
         }
         var weekCounter=1;
-        var weekText="This Week";
+        var weekText=getLanguageText("LANG_TIMELINE_THIS_WEEK");
         while(dayString!=monthEndDayString){
             //create week 
             if(day.day()==0 || weekCounter==1){
                 weekText=getWeekText(day);
                 var  week=createlielement(timeline_ul,weekText,"timeline_week",monthString,true,null);
-                if(weekText=="This Week"){
+                if(weekText==getLanguageText("LANG_TIMELINE_THIS_WEEK")){
                     week.addClass("timeline_current_week"); 
                 }
                 week.click(toggleWeek);
@@ -135,9 +135,9 @@ function getWeekText(day){
     var todayW=moment().week();
     var dayW=day.week();
     if(dayW==todayW){
-        return "This Week";
+        return getLanguageText("LANG_TIMELINE_THIS_WEEK");
     }else{
-        return "Week"+weekOfDate(day);
+        return getLanguageText("LANG_TIMELINE_N_WEEK",weekOfDate(day));
     }
 }
 

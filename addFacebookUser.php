@@ -9,6 +9,7 @@ $success = TRUE;
 $errortext = "";
 
 $l_user = SessionUtil::checkLoggedinUser();
+LanguageUtils::setUserLocale($l_user);
 if (!empty($l_user)) {
     $userFunctions = new UserUtils();
     $facebook = new Facebook(array(
@@ -22,7 +23,7 @@ if (!empty($l_user)) {
         $user = $facebook->api('/me');
         $access_token = $facebook->getAccessToken();
     } catch (Exception $e) {
-        echo $e->getMessage();
+        echo LanguageUtils::getText("LANG_PAGE_ADD_FB_ERROR") . $e->getMessage();
     }
     if (!empty($user)) {
         try {
@@ -38,19 +39,21 @@ if (!empty($l_user)) {
                 $userFunctions->updateSocialProvider($provider);
             } else {
                 $success = FALSE;
-                $errortext = "Facebook account exists!";
+                $errortext = LanguageUtils::getText("LANG_PAGE_ADD_FB_USER_TAKEN");
             }
         } catch (Exception $e) {
-            echo 'Error -> ' . $e->getMessage();
+            echo  LanguageUtils::getText("LANG_PAGE_ADD_FB_ERROR") . $e->getMessage();
         }
     } else {
-        echo "User empty1";
+        echo LanguageUtils::getText("LANG_PAGE_ADD_FB_USER_EMPTY")." 001";
     }
 } else {
-    echo "User empty2";
+    echo LanguageUtils::getText("LANG_PAGE_ADD_FB_USER_EMPTY")." 002";
 }
 ?>
-<head><?php $timety_header = "Timety | Facebook ";
+<head><?php
+$timety_header = LanguageUtils::getText("LANG_PAGE_ADD_FB_TITLE");
+LanguageUtils::setLocaleJS($l_user);
 include('layout/layout_header.php');
 ?></head>
 <?php if ($success) { ?>

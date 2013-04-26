@@ -3,7 +3,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__.'/utils/Functions.php';
- 
+ LanguageUtils::setLocale();
 $call_back=FQ_CALLBACK_URL;
 if(isset($_GET['type']))
 {

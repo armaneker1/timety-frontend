@@ -423,10 +423,10 @@ function openCreatePopup() {
 }
 
 function changePublicPrivate(elem) {
-    var text = "private";
+    var text = getLanguageText("LANG_CREATE_EVENT_PRIVATE");
     if (elem) {
         if (elem.checked) {
-            text = "public";
+            text = getLanguageText("LANG_CREATE_EVENT_PUBLIC");
         }
     }
     jQuery("#on_off_text").text(text);

@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setAJAXLocale();
 $result = new Result();
 if (isset($_GET['type']) && $_GET['type'] == 1) {
 
@@ -130,7 +130,7 @@ class qqUploadedFileXhr {
         if (isset($_SERVER["CONTENT_LENGTH"])) {
             return (int) $_SERVER["CONTENT_LENGTH"];
         } else {
-            throw new Exception('Getting content length is not supported.');
+            throw new Exception(LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_CONT_LENGTH_NOT_SUPPORTED"));
         }
     }
 
@@ -202,7 +202,7 @@ class qqFileUploader {
 
         if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit) {
             $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';
-            die("{'error':'increase post_max_size and upload_max_filesize to $size'}");
+            die(LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_MAX_POST_SIZE",$size));
         }
     }
 
@@ -222,21 +222,21 @@ class qqFileUploader {
      */
     function handleUpload($uploadDirectory, $replaceOldFile = FALSE) {
         if (!is_writable($uploadDirectory)) {
-            return array('error' => "Server error. Upload directory isn't writable.");
+            return array('error' => LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_DIRECTORY_PERMISSION_ERROR"));
         }
 
         if (!$this->file) {
-            return array('error' => 'No files were uploaded.');
+            return array('error' => LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_NO_FILE_ERROR"));
         }
 
         $size = $this->file->getSize();
 
         if ($size == 0) {
-            return array('error' => 'File is empty');
+            return array('error' => LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_FILE_EMPTY_ERROR"));
         }
 
         if ($size > $this->sizeLimit) {
-            return array('error' => 'File is too large');
+            return array('error' =>  LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_FILE_TOO_LARGE_ERROR"));
         }
 
         $pathinfo = pathinfo($this->file->getName());
@@ -246,7 +246,7 @@ class qqFileUploader {
 
         if ($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)) {
             $these = implode(', ', $this->allowedExtensions);
-            return array('error' => 'File has an invalid extension, it should be one of ' . $these . '.');
+            return array('error' => LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_INVALID_EXT",$these));
         }
 
         $ext = ($ext == '') ? $ext : '.' . $ext;
@@ -263,8 +263,7 @@ class qqFileUploader {
         if ($this->file->save($uploadDirectory . $filename . $ext)) {
             return array('success' => true);
         } else {
-            return array('error' => 'Could not save uploaded file.' .
-                'The upload was cancelled, or server error encountered');
+            return array('error' =>LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_CANCELED_ERROR"));
         }
     }
 

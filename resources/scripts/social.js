@@ -137,14 +137,12 @@ function reshareEvent(button,eventId,secondButton)
                         }
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
-                            getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
                             setButtonStatus(button,true);
                             setButtonStatus(secondButton,true);
                         }else {
                             updateBadge(2, -1);
-                            setTooltipButton(button,"Reshare");
-                            var msg='reverted reshared Event';
-                            //getInfo(true,msg,'info',4000);
+                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_RESHARE"));
                             setButtonStatus(button,false);
                             setButtonStatus(secondButton,false);
                             changeLocalData(eventId,2,false);
@@ -180,13 +178,13 @@ function reshareEvent(button,eventId,secondButton)
                         }
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
-                            getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
                             setButtonStatus(button,false);
                             setButtonStatus(secondButton,false);
                         }else {
                             updateBadge(2, 1);
-                            setTooltipButton(button,"Revert");
-                            var msg='You reshared Event';
+                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_REVERT"));
+                            //var msg='You reshared Event';
                             //getInfo(true,msg,'info',4000);
                             changeLocalData(eventId,2,true);
                             setButtonStatus(button,true);
@@ -264,19 +262,17 @@ function sendResponseEvent(button,eventId,type)
                     }
                     jQuery(button).removeAttr("disabled"); 
                     if(data.error) {
-                        getInfo(true,'Something went wrong :( Try again.','error',4000);
+                        getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
                     }else {
-                        var msg='Whoa! Have fun!';
                         if(type==0 || type==5)
                         {
                             
                             updateBadge(1, -1);
                             //reject
-                            msg='reject event';
                             if(jQuery(button).attr("class_pass")=="join_btn"){
-                                setTooltipButton(button,"Join");
+                                setTooltipButton(button,getLanguageText("LANG_SOCIAL_JOIN"));
                             }else{
-                                setTooltipButton(button,"Maybe");
+                                setTooltipButton(button,getLanguageText("LANG_SOCIAL_MAYBE"));
                             }
                             //setButtonStatus(button,false);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
@@ -289,8 +285,7 @@ function sendResponseEvent(button,eventId,type)
                         {
                             updateBadge(1, 1);
                             //join
-                            msg='Whoa! Have fun!';
-                            setTooltipButton(button,"Decline");
+                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_DECLINE"));
                             addToMyTimety(eventId,userId);
                             setButtonStatus(button,true);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
@@ -301,8 +296,7 @@ function sendResponseEvent(button,eventId,type)
                         {
                             updateBadge(1, 1);
                             //maybe
-                            msg='Whoa! Have fun!';
-                            setTooltipButton(button,"Decline");
+                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_DECLINE"));
                             addToMyTimety(eventId,userId);
                             setButtonStatus(button,true);
                             setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
@@ -312,7 +306,6 @@ function sendResponseEvent(button,eventId,type)
                         }else if(type==3)
                         {
                             //ignore
-                            msg='Event ignored';
                             setButtonStatus(button,false);
                             removeFromMyTimety(eventId);
                         }
@@ -366,13 +359,13 @@ function likeEvent(button,eventId,secondButton)
                         }
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
-                            getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
                             setButtonStatus(button,true);
                             setButtonStatus(secondButton,true);
                         }else {
                             updateBadge(3, -1);
-                            setTooltipButton(button,"Like");
-                            var msg='You unliked Event';
+                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_LIKE"));
+                            //var msg='You unliked Event';
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,false);
                             setButtonStatus(secondButton,false);
@@ -407,13 +400,12 @@ function likeEvent(button,eventId,secondButton)
                         }
                         jQuery(button).removeAttr("disabled"); 
                         if(data.error) {
-                            getInfo(true,'Something went wrong :( Try again.','error',4000);
+                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
                             setButtonStatus(button,false);
                             setButtonStatus(secondButton,false);
                         }else {
                             updateBadge(3, 1);
-                            var msg='You liked Event';
-                            setTooltipButton(button,"Unlike");
+                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_UNLIKE"));
                             //getInfo(true,msg,'info',4000);
                             setButtonStatus(button,true);
                             setButtonStatus(secondButton,true);

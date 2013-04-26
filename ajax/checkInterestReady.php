@@ -4,15 +4,15 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setAJAXLocale();
 $result = new Result();
 try {
     $query = null;
     if (isset($_POST["user"]))
         $query = $_POST["user"];
     if (!SessionUtil::isUser($query)) {
-        $res->error = "user not logged in";
-        $json_response = json_encode($res);
+        $result->error = LanguageUtils::getText("LANG_AJAX_SECURITY_SESSION_ERROR");
+        $json_response = json_encode($result);
         echo $json_response;
         exit(1);
     }

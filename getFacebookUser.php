@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/utils/Functions.php';
-
+LanguageUtils::setLocale();
 
 $facebook = new Facebook(array(
             'appId' => FB_APP_ID,
@@ -23,7 +23,7 @@ try {
     $user = $facebook->api('/me');
     $access_token = $facebook->getAccessToken();
 } catch (Exception $e) {
-    echo $e->getMessage();
+    echo LanguageUtils::getText("LANG_PAGE_GET_FACEBOOK_ERROR").$e->getMessage();
 }
 if (!empty($user)) {
     // check username if exist return new username 

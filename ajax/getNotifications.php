@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setAJAXLocale();
 $query = null;
 if (isset($_POST["userId"]))
     $query = $_POST["userId"];
@@ -25,7 +25,7 @@ try {
     if (!empty($query)) {
         if (!SessionUtil::isUser($query)) {
             $res = new stdClass();
-            $res->error = "user not logged in";
+            $res->error = LanguageUtils::getText("LANG_AJAX_SECURITY_SESSION_ERROR");
             $json_response = json_encode($res);
             echo $json_response;
             exit(1);
@@ -64,14 +64,11 @@ try {
                         if (!empty($usr)) {
                             $event = EventUtil::getEventById($res->getNotEventId());
                             if (!empty($event)) {
-                                $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
+                                $read = "";
                                 if ($res->getRead() == 0) {
-                                    $item = $item . "<img class='new_not' src='" . HOSTNAME . "images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
+                                    $read = "display:none;";
                                 }
-                                $item = $item . "<img src='" . HOSTNAME . "images/comment.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                                $item = $item . "<a onclick='window.location=\"" . HOSTNAME . $usr->userName . "\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                                $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;commented on&nbsp;</span>";
-                                $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
+                                $item =$item. LanguageUtils::getText("LANG_AJAX_NOTIFICATION_COMMENTED", $read, HOSTNAME . $usr->userName, $usr->getFullName(), HOSTNAME . "event/" . $res->getNotEventId(), $event->title);
                             } else {
                                 $addItem = false;
                             }
@@ -83,14 +80,11 @@ try {
                         if (!empty($usr)) {
                             $event = EventUtil::getEventById($res->getNotEventId());
                             if (!empty($event)) {
-                                $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
+                                $read = "";
                                 if ($res->getRead() == 0) {
-                                    $item = $item . "<img class='new_not' src='" . HOSTNAME . "images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
+                                    $read = "display:none;";
                                 }
-                                $item = $item . "<img src='" . HOSTNAME . "images/plus.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                                $item = $item . "<a onclick='window.location=\"" . HOSTNAME . $usr->userName . "\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                                $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;liked&nbsp;</span>";
-                                $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
+                                $item = $item.LanguageUtils::getText("LANG_AJAX_NOTIFICATION_LIKED", $read, HOSTNAME . $usr->userName, $usr->getFullName(), HOSTNAME . "event/" . $res->getNotEventId(), $event->title);
                             } else {
                                 $addItem = false;
                             }
@@ -102,14 +96,11 @@ try {
                         if (!empty($usr)) {
                             $event = EventUtil::getEventById($res->getNotEventId());
                             if (!empty($event)) {
-                                $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
+                                $read = "";
                                 if ($res->getRead() == 0) {
-                                    $item = $item . "<img class='new_not' src='" . HOSTNAME . "images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
+                                    $read = "display:none;";
                                 }
-                                $item = $item . "<img src='" . HOSTNAME . "images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                                $item = $item . "<a onclick='window.location=\"" . HOSTNAME . $usr->userName . "\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                                $item = $item . "<span style='color:#C2C2C2;float:left;'>&nbsp;joined&nbsp;</span>";
-                                $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
+                                $item = $item.LanguageUtils::getText("LANG_AJAX_NOTIFICATION_JOIN", $read, HOSTNAME . $usr->userName, $usr->getFullName(), HOSTNAME . "event/" . $res->getNotEventId(), $event->title);
                             } else {
                                 $addItem = false;
                             }
@@ -121,14 +112,11 @@ try {
                         if (!empty($usr)) {
                             $event = EventUtil::getEventById($res->getNotEventId());
                             if (!empty($event)) {
-                                $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
+                                $read = "";
                                 if ($res->getRead() == 0) {
-                                    $item = $item . "<img class='new_not' src='" . HOSTNAME . "images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
+                                    $read = "display:none;";
                                 }
-                                $item = $item . "<img src='" . HOSTNAME . "images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                                $item = $item . "<a onclick='window.location=\"" . HOSTNAME . $usr->userName . "\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                                $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;might join&nbsp;</span>";
-                                $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
+                                $item = $item.LanguageUtils::getText("LANG_AJAX_NOTIFICATION_MAYBE", $read, HOSTNAME . $usr->userName, $usr->getFullName(), HOSTNAME . "event/" . $res->getNotEventId(), $event->title);
                             } else {
                                 $addItem = false;
                             }
@@ -140,14 +128,11 @@ try {
                         if (!empty($usr)) {
                             $event = EventUtil::getEventById($res->getNotEventId());
                             if (!empty($event)) {
-                                $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
+                                $read = "";
                                 if ($res->getRead() == 0) {
-                                    $item = $item . "<img class='new_not' src='" . HOSTNAME . "images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
+                                    $read = "display:none;";
                                 }
-                                $item = $item . "<img src='" . HOSTNAME . "images/plus.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                                $item = $item . "<a onclick='window.location=\"" . HOSTNAME . $usr->userName . "\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                                $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;reshared&nbsp;</span>";
-                                $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
+                                $item = $item.LanguageUtils::getText("LANG_AJAX_NOTIFICATION_RESHARED", $read, HOSTNAME . $usr->userName, $usr->getFullName(), HOSTNAME . "event/" . $res->getNotEventId(), $event->title);
                             } else {
                                 $addItem = false;
                             }
@@ -157,13 +142,12 @@ try {
                     } else if ($res->getType() == NOTIFICATION_TYPE_FOLLOWED) {
                         $usr = UserUtils::getUserById($res->getNotUserId());
                         if (!empty($usr)) {
-                            $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
+
+                            $read = "";
                             if ($res->getRead() == 0) {
-                                $item = $item . "<img class='new_not' src='" . HOSTNAME . "images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
+                                $read = "display:none;";
                             }
-                            $item = $item . "<img src='" . HOSTNAME . "images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                            $item = $item . "<a onclick='window.location=\"" . HOSTNAME . $usr->userName . "\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                            $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;started following you &nbsp;</span>";
+                            $item = $item.LanguageUtils::getText("LANG_AJAX_NOTIFICATION_FOLLOWED", $read, HOSTNAME . $usr->userName, $usr->getFullName());
                         } else {
                             $addItem = false;
                         }
@@ -173,35 +157,21 @@ try {
                             $event = EventUtil::getEventById($res->getNotEventId());
                             if (!empty($event)) {
                                 if ($res->getRead() == 0) {
-                                    $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
-                                    $item = $item . "<img class='new_not' src='" . HOSTNAME . "images/new_not.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                                    $item = $item . "<img src='" . HOSTNAME . "images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                                    $item = $item . "<a onclick='window.location=\"" . HOSTNAME . $usr->userName . "\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                                    $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;invited you to join &nbsp;</span>";
-                                    $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
-                                    $item = $item . "<br class='notf_answer_class'/><a class='notf_answer_class' style='color:#C2C2C2;float:left;cursor:pointer' onclick='return responseEvent(" . $res->getId() . "," . $res->getUserId() . "," . $res->getNotEventId() . ",1);'>Join |&nbsp;</a>";
-                                    $item = $item . "<a class='notf_answer_class' style='color:#C2C2C2;float:left;cursor:pointer' onclick='return responseEvent(" . $res->getId() . "," . $res->getUserId() . "," . $res->getNotEventId() . ",2);'>Maybe |&nbsp;</a>";
-                                    $item = $item . "<a class='notf_answer_class' style='color:#C2C2C2;left:right;cursor:pointer' onclick='return responseEvent(" . $res->getId() . "," . $res->getUserId() . "," . $res->getNotEventId() . ",3);'>Ignore &nbsp;</a>";
+                                    $item = $item.LanguageUtils::getText("LANG_AJAX_NOTIFICATION_INVITE_NEW_1", HOSTNAME . $usr->userName, $usr->getFullName(), HOSTNAME . "event/" . $res->getNotEventId(), $event->title);
+                                    $item = $item . LanguageUtils::getText("LANG_AJAX_NOTIFICATION_INVITE_NEW_2", $res->getId(), $res->getUserId(), $res->getNotEventId());
                                 } else {
                                     $tmp = Neo4jEventUtils::getUserEventJoinRelation($res->getUserId(), $res->getNotEventId());
                                     if (!empty($tmp)) {
                                         $tmp = $tmp->getProperty(PROP_JOIN_TYPE);
                                         if ($tmp == 1) {
-                                            $tmp = "Joined";
+                                            $tmp = LanguageUtils::getText("LANG_PROFILE_BACTH_JOINED");
                                         } else if ($tmp == 2) {
-                                            $tmp = "Maybe";
+                                            $tmp = LanguageUtils::getText("LANG_PROFILE_BACTH_MAYBE");
                                         } else if ($tmp == 3) {
-                                            $tmp = "Ignored";
+                                            $tmp = LanguageUtils::getText("LANG_PROFILE_BACTH_IGNORED");
                                         }
                                     }
-                                    $item = $item . "<div style='line-height:18px;padding-top: 9px;height: auto;padding-bottom: 9px;display: table;'>";
-                                    $item = $item . "<img src='" . HOSTNAME . "images/people.png' style='float: left;margin-top: 4px;margin-right: 5px;'>";
-                                    $item = $item . "<a onclick='window.location=\"" . HOSTNAME . $usr->userName . "\";' style='color:#C2C2C2;float:left;cursor:pointer;'>" . $usr->getFullName() . "</a>&nbsp;";
-                                    $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;invited you to join &nbsp;</span>";
-                                    $item = $item . "<a  style='color:#C2C2C2;float:left;cursor:pointer;' onclick='document.location=\"" . HOSTNAME . "event/" . $res->getNotEventId() . "\"'>'" . $event->title . "'</a>";
-                                    if (!empty($tmp)) {
-                                        $item = $item . "<span style='font-weight: normal;color:#C2C2C2;float:left;'>&nbsp;(" . $tmp . ")&nbsp;</span>";
-                                    }
+                                    $item = $item.LanguageUtils::getText("LANG_AJAX_NOTIFICATION_INVITE_OLD", HOSTNAME . $usr->userName, $usr->getFullName(), HOSTNAME . "event/" . $res->getNotEventId(), $event->title, $tmp);
                                 }
                             } else {
                                 $addItem = false;

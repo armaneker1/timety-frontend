@@ -3,6 +3,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 $lll = LANG_EN_US;
@@ -46,14 +47,14 @@ $catsl = AddLikeUtils::getCategories($lll);
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Dashboard - Admin Template</title>
-        <link rel="stylesheet" type="text/css" href="css/theme.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/theme.css?<?=JS_CONSTANT_PARAM?>" />
+        <link rel="stylesheet" type="text/css" href="css/style.css?<?=JS_CONSTANT_PARAM?>" />
         <script>
-            var StyleFile = "theme" + document.cookie.charAt(6) + ".css";
-            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '">');
+            var StyleFile = "theme" + document.cookie.charAt(6) + ".css?<?=JS_CONSTANT_PARAM?>";
+            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '?<?=JS_CONSTANT_PARAM?>">');
         </script>
         <!--[if IE]>
-        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css" />
+        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css?<?=JS_CONSTANT_PARAM?>" />
         <![endif]-->
     </head>
     <body>

@@ -20,6 +20,8 @@ $_random_session_id = rand(10000, 9999999);
 
 
 $user = SessionUtil::checkLoggedinUser();
+//set langugae
+LanguageUtils::setUserLocale($user);
 if (empty($user) || empty($user->id)) {
     exit(header('Location: ' . PAGE_LOGIN));
 } else {
@@ -79,7 +81,7 @@ if (!empty($_POST['rand_session_id'])) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Title can not be empty";
+        $m->message=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_TITLE_EMPTY");
         array_push($msgs, $m);
     }
 
@@ -88,7 +90,7 @@ if (!empty($_POST['rand_session_id'])) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Location can not be empty";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_LOC_EMPTY");
         array_push($msgs, $m);
     }
 
@@ -109,7 +111,7 @@ if (!empty($_POST['rand_session_id'])) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Description can not be empty";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_DESC_EMPTY");
         array_push($msgs, $m);
     }
 
@@ -118,7 +120,7 @@ if (!empty($_POST['rand_session_id'])) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Upload an Image";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_UPLOAD");
         array_push($msgs, $m);
     } else {
         if (UtilFunctions::startsWith($_POST["upload_image_header"], "events")) {
@@ -194,7 +196,7 @@ if (!empty($_POST['rand_session_id'])) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Start Date not valid";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_START_DATE_NOT_VALID");
         array_push($msgs, $m);
     }
     $startTime = UtilFunctions::checkTime($startTime);
@@ -202,7 +204,7 @@ if (!empty($_POST['rand_session_id'])) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Start Time not valid";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_START_TIME_NOT_VALID");
         array_push($msgs, $m);
     }
 
@@ -224,7 +226,7 @@ if (!empty($_POST['rand_session_id'])) {
                 $error = true;
                 $m = new HtmlMessage();
                 $m->type = "e";
-                $m->message = "End Time is not valid";
+                $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_END_TIME_NOT_VALID");
                 array_push($msgs, $m);
             }
         }
@@ -233,7 +235,7 @@ if (!empty($_POST['rand_session_id'])) {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
-            $m->message = "End Date is not valid";
+            $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_END_DATE_NOT_VALID");
             array_push($msgs, $m);
         }
     }
@@ -441,21 +443,21 @@ if (!empty($_POST['rand_session_id'])) {
                 }
                 $m = new HtmlMessage();
                 $m->type = "s";
-                $m->message = "Event updated.";
+                $m->message = LanguageUtils::getText("LANG_PAGE_EDIT_EVENT_SUC_UPDATED");
                 $_SESSION[INDEX_MSG_SESSION_KEY] = UtilFunctions::json_encode($m);
                 exit(header('Location: ' . HOSTNAME));
             } else {
                 $error = true;
                 $m = new HtmlMessage();
                 $m->type = "e";
-                $m->message = "Error 103";
+                $m->message = LanguageUtils::getText("LANG_PAGE_EDIT_EVENT_ERROR");
                 array_push($msgs, $m);
             }
         } catch (Exception $e) {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
-            $m->message = $e->getMessage();
+            $m->message = LanguageUtils::getText("LANG_PAGE_EDIT_EVENT_ERROR").$e->getMessage();
             array_push($msgs, $m);
         }
     }
@@ -531,21 +533,22 @@ if (!empty($_POST['rand_session_id'])) {
 <html>
     <head>
         <?php
-        $timety_header = "Timety | Edit Event";
+        $timety_header = LanguageUtils::getText("LANG_PAGE_EDIT_EVENT_TITLE");
+        LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header.php');
         ?>
 
-        <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js"></script>
+        <script src="<?= HOSTNAME ?>js/prototype.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>js/scriptaculous.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js?<?=JS_CONSTANT_PARAM?>"></script>
 
 
-        <script src="<?= HOSTNAME ?>resources/scripts/createEvent.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>resources/scripts/editevent.js" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>resources/scripts/createEvent.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>resources/scripts/editevent.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
 
-        <link href="<?= HOSTNAME ?>fileuploader.css" rel="stylesheet" type="text/css">
-        <script src="<?= HOSTNAME ?>fileuploader.js" type="text/javascript"></script>
+        <link href="<?= HOSTNAME ?>fileuploader.css?<?=JS_CONSTANT_PARAM?>" rel="stylesheet" type="text/css">
+        <script src="<?= HOSTNAME ?>fileuploader.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript"></script>
 
         <script>
             jQuery(document).ready(function(){                
@@ -641,8 +644,11 @@ if (!empty($_POST['rand_session_id'])) {
                     theme: "custom",
                     userId :"<?= $user->id ?>",
                     queryParam : "term",
+                    hintText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_HINT_TEXT_TAG")?>",
+                    noResultsText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_NO_RESULT")?>",
+                    searchingText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_SEARCHING")?>",
                     minChars : 2,
-                    placeholder : "tag",
+                    placeholder : "<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER")?>",
                     preventDuplicates : true,
                     input_width:70,
                     propertyToSearch: "label",
@@ -667,8 +673,11 @@ if (!empty($_POST['rand_session_id'])) {
                     theme: "custom",
                     userId :"<?= $user->id ?>",
                     queryParam : "term",
+                    hintText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_HINT_TEXT_PEOPLE")?>",
+                    noResultsText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_NO_RESULT")?>",
+                    searchingText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_SEARCHING")?>",
                     minChars : 2,
-                    placeholder : "add new people manually",
+                    placeholder : "<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER")?>",
                     preventDuplicates : true,
                     input_width:200,
                     add_maunel:true,
@@ -719,8 +728,8 @@ if (!empty($_POST['rand_session_id'])) {
         </SCRIPT>
         <!--takvim-->
         <!--saat-->
-        <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js"></script>
-        <link href="<?= HOSTNAME ?>js/saat/timepicker.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js?<?=JS_CONSTANT_PARAM?>"></script>
+        <link href="<?= HOSTNAME ?>js/saat/timepicker.css?<?=JS_CONSTANT_PARAM?>" rel="stylesheet" type="text/css" />
         <!--saat-->
 
         <script>jQuery(document).ready(function() {
@@ -800,7 +809,7 @@ if ($event->addsocial_tw == 1) {
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
 
-    <body class="bg">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
         <?php
         if (!empty($msgs)) {
             $txt = "";
@@ -830,7 +839,7 @@ if ($event->addsocial_tw == 1) {
                     <!-- Header Image-->
                     <div class="cae_foto" style="z-index: -10;" id="event_header_image">
                         <?php if (empty($event->headerImage)) { ?>
-                            <a href="#">click here to add image</a>
+                        <a href="#"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?>?></a>
                         <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
@@ -853,7 +862,7 @@ if ($event->addsocial_tw == 1) {
                                 <div class="title_max">
                                     <input name="te_event_title" type="text" class="eam_inpt"
                                            charlength="55"
-                                           id="te_event_title" value="<?= $event->title ?>" placeholder="title" />
+                                           id="te_event_title" value="<?= $event->title ?>" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER")?>" />
                                     <script>
                                     jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
                                     </script>
@@ -917,7 +926,7 @@ if ($event->addsocial_tw == 1) {
                                 }
                             }
                             ?>
-                            <p style="font-family: arial;font-size: 15px;font-weight: bold;color: #aeaeae;">Export to</p>
+                            <p style="font-family: arial;font-size: 15px;font-weight: bold;color: #aeaeae;"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_EXPOT")?></p>
 
                             <button id="add_social_c_fb" type="button" ty="fb" act="false" class="big-icon-f-export btn-sign-big-export  fb facebook"
                             <?php
@@ -927,7 +936,7 @@ if ($event->addsocial_tw == 1) {
                                 echo "onclick=\"toogleSocialButton(this);\"";
                             }
                             ?>>
-                                <b>Events</b> 
+                                <b><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_FACEBOOK")?></b> 
                                 <div id="big-icon-check-fb-id" class="big-icon-check" style="top:90px;display:none;"></div>
                             </button>
 
@@ -939,13 +948,13 @@ if ($event->addsocial_tw == 1) {
                                 echo "onclick=\"toogleSocialButton(this);\"";
                             }
                             ?>>
-                                <b>Calendar</b> 
+                                <b><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_GOOGLE")?></b> 
                                 <div id="big-icon-check-gg-id" class="big-icon-check" style="top:90px;display:none;"></div>
                             </button>
 
                             <button id="add_social_c_out" type="button" ty="out" act="false" class="big-icon-o-export btn-sign-big-export ou outlook"
                                     onclick="toogleSocialButton(this);">
-                                <b>Outlook</b> 
+                                <b><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_OUTLOOK")?></b> 
                                 <div id="big-icon-check-out-id" class="big-icon-check" style="top:90px;display:none;"></div>
                             </button>
 
@@ -981,7 +990,7 @@ if ($event->addsocial_tw == 1) {
                         <!-- Image 1 -->
                         <div class="akare" style="z-index: -10;display: none;" id="event_image_1">
                             <?php if (empty($event->images[0])) { ?>
-                                <a href="#" >click here to add image</a>
+                                <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                             <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
@@ -1002,7 +1011,7 @@ if ($event->addsocial_tw == 1) {
                         <!-- Image 2 -->
                         <div class="akare" style="z-index: -10;display: none;" id="event_image_2">
                             <?php if (empty($event->images[1])) { ?>
-                                <a href="#" >click here to add image</a>
+                                <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                             <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
@@ -1024,7 +1033,7 @@ if ($event->addsocial_tw == 1) {
                         <!-- Image 3 -->
                         <div class="akare" style="z-index: -10;display: none;" id="event_image_3">
                             <?php if (empty($event->images[2])) { ?>
-                                <a href="#" >click here to add image</a>
+                                <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                             <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
@@ -1046,7 +1055,7 @@ if ($event->addsocial_tw == 1) {
                         <!-- Image 4 -->
                         <div class="akare" style="z-index: -10;display: none;" id="event_image_4">
                             <?php if (empty($event->images[3])) { ?>
-                                <a href="#" >click here to add image</a>
+                                <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                             <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
@@ -1069,7 +1078,7 @@ if ($event->addsocial_tw == 1) {
                         <!-- Image 5 -->
                         <div class="akare" style="z-index: -10;display: none;" id="event_image_5">
                             <?php if (empty($event->images[4])) { ?>
-                                <a href="#" >click here to add image</a>
+                                <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                             <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
@@ -1091,7 +1100,7 @@ if ($event->addsocial_tw == 1) {
                         <!-- Image 6 -->
                         <div class="akare" style="z-index: -10;display: none;" id="event_image_6">
                             <?php if (empty($event->images[5])) { ?>
-                                <a href="#" >click here to add image</a>
+                                <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                             <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
@@ -1113,7 +1122,7 @@ if ($event->addsocial_tw == 1) {
                         <!-- Image 7 -->
                         <div class="akare" style="z-index: -10;display: none;" id="event_image_7">
                             <?php if (empty($event->images[6])) { ?>
-                                <a href="#" >click here to add image</a>
+                                <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                             <?php } else { ?>
                                 <script>
                                 jQuery(document).ready(function(){
@@ -1139,15 +1148,15 @@ if ($event->addsocial_tw == 1) {
                             <input name="te_event_location" type="text" class="eam_inpt" style="width: 435px;"
                                    id="te_event_location" 
                                    onfocus="openMap(true,true);"
-                                   value="<?= $event->location ?>" placeholder="location" />
+                                   value="<?= $event->location ?>" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER")?>" />
                             <input type="hidden" name="te_event_location_country" id="te_event_location_country" value="<?= $event->loc_country ?>"/>
                             <input type="hidden" name="te_event_location_city" id="te_event_location_city" value="<?= $event->loc_city ?>"/>
                             <input type="hidden" name="te_map_location" id="te_map_location" value="<?= $event->loc_lat . "," . $event->loc_lng ?>"/>
                             <div class="left" style="float: right;">
                                 <div class="link_atac" style="display: none;left: -195px !important;">
                                     <input type="text" name="te_event_attach_link" id="te_event_attach_link" class="link_atac_adrs" value="<?= $event->attach_link ?>"/>
-                                    <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Add</a>
-                                    <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Close</a>
+                                    <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_ADD")?></a>
+                                    <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_CLOSE")?></a>
                                 </div>
                                 <p style="border-left: none !important;">
                                     <a style="background: none !important;" class="camera_btn"></a>
@@ -1253,7 +1262,7 @@ if ($event->addsocial_tw == 1) {
                              style="width: 555px; height: auto; border-style: dotted;  border-width: 2px;border-color: rgb(199, 199, 199);">
 
                             <input name="te_event_tag" type="text" class="eam_inpt_b"
-                                   id="te_event_tag" placeholder="tag"  />
+                                   id="te_event_tag" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER")?>"  />
                         </div>
                     </div>
                     <!-- Tags -->
@@ -1266,7 +1275,7 @@ if ($event->addsocial_tw == 1) {
                                        style="font-size: 16px;resize: none;margin-top: 0px;background-image: none;height: 29px;width: 520px;"
                                        value=""
                                        charlength="256"
-                                       id="te_event_description" placeholder="description" ><?= $event->description ?></textarea>
+                                       id="te_event_description" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_DESC_PLACEHOLDER")?>" ><?= $event->description ?></textarea>
                             <script>
                             jQuery("#te_event_description").bind('input propertychange', function() {
                                 if (this.clientHeight < this.scrollHeight) { 
@@ -1288,7 +1297,7 @@ if ($event->addsocial_tw == 1) {
                              style="width: 564px;min-height: 40px; height: auto; margin-top: 15px;">
 
                             <input name="te_event_people" type="text" class="eam_inpt_b"
-                                   id="te_event_people" value="" placeholder="add new people manually" />
+                                   id="te_event_people" value="" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER")?>" />
                         </div>
                     </div>	
                     <!-- People -->
@@ -1472,17 +1481,6 @@ if ($event->addsocial_tw == 1) {
                         <div class="eab_stbar">
                             <ul>
                                 <li class="stbar_normal"><a href="#">00:00</a></li>
-                                <li class="stbar_normal"><a href="#">01:00</a></li>
-                                <li class="stbar_normal"><a href="#">02:00</a></li>
-                                <li class="stbar_normal"><a href="#">03:00</a></li>
-                                <li class="stbar_normal"><a href="#">04:00</a></li>
-                                <li class="stbar_krmz"><a href="#">05:00</a></li>
-                                <li class="stbar_normal"><a href="#">06:00</a></li>
-                                <li class="stbar_normal"><a href="#">07:00</a></li>
-                                <li class="stbar_ysl"><a href="#">08:00</a></li>
-                                <li class="stbar_normal"><a href="#">09:00</a></li>
-                                <li class="stbar_byz"><a href="#">10:00</a></li>
-                                <li class="stbar_normal"><a href="#">11:00</a></li>
 
                             </ul>
                         </div>
@@ -1501,7 +1499,7 @@ if ($event->addsocial_tw == 1) {
                                     class="googl_plus back_btn sosyal_icon"></button>
                         </div>
                         <div class="ea_alt_btn">
-                            <a href="<?= HOSTNAME ?>" class="dugme dugme_esit">Cancel</a>
+                            <a href="<?= HOSTNAME ?>" class="dugme dugme_esit"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL")?></a>
                             <script>
                             function disButton(elem){
                                 var val=jQuery(elem).data('clcked');
@@ -1513,7 +1511,7 @@ if ($event->addsocial_tw == 1) {
                                 }
                             }
                             </script>
-                            <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent" name="edit_event">Update</button>
+                            <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent" name="edit_event"><?=  LanguageUtils::getText("LANG_PAGE_EDIT_EVENT_BUTTON_UPDATE_EVENT")?></button>
                         </div>
                     </div>
                     <!-- Buttons -->

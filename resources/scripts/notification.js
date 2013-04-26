@@ -163,7 +163,7 @@ function showNotifications(userId)
             if(notfUl.children().length<2){
                 element=jQuery("<li>");
                 element.attr("id", "li_notf_no_new_notf");
-                title="No new notification";
+                var title=getLanguageText("LANG_NOTIFICATION_NO_NEW_NOTF");
                 element.append("<a style=\"color:#C2C2C2;float:left;\" href=\"#\" onclick=\"return false;\">"+title+"</a>");
                     
                 element.append("<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>");

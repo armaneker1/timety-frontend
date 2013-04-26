@@ -14,6 +14,7 @@ HttpAuthUtils::checkHttpAuth();
 
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 
 $n=new Neo4jFuctions();
 $array=$n->searchInterests("");

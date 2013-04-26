@@ -7,6 +7,8 @@ require_once __DIR__ . '/utils/Functions.php';
 $user = new User();
 $checkUserStatus = false;
 $user = SessionUtil::checkLoggedinUser($checkUserStatus);
+//set langugae
+LanguageUtils::setUserLocale($user);
 if (empty($user)) {
     header("location: " . HOSTNAME);
     exit(1);
@@ -23,7 +25,8 @@ if (empty($user)) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php
-        $timety_header = "Timety | Friend Suggest";
+        $timety_header = LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_TITLE");
+        LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header.php');
         ?>
         <script type="text/javascript">
@@ -46,12 +49,12 @@ if (empty($user)) {
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
         <?php $checkUserStatus =false;include('layout/layout_top.php'); ?>
         <div class="follow_trans"></div>
         <div class="follow_ekr" style="display: table">
             <div class="f_friend friend_table_row">
-                <p class="find_friends">Find Friends</p>
+                <p class="find_friends"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FIND_FRIENDS")?></p>
                 <?php
                 $fb = false;
                 $tw = false;
@@ -97,7 +100,7 @@ if (empty($user)) {
             <div style="min-height: 20px;height: 20px;" class="friend_table_row">
                 <div class="add_t_ek" id="spinner" style="display: none;background-image: none;padding-left: 0px;">
                     <img src="<?= HOSTNAME ?>images/loader.gif" style="height: 20px;">
-                        <span class="bold">Loading...</span>
+                        <span class="bold"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_LOADING")?></span>
                 </div>
             </div>
 
@@ -108,7 +111,7 @@ if (empty($user)) {
                     if (!empty($friendList) && sizeof($friendList) > 0) {
                         ?>
                         <div class="friend_table_cell">
-                            <p class="find_friends" style="font-size: 16px;">People you know</p>
+                            <p class="find_friends" style="font-size: 16px;"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_PEOPLE_YOU_KNOW")?></p>
                             <ul class="suggest_friend_ul">
                                 <?php
                                 foreach ($friendList as $friend) {
@@ -132,17 +135,17 @@ if (empty($user)) {
                                             <a type="button" name="" value="" class="followed_btn"
                                                id="foll_<?php echo $friend->id; ?>"
                                                onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
-                                                <span class="follow_text">follow</span>
-                                                <span class="following_text">following</span>
-                                                <span class="unfollow_text">unfollow</span>
+                                                <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOW")?></span>
+                                                <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOWING")?></span>
+                                                <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_UNFOLLOW")?></span>
                                             </a>
                                         <?php } else { ?>
                                             <a type="button" name="" value="" class="follow_btn"
                                                id="foll_<?php echo $friend->id; ?>"
                                                onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
-                                                <span class="follow_text">follow</span>
-                                                <span class="following_text">following</span>
-                                                <span class="unfollow_text">unfollow</span>
+                                                <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOW")?></span>
+                                                <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOWING")?></span>
+                                                <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_UNFOLLOW")?></span>
                                             </a>
 
                                         <?php } ?>
@@ -160,7 +163,7 @@ if (empty($user)) {
                     if (!empty($popular) && sizeof($popular) > 0) {
                         ?>
                         <div class="friend_table_cell">
-                            <p class="find_friends" style="font-size: 16px;">People you might want to know</p>
+                            <p class="find_friends" style="font-size: 16px;"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_PEOPLE_MIGHT_YOU_KNOW")?></p>
                             <ul class="suggest_friend_ul" style="max-height: 200px !important;">
                                 <?php
                                 foreach ($popular as $friend) {
@@ -185,17 +188,17 @@ if (empty($user)) {
                                                 <a type="button" name="" value="" class="follow_btn"
                                                    id="foll_<?php echo $friend->id; ?>"
                                                    onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
-                                                    <span class="follow_text">follow</span>
-                                                    <span class="following_text">following</span>
-                                                    <span class="unfollow_text">unfollow</span>
+                                                    <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOW")?></span>
+                                                    <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOWING")?></span>
+                                                    <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_UNFOLLOW")?></span>
                                                 </a>
                                             <?php } else { ?>
                                                 <a type="button" name="" value="" class="followed_btn"
                                                    id="foll_<?php echo $friend->id; ?>"
                                                    onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
-                                                    <span class="follow_text">follow</span>
-                                                    <span class="following_text">following</span>
-                                                    <span class="unfollow_text">unfollow</span>
+                                                    <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOW")?></span>
+                                                    <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOWING")?></span>
+                                                    <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_UNFOLLOW")?></span>
                                                 </a>
                                             <?php } ?>
                                         </li>
@@ -211,18 +214,18 @@ if (empty($user)) {
                 </div>
             </div>
             <div class="friend_table_row">
-                <p class="find_friends" style="font-size: 16px;">Invite People</p>
+                <p class="find_friends" style="font-size: 16px;"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_INVITE_PEOPLE")?></p>
                 <div class="invite">
                     <input name="te_invite_email" type="text" id="te_invite_email"
                            class="user_inpt invite_friends icon_bg" id="textfield4" value=""
-                           placeholder="Invite User" />
+                           placeholder="<?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_INVITE_PEOPLE_PLACEHOLDER")?>" />
                     <button type="button" name="" value="" class="invite_btn"
                             onclick="return inviteUser('te_invite_email','<?= $user->id ?>');">invite</button>
                 </div>
             </div>
             <div class="invite" style="margin-top: 0px;height:40px;max-height: 50px;margin-right: 3px;">
                 <button type="button" name="" value="" class="invite_btn" style="float: right;"
-                        onclick="window.location='<?= HOSTNAME ?>?finish=true'">Finish</button>
+                        onclick="window.location='<?= HOSTNAME ?>?finish=true'"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FINISH")?></button>
             </div>
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>

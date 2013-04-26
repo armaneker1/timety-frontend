@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setAJAXLocale();
 $userId = null;
 if (isset($_GET["userId"]))
     $userId = $_GET["userId"];
@@ -58,7 +58,7 @@ try {
     } else {
         $res->error = true;
         $res->success = false;
-        $res->param = "No result";
+        $res->param =LanguageUtils::getText("LANG_AJAX_NO_RESULT");
         $json_response = json_encode($res);
         echo $json_response;
     }

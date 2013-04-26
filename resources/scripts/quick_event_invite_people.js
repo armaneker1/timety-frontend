@@ -53,7 +53,7 @@ function searchFollwers(val)
     if(typeof(val)!='string')
     {
         val=input.val();
-        if(val=="search")
+        if(val==input.attr("placeholder"))
         {
             val="";
         }

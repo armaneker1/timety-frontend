@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/utils/Functions.php';
-
+LanguageUtils::setLocale();
 
 $success = TRUE;
 $errortext = "";
@@ -39,17 +39,18 @@ if (isset($_GET['error'])) {
                     UserUtils::updateSocialProvider($provider);
                 } else {
                     $success = FALSE;
-                    $errortext = "Foursquare account exists!";
+                    $errortext = LanguageUtils::getText("LANG_PAGE_GET_FOURSQUARE_USER_ERROR_TAKEN");
                 }
             } catch (Exception $e) {
-                echo 'Error -> ' . $e->getMessage();
+                echo LanguageUtils::getText("LANG_PAGE_GET_FOURSQUARE_ERROR") . $e->getMessage();
             }
         } else {
-            echo "User empty1";
+            echo LanguageUtils::getText("LANG_PAGE_GET_FOURSQUARE_USER_EMPTY_USER")." 001";
         }
     } else {
-        echo "User empty2";
+        echo LanguageUtils::getText("LANG_PAGE_GET_FOURSQUARE_USER_EMPTY_USER")." 002";
     }
+    LanguageUtils::setLocaleJS();
     include('layout/layout_header.php');
     if ($success) {
         echo "<body onload=\"window.close();window.opener.document.getElementById('addSocialReturnButton').click();\"></body>";
@@ -94,7 +95,7 @@ if (isset($_GET['error'])) {
                 header("Location: " . HOSTNAME);
             }
         } catch (Exception $e) {
-            echo 'Error -> ' . $e->getMessage();
+            echo LanguageUtils::getText("LANG_PAGE_GET_FOURSQUARE_USER_EMPTY_USER"). $e->getMessage();
         }
     } else {
         header('Location: ' . PAGE_SIGNUP);

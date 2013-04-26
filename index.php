@@ -11,12 +11,14 @@ $page_id = "index";
 
 $user = new User();
 $user = SessionUtil::checkLoggedinUser();
+//set langugae
+LanguageUtils::setUserLocale($user);
 if (isset($_GET['finish']) && !empty($user)) {
     $user->status = 3;
     UserUtils::updateUser($user->id, $user);
     $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
     $params = array(array('name', $user->firstName), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
-    MailUtil::sendSESMailFromFile("confirm_mail.html", $params, $user->email, "Please confirm your email");
+    MailUtil::sendSESMailFromFile(LanguageUtils::getLocale()."_confirm_mail.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_CONFIRM_ACCOUNT_EMAIL"));
     RegisterAnaliticsUtils::increasePageRegisterCount("index.php?complete=1");
     header('Location: ' . HOSTNAME);
     exit(1);
@@ -39,22 +41,22 @@ if (array_key_exists("guid", $_GET)) {
                 $user = UserUtils::getUserById($userId);
                 if (!empty($user) && $user->userName == $userName) {
                     UserUtils::confirmUser($userId);
-                    $confirm_msg = "Registration is complete";
+                    $confirm_msg = LanguageUtils::getText("LANG_PAGE_INDEX_REGISTRATION_COMPLETE");
                     $confirm_error = true;
                 } else {
-                    $confirm_msg = "User doesn't exist ";
+                    $confirm_msg = LanguageUtils::getText("LANG_PAGE_INDEX_REGISTRATION_USER_DOESNT_EXIST");
                 }
             } else {
-                $confirm_msg = "User doesn't exist ";
+                $confirm_msg = LanguageUtils::getText("LANG_PAGE_INDEX_REGISTRATION_USER_DOESNT_EXIST");
             }
             unset($userId);
             unset($userName);
         } else {
-            $confirm_msg = "Parameters wrong ";
+            $confirm_msg = LanguageUtils::getText("LANG_PAGE_INDEX_REGISTRATION_PARAMETERS_WRONG");
         }
         unset($array);
     } else {
-        $confirm_msg = "Parameters wrong ";
+        $confirm_msg = LanguageUtils::getText("LANG_PAGE_INDEX_REGISTRATION_PARAMETERS_WRONG");
     }
     unset($guid);
 }
@@ -97,7 +99,7 @@ if (empty($user)) {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
-            $m->message = "Event Title can not be empty";
+            $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_TITLE_EMPTY");
             array_push($msgs, $m);
         }
         $event->location = $_POST["te_event_location"];
@@ -105,7 +107,7 @@ if (empty($user)) {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
-            $m->message = "Event Location can not be empty";
+            $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_LOC_EMPTY");
             array_push($msgs, $m);
         }
 
@@ -126,7 +128,7 @@ if (empty($user)) {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
-            $m->message = "Event Description can not be empty";
+            $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_DESC_EMPTY");
             array_push($msgs, $m);
         }
 
@@ -134,7 +136,7 @@ if (empty($user)) {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
-            $m->message = "Upload an Image";
+            $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_UPLOAD");
             array_push($msgs, $m);
         } else {
             $event->headerImage = "ImageEventHeader" . $_random_session_id . ".png";
@@ -178,7 +180,7 @@ if (empty($user)) {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
-            $m->message = "Event Start Date not valid";
+            $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_START_DATE_NOT_VALID");
             array_push($msgs, $m);
         }
         $startTime = UtilFunctions::checkTime($startTime);
@@ -186,7 +188,7 @@ if (empty($user)) {
             $error = true;
             $m = new HtmlMessage();
             $m->type = "e";
-            $m->message = "Event Start Time not valid";
+            $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_START_TIME_NOT_VALID");
             array_push($msgs, $m);
         }
 
@@ -206,7 +208,7 @@ if (empty($user)) {
                     $error = true;
                     $m = new HtmlMessage();
                     $m->type = "e";
-                    $m->message = "End Time is not valid";
+                    $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_END_TIME_NOT_VALID");
                     array_push($msgs, $m);
                 }
             }
@@ -215,7 +217,7 @@ if (empty($user)) {
                 $error = true;
                 $m = new HtmlMessage();
                 $m->type = "e";
-                $m->message = "End Date is not valid";
+                $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_END_DATE_NOT_VALID");
                 array_push($msgs, $m);
             }
         }
@@ -437,28 +439,27 @@ if (empty($user)) {
                     }
                     $m = new HtmlMessage();
                     $m->type = "s";
-                    $m->message = "Event created successfully.";
+                    $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_SUC_CREATED");
                     $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
                     exit(header('Location: ' . HOSTNAME));
                 } else {
                     $error = true;
                     $m = new HtmlMessage();
                     $m->type = "e";
-                    $m->message = "Error 102";
+                    $m->message = LanguageUtils::getText("LANG_ERROR") . " 102";
                     array_push($msgs, $m);
                 }
             } catch (Exception $e) {
                 $error = true;
                 $m = new HtmlMessage();
                 $m->type = "e";
-                $m->message = $e->getMessage();
+                $m->message = LanguageUtils::getText("LANG_ERROR") . $e->getTraceAsString();
                 array_push($msgs, $m);
             }
         }
 
         if ($error && !$notpost) {
             $_SESSION[INDEX_POST_SESSION_KEY] = json_encode($_POST);
-            error_log("redirected " . $_random_session_id);
             exit(header('Location: ' . HOSTNAME));
         }
     }
@@ -475,8 +476,8 @@ if (empty($user)) {
         if (!empty($prm_event)) {
             $timety_header = $prm_event->title;
         }
-
-        include('layout/layout_header_index.php');
+        LanguageUtils::setUserLocaleJS($user);
+        include_once ('layout/layout_header_index.php');
         ?>
         <?php
         if (!empty($confirm_msg)) {
@@ -513,14 +514,12 @@ if (empty($user)) {
 
         <?php
         if (!empty($user)) {
-
             include('layout/eventImageUpload.php');
             ?>
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                    new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -663,8 +662,8 @@ if (empty($user)) {
         </SCRIPT>
         <!--takvim-->
         <!--saat-->
-        <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js"></script>
-        <link href="<?= HOSTNAME ?>js/saat/timepicker.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js?<?=JS_CONSTANT_PARAM?>"></script>
+        <link href="<?= HOSTNAME ?>js/saat/timepicker.css?<?=JS_CONSTANT_PARAM?>" rel="stylesheet" type="text/css" />
         <!--saat-->
 
 
@@ -686,8 +685,11 @@ if (empty($user)) {
                         theme: "custom",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
+                        hintText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_HINT_TEXT_TAG")?>",
+                        noResultsText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_NO_RESULT")?>",
+                        searchingText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_SEARCHING")?>",
                         minChars : 2,
-                        placeholder : "tag",
+                        placeholder : "<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER")?>",
                         preventDuplicates : true,
                         input_width:70,
                         propertyToSearch: "label",
@@ -707,13 +709,16 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
                     queryParam : "term",
+                    hintText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_HINT_TEXT_PEOPLE")?>",
+                    noResultsText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_NO_RESULT")?>",
+                    searchingText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_SEARCHING")?>",
                     minChars : 2,
-                    placeholder : "add people manually",
+                    placeholder : "<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER")?>",
                     preventDuplicates : true,
                     input_width:160,
                     add_maunel:true,
@@ -805,7 +810,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                            
+                                                                                                                                                                                        
             </script>
 
 
@@ -880,9 +885,9 @@ if (empty($user)) {
                     width: 18px !important;
                 }
             </style>
-        <?php } ?>
+        <?php }   ?>
     </head>
-    <body class="bg">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
         <?php include('layout/layout_top.php'); ?>
         <!-- Add Event -->
         <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
@@ -943,9 +948,9 @@ if (empty($user)) {
                 <div class="trh_gn">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td width="180" valign="middle"><span class="gn"><?= date('d') ?></span> <span
-                                    class="ay"> <?= strtoupper(date('M')) ?></span> <span class="yil"><?= date('Y') ?></span> <span
-                                    class="hd_line">|</span> <span class="gn"><?= strtoupper(date('l')) ?></span>
+                            <td width="180" valign="middle"><span class="gn"><?= strftime('%d') ?></span> <span
+                                    class="ay"> <?= LanguageUtils::uppercase(strftime('%b')) ?></span> <span class="yil"><?= strftime('%Y') ?></span> <span
+                                    class="hd_line">|</span> <span class="gn"><?= LanguageUtils::uppercase(strftime('%A')) ?></span>
                             </td>
                             <td align="left" valign="middle" class="u_line" width="100%"><input
                                     type="button" class="gn_btn" />
@@ -958,7 +963,7 @@ if (empty($user)) {
                                         <?php if (empty($user)) { ?>
                                             <div class="slide_item" id="create_event_empty">
                                                 <div class="akt_tkvm">
-                                                    <a href="<?= HOSTNAME ?>login"  class="add_event_link">Click Here to Add Event</a>
+                                                    <a href="<?= HOSTNAME ?>login"  class="add_event_link"><?= LanguageUtils::getText('LANG_PAGE_INDEX_PAGE_CLICK_HERE_ADD_EVENT') ?></a>
                                                 </div>
                                             </div>
                                             <?php
@@ -973,7 +978,7 @@ if (empty($user)) {
                                                 ?>
                                                 <div class="slide_item" id="create_event_empty">
                                                     <div class="akt_tkvm">
-                                                        <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
+                                                        <a href="#" onclick="openCreatePopup();"  class="add_event_link"><?= LanguageUtils::getText('LANG_PAGE_INDEX_PAGE_CLICK_HERE_ADD_EVENT') ?></a>
                                                     </div>
                                                 </div>
 
@@ -982,7 +987,7 @@ if (empty($user)) {
                                                 ?>
                                                 <div class="slide_item" id="create_event_empty" style="display: none">
                                                     <div class="akt_tkvm">
-                                                        <a href="#" onclick="openCreatePopup();"  class="add_event_link">Click Here to Add Event</a>
+                                                        <a href="#" onclick="openCreatePopup();"  class="add_event_link"><?= LanguageUtils::getText('LANG_PAGE_INDEX_PAGE_CLICK_HERE_ADD_EVENT') ?></a>
                                                     </div>
                                                 </div>
 
@@ -997,7 +1002,7 @@ if (empty($user)) {
                                                     ?>   
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
                                                         <h1><?= $evt->title ?></h1>
-                                                        <p>Today @<span class="date_timezone"><?php
+                                                        <p><?= LanguageUtils::getText('LANG_PAGE_INDEX_MY_TIMETY_TODAY') ?> @<span class="date_timezone"><?php
                                         $dt = strtotime($evt->startDateTime);
                                         echo date('H:i', $dt);
                                                     ?></span></p>
@@ -1011,7 +1016,7 @@ if (empty($user)) {
                                                             var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
                                                             localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                                         } catch(exp){ 
-                                                            console.log("error while parsing json2. data =");
+                                                            console.log("<?= LanguageUtils::getText('LANG_ERROR') ?>");
                                                             console.log('<?php
                                                     $json_response = UtilFunctions::json_encode($evt);
                                                     echo $json_response;
@@ -1273,6 +1278,9 @@ if (empty($user)) {
                                             $margin_h = (int) ((125 - $height) / 2);
                                         }
                                         ?>
+                                        <?php if(!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
+                                        <div class="play_video" onclick="return openModalPanel('<?=$main_event->id?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
+                                        <?php } ?>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
                                             <?php
                                             $headerImageTmp = "";
@@ -1377,17 +1385,6 @@ if (empty($user)) {
         </div>
         <div class="main_sag" style="z-index: 10;height: 2000px;top: -80px;padding-top: 80px;">
             <ul id="timeline" style="">
-                <li class="timeline_month timeline_fisrt"><a href="#" class="">March</a></li>
-                <li class="timeline_month"><a href="#" class="" style="">April</a></li>
-                <li class="timeline_day timeline_fisrt"><a href="#" class="">Thu, 5</a></li>
-                <li class="timeline_day"><a href="#" class="">Wed, 6</a></li>
-                <li class="timeline_day"><a href="#" class="">Fri, 7</a></li>
-                <li class="timeline_day"><a href="#" class="">Sat, 8</a></li>
-                <li class="timeline_day"><a href="#" class="">Sun, 9</a></li>
-                <li class="timeline_day"><a href="#" class="">Mon, 10</a></li>
-                <li class="timeline_day"><a href="#" class="">Thu, 11</a></li>
-                <li class="timeline_day"><a href="#" class="">Mon, 12</a></li>
-                <li class="timeline_month"><a href="#" class="">May</a></li>
             </ul>
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
@@ -1410,12 +1407,12 @@ if (empty($user)) {
                     </div>
                     <div class="profil_btn">
                         <ul>
-                            <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><span class="profil_btn_ul_li_span">Following</span><span class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></span></li>
-                            <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><span class="profil_btn_ul_li_span">Followers</span><span class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></span></li>
-                            <li onclick="changeChannelProfile(6);return false;"><span class="profil_btn_ul_li_span">Likes</span><span class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></span></li>
-                            <li onclick="changeChannelProfile(7);return false;"><span class="profil_btn_ul_li_span">Reshare</span><span class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></span></li>
-                            <li onclick="changeChannelProfile(8);return false;"><span class="profil_btn_ul_li_span">Joined</span><span class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></span></li>
-                            <li onclick="changeChannelProfile(5);return false;"><span class="profil_btn_ul_li_span">Created Event</span><span class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></span></li>
+                            <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWING")?></span><span class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></span></li>
+                            <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWERS")?></span><span class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></span></li>
+                            <li onclick="changeChannelProfile(6);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_LIKES")?></span><span class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></span></li>
+                            <li onclick="changeChannelProfile(7);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_RESHARE")?></span><span class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></span></li>
+                            <li onclick="changeChannelProfile(8);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_JOINED")?></span><span class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></span></li>
+                            <li onclick="changeChannelProfile(5);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_CRATED_EVENTS")?></span><span class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></span></li>
                         </ul>
 
                         <script>

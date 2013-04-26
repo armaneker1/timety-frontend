@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setLocale();
 class UserProcessor {
 
     public $userID;
@@ -34,6 +34,8 @@ class UserProcessor {
                                 $event->getTags();
                                 $event->getLocCity();
                                 $event->getWorldWide();
+                                $event->hasVideo();
+                                $event->getHeaderVideo();
                                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
                             } catch (Exception $exc) {

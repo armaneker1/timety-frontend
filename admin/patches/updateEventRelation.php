@@ -8,6 +8,7 @@ header("charset=utf8");
 $uuuuuId = 6618346;
 
 require_once __DIR__ . '/../../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 function updateEvent($key, $userId) {

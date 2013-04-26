@@ -72,7 +72,7 @@ function inviteUser(emailE,id)
         while (node.hasChildNodes()) {
             node.removeChild(node.lastChild);
         }
-        getInfo(true, "Invitation sent", "info", 4000);
+        getInfo(true, getLanguageText("LANG_REGISTER_INVITATION_SENT"), "info", 4000);
         jQuery.post(TIMETY_PAGE_AJAX_INVITEEMAIL, {
             e : email,
             u :id
@@ -81,12 +81,12 @@ function inviteUser(emailE,id)
             if (data.success) {
             } else {
                 console.log(data.error);
-                getInfo(true, "Failed to sent invitation", "info", 4000);
+                getInfo(true,  getLanguageText("LANG_REGISTER_INVITATION_FAILED"), "info", 4000);
             }
         }, "json");
     } else 
     {
-        getInfo(true, "Enter valid email addrress", "error", 4000);
+        getInfo(true,  getLanguageText("LANG_REGISTER_INVITATION_INVALID_MAIL"), "error", 4000);
     }
     return false;
 }

@@ -55,7 +55,7 @@ function unfollowUser(fromUserId, toUSerId, button,prefix,userPage) {
             updateBadge(4,-1,userPage);
         } else {
             button.className = prefix+'followed_btn';
-            getInfo(true, 'Error occured try again', "error", 4000);
+            getInfo(true, getLanguageText("LANG_FOLLOW_SOMETHING_WRONG"), "error", 4000);
         }
     }, "json");
 }
@@ -152,7 +152,7 @@ function validatePassword(field2, fieldEqual, isSync,setMsg) {
         result=result && !(jQuery(field).val() !== jQuery(fieldEqual).val());
         if(!result)
         {
-            msg="Passwords not match";
+            msg=getLanguageText("LANG_FORM_PASSWORD_NOT_MATCH");
         }
     }
     result=result && field.value.length > 5;
@@ -165,7 +165,7 @@ function validatePassword(field2, fieldEqual, isSync,setMsg) {
                 setMsg=msg;  
             }else
             {
-                setMsg="Use at least 6 characters";
+                setMsg=getLanguageText("LANG_FORM_MIN_CHAR",6);
             }
             
         }else
@@ -194,7 +194,7 @@ function validateUserName(field2, dbCheck,setMsg) {
     if (!dbCheck) {
         if(setMsg)
         {
-            setMsg=result ? false :"Use at least 3 characters";
+            setMsg=result ? false :getLanguageText("LANG_FORM_MIN_CHAR",3);
         }
         setInputWarning(field, cssClassAttr, result,false,setMsg);
         return result;
@@ -210,7 +210,7 @@ function validateUserName(field2, dbCheck,setMsg) {
                 field.setAttribute("suc", result);
                 if(setMsg)
                 {
-                    setMsg=result ? false : "Username already exists";
+                    setMsg=result ? false : getLanguageText("LANG_FORM_USER_NAME_TAKEN");
                 }
                 setInputWarning(field, cssClassAttr, result,false,setMsg);
                 return result;
@@ -219,7 +219,7 @@ function validateUserName(field2, dbCheck,setMsg) {
         {
             if(setMsg)
             {
-                setMsg="Use at least 3 characters";
+                setMsg=getLanguageText("LANG_FORM_MIN_CHAR",3);
             }
             setInputWarning(field, cssClassAttr, result,false,setMsg);	
         }
@@ -241,7 +241,7 @@ function validateEmail(field2, dbCheck,setMsg) {
     if (!dbCheck) {
         if(setMsg)
         {
-            setMsg=result ? false : "Email is not valid";
+            setMsg=result ? false : getLanguageText("LANG_FORM_USER_EMAIL_INVALID");
         }
         setInputWarning(field, cssClassAttr, result,false,setMsg);
     } else {
@@ -255,7 +255,7 @@ function validateEmail(field2, dbCheck,setMsg) {
                 field.setAttribute("suc", result);
                 if(setMsg)
                 {
-                    setMsg= result ? false : "Email already exists";
+                    setMsg= result ? false :  getLanguageText("LANG_FORM_USER_EMAIL_TAKEN");
                 }
                 setInputWarning(field, cssClassAttr, result,false,setMsg);
                 return result;
@@ -263,7 +263,7 @@ function validateEmail(field2, dbCheck,setMsg) {
         } else {
             if(setMsg)
             {
-                setMsg="Enter valid email";
+                setMsg=getLanguageText("LANG_FORM_USER_EMAIL_INVALID");
             }
             setInputWarning(field, cssClassAttr, result,false,setMsg);
         }
@@ -298,7 +298,7 @@ function validateInput(field2,InputWarning,setMsg,length)
     }
     if(setMsg)
     {
-        setMsg=result ? false : "Use at least 3 characters";
+        setMsg=result ? false : getLanguageText("LANG_FORM_MIN_CHAR",3);
     }
     if (InputWarning)
         setInputWarning(field, undefined, result, true,setMsg);
@@ -322,7 +322,7 @@ function validateInputDate(field2,InputWarning,setMsg)
     
     if(setMsg)
     {
-        setMsg=result ? false : "Enter a valid date";
+        setMsg=result ? false : getLanguageText("LANG_FORM_USER_DATE_INVALID");
     }
     if (InputWarning)
         setInputWarning(field, undefined, result, true,setMsg);

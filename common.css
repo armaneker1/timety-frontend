@@ -2157,7 +2157,7 @@ input[type=text]::-ms-clear {
  *rollover
 */
 span.roll {
-    background: url(../../images/add_hover.png) center center no-repeat #000;
+    background: url(images/add_hover.png) center center no-repeat #000;
     position: absolute;
     height: 63px;
     width: 63px;
@@ -2169,6 +2169,14 @@ span.roll {
     -moz-box-shadow: 0px 0px 4px #000;
     box-shadow: 0px 0px 4px #000;
     cursor: pointer;
+}
+
+span.roll_en_us {
+    background: url(images/add_hover.png) center center no-repeat #000 !important;
+}
+
+span.roll_tr_tr {
+    background: url(images/add_hover_tr.png) center center no-repeat #000 !important;
 }
 
 .qq-upload-button input{
@@ -2836,7 +2844,7 @@ span.roll {
 
 /* user profile follow */
 .profil_user_follow{
-    padding-left: 2px;
+    padding-left: 7px;
 }
 .profile_followed_btn {
     background: #84C449;
@@ -2847,10 +2855,10 @@ span.roll {
     font-size: 18px;
     color: #FFF;
     line-height: 35px;
-    min-width: 190px;
+    min-width: 180px;
     float: left;
     cursor: pointer;
-    width: 190px;
+    width: 180px;
     height:36px;
     text-align:center;
 }
@@ -2880,10 +2888,10 @@ span.roll {
     font-size: 18px;
     color: #FFF;
     line-height: 35px;
-    min-width: 190px;
+    min-width: 180px;
     float: left;
     cursor: pointer;
-    width: 190px;
+    width: 180px;
     height:36px;
     text-align:center;
 }
@@ -2964,3 +2972,55 @@ span.roll {
 .mytimety_category_item_categories_container ul li{
     width: 87% !important;
 }
+/*
+play video
+*/
+
+.play_video{
+    height: 100%;
+    width: 186px;
+    position: absolute;
+    z-index: 9;
+    padding-left: 2px;
+    padding-top: 2px;
+    background-image: url('images/play.png?3'); 
+    background-size: 30%;  
+    background-position: 50%; 
+    background-repeat: no-repeat no-repeat;
+}
+
+/*
+langugae classes
+*/
+
+.tr_tr_class{}
+.en_us_class{}
+
+.tr_tr_class .mytimety_category_item_recommended_div{
+    width: 145px !important;
+}
+
+.tr_tr_class .mytimety_category_item_everything_div{
+    width: 106px !important;
+}
+
+.tr_tr_class #top_addevent_button{
+    margin-left: -85px;
+}
+
+.tr_tr_class .div_notf_top{
+    margin-left: -35px !important;
+}
+
+.tr_tr_class #navbar li {
+    width: 135px !important;
+}
+
+.tr_tr_class #navbar li .child{
+    width: 106px !important;
+}
+
+.tr_tr_class #my_timety_notf {
+    right: 152px !important;
+}
+

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 
 class EventProcessor {
 
@@ -25,6 +26,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -102,6 +105,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -157,6 +162,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -204,6 +211,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -251,6 +260,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -298,6 +309,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -346,6 +359,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -392,6 +407,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -400,7 +417,7 @@ class EventProcessor {
 
             $keyList = EventKeyListUtil::getEventKeyList($event->id);
             if (!empty($keyList)) {
-                $log->logError("event > updateEventInfoForOthers size keylist : ".  sizeof($keyList));
+                $log->logError("event > updateEventInfoForOthers size keylist : " . sizeof($keyList));
                 foreach ($keyList as $key) {
                     $key = $key->getKey();
                     $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
@@ -435,6 +452,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -505,6 +524,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
             } catch (Exception $exc) {
@@ -588,6 +609,8 @@ class EventProcessor {
                 $event->getTags();
                 $event->getLocCity();
                 $event->getWorldWide();
+                $event->hasVideo();
+                $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
                 $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);

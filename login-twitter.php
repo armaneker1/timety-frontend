@@ -22,6 +22,6 @@ if ($twitteroauth->http_code == 200) {
     $url = $twitteroauth->getAuthorizeURL($request_token['oauth_token']);
     header('Location: ' . $url);
 } else {
-    die('Something wrong happened.'+$twitteroauth->http_code );
+    die(LanguageUtils::getText("LANG_PAGE_LOGIN_W_TW_ERROR").$twitteroauth->http_code );
 }
 ?>

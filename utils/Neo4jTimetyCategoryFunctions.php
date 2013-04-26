@@ -107,7 +107,7 @@ class Neo4jTimetyCategoryUtil {
                     array_push($array, $evt);
                 }
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
         return $array;
@@ -208,7 +208,7 @@ class Neo4jTimetyCategoryUtil {
                     $query->getResultSet();
                 }
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
     }

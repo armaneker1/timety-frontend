@@ -4,6 +4,7 @@ header("charset=utf8;");
 require_once __DIR__ . '/utils/Functions.php';
 
 SessionUtil::checkNotLoggedinUser();
+LanguageUtils::setLocale();
 $page_id = "createaccount";
 
 if (array_key_exists("login", $_GET)) {
@@ -33,7 +34,8 @@ if (array_key_exists("login", $_GET)) {
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
         <?php
-        $timety_header = "Timety | Signup ";
+        $timety_header = LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_TITLE");
+        LanguageUtils::setLocaleJS();
         include('layout/layout_header.php');
         ?>
         <script>
@@ -57,30 +59,30 @@ if (array_key_exists("login", $_GET)) {
                     
         </script>
     </head>
-    <body class="bg">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
         <?php include('layout/layout_top_sign.php');
         ?>
         <div class="register_bg"></div>
         <div id="create_account" class="create_account_width create_account_outline">
-            <div class="create_acco_ust">Create Account</div>
+            <div class="create_acco_ust"><?=  LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_FORM_HEADER")?></div>
             <div class="create_acco_alt create_acco_alt_height">
                 <div class="account_sol_page" style="padding-top: 30px;">
                     <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="return openSocialLogin('gg');">
-                        <b>Sign in with Google</b>
+                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE")?></b>
                     </button>
 
                     <button class="big-icon-f btn-sign-big fb facebook" onclick="return openSocialLogin('fb');">
-                        <b>Sign in with Facebook</b>
+                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK")?></b>
                     </button>
 
                     <button class="big-icon-t btn-sign-big tw twitter" onclick="return openSocialLogin('tw');">
-                        <b>Sign in with Twitter</b>
+                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER")?></b>
                     </button>
 
-                    <center style="font-size: 13px;">or, sign up with <a href="<?= PAGE_ABOUT_YOU . "?new" ?>">your email address.</a></center>
+                    <center style="font-size: 13px;"><?=  LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL")?></center>
                 </div>
             </div>
-            <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button">About Timety</a></div>
+            <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button"><?=  LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_ABOUT_TIMETY")?></a></div>
         </div>
         <?php include('layout/templete_aboutus.php'); ?>
     </body>

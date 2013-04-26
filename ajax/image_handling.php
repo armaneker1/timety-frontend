@@ -27,7 +27,8 @@ error_reporting(E_ALL ^ E_NOTICE);
 session_start();
 header("charset=utf8;");
 
-require_once __DIR__ . '/../utils/Functions.php';          #
+require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setAJAXLocale();
 #################################################################################################
 ########################################################
 #	UPLOAD THE IMAGE								   #
@@ -40,25 +41,25 @@ if (isset($_POST["upload"]) && $_POST["upload"] == "Upload") {
     $userfile_type = $_FILES['image']['type'];
     $filename = basename($_FILES['image']['name']);
     $file_ext = strtolower(substr($filename, strrpos($filename, '.') + 1));
-    
+
     //Only process if the file is a JPG and below the allowed limit
     if ((!empty($_FILES["image"])) && ($_FILES['image']['error'] == 0)) {
         //foreach ($allowed_image_types as $mime_type => $ext) {
-            //loop through the specified image types and if they match the extension then break out
-            //everything is ok so go and check file size
-            //if ($file_ext == $ext && $userfile_type == $mime_type) {
-            if (in_array($file_ext, $allowed_image_ext_s)  && in_array($mime_type, $allowed_image_type_s)) {
-                $error = "";
-            } else {
-                $error = "Only <strong>" . $image_ext . "</strong> images accepted for upload<br />";
-            }
+        //loop through the specified image types and if they match the extension then break out
+        //everything is ok so go and check file size
+        //if ($file_ext == $ext && $userfile_type == $mime_type) {
+        if (in_array($file_ext, $allowed_image_ext_s) && in_array($mime_type, $allowed_image_type_s)) {
+            $error = "";
+        } else {
+            $error = LanguageUtils::getText("LANG_AJAX_IMG_HANDLING_TYPE_ERROR", $image_ext);
+        }
         //}
         //check if the file size is above the allowed limit
         if ($userfile_size > ($max_file * 1048576)) {
-            $error.= "Images must be under " . $max_file . "MB in size";
+            $error.= $error = LanguageUtils::getText("LANG_AJAX_IMG_HANDLING_MAX_SIZE", $max_file);
         }
     } else {
-        $error = "Please select an image for upload";
+        $error = LanguageUtils::getText("LANG_AJAX_IMG_HANDLING_SELECT_IMG");
     }
     //Everything is ok, so we can upload the image.
     if (strlen($error) == 0) {
@@ -123,15 +124,15 @@ if (isset($_POST["save_thumb"]) && $_POST["save_thumb"] == "Save Thumbnail") {
             if (!file_exists(__DIR__ . '/../uploads/users/' . $userId . '/')) {
                 mkdir(__DIR__ . '/../uploads/users/' . $userId . '/', 0777, true);
             }
-            $rand=rand(10, 100000);
-            $source_url = __DIR__ . '/../uploads/users/' . $userId . '/profile_' . $userId."_".  $rand . $_SESSION['user_file_ext'];
+            $rand = rand(10, 100000);
+            $source_url = __DIR__ . '/../uploads/users/' . $userId . '/profile_' . $userId . "_" . $rand . $_SESSION['user_file_ext'];
             copy($thumb_image_location, $source_url);
             if (file_exists($thumb_image_location)) {
                 unlink($thumb_image_location);
             }
-            echo "success|" . HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId."_".$rand . $_SESSION['user_file_ext'] . "|" . HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId ."_".$rand . $_SESSION['user_file_ext'];
+            echo "success|" . HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . "_" . $rand . $_SESSION['user_file_ext'] . "|" . HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . "_" . $rand . $_SESSION['user_file_ext'];
 
-            UserUtils::changeserProfilePic($userId, HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . "_".$rand .$_SESSION['user_file_ext'], "UPLOAD", TRUE);
+            UserUtils::changeserProfilePic($userId, HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . "_" . $rand . $_SESSION['user_file_ext'], "UPLOAD", TRUE);
             $_SESSION['random_key'] = "";
             $_SESSION['user_file_ext'] = "";
             exit(1);

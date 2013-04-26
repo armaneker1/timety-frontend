@@ -26,18 +26,18 @@
 <div class="aboutus_div" id="aboutus_div" >
     <div class="aboutus_div_row">
         <div class="aboutus_div_cell">
-            <span class="aboutus_header">Discover new events</span><br/>
-            <span>We help you in finding events you will like</span><br/>
+            <span class="aboutus_header"><?=  LanguageUtils::getText("LANG_PAGE_ABOUT_US_DISCOVER_EVENTS")?></span><br/>
+            <span><?=  LanguageUtils::getText("LANG_PAGE_ABOUT_US_DISCOVER_EVENTS_TEXT")?></span><br/>
             <div class="aboutus_img aboutus_img_discover"></div>
         </div>
         <div class="aboutus_div_cell">
-            <span class="aboutus_header">Share events</span><br/>
-            <span>We will make sure everyone discovers your event</span><br/>
+            <span class="aboutus_header"><?=  LanguageUtils::getText("LANG_PAGE_ABOUT_US_SHARE_EVENTS")?></span><br/>
+            <span><?=  LanguageUtils::getText("LANG_PAGE_ABOUT_US_SHARE_EVENTS_TEXT")?></span><br/>
             <div class="aboutus_img aboutus_img_share"></div>
         </div>
         <div class="aboutus_div_cell">
-            <span class="aboutus_header">Track people you love</span><br/>
-            <span>Track people you love and see what they are up to</span><br/>
+            <span class="aboutus_header"><?=  LanguageUtils::getText("LANG_PAGE_ABOUT_US_SHARE_TRACK_PEOPLE")?></span><br/>
+            <span><?=  LanguageUtils::getText("LANG_PAGE_ABOUT_US_SHARE_TRACK_PEOPLE_TEXT")?></span><br/>
             <div class="aboutus_img aboutus_img_track"></div>
         </div>
     </div>

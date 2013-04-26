@@ -5,6 +5,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 $fu = UserUtils::getUserById(6618357);
@@ -29,5 +30,5 @@ $params = array(
     array('img', PAGE_GET_IMAGEURL . urlencode($fu->getUserPic()) . "&h=90&w=90"),
     array('$profileUrl', HOSTNAME . $fu->userName),
     array('email_address', $tu->email));
-MailUtil::sendSESMailFromFile("followedBy.html", $params, "" . $tu->getFullName() . " <" . $tu->email . ">", "You have a new follower on Timety!");
+MailUtil::sendSESMailFromFile("en_us_followedBy.html", $params, "" . $tu->getFullName() . " <" . $tu->email . ">", "You have a new follower on Timety!");
 ?>

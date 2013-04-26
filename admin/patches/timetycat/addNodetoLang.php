@@ -12,6 +12,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../../../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
 

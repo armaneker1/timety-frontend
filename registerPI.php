@@ -43,7 +43,9 @@ if (!isset($_SESSION['id'])) {
         exit(1);
     }
 }
-
+// Set location
+$user = SessionUtil::checkLoggedinUser(false);
+LanguageUtils::setUserLocale($user);
 
 
 if (isset($_POST['te_username'])) {
@@ -53,14 +55,14 @@ if (isset($_POST['te_username'])) {
     }
     $username = $_POST['te_username'];
     if (empty($username)) {
-        $usernameError = "Username cannot be empty";
+        $usernameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_USERNAME");
         $param = false;
     } else {
         $username = preg_replace('/\s+/', '', $username);
         $username = strtolower($username);
         if (!UserUtils::checkUserName($username)) {
             if ($username != $_POST['te_default_username']) {
-                $usernameError = "Username already taken";
+                $usernameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_USERNAME");
                 $param = false;
             }
         }
@@ -69,27 +71,27 @@ if (isset($_POST['te_username'])) {
 
     $name = $_POST['te_firstname'];
     if (empty($name)) {
-        $nameError = "Please enter first name";
+        $nameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_FIRST_NAME");
         $param = false;
     }
     $lastname = $_POST['te_lastname'];
     if (empty($lastname)) {
-        $ulastnameError = "Please enter your last name";
+        $ulastnameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_LAST_NAME");
         $param = false;
     }
     $email = $_POST['te_email'];
     if (empty($email)) {
-        $emailError = "Email cannot be empty";
+        $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_EMAIL");
         $param = false;
     } else {
         $email = preg_replace('/\s+/', '', $email);
         $email = strtolower($email);
         if (!UtilFunctions::check_email_address($email)) {
-            $emailError = "Email is not valid";
+            $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_NOT_VALID_EMAIL");
             $param = false;
         } else if (!UserUtils::checkEmail($email)) {
             if ($_POST['te_default_email'] != $email) {
-                $emailError = "Email already exsts";
+                $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_EMAIL");
                 $param = false;
             }
         }
@@ -103,7 +105,7 @@ if (isset($_POST['te_username'])) {
 
     $hometown = $_POST['te_hometown'];
     if (empty($hometown)) {
-        $hometownError = "Please enter location";
+        $hometownError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_LOCATION");
         $param = false;
     }
     if (isset($_POST['te_password'])) {
@@ -112,12 +114,12 @@ if (isset($_POST['te_username'])) {
         $repassword = $_POST['te_repassword'];
 
         if (empty($password)) {
-            $upassError = "Please enter password";
+            $upassError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_PASSWORD");
             $param = false;
         }
 
         if (empty($repassword) || $repassword != $password) {
-            $upass2Error = "Passwords don't macth";
+            $upass2Error = LanguageUtils::getText("LANG_PAGE_PI_ERROR_NOT_MATCH_PASSWORD");
             $param = false;
         }
     }
@@ -141,7 +143,7 @@ if (isset($_POST['te_username'])) {
             } else {
                 $m = new HtmlMessage();
                 $m->type = "e";
-                $m->message = "Error";
+                $m->message = LanguageUtils::getText("LANG_PAGE_PI_ERROR");
                 array_push($msgs, $m);
                 $param = false;
             }
@@ -168,9 +170,7 @@ if (isset($_POST['te_username'])) {
                         $te_location_country == "TR" ||
                         $te_location_country == "tr" ||
                         $te_location_country == "türkiye")) {
-                    //$user->language = LANG_TR_TR;
-                    // TODO 
-                    $user->language = LANG_EN_US;
+                    $user->language = LANG_TR_TR;
                 } else {
                     $user->language = LANG_EN_US;
                 }
@@ -201,7 +201,7 @@ if (isset($_POST['te_username'])) {
             } else {
                 $m = new HtmlMessage();
                 $m->type = "e";
-                $m->message = "An Error Occured";
+                $m->message = LanguageUtils::getText("LANG_PAGE_PI_ERROR");
                 array_push($msgs, $m);
             }
         }
@@ -312,11 +312,12 @@ if (isset($_POST['te_username'])) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php
-        $timety_header = "Timety | Personal Information";
+        $timety_header = LanguageUtils::getText("LANG_PAGE_PI_TITLE");
+        LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header.php');
         ?>
 
-        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?=JS_CONSTANT_PARAM?>"></script>
         <script type="text/javascript">
             jQuery(function() {
                 jQuery('input, textarea').placeholder();
@@ -394,7 +395,7 @@ if (isset($_POST['te_username'])) {
                     }
                     return false;
                 }).setMessage('check_email',
-                'Email already exists');
+                '<?= LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_EMAIL") ?>');
 
                 validator.registerCallback('check_username', function(value) {
                     var result = jQuery('#te_username').attr('suc');
@@ -404,7 +405,7 @@ if (isset($_POST['te_username'])) {
                     }
                     return false;
                 }).setMessage('check_username',
-                'Username already exists');
+                '<?= LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_USERNAME") ?>');
             });
         </script>
         <script>
@@ -584,11 +585,12 @@ if (isset($_POST['te_username'])) {
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
         <?php $checkUserStatus = false;
-        include('layout/layout_top.php'); ?>
+        include('layout/layout_top.php');
+        ?>
         <div id="personel_info_h">
-            <div class="create_acco_ust">Personal Information</div>
+            <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_PI_FORM_HEADER") ?></div>
             <div class="personel_info">
                 <form id="per_info_form" action="" method="post" style="margin-left: 48px;"
                       name="registerPI">
@@ -599,7 +601,7 @@ if (isset($_POST['te_username'])) {
                         id="te_username"
                         tabindex="1"
                         value="<?php echo $username ?>" 
-                        placeholder="Username"
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_USERNAME_PLACEHOLDER") ?>"
                         suc="true"
                         default="<?php echo $username ?>"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,true,true) }" /> 
@@ -623,7 +625,7 @@ if (isset($_POST['te_username'])) {
                         id="te_firstname"
                         tabindex="2"
                         value="<?php echo $name ?>" 
-                        placeholder="First Name"
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_FIRST_NAME_PLACEHOLDER") ?>"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
                         <?php
                         $display = "none";
@@ -645,7 +647,7 @@ if (isset($_POST['te_username'])) {
                         id="te_lastname"
                         tabindex="3"
                         value="<?php echo $lastname ?>" 
-                        placeholder="Last Name" 
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_LAST_NAME_PLACEHOLDER") ?>" 
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
                         <?php
                         $display = "none";
@@ -665,7 +667,7 @@ if (isset($_POST['te_username'])) {
                         type="text"
                         suc="true"
                         tabindex="4"
-                        placeholder="Email" 
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_EMAIL_PLACEHOLDER") ?>" 
                         class="user_inpt email icon_bg user_inpt_pi_height" 
                         id="te_email"
                         default="<?php echo $email ?>" 
@@ -694,7 +696,7 @@ if (isset($_POST['te_username'])) {
                             name="te_hometown"
                             type="text" 
                             tabindex="5"
-                            placeholder="Location" 
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_LOCATON_PLACEHOLDER") ?>" 
                             class="user_inpt user_inpt_pi_height"
                             id="te_hometown" 
                             value="<?php echo $hometown ?>"
@@ -726,7 +728,7 @@ if (isset($_POST['te_username'])) {
                         id="te_password" 
                         value=""
                         tabindex="6"
-                        placeholder="Password"
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_PASSWORD_PLACEHOLDER") ?>"
                         onblur="validatePassword(this,jQuery('#te_repassword'),false,true);" />
                         <?php
                         $display = "none";
@@ -747,7 +749,7 @@ if (isset($_POST['te_username'])) {
                         id="te_repassword" 
                         value="" 
                         tabindex="7"
-                        placeholder="Confirm password"
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_REPASSWORD_PLACEHOLDER") ?>"
                         onblur="validatePassword(this,$('#te_password'),true,true)" />
                         <?php
                         $display = "none";
@@ -760,9 +762,9 @@ if (isset($_POST['te_username'])) {
                     <span id='te_repassword_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?= $display ?>;"><?= $upass2Error ?><div class="kok"></div></div>
                     </span> <br />
-                    <div class="privacy_terms">By creating an account, I accept Timety's <a href="http://about.timety.com/terms-of-service/" target="_blank">Terms of Service</a> and <a href="http://about.timety.com/privacy-policy/" target="_blank">Privacy Policy</>.</div>
+                    <div class="privacy_terms"><?= LanguageUtils::getText("LANG_PAGE_PI_TERMS_SERVICE_HTML") ?></div>
                     <br/>
-                    <button type="submit" style="float: left"  class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();">Next</button>
+                    <button type="submit" style="float: left"  class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();"><?= LanguageUtils::getText("LANG_PAGE_PI_BUTTON_NEXT") ?></button>
 
                     <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>
                     <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $username ?>" ></input>

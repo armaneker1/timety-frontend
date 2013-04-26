@@ -8,6 +8,7 @@ ini_set('error_reporting', E_ERROR | E_PARSE);
  */
 require_once __DIR__ . '/../utils/SettingFunctions.php';
 define("SERVER_PROD", false);
+define("JS_CONSTANT_PARAM", '20130425188');
 
 define('HOSTNAME', 'http://' . SettingsUtil::getSetting(SETTINGS_HOSTNAME));
 define('HOSTNAME_WWW', 'http://www.' . SettingsUtil::getSetting(SETTINGS_HOSTNAME));

@@ -10,10 +10,10 @@ class SessionUtil {
         }
         return false;
     }
-    
+
     public static function checkAjaxGUID($guid = null) {
         if (!empty($guid)) {
-            if ($guid==SettingsUtil::getSetting(SETTINGS_AJAX_KEY)) {
+            if ($guid == SettingsUtil::getSetting(SETTINGS_AJAX_KEY)) {
                 return true;
             }
         }

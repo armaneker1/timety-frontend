@@ -12,7 +12,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setAJAXLocale();
 $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
 if (isset($_GET['userId']))

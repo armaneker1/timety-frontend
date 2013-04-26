@@ -12,7 +12,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setAJAXLocale();
 $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
 if (isset($_GET['userId']))
@@ -31,7 +31,7 @@ if (isset($_POST["ajax_guid"]))
 if (!empty($userId)) {
     if (!SessionUtil::isUser($userId) && !SessionUtil::checkAjaxGUID($ajax_guid)) {
         $res = new stdClass();
-        $res->error = "user not logged in";
+        $res->error = LanguageUtils::getText("LANG_AJAX_SECURITY_SESSION_ERROR");
         $json_response = json_encode($res);
         echo $json_response;
         exit(1);

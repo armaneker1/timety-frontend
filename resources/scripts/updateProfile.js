@@ -45,7 +45,7 @@ function importPicture(type,crop)
             if(userId){
                 if(crop){
                     jQuery('#div_follow_trans_').show();
-                    loadingmessage('Please wait, uploading file...', 'show');
+                    loadingmessage(getLanguageText("LANG_UPDATE_PROFILE_UPLOADING_IMG"), 'show');
                     jQuery('#thumbnail_form').hide();
                     jQuery('#upload_text').hide();
                     jQuery('#uploaded_image_div').hide();
@@ -229,7 +229,7 @@ function saveCorpProfilePage(){
                     cache: false,
                     error:  function(){
                         jQuery("#crop_save_btn").removeAttr("disabled");
-                        getInfo(true, "Error while uploading", 'info', 4000);
+                        getInfo(true, getLanguageText("LANG_UPDATE_PROFILE_UPLOADING_ERROR"), 'info', 4000);
                     },
                     success: function(response){
                         jQuery("#crop_save_btn").removeAttr("disabled");
@@ -244,12 +244,12 @@ function saveCorpProfilePage(){
                             jQuery('#div_follow_trans_').hide();
                             jQuery('#profil_image_id').css('background',"url('"+responseThumbImage+"')");
                             jQuery('#profil_image_id').css('background-size',"cover");
-                            getInfo(true, "Profile Image saved", 'info', 4000);
+                            getInfo(true, getLanguageText("LANG_UPDATE_PROFILE_UPLOADING_SUCCESS"), 'info', 4000);
                         }else{
                             deleteImageCrop(c_responseLargeImage, c_responseThumbImage);
                             c_responseLargeImage=null;
                             c_responseThumbImage=null;
-                            getInfo(true, "Error while uploading"+response, 'info', 4000);
+                            getInfo(true, getLanguageText("LANG_UPDATE_PROFILE_UPLOADING_ERROR")+response, 'info', 4000);
                         }
                     }
                 });
@@ -288,13 +288,13 @@ jQuery(document).ready(function () {
                 case 'gif':
                     break;
                 default:{
-                    alert('not allowed fie type');
+                    alert(getLanguageText("LANG_UPDATE_PROFILE_NOT_ALLOWED_TYPE"));
                     jQuery("#upload_photo input[type='file']").val("");
                     return false;
                 }
             }
             jQuery('#div_follow_trans_').show();
-            loadingmessage('Please wait, uploading file...', 'show');
+            loadingmessage(getLanguageText("LANG_UPDATE_PROFILE_UPLOADING_IMG"), 'show');
             jQuery('#thumbnail_form').hide();
             jQuery('#upload_text').hide();
             jQuery('#uploaded_image_div').hide();
@@ -367,7 +367,7 @@ jQuery(document).ready(function () {
                 deleteImageCrop(c_responseLargeImage, c_responseThumbImage);
                 c_responseLargeImage=null;
                 c_responseThumbImage=null;
-                loadingmessage('Please try again','show');
+                loadingmessage(getLanguageText("LANG_UPDATE_PROFILE_UPLOADING_ERROR"),'show');
                 jQuery('#uploaded_image_div').hide();
                 jQuery('#thumbnail_form').hide();
                 jQuery('#upload_text').hide();

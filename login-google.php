@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/utils/Functions.php';
-
+LanguageUtils::setLocale();
 
 $_SESSION["gg_type_social"]="";
 if(isset($_GET['type']))

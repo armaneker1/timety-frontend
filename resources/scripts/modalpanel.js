@@ -216,6 +216,7 @@ function openModalPanel(event_id,custom) {
     /*
      *Clear dropable
      */
+    
     jQuery(".main_dropable_").css('display','none'); 
     var button=document.getElementById("foll_modal_creator");
     button.className = 'modal_follow_btn';
@@ -240,6 +241,11 @@ function openModalPanel(event_id,custom) {
     var edit_button=jQuery("#div_edit_btn_modal_panel");
     var edit_button_div=jQuery("#div_edit_btn_div_modal_panel");
     edit_button_div.hide();
+    
+    var headerImage=jQuery("#big_image_header");
+    headerImage.show();
+    var headerVideo=jQuery("#youtube_player");
+    headerVideo.hide();
     /*
      * get event data 
      */
@@ -402,62 +408,84 @@ function openModalPanel(event_id,custom) {
         {
         // do something show empty image          
         }
-        //set Header Image
-        var headerImage=jQuery("#big_image_header");
-        /* loader */
-        var fail_h=true;
-        try {
-            var small_img=jQuery("img[eventid='"+data.id+"']");
-            if(small_img && small_img.length>0){
-                var w_org=data.headerImage.org_width;
-                var h_org=data.headerImage.org_height;
-                if(w_org>0 && h_org>0){
-                    if(w_org>561)
-                    {
-                        h_org=(561/w_org)*h_org;
-                        w_org=561;
-                    } 
-                    jQuery(headerImage).attr('height',h_org);
-                    jQuery(headerImage).attr('width', w_org);
-                    jQuery(headerImage).attr('src', small_img.attr("src"));
-                    fail_h=false;
-                }
-            }    
-        } catch(exp) {
-            console.log(exp);
-        }
         
-        if(fail_h){
-            try{
-                jQuery(headerImage).attr('src', data.headerImage.url);
-            }catch(exp){
-                console.log(exp);
+        var setHeaderImageBoolean=true;
+        
+        //headerImage.show();
+        //headerVideo.hide();
+        
+        if(data.has_video){
+            if(data.headerVideo && data.headerVideo.id){
+                var width_v=561;
+                var height_v=342;
+                if(data.headerVideo.width>0)
+                    width_v=data.headerVideo.width;
+                if(data.headerVideo.height_v>0)
+                    height_v=data.headerVideo.width;
+                headerVideo.attr("width",width_v);
+                headerVideo.attr("height",height_v);
+                setHeaderImageBoolean=false;
+                headerVideo.attr("src","http://www.youtube.com/embed/"+data.headerVideo.videoId+"?autoplay=1");
+                headerVideo.show();
+                headerImage.hide();
             }
         }
         
-        jQuery(headerImage).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
-        jQuery(headerImage).css('min-height','30px');
-        jQuery(headerImage).css('min-width', '30px');
-        jQuery(headerImage).css('margin-bottom', '3px');
-        jQuery(headerImage).css('cursor', 'pointer');
-        jQuery(headerImage).unbind("click");
-        if(headerImage && data.headerImage && data.headerImage.url)
-        {
-            setHeaderImage(headerImage, data.headerImage);
-        }
+        if(setHeaderImageBoolean){
+            //set Header Image
+            /* loader */
+            var fail_h=true;
+            try {
+                var small_img=jQuery("img[eventid='"+data.id+"']");
+                if(small_img && small_img.length>0){
+                    var w_org=data.headerImage.org_width;
+                    var h_org=data.headerImage.org_height;
+                    if(w_org>0 && h_org>0){
+                        if(w_org>561)
+                        {
+                            h_org=(561/w_org)*h_org;
+                            w_org=561;
+                        } 
+                        jQuery(headerImage).attr('height',h_org);
+                        jQuery(headerImage).attr('width', w_org);
+                        jQuery(headerImage).attr('src', small_img.attr("src"));
+                        fail_h=false;
+                    }
+                }    
+            } catch(exp) {
+                console.log(exp);
+            }
         
-        
-        if(data.attach_link){
-            jQuery(headerImage).data("attach_link",data.attach_link);
-            jQuery(headerImage).click(function(){
-                var dataUrl=jQuery(headerImage).data("attach_link");
-                if(dataUrl.indexOf("http")!=0){
-                    dataUrl="http://"+dataUrl;
+            if(fail_h){
+                try{
+                    jQuery(headerImage).attr('src', data.headerImage.url);
+                }catch(exp){
+                    console.log(exp);
                 }
-                window.open(dataUrl,'_blank');
-            });
-        }
+            }
         
+            jQuery(headerImage).attr('style', 'position:relative;margin-left:auto;margin-right:auto;');
+            jQuery(headerImage).css('min-height','30px');
+            jQuery(headerImage).css('min-width', '30px');
+            jQuery(headerImage).css('margin-bottom', '3px');
+            jQuery(headerImage).css('cursor', 'pointer');
+            jQuery(headerImage).unbind("click");
+            if(headerImage && data.headerImage && data.headerImage.url)
+            {
+                setHeaderImage(headerImage, data.headerImage);
+            }
+      
+            if(data.attach_link){
+                jQuery(headerImage).data("attach_link",data.attach_link);
+                jQuery(headerImage).click(function(){
+                    var dataUrl=jQuery(headerImage).data("attach_link");
+                    if(dataUrl.indexOf("http")!=0){
+                        dataUrl="http://"+dataUrl;
+                    }
+                    window.open(dataUrl,'_blank');
+                });
+            }
+        }
         
         //set share butons
         jQuery("#fb_share_button").unbind("click");
@@ -615,7 +643,7 @@ function getComments(event_id)
                     {
                         next=data.count;
                     }
-                    jQuery(tumyorumlarA).text("See "+next+" Next comments ("+(data.count)+")...");
+                    jQuery(tumyorumlarA).text(getLanguageText("LANG_MODAL_PANEL_SEE_NEXT_COMMENTS",next));
                 }
             }
         }
@@ -701,8 +729,13 @@ function getImages(gdy_altDIVOrta_images,event_id)
 
 function closeModalPanel() {
     try{
+        jQuery("#youtube_player").attr("src",TIMETY_HOSTNAME+"cache/index.html");
+    }catch(exp){
+        console.log(exp);
+    }
+    try{
         remUrlEventId();
-        document.title="Timety | Never miss out";
+        document.title=getLanguageText("LANG_PAGE_TITLE");
         
         var detailModalPanelBackground = document.getElementById('div_follow_trans');
         
@@ -860,7 +893,7 @@ function openNextComments(count)
                 {
                     next=data.count;
                 }
-                jQuery(tumyorumlarA).text("See "+next+" Next comments ("+(data.count)+")...");
+                jQuery(tumyorumlarA).text(getLanguageText("LANG_MODAL_PANEL_SEE_NEXT_COMMENTS",next));
             }else
             {
                 jQuery(tumyorumlar).hide();    

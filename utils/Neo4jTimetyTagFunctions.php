@@ -236,7 +236,7 @@ class Neo4jTimetyTagUtil {
                     $query->getResultSet();
                 }
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
     }

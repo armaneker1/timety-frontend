@@ -126,7 +126,7 @@ function wookmarkFiller(options,clear,loader,channel_)
                 }
                 getLoader(false);
                 if(isearching)
-                    getInfo(true, "No result found", "info", 3000);
+                    getInfo(true, getLanguageText("LANG_WOOKMARK_FILLER_NO_RESULT_FOUND"), "info", 3000);
                 isearching=false;
                 showProfileBatch(channel);
             },
@@ -192,7 +192,7 @@ function wookmarkFiller(options,clear,loader,channel_)
                         if(loader)
                             getLoader(false);
                         if(isearching)
-                            getInfo(true, "No result found", "info", 3000);
+                            getInfo(true,getLanguageText("LANG_WOOKMARK_FILLER_NO_RESULT_FOUND"), "info", 3000);
                         isearching=false;
                         return;
                     }
@@ -260,9 +260,13 @@ function wookmarkHTML(dataArray,userId)
 
             //IMG tag
             var imgDivEdge=jQuery('<div style="overflow: hidden;"></div>');
+            //video
+            var videoDivEdge=jQuery('<div class="play_video" style=""></div>');
             var img = document.createElement('img');
             jQuery(img).attr('eventid',data.id);  
             jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
+            //vide
+            jQuery(videoDivEdge).attr('onclick','return openModalPanel('+data.id+');');
             if(data.headerImage)
             {
                 var param="";
@@ -270,11 +274,16 @@ function wookmarkHTML(dataArray,userId)
                 {
                     jQuery(img).attr('width',data.headerImage.width); 
                     jQuery(imgDivEdge).css('width',data.headerImage.width+'px');
+                    //video
+                    jQuery(videoDivEdge).css('width',data.headerImage.width+'px');
                     param=param+"&w="+data.headerImage.width;
                 }   
                 else
                 {
                     jQuery(img).attr('width',186);
+                    jQuery(imgDivEdge).css('width','186px');
+                    //video
+                    jQuery(videoDivEdge).css('width','186px');
                 } 
                 
                 if(data.headerImage.height && data.headerImage.height!=0)
@@ -287,6 +296,10 @@ function wookmarkHTML(dataArray,userId)
                     jQuery(imgDivEdge).css('margin-bottom',margin_h+'px');
                     jQuery(imgDivEdge).css('margin-top',margin_h+'px');
                     jQuery(imgDivEdge).css('height',data.headerImage.height+'px');
+                    //video
+                    jQuery(videoDivEdge).css('margin-bottom',margin_h+'px');
+                    jQuery(videoDivEdge).css('margin-top',margin_h+'px');
+                    jQuery(videoDivEdge).css('height',data.headerImage.height+'px');
                     param=param+"&h="+data.headerImage.height;
                      
                 }
@@ -297,7 +310,7 @@ function wookmarkHTML(dataArray,userId)
                 jQuery(img).attr('heigh',219);
             }
             jQuery(img).addClass('main_draggable');
-
+            
             //like share 
             var likeShareDiv = document.createElement('div');
             jQuery(likeShareDiv).addClass('likeshare'); 
@@ -449,6 +462,14 @@ function wookmarkHTML(dataArray,userId)
             if(userId){
                 jQuery(imgDiv).append(likeShareDiv);
             }
+            
+            //video
+            if(data.has_video){
+                if(data.headerVideo && data.headerVideo.id){
+                    jQuery(imgDiv).append(videoDivEdge);
+                }
+            }
+            
             //binding DIV with Image
             jQuery(imgDiv).attr('id','div_img_event_'+data.id);
             jQuery(imgDivEdge).append(img);
@@ -769,15 +790,15 @@ function getUserLastActivityString(data,selectedUser){
                 }
             }
             if (action == REDIS_USER_INTERACTION_UPDATED || action == REDIS_USER_INTERACTION_CREATED || action == REDIS_USER_UPDATE || action == REDIS_USER_COMMENT) {
-                return "created this";
+                return getLanguageText("LANG_WOOKMARK_FILLER_ACT_CREATED");
             } else if (action == REDIS_USER_INTERACTION_JOIN || action == REDIS_USER_INTERACTION_MAYBE) {
-                return "joined this";
+                return getLanguageText("LANG_WOOKMARK_FILLER_ACT_JOINED");
             } else if (action == REDIS_USER_INTERACTION_LIKE) {
-                return "liked this";
+                return  getLanguageText("LANG_WOOKMARK_FILLER_ACT_LIKED");
             } else if (action == REDIS_USER_INTERACTION_RESHARE) {
-                return "reshared this";
+                return getLanguageText("LANG_WOOKMARK_FILLER_ACT_RESHARED");
             } else if (action == REDIS_USER_INTERACTION_FOLLOW) {
-                return "followed this";
+                return getLanguageText("LANG_WOOKMARK_FILLER_ACT_FOLLOWED");
             }
             return action;
         }
@@ -790,44 +811,44 @@ function calculateRemainingTime(date){
         var  d=moment(getLocalTime(date).format('YYYY.MM.DD HH:mm'),"YYYY.MM.DD HH:mm");
         var  now=moment().utc();
         if(d.isBefore(now)){
-            return "Past";
+            return getLanguageText("LANG_WOOKMARK_FILLER_TIME_PAST");
         }else{
             var y_=d.diff(now,"years");
             if(y_>0){
-                return y_+" years";
+                return getLanguageText("LANG_WOOKMARK_FILLER_TIME_N_YEARS",y_);
             }
             var mo_=d.diff(now,"months");
             if(mo_>0){
                 if (mo_ == 1) {
-                    return  "Next month";
+                    return  getLanguageText("LANG_WOOKMARK_FILLER_TIME_NEXT_MONTH");
                 } else {
-                    return  mo_+' months';
+                    return  getLanguageText("LANG_WOOKMARK_FILLER_TIME_N_MONTHS",mo_);
                 }
             }
             var d_=d.diff(now,"days");
             if(d_>0){
                 if(d_==1){
-                    return  "Tomorrow";
+                    return  getLanguageText("LANG_WOOKMARK_FILLER_TIME_TOMORROW");
                 }else{
                     var week = parseInt(now.format('d'));
                     week = week + d_;
                     if (week <= 7) {
                         return d.format("dddd");
                     } else if (week > 7 && week <= 14) {
-                        return "Next week";
+                        return getLanguageText("LANG_WOOKMARK_FILLER_TIME_NEXT_WEEK");
                     } else {
                         var ms = parseInt(now.format("M"));
                         var me = parseInt(d.format("M"));
                         if (me == ms) {
                             if (week > 14 && week <= 21) {
-                                return "2 weeks";
+                                return getLanguageText("LANG_WOOKMARK_FILLER_TIME_N_WEEKS",2);
                             } else if (week > 21 && week <= 28) {
-                                return "3 weeks";
+                                return getLanguageText("LANG_WOOKMARK_FILLER_TIME_N_WEEKS",3);
                             } else {
-                                return "4 weeks";
+                                return getLanguageText("LANG_WOOKMARK_FILLER_TIME_N_WEEKS",4);
                             }
                         } else {
-                            return "Next month";
+                            return getLanguageText("LANG_WOOKMARK_FILLER_TIME_NEXT_MONTH");
                         }
                     } 
                 }
@@ -838,17 +859,17 @@ function calculateRemainingTime(date){
                 var ds = parseInt(now.format('D'));
                 var de = parseInt(d.format('D'));
                 if (ds == de) {
-                    return h_+ ' hours';
+                    return getLanguageText("LANG_WOOKMARK_FILLER_TIME_N_HOURS",h_);
                 } else {
-                    return "Tomorrow";
+                    return getLanguageText("LANG_WOOKMARK_FILLER_TIME_TOMORROW");
                 }
             }
             
             var m_=d.diff(now,"minutes");
             if(m_>0){
-                return m_+" minutes";
+                return getLanguageText("LANG_WOOKMARK_FILLER_TIME_N_MINUTES",m_);
             }
-            return "Now";
+            return getLanguageText("LANG_WOOKMARK_FILLER_TIME_NOW");
         }
     }
 }

@@ -12,6 +12,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 echo "followers<p/>";
 var_dump(RedisUtils::getUserFollowers(6618346));

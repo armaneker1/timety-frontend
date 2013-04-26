@@ -9,6 +9,8 @@ $msgs = array();
 
 $user = SessionUtil::checkLoggedinUser();
 $userId = null;
+//set langugae
+LanguageUtils::setUserLocale($user);
 if (!empty($user)) {
     $userId = $user->id;
 }
@@ -78,6 +80,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         if (!empty($prm_event)) {
             $timety_header = $prm_event->title;
         }
+        LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header_index.php');
         ?>
 
@@ -235,7 +238,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         <?php include('layout/layout_customize_style.php'); ?>
         <!-- Customize -->
     </head>
-    <body class="bg">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
         <?php $page_id = "user"; ?>
         <?php include('layout/layout_top.php'); ?>
 
@@ -270,9 +273,9 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                 <div class="trh_gn">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                         <tr style="display: none;">
-                            <td width="180" valign="middle"><span class="gn"><?= date('d') ?></span> <span
-                                    class="ay"> <?= strtoupper(date('M')) ?></span> <span class="yil"><?= date('Y') ?></span> <span
-                                    class="hd_line">|</span> <span class="gn"><?= strtoupper(date('l')) ?></span>
+                            <td width="180" valign="middle"><span class="gn"><?= strftime('%d') ?></span> <span
+                                    class="ay"> <?= strtoupper(strftime('%b')) ?></span> <span class="yil"><?= strftime('%Y') ?></span> <span
+                                    class="hd_line">|</span> <span class="gn"><?= strtoupper(strftime('%A')) ?></span>
                             </td>
                             <td align="left" valign="middle" class="u_line" width="100%"><input
                                     type="button" class="gn_btn" />
@@ -285,7 +288,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                         <?php if (empty($user)) { ?>
                                             <div class="slide_item" id="create_event_empty">
                                                 <div class="akt_tkvm">
-                                                    <a href="<?= HOSTNAME ?>login"  class="add_event_link">Click Here to Add Event</a>
+                                                    <a href="<?= HOSTNAME ?>login"  class="add_event_link"><?=  LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT")?></a>
                                                 </div>
                                             </div>
                                             <?php
@@ -300,7 +303,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                 ?>
                                                 <div class="slide_item" id="create_event_empty">
                                                     <div class="akt_tkvm">
-                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link">Click Here to Add Event</a>
+                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link"><?=  LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT")?></a>
                                                     </div>
                                                 </div>
 
@@ -309,7 +312,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                 ?>
                                                 <div class="slide_item" id="create_event_empty" style="display: none">
                                                     <div class="akt_tkvm">
-                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link">Click Here to Add Event</a>
+                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link"><?=  LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT")?></a>
                                                     </div>
                                                 </div>
 
@@ -324,7 +327,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     ?>   
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
                                                         <h1><?= $evt->title ?></h1>
-                                                        <p>Today @<span class="date_timezone"><?php
+                                                        <p><?=  LanguageUtils::getText("LANG_PAGE_USERS_MY_TIMETY_TODAY")?> @<span class="date_timezone"><?php
                                         $dt = strtotime($evt->startDateTime);
                                         echo date('H:i', $dt);
                                                     ?></span></p>
@@ -400,6 +403,13 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                 <h1 class="bgln_user_h1"><?php echo $p_user->getFullName() ?></h1>
                                 <p><?php echo $p_user->about ?></p>
                             </div>
+                            <?php 
+                               if(!empty($p_user)){
+                                if($p_user->type==1){
+                               
+                           ?>
+                           <img src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png" style="padding-top:8px"/>
+                           <?php  }} ?>
                         </div>
                         <div class="profil_metin">
                             <!-- bio -->
@@ -428,20 +438,20 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                             ?>
                             <div class="profil_user profil_user_follow">
                                 <a  type="button" name="" value="" class="<?= $followClass ?>" id="foll_profile_user" onclick="<?= $followJS ?>(<?= $tuId ?>,<?= $fuId ?>,this,'profile_',true);">
-                                    <span class="follow_text">follow</span>
-                                    <span class="following_text">following</span>
-                                    <span class="unfollow_text">unfollow</span>
+                                    <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_USERS_FOLLOW")?></span>
+                                    <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_USERS_FOLLOWING")?></span>
+                                    <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_USERS_UNFOLLOW")?></span>
                                 </a>
                             </div>
                         <?php } ?>
                         <div class="profil_btn">
                             <ul>
-                                <li onclick="openFriendsPopup(<?= $p_user->id ?>,1);return false;"><span class="profil_btn_ul_li_span">Following</span> <span  class="prinpt pcolor_mavi" id="prof_following_count"><?= $p_user->following_count ?></span></li>
-                                <li onclick="openFriendsPopup(<?= $p_user->id ?>,2);return false;"><span class="profil_btn_ul_li_span">Followers</span> <span  class="prinpt pcolor_krmz" id="prof_followers_count"><?= $p_user->followers_count ?></span></li>
-                                <li onclick="changeChannelProfile(11);return false;"><span class="profil_btn_ul_li_span">Likes</span> <span  class="prinpt pcolor_yesil" id="prof_likes_count"><?= $p_user->likes_count ?></span></li>
-                                <li onclick="changeChannelProfile(12);return false;"><span class="profil_btn_ul_li_span">Reshare</span> <span  class="prinpt pcolor_gri" id="prof_reshares_count"><?= $p_user->reshares_count ?></span></li>
-                                <li onclick="changeChannelProfile(13);return false;"><span class="profil_btn_ul_li_span">Joined</span> <span  class="prinpt pcolor_mavi" id="prof_joins_count"><?= $p_user->joined_count ?></span></li>
-                                <li onclick="changeChannelProfile(10);return false;"><span class="profil_btn_ul_li_span">Created Event</span> <span  class="prinpt pcolor_krmz" id="prof_created_count"><?= $p_user->created_count ?></span></li>
+                                <li onclick="openFriendsPopup(<?= $p_user->id ?>,1);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWING")?></span> <span  class="prinpt pcolor_mavi" id="prof_following_count"><?= $p_user->following_count ?></span></li>
+                                <li onclick="openFriendsPopup(<?= $p_user->id ?>,2);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWERS")?></span> <span  class="prinpt pcolor_krmz" id="prof_followers_count"><?= $p_user->followers_count ?></span></li>
+                                <li onclick="changeChannelProfile(11);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_LIKES")?></span> <span  class="prinpt pcolor_yesil" id="prof_likes_count"><?= $p_user->likes_count ?></span></li>
+                                <li onclick="changeChannelProfile(12);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_RESHARE")?></span> <span  class="prinpt pcolor_gri" id="prof_reshares_count"><?= $p_user->reshares_count ?></span></li>
+                                <li onclick="changeChannelProfile(13);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_JOINED")?></span> <span  class="prinpt pcolor_mavi" id="prof_joins_count"><?= $p_user->joined_count ?></span></li>
+                                <li onclick="changeChannelProfile(10);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_CRATED_EVENTS")?></span> <span  class="prinpt pcolor_krmz" id="prof_created_count"><?= $p_user->created_count ?></span></li>
                             </ul>
 
                             <script>
@@ -668,6 +678,9 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                             $margin_h = (int) ((125 - $height) / 2);
                                         }
                                         ?>
+                                        <?php if(!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
+                                        <div class="play_video" onclick="return openModalPanel('<?=$main_event->id?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
+                                        <?php } ?>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
                                             <?php
                                             $headerImageTmp = "";
@@ -773,16 +786,6 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         <div class="main_sag" style="z-index: 10;height: 2000px;top: -80px;padding-top: 80px;">
             <ul id="timeline" style="">
                 <li class="timeline_month timeline_fisrt"><a href="#" class="">March</a></li>
-                <li class="timeline_month"><a href="#" class="" style="">April</a></li>
-                <li class="timeline_day timeline_fisrt"><a href="#" class="">Thu, 5</a></li>
-                <li class="timeline_day"><a href="#" class="">Wed, 6</a></li>
-                <li class="timeline_day"><a href="#" class="">Fri, 7</a></li>
-                <li class="timeline_day"><a href="#" class="">Sat, 8</a></li>
-                <li class="timeline_day"><a href="#" class="">Sun, 9</a></li>
-                <li class="timeline_day"><a href="#" class="">Mon, 10</a></li>
-                <li class="timeline_day"><a href="#" class="">Thu, 11</a></li>
-                <li class="timeline_day"><a href="#" class="">Mon, 12</a></li>
-                <li class="timeline_month"><a href="#" class="">May</a></li>
             </ul>
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>

@@ -140,40 +140,6 @@ jQuery(document).ready(function(){
 });
 var create_event_post=null;
 
-var date_var= {
-    'today'               : '{"id":"1","text":"Today","func":"setDateById"}',
-    'tomorrow'            : '{"id":"2","text":"Tomorrow","func":"setDateById"}',
-    'after'	          : '{"id":"3","text":"Day After Tomorrow","func":"setDateById"}',
-    'month'               : '{"id":"4","text":"Next Month","func":"setDateById"}',
-    'week'                : '{"id":"5","text":"Next Week","func":"setDateById"}',
-    'january'             : '{"id":"7","text":"January","func":"setDateById"}',
-    'february'            : '{"id":"8","text":"February","func":"setDateById"}',
-    'march'               : '{"id":"9","text":"March","func":"setDateById"}',
-    'april'               : '{"id":"10","text":"April","func":"setDateById"}',
-    'may'                 : '{"id":"11","text":"May","func":"setDateById"}',
-    'june'                : '{"id":"12","text":"June","func":"setDateById"}',
-    'july'                : '{"id":"13","text":"July","func":"setDateById"}',
-    'august'              : '{"id":"14","text":"August","func":"setDateById"}',
-    'september'           : '{"id":"15","text":"September","func":"setDateById"}',
-    'october'             : '{"id":"16","text":"October","func":"setDateById"}',
-    'november'            : '{"id":"17","text":"November","func":"setDateById"}',
-    'december'            : '{"id":"18","text":"December","func":"setDateById"}',
-    'tuesday'             : '{"id":"21","text":"Tuesday","func":"setDateById"}',
-    'wednesday'           : '{"id":"22","text":"Wednesday","func":"setDateById"}',
-    'thursday'            : '{"id":"23","text":"Thursday","func":"setDateById"}',
-    'friday'              : '{"id":"24","text":"Friday","func":"setDateById"}',
-    'monday'              : '{"id":"30","text":"Monday","func":"setDateById"}',
-    'saturday'            : '{"id":"25","text":"Saturday","func":"setDateById"}',
-    'sunday'              : '{"id":"26","text":"Sunday","func":"setDateById"}',
-    'year'                : '{"id":"29","text":"Next Year","func":"setDateById"}'
-};
-/* 
-    'day after'           : '{"id":"3","text":"Day After Tomorrow","func":"empty"}',
-    'next week'           : '{"id":"5","text":"Next Week","func":"empty"}',
-    'next year'           : '{"id":"27","text":"Today","func":"empty"}',
-    'next || monday'      : '{"id":"20","text":"Today","func":"empty"}',
-    '%s weeks later'      : '{"id":"6","text":"DDDDDD6","func":"empty"}',
-    '%s || january || %s' : '{"id":"28","text":"DDDDDD6","func":"empty"}'*/
 
 function showDateQA(value,text) {
     if(value){
@@ -224,79 +190,79 @@ function setDateById(){
     var dWeek=0;
     var dNow=moment().day();
     if(id=="1" || id==1){
-        stText="Today";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Today");
         dat=moment().format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="2" || id==2){
-        stText="Tomorrow";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Tomorrow");
         dat=moment().add("days",1).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="3" || id==3){
-        stText="Day After Tomorrow";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_DayAfterTomorrow");
         dat=moment().add("days",2).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="4" || id==4){
-        stText="Next Month";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_NextMonth");
         dat=moment().add("months",1).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="5" || id==5){
-        stText="Next Week";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_NextWeek");
         dat=moment().add("weeks",1).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="6" || id==6){
-        stText="Next Week";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_NextWeek");
         dat=moment().add("weeks",1).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="7" || id==7){
-        stText="January";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_January");
         dat=moment().month(0).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="8" || id==8){
-        stText="February";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_February");
         dat=moment().month(1).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="9" || id==9){
-        stText="March";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_March");
         dat=moment().month(2).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="10" || id==10){
-        stText="April";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_April");
         dat=moment().month(3).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="11" || id==11){
-        stText="May";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_May");
         dat=moment().month(4).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="12" || id==12){
-        stText="June";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_June");
         dat=moment().month(5).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="13" || id==13){
-        stText="July";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_July");
         dat=moment().month(6).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="14" || id==14){
-        stText="August";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_August");
         dat=moment().month(7).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="15" || id==15){
-        stText="September";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_September");
         dat=moment().month(8).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="16" || id==15){
-        stText="October";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_October");
         dat=moment().month(9).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="17" || id==17){
-        stText="November";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_November");
         dat=moment().month(10).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="18" || id==18){
-        stText="December";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_December");
         dat=moment().month(11).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="21" || id==21){
-        stText="Tuesday";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Tuesday");
         dWeek=2;
         if(dNow>dWeek){
             dWeek+=7;
@@ -304,7 +270,7 @@ function setDateById(){
         dat=moment().day(dWeek).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="22" || id==22){
-        stText="Wednesday";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Wednesday");
         dWeek=3;
         if(dNow>dWeek){
             dWeek+=7;
@@ -312,7 +278,7 @@ function setDateById(){
         dat=moment().day(dWeek).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="23" || id==23){
-        stText="Thursday";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Thursday");
         dWeek=4;
         if(dNow>dWeek){
             dWeek+=7;
@@ -320,7 +286,7 @@ function setDateById(){
         dat=moment().day(dWeek).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="24" || id==24){
-        stText="Friday";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Friday");
         dWeek=5;
         if(dNow>dWeek){
             dWeek+=7;
@@ -328,7 +294,7 @@ function setDateById(){
         dat=moment().day(dWeek).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="30" || id==30){
-        stText="Monday";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Monday");
         dWeek=1;
         if(dNow>dWeek){
             dWeek+=7;
@@ -336,7 +302,7 @@ function setDateById(){
         dat=moment().day(dWeek).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="25" || id==25){
-        stText="Saturday";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Saturday");
         dWeek=6;
         if(dNow>dWeek){
             dWeek+=7;
@@ -344,7 +310,7 @@ function setDateById(){
         dat=moment().day(dWeek).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="26" || id==26){
-        stText="Sunday";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_Sunday");
         dWeek=0;
         if(dNow>dWeek){
             dWeek+=7;
@@ -352,7 +318,7 @@ function setDateById(){
         dat=moment().day(dWeek).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }else if(id=="29" || id==29){
-        stText="Next Year";
+        stText=getLanguageText("LANG_ADD_WUICK_EVENT_TEXT_NextYear");
         dat=moment().add("years",1).format("DD.MM.YYYY");
         showDateQA(dat,stText);
     }
@@ -586,7 +552,7 @@ function createQuickAddHintLi(modal_ul,text,action,text2){
 function createEvent(){
     var event_description=jQuery("#te_quick_event_desc").val();
     if(!event_description || jQuery("#te_quick_event_desc").attr("placeholder")==event_description){
-        getInfo(true, "Description Field Empty", "error", 4000);
+        getInfo(true, getLanguageText("LANG_ADD_QUICK_EVENT_ERROR_DESC_EMPTY"), "error", 4000);
         return;
     }
     var event_start_date=jQuery("#te_quick_event_date").val();
@@ -632,7 +598,7 @@ function createEvent(){
                             create_event_post=null;
                         }
                         getLoader(false);
-                        getInfo(true, "An erroroccured", "error", 4000);
+                        getInfo(true, getLanguageText("LANG_ADD_QUICK_EVENT_ERROR"), "error", 4000);
                     },
                     success: function(data){
                         try {
@@ -651,18 +617,18 @@ function createEvent(){
                             if(!dataJSON || !dataJSON.success)
                             {
                                 console.log(dataJSON);
-                                getInfo(true, "An erroroccured", "error", 4000);
+                                getInfo(true, getLanguageText("LANG_ADD_QUICK_EVENT_ERROR"), "error", 4000);
                                 getLoader(false);
                                 return;
                             }else{
-                                getInfo(true, "Event created", "info", 4000);
+                                getInfo(true, getLanguageText("LANG_ADD_QUICK_EVENT_SUCCESS"), "info", 4000);
                                 getLoader(false);
                                 jQuery("#te_quick_add_event_bar").hide();
                                 return;
                             }
                         } catch(err){
                             getLoader(false);
-                            getInfo(true, err, "error", 4000);
+                            getInfo(true, err, getLanguageText("LANG_ADD_QUICK_EVENT_ERROR"), 4000);
                             console.log(err);
                             if(create_event_post) {
                                 create_event_post.abort();

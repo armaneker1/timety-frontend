@@ -289,7 +289,7 @@ class Neo4jUserUtil {
                     return $row[0];
                 }
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
         return null;
@@ -343,7 +343,7 @@ class Neo4jUserUtil {
                     $result = $query->getResultSet();
                 }
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
         return null;
@@ -377,7 +377,7 @@ class Neo4jUserUtil {
                     }
                 }
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
         return null;
@@ -393,7 +393,7 @@ class Neo4jUserUtil {
                 $query = new Cypher\Query($client, $query, null);
                 $result = $query->getResultSet();
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log( "Error" . $e->getTraceAsString());
             }
         }
     }
@@ -415,7 +415,7 @@ class Neo4jUserUtil {
                 }
                 return $array;
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
     }
@@ -481,7 +481,7 @@ class Neo4jUserUtil {
                     UserUtils::updateUserJoinLikeStat($userId, $joined_count);
                 }
             } catch (Exception $e) {
-                error_log("Error" . $e->getMessage());
+                error_log("Error" . $e->getTraceAsString());
             }
         }
     }

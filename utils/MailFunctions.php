@@ -117,10 +117,10 @@ class MailUtil {
                 $m->setMessageFromString(null,$template);
                 return $ses->sendEmail($m);
             } else {
-                throw new Exception("Email address not  found");
+                throw new Exception(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_EMAIL_EMPTY"));
             }
         } else {
-            throw new Exception("File not found");
+            throw new Exception(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_FILE_NOT_FOUND"));
         }
         return false;
     }

@@ -13,11 +13,11 @@ require_once __DIR__ . '/../config/dbconfig.php';
 require_once __DIR__ . '/../config/constant.php';
 require_once __DIR__ . '/../config/neo4jconfig.php';
 require_once __DIR__ . '/../config/mailconfig.php';
-require_once __DIR__ . '/../models/models.php';
 require_once __DIR__ . '/../config/fbconfig.php';
 require_once __DIR__ . '/../config/fqconfig.php';
 require_once __DIR__ . '/../config/twconfig.php';
 require_once __DIR__ . '/../config/ggconfig.php';
+require_once __DIR__ . '/../models/models.php';
 
 require_once __DIR__ . '/../apis/logger/KLogger.php';
 
@@ -31,10 +31,10 @@ require_once __DIR__ . '/InviteFunctions.php';
 require_once __DIR__ . '/LostPassFunctions.php';
 require_once __DIR__ . '/MailFunctions.php';
 require_once __DIR__ . '/ReminderFunctions.php';
+require_once __DIR__ . '/UserFunctions.php';
 require_once __DIR__ . '/SessionFunctions.php';
 require_once __DIR__ . '/SettingFunctions.php';
 require_once __DIR__ . '/SocialFriendFunctions.php';
-require_once __DIR__ . '/UserFunctions.php';
 require_once __DIR__ . '/UserSettingsFunctions.php';
 require_once __DIR__ . '/HttpAuthFunctions.php';
 require_once __DIR__ . '/AddLikeFunctions.php';
@@ -46,6 +46,7 @@ require_once __DIR__ . '/FacebookFunctions.php';
 require_once __DIR__ . '/RegisterAnaliticsFunctions.php';
 require_once __DIR__ . '/EventKeyListFunction.php';
 require_once __DIR__ . '/XMLFunctions.php';
+require_once __DIR__ . '/LanguageFunctions.php';
 
 require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/Neo4jTimetyCategoryFunctions.php';
@@ -152,35 +153,35 @@ class UtilFunctions {
                     $result = $since_start->y . ' years';
                 if ($since_start->m > 0 && empty($result)) {
                     if ($since_start->m == 1) {
-                        $result = "Next month";
+                        $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_NEXT_MONTH");
                     } else {
-                        $result = $since_start->m . ' months';
+                        $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_MONTHS", $since_start->m);
                     }
                 }
                 if ($since_start->d > 0 && empty($result)) {
                     $day_dif = $since_start->d;
                     if ($day_dif == 1) {
-                        $result = "Tomorrow";
+                        $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_TOMORROW");
                     } else {
                         $week = date('N', strtotime($datestart));
                         $week = $week + $day_dif;
                         if ($week <= 7) {
                             $result = date('l', strtotime($dateend));
                         } else if ($week > 7 && $week <= 14) {
-                            $result = "Next week";
+                            $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_NEXT_WEEK");
                         } else {
                             $ms = date('m', strtotime($datestart));
                             $me = date('m', strtotime($dateend));
                             if ($me == $ms) {
                                 if ($week > 14 && $week <= 21) {
-                                    $result = "2 weeks";
+                                    $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_N_WEEKS", 2);
                                 } else if ($week > 21 && $week <= 28) {
-                                    $result = "3 weeks";
+                                    $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_N_WEEKS", 3);
                                 } else {
-                                    $result = "4 weeks";
+                                    $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_N_WEEKS", 4);
                                 }
                             } else {
-                                $result = "Next month";
+                                $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_NEXT_MONTH");
                             }
                         }
                     }
@@ -189,22 +190,22 @@ class UtilFunctions {
                     $ds = date('j', strtotime($datestart));
                     $de = date('j', strtotime($dateend));
                     if ($ds == $de) {
-                        $result = $since_start->h . ' hours';
+                        $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_HOURS", $since_start->h);
                     } else {
-                        $result = "Tomorrow";
+                        $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_TOMORROW");
                     }
                 }
                 if ($since_start->i > 0 && empty($result))
-                    $result = $since_start->i . ' minutes';
+                    $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_MINUTES", $since_start->i);
             }
             if (!empty($result)) {
                 return $result;
             } else {
-                return "Past";
+                return LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST");
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
-            return "Past";
+            return LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST");
         }
     }
 

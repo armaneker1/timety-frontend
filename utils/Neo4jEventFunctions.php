@@ -177,9 +177,29 @@ class Neo4jEventUtils {
                                                 $emailUser = $userIndex->findOne(PROP_USER_ID, $emailUser->id);
                                                 if (!empty($emailUser)) {
                                                     Neo4jEventUtils::inviteUserToEvent($evnt, $emailUser);
-                                                    //$evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                                 }
-                                                $res = MailUtil::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
+                                                //TODO
+                                                //$res = MailUtil::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
+                                                $img_ = new Image();
+                                                $img_ = $event->getHeaderImage();
+                                                $img_url_ = "";
+                                                $img_height_ = "";
+                                                $img_width_ = "";
+                                                if (!empty($img_)) {
+                                                    $img_width_ = $img_->width;
+                                                    $img_height_ = $img_->height;
+                                                    $img_url_ = PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($img_->url) . "&h=" . $img_height_ . "&w=" . $img_width_;
+                                                }
+                                                $params = array(array('name', $user->firstName),
+                                                    array('email_address', $user->email),
+                                                    array('img_url', $img_url_),
+                                                    array('img_width', $img_width_),
+                                                    array('img_height', $img_height_),
+                                                    array('event_title', $event->title),
+                                                    array('event_desc', $event->description),
+                                                    array('event_date', $event->startDateTime),
+                                                    array('event_url', PAGE_EVENT . $event->id));
+                                                MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_invite_event.html", $params, $email, LanguageUtils::getText("LANG_MAIL_INVITE_EVENT_SUBJECT"));
                                             }
                                         }
                                     }
@@ -388,7 +408,7 @@ class Neo4jEventUtils {
                                         $emailUser->password = sha1(rand(100000, 9999999));
                                         $emailUser->status = 0;
                                         $emailUser->invited = 1;
-                                        $_SESSION["te_invitation_code"]="suc";
+                                        $_SESSION["te_invitation_code"] = "suc";
                                         $emailUser = $uf->createUser($emailUser, USER_TYPE_INVITED);
                                         if (!empty($emailUser)) {
                                             $emailUser = $userIndex->findOne(PROP_USER_ID, $emailUser->id);
@@ -396,7 +416,26 @@ class Neo4jEventUtils {
                                                 $evnt->relateTo($emailUser, REL_EVENTS_INVITES)->save();
                                             }
                                             //TODO
-                                            $res = MailUtil::sendEmail($user->firstName . " " . $user->lastName . " wants you to join <a href='" . PAGE_EVENT . $event->id . "'>" . $event->title . "</a> event. please click <a href='" . PAGE_SIGNUP . "'>here</a> ", "Timety Event invitation", '{"email": "' . $email . '",  "name": "' . $email . ' "}');
+                                            $img_ = new Image();
+                                            $img_ = $event->getHeaderImage();
+                                            $img_url_ = "";
+                                            $img_height_ = "";
+                                            $img_width_ = "";
+                                            if (!empty($img_)) {
+                                                $img_width_ = $img_->width;
+                                                $img_height_ = $img_->height;
+                                                $img_url_ = PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($img_->url) . "&h=" . $img_height_ . "&w=" . $img_width_;
+                                            }
+                                            $params = array(array('name', $user->firstName),
+                                                array('email_address', $user->email),
+                                                array('img_url', $img_url_),
+                                                array('img_width', $img_width_),
+                                                array('img_height', $img_height_),
+                                                array('event_title', $event->title),
+                                                array('event_desc', $event->description),
+                                                array('event_date', $event->startDateTime),
+                                                array('event_url', PAGE_EVENT . $event->id));
+                                            MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_invite_event.html", $params, $email, LanguageUtils::getText("LANG_MAIL_INVITE_EVENT_SUBJECT"));
                                         }
                                     }
                                 }
@@ -532,7 +571,7 @@ class Neo4jEventUtils {
                     }
                 }
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
         return null;
@@ -548,7 +587,7 @@ class Neo4jEventUtils {
                 $query = new Cypher\Query($client, $query, null);
                 $query->getResultSet();
             } catch (Exception $e) {
-                echo "Error" . $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
             }
         }
     }

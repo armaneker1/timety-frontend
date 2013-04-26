@@ -14,7 +14,7 @@
      */
 
     var defaults = {
-        messages: {
+        messages: validate_messages ? validate_messages : {
             required: 'Use at least 3 characters',
             matches: 'The %s field does not match the %s field.',
             valid_email: 'Email is not valid',

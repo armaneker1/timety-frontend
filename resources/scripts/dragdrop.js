@@ -65,9 +65,9 @@ function dropJoinEvent(userId,eventId)
                         success: function(data){
                             data = jQuery.parseJSON(data);
                             if(data.error) {
-                                getInfo(true,'Something went wrong :( Try again.','error',4000);
+                                getInfo(true,getLanguageText("LANG_EVENT_INT_JOIN_SOMETHING_WRONG"),'error',4000);
                             }else {
-                                getInfo(true,'Whoa! Have fun!','info',4000);
+                                getInfo(true,getLanguageText("LANG_EVENT_INT_JOIN_SUCCESS"),'info',4000);
                                 addToMyTimety(eventId,userId);
                             }
                         },

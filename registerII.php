@@ -6,6 +6,8 @@ require_once __DIR__ . '/utils/Functions.php';
 
 $checkUserStatus = false;
 $user = SessionUtil::checkLoggedinUser($checkUserStatus);
+// Set location
+LanguageUtils::setUserLocale($user);
 if (empty($user)) {
     // Redirection to login page twitter or facebook or foursquare
     unset($_SESSION['id']);
@@ -81,11 +83,12 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php
-        $timety_header = "Timety | Personal Information";
+        $timety_header =   LanguageUtils::getText("LANG_PAGE_ADD_LIKE_TITLE");
         $checkUserStatus = false;
+        LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header.php');
         ?>
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?35"></script>
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/registerutil.js?<?=JS_CONSTANT_PARAM?>"></script>
 
 
 
@@ -150,10 +153,10 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
             });
         </script>
 
-        <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js"></script>
+        <script src="<?= HOSTNAME ?>js/prototype.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>js/scriptaculous.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js?<?=JS_CONSTANT_PARAM?>"></script>
         <script>
             jQuery(document).ready(function() {
                 jQuery('.on_off_check_box_style').each(function (){
@@ -170,7 +173,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg"
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>"
           onload="checkInterestReady('<?= PAGE_LIKES ?>','#spinner','<?php
         if (!empty($user)) {
             echo $user->id;
@@ -201,8 +204,8 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
         ?>
         <div class="add_timete_ekr" style="top: 55px;">
             <div class="add_timete_ols">
-                <p class="find_friends">What are your interests? <span id="add_like_count_0" >Select at least 5 items.</span><span id="add_like_count_" style="display:none;"><span id="add_like_count">4</span> item<span id="add_like_count_s">s</span> remaining.</span><span id="add_like_done" style="display: none;">That's it.</span><br/><span class="add_t_k" style="line-height: 12px;"> Select some! When you visit Timety you will find
-                        events you are interested in.</span>
+                <p class="find_friends"><?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_HEADER1")?><span id="add_like_count_0" ><?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_COUNT_TEXT")?></span><span id="add_like_count_" style="display:none;"><span id="add_like_count"><?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_COUNT_NUMBER")?></span><?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_ITEM_TEXT")?><span id="add_like_count_s"><?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_ITEM_S_TEXT")?></span><?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_ITEM_REMAINING")?></span><span id="add_like_done" style="display: none;"><?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_ITEM_DONE")?></span><br/>
+                    <span class="add_t_k" style="line-height: 12px;"><?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_SUB_HEADER")?></span>
                 </p>
                 <div class="add_t_btn">
                     <!--<button type="button" name="" value=""
@@ -278,6 +281,12 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                                     <div class="slides_container" id="catUL_<?php echo $cat->id; ?>"
                                          style="padding-top: 0px;">
                                              <?php
+                                             $lang_u_clas="roll_en_us";
+                                             if(isset($_SESSION['SITE_LANG'])){
+                                                 if($_SESSION['SITE_LANG']==  strtolower(LANG_TR_TR)){
+                                                     $lang_u_clas="roll_tr_tr";
+                                                 }
+                                             }
                                              $size = 0;
                                              $item_count = 8;
                                              //$interests = InterestUtil::getUserOtherInterestsByCategory($user->id, $cat->id, 16);
@@ -310,7 +319,8 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                                                      if (strlen($shortText) > 30) {
                                                          $shortText = substr($shortText, 0, 30) . "...";
                                                      }
-                                                     $HTML1 = "<div " . $isClassed . " id='interest_item_" . $val->id . "' style='height: 80px;width:67px;overflow: hidden;'><span  class='roll' item_id='i_interest_item_" . $val->id . "' title='" . $val->name . "' onclick='return selectItemSpan(this,document.getElementById(\"i_interest_item_" . $val->id . "\"));' ></span>";
+                                                     
+                                                     $HTML1 = "<div " . $isClassed . " id='interest_item_" . $val->id . "' style='height: 80px;width:67px;overflow: hidden;'><span  class='roll ".$lang_u_clas."' item_id='i_interest_item_" . $val->id . "' title='" . $val->name . "' onclick='return selectItemSpan(this,document.getElementById(\"i_interest_item_" . $val->id . "\"));' ></span>";
                                                      $HTML2 = "<img id='i_interest_item_" . $val->id . "' int_id='" . $val->id . "' status='false' cat_id='" . $cat->id . "' title='" . $val->name . "'"
                                                              . "onclick='return selectItem(this)' style='cursor: pointer;' src='" . $val->photoUrl . "'  class='cerceve'>";
                                                      $HTML4 = "</img><span style='overflow: visible;word-wrap: break-word;'>" . $shortText . "</span></div>";
@@ -329,7 +339,9 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                                     <div style="position: absolute; right: 5px; z-index: 1000">
                                         <input type="button"
                                                id="prev_button_catULDIV_<?php echo $cat->id; ?>" class="solscrl"
-                                               style="position: absolute; right: 5px; margin-top: 35px;" /><input
+                                               style="position: absolute; right: 5px; margin-top: 35px;" />
+                                        
+                                        <input
                                                type="button" id="next_button_catULDIV_<?php echo $cat->id; ?>"
                                                class="sagscrl"
                                                style="position: absolute; right: 0; margin-top: 35px;" />
@@ -355,7 +367,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                         <div class="add_dgm" style="padding-bottom: 14px;">
                             <input type="hidden" id="type" name="type" value="1" /> 
                             <input type="hidden" id="add_ineterest" name="add_ineterest" /> 
-                            <input type="submit" value="Finish" onclick="return registerIIBeforeSubmit();" style="cursor: pointer"
+                            <input type="submit" value="<?=  LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_BUTTON_FINISH")?>" onclick="return registerIIBeforeSubmit();" style="cursor: pointer"
                                    class="reg_btn reg_btn_addlike_width">
                         </div>
 
@@ -393,7 +405,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
             </script>
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg_gen"></div>
-       <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/firefox.js"></script> -->
-       <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/chrome.js"></script> -->
+       <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/firefox.js?<?=JS_CONSTANT_PARAM?>"></script> -->
+       <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/chrome.js?<?=JS_CONSTANT_PARAM?>"></script> -->
     </body>
 </html>

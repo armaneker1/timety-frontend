@@ -29,7 +29,7 @@ function addItem(item, type) {
         sessionStorage.setItem(type + STORAGE, JSON.stringify(people));
         var elm = "<p id=\"" + type + "_item_" + item.id + "\">" + item.label
         + " <a href=\"#\" onclick=\"remItem(" + item.id + ",'" + type
-        + "');return false;\">Sil</a></p>";
+        + "');return false;\">"+getLanguageText("LANG_CREATE_EVENT_DEL")+"</a></p>";
         document.getElementById(type + VISUAL).innerHTML = document
         .getElementById(type + VISUAL).innerHTML
         + elm;
@@ -137,7 +137,7 @@ function removeUploadFile(id,fileName,image_input)
     }
     var imageDiv=jQuery("#"+id);
     imageDiv.children().remove();
-    jQuery(imageDiv).append("<a href=\"#\">click here to add image</a>");
+    jQuery(imageDiv).append("<a href=\"#\">"+getLanguageText("LANG_CREATE_EVENT_CLICK_ADD_IMG")+"</a>");
     var uploadDiv=jQuery("#"+id+"_rem");
     uploadDiv.remove();
     jQuery.post(TIMETY_PAGE_AJAX_REMOVE_TEMPFILE, { 

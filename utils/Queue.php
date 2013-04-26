@@ -166,7 +166,7 @@ class Queue {
         if ($priority != QUEUE_PRIORITY_LOW && $priority != QUEUE_PRIORITY_NORMAL && $priority != QUEUE_PRIORITY_HIGH) {
             $priority = QUEUE_PRIORITY_LOW;
         }
-        //$queue = $queue . "." . $priority;
+        $queue = $queue . "." . $priority;
         return $queue;
     }
 
@@ -176,7 +176,7 @@ class Queue {
             $conn->connect();
             return $conn;
         } catch (StompException $e) {
-            echo "Connection Error: " . $e->getDetails();
+            error_log("Connection Error: " . $e->getTraceAsString());
         }
         return null;
     }

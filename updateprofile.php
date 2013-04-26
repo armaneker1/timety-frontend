@@ -5,7 +5,8 @@ header("charset=utf8;");
 require_once __DIR__ . '/utils/Functions.php';
 
 $user = SessionUtil::checkLoggedinUser();
-
+//set langugae
+LanguageUtils::setUserLocale($user);
 if (empty($user)) {
     header("location: " . HOSTNAME);
     exit();
@@ -125,12 +126,12 @@ if (isset($_POST['update'])) {
     $param = true;
     $username = $_POST['te_username'];
     if (empty($username)) {
-        $usernameError = "Username cannot be empty";
+        $usernameError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_USERNAME_EMPTY");
         $param = false;
     } else {
         if (!UserUtils::checkUserName($username)) {
             if ($username != $_POST['te_default_username']) {
-                $usernameError = "Username already taken";
+                $usernameError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_USERNAME_TAKEN");
                 $param = false;
             }
         }
@@ -138,25 +139,25 @@ if (isset($_POST['update'])) {
 
     $name = $_POST['te_firstname'];
     if (empty($name)) {
-        $nameError = "Please enter first name";
+        $nameError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_ENTER_NAME");
         $param = false;
     }
     $lastname = $_POST['te_lastname'];
     if (empty($lastname)) {
-        $ulastnameError = "Please enter your last name";
+        $ulastnameError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_ENTER_LASTNAME");
         $param = false;
     }
     $email = $_POST['te_email'];
     if (empty($email)) {
-        $emailError = "Email cannot be empty";
+        $emailError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_EMAIL_EMPTY");
         $param = false;
     } else {
         if (!UtilFunctions::check_email_address($email)) {
-            $emailError = "Email is not valid";
+            $emailError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_EMAIL_NOTVALID");
             $param = false;
         } else if (!UserUtils::checkEmail($email)) {
             if ($_POST['te_default_email'] != $email) {
-                $emailError = "Email already exsts";
+                $emailError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_EMAIL_EXISTS");
                 $param = false;
             }
         }
@@ -165,13 +166,13 @@ if (isset($_POST['update'])) {
     $te_birthday = $_POST['te_birthday'];
     if (!empty($te_birthday)) {
         if (!UtilFunctions::checkDate($te_birthday)) {
-            $te_birthdayError = "Birthday is not valid";
+            $te_birthdayError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_BIRTHDAY_NOTVALID");
             $param = false;
         }
     }
     $hometown = $_POST['te_hometown'];
     if (empty($hometown)) {
-        $hometownError = "Please enter location";
+        $hometownError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_ENTER_LOCATION");
         $param = false;
     }
 
@@ -192,25 +193,25 @@ if (isset($_POST['update'])) {
                             $newPassword = $unewpass;
                         } else {
                             $param = false;
-                            $unewrepassError = "Passwords not macth";
+                            $unewrepassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_PASSWORD_NOTMATCH");
                         }
                     }
                 } else {
                     $param = false;
-                    $unewpassError = "Use at least 6 characters";
+                    $unewpassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_MINCHAR");
                 }
 
                 if (empty($unewrepass) || strlen($unewrepass) < 5) {
                     $param = false;
-                    $unewrepassError = "Use at least 6 characters";
+                    $unewrepassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_MINCHAR");
                 }
             } else {
                 $param = false;
-                $uoldpassError = "Password not correct";
+                $uoldpassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_PASSWORD_INCORRECT");
             }
         } else {
             $param = false;
-            $uoldpassError = "Use at least 6 characters";
+            $uoldpassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_MINCHAR");
         }
     }
 
@@ -270,9 +271,7 @@ if (isset($_POST['update'])) {
                 $te_location_country == "TR" ||
                 $te_location_country == "tr" ||
                 $te_location_country == "türkiye")) {
-            //$user->language = LANG_TR_TR;
-            // TODO 
-            $user->language = LANG_EN_US;
+            $user->language = LANG_TR_TR;
         } else {
             $user->language = LANG_EN_US;
         }
@@ -327,32 +326,31 @@ if (isset($_POST['update'])) {
 <html>
     <head>
         <?php
-        $timety_header = "Timety | Update Profile";
+        $timety_header = LanguageUtils::getText("LANG_UPDATE_PROFILE_TITLE");
         $page_id = "profile";
+        LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header.php');
         ?>
 
-        <script src="<?= HOSTNAME ?>js/prototype.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>js/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
-        <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js"></script>
+        <script src="<?= HOSTNAME ?>js/prototype.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>js/scriptaculous.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.js?<?=JS_CONSTANT_PARAM?>"></script>
 
 
         <?php if (isset($success) && $success) { ?>
             <script>
                 jQuery(document).ready(function(){
-                    getInfo(true, "Updated", "info", 4000); 
+                    getInfo(true, "<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_MSG_SUC_UPDATED")?>", "info", 4000); 
                 });
             </script>
         <?php } ?>
 
-        <script src="<?= HOSTNAME ?>resources/scripts/updateProfile.js?89765" type="text/javascript" charset="utf-8"></script>
+        <script src="<?= HOSTNAME ?>resources/scripts/updateProfile.js?<?=JS_CONSTANT_PARAM?>" type="text/javascript" charset="utf-8"></script>
         <script>          
             jQuery(document).ready(function() {
                 new iPhoneStyle('.on_off input[type=checkbox]',{ widthConstant:5, containerClass:    'iPhoneCheckContainer', handleCenterClass:'iPhoneCheckHandleCenter1',handleRightClass:  'iPhoneCheckHandleRight1',handleClass:'iPhoneCheckHandle1', labelOnClass:'iPhoneCheckLabelOn1',labelOffClass:'iPhoneCheckLabelOff1',checkedLabel: '<img src="<?= HOSTNAME ?>images/pyes1.png" width="14" heght="10">', uncheckedLabel: '<img src="<?= HOSTNAME ?>images/pno1.png" style="margin-top: 1px;margin-left: 1px;" width="10" heght="10">',statusChange : changeSettings});
-                new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                new iPhoneStyle('.long_tiny input[type=checkbox]', { checkedLabel: 'Very Long Text', uncheckedLabel: 'Tiny' });
-
+               
                 var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                 new iPhoneStyle(onchange_checkbox);
                 setInterval(function toggleCheckbox() {
@@ -575,7 +573,7 @@ if (isset($_POST['update'])) {
 
 
         <!--  form validation -->
-        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?=JS_CONSTANT_PARAM?>"></script>
         <script>
             jQuery(document).ready(function(){
                 var validator = new FormValidator(
@@ -662,7 +660,7 @@ if (isset($_POST['update'])) {
                     }
                     return false;
                 }).setMessage('check_email',
-                'Email already exists');
+                '<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_EMAIL_EXISTS")?>');
 
                 validator.registerCallback('check_username', function(value) {
                     var result = jQuery('#te_username').attr('suc');
@@ -672,7 +670,7 @@ if (isset($_POST['update'])) {
                     }
                     return false;
                 }).setMessage('check_username',
-                'Username already exists');
+                '<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_USERNAME_TAKEN")?>');
                 
                 validator.registerCallback('check_birthdate', function(value) {
                     if(jQuery('#te_birthday').val()){
@@ -681,7 +679,7 @@ if (isset($_POST['update'])) {
                         return true;
                     }
                 }).setMessage('check_birthdate',
-                'Enter valid date');
+                '<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_DATE_NOTVALID")?>');
                 
                 
                 validator.registerCallback('check_password', function(value) {
@@ -701,7 +699,7 @@ if (isset($_POST['update'])) {
                     }
                     
                 }).setMessage('check_password',
-                'Password Error');
+                 '<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_PASSWORD_ERROR")?>');
        
             });
         </script>
@@ -713,19 +711,19 @@ if (isset($_POST['update'])) {
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
         <?php include('layout/layout_top.php'); ?>
         <form id="per_update_info_form" action="" method="post" name="udateForm">
             <div class="profil_form">
                 <div class="p_form_sol">
-                    <p class="profil_etiket">E-Mail</p>    
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_EMAIL")?></p>    
                     <input name="te_default_username" type="hidden" value="<?= $user->userName ?>"/>
                     <input name="te_default_email" type="hidden" value="<?= $user->email ?>"/>
                     <input 
                         name="te_email" 
                         type="text"
                         suc="true"
-                        placeholder="E-Mail" 
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_EMAIL")?>" 
                         class="user_inpt email icon_bg" 
                         id="te_email"
                         style="width:356px;height:40px"
@@ -746,7 +744,7 @@ if (isset($_POST['update'])) {
                     </span><br /> 
 
 
-                    <p class="profil_etiket">Old Password</p>
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_OLD_PASSWORD")?></p>
 
                     <input 
                         name="te_old_password" 
@@ -754,7 +752,7 @@ if (isset($_POST['update'])) {
                         class="user_inpt password icon_bg" 
                         id="te_old_password" 
                         value=""
-                        placeholder="Old Password"
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_OLD_PASSWORD")?>"
                         style="width:356px;height:40px"
                         onkeyup="validatePassword(this,null,false,false);"
                         onblur="validatePassword(this,null,false,true);" />
@@ -771,14 +769,14 @@ if (isset($_POST['update'])) {
                     </span> <br />
 
 
-                    <p class="profil_etiket">New Password</p>
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_NEW_PASSWORD")?></p>
                     <input 
                         name="te_new_password" 
                         type="password"
                         class="user_inpt password icon_bg" 
                         id="te_new_password" 
                         value=""
-                        placeholder="New Password"
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_NEW_PASSWORD")?>"
                         style="width:356px;height:40px"
                         onkeyup="validatePassword(this,jQuery('#te_new_repassword'),false,false);"
                         onblur="validatePassword(this,jQuery('#te_new_repassword'),false,true);" />
@@ -795,7 +793,7 @@ if (isset($_POST['update'])) {
                     </span> <br />
 
 
-                    <p class="profil_etiket">Confirm password</p>
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_CONFIRM_PASSWORD")?></p>
 
                     <input 
                         name="te_new_repassword"
@@ -803,7 +801,7 @@ if (isset($_POST['update'])) {
                         class="user_inpt password icon_bg"
                         id="te_new_repassword" 
                         value=""
-                        placeholder="Confirm password"
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_CONFIRM_PASSWORD")?>"
                         style="width:356px;height:40px"
                         onkeyup="validatePassword(this,jQuery('#te_new_password'),true)" 
                         onblur="validatePassword(this,jQuery('#te_new_password'),true,true);"/>
@@ -821,15 +819,15 @@ if (isset($_POST['update'])) {
 
                     <br />
                     <div class="profil_g">
-                        <p class="profil_etiket">Gender</p>
+                        <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER")?></p>
 
                         <label class="label_radio" for="te_gender_male">
                             <input name="te_gender" id="te_gender_male" <?php if ($te_gender == 1 || $te_gender == '1') echo "checked='checked'"; ?> value="1" type="radio" />
-                            Male
+                            <?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER_MALE")?>
                         </label>
                         <label class="label_radio" for="te_gender_female">
                             <input name="te_gender" id="te_gender_female" <?php if ($te_gender . "" == '0') echo "checked='checked'"; ?> value="0" type="radio" />
-                            Female
+                            <?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER_FEMALE")?>
                         </label>
                     </div>
                     <br />
@@ -841,7 +839,7 @@ if (isset($_POST['update'])) {
                     </div>
                     <br /> -->
                     <div class="profil_g">
-                        <p class="profil_etiket">Social Networks</p>
+                        <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_SOCIAL")?></p>
 
                         <?php
                         $fb = false;
@@ -923,7 +921,7 @@ if (isset($_POST['update'])) {
 
 
                 <div class="p_form_sag">
-                    <p class="profil_etiket">Username</p>
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_USERNAME")?></p>
                     <input 
                         name="te_username" 
                         type="text"
@@ -931,7 +929,7 @@ if (isset($_POST['update'])) {
                         style="width:356px;height:40px"
                         id="te_username"
                         value="<?php echo $username ?>" 
-                        placeholder="Username"
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_USERNAME")?>"
                         suc="true"
                         default="<?php echo $username ?>"
                         onkeyup="validateUserName(this,true,false)"
@@ -949,7 +947,7 @@ if (isset($_POST['update'])) {
                     </span> <br /> 
 
 
-                    <p class="profil_etiket">Name</p>
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_NAME")?></p>
                     <input 
                         name="te_firstname"
                         type="text" 
@@ -957,7 +955,7 @@ if (isset($_POST['update'])) {
                         style="width:356px;height:40px"
                         id="te_firstname"
                         value="<?php echo $name ?>" 
-                        placeholder="First Name"
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_FIRST_NAME")?>"
                         onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
                         <?php
@@ -974,7 +972,7 @@ if (isset($_POST['update'])) {
 
 
 
-                    <p class="profil_etiket">Surname</p>
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_SURNAME")?></p>
                     <input 
                         name="te_lastname"
                         type="text" 
@@ -982,7 +980,7 @@ if (isset($_POST['update'])) {
                         style="width:356px;height:40px"
                         id="te_lastname"
                         value="<?php echo $lastname ?>" 
-                        placeholder="Last Name" 
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_LAST_NAME")?>" 
                         onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
                         <?php
@@ -998,11 +996,11 @@ if (isset($_POST['update'])) {
                     </span> <br />
 
 
-                    <p class="profil_etiket">Birthday</p>   
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_BIRTHDAY")?></p>   
                     <input 
                         name="te_birthday" 
                         type="text" 
-                        placeholder="Birthday (dd.MM.yyyy)"
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_BIRTHDAY_DETAIL")?>"
                         autocomplete='off'
                         class="user_inpt" 
                         style="width:356px;height:40px"
@@ -1029,16 +1027,16 @@ if (isset($_POST['update'])) {
 
 
                     <div class="profil_g" id="upload_photo">
-                        <p class="profil_etiket">Profile</p>
+                        <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_PROFILE")?></p>
                         <div id="profil_image_id"  class="profil_kul" style="background-size: cover;background: url(<?= PAGE_GET_IMAGEURL . urlencode($te_image) . "&w=106&h=106&zc=2" ?>)"></div>
                         <div class="profil_al"> 
-                            <p>import from</p>
+                            <p><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_IMPORT_FROM")?></p>
                             <a style="cursor: pointer;" id="import_from_facebook"><img src="images/faceal.png" width="99" height="32" border="0" /></a>
                             <a style="cursor: pointer;" id="import_from_twitter"><img src="images/twiter_al.png" width="99" height="32" border="0" /></a>
                         </div>
                     </div>
                     <div class="profil_g">
-                        <p class="profil_etiket">Short Bio</p>
+                        <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_SHORT_BIO")?></p>
                         <textarea 
                             name="te_about"
                             type="text" 
@@ -1046,7 +1044,7 @@ if (isset($_POST['update'])) {
                             style="width:356px;height:40px;resize: none;"
                             id="te_about"
                             charlength="50"
-                            placeholder="About" ><?php echo $about ?></textarea>
+                            placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_ABOUT")?>" ><?php echo $about ?></textarea>
                             <?php
                             $display = "none";
                             $class = "";
@@ -1069,11 +1067,11 @@ if (isset($_POST['update'])) {
                     <input type="hidden" name="te_location_all_json" id="te_location_all_json" value='<?= $te_location_all_json ?>'/>
                     <input type="hidden" name="te_location_cor_x" id="te_location_cor_x" value="<?= $te_location_cor_x ?>"/>
                     <input type="hidden" name="te_location_cor_y" id="te_location_cor_y" value="<?= $te_location_cor_y ?>"/>
-                    <p class="profil_etiket">Location</p>
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_LOCATION")?></p>
                     <input 
                         name="te_hometown"
                         type="text" 
-                        placeholder="Location" 
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_LOCATION_PLACEHOLDER")?>" 
                         class="user_inpt"
                         id="te_hometown" 
                         autocomplete="off"
@@ -1099,7 +1097,7 @@ if (isset($_POST['update'])) {
                         });
                     </script>
 
-                    <p class="profil_etiket">Web Site</p>
+                    <p class="profil_etiket"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_WEB_SITE")?></p>
                     <input 
                         name="te_web_site"
                         type="text" 
@@ -1107,7 +1105,7 @@ if (isset($_POST['update'])) {
                         style="width:356px;height:40px"
                         id="te_web_site"
                         value="<?php echo $website ?>" 
-                        placeholder="Web Site" /> 
+                        placeholder="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_WEB_SITE")?>" /> 
                         <?php
                         $display = "none";
                         $class = "";
@@ -1123,8 +1121,8 @@ if (isset($_POST['update'])) {
 
                 </div>
                 <div class="profil_alt">
-                    <button type="submit" name="update" class="gdy_btn">Update</button>
-                    <button type="button" onclick="window.location='<?= HOSTNAME ?>';" class="gdy_btn">Cancel</button>
+                    <button type="submit" name="update" class="gdy_btn"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_UPDATE")?></button>
+                    <button type="button" onclick="window.location='<?= HOSTNAME ?>';" class="gdy_btn"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_CANCEL")?></button>
                 </div>
 
             </div>
@@ -1146,7 +1144,7 @@ if (isset($_POST['update'])) {
                             <img id="progress_gif" src="<?= HOSTNAME ?>images/loader.gif"/>
                             <span id="progress"></span>
                             <br/>
-                            <button style="cursor: pointer;padding-top: 10px;padding-bottom: 4px;" type="button" name="cancel_btn" class="dugme dugme_esit" value="Cancel" id="crop_cancel_btn" onclick="cancelUpload();">Cancel</button>
+                            <button style="cursor: pointer;padding-top: 10px;padding-bottom: 4px;" type="button" name="cancel_btn" class="dugme dugme_esit" value="<?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_CANCEL")?>" id="crop_cancel_btn" onclick="cancelUpload();"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_CANCEL")?></button>
                         </div>
                     </center>
                     <div>
@@ -1154,11 +1152,11 @@ if (isset($_POST['update'])) {
                             <span style="
                                   font-size: 12px;
                                   font-weight: bold;
-                                  ">To the left is what your profile photo will look like.</span>
+                                  "><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_IMAGE_UPLOAD_1")?></span>
                             <p style="
                                font-size: 12px;
                                margin-top: 5px;
-                               ">To make adjustments, you can drag around and resize the yellow square below. When you are happy with your photo click the "Save Photo" button.</p></div>
+                               "><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_IMAGE_UPLOAD_2")?></p></div>
                         <div id="thumbnail_form" style="display:none;">
                             <form name="form" action="" method="post">
                                 <input type="hidden" name="x1" value="" id="x1" />
@@ -1167,9 +1165,9 @@ if (isset($_POST['update'])) {
                                 <input type="hidden" name="y2" value="" id="y2" />
                                 <input type="hidden" name="w" value="" id="w" />
                                 <input type="hidden" name="h" value="" id="h" />
-                                <button style="cursor: pointer;padding-top: 4px;padding-bottom: 4px;" type="button" name="save_btn" class="dugme dugme_esit" value="Save" id="crop_save_btn" >Save</button>
+                                <button style="cursor: pointer;padding-top: 4px;padding-bottom: 4px;" type="button" name="save_btn" class="dugme dugme_esit" value="Save" id="crop_save_btn" ><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_SAVE")?></button>
                                 <br/>
-                                <button style="cursor: pointer;padding-top: 4px;padding-bottom: 4px;" type="button" name="cancel_btn" class="dugme dugme_esit" value="Cancel" id="crop_cancel_btn" onclick="cancelUpload();">Cancel</button>
+                                <button style="cursor: pointer;padding-top: 4px;padding-bottom: 4px;" type="button" name="cancel_btn" class="dugme dugme_esit" value="Cancel" id="crop_cancel_btn" onclick="cancelUpload();"><?=  LanguageUtils::getText("LANG_UPDATE_PROFILE_CANCEL")?></button>
                             </form>
                         </div>
                     </div>

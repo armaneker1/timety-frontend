@@ -14,6 +14,7 @@
         <p class="gdy_location"  id="gdy_event_location">Event Location</p>
         <div class="gdy_resim">
             <img id="big_image_header" src="<?= HOSTNAME ?>images/loader.gif" width="30" height="30" border="0" />
+            <iframe id="youtube_player" style="display: none;" type="text/html" width="" height="" frameborder="0" src="<?=HOSTNAME?>cache/index.html"></iframe>
         </div>
         <div class="gdy_bgln">
             <div class="bgln_rsm">
@@ -23,9 +24,9 @@
                 <h1 id="name_creator" class="name_creator">Event Creator</h1>
                 <h1 id="about_creator" class="about_creator"></h1>
                 <a  type="button" name="" value="" disabled="disabled" class="modal_follow_btn" id="foll_modal_creator" onclick="followUser(null,null,this,'modal_');">
-                    <span class="follow_text">follow</span>
-                    <span class="following_text">following</span>
-                    <span class="unfollow_text">unfollow</span>
+                    <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOW")?></span>
+                    <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOWING")?></span>
+                    <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_UNFOLLOW")?></span>
                 </a>
             </div>
 
@@ -140,12 +141,12 @@
         <div class="gdy_satir" id="gdy_users_div_container">
             <div class="gdy_alt_sol">
                 <img src="<?= HOSTNAME ?>images/klnc.png" width="22" height="20" align="middle" />
-                <span style="font-family: Arial, Helvetica, sans-serif;font-size: 11px;color: #959595;">Joined</span>
+                <span style="font-family: Arial, Helvetica, sans-serif;font-size: 11px;color: #959595;"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_JOINED_TEXT")?></span>
             </div>
             <div class="gdy_alt_orta" id="gdy_users_div">
             </div>
             <div class="gdy_alt_sag">
-                <p id="gdy_users_count">8</p>
+                <p id="gdy_users_count">0</p>
                 <p><a href="#">
                         <img src="<?= HOSTNAME ?>images/bendedok.png" width="12" height="13" border="0" />
                     </a>
@@ -157,8 +158,8 @@
                 <img src="<?= HOSTNAME ?>images/yz.png" width="22" height="23" align="middle" style="margin-top: -20px;">
             </div>
             <div class="gdy_alt_orta_yorum gdy_alt_orta_yorum_bggri_sendbtn bggri">
-                <input name="" type="text" class="gdyorum" id="sendComment" eventid="" placeholder="Leave a comment...">
-                <button class="gdy_send" type="button" onclick="sendComment()">Send</button>
+                <input name="" type="text" class="gdyorum" id="sendComment" eventid="" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_COMMENT_INPUT_PLACEHOLDER")?>">
+                <button class="gdy_send" type="button" onclick="sendComment()"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_COMMENT_BUTTON")?></button>
             </div>
         </div>
         <div class="gdy_satir comment_classs" id="comment_template" style="display: none;">
@@ -172,7 +173,7 @@
         </div>
 
         <div class="tumyorumlar" id="tumyorumlar" style="display: none">
-            <a href="#" id="tumyorumlar_text">See all 4 comments...</a>
+            <a href="#" id="tumyorumlar_text"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_COMMENT_SEE_MORE")?></a>
         </div>
     </div>
 </div>

@@ -28,8 +28,8 @@ class SocialUtil {
                 Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 3,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
-                log("Error" + $e->getMessage());
-                $result->error = $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
+                $result->error = $e->getTraceAsString();
             }
         } else {
             $result->success = false;
@@ -57,8 +57,8 @@ class SocialUtil {
                 Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_UNLIKE);
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 3,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
-                log("Error" + $e->getMessage());
-                $result->error = $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
+                $result->error = $e->getTraceAsString();
             }
         } else {
             $result->success = false;
@@ -88,8 +88,8 @@ class SocialUtil {
                 Queue::reshareEvent($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 4,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
-                log("Error" + $e->getMessage());
-                $result->error = $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
+                $result->error = $e->getTraceAsString();
             }
         } else {
             $result->success = false;
@@ -117,8 +117,8 @@ class SocialUtil {
                 Queue::reshareEvent($eventId, $userId, REDIS_USER_INTERACTION_UNSHARE);
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 4,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
-                log("Error" + $e->getMessage());
-                $result->error = $e->getMessage();
+                error_log("Error" .$e->getTraceAsString());
+                $result->error = $e->getTraceAsString();
             }
         } else {
             $result->success = false;
@@ -341,10 +341,10 @@ class SocialUtil {
                     $follow_color="#588cc8";
                     $following_color="#84C449";
                     $style=$follow_color;
-                    $flw_text="follow";
+                    $flw_text=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOW");
                     if(RedisUtils::isUserInFollowings($fromUserId, $toUserId)){
                         $style=$following_color;
-                        $flw_text="following";
+                        $flw_text=LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOWING");
                     }
                     $params = array(
                         array('folw_bg_color',$style),
@@ -357,16 +357,17 @@ class SocialUtil {
                         array('img', PAGE_GET_IMAGEURL . urlencode($fu->getUserPic()) . "&h=90&w=90"),
                         array('$profileUrl',HOSTNAME.$fu->userName),
                         array('email_address', $tu->email));
-                    MailUtil::sendSESMailFromFile("followedBy.html", $params, "".$tu->getFullName()." <".$tu->email.">", "You have a new follower on Timety!");
+                    //TODO
+                    MailUtil::sendSESMailFromFile(LanguageUtils::getLocale()."_followedBy.html", $params, "".$tu->getFullName()." <".$tu->email.">", LanguageUtils::getText("LANG_MAIL_FOLLOWED_BY_SUBJECT"));
                 } else {
-                    $res->error = "Users not found";
+                    $res->error = LanguageUtils::getText("LANG_UTILS_NEO4J_SOCIAL_ERROR_USER_NOT_FOUND");
                 }
             } else {
                 $res->success = true;
             }
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
-            $res->error = $e->getMessage();
+            error_log("Error". $e->getTraceAsString() );
+            $res->error = $e->getTraceAsString();
         }
         return $res;
     }
@@ -405,8 +406,8 @@ class SocialUtil {
             UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId,"type" => 2,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId,"type" => 1,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
-            $res->error = $e->getMessage();
+            error_log("Error ". $e->getTraceAsString());
+            $res->error = $e->getTraceAsString();
         }
         return $res;
     }

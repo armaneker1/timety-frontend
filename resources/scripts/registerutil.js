@@ -101,7 +101,7 @@ function removeByIndex(array, index) {
 function registerIIBeforeSubmit() {
     var interests = getInterests();
     if(!(interests && interests.length>4)){
-        getInfo(true, "Select at least 5 item.", "error", 4000);
+        getInfo(true, getLanguageText("LANG_REGISTER_UTIL_SELECT_AT_LEAST",5,getLanguageText("LANG_REGISTER_UTIL_SELECT_AT_LEAST_S")), "error", 4000);
         return false;
     }
     var values= new Array();

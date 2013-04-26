@@ -56,14 +56,14 @@ function openFriendsPopup(userId,type)
                 //following
                 //set header 
                 pSUPERFLY.virtualPage("/friends/following", "/friends/following");
-                jQuery("#profile_friends_header").text("Following"); 
+                jQuery("#profile_friends_header").text(getLanguageText("LANG_PROFILE_FRIENDS_FOLLOWING")); 
                 url=TIMETY_PAGE_AJAX_GETFRIENDS;
             } else if(type==2) {
 
                 //follower 
                 //set header 
                 pSUPERFLY.virtualPage("/friends/followers", "/friends/followers");
-                jQuery("#profile_friends_header").text("Followers");
+                jQuery("#profile_friends_header").text(getLanguageText("LANG_PROFILE_FRIENDS_FOLLOWERS"));
                 url=TIMETY_PAGE_AJAX_GET_FOLLOWERS;
             }
             
@@ -106,7 +106,7 @@ function openFriendsPopup(userId,type)
 
             //find friends
             //set header 
-            jQuery("#profile_friends_header").text("Find Friends");
+            jQuery("#profile_friends_header").text(getLanguageText("LANG_PROFILE_FRIENDS_FIND_FRIENDS"));
             /*
              * social buttons
              */

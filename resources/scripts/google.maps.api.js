@@ -25,20 +25,20 @@ function getCityLocation(fn)
                                     }
                                 }
                             } else {
-                                fn.call(this,"Locatin couldn't get", "Error");   
+                                fn.call(this,getLanguageText("LANG_LOCATION_COULDT_GET"), "Error");   
                             }
                         } else {
-                            fn.call(this,"Locatin couldn't get", "Error");   
+                            fn.call(this,getLanguageText("LANG_LOCATION_COULDT_GET"), "Error");   
                         }
                     });
                 }else
                 {
-                    fn.call(this,"Locatin couldn't get", "Error");   
+                    fn.call(this,getLanguageText("LANG_LOCATION_COULDT_GET"), "Error");   
                 }
             });
         }else
         {
-            fn.call(this,"Locatin couldn't get", "Error");   
+            fn.call(this,getLanguageText("LANG_LOCATION_COULDT_GET"), "Error");   
         }
     }else
     {
@@ -65,20 +65,20 @@ function getAllLocation(fn)
                             if (results && results.length && results.length>0) {
                                 fn.call(this,results, "OK"); 
                             } else {
-                                fn.call(this,"Locatin couldn't get", "Error");   
+                                fn.call(this,getLanguageText("LANG_LOCATION_COULDT_GET"), "Error");   
                             }
                         } else {
-                            fn.call(this,"Locatin couldn't get", "Error");   
+                            fn.call(this,getLanguageText("LANG_LOCATION_COULDT_GET"), "Error");   
                         }
                     });
                 }else
                 {
-                    fn.call(this,"Locatin couldn't get", "Error");   
+                    fn.call(this,getLanguageText("LANG_LOCATION_COULDT_GET"), "Error");   
                 }
             });
         }else
         {
-            fn.call(this,"Locatin couldn't get", "Error");   
+            fn.call(this,getLanguageText("LANG_LOCATION_COULDT_GET"), "Error");   
         }
     }else
     {

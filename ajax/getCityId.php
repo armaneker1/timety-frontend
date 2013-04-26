@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setAJAXLocale();
 $cityName = null;
 if (isset($_POST["cityName"]))
     $cityName = $_POST["cityName"];

@@ -44,7 +44,7 @@ class Neo4jFuctions {
             }
             return $array;
         } catch (Exception $e) {
-            log("Error" + $e->getMessage());
+            error_log("Error" . $e->getTraceAsString());
         }
     }
 
@@ -66,7 +66,7 @@ class Neo4jFuctions {
             }
             return $array;
         } catch (Exception $e) {
-            log("Error" + $e->getMessage());
+            error_log("Error" . $e->getTraceAsString());
         }
     }
 
@@ -120,10 +120,10 @@ class Neo4jFuctions {
                     $result->success = false;
                     $result->error = true;
                 }
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 5,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 5, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
-                log("Error" + $e->getMessage());
-                $result->error = $e->getMessage();
+                error_log("Error" . $e->getTraceAsString());
+                $result->error = $e->getTraceAsString();
             }
         } else {
             $result->success = false;
@@ -152,8 +152,8 @@ class Neo4jFuctions {
                 $result->error = true;
             }
         } catch (Exception $e) {
-            log("Error" + $e->getMessage());
-            $result->error = $e->getMessage();
+            error_log("Error" . $e->getTraceAsString());
+            $result->error = $e->getTraceAsString();
         }
         return $result;
     }
@@ -168,7 +168,7 @@ class Neo4jFuctions {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
         } catch (Exception $e) {
-            error_log("Error" . $e->getMessage());
+            error_log("Error" . $e->getTraceAsString());
         }
     }
 
@@ -181,8 +181,7 @@ class Neo4jFuctions {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
         } catch (Exception $e) {
-            log("Error" + $e->getMessage());
-            print_r($e);
+            error_log("Error" . $e->getTraceAsString());
         }
     }
 
@@ -195,8 +194,7 @@ class Neo4jFuctions {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
         } catch (Exception $e) {
-            log("Error" + $e->getMessage());
-            print_r($e);
+            error_log("Error" . $e->getTraceAsString());
         }
     }
 
@@ -233,7 +231,7 @@ class Neo4jFuctions {
                 return true;
             }
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
+            error_log("Error" . $e->getTraceAsString());
             return false;
         }
     }
@@ -256,7 +254,7 @@ class Neo4jFuctions {
             }
             return null;
         } catch (Exception $e) {
-            log("Error" + $e->getMessage());
+            error_log("Error" . $e->getTraceAsString());
         }
     }
 
@@ -278,7 +276,7 @@ class Neo4jFuctions {
             }
             return $array;
         } catch (Exception $e) {
-            log("Error" + $e->getMessage());
+            error_log("Error" . $e->getTraceAsString());
         }
     }
 
@@ -323,8 +321,7 @@ class Neo4jFuctions {
                 }
             }
         } catch (Exception $e) {
-            var_dump($e);
-            //log("Error",$e->getMessage());
+            error_log("Error " . $e->getTraceAsString());
             return false;
         }
     }
@@ -345,7 +342,7 @@ class Neo4jFuctions {
                 return true;
             }
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
+            error_log("Error " . $e->getTraceAsString());
             return false;
         }
     }
@@ -358,7 +355,7 @@ class Neo4jFuctions {
                 $tag = $objectIndex->findOne(PROP_OBJECT_NAME, strtolower($tagName));
                 return $tag;
             } catch (Exception $e) {
-                error_log("Error" . $e->getMessage());
+                error_log("Error " . $e->getTraceAsString());
                 return null;
             }
         }
@@ -411,7 +408,7 @@ class Neo4jFuctions {
                 return $object->getProperty(PROP_OBJECT_ID);
             }
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
+            error_log($e->getTraceAsString());
             return null;
         }
     }
@@ -438,7 +435,7 @@ class Neo4jFuctions {
                 $usr->relateTo($object, REL_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, $social)->save();
             }
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
+            error_log("Error ". $e->getTraceAsString());
         }
     }
 
@@ -452,7 +449,7 @@ class Neo4jFuctions {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
+            error_log("Error ". $e->getTraceAsString());
         }
     }
 
@@ -466,7 +463,7 @@ class Neo4jFuctions {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
+            error_log("Error " . $e->getTraceAsString());
         }
     }
 
@@ -779,8 +776,8 @@ class Neo4jFuctions {
                 $result->error = "Userlar bulunamadı";
             }
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
-            $result->error = $e->getMessage();
+            error_log("Error ". $e->getTraceAsString());
+            $result->error = $e->getTraceAsString();
         }
         return $result;
     }
@@ -797,8 +794,8 @@ class Neo4jFuctions {
             $result = $query->getResultSet();
             $result->success = true;
         } catch (Exception $e) {
-            log("Error", $e->getMessage());
-            $result->error = $e->getMessage();
+            error_log("Error ". $e->getTraceAsString());
+            $result->error = $e->getTraceAsString();
         }
         return $result;
     }

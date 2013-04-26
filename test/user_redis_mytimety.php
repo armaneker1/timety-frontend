@@ -11,6 +11,7 @@ use Everyman\Neo4j\Transport,
 session_start();
 header("charset=utf8");
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 $redis = new Predis\Client();

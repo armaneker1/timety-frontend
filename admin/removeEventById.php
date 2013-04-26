@@ -3,6 +3,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 if (isset($_POST['eventId']) && !empty($_POST['eventId'])) {

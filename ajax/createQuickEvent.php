@@ -4,14 +4,15 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setAJAXLocale();
 $msgs = array();
-
+$result = new Result();
 if (isset($_GET)) {
 
     if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         if (!SessionUtil::isUser($_GET['userId'])) {
             $res = new stdClass();
-            $res->error = "user not logged in";
+            $res->error = LanguageUtils::getText("LANG_AJAX_SECURITY_SESSION_ERROR");
             $json_response = json_encode($res);
             echo $json_response;
             exit(1);
@@ -35,7 +36,7 @@ if (isset($_GET)) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Title can not be empty";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_TITLE_EMPTY");
         array_push($msgs, $m);
     }
     $event->description = $_GET["event_description"];
@@ -43,7 +44,7 @@ if (isset($_GET)) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Description can not be empty";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_LOC_EMPTY");
         array_push($msgs, $m);
     }
     $event->location = $_GET["event_loc"];
@@ -51,7 +52,7 @@ if (isset($_GET)) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "User not found";
+        $m->message = LanguageUtils::getText("LANG_AJAX_USER_NOT_FOUND");
         array_push($msgs, $m);
     }
     $event->creatorId = $_GET['userId'];
@@ -72,7 +73,7 @@ if (isset($_GET)) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Start Date not valid";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_START_DATE_NOT_VALID");
         array_push($msgs, $m);
     }
     $startTime = UtilFunctions::checkTime($startTime);
@@ -80,7 +81,7 @@ if (isset($_GET)) {
         $error = true;
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message = "Event Start Time not valid";
+        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_START_TIME_NOT_VALID");
         array_push($msgs, $m);
     }
 
@@ -122,7 +123,7 @@ if (isset($_GET)) {
             $result = new Result();
             $result->success = true;
             $result->error = false;
-            $result->param = "Success";
+            $result->param = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_SUC_CREATED");
             echo json_encode($result);
         } catch (Exception $e) {
             $error = true;

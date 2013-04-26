@@ -75,7 +75,7 @@ if ($showPopup) {
          include('layout/template_following.php');
          ?>
 
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/profile_friends.js?201303011057"></script>   
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/profile_friends.js?<?=JS_CONSTANT_PARAM?>"></script>   
 
     <?php } ?>
 
@@ -113,7 +113,7 @@ if ($showPopup) {
                 <!-- Header Image-->
                 <div class="cae_foto" style="z-index: -10;" id="event_header_image">
                     <?php if (!$showPopup || empty($event->headerImage)) { ?>
-                        <a href="#">click here to add image</a>
+                    <a href="#"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                     <?php } else { ?>
                         <script>
                         jQuery(document).ready(function(){
@@ -140,7 +140,7 @@ if ($showPopup) {
                 if ($showPopup) {
                     echo $event->title;
                 }
-                    ?>" placeholder="title" />
+                    ?>" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER")?>" />
                                 <script>
                                 jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
                                 </script>
@@ -187,7 +187,7 @@ if ($showPopup) {
                             }
                         }
                         ?>
-                        <p style="font-family: arial;font-size: 15px;font-weight: bold;color: #aeaeae;">Export to</p>
+                        <p style="font-family: arial;font-size: 15px;font-weight: bold;color: #aeaeae;"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_EXPOT")?></p>
 
                         <button id="add_social_c_fb" type="button" ty="fb" act="<?php if ($fb) echo 'true'; else echo 'false'; ?>" class="big-icon-f-export btn-sign-big-export  fb facebook"
                         <?php
@@ -197,7 +197,7 @@ if ($showPopup) {
                             echo "onclick=\"toogleSocialButton(this);\"";
                         }
                         ?>>
-                            <b>Events</b> 
+                            <b><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_FACEBOOK")?></b> 
                             <div id="big-icon-check-fb-id" class="big-icon-check" style="top:90px;<?php if (!$fb) echo 'display:none;'; ?>"></div>
                         </button>
 
@@ -209,13 +209,13 @@ if ($showPopup) {
                             echo "onclick=\"toogleSocialButton(this);\"";
                         }
                         ?>>
-                            <b>Calendar</b> 
+                            <b><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_GOOGLE")?></b> 
                             <div id="big-icon-check-gg-id" class="big-icon-check" style="top:90px;<?php if (!$gg) echo 'display:none;'; ?>"></div>
                         </button>
 
                         <button id="add_social_c_out" type="button" ty="out" act="false" class="big-icon-o-export btn-sign-big-export ou outlook"
                                 onclick="toogleSocialButton(this);">
-                            <b>Outlook</b> 
+                            <b><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_OUTLOOK")?></b> 
                             <div id="big-icon-check-out-id" class="big-icon-check" style="top:90px;display:none;"></div>
                         </button>
 
@@ -282,7 +282,7 @@ if ($showPopup) {
                     <!-- Image 1 -->
                     <div class="akare" style="z-index: -10;display: none;" id="event_image_1">
                         <?php if (!$showPopup || empty($event->images[0])) { ?>
-                            <a href="#" >click here to add image</a>
+                        <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                         <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
@@ -303,7 +303,7 @@ if ($showPopup) {
                     <!-- Image 2 -->
                     <div class="akare" style="z-index: -10;display: none;" id="event_image_2">
                         <?php if (!$showPopup || empty($event->images[1])) { ?>
-                            <a href="#" >click here to add image</a>
+                            <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                         <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
@@ -325,7 +325,7 @@ if ($showPopup) {
                     <!-- Image 3 -->
                     <div class="akare" style="z-index: -10;display: none;" id="event_image_3">
                         <?php if (!$showPopup || empty($event->images[2])) { ?>
-                            <a href="#" >click here to add image</a>
+                            <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                         <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
@@ -347,7 +347,7 @@ if ($showPopup) {
                     <!-- Image 4 -->
                     <div class="akare" style="z-index: -10;display: none;" id="event_image_4">
                         <?php if (!$showPopup || empty($event->images[3])) { ?>
-                            <a href="#" >click here to add image</a>
+                            <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                         <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
@@ -370,7 +370,7 @@ if ($showPopup) {
                     <!-- Image 5 -->
                     <div class="akare" style="z-index: -10;display: none;" id="event_image_5">
                         <?php if (!$showPopup || empty($event->images[4])) { ?>
-                            <a href="#" >click here to add image</a>
+                            <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                         <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
@@ -392,7 +392,7 @@ if ($showPopup) {
                     <!-- Image 6 -->
                     <div class="akare" style="z-index: -10;display: none;" id="event_image_6">
                         <?php if (!$showPopup || empty($event->images[5])) { ?>
-                            <a href="#" >click here to add image</a>
+                            <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                         <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
@@ -414,7 +414,7 @@ if ($showPopup) {
                     <!-- Image 7 -->
                     <div class="akare" style="z-index: -10;display: none;" id="event_image_7">
                         <?php if (!$showPopup || empty($event->images[6])) { ?>
-                            <a href="#" >click here to add image</a>
+                            <a href="#" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG")?></a>
                         <?php } else { ?>
                             <script>
                             jQuery(document).ready(function(){
@@ -444,7 +444,7 @@ if ($showPopup) {
                     if ($showPopup) {
                         echo $event->location;
                     }
-                        ?>" placeholder="location" />
+                        ?>" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER")?>" />
                         <input type="hidden" name="te_event_location_country" id="te_event_location_country" value="<?php
                            if ($showPopup) {
                                echo $event->loc_country;
@@ -467,8 +467,8 @@ if ($showPopup) {
                                echo $event->attach_link;
                            }
                         ?>"/>
-                                <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Add</a>
-                                <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" >Close</a>
+                                <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_ADD")?></a>
+                                <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" ><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_CLOSE")?></a>
                             </div>
                             <p style="border-left: none !important;">
                                 <a style="background: none !important;" class="camera_btn"></a>
@@ -491,7 +491,7 @@ if ($showPopup) {
                          style="width: 561px; height: auto;">
 
                         <input name="te_event_tag" type="text" class="eam_inpt_b"
-                               id="te_event_tag" placeholder="tag" />
+                               id="te_event_tag" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER")?>" />
                     </div>
                 </div>
                 <!-- Tags -->
@@ -504,7 +504,7 @@ if ($showPopup) {
                                    style="font-size: 16px;resize: none;margin-top: 0px;background-image: none;height: 42px;width: 542px;"
                                    value=""
                                    charlength="256"
-                                   id="te_event_description" placeholder="description" ><?php
+                                   id="te_event_description" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_DESC_PLACEHOLDER")?>" ><?php
             if (isset($_POST["te_event_description"])) {
                 echo $_POST["te_event_description"];
             }
@@ -531,7 +531,7 @@ if ($showPopup) {
                          style="width: 570px;min-height: 40px;height: auto;margin-top: 15px;">
 
                         <input name="te_event_people" type="text" class="eam_inpt_b"
-                               id="te_event_people" value="" placeholder="add people manually" />
+                               id="te_event_people" value="" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER")?>" />
                     </div>
                 </div>	
                 <!-- People -->
@@ -592,7 +592,7 @@ if ($showPopup) {
                             </SPAN>
                         </div>
                     </div>
-                    <div class="ts_box">to</div>
+                    <div class="ts_box"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_DATE_TO")?></div>
                     <div class="ts_box">
                         <div class="ts_sorta input_border">
                             <SPAN class="add-on"> <INPUT
@@ -744,17 +744,6 @@ if ($showPopup) {
                     <div class="eab_stbar">
                         <ul>
                             <li class="stbar_normal"><a href="#">00:00</a></li>
-                            <li class="stbar_normal"><a href="#">01:00</a></li>
-                            <li class="stbar_normal"><a href="#">02:00</a></li>
-                            <li class="stbar_normal"><a href="#">03:00</a></li>
-                            <li class="stbar_normal"><a href="#">04:00</a></li>
-                            <li class="stbar_krmz"><a href="#">05:00</a></li>
-                            <li class="stbar_normal"><a href="#">06:00</a></li>
-                            <li class="stbar_normal"><a href="#">07:00</a></li>
-                            <li class="stbar_ysl"><a href="#">08:00</a></li>
-                            <li class="stbar_normal"><a href="#">09:00</a></li>
-                            <li class="stbar_byz"><a href="#">10:00</a></li>
-                            <li class="stbar_normal"><a href="#">11:00</a></li>
 
                         </ul>
                     </div>
@@ -773,7 +762,7 @@ if ($showPopup) {
                                 class="googl_plus back_btn sosyal_icon"></button>
                     </div>
                     <div class="ea_alt_btn">
-                        <a href="#" class="dugme dugme_esit" onclick="closeCreatePopup();return false;">Cancel</a>
+                        <a href="#" class="dugme dugme_esit" onclick="closeCreatePopup();return false;"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL")?></a>
                         <script>
                         function disButton(elem){
                             var val=jQuery(elem).data('clcked');
@@ -785,7 +774,7 @@ if ($showPopup) {
                             }
                         }
                         </script>
-                        <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent">Add Event</button>
+                        <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent"><?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_ADD_EVENT")?></button>
                     </div>
                 </div>
                 <!-- Buttons -->

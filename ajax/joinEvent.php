@@ -4,7 +4,7 @@ session_start();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
-
+LanguageUtils::setAJAXLocale();
 $userId = null;
 if (isset($_POST["userId"]))
     $userId = $_POST["userId"];
@@ -34,7 +34,7 @@ try {
     if (!empty($eventId) && !empty($userId)) {
         if (!SessionUtil::isUser($userId)) {
             $res = new stdClass();
-            $res->error = "user not logged in";
+            $res->error = LanguageUtils::getText("LANG_AJAX_SECURITY_SESSION_ERROR");
             $json_response = json_encode($res);
             echo $json_response;
             exit(1);
@@ -46,14 +46,14 @@ try {
         if (empty($result) || $result->error || !$result->success) {
             $res->error = true;
             $res->success = false;
-            array_push($res->param, "An Error Occured");
+            array_push($res->param, LanguageUtils::getText("LANG_AJAX_ERROR"));
         } else {
             $res = new Result();
             $res->error = false;
             $res->success = true;
         }
     } else {
-        array_push($res->param, "Parameters Invalid");
+        array_push($res->param,LanguageUtils::getText("LANG_AJAX_INVALID_PARAMETER"));
     }
 } catch (Exception $e) {
     array_push($res->param, $e->getMessage());

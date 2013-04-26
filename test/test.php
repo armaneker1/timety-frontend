@@ -3,6 +3,7 @@
 session_start();
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 if (preg_match("/^events:(.*?):following$/", "events:1212121:following")) {

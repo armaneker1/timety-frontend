@@ -293,6 +293,21 @@ class EventUtil {
         return $array;
     }
 
+    public static function hasEventVideo($id) {
+        if (!empty($id)) {
+            $SQL = "SELECT has_video FROM " . TBL_EVENTS . " WHERE id=" . $id;
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            if (!empty($result)) {
+                return $result['has_video'];
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+    
     public static function getEventByIdNeo4j($id) {
         if (!empty($id)) {
             $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id;
@@ -324,7 +339,7 @@ class EventUtil {
                         if ($log->userId == $userId) {
                             $action = $log->action;
                             if ($action == REDIS_USER_INTERACTION_CREATED) {
-                                return "created this";
+                                return LanguageUtils::getText("LANG_UTILS_EVENT_FUNCTIONS_ACTIVITY_CREATED");
                             }
                         }
                     }
@@ -339,15 +354,15 @@ class EventUtil {
                         }
                     }
                     if ($action == REDIS_USER_INTERACTION_UPDATED || $action == REDIS_USER_INTERACTION_CREATED || $action == REDIS_USER_UPDATE || $action == REDIS_USER_COMMENT) {
-                        return "created this";
+                        return LanguageUtils::getText("LANG_UTILS_EVENT_FUNCTIONS_ACTIVITY_CREATED");
                     } else if ($action == REDIS_USER_INTERACTION_JOIN || $action == REDIS_USER_INTERACTION_MAYBE) {
-                        return "joined this";
+                        return LanguageUtils::getText("LANG_UTILS_EVENT_FUNCTIONS_ACTIVITY_JOINED");
                     } else if ($action == REDIS_USER_INTERACTION_LIKE) {
-                        return "liked this";
+                        return LanguageUtils::getText("LANG_UTILS_EVENT_FUNCTIONS_ACTIVITY_LIKED");
                     } else if ($action == REDIS_USER_INTERACTION_RESHARE) {
-                        return "reshared this";
+                        return LanguageUtils::getText("LANG_UTILS_EVENT_FUNCTIONS_ACTIVITY_RESHARED");
                     } else if ($action == REDIS_USER_INTERACTION_FOLLOW) {
-                        return "followed this";
+                        return LanguageUtils::getText("LANG_UTILS_EVENT_FUNCTIONS_ACTIVITY_FOLLOWED");
                     }
                     return $action;
                 }

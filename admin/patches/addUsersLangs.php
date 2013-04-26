@@ -12,6 +12,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 $userList = UserUtils::getUserList(0, 100000);
@@ -24,7 +25,7 @@ foreach ($userList as $usr) {
             strpos($loc, 'türkiye') !== FALSE
             )
     ) {
-        UserUtils::setLanguage($usr->id, "tr_TR");
+        UserUtils::setLanguage($usr->id, LANG_TR_TR);
     }
 }
 ?>

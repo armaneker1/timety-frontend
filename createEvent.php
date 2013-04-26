@@ -4,6 +4,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/utils/Functions.php';
+HttpAuthUtils::checkHttpAuth();
 $msgs = array();
 
 
@@ -266,7 +267,9 @@ if (isset($_POST) && isset($_POST["te_event_title"])) {
     }
 
     $response = LocationUtils::getCityCountry($event->loc_lat, $event->loc_lng);
-    if (!empty($response) && is_array($response) && sizeof($response) == 2) {
+    if (!empty($response) && is_array($response)) {
+        var_dump($response);
+        echo "<p/><p/><p/>";
         if (!empty($response['country'])) {
             $event->loc_country = $response['country'];
         }

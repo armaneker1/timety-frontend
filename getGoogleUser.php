@@ -9,7 +9,7 @@ require_once __DIR__ . '/apis/google/contrib/Google_Oauth2Service.php';
 
 $success = TRUE;
 $errortext = "";
-
+LanguageUtils::setLocale(null);
 if (isset($_GET['error'])) {
     RegisterAnaliticsUtils::increasePageRegisterCount("getGoogleUser.php?denied=1");
     header('Location: ' . PAGE_SIGNUP);
@@ -55,15 +55,16 @@ if (isset($_GET['error'])) {
                                 UserUtils::updateSocialProvider($provider);
                             } else {
                                 $success = FALSE;
-                                $errortext = "Google account exists!";
+                                $errortext = LanguageUtils::getText("LANG_PAGE_GET_GOOGLE_USER_ERROR_TAKEN");
                             }
                         } catch (Exception $e) {
-                            $errortext = 'Error -> ' . $e->getMessage();
+                            $errortext = LanguageUtils::getText("LANG_PAGE_GET_GOOGLE_USER_ERROR") . $e->getMessage();
                         }
                     } else {
-                        echo "User empty 001";
+                        echo LanguageUtils::getText("LANG_PAGE_GET_GOOGLE_USER_EMPT_USER")." 001";
                     }
-                    $timety_header = "Timety | Google";
+                    $timety_header = LanguageUtils::getText("LANG_PAGE_GET_GOOGLE_USER_TITLE");
+                    LanguageUtils::setLocaleJS();
                     include('layout/layout_header.php');
                     if ($success) {
                         echo "<body onload=\"window.close();window.opener.document.getElementById('addSocialReturnButton').click();\"></body>";

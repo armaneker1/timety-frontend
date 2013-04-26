@@ -14,6 +14,7 @@ session_start();
 header("charset=utf8");
 
 require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 $userId = 6618346;
 var_dump(RedisUtils::isUserInFollowings($userId, 66183292));

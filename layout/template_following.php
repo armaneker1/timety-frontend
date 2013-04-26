@@ -27,7 +27,7 @@
 
 <div class="follow_ekr" id="profile_friends" style="display: none;position: relative;">
     <div class="f_friend">
-        <p class="find_friends" id="profile_friends_header">Find Friends</p>
+        <p class="find_friends" id="profile_friends_header"><?=  LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_FIND_FRIENDS")?></p>
 
         <button type="button" name="" value=""
                 id="profile_friends_fb_button"
@@ -46,7 +46,7 @@
                 class="googl_plus back_btn sosyal_icon"></button>  -->
 
 
-        <button type="button" id="profile_friends_find"  class="invite_btn" style="float: right;width: 91px;">Find Friends</button>
+        <button type="button" id="profile_friends_find"  class="invite_btn" style="float: right;width: 91px;"><?=  LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_FIND_FRIENDS")?></button>
 
 
         <button style="display: none;" id="addSocialReturnButton"
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <p class="find_friends" id="profile_friends_p_list" style="font-size: 16px;display: none;">People you know</p>
+    <p class="find_friends" id="profile_friends_p_list" style="font-size: 16px;display: none;"><?=  LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_PEOPLE_YOU_KNOW")?></p>
     <ul class="suggest_friend_ul"  id="profile_friends_ul_list" style="min-height: 100px;display: none;">
         <li  id="profile_friends_li_template" style="display: none;">
             <img src="<?= HOSTNAME ?>images/anonymous.png" width="30"
@@ -71,9 +71,9 @@
             <a type="button" name="" value="" class="followed_btn"
                id="foll_id"
                onclick="unfollowUser(-1,-1,this);">
-                <span class="follow_text">follow</span>
-                <span class="following_text">following</span>
-                <span class="unfollow_text">unfollow</span>
+                <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_FOLLOW")?></span>
+                <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_FOLLOWING")?></span>
+                <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_UNFOLLOW")?></span>
             </a>
         </li>
     </ul>
@@ -84,9 +84,9 @@
                class="user_inpt invite_friends icon_bg"   value=""
                placeholder="Search People" />
         <button type="button" name="" value="" class="invite_btn" id="people_search_button"
-                onclick="return false;">Search</button>
+                onclick="return false;"><?=  LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_SEARCH")?></button>
     </div>
-    <p class="find_friends" id="profile_friends2_p_list" style="font-size: 16px;display: none;">People you might want to know</p>
+    <p class="find_friends" id="profile_friends2_p_list" style="font-size: 16px;display: none;"><?=  LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_PEOPLE_YOU_MIGHT_KNOW")?></p>
     <ul class="suggest_friend_ul"  id="profile_friends2_ul_list" style="min-height: 100px;display: none;">
 
     </ul>
