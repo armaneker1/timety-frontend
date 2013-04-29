@@ -385,4 +385,10 @@ define('LANG_MAIL_INVITE_SUBJECT','Timety\'ye Davet');
 define('LANG_MAIL_RESET_PASS_SUBJECT','Timety - Şifrenizi güncelleyin');
 define('LANG_MAIL_INVITE_EVENT_SUBJECT','Timety Etkinlik Daveti');
 define('LANG_MAIL_FOLLOWED_BY_SUBJECT','Timety\'de Yeni takipçileirniz var!');
+
+#Language
+define('LANG_TR_TR_TEXT', 'Türkçe');
+define('LANG_EN_US_TEXT', 'İngilizce');
+define('LANG_SELECT_LANGUAGE', 'Dil Seçiniz');
+define('LANG_LANGUAGE', 'Diliniz');
 ?>

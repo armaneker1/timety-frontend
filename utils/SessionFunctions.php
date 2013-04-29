@@ -143,9 +143,8 @@ class SessionUtil {
                         @setcookie($key, true, time() + (5 * 24 * 60 * 60), "/");
                     } else {
                         @setcookie($key, false, time() + (5 * 24 * 60 * 60), "/");
-                        $_SESSION["renewlikes"] = true;
                         $redirectHome = false;
-                        @header("location: " . PAGE_LIKES);
+                        @header("location: " . PAGE_LIKES."?edit");
                     }
                 }
 

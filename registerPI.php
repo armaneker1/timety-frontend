@@ -22,6 +22,8 @@ $hometown = "";
 $hometownError = null;
 $userProfilePic = "";
 $userProfilePicType = "";
+$language = "";
+$languageError = null;
 
 $upassError = null;
 $upass2Error = null;
@@ -79,6 +81,12 @@ if (isset($_POST['te_username'])) {
         $ulastnameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_LAST_NAME");
         $param = false;
     }
+    $language = $_POST['te_language'];
+    if (empty($language)) {
+        $languageError = LanguageUtils::getText("LANG_SELECT_LANGUAGE");
+        $param = false;
+    }
+
     $email = $_POST['te_email'];
     if (empty($email)) {
         $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_EMAIL");
@@ -127,8 +135,8 @@ if (isset($_POST['te_username'])) {
 
     if (sizeof($msgs) <= 0 && $param) {
         $firstOK = false;
-        //$user = new User();
         if (isset($_GET['new'])) {
+            $user = new User();
             $user->email = $email;
             $user->userName = $username;
             $user->password = sha1($password);
@@ -164,16 +172,17 @@ if (isset($_POST['te_username'])) {
                     $user->password = sha1($password);
                 }
                 $user->status = 1;
-                if (!empty($te_location_country) && ( $te_location_country == "Turkey" ||
-                        $te_location_country == "turkey" ||
-                        $te_location_country == "Türkiye" ||
-                        $te_location_country == "TR" ||
-                        $te_location_country == "tr" ||
-                        $te_location_country == "türkiye")) {
-                    $user->language = LANG_TR_TR;
-                } else {
-                    $user->language = LANG_EN_US;
-                }
+                $user->language = $language;
+                /* if (!empty($te_location_country) && ( $te_location_country == "Turkey" ||
+                  $te_location_country == "turkey" ||
+                  $te_location_country == "Türkiye" ||
+                  $te_location_country == "TR" ||
+                  $te_location_country == "tr" ||
+                  $te_location_country == "türkiye")) {
+                  $user->language = LANG_TR_TR;
+                  } else {
+                  $user->language = LANG_EN_US;
+                  } */
                 UserUtils::updateUser($user->id, $user);
                 $user = UserUtils::getUserById($_SESSION['id']);
                 $user->location_country = $te_location_country;
@@ -317,7 +326,7 @@ if (isset($_POST['te_username'])) {
         include('layout/layout_header.php');
         ?>
 
-        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?=JS_CONSTANT_PARAM?>"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?= JS_CONSTANT_PARAM ?>"></script>
         <script type="text/javascript">
             jQuery(function() {
                 jQuery('input, textarea').placeholder();
@@ -585,8 +594,9 @@ if (isset($_POST['te_username'])) {
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
-        <?php $checkUserStatus = false;
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
+        <?php
+        $checkUserStatus = false;
         include('layout/layout_top.php');
         ?>
         <div id="personel_info_h">
@@ -719,6 +729,41 @@ if (isset($_POST['te_username'])) {
                     <span id='te_hometown_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_hometown_span_msg" style="display:<?= $display ?>;"><?= $hometownError ?><div class="kok"></div></div>
                     </span><br />
+
+
+
+                    <select 
+                        name="te_language"
+                        tabindex="5"
+                        class="user_inpt email icon_bg user_inpt_pi_height"
+                        id="te_language">
+                        <?php 
+                        $lang_tr_sel="";
+                        $lang_en_sel="";
+                        if(LANG_TR_TR==$language){
+                            $lang_tr_sel='selected="selected"';
+                            $lang_en_sel="";
+                        }else if(LANG_EN_US==$language){
+                            $lang_en_sel='selected="selected"';
+                            $lang_tr_sel="";
+                        }
+                        ?>
+                        <option value=""><?= LANG_SELECT_LANGUAGE ?></option>
+                        <option value="<?= LANG_TR_TR ?>" <?=$lang_tr_sel?>><?= LANG_TR_TR_TEXT ?></option>
+                        <option value="<?= LANG_EN_US ?>" <?=$lang_en_sel?>><?= LANG_EN_US_TEXT ?></option>
+                    </select>
+                    <?php
+                    $display = "none";
+                    $class = "";
+                    if (!empty($languageError)) {
+                        $display = "block";
+                        $class = "sil icon_bg";
+                    }
+                    ?>
+                    <span id='te_language_span' class="<?= $class ?>">
+                        <div class="create_acco_popup" id="te_language_span_msg" style="display:<?= $display ?>;"><?= $languageError ?><div class="kok"></div></div>
+                    </span>
+                    <br /> 
 
 
                     <input 

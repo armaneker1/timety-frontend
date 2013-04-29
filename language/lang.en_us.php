@@ -385,4 +385,10 @@ define('LANG_MAIL_INVITE_SUBJECT','Invitation of Timety');
 define('LANG_MAIL_RESET_PASS_SUBJECT','Reset your password on Timety');
 define('LANG_MAIL_INVITE_EVENT_SUBJECT','Timety Event Invitation');
 define('LANG_MAIL_FOLLOWED_BY_SUBJECT','You have a new follower on Timety!');
+
+#Language
+define('LANG_TR_TR_TEXT', 'Turkish');
+define('LANG_EN_US_TEXT', 'English');
+define('LANG_SELECT_LANGUAGE', 'Select Language');
+define('LANG_LANGUAGE', 'Your Language');
 ?>
