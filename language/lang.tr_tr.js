@@ -33,7 +33,7 @@ var lang_array={
     LANG_ADD_QUICK_EVENT_TEXT_Tomorrow:'Yarın',
     LANG_ADD_QUICK_EVENT_TEXT_DayAfterTomorrow:'Ertesi gün',
     LANG_ADD_QUICK_EVENT_TEXT_NextMonth:'Gelecek ay',
-    LANG_ADD_QUICK_EVENT_TEXT_NextWeek:'Gelecek hafta',
+    LANG_ADD_QUICK_EVENT_TEXT_NextWeek:'Haftaya',
     LANG_ADD_QUICK_EVENT_TEXT_January:'Ocak',
     LANG_ADD_QUICK_EVENT_TEXT_February:'Şubat',
     LANG_ADD_QUICK_EVENT_TEXT_March:'Mart',
