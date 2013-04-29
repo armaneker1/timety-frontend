@@ -596,7 +596,7 @@ function wookmarkHTML(dataArray,userId)
             var liYesil = document.createElement('li');
             var liYesilA = document.createElement('a');
             var liYesilAImg = document.createElement('img');
-            if(remTime=="Past"){
+            if(remTime==getLanguageText("LANG_WOOKMARK_FILLER_TIME_PAST")){
                 jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn_k.png');
             }else{
                 jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
@@ -607,7 +607,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(liYesilAImg).attr('border',0);
             jQuery(liYesilA).attr('href','#');
             jQuery(liYesilA).attr('onclick','return false;');
-            if(remTime=="Past"){
+            if(remTime==getLanguageText("LANG_WOOKMARK_FILLER_TIME_PAST")){
                 jQuery(liYesilA).addClass('turuncu_link');
             }else{
                 jQuery(liYesilA).addClass('yesil_link');

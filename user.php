@@ -740,14 +740,14 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                 $time_zone = $user->time_zone;
                             }
                             $tt = $main_event->getRemainingTime($time_zone);
-                            if ($tt == "Past") {
+                            if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
                                 echo "turuncu_link";
                             } else {
                                 echo "yesil_link";
                             }
                                             ?>" onclick="return false;"> 
                                                         <img src="<?= HOSTNAME ?>images/zmn<?php
-                                       if ($tt == "Past") {
+                                       if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
                                            echo "_k";
                                        }
                                             ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
