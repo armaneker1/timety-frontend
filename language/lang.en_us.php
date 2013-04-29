@@ -138,8 +138,8 @@ define('LANG_UPDATE_PROFILE_OLD_PASSWORD','Old Password'); // 749
 define('LANG_UPDATE_PROFILE_NEW_PASSWORD','New Password'); // 774
 define('LANG_UPDATE_PROFILE_CONFIRM_PASSWORD','Confirm password'); // 798
 define('LANG_UPDATE_PROFILE_GENDER','Gender'); // 824
-define('LANG_UPDATE_PROFILE_GENDER_MALE','Gender'); // 824
-define('LANG_UPDATE_PROFILE_GENDER_FEMALE','Gender'); // 824
+define('LANG_UPDATE_PROFILE_GENDER_MALE','Male'); // 824
+define('LANG_UPDATE_PROFILE_GENDER_FEMALE','Female'); // 824
 define('LANG_UPDATE_PROFILE_SOCIAL','Social Networks'); // 844
 define('LANG_UPDATE_PROFILE_USERNAME','Username'); // 926 934
 define('LANG_UPDATE_PROFILE_NAME','Name'); // 952
