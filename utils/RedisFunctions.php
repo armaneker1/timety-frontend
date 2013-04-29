@@ -33,7 +33,8 @@ class RedisUtils {
         } else {
             $lang = LANG_EN_US;
             try {
-                $lang = UserUtils::getUserById($userId);
+                $usrr = UserUtils::getUserById($userId);
+                $lang=$usrr->language;
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());
             }
