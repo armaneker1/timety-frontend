@@ -40,7 +40,7 @@ define('LANG_PAGE_INDEX_ADD_UPL_LEAVE_ERROR', 'Dosyalarınız yükleniyor, şuan
 
 #PROFILE BACTH
 define('LANG_PROFILE_BACTH_FOLLOWING', 'Takip Edilen');
-define('LANG_PROFILE_BACTH_FOLLOWERS', 'Takiçi');
+define('LANG_PROFILE_BACTH_FOLLOWERS', 'Takipçi');
 define('LANG_PROFILE_BACTH_LIKES', 'Beğeniler');
 define('LANG_PROFILE_BACTH_RESHARE', 'Paylaşılanlar');
 define('LANG_PROFILE_BACTH_JOINED', 'Katılımlar');

@@ -127,7 +127,7 @@ if (isset($_POST['te_username'])) {
 
     if (sizeof($msgs) <= 0 && $param) {
         $firstOK = false;
-        $user = new User();
+        //$user = new User();
         if (isset($_GET['new'])) {
             $user->email = $email;
             $user->userName = $username;
