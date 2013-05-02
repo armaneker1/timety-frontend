@@ -502,7 +502,7 @@ function wookmarkHTML(dataArray,userId)
             
             if((wookmark_channel==4 || wookmark_channel==10 ||
                 wookmark_channel==11 || wookmark_channel==12 ||
-                wookmark_channel==13) && reqUserPic && reqUserUserName && reqUserFullName && selectedUser){
+                wookmark_channel==13) && reqUserPic && reqUserUserName && reqUserFullName && (selectedUser && !campaignPage)){
                 normal=false;
             }
             if(normal){

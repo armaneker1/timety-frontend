@@ -44,6 +44,11 @@ RewriteRule ^confirm-user$ /confirm.php
 RewriteRule ^test/$ /test [R]
 RewriteRule ^test$ /test.php
 
+RewriteRule ^campaign/([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/([^/]+)/$ /campaign/$1
+RewriteRule ^campaign/([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/([^/]+)$ /campaign/$1
+RewriteRule ^campaign/([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/$ /campaign/$1
+RewriteRule ^campaign/([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})$ /campaignUser.php?campaignId=$1
+
 RewriteRule ^event/([0-9]+)/([^/]+)/$ /event/$1
 RewriteRule ^event/([0-9]+)/([^/]+)$ /event/$1
 RewriteRule ^event/([0-9]+)/$ /event/$1

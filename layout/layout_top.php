@@ -193,7 +193,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 jQuery(document).ready(function(){
                     jQuery( "#searchText" ).autocomplete({ 
                         source: searchUserTagFunction, 
-                        minLength: 1,
+                        minLength: 2,
                         labelField:'s_label',
                         delay:50,
                         valueField:'s_id',
