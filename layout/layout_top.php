@@ -30,7 +30,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
 
         <?php if (empty($user)) { ?>
             <div style="  display: inline-block; position: absolute; margin-top: 5px; width: 100%;text-align: center;margin-left: -105px;z-index: -1;">
-                <span style=" font-size: 23px; "><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span>
+                <a href="<?=PAGE_SIGNUP?>"><span style="color: black;font-size: 23px;"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span></a>
             </div>
         <?php } ?>
         <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="120" height="45" border="0" /></a></div>
