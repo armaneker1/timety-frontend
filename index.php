@@ -18,7 +18,7 @@ if (isset($_GET['finish']) && !empty($user)) {
     UserUtils::updateUser($user->id, $user);
     $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
     $params = array(array('name', $user->firstName), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
-    MailUtil::sendSESMailFromFile(LanguageUtils::getLocale()."_confirm_mail.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_CONFIRM_ACCOUNT_EMAIL"));
+    MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_confirm_mail.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_CONFIRM_ACCOUNT_EMAIL"));
     RegisterAnaliticsUtils::increasePageRegisterCount("index.php?complete=1");
     header('Location: ' . HOSTNAME);
     exit(1);
@@ -519,7 +519,7 @@ if (empty($user)) {
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -662,8 +662,8 @@ if (empty($user)) {
         </SCRIPT>
         <!--takvim-->
         <!--saat-->
-        <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js?<?=JS_CONSTANT_PARAM?>"></script>
-        <link href="<?= HOSTNAME ?>js/saat/timepicker.css?<?=JS_CONSTANT_PARAM?>" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js?<?= JS_CONSTANT_PARAM ?>"></script>
+        <link href="<?= HOSTNAME ?>js/saat/timepicker.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
         <!--saat-->
 
 
@@ -685,11 +685,11 @@ if (empty($user)) {
                         theme: "custom",
                         userId :"<?= $user->id ?>",
                         queryParam : "term",
-                        hintText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_HINT_TEXT_TAG")?>",
-                        noResultsText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_NO_RESULT")?>",
-                        searchingText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_SEARCHING")?>",
+                        hintText : "<?= LanguageUtils::getText("LANG_TOKEN_INPUT_HINT_TEXT_TAG") ?>",
+                        noResultsText : "<?= LanguageUtils::getText("LANG_TOKEN_INPUT_NO_RESULT") ?>",
+                        searchingText : "<?= LanguageUtils::getText("LANG_TOKEN_INPUT_SEARCHING") ?>",
                         minChars : 2,
-                        placeholder : "<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER")?>",
+                        placeholder : "<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER") ?>",
                         preventDuplicates : true,
                         input_width:70,
                         propertyToSearch: "label",
@@ -709,16 +709,16 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                    
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
                     queryParam : "term",
-                    hintText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_HINT_TEXT_PEOPLE")?>",
-                    noResultsText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_NO_RESULT")?>",
-                    searchingText : "<?=  LanguageUtils::getText("LANG_TOKEN_INPUT_SEARCHING")?>",
+                    hintText : "<?= LanguageUtils::getText("LANG_TOKEN_INPUT_HINT_TEXT_PEOPLE") ?>",
+                    noResultsText : "<?= LanguageUtils::getText("LANG_TOKEN_INPUT_NO_RESULT") ?>",
+                    searchingText : "<?= LanguageUtils::getText("LANG_TOKEN_INPUT_SEARCHING") ?>",
                     minChars : 2,
-                    placeholder : "<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER")?>",
+                    placeholder : "<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER") ?>",
                     preventDuplicates : true,
                     input_width:160,
                     add_maunel:true,
@@ -810,7 +810,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                        
+                                                                                                                                                                                            
             </script>
 
 
@@ -885,9 +885,9 @@ if (empty($user)) {
                     width: 18px !important;
                 }
             </style>
-        <?php }   ?>
+        <?php } ?>
     </head>
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
         <?php include('layout/layout_top.php'); ?>
         <!-- Add Event -->
         <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
@@ -1278,8 +1278,8 @@ if (empty($user)) {
                                             $margin_h = (int) ((125 - $height) / 2);
                                         }
                                         ?>
-                                        <?php if(!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
-                                        <div class="play_video" onclick="return openModalPanel('<?=$main_event->id?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
+                                        <?php if (!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
+                                            <div class="play_video" onclick="return openModalPanel('<?= $main_event->id ?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
                                         <?php } ?>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
                                             <?php
@@ -1407,12 +1407,12 @@ if (empty($user)) {
                     </div>
                     <div class="profil_btn">
                         <ul>
-                            <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWING")?></span><span class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></span></li>
-                            <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWERS")?></span><span class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></span></li>
-                            <li onclick="changeChannelProfile(6);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_LIKES")?></span><span class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></span></li>
-                            <li onclick="changeChannelProfile(7);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_RESHARE")?></span><span class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></span></li>
-                            <li onclick="changeChannelProfile(8);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_JOINED")?></span><span class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></span></li>
-                            <li onclick="changeChannelProfile(5);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_CRATED_EVENTS")?></span><span class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></span></li>
+                            <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWING") ?></span><span class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></span></li>
+                            <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWERS") ?></span><span class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></span></li>
+                            <li onclick="changeChannelProfile(6);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_LIKES") ?></span><span class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></span></li>
+                            <li onclick="changeChannelProfile(7);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_RESHARE") ?></span><span class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></span></li>
+                            <li onclick="changeChannelProfile(8);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_JOINED") ?></span><span class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></span></li>
+                            <li onclick="changeChannelProfile(5);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_CRATED_EVENTS") ?></span><span class="prinpt pcolor_krmz" id="prof_created_count"><?= $user->created_count ?></span></li>
                         </ul>
 
                         <script>

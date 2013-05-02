@@ -27,8 +27,10 @@ if (!empty($tagId) && (!empty($tag_tr) || !empty($tag_en))) {
             if (Neo4jTimetyTagUtil::updateTimetyTag($tagId, $edit_tag, $lang) == 1) {
                 if ($lang == LANG_TR_TR) {
                     $tag_tr = Neo4jTimetyTagUtil::getTimetyTagById($tagId, $lang);
+                    ElasticSearchUtils::insertTagtoSBI($tag_tr);
                 } else {
                     $tag_en = Neo4jTimetyTagUtil::getTimetyTagById($tagId, $lang);
+                    ElasticSearchUtils::insertTagtoSBI($tag_en);
                 }
                 echo "Timety tag saved";
             } else {

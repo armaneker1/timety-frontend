@@ -8,7 +8,7 @@ ini_set('error_reporting', E_ERROR | E_PARSE);
  */
 require_once __DIR__ . '/../utils/SettingFunctions.php';
 define("SERVER_PROD", false);
-define("JS_CONSTANT_PARAM", '20130425188');
+define("JS_CONSTANT_PARAM", '201304251188');
 
 define('HOSTNAME', 'http://' . SettingsUtil::getSetting(SETTINGS_HOSTNAME));
 define('HOSTNAME_WWW', 'http://www.' . SettingsUtil::getSetting(SETTINGS_HOSTNAME));
@@ -180,4 +180,9 @@ define('NOTIFICATION_TYPE_NONE', 'none');
 define('QUEUE_PRIORITY_LOW', 'low');
 define('QUEUE_PRIORITY_NORMAL', 'normal');
 define('QUEUE_PRIORITY_HIGH', 'high');
+
+//ELASTIC SEARCH
+define('ELASTICSEACRH_TIMETY_INDEX', 'timety');
+define('ELASTICSEACRH_TIMETY_PROTOCOL', 'http');
+define('ELASTICSEACRH_TIMETY_DOCUMENT', 'timety_user_tag');
 ?>

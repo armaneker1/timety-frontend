@@ -435,7 +435,7 @@ class Neo4jFuctions {
                 $usr->relateTo($object, REL_INTERESTS)->setProperty(PROP_INTEREST_WEIGHT, $social)->save();
             }
         } catch (Exception $e) {
-            error_log("Error ". $e->getTraceAsString());
+            error_log("Error " . $e->getTraceAsString());
         }
     }
 
@@ -449,7 +449,7 @@ class Neo4jFuctions {
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
         } catch (Exception $e) {
-            error_log("Error ". $e->getTraceAsString());
+            error_log("Error " . $e->getTraceAsString());
         }
     }
 
@@ -776,7 +776,7 @@ class Neo4jFuctions {
                 $result->error = "Userlar bulunamadı";
             }
         } catch (Exception $e) {
-            error_log("Error ". $e->getTraceAsString());
+            error_log("Error " . $e->getTraceAsString());
             $result->error = $e->getTraceAsString();
         }
         return $result;
@@ -794,7 +794,7 @@ class Neo4jFuctions {
             $result = $query->getResultSet();
             $result->success = true;
         } catch (Exception $e) {
-            error_log("Error ". $e->getTraceAsString());
+            error_log("Error " . $e->getTraceAsString());
             $result->error = $e->getTraceAsString();
         }
         return $result;
@@ -928,6 +928,19 @@ class Neo4jFuctions {
 
     public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 4, $categoryId = -1, $reqUserId = -1, $city_channel = -1, $tagIds = null) {
 
+        /*
+         * edit query string if match to a tag
+         */
+        if (!empty($query) && (empty($tagIds) || $tagIds == "null" || $tagIds == "undefined")) {
+            $tag = Neo4jTimetyTagUtil::findExactTag($query);
+            if (!empty($tag) && !empty($tag->id)) {
+                if (!empty($tagIds) && $tagIds != "null" && $tagIds != "undefined") {
+                    $tagIds = $tagIds . "," . $tag->id;
+                } else {
+                    $tagIds = $tag->id."";
+                }
+            }
+        }
         if ($userId == -1) {
             $userId = "*";
         }

@@ -62,7 +62,7 @@ if (!empty($userId) && !empty($type) && ($type == 'fb' || $type == 'tw')) {
                         $result->error = false;
                         $result->success = true;
                         $result->pic = "http://graph.facebook.com/" . $provider->oauth_uid . "/picture?type=large";
-                        $result->pic = UserUtils::changeserProfilePic($user->id, "http://graph.facebook.com/" . $provider->oauth_uid . "/picture?type=large", FACEBOOK_TEXT, FALSE);
+                        $result->pic = UserUtils::changeserProfilePic($user->id, "http://graph.facebook.com/" . $provider->oauth_uid . "/picture?width=106&height=106", FACEBOOK_TEXT, FALSE);
                     }
                 } elseif ($provider->oauth_provider == TWITTER_TEXT && $type == 'tw') {
                     $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);

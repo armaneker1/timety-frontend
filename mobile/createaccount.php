@@ -104,7 +104,8 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                                         $r = new stdClass();
                                         $r->success = 1;
                                         $r->code = 100;
-                                        $r->data = $user;
+                                        $r->data =new stdClass();
+                                        $r->data->user=$user;
                                         $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
                                         echo $result;
                                         exit(1);
@@ -152,7 +153,8 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                                 $r = new stdClass();
                                 $r->success = 1;
                                 $r->code = 110;
-                                $r->data = $usr;
+                                $r->data =new stdClass();
+                                $r->data->user=$usr;
                                 $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
                                 echo $result;
                                 exit(1);
@@ -199,7 +201,8 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                                                 $r = new stdClass();
                                                 $r->success = 1;
                                                 $r->code = 100;
-                                                $r->data = $user;
+                                                $r->data =new stdClass();
+                                                $r->data->user=$user;
                                                 $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
                                                 echo $result;
                                                 exit(1);

@@ -30,7 +30,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
 
         <?php if (empty($user)) { ?>
             <div style="  display: inline-block; position: absolute; margin-top: 5px; width: 100%;text-align: center;margin-left: -105px;z-index: -1;">
-                <span style=" font-size: 23px; "><?=  LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT')?></span>
+                <span style=" font-size: 23px; "><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span>
             </div>
         <?php } ?>
         <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="120" height="45" border="0" /></a></div>
@@ -58,7 +58,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     <input 
                         name="city_top"
                         type="text" 
-                        placeholder="<?=  LanguageUtils::getText('LANG_PAGE_TOP_CITY_INPUT_HINT')?>" 
+                        placeholder="<?= LanguageUtils::getText('LANG_PAGE_TOP_CITY_INPUT_HINT') ?>" 
                         class="user_inpt city_top_input"
                         id="city_top" 
                         autocomplete="off"
@@ -73,11 +73,11 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                                     <ul id="populer_top_menu_ul">
                                         <li channelid="1" id="cat_id_all" style="cursor:pointer"  slc="true">
                                             <button type="button" class="kapat icon_bg"></button>
-                                            <span><?=  LanguageUtils::getText('LANG_PAGE_TOP_CATEGORY_RECOMMENDED')?></span>
+                                            <span><?= LanguageUtils::getText('LANG_PAGE_TOP_CATEGORY_RECOMMENDED') ?></span>
                                         </li>
                                         <li cat_id="-1" id="cat_id_all" style="cursor:pointer"  slc="false">
                                             <button type="button" class="ekle icon_bg"></button>
-                                            <span><?=  LanguageUtils::getText('LANG_PAGE_TOP_CATEGORY_EVERYTHIG')?></span>
+                                            <span><?= LanguageUtils::getText('LANG_PAGE_TOP_CATEGORY_EVERYTHIG') ?></span>
                                         </li>
                                         <?php
                                         $cats = MenuUtils::getCategories($user->language);
@@ -96,19 +96,19 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                         </div>
                     <?php } ?>
                 </div>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/cityutil.js?<?=JS_CONSTANT_PARAM?>"></script>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/cityutil.js?<?= JS_CONSTANT_PARAM ?>"></script>
 
 
             <?php } ?>
             <!-- Location -->
 
             <!-- Search -->
-            <?php if (!empty($user) && (empty($page_id) || $page_id!="profile")) { ?>
+            <?php if (!empty($user) && (empty($page_id) || $page_id != "profile")) { ?>
                 <div class="div_search_top">
                     <input 
                         name="searchText"
                         type="text" 
-                        placeholder="<?=  LanguageUtils::getText('LANG_PAGE_TOP_SEARCH_INPUT_HINT')?>" 
+                        placeholder="<?= LanguageUtils::getText('LANG_PAGE_TOP_SEARCH_INPUT_HINT') ?>" 
                         class="user_inpt search_top_input"
                         id="searchText" 
                         value=""/> 
@@ -121,26 +121,107 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
             <!-- Tag token input -->
             <div id="autocomplete_search"></div>
             <script>
-                function searchTag(tagId){
-                    if(tagIds){
-                        //tagIds=tagIds+","+tagId;
-                        tagIds=tagId;
-                    }else{
-                        tagIds=tagId;
+                function gotoResults(result,success,func){
+                    if(success && success=="success"){
+                        if(func && jQuery.isFunction(func)){
+                            if(result && result.hits)
+                            {
+                                var hits_result=result.hits;
+                                if(hits_result && hits_result.total && hits_result.total>0){
+                                    var hits=hits_result.hits;
+                                    if(hits && hits.length>0){
+                                        var array=Array();
+                                        for(var i=0;i<hits.length;i++){
+                                            array[array.length]=hits[i]['_source'];
+                                        }
+                                        func(array);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                     }
-                    page_wookmark=0;
-                    isearching=true;
-                    wookmarkFiller(document.optionsWookmark, true,true);
+                    if(func && jQuery.isFunction(func)){
+                        func(null);
+                    }
                 }
+                
+                function searchUserTagFunction(term,func){
+                    if(term){
+                        if(term.term){
+                            term=term.term;
+                        }
+                    }
+                    if(ejs){
+                        ejs.client=ejs.jQueryClient("http://<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) ?>:<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT) ?>");
+                        var request=ejs.Request({indices: "<?= ELASTICSEACRH_TIMETY_INDEX ?>", types: '<?= ELASTICSEACRH_TIMETY_DOCUMENT ?>'});
+                       
+                        request.query(ejs.FilteredQuery(
+                        ejs.MatchAllQuery(),ejs.AndFilter(
+                        [ejs.QueryFilter(ejs.QueryStringQuery(term+'*').defaultField('s_label')),
+                            ejs.QueryFilter(ejs.QueryStringQuery('*'+getLanguageText('LOCALE_CODE')+'*').defaultField('s_lang'))]
+                        ))).sort('s_id')
+                        .doSearch(function(result,success){
+                            gotoResults(result,success,func);
+                        });
+                    }else{
+                        if(func && jQuery.isFunction(func)){
+                            func(null);
+                        }
+                    }
+                }
+                
+                function searchTagAndUser(item){
+                    if(item.s_type=="tag"){
+                        var tagId=item.id;
+                        if(tagIds){
+                            //tagIds=tagIds+","+tagId;
+                            tagIds=tagId;
+                        }else{
+                            tagIds=tagId;
+                        }
+                        page_wookmark=0;
+                        isearching=true;
+                        wookmarkFiller(document.optionsWookmark, true,true);
+                    }else if(item.s_type=="user"){
+                        window.location=TIMETY_HOSTNAME+item.userName;
+                    }
+                }
+                
+                
                 
                 jQuery(document).ready(function(){
                     jQuery( "#searchText" ).autocomplete({ 
-                        source: "<?= PAGE_AJAX_GET_TIMETY_TAG . "?lang=" . LANG_EN_US ?>", 
-                        minLength: 2,
+                        source: searchUserTagFunction, 
+                        minLength: 1,
+                        labelField:'s_label',
+                        delay:50,
+                        valueField:'s_id',
                         appendTo: "#autocomplete_search" ,
-                        select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label);  searchTag(ui.item.id);},10); },
-                        focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.label)},10); }	
-                    });	
+                        select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
+                        focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
+                    }).data('autocomplete')._renderItem = function(ul, item) {
+                        if(item.s_type=="tag"){
+                            return jQuery('<li></li>')
+                            .data('item.autocomplete', item)
+                            .append('<a>' + item.s_label + '</a>')
+                            .appendTo(ul);
+                        }else if(item.s_type=="user"){
+                            var img="";
+                            if(item.userPicture){
+                                img=item.userPicture;
+                                if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
+                                    img=TIMETY_HOSTNAME+img;
+                                } 
+                            }else{
+                                img=TIMETY_HOSTNAME+"images/anonymous.png";  
+                            }                    
+                            return jQuery('<li></li>')
+                            .data('item.autocomplete', item)
+                            .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
+                            .appendTo(ul);
+                        }
+                    };
                 });
             </script>
             <!-- Tag token input -->
@@ -150,7 +231,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     <!--top_blm_sol-->
 
     <?php if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) { ?>
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?<?=JS_CONSTANT_PARAM?>"></script>
+        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
         <?php
         if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI")) {
             ?>
@@ -172,7 +253,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 });
             </script>
             <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js?201308089744"></script> -->
-            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popularv2.min.js?<?=JS_CONSTANT_PARAM?>"></script>
+            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popularv2.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
             <?php
         }
     }
@@ -192,7 +273,11 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
         if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI"))) {
             ?>
-            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js?<?=JS_CONSTANT_PARAM?>"></script>
+            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/elasticsearch/modernizr-2.6.1.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
+            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/elasticsearch/underscore.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
+            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/elasticsearch/elastic.js?<?= JS_CONSTANT_PARAM ?>"></script>
+            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/elasticsearch/elastic-jquery-client.js?<?= JS_CONSTANT_PARAM ?>"></script>
+            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
             <?php
         }
     }
@@ -240,7 +325,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 </script>
                 <!-- Add event -->
                 <div id="top_addevent_button" >
-                    <a  class="top_addeventButton"><?=  LanguageUtils::getText('LANG_PAGE_TOP_ADD_EVENT')?></a>
+                    <a  class="top_addeventButton"><?= LanguageUtils::getText('LANG_PAGE_TOP_ADD_EVENT') ?></a>
                 </div>
                 <!-- Add event -->
 
@@ -276,19 +361,19 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                                   <a id="populer_top_menu_a" class="child <?= $upcoming_class ?>" channelId="1" onclick="changeChannel(this)" href="#popular">Upcoming</a>
                               </li> -->
                             <li>
-                                <a id="mytimety_top_menu" class="child" channelId="2" onclick="" href="<?= HOSTNAME . $user->userName ?>"><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_MY_TIMETY")?></a>
+                                <a id="mytimety_top_menu" class="child" channelId="2" onclick="" href="<?= HOSTNAME . $user->userName ?>"><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_MY_TIMETY") ?></a>
                             </li>
                             <li>
-                                <a id="following_top_menu_a" class="child" channelId="3" onclick="changeChannel(this)" href="#following" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_FOLLOWING")?></a>
+                                <a id="following_top_menu_a" class="child" channelId="3" onclick="changeChannel(this)" href="#following" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_FOLLOWING") ?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child"  href="<?= PAGE_LIKES."?edit" ?>" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_ADD_INTEREST")?></a>
+                                <a id="logout_top_menu_a"  class="child"  href="<?= PAGE_LIKES . "?edit" ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_ADD_INTEREST") ?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_UPDATE_PROFILE ?>" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS")?></a>
+                                <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_UPDATE_PROFILE ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS") ?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_LOGOUT ?>" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT")?></a>
+                                <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_LOGOUT ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a>
                             </li>
                         </ul>
                     </li>
@@ -308,7 +393,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 ?>
                 <div class="top_menu">
                     <ul>
-                        <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a"><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT")?></a></li>
+                        <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a"><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a></li>
                     </ul>
                 </div>
                 <div class="avatar" id="te_avatar_img"> <a href="#"><img class="avatar_img_custom" src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
@@ -340,7 +425,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 $signin_class = "sgn_in_hover";
             }
             ?>
-                <div class="t_account"><a href="<?= PAGE_SIGNUP ?>" class="cr_acc <?= $create_class ?>"><?=  LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_CREATE_ACCOUNT')?></a><a href="<?= PAGE_LOGIN ?>" class="sgn_in <?= $signin_class ?>"><?=  LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_SIGNIN')?></a></div>
+            <div class="t_account"><a href="<?= PAGE_SIGNUP ?>" class="cr_acc <?= $create_class ?>"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_CREATE_ACCOUNT') ?></a><a href="<?= PAGE_LOGIN ?>" class="sgn_in <?= $signin_class ?>"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_SIGNIN') ?></a></div>
 
         <?php } ?>
     </div>

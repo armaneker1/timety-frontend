@@ -40,9 +40,16 @@ if (!empty($catId) && !empty($cat)) {
             if (isset($_POST['both']) && $_POST['both'] == "true") {
                 $id = DBUtils::getNextId(CLM_TIMETY_TAG_ID);
                 $res = Neo4jTimetyTagUtil::insertTimetyTag($catId, $new_tag, LANG_TR_TR, $id);
+                $tr_tag = Neo4jTimetyTagUtil::getTimetyTagById($id, LANG_TR_TR);
+                ElasticSearchUtils::insertTagtoSBI($tr_tag);
                 $res = Neo4jTimetyTagUtil::insertTimetyTag($catId, $new_tag, LANG_EN_US, $id);
+                $en_tag = Neo4jTimetyTagUtil::getTimetyTagById($id, LANG_EN_US);
+                ElasticSearchUtils::insertTagtoSBI($en_tag);
             } else {
-                $res = Neo4jTimetyTagUtil::insertTimetyTag($catId, $new_tag, $lang);
+                $id = DBUtils::getNextId(CLM_TIMETY_TAG_ID);
+                $res = Neo4jTimetyTagUtil::insertTimetyTag($catId, $new_tag, $lang, $id);
+                $_tag = Neo4jTimetyTagUtil::getTimetyTagById($id, $lang);
+                ElasticSearchUtils::insertTagtoSBI($_tag);
             }
             if ($res == 3) {
                 echo "Timety tag saved";
@@ -65,6 +72,7 @@ if (!empty($catId) && !empty($cat)) {
                 } else {
                     Neo4jTimetyTagUtil::removeTimetyTag($del, $lang);
                 }
+                ElasticSearchUtils::deleteFromSBIById($del);
             }
             echo "Selected Tags deleted";
         } else {
@@ -93,13 +101,13 @@ if (!empty($catId) && !empty($cat)) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Dashboard - Admin Template</title>
-        <link rel="stylesheet" type="text/css" href="css/theme.css?<?=JS_CONSTANT_PARAM?>" />
-        <link rel="stylesheet" type="text/css" href="css/style.css?<?=JS_CONSTANT_PARAM?>" />
+        <link rel="stylesheet" type="text/css" href="css/theme.css?<?= JS_CONSTANT_PARAM ?>" />
+        <link rel="stylesheet" type="text/css" href="css/style.css?<?= JS_CONSTANT_PARAM ?>" />
         <script>
-            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '?<?=JS_CONSTANT_PARAM?>">');
+            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '?<?= JS_CONSTANT_PARAM ?>">');
         </script>
         <!--[if IE]>
-        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css?<?=JS_CONSTANT_PARAM?>" />
+        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css?<?= JS_CONSTANT_PARAM ?>" />
         <![endif]-->
     </head>
     <body>

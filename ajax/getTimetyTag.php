@@ -12,6 +12,7 @@ if (isset($_GET["term"]))
 $lang = null;
 if (isset($_GET["lang"]))
     $lang = $_GET["lang"];
+ 
 
 try {
     $result = array();

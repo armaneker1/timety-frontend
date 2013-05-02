@@ -2744,6 +2744,20 @@ span.roll_tr_tr {
     display: inline-block;
     cursor: pointer;
 }
+
+#autocomplete_search .ui-menu .ui-menu-item a img {
+    margin-top: 4px;
+    margin-left: -10px;
+    width: 30px;
+    height: 30px;
+}
+#autocomplete_search .ui-menu .ui-menu-item a div {
+    display: inline-block;
+    position: absolute;
+    margin-left: 5px;
+    overflow: hidden;
+}
+
 #autocomplete_search .ui-menu .ui-menu-item a.ui-state-hover,
 #autocomplete_search .ui-menu .ui-menu-item a.ui-state-active {
     height: 37px;

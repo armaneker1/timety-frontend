@@ -47,6 +47,7 @@ require_once __DIR__ . '/RegisterAnaliticsFunctions.php';
 require_once __DIR__ . '/EventKeyListFunction.php';
 require_once __DIR__ . '/XMLFunctions.php';
 require_once __DIR__ . '/LanguageFunctions.php';
+require_once __DIR__ . '/ElasticSearchFunctions.php';
 
 require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/Neo4jTimetyCategoryFunctions.php';
@@ -455,11 +456,16 @@ class UtilFunctions {
             if (!empty($event) && get_class($event) == 'Event') {
                 $title = strtolower($event->title);
                 $desc = strtolower($event->description);
+                $creator = "";
+                if (!empty($event->creator)) {
+                    $creator = strtolower($event->creator->firstName . " " . $event->creator->lastName);
+                }
                 $search = strtolower($search);
 
-                if (preg_match('/' . $search . '/', $title) || preg_match('/' . $search . '/', $desc)) {
+                if (preg_match('/' . $search . '/', $title) || preg_match('/' . $search . '/', $desc) || preg_match('/' . $search . '/', $creator)) {
                     return false;
-                } else if (!empty($tagIds) && !empty($event->tags) && sizeof($event->tags) > 0) {
+                }
+                if (!empty($tagIds) && !empty($event->tags) && sizeof($event->tags) > 0) {
                     $tagIds = explode(',', $tagIds);
                     foreach ($tagIds as $t) {
                         if (in_array($t, $event->tags)) {
@@ -475,6 +481,17 @@ class UtilFunctions {
             }
         }
         return false;
+    }
+
+    public static function object_to_array($data) {
+        if (is_array($data) || is_object($data)) {
+            $result = array();
+            foreach ($data as $key => $value) {
+                $result[$key] = self::object_to_array($value);
+            }
+            return $result;
+        }
+        return $data;
     }
 
 }

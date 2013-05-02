@@ -196,13 +196,16 @@ if (isset($_POST['te_username'])) {
                 /*
                  * check user is invited
                  */
+                $user = UserUtils::getUserById($user->id);
                 $tmpuser = UserUtils::checkInvitedEmail($email);
                 if (!empty($tmpuser)) {
                     $newUserId = UserUtils::moveUser($user->id, $tmpuser->id);
                     if (!empty($newUserId)) {
+                        $user = UserUtils::getUserById($newUserId);
                         $_SESSION['id'] = $newUserId;
                     }
                 }
+                ElasticSearchUtils::insertUsertoSBI($user);
                 /*
                  * check user is invited
                  */
@@ -245,7 +248,7 @@ if (isset($_POST['te_username'])) {
                     $name = $fbUser['first_name'];
                     $lastname = $fbUser['last_name'];
                     //$birhtdate=$fbUser['birthday'];
-                    $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?type=large";
+                    $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?width=106&height=106";
                     $userProfilePicType = FACEBOOK_TEXT;
                     $hometown = "";
                     //if (isset($fbUser['hometown']))
@@ -737,20 +740,20 @@ if (isset($_POST['te_username'])) {
                         tabindex="5"
                         class="user_inpt email icon_bg user_inpt_pi_height"
                         id="te_language">
-                        <?php 
-                        $lang_tr_sel="";
-                        $lang_en_sel="";
-                        if(LANG_TR_TR==$language){
-                            $lang_tr_sel='selected="selected"';
-                            $lang_en_sel="";
-                        }else if(LANG_EN_US==$language){
-                            $lang_en_sel='selected="selected"';
-                            $lang_tr_sel="";
-                        }
-                        ?>
+                            <?php
+                            $lang_tr_sel = "";
+                            $lang_en_sel = "";
+                            if (LANG_TR_TR == $language) {
+                                $lang_tr_sel = 'selected="selected"';
+                                $lang_en_sel = "";
+                            } else if (LANG_EN_US == $language) {
+                                $lang_en_sel = 'selected="selected"';
+                                $lang_tr_sel = "";
+                            }
+                            ?>
                         <option value=""><?= LANG_SELECT_LANGUAGE ?></option>
-                        <option value="<?= LANG_TR_TR ?>" <?=$lang_tr_sel?>><?= LANG_TR_TR_TEXT ?></option>
-                        <option value="<?= LANG_EN_US ?>" <?=$lang_en_sel?>><?= LANG_EN_US_TEXT ?></option>
+                        <option value="<?= LANG_TR_TR ?>" <?= $lang_tr_sel ?>><?= LANG_TR_TR_TEXT ?></option>
+                        <option value="<?= LANG_EN_US ?>" <?= $lang_en_sel ?>><?= LANG_EN_US_TEXT ?></option>
                     </select>
                     <?php
                     $display = "none";

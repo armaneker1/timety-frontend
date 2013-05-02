@@ -280,16 +280,16 @@ if (isset($_POST['update'])) {
     }
     $success = false;
     if ($param) {
-        /*if (!empty($te_location_country) && ( $te_location_country == "Turkey" ||
-                $te_location_country == "turkey" ||
-                $te_location_country == "Türkiye" ||
-                $te_location_country == "TR" ||
-                $te_location_country == "tr" ||
-                $te_location_country == "türkiye")) {
-            $user->language = LANG_TR_TR;
-        } else {
-            $user->language = LANG_EN_US;
-        }*/
+        /* if (!empty($te_location_country) && ( $te_location_country == "Turkey" ||
+          $te_location_country == "turkey" ||
+          $te_location_country == "Türkiye" ||
+          $te_location_country == "TR" ||
+          $te_location_country == "tr" ||
+          $te_location_country == "türkiye")) {
+          $user->language = LANG_TR_TR;
+          } else {
+          $user->language = LANG_EN_US;
+          } */
         UserUtils::updateUser($_SESSION['id'], $user);
         $user = UserUtils::getUserById($_SESSION['id']);
         UserUtils::addUserLocation($user->id, $te_location_country, LocationUtils::getCityId($te_location_city), $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
@@ -298,6 +298,8 @@ if (isset($_POST['update'])) {
         if ($updateEvents) {
             UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id'], "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         }
+        $user = UserUtils::getUserById($_SESSION['id']);
+        ElasticSearchUtils::insertUsertoSBI($user);
     }
 
     $_SESSION['pr_email'] = $email;
@@ -832,27 +834,27 @@ if (isset($_POST['update'])) {
                     <span id='te_new_repassword_span' class="<?= $class ?>">
                         <div class="create_acco_popup" id="te_new_repassword_span_msg" style="display:<?= $display ?>;"><?= $unewrepassError ?><div class="kok"></div></div>
                     </span> <br />
-                    
+
                     <p class="profil_etiket"><?= LanguageUtils::getText("LANG_LANGUAGE") ?></p>
                     <select 
                         name="te_language"
                         class="user_inpt email icon_bg user_inpt_pi_height"
                         id="te_language"
                         style="width: 366px;">
-                        <?php 
-                        $lang_tr_sel="";
-                        $lang_en_sel="";
-                        if(LANG_TR_TR==$language){
-                            $lang_tr_sel='selected="selected"';
-                            $lang_en_sel="";
-                        }else if(LANG_EN_US==$language){
-                            $lang_en_sel='selected="selected"';
-                            $lang_tr_sel="";
-                        }
-                        ?>
+                            <?php
+                            $lang_tr_sel = "";
+                            $lang_en_sel = "";
+                            if (LANG_TR_TR == $language) {
+                                $lang_tr_sel = 'selected="selected"';
+                                $lang_en_sel = "";
+                            } else if (LANG_EN_US == $language) {
+                                $lang_en_sel = 'selected="selected"';
+                                $lang_tr_sel = "";
+                            }
+                            ?>
                         <option value=""><?= LANG_SELECT_LANGUAGE ?></option>
-                        <option value="<?= LANG_TR_TR ?>" <?=$lang_tr_sel?>><?= LANG_TR_TR_TEXT ?></option>
-                        <option value="<?= LANG_EN_US ?>" <?=$lang_en_sel?>><?= LANG_EN_US_TEXT ?></option>
+                        <option value="<?= LANG_TR_TR ?>" <?= $lang_tr_sel ?>><?= LANG_TR_TR_TEXT ?></option>
+                        <option value="<?= LANG_EN_US ?>" <?= $lang_en_sel ?>><?= LANG_EN_US_TEXT ?></option>
                     </select>
                     <?php
                     $display = "none";

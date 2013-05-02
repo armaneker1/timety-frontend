@@ -73,7 +73,7 @@ class RedisUtils {
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             if ($ik <= $pgEnd) {
                 $add = true;
-                if (UtilFunctions::findString($events[$i], $query, true, null)) {
+                if (UtilFunctions::findString($events[$i], $query, true, $searchtagIds)) {
                     $add = false;
                 }
                 if ($add) {

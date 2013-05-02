@@ -46,6 +46,8 @@ define("SETTINGS_REDIS_IP", "redis_ip");
 define("SETTINGS_REDIS_PORT", "redis_port");
 define("SETTINGS_MQ_IP", "mq_ip");
 define("SETTINGS_MQ_PORT", "mq_port");
+define("SETTINGS_ELASTICSEARCH_IP", "elasticsearch_ip");
+define("SETTINGS_ELASTICSEARCH_PORT", "elasticsearch_port");
 
 
 class SettingsUtil {

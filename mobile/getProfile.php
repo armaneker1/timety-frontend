@@ -1,0 +1,49 @@
+<?php
+
+session_start();
+header("charset=utf8");
+
+require_once __DIR__ . '/../utils/Functions.php';
+LanguageUtils::setAJAXLocale();
+HttpAuthUtils::checkMobileHttpAuth();
+
+
+//user_id
+$uid = null;
+if (isset($_POST['uid'])) {
+    $uid = $_POST['uid'];
+}
+if (isset($_GET['uid'])) {
+    $uid = $_GET['uid'];
+}
+
+if (!empty($uid)) {
+    $user = UserUtils::getUserById($uid);
+    if (!empty($user)) {
+        $r = new stdClass();
+        $r->success = 1;
+        $r->code = 100;
+        $r->data =new stdClass();
+        $r->data->user=$user;
+        $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
+        echo $result;
+        exit(1);
+    } else {
+        $r = new stdClass();
+        $r->success = 0;
+        $r->code = 103;
+        $r->error = "User not found";
+        $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
+        echo $result;
+        exit(1);
+    }
+} else {
+    $r = new stdClass();
+    $r->success = 0;
+    $r->code = 106;
+    $r->error = "User Id is empty";
+    $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
+    echo $result;
+    exit(1);
+}
+?>

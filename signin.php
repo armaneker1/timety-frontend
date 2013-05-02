@@ -91,7 +91,7 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
                     }, {
                         name : 'te_password',
                         display : 'password',
-                        rules : 'required|min_length[8]'
+                        rules : 'required|min_length[6]'
                     } ],
                 function(errors, event) {
                     //empty messages

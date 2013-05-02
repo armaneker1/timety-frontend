@@ -1,5 +1,6 @@
 var lang_array={
     LOCALE:"en",
+    LOCALE_CODE:"en_US",
     LANG_PAGE_TITLE:'Timety | Never miss out',
     //create event
     LANG_CREATE_EVENT_DEL:'Delete',

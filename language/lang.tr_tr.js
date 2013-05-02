@@ -1,5 +1,6 @@
-var lang_array={
+﻿var lang_array={
     LOCALE:"tr",
+    LOCALE_CODE:"tr_TR",
     LANG_PAGE_TITLE:'Timety | Asla Kaçırma',
     //create event
     LANG_CREATE_EVENT_DEL:'Sil',
@@ -84,7 +85,7 @@ var lang_array={
     LANG_UPDATE_PROFILE_UPLOADING_SUCCESS:'Profil resmi kaydedildi',
     LANG_UPDATE_PROFILE_NOT_ALLOWED_TYPE:'geçersiz dosya tipi',
     //wookmark filler
-    LANG_WOOKMARK_FILLER_NO_RESULT_FOUND:'Sonu. bulunamadı',
+    LANG_WOOKMARK_FILLER_NO_RESULT_FOUND:'Sonuç bulunamadı',
     LANG_WOOKMARK_FILLER_ACT_CREATED:'oluşturdu',
     LANG_WOOKMARK_FILLER_ACT_JOINED:'katıldı',
     LANG_WOOKMARK_FILLER_ACT_LIKED:'beğendi',
@@ -100,7 +101,7 @@ var lang_array={
     LANG_WOOKMARK_FILLER_TIME_N_HOURS:'{0} saat',
     LANG_WOOKMARK_FILLER_TIME_N_MINUTES:'{0} dakika',
     LANG_WOOKMARK_FILLER_TIME_NEXT_MONTH:'Gelecek ay',
-    LANG_WOOKMARK_FILLER_TIME_NEXT_WEEK:'Gelecek hafta',
+    LANG_WOOKMARK_FILLER_TIME_NEXT_WEEK:'Haftaya',
     //token input
     LANG_TOKEN_INPUT_HINT_TEXT_TAG:'Eklenecek etiketi arattırınız',
     LANG_TOKEN_INPUT_HINT_TEXT_PEOPLE:'Davet edilecek kişiyi arattırınız',

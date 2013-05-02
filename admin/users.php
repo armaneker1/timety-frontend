@@ -72,6 +72,8 @@ LanguageUtils::setLocale();
                                                     $SQL = "DELETE  FROM " . TBL_IMAGES . " WHERE eventId=" . $id;
                                                     mysql_query($SQL) or die(mysql_error());
 
+                                                    ElasticSearchUtils::deleteFromSBIById($id);
+                                                    
                                                     //delete from redis
                                                     $redis = new Predis\Client();
                                                     $keys = $redis->keys("*");
