@@ -2859,6 +2859,7 @@ span.roll_tr_tr {
 /* user profile follow */
 .profil_user_follow{
     padding-left: 7px;
+    padding-bottom: 7px;
 }
 .profile_followed_btn {
     background: #84C449;

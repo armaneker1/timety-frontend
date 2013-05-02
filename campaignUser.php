@@ -35,7 +35,7 @@ if (isset($_GET['campaignId']) && !empty($_GET['campaignId'])) {
     exit(1);
 }
 ?>
-<!DOCTYPE html >
+<!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en-US" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>
 
