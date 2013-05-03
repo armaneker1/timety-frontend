@@ -236,6 +236,14 @@ class UserUtils {
         }
     }
 
+    public static function deleteUserSocialProvider($userId, $provider) {
+        if (!empty($userId) && !empty($provider)) {
+            $userId = DBUtils::mysql_escape($userId);
+            $SQL = "DELETE FROM " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id=" . $userId ." AND oauth_provider='".$provider."'";
+            mysql_query($SQL) or die(mysql_error());
+        }
+    }
+
     public static function moveUserSocialProvider($fromUserId, $toUserId) {
         $fromUser = UserUtils::getUserById($fromUserId);
         $toUser = UserUtils::getUserById($toUserId);
@@ -335,7 +343,7 @@ class UserUtils {
             if (empty($user->password)) {
                 $user->password = $user->getPassword();
             }
-            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='$user->about',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language'  WHERE id = $uid";
+            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='".DBUtils::mysql_escape($user->about) ."',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language'  WHERE id = $uid";
             //var_dump($SQL);
             //error_log($SQL);
             mysql_query($SQL) or die(mysql_error());
@@ -420,7 +428,7 @@ class UserUtils {
             UserUtils::updateUser($tmp_user->id, $user);
             $user_ = UserUtils::getUserById($tmp_user->id);
         } else {
-            $_SESSION["te_invitation_code"]="temp";
+            $_SESSION["te_invitation_code"] = "temp";
             if ((isset($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) || $invate) {
                 $userId = DBUtils::getNextId(CLM_USERID);
                 if (isset($_SESSION["te_invitation_code"])) {
