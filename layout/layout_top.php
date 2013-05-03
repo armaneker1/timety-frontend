@@ -29,8 +29,10 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     <div id="top_blm_sol">
 
         <?php if (empty($user)) { ?>
-            <div style="  display: inline-block; position: absolute; margin-top: 5px; width: 100%;text-align: center;margin-left: -105px;z-index: -1;">
-                <a href="<?=PAGE_SIGNUP?>"><span style="color: black;font-size: 23px;"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span></a>
+            <div style="  display: inline-block; position: absolute; width: 100%;text-align: center;margin-left: -105px;z-index: -1;">
+                <div style="background-color: #f99e19;display: table;margin-left: auto;margin-right: auto; padding: 6px 10px 6px 10px;border-radius: 5px;">
+                    <a href="<?= PAGE_SIGNUP ?>"><span style="color: black;font-size: 23px;"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span></a>
+                </div>
             </div>
         <?php } ?>
         <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="120" height="45" border="0" /></a></div>
@@ -160,7 +162,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                         ejs.MatchAllQuery(),ejs.AndFilter(
                         [ejs.QueryFilter(ejs.QueryStringQuery(term+'*').defaultField('s_label')),
                             ejs.QueryFilter(ejs.QueryStringQuery('*'+getLanguageText('LOCALE_CODE')+'*').defaultField('s_lang'))]
-                        ))).sort('s_id')
+                    ))).sort('s_id')
                         .doSearch(function(result,success){
                             gotoResults(result,success,func);
                         });
