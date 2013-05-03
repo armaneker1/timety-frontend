@@ -679,7 +679,6 @@ if (isset($_GET['campaignId']) && !empty($_GET['campaignId'])) {
                                                     <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
                                                         <img src="<?= PAGE_GET_IMAGEURL . urlencode($crt->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $crt->getFullName() ?></span>
-                                                       <!-- <span><?= " " . $evt_result ?></span> -->
                                                     </p>
                         <?php
                     }
