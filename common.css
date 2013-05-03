@@ -3039,3 +3039,10 @@ langugae classes
     right: 152px !important;
 }
 
+
+.no_user_top_underline{
+    color: black;
+    font-size: 23px; 
+    font-weight:bold;
+    text-decoration: underline;
+}
