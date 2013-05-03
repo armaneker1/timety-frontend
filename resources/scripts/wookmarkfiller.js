@@ -93,7 +93,13 @@ function wookmarkFiller(options,clear,loader,channel_)
             track="/index/events/category/"+categoryId+"?pageId="+page;
         }
         if(typeof(pSUPERFLY) != "undefined")
+        {
             pSUPERFLY.virtualPage(track,track);
+        }
+        if(typeof(_gaq) != "undefined" && _gaq){
+            _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+            _gaq.push(['_trackPageview', track]);
+        }
         var tagIdsParam=null;
         try{
             if(tagIds)
@@ -499,6 +505,12 @@ function wookmarkHTML(dataArray,userId)
             jQuery(creatorDIV).append(creatorDIVP);
             jQuery(contentDIV).append(creatorDIV);
             var normal=true;
+            
+            if(typeof(campaignPage) != "undefined"){
+                campaignPage=true;
+            }else{
+                campaignPage=false;
+            }
             
             if((wookmark_channel==4 || wookmark_channel==10 ||
                 wookmark_channel==11 || wookmark_channel==12 ||
