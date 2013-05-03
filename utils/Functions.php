@@ -168,7 +168,7 @@ class UtilFunctions {
                         $week = date('N', strtotime($datestart));
                         $week = $week + $day_dif;
                         if ($week <= 7) {
-                            $result = date('l', strtotime($dateend));
+                            $result = strftime('%A',strtotime($dateend));//date('l', strtotime($dateend));
                         } else if ($week > 7 && $week <= 14) {
                             $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_NEXT_WEEK");
                         } else {
