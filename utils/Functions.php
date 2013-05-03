@@ -162,7 +162,7 @@ class UtilFunctions {
                 if ($since_start->d > 0 && empty($result)) {
                     $day_dif = $since_start->d;
                     $hour_dif = $since_start->h;
-                    if ($day_dif == 1 && $hour_dif<0) {
+                    if ($day_dif == 1 && $hour_dif<=0) {
                         $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_TOMORROW");
                     } else {
                         $week = date('N', strtotime($datestart));
