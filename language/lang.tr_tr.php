@@ -49,7 +49,7 @@ define('LANG_PROFILE_BACTH_IGNORED', 'Önemseme');
 define('LANG_PROFILE_BACTH_CRATED_EVENTS', 'Oluşturduklarım');
 
 #PAGE TOP
-define('LANG_PAGE_TOP_NO_USER_HEADER_TEXT', 'Şimdi üye olun ve etrafınızdaki tüm etkinlikleri Keşfedin, Paylaşın ve Takip edin'); 
+define('LANG_PAGE_TOP_NO_USER_HEADER_TEXT', '<span class="no_user_top_underline">Şimdi üye olun</span> ve etrafınızdaki tüm etkinlikleri Keşfedin, Paylaşın ve Takip edin'); 
 define('LANG_PAGE_TOP_CITY_INPUT_HINT', 'Şehir seçin');
 define('LANG_PAGE_TOP_CATEGORY_RECOMMENDED', 'Önerilen');
 define('LANG_PAGE_TOP_CATEGORY_EVERYTHIG', 'Tümü');

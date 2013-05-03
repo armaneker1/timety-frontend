@@ -49,7 +49,7 @@ define('LANG_PROFILE_BACTH_IGNORED', 'Ignored');
 define('LANG_PROFILE_BACTH_CRATED_EVENTS', 'Created Event');
 
 #PAGE TOP
-define('LANG_PAGE_TOP_NO_USER_HEADER_TEXT', 'Sign Up Now to Discover, Share and Track All Events Around You');
+define('LANG_PAGE_TOP_NO_USER_HEADER_TEXT', '<span class="no_user_top_underline">Sign Up Now</span> to Discover, Share and Track All Events Around You');
 define('LANG_PAGE_TOP_CITY_INPUT_HINT', 'Select City');
 define('LANG_PAGE_TOP_CATEGORY_RECOMMENDED', 'Recommended');
 define('LANG_PAGE_TOP_CATEGORY_EVERYTHIG', 'Everything');
