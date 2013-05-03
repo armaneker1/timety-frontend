@@ -259,7 +259,7 @@ function openModalPanel(event_id,custom) {
         try{
             data.images=JSON.parse(data.images);
         }catch(exp){
-            console.log(exp);
+            console.log("No need to parse");
         }
         if (!data) {
             getEventDetailFromServer(event_id);
