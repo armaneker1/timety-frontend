@@ -840,8 +840,9 @@ function calculateRemainingTime(date){
                 }
             }
             var d_=d.diff(now,"days");
+            var h_=d.diff(now,"hours");
             if(d_>0){
-                if(d_==1){
+                if(d_==1 && h_<=0){
                     return  getLanguageText("LANG_WOOKMARK_FILLER_TIME_TOMORROW");
                 }else{
                     var week = parseInt(now.format('d'));
@@ -868,7 +869,7 @@ function calculateRemainingTime(date){
                 }
             }
             
-            var h_=d.diff(now,"hours");
+            h_=d.diff(now,"hours");
             if(h_>0){
                 var ds = parseInt(now.format('D'));
                 var de = parseInt(d.format('D'));
