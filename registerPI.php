@@ -738,6 +738,7 @@ if (isset($_POST['te_username'])) {
                     <select 
                         name="te_language"
                         tabindex="5"
+                        style="background-image: none"
                         class="user_inpt email icon_bg user_inpt_pi_height"
                         id="te_language">
                             <?php
