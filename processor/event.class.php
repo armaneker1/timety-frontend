@@ -30,6 +30,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > addEvent Error" . $exc->getTraceAsString());
                 return;
@@ -109,6 +110,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > addEventForOthers Error" . $exc->getTraceAsString());
                 return;
@@ -166,6 +168,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > likeEvent Error" . $exc->getTraceAsString());
                 return;
@@ -215,6 +218,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > likeEvent Error" . $exc->getTraceAsString());
                 return;
@@ -264,6 +268,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > reshareEvent Error" . $exc->getTraceAsString());
                 return;
@@ -313,6 +318,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > joinEvent Error" . $exc->getTraceAsString());
                 return;
@@ -363,6 +369,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > updateEventInfo Error" . $exc->getTraceAsString());
                 return;
@@ -411,6 +418,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > updateEventInfoForOthers Error" . $exc->getTraceAsString());
             }
@@ -456,6 +464,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > updateEventForOthers Error" . $exc->getTraceAsString());
             }
@@ -528,6 +537,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
             }
@@ -613,6 +623,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->getCreatorType();
                 $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);
                 $users = Neo4jRecommendationUtils::getUserForEvent($this->eventID);
                 $log->logInfo("event > findUserForEvents >  recommened users : " . sizeof($users));

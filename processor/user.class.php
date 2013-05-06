@@ -38,6 +38,7 @@ class UserProcessor {
                                 $event->getHeaderVideo();
                                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                                $event->getCreatorType();
                             } catch (Exception $exc) {
                                 $log->logError("event > addEvent Error" . $exc->getTraceAsString());
                             }
