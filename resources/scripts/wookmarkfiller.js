@@ -79,8 +79,7 @@ function wookmarkFiller(options,clear,loader,channel_)
         }else if(channel==3){
             track="/index/events/following?pageId="+page;
         }else if(channel==4){
-            //TODO 
-            track="/index/events/user?pageId="+page;
+            track="/index/events/user?userId"+userSelected+"&pageId="+page;
         }else if(channel==5){
             track="/index/events/created?pageId="+page;
         }else if(channel==6){
