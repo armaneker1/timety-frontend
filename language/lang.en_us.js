@@ -106,7 +106,9 @@ var lang_array={
     LANG_TOKEN_INPUT_HINT_TEXT_TAG:'Search for relevant tags',
     LANG_TOKEN_INPUT_HINT_TEXT_PEOPLE:'Search for relevant person',
     LANG_TOKEN_INPUT_NO_RESULT:'No results',
-    LANG_TOKEN_INPUT_SEARCHING:'Searching...'
+    LANG_TOKEN_INPUT_SEARCHING:'Searching...',
+    //verified account
+    LANG_VERIFIED_ACCOUNT:'Verified Account'
 }
 
 var date_var= {

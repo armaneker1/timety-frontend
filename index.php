@@ -1303,13 +1303,13 @@ if (empty($user)) {
                                                 if (!empty($crt) && !empty($crt->id)) {
                                                     $usr_url = HOSTNAME . $crt->userName;
                                                     ?>
-                                                    <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
+                                                    <div style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
                                                         <?php if($crt->type.""=="1"){ ?>
-                                                            <div class="event_creator_verified_user"><img src="<?=HOSTNAME?>images/timetyVerifiedIcon.png"></div>
+                                                            <div class="event_creator_verified_user timetyVerifiedIcon"><img src="<?=HOSTNAME?>images/timetyVerifiedIcon.png"></div>
                                                         <?php } ?>
                                                         <img src="<?= PAGE_GET_IMAGEURL . urlencode($crt->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $crt->getFullName() ?></span>
-                                                    </p>
+                                                    </div>
                                                     <?php
                                                 }
                                             } else {

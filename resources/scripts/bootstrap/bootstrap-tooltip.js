@@ -331,7 +331,7 @@
 
   $.fn.tooltip.defaults = {
     animation: true
-  , placement: 'top'
+  , placement: 'bottom'
   , selector: false
   , template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
   , trigger: 'hover focus'

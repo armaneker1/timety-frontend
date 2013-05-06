@@ -411,7 +411,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                             if (!empty($p_user)) {
                                 if ($p_user->type == 1) {
                                     ?>
-                                    <img src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png" style="padding-top:8px"/>
+                            <img class="timetyVerifiedIcon" src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png" style="padding-top:8px"/>
         <?php }
     } ?>
                         </div>

@@ -128,4 +128,15 @@ if ($br == "mozilla") {
         }
     </style>
 <?php } ?>
-
+<script>
+    function setVerifiedAccountTooltip(){
+        jQuery(".timetyVerifiedIcon").tooltip('destroy');
+        jQuery(".timetyVerifiedIcon").attr('data-toggle','tooltip');
+        jQuery(".timetyVerifiedIcon").attr('data-placement','bottom');
+        jQuery(".timetyVerifiedIcon").attr("data-original-title",getLanguageText("LANG_VERIFIED_ACCOUNT"));
+        jQuery(".timetyVerifiedIcon").tooltip();
+    }
+    jQuery(document).ready(function(){
+        setVerifiedAccountTooltip();
+    });
+</script>

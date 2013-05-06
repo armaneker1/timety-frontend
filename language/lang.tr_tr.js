@@ -106,7 +106,9 @@
     LANG_TOKEN_INPUT_HINT_TEXT_TAG:'Eklenecek etiketi arattırınız',
     LANG_TOKEN_INPUT_HINT_TEXT_PEOPLE:'Davet edilecek kişiyi arattırınız',
     LANG_TOKEN_INPUT_NO_RESULT:'Sonuç bulunamadı',
-    LANG_TOKEN_INPUT_SEARCHING:'Aranıyor...'
+    LANG_TOKEN_INPUT_SEARCHING:'Aranıyor...',
+    //verified account
+    LANG_VERIFIED_ACCOUNT:'Onaylanmış Hesap'
 }
 
 var date_var= {
