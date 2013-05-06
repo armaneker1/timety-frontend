@@ -8,23 +8,17 @@ LanguageUtils::setAJAXLocale();
 HttpAuthUtils::checkMobileHttpAuth();
 
 
-//user_id
-$uid = null;
-if (isset($_POST['uid'])) {
-    $uid = $_POST['uid'];
-}
-if (isset($_GET['uid'])) {
-    $uid = $_GET['uid'];
-}
-
-if (!empty($uid)) {
-    $user = UserUtils::getUserById($uid);
+$userId = null;
+if (isset($_GET["userId"]))
+    $userId = $_GET["userId"];
+if (!empty($userId)) {
+    $user = UserUtils::getUserById($userId);
     if (!empty($user)) {
+        $result = $user->getUserNotificationCount();
         $r = new stdClass();
         $r->success = 1;
         $r->code = 100;
-        $r->data =new stdClass();
-        $r->data->user=$user;
+        $r->data = $result;
         $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
         echo $result;
         exit(1);
@@ -41,7 +35,7 @@ if (!empty($uid)) {
     $r = new stdClass();
     $r->success = 0;
     $r->code = 106;
-    $r->error = "User Id is empty";
+    $r->error = "Parameters missing";
     $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
     echo $result;
     exit(1);

@@ -25,11 +25,15 @@ if (isset($_GET['type']) && $_GET['type'] == 1) {
 
     if ($info['mime'] == 'image/jpeg')
         $image = imagecreatefromjpeg($source_url);
-    elseif ($info['mime'] == 'image/gif')
+    else if ($info['mime'] == 'image/gif')
         $image = imagecreatefromgif($source_url);
-    elseif ($info['mime'] == 'image/png')
+    else if ($info['mime'] == 'image/png')
         $image = imagecreatefrompng($source_url);
-
+    else if ($info['mime'] == 'image/bmp')
+        $image = imagecreatefromwbmp($source_url);
+    else
+        $image = imagecreatefrompng($source_url);
+    
     $size = filesize($source_url);
     $quality = 9;
     if ($size >= (100 * 1024) && $size < (512 * 1024)) {
@@ -202,7 +206,7 @@ class qqFileUploader {
 
         if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit) {
             $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';
-            die(LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_MAX_POST_SIZE",$size));
+            die(LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_MAX_POST_SIZE", $size));
         }
     }
 
@@ -236,7 +240,7 @@ class qqFileUploader {
         }
 
         if ($size > $this->sizeLimit) {
-            return array('error' =>  LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_FILE_TOO_LARGE_ERROR"));
+            return array('error' => LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_FILE_TOO_LARGE_ERROR"));
         }
 
         $pathinfo = pathinfo($this->file->getName());
@@ -246,7 +250,7 @@ class qqFileUploader {
 
         if ($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)) {
             $these = implode(', ', $this->allowedExtensions);
-            return array('error' => LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_INVALID_EXT",$these));
+            return array('error' => LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_INVALID_EXT", $these));
         }
 
         $ext = ($ext == '') ? $ext : '.' . $ext;
@@ -263,7 +267,7 @@ class qqFileUploader {
         if ($this->file->save($uploadDirectory . $filename . $ext)) {
             return array('success' => true);
         } else {
-            return array('error' =>LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_CANCELED_ERROR"));
+            return array('error' => LanguageUtils::getText("LANG_AJAX_UPLOAD_IMAGE_CANCELED_ERROR"));
         }
     }
 

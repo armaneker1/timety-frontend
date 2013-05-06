@@ -17,14 +17,26 @@ if (isset($_GET['uid'])) {
     $uid = $_GET['uid'];
 }
 
+
 if (!empty($uid)) {
     $user = UserUtils::getUserById($uid);
     if (!empty($user)) {
+        $array = RedisUtils::getUserFollowings($uid);
+        $result = array();
+        foreach ($array as $val) {
+            $obj = new stdClass();
+            $obj->id = $val->id;
+            $obj->fullName = $val->firstName . " " . $val->lastName;
+            $obj->username = $val->userName;
+            $obj->userPicture = $val->getUserPic();
+            array_push($result, $obj);
+        }
+
         $r = new stdClass();
         $r->success = 1;
         $r->code = 100;
-        $r->data =new stdClass();
-        $r->data->user=$user;
+        $r->data = new stdClass();
+        $r->data->users = $result;
         $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
         echo $result;
         exit(1);

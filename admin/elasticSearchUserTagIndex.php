@@ -21,9 +21,9 @@ require_once __DIR__ . '/../utils/Functions.php';
                     'servers' => SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) . ':' . SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT),
                     'protocol' => ELASTICSEACRH_TIMETY_PROTOCOL,
                     'index' => ELASTICSEACRH_TIMETY_INDEX,
-                    'type' => ELASTICSEACRH_TIMETY_DOCUMENT
+                    'type' => ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG
                 ));
-
+        $es->index(ELASTICSEACRH_TIMETY_INDEX);
 
         $search = null;
         if (!empty($search)) {
@@ -126,7 +126,7 @@ require_once __DIR__ . '/../utils/Functions.php';
                 $tag_array["s_label"] = $tag->name;
                 $tag_array["s_id"] = "tag_" . $tag->id;
                 $tag_array["s_type"] = "tag";
-                
+
                 $res = $es->index($tag_array, "tag_" . LANG_EN_US . "_" . $tag->id);
                 if (!empty($res) && isset($res["ok"]) && $res["ok"]) {
                     echo $tag->id . " - " . $tag->name . " - OK<p/>";

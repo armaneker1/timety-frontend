@@ -98,6 +98,33 @@ class LocationUtils {
         return $array;
     }
 
+    public static function getCityIdNotAdd($city) {
+        if (!empty($city)) {
+            $id = null;
+            $city = strtolower($city);
+            $city = str_replace(' ', '', $city);
+            if (preg_match('/^[0-9]+$/', $city)) {
+
+                $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_id =" . $city;
+                $query = mysql_query($SQL) or die(mysql_error());
+                $result = mysql_fetch_array($query);
+                if (!empty($result)) {
+                    $id = $result['city_id'];
+                    return $id;
+                }
+            }
+
+            $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_name ='" . $city . "'";
+            $query = mysql_query($SQL) or die(mysql_error());
+            $result = mysql_fetch_array($query);
+            if (!empty($result)) {
+                $id = $result['city_id'];
+            }
+            return $id;
+        }
+        return null;
+    }
+
     public static function getCityId($city) {
         if (!empty($city)) {
             $id = null;

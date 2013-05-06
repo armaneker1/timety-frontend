@@ -109,7 +109,8 @@ class Neo4jFuctions {
                     Queue::joinEvent($eventId, $userId, REDIS_USER_INTERACTION_MAYBE);
                 } else if ($resp == 3 || $resp == 4) {
                     Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_IGNORE);
-                    if ($resp == 4) {
+                    //maybe denince sayı azalmıcak
+                    if ($resp == 4 && false) {
                         SocialUtil::decJoinCountAsync($userId, $eventId);
                         Neo4jEventUtils::decreaseAttendanceCount($eventId);
                     }

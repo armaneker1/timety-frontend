@@ -156,7 +156,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     }
                     if(ejs){
                         ejs.client=ejs.jQueryClient("http://<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) ?>:<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT) ?>");
-                        var request=ejs.Request({indices: "<?= ELASTICSEACRH_TIMETY_INDEX ?>", types: '<?= ELASTICSEACRH_TIMETY_DOCUMENT ?>'});
+                        var request=ejs.Request({indices: "<?= ELASTICSEACRH_TIMETY_INDEX ?>", types: '<?= ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG ?>'});
                        
                         request.query(ejs.FilteredQuery(
                         ejs.MatchAllQuery(),ejs.AndFilter(

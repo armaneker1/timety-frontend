@@ -70,7 +70,7 @@ require_once __DIR__ . '/../utils/Functions.php';
                 }
                 if(ejs){
                     ejs.client=ejs.jQueryClient("http://<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) ?>:<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT) ?>");
-                    var request=ejs.Request({indices: "<?= ELASTICSEACRH_TIMETY_INDEX ?>", types: '<?= ELASTICSEACRH_TIMETY_DOCUMENT ?>'});
+                    var request=ejs.Request({indices: "<?= ELASTICSEACRH_TIMETY_INDEX ?>", types: '<?= ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG ?>'});
                     /*
                    request.query(ejs.FilteredQuery(ejs.DisMaxQuery().queries(ejs.MatchQuery('s_label', term+'*')).queries(ejs.MatchQuery('s_lang', '*'+getLanguageText('LOCALE_CODE')+'*')))).doSearch(function(result,success){
                        gotoResults(result,success,func);

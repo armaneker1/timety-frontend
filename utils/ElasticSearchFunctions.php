@@ -1,6 +1,7 @@
 <?php
 
 use ElasticSearch\Client;
+use ElasticSearch\Mapping;
 
 class ElasticSearchUtils {
 
@@ -10,7 +11,7 @@ class ElasticSearchUtils {
                         'servers' => SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) . ':' . SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT),
                         'protocol' => ELASTICSEACRH_TIMETY_PROTOCOL,
                         'index' => ELASTICSEACRH_TIMETY_INDEX,
-                        'type' => ELASTICSEACRH_TIMETY_DOCUMENT
+                        'type' => ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG
                     ));
             $user_array = UtilFunctions::object_to_array($user);
             $user_array["s_lang"] = LANG_TR_TR . "," . LANG_EN_US;
@@ -39,7 +40,7 @@ class ElasticSearchUtils {
                         'servers' => SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) . ':' . SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT),
                         'protocol' => ELASTICSEACRH_TIMETY_PROTOCOL,
                         'index' => ELASTICSEACRH_TIMETY_INDEX,
-                        'type' => ELASTICSEACRH_TIMETY_DOCUMENT
+                        'type' => ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG
                     ));
             $tag_array = UtilFunctions::object_to_array($tag);
             $tag_array["s_lang"] = $tag->lang;
@@ -62,9 +63,82 @@ class ElasticSearchUtils {
                         'servers' => SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) . ':' . SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT),
                         'protocol' => ELASTICSEACRH_TIMETY_PROTOCOL,
                         'index' => ELASTICSEACRH_TIMETY_INDEX,
-                        'type' => ELASTICSEACRH_TIMETY_DOCUMENT
+                        'type' => ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG
                     ));
             $res = $es->delete($id);
+        }
+    }
+
+    public static function deleteFromEventsById($id) {
+        if (!empty($id) && SERVER_PROD) {
+            $es = Client::connection(array(
+                        'servers' => SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) . ':' . SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT),
+                        'protocol' => ELASTICSEACRH_TIMETY_PROTOCOL,
+                        'index' => ELASTICSEACRH_TIMETY_INDEX,
+                        'type' => ELASTICSEACRH_TIMETY_DOCUMENT_EVENT
+                    ));
+            $res = $es->delete($id);
+        }
+    }
+
+    public static function mapField($document, $fieldName, $type) {
+        if (!empty($document)) {
+            $es = Client::connection(array(
+                        'servers' => SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) . ':' . SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT),
+                        'protocol' => ELASTICSEACRH_TIMETY_PROTOCOL,
+                        'index' => ELASTICSEACRH_TIMETY_INDEX,
+                        'type' => ELASTICSEACRH_TIMETY_DOCUMENT_EVENT
+                    ));
+            $mapping = array(
+                'location' => array(
+                    'type' => $type
+                )
+            );
+            $mapping = new Mapping($mapping, array(), $document);
+            $res = $es->map($mapping);
+            if (!empty($res) && isset($res["ok"]) && $res["ok"]) {
+                error_log($document . " - " . $fieldName . " mapping - OK<p/>");
+            } else {
+                error_log($document . " - " . $fieldName . " mapping - Error: <p/>");
+            }
+        }
+    }
+
+    public static function insertEventtoEventIndex(Event $event) {
+        if (!empty($event)) {
+
+            if ($event->privacy . "" == "1" || $event->privacy . "" == "true") {
+                $es = Client::connection(array(
+                            'servers' => SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) . ':' . SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT),
+                            'protocol' => ELASTICSEACRH_TIMETY_PROTOCOL,
+                            'index' => ELASTICSEACRH_TIMETY_INDEX,
+                            'type' => ELASTICSEACRH_TIMETY_DOCUMENT_EVENT
+                        ));
+                $event_array = array();
+
+                if (!empty($event->loc_lat) && !empty($event->loc_lng)) {
+                    $location = array();
+                    $location["lat"] = doubleval($event->loc_lat);
+                    $location["lon"] = doubleval($event->loc_lng);
+                    $event_array["location"] = $location;
+                    $event_array["startDateTimeLong"] = $event->startDateTimeLong;
+                    $event_array["id"] = $event->id;
+                    $event_array["title"] = $event->title;
+                    $event_array["headerImage"] = $event->headerImage;
+                    $res = $es->index($event_array, $event->id);
+                    if (!empty($res) && isset($res["ok"]) && $res["ok"]) {
+                        error_log($event->id . " - " . $event->title . " - OK<p/>");
+                    } else {
+                        error_log($event->id . " - " . $event->title . " - Error: <p/>");
+                        return $event->id . " - " . $event->title . " - Error: " . json_encode($res) . "<p/>";
+                    }
+                } else {
+                    error_log($event->id . " location empty");
+                }
+                return true;
+            } else {
+                self::deleteFromEventsById($event->id);
+            }
         }
     }
 

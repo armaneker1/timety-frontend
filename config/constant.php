@@ -184,5 +184,6 @@ define('QUEUE_PRIORITY_HIGH', 'high');
 //ELASTIC SEARCH
 define('ELASTICSEACRH_TIMETY_INDEX', 'timety');
 define('ELASTICSEACRH_TIMETY_PROTOCOL', 'http');
-define('ELASTICSEACRH_TIMETY_DOCUMENT', 'timety_user_tag');
+define('ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG', 'timety_user_tag');
+define('ELASTICSEACRH_TIMETY_DOCUMENT_EVENT', 'timety_event');
 ?>

@@ -1,12 +1,14 @@
 <?php
 
 session_start();
-header("charset=utf8");
+header('Content-type: text/html; charset=utf-8');
 
 require_once __DIR__ . '/../utils/Functions.php';
 LanguageUtils::setAJAXLocale();
 HttpAuthUtils::checkMobileHttpAuth();
 
+
+$allowed_image_types = array('image/pjpeg' => ".jpg", 'image/jpg' => ".jpg", 'image/png' => ".png", 'image/x-png' => ".png", 'image/gif' => ".gif");
 
 //user_id
 $uid = null;
@@ -71,9 +73,10 @@ if (isset($_GET['website'])) {
     $website = $_GET['website'];
 }
 
-//website
+//image
+$image = null;
 if (isset($_FILES['image'])) {
-    
+    $image = $_FILES['image'];
 }
 
 
@@ -122,18 +125,56 @@ if (!empty($uid)) {
 
         $user->about = $about;
         $user->website = $website;
-        
-        
 
-        //result
-        $r = new stdClass();
-        $r->success = 1;
-        $r->code = 100;
-        $r->data = new stdClass();
-        $r->data->user = $user;
-        $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
-        echo $result;
-        exit(1);
+        if (!empty($image) && $image['error'] == 0) {
+            if (!file_exists(__DIR__ . '/../uploads/users/' . $uid . '/')) {
+                mkdir(__DIR__ . '/../uploads/users/' . $uid . '/', 0777, true);
+            }
+
+            if (isset($allowed_image_types[$image['type']])) {
+                $ext = $allowed_image_types[$image['type']];
+            } else {
+                $ext = ".png";
+            }
+
+
+
+            $rand = rand(10, 100000);
+            $source_url = __DIR__ . '/../uploads/users/' . $uid . '/profile_' . $uid . "_" . $rand . $ext;
+            if (file_exists($image['tmp_name'])) {
+                copy($image['tmp_name'], $source_url);
+                unlink($image['tmp_name']);
+                $url = UserUtils::changeserProfilePic($uid, HOSTNAME . "uploads/users/" . $uid . '/profile_' . $uid . "_" . $rand . $ext, "UPLOAD", FALSE);
+                $update = true;
+            }
+        }
+
+        if (empty($error_mesages)) {
+            UserUtils::updateUser($uid, $user);
+            $user = UserUtils::getUserById($uid);
+            UserUtils::addUserInfoNeo4j($user);
+            if ($update) {
+                ElasticSearchUtils::insertUsertoSBI($user);
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $_SESSION['id'], "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+            }
+            //result
+            $r = new stdClass();
+            $r->success = 1;
+            $r->code = 100;
+            $r->data = new stdClass();
+            $r->data->user = $user;
+            $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
+            echo $result;
+            exit(1);
+        } else {
+            $r = new stdClass();
+            $r->success = 0;
+            $r->code = 103;
+            $r->error = "User not found";
+            $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
+            echo $result;
+            exit(1);
+        }
     } else {
         $r = new stdClass();
         $r->success = 0;

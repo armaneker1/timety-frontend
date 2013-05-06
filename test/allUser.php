@@ -8,6 +8,16 @@ LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 $SQL = "SELECT * FROM " . TBL_USERS;
+
+$userId = null;
+if (isset($_GET['userId'])) {
+    $userId = $_GET['userId'];
+}
+
+if (!empty($userId)) {
+    $SQL = $SQL . " WHERE id=$userId";
+}
+
 $query = mysql_query($SQL) or die(mysql_error());
 $array = array();
 
@@ -46,5 +56,5 @@ if (!empty($query)) {
         array_push($array, $usr);
     }
 }
- echo json_encode($array);
+echo json_encode($array);
 ?>

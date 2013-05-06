@@ -47,9 +47,9 @@ class TimeteMenuCategory extends Db2PhpEntityBase implements Db2PhpEntityModific
 		self::FIELD_ID=>0,
 		self::FIELD_LANG=>'en_US',
 		self::FIELD_NAME=>'');
-	private $id;
-	private $lang;
-	private $name;
+	public $id;
+	public $lang;
+	public $name;
 
 	/**
 	 * set value for id 
