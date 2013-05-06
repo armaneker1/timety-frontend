@@ -197,7 +197,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                            
+                                                                                                                                                                
             </script>
 
 
@@ -238,7 +238,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         <?php include('layout/layout_customize_style.php'); ?>
         <!-- Customize -->
     </head>
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
         <?php $page_id = "user"; ?>
         <?php include('layout/layout_top.php'); ?>
 
@@ -262,14 +262,18 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
             if (!empty($p_user)) {
                 $settings = UserSettingsUtil::getUserSettings($p_user->id);
                 if (!empty($settings)) {
-                    if ($settings->getBgImageActive() == 1) {
+                    if ($settings->getBannerActive() == 1) {
                         $hideBar = false;
                     }
                 }
             }
             ?>
-            <div style="height: 20px;<?php if(!$hideBar) { echo "display:none;";}?>"></div>
-            <div class="ust_blm" style="<?php if($hideBar) { echo "display:none;";}?>">
+            <div style="height: 20px;<?php if (!$hideBar) {
+                echo "display:none;";
+            } ?>"></div>
+            <div class="ust_blm" style="<?php if ($hideBar) {
+                echo "display:none;";
+            } ?>">
                 <div class="trh_gn">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                         <tr style="display: none;">
@@ -285,10 +289,10 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                             <td colspan="3">
                                 <div id="slides" style="overflow: hidden;max-height: 120px;display: none;">
                                     <div id="slides_container">
-                                        <?php if (empty($user)) { ?>
+<?php if (empty($user)) { ?>
                                             <div class="slide_item" id="create_event_empty">
                                                 <div class="akt_tkvm">
-                                                    <a href="<?= HOSTNAME ?>login"  class="add_event_link"><?=  LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT")?></a>
+                                                    <a href="<?= HOSTNAME ?>login"  class="add_event_link"><?= LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT") ?></a>
                                                 </div>
                                             </div>
                                             <?php
@@ -303,16 +307,16 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                 ?>
                                                 <div class="slide_item" id="create_event_empty">
                                                     <div class="akt_tkvm">
-                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link"><?=  LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT")?></a>
+                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link"><?= LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT") ?></a>
                                                     </div>
                                                 </div>
 
-                                                <?php
-                                            } else {
-                                                ?>
+        <?php
+    } else {
+        ?>
                                                 <div class="slide_item" id="create_event_empty" style="display: none">
                                                     <div class="akt_tkvm">
-                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link"><?=  LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT")?></a>
+                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link"><?= LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT") ?></a>
                                                     </div>
                                                 </div>
 
@@ -327,9 +331,9 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     ?>   
                                                     <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
                                                         <h1><?= $evt->title ?></h1>
-                                                        <p><?=  LanguageUtils::getText("LANG_PAGE_USERS_MY_TIMETY_TODAY")?> @<span class="date_timezone"><?php
-                                        $dt = strtotime($evt->startDateTime);
-                                        echo date('H:i', $dt);
+                                                        <p><?= LanguageUtils::getText("LANG_PAGE_USERS_MY_TIMETY_TODAY") ?> @<span class="date_timezone"><?php
+                                                    $dt = strtotime($evt->startDateTime);
+                                                    echo date('H:i', $dt);
                                                     ?></span></p>
                                                        <!-- <p><?= $evtDesc ?></p> -->
                                                         <script>
@@ -382,7 +386,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                 </div>
                             </td>
                         </tr>
-                        <?php include('layout/layout_mytimety_menu.php'); ?>
+<?php include('layout/layout_mytimety_menu.php'); ?>
                     </table>
                 </div>
             </div>
@@ -393,7 +397,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                     reqUserFullName='<?= $p_user->getFullName() ?>';
                     reqUserUserName='<?= $p_user->userName ?>';
                 </script>
-                <?php if (!empty($p_user) && !empty($p_user->id)) { ?>
+<?php if (!empty($p_user) && !empty($p_user->id)) { ?>
                     <div class="profil_box main_event_box">
                         <div class="profil_resim">
                             <img src="<?php echo $p_user->getUserPic() ?>" width="176" height="176" />
@@ -403,13 +407,13 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                 <h1 class="bgln_user_h1"><?php echo $p_user->getFullName() ?></h1>
                                 <p><?php echo $p_user->about ?></p>
                             </div>
-                            <?php 
-                               if(!empty($p_user)){
-                                if($p_user->type==1){
-                               
-                           ?>
-                           <img src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png" style="padding-top:8px"/>
-                           <?php  }} ?>
+                            <?php
+                            if (!empty($p_user)) {
+                                if ($p_user->type == 1) {
+                                    ?>
+                                    <img src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png" style="padding-top:8px"/>
+        <?php }
+    } ?>
                         </div>
                         <div class="profil_metin">
                             <!-- bio -->
@@ -438,20 +442,20 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                             ?>
                             <div class="profil_user profil_user_follow">
                                 <a  type="button" name="" value="" class="<?= $followClass ?>" id="foll_profile_user" onclick="<?= $followJS ?>(<?= $tuId ?>,<?= $fuId ?>,this,'profile_',true);">
-                                    <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_USERS_FOLLOW")?></span>
-                                    <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_USERS_FOLLOWING")?></span>
-                                    <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_USERS_UNFOLLOW")?></span>
+                                    <span class="follow_text"><?= LanguageUtils::getText("LANG_PAGE_USERS_FOLLOW") ?></span>
+                                    <span class="following_text"><?= LanguageUtils::getText("LANG_PAGE_USERS_FOLLOWING") ?></span>
+                                    <span class="unfollow_text"><?= LanguageUtils::getText("LANG_PAGE_USERS_UNFOLLOW") ?></span>
                                 </a>
                             </div>
-                        <?php } ?>
+    <?php } ?>
                         <div class="profil_btn">
                             <ul>
-                                <li onclick="openFriendsPopup(<?= $p_user->id ?>,1);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWING")?></span> <span  class="prinpt pcolor_mavi" id="prof_following_count"><?= $p_user->following_count ?></span></li>
-                                <li onclick="openFriendsPopup(<?= $p_user->id ?>,2);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWERS")?></span> <span  class="prinpt pcolor_krmz" id="prof_followers_count"><?= $p_user->followers_count ?></span></li>
-                                <li onclick="changeChannelProfile(11);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_LIKES")?></span> <span  class="prinpt pcolor_yesil" id="prof_likes_count"><?= $p_user->likes_count ?></span></li>
-                                <li onclick="changeChannelProfile(12);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_RESHARE")?></span> <span  class="prinpt pcolor_gri" id="prof_reshares_count"><?= $p_user->reshares_count ?></span></li>
-                                <li onclick="changeChannelProfile(13);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_JOINED")?></span> <span  class="prinpt pcolor_mavi" id="prof_joins_count"><?= $p_user->joined_count ?></span></li>
-                                <li onclick="changeChannelProfile(10);return false;"><span class="profil_btn_ul_li_span"><?=  LanguageUtils::getText("LANG_PROFILE_BACTH_CRATED_EVENTS")?></span> <span  class="prinpt pcolor_krmz" id="prof_created_count"><?= $p_user->created_count ?></span></li>
+                                <li onclick="openFriendsPopup(<?= $p_user->id ?>,1);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWING") ?></span> <span  class="prinpt pcolor_mavi" id="prof_following_count"><?= $p_user->following_count ?></span></li>
+                                <li onclick="openFriendsPopup(<?= $p_user->id ?>,2);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWERS") ?></span> <span  class="prinpt pcolor_krmz" id="prof_followers_count"><?= $p_user->followers_count ?></span></li>
+                                <li onclick="changeChannelProfile(11);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_LIKES") ?></span> <span  class="prinpt pcolor_yesil" id="prof_likes_count"><?= $p_user->likes_count ?></span></li>
+                                <li onclick="changeChannelProfile(12);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_RESHARE") ?></span> <span  class="prinpt pcolor_gri" id="prof_reshares_count"><?= $p_user->reshares_count ?></span></li>
+                                <li onclick="changeChannelProfile(13);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_JOINED") ?></span> <span  class="prinpt pcolor_mavi" id="prof_joins_count"><?= $p_user->joined_count ?></span></li>
+                                <li onclick="changeChannelProfile(10);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_CRATED_EVENTS") ?></span> <span  class="prinpt pcolor_krmz" id="prof_created_count"><?= $p_user->created_count ?></span></li>
                             </ul>
 
                             <script>
@@ -530,25 +534,25 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                 <div class="main_event_box" date="<?= $main_event->startDateTime ?>" >
                                     <!-- event box -->
                                     <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
-                                        <?php if (!empty($user)) { ?>
+                                            <?php if (!empty($user)) { ?>
                                             <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>" >
                                                 <!-- like button -->
                                                 <div class="timelineLikes" style="<?php
-                        if ($main_event->creatorId == $user->id) {
-                            echo "display:none;";
-                        }
-                                            ?>"> 
+                            if ($main_event->creatorId == $user->id) {
+                                echo "display:none;";
+                            }
+                            ?>"> 
                                                     <a  id="div_like_btn" 
                                                         data-toggle="tooltip" 
                                                         data-placement="bottom" 
                                                         title=""
                                                         class="timelineButton <?php
-                                 if ($main_event->userRelation->like) {
-                                     echo "like_btn_aktif";
-                                 } else {
-                                     echo "like_btn";
-                                 }
-                                            ?>"  
+                            if ($main_event->userRelation->like) {
+                                echo "like_btn_aktif";
+                            } else {
+                                echo "like_btn";
+                            }
+                                                ?>"  
                                                         class_aktif="like_btn_aktif" 
                                                         class_pass="like_btn"      
                                                         pressed="<?php
@@ -557,7 +561,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     } else {
                                         echo "false";
                                     }
-                                            ?>"  
+                                    ?>"  
                                                         onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></a>
                                                 </div>
                                                 <!-- like button -->
@@ -568,18 +572,18 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     if ($main_event->creatorId == $user->id) {
                                         echo "display:none;";
                                     }
-                                            ?>"> 
+                                    ?>"> 
                                                     <a  id="div_share_btn" 
                                                         data-toggle="tooltip" 
                                                         data-placement="bottom" 
                                                         title=""
                                                         class="timelineButton <?php
-                                 if ($main_event->userRelation->reshare) {
-                                     echo "share_btn_aktif";
-                                 } else {
-                                     echo "share_btn";
-                                 }
-                                            ?>"  
+                                    if ($main_event->userRelation->reshare) {
+                                        echo "share_btn_aktif";
+                                    } else {
+                                        echo "share_btn";
+                                    }
+                                                ?>"  
                                                         class_aktif="share_btn_aktif" 
                                                         class_pass="share_btn"      
                                                         pressed="<?php
@@ -588,7 +592,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     } else {
                                         echo "false";
                                     }
-                                            ?>"  
+                                    ?>"  
                                                         onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></a>
                                                 </div>
                                                 <!-- share button -->
@@ -598,18 +602,18 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     if ($main_event->creatorId == $user->id) {
                                         echo "display:none;";
                                     }
-                                            ?>"> 
+                                    ?>"> 
                                                     <a  id="div_maybe_btn" 
                                                         data-toggle="tooltip" 
                                                         data-placement="bottom" 
                                                         title=""
                                                         class="timelineButton <?php
-                                 if ($main_event->userRelation->joinType == 2) {
-                                     echo "maybe_btn_aktif";
-                                 } else {
-                                     echo "maybe_btn";
-                                 }
-                                            ?>"  
+                                    if ($main_event->userRelation->joinType == 2) {
+                                        echo "maybe_btn_aktif";
+                                    } else {
+                                        echo "maybe_btn";
+                                    }
+                                                ?>"  
                                                         class_aktif="maybe_btn_aktif" 
                                                         class_pass="maybe_btn"      
                                                         pressed="<?php
@@ -618,7 +622,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     } else {
                                         echo "false";
                                     }
-                                            ?>"  
+                                    ?>"  
                                                         onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;"></a>
                                                 </div>
                                                 <!-- maybe button -->
@@ -628,18 +632,18 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     if ($main_event->creatorId == $user->id) {
                                         echo "display:none;";
                                     }
-                                            ?>"> 
+                                    ?>"> 
                                                     <a  id="div_join_btn" 
                                                         data-toggle="tooltip" 
                                                         data-placement="bottom" 
                                                         title=""
                                                         class="timelineButton <?php
-                                 if ($main_event->userRelation->joinType == 1) {
-                                     echo "join_btn_aktif";
-                                 } else {
-                                     echo "join_btn";
-                                 }
-                                            ?>"  
+                                    if ($main_event->userRelation->joinType == 1) {
+                                        echo "join_btn_aktif";
+                                    } else {
+                                        echo "join_btn";
+                                    }
+                                                ?>"  
                                                         class_aktif="join_btn_aktif" 
                                                         class_pass="join_btn"      
                                                         pressed="<?php
@@ -648,7 +652,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     } else {
                                         echo "false";
                                     }
-                                            ?>"  
+                                    ?>"  
                                                         onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"></a>
                                                 </div>
                                                 <!-- join button -->
@@ -658,7 +662,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                     if ($main_event->creatorId != $user->id) {
                                         echo "display:none;";
                                     }
-                                            ?>"> 
+                                    ?>"> 
                                                     <a  id="div_edit_btn" 
                                                         data-toggle="tooltip" 
                                                         data-placement="bottom" 
@@ -678,9 +682,9 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                             $margin_h = (int) ((125 - $height) / 2);
                                         }
                                         ?>
-                                        <?php if(!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
-                                        <div class="play_video" onclick="return openModalPanel('<?=$main_event->id?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
-                                        <?php } ?>
+                                            <?php if (!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
+                                            <div class="play_video" onclick="return openModalPanel('<?= $main_event->id ?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
+                                            <?php } ?>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
                                             <?php
                                             $headerImageTmp = "";
@@ -708,10 +712,10 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                         <span><?= " " . $p_user->getFullName() ?></span>
                                                         <span><?= " " . $evt_result ?></span>
                                                     </p>
-                                                    <?php
-                                                }
-                                            } else {
-                                                ?>
+                        <?php
+                    }
+                } else {
+                    ?>
                                                 <p>
                                                     <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" />
                                                     <span> </span>
@@ -720,7 +724,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                             ?>
                                         </div>
                                         <div class="m_e_ackl">
-                                            <?= $main_event->description ?>
+                <?= $main_event->description ?>
                                         </div>
                                         <div class="m_e_drm">
                                             <ul>
@@ -735,22 +739,22 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
                                                     </a>
                                                 </li>
                                                 <li><a href="#" class="<?php
-                            $time_zone = "+00:00";
-                            if (!empty($user)) {
-                                $time_zone = $user->time_zone;
-                            }
-                            $tt = $main_event->getRemainingTime($time_zone);
-                            if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
-                                echo "turuncu_link";
-                            } else {
-                                echo "yesil_link";
-                            }
-                                            ?>" onclick="return false;"> 
+                                    $time_zone = "+00:00";
+                                    if (!empty($user)) {
+                                        $time_zone = $user->time_zone;
+                                    }
+                                    $tt = $main_event->getRemainingTime($time_zone);
+                                    if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
+                                        echo "turuncu_link";
+                                    } else {
+                                        echo "yesil_link";
+                                    }
+                ?>" onclick="return false;"> 
                                                         <img src="<?= HOSTNAME ?>images/zmn<?php
-                                       if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
-                                           echo "_k";
-                                       }
-                                            ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
+                                             if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
+                                                 echo "_k";
+                                             }
+                                             ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -793,6 +797,6 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
 
         </div>
         <div id="te_faux"  style="visibility: hidden;display: inline"></div>
-        <?php include('layout/template_createevent.php'); ?>
+<?php include('layout/template_createevent.php'); ?>
     </body>
 </html>
