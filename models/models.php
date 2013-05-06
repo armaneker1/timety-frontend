@@ -407,6 +407,18 @@ class Event {
         return $this->remainingtime;
     }
 
+    public function getCreatorType() {
+        $type = null;
+        if (!empty($this->creator)) {
+            $usr = UserUtils::getUserById($this->creator->id);
+            if (!empty($usr)) {
+                $type = $usr->type;
+                $this->creator->type = $usr->type;
+            }
+        }
+        return $type;
+    }
+
     public function setAdditionalData($userId = -1) {
         //$this->getImages();
         //$this->getHeaderImage();
@@ -490,10 +502,10 @@ class Event {
     }
 
     public function hasVideo() {
-        if(!empty($this->id)){
-            $this->has_video=  EventUtil::hasEventVideo($this->id);
-        }else{
-            $this->has_video=0;
+        if (!empty($this->id)) {
+            $this->has_video = EventUtil::hasEventVideo($this->id);
+        } else {
+            $this->has_video = 0;
         }
         return $this->has_video;
     }
