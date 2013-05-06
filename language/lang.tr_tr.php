@@ -384,7 +384,7 @@ define('LANG_UTILS_NEO4J_SOCIAL_ERROR_USER_NOT_FOUND','Kullanıcı bulunamadı')
 define('LANG_MAIL_INVITE_SUBJECT','Timety\'ye Davet');
 define('LANG_MAIL_RESET_PASS_SUBJECT','Timety - Şifrenizi güncelleyin');
 define('LANG_MAIL_INVITE_EVENT_SUBJECT','Timety Etkinlik Daveti');
-define('LANG_MAIL_FOLLOWED_BY_SUBJECT','Timety\'de Yeni takipçileirniz var!');
+define('LANG_MAIL_FOLLOWED_BY_SUBJECT','Timety\'de Yeni Bir Takipçiniz Var!');
 
 #Language
 define('LANG_TR_TR_TEXT', 'Türkçe');
