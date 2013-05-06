@@ -519,6 +519,9 @@ function wookmarkHTML(dataArray,userId)
             if(normal){
                 if(data.creator){
                     jQuery(creatorDIVP).attr("onclick","window.location='"+TIMETY_HOSTNAME+data.creator.userName+"';");
+                    if(data.creator.type+""=="1"){
+                         jQuery(creatorDIVP).append('<div class="event_creator_verified_user"><img src="'+TIMETY_HOSTNAME+'images/timetyVerifiedIcon.png"></div>');
+                    }
                     var url=data.creator.userPicture;
                     if(url==null || url=="" )
                     {

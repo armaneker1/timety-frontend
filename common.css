@@ -3046,3 +3046,13 @@ langugae classes
     font-weight:bold;
     text-decoration: underline;
 }
+
+
+/*
+ * main_evvent box verifed user img
+*/
+.event_creator_verified_user{
+    position: absolute;
+    display: block;
+    right: 9px;
+}

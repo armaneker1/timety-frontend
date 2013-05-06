@@ -1296,7 +1296,6 @@ if (empty($user)) {
                                             <?= $main_event->title ?>
                                         </div>
                                         <div class="m_e_com">
-
                                             <?php
                                             if (!empty($main_event->creatorId)) {
                                                 $crt = $main_event->creator;
@@ -1305,6 +1304,9 @@ if (empty($user)) {
                                                     $usr_url = HOSTNAME . $crt->userName;
                                                     ?>
                                                     <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
+                                                        <?php if($crt->type.""=="1"){ ?>
+                                                            <div class="event_creator_verified_user"><img src="<?=HOSTNAME?>images/timetyVerifiedIcon.png"></div>
+                                                        <?php } ?>
                                                         <img src="<?= PAGE_GET_IMAGEURL . urlencode($crt->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $crt->getFullName() ?></span>
                                                     </p>
