@@ -210,7 +210,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="<?= $p_user->about ?>"/>
-            <meta property="og:url" content="<?= PAGE_USER . $p_user->id ?>"/>
+            <meta property="og:url" content="<?= HOSTNAME . $p_user->userName ?>"/>
             <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
             <?php
         } else {
