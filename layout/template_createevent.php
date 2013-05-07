@@ -138,7 +138,7 @@ if ($showPopup) {
                                        charlength="55"
                                        id="te_event_title" value="<?php
                 if ($showPopup) {
-                    echo $event->title;
+                    echo htmlspecialchars($event->title,ENT_COMPAT);
                 }
                     ?>" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER")?>" />
                                 <script>
@@ -442,7 +442,7 @@ if ($showPopup) {
                                onfocus="openMap(true,true);"
                                value="<?php
                     if ($showPopup) {
-                        echo $event->location;
+                        echo htmlspecialchars($event->location,ENT_COMPAT);
                     }
                         ?>" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER")?>" />
                         <input type="hidden" name="te_event_location_country" id="te_event_location_country" value="<?php

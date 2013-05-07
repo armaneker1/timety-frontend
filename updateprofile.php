@@ -1098,7 +1098,7 @@ if (isset($_POST['update'])) {
                             style="width:356px;height:40px;resize: none;"
                             id="te_about"
                             charlength="50"
-                            placeholder="<?= LanguageUtils::getText("LANG_UPDATE_PROFILE_ABOUT") ?>" ><?php echo $about ?></textarea>
+                            placeholder="<?= LanguageUtils::getText("LANG_UPDATE_PROFILE_ABOUT") ?>" ><?php echo htmlspecialchars($about,ENT_COMPAT) ?></textarea>
                             <?php
                             $display = "none";
                             $class = "";
@@ -1130,7 +1130,7 @@ if (isset($_POST['update'])) {
                         id="te_hometown" 
                         autocomplete="off"
                         style="width:356px;height:40px"
-                        value="<?php echo $hometown ?>"
+                        value="<?php echo htmlspecialchars($hometown,ENT_COMPAT) ?>"
                         onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
                         <?php

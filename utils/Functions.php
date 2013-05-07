@@ -76,8 +76,9 @@ class UtilFunctions {
         $json = '[]';
         if (!empty($object)) {
             $json = json_encode($object);
-            $search = array('\\', "\n", "\r", "\f", "\t", "\b", "'");
-            $replace = array('\\\\', "\\n", "\\r", "\\f", "\\t", "\\b", "\\'");
+            //var_dump(de($json));
+            $search = array( "\n", "\r", "\f", "\t", "\b", "'");
+            $replace = array("\\n", "\\r", "\\f", "\\t", "\\b", "\\'");
             $json = str_replace($search, $replace, $json);
         }
         return $json;
@@ -162,13 +163,13 @@ class UtilFunctions {
                 if ($since_start->d > 0 && empty($result)) {
                     $day_dif = $since_start->d;
                     $hour_dif = $since_start->h;
-                    if ($day_dif == 1 && $hour_dif<=0) {
+                    if ($day_dif == 1 && $hour_dif <= 0) {
                         $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_TOMORROW");
                     } else {
                         $week = date('N', strtotime($datestart));
                         $week = $week + $day_dif;
                         if ($week <= 7) {
-                            $result = strftime('%A',strtotime($dateend));//date('l', strtotime($dateend));
+                            $result = strftime('%A', strtotime($dateend)); //date('l', strtotime($dateend));
                         } else if ($week > 7 && $week <= 14) {
                             $result = LanguageUtils::getText("LANG_UTILS_FUNCTIONS_NEXT_WEEK");
                         } else {

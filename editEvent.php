@@ -632,7 +632,7 @@ if (!empty($_POST['rand_session_id'])) {
             $var_tags = "[]";
             $var_tags = Neo4jTimetyTagUtil::getTagListByIdList($event->tags);
         }
-
+        
         $var_usrs = "[]";
         if (!empty($event->attendance)) {
             $var_usrs = $nf->getUserGroupListByIdList($event->attendance);
@@ -865,7 +865,7 @@ if ($event->addsocial_tw == 1) {
                                 <div class="title_max">
                                     <input name="te_event_title" type="text" class="eam_inpt"
                                            charlength="55"
-                                           id="te_event_title" value="<?= $event->title ?>" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER") ?>" />
+                                           id="te_event_title" value="<?= htmlspecialchars($event->title,ENT_COMPAT )?>" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER") ?>" />
                                     <script>
                                     jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
                                     </script>
@@ -1151,7 +1151,7 @@ if ($event->addsocial_tw == 1) {
                             <input name="te_event_location" type="text" class="eam_inpt" style="width: 435px;"
                                    id="te_event_location" 
                                    onfocus="openMap(true,true);"
-                                   value="<?= $event->location ?>" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER") ?>" />
+                                   value="<?= htmlspecialchars($event->location,ENT_COMPAT) ?>" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER") ?>" />
                             <input type="hidden" name="te_event_location_country" id="te_event_location_country" value="<?= $event->loc_country ?>"/>
                             <input type="hidden" name="te_event_location_city" id="te_event_location_city" value="<?= $event->loc_city ?>"/>
                             <input type="hidden" name="te_map_location" id="te_map_location" value="<?= $event->loc_lat . "," . $event->loc_lng ?>"/>
