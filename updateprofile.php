@@ -14,9 +14,11 @@ if (empty($user)) {
 
 
 $email = $user->email;
+$defaultEmail = $user->email;
 $emailError = "";
 
 $username = $user->userName;
+$defaultUsername = $user->userName;
 $usernameError = "";
 
 $name = $user->firstName;
@@ -137,7 +139,7 @@ if (isset($_POST['update'])) {
         $param = false;
     } else {
         if (!UserUtils::checkUserName($username)) {
-            if ($username != $_POST['te_default_username']) {
+            if ($username != $defaultUsername) {
                 $usernameError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_USERNAME_TAKEN");
                 $param = false;
             }
@@ -163,7 +165,7 @@ if (isset($_POST['update'])) {
             $emailError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_EMAIL_NOTVALID");
             $param = false;
         } else if (!UserUtils::checkEmail($email)) {
-            if ($_POST['te_default_email'] != $email) {
+            if ($defaultEmail != $email) {
                 $emailError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_EMAIL_EXISTS");
                 $param = false;
             }
@@ -735,8 +737,8 @@ if (isset($_POST['update'])) {
             <div class="profil_form">
                 <div class="p_form_sol">
                     <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_EMAIL") ?></p>    
-                    <input name="te_default_username" type="hidden" value="<?= $user->userName ?>"/>
-                    <input name="te_default_email" type="hidden" value="<?= $user->email ?>"/>
+                    <input name="te_default_username" type="hidden" value="<?= $defaultUsername?>"/>
+                    <input name="te_default_email" type="hidden" value="<?= $defaultEmail ?>"/>
                     <input 
                         name="te_email" 
                         type="text"
@@ -745,7 +747,7 @@ if (isset($_POST['update'])) {
                         class="user_inpt email icon_bg" 
                         id="te_email"
                         style="width:356px;height:40px"
-                        default="<?php echo $email ?>" 
+                        default="<?php echo $defaultEmail ?>" 
                         value="<?php echo $email ?>" 
                         onkeyup="validateEmail(this,true,false)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateEmail(this,true,true) }"/> 
@@ -983,7 +985,7 @@ if (isset($_POST['update'])) {
                         value="<?php echo $username ?>" 
                         placeholder="<?= LanguageUtils::getText("LANG_UPDATE_PROFILE_USERNAME") ?>"
                         suc="true"
-                        default="<?php echo $username ?>"
+                        default="<?php echo $defaultUsername ?>"
                         onkeyup="validateUserName(this,true,false)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,true,true) }" /> 
                         <?php

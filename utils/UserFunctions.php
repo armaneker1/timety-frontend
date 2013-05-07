@@ -239,7 +239,7 @@ class UserUtils {
     public static function deleteUserSocialProvider($userId, $provider) {
         if (!empty($userId) && !empty($provider)) {
             $userId = DBUtils::mysql_escape($userId);
-            $SQL = "DELETE FROM " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id=" . $userId ." AND oauth_provider='".$provider."'";
+            $SQL = "DELETE FROM " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id=" . $userId . " AND oauth_provider='" . $provider . "'";
             mysql_query($SQL) or die(mysql_error());
         }
     }
@@ -343,7 +343,7 @@ class UserUtils {
             if (empty($user->password)) {
                 $user->password = $user->getPassword();
             }
-            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='".DBUtils::mysql_escape($user->about) ."',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language'  WHERE id = $uid";
+            $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='" . DBUtils::mysql_escape($user->about) . "',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language'  WHERE id = $uid";
             //var_dump($SQL);
             //error_log($SQL);
             mysql_query($SQL) or die(mysql_error());
@@ -387,7 +387,15 @@ class UserUtils {
             }
             if ($type == TWITTER_TEXT) {
                 $url = UserUtils::handleTwitterImage($url);
+            } else if ($type == FACEBOOK_TEXT) {
+                $url = UserUtils::handleFacebookImage($url);
+            } else if ($type == GOOGLE_PLUS_TEXT) {
+                $url = UserUtils::handleGoogleImage($url);
+            } else if ($type == FOURSQUARE_TEXT) {
+                $url = UserUtils::handleFoursquareImage($url);
             }
+            $url = UserUtils::downloadAndResizeImage($url, $uid);
+
             $url = DBUtils::mysql_escape($url);
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid";
@@ -395,6 +403,61 @@ class UserUtils {
             if ($updateInfo)
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $uid, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         }
+        return $url;
+    }
+
+    public static function downloadAndResizeImage($url, $uid) {
+        if (!empty($uid) && !empty($url)) {
+            $upload_path = __DIR__ . '/../uploads/users/' . $uid . '/';
+            if (!file_exists($upload_path)) {
+                mkdir($upload_path, 0777, true);
+            }
+            $content = file_get_contents($url);
+
+            $orgFileName = "profile_" . $uid . "_org_" . rand(0, 4500) . ".png";
+            $smallFileName = "profile_" . $uid . "_" . rand(0, 4500) . ".png";
+            file_put_contents($upload_path . $orgFileName, $content);
+
+            $info = getimagesize($upload_path . $orgFileName);
+
+            $w = $info[0];
+            $h = $info[1];
+            $x = 0;
+            $y = 0;
+
+            if ($w > $h) {
+                $x = ( $w - $h) / 2;
+                $w = $h;
+            } else {
+                $h = $w;
+                $y = ( $h - $w) / 2;
+            }
+
+            resizeThumbnailImage($upload_path . $smallFileName, $upload_path . $orgFileName, $w, $h, $x, $y, 1);
+
+            if (file_exists($upload_path . $orgFileName)) {
+                unlink($upload_path . $orgFileName);
+            }
+
+            if (file_exists($upload_path . $smallFileName)) {
+                $url = HOSTNAME . 'uploads/users/' . $uid . '/' . $smallFileName;
+            }
+        }
+        return $url;
+    }
+
+    public static function handleFoursquareImage($url) {
+        //TODO
+        return $url;
+    }
+
+    public static function handleGoogleImage($url) {
+        //TODO
+        return $url;
+    }
+
+    public static function handleFacebookImage($url) {
+        //TODO
         return $url;
     }
 

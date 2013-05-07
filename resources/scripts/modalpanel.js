@@ -142,7 +142,17 @@ function setHeaderImage(headerImage,data)
     if(headerImage && data && data.url)
     {
         var myImage = new Image();
-        myImage.src=TIMETY_HOSTNAME+data.url;
+        var mWidth=data.org_width;
+        var mHeight=data.org_height;
+        if(mWidth>0 && mHeight>0){
+            if(mWidth>561)
+            {
+                mHeight=(561/mWidth)*mHeight;
+                mWidth=561;
+            }
+        }
+        var imgUrl=TIMETY_PAGE_GET_IMAGE_URL+""+TIMETY_SUBFOLDER+data.url+"&w="+mWidth+"&h="+mHeight;
+        myImage.src= imgUrl;
         myImage.onload=function(){
             var set=false;
             var param="";
@@ -161,8 +171,7 @@ function setHeaderImage(headerImage,data)
                     height=(561/width)*height;
                     width=561;
                 }
-                //jQuery(headerImage).attr('src', TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.url+param); 
-                jQuery(headerImage).attr('src', TIMETY_HOSTNAME+data.url); 
+                jQuery(headerImage).attr('src', imgUrl); 
                 set=true;
                 setTimeout(function() { 
                     jQuery(headerImage).attr('height',height);

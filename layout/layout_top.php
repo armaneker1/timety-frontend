@@ -193,37 +193,41 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 
                 
                 jQuery(document).ready(function(){
-                    jQuery( "#searchText" ).autocomplete({ 
-                        source: searchUserTagFunction, 
-                        minLength: 2,
-                        labelField:'s_label',
-                        delay:50,
-                        valueField:'s_id',
-                        appendTo: "#autocomplete_search" ,
-                        select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
-                        focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
-                    }).data('autocomplete')._renderItem = function(ul, item) {
-                        if(item.s_type=="tag"){
-                            return jQuery('<li></li>')
-                            .data('item.autocomplete', item)
-                            .append('<a>' + item.s_label + '</a>')
-                            .appendTo(ul);
-                        }else if(item.s_type=="user"){
-                            var img="";
-                            if(item.userPicture){
-                                img=item.userPicture;
-                                if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
-                                    img=TIMETY_HOSTNAME+img;
-                                } 
-                            }else{
-                                img=TIMETY_HOSTNAME+"images/anonymous.png";  
-                            }                    
-                            return jQuery('<li></li>')
-                            .data('item.autocomplete', item)
-                            .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
-                            .appendTo(ul);
-                        }
-                    };
+                    try{
+                        jQuery( "#searchText" ).autocomplete({ 
+                            source: searchUserTagFunction, 
+                            minLength: 2,
+                            labelField:'s_label',
+                            delay:50,
+                            valueField:'s_id',
+                            appendTo: "#autocomplete_search" ,
+                            select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
+                            focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
+                        }).data('autocomplete')._renderItem = function(ul, item) {
+                            if(item.s_type=="tag"){
+                                return jQuery('<li></li>')
+                                .data('item.autocomplete', item)
+                                .append('<a>' + item.s_label + '</a>')
+                                .appendTo(ul);
+                            }else if(item.s_type=="user"){
+                                var img="";
+                                if(item.userPicture){
+                                    img=item.userPicture;
+                                    if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
+                                        img=TIMETY_HOSTNAME+img;
+                                    } 
+                                }else{
+                                    img=TIMETY_HOSTNAME+"images/anonymous.png";  
+                                }                    
+                                return jQuery('<li></li>')
+                                .data('item.autocomplete', item)
+                                .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
+                                .appendTo(ul);
+                            }
+                        };
+                    }catch(exp){
+                        console.log(exp);
+                    }
                 });
             </script>
             <!-- Tag token input -->

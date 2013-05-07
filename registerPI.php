@@ -10,13 +10,15 @@ $page_id = "registerPI";
 $visible = false;
 $msgs = array();
 
-$username = "";
+$username = 
+$defaultUsername = "";
 $usernameError = null;
 $name = "";
 $nameError = null;
 $lastname = "";
 $ulastnameError = null;
 $email = "";
+$defaultEmail = "";
 $emailError = null;
 $hometown = "";
 $hometownError = null;
@@ -56,6 +58,7 @@ if (isset($_POST['te_username'])) {
         $userProfilePicType = $_POST['userProfilePicType'];
     }
     $username = $_POST['te_username'];
+    $defaultUsername=$_POST['te_default_username'];
     if (empty($username)) {
         $usernameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_USERNAME");
         $param = false;
@@ -63,7 +66,7 @@ if (isset($_POST['te_username'])) {
         $username = preg_replace('/\s+/', '', $username);
         $username = strtolower($username);
         if (!UserUtils::checkUserName($username)) {
-            if ($username != $_POST['te_default_username']) {
+            if ($username != $defaultUsername) {
                 $usernameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_USERNAME");
                 $param = false;
             }
@@ -88,6 +91,7 @@ if (isset($_POST['te_username'])) {
     }
 
     $email = $_POST['te_email'];
+    $defaultEmail=$_POST['te_default_email'];
     if (empty($email)) {
         $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_EMAIL");
         $param = false;
@@ -98,7 +102,7 @@ if (isset($_POST['te_username'])) {
             $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_NOT_VALID_EMAIL");
             $param = false;
         } else if (!UserUtils::checkEmail($email)) {
-            if ($_POST['te_default_email'] != $email) {
+            if ($defaultEmail != $email) {
                 $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_EMAIL");
                 $param = false;
             }
@@ -234,6 +238,8 @@ if (isset($_POST['te_username'])) {
         $socialProviders = $user->socialProviders;
         if (!empty($socialProviders)) {
             $username = $user->userName;
+            $defaultUsername=$user->userName;
+            $defaultEmail=$user->email;
             $provider = new SocialProvider();
             for ($i = 0; $i < sizeof($socialProviders); $i++) {
                 $provider = $socialProviders[$i];
@@ -248,7 +254,7 @@ if (isset($_POST['te_username'])) {
                     $name = $fbUser['first_name'];
                     $lastname = $fbUser['last_name'];
                     //$birhtdate=$fbUser['birthday'];
-                    $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?width=106&height=106";
+                    $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?width=200&height=200";
                     $userProfilePicType = FACEBOOK_TEXT;
                     $hometown = "";
                     //if (isset($fbUser['hometown']))
@@ -313,6 +319,8 @@ if (isset($_POST['te_username'])) {
         } else {
             $email = $user->email;
             $username = $user->userName;
+            $defaultUsername = $user->userName;
+            $defaultEmail=$user->email;
         }
     } else {
         //unset($_SESSION['id']);
@@ -616,7 +624,7 @@ if (isset($_POST['te_username'])) {
                         value="<?php echo $username ?>" 
                         placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_USERNAME_PLACEHOLDER") ?>"
                         suc="true"
-                        default="<?php echo $username ?>"
+                        default="<?php echo $defaultUsername ?>"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,true,true) }" /> 
                         <?php
                         $display = "none";
@@ -683,7 +691,7 @@ if (isset($_POST['te_username'])) {
                         placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_EMAIL_PLACEHOLDER") ?>" 
                         class="user_inpt email icon_bg user_inpt_pi_height" 
                         id="te_email"
-                        default="<?php echo $email ?>" 
+                        default="<?php echo $defaultEmail ?>" 
                         value="<?php echo $email ?>" 
                         onblur="if(onBlurFirstPreventTwo(this)) { validateEmail(this,true,true) }"/> 
                         <?php
@@ -815,8 +823,8 @@ if (isset($_POST['te_username'])) {
                     <br/>
                     <button type="submit" style="float: left"  class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();"><?= LanguageUtils::getText("LANG_PAGE_PI_BUTTON_NEXT") ?></button>
 
-                    <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $email ?>" ></input>
-                    <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $username ?>" ></input>
+                    <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $defaultEmail ?>" ></input>
+                    <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $defaultUsername ?>" ></input>
                     <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?= $userProfilePic ?>" ></input>
                     <input type="hidden" id="userProfilePicType" name="userProfilePicType" value="<?= $userProfilePicType ?>" ></input>
                 </form>
