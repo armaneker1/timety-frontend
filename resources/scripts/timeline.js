@@ -126,6 +126,7 @@ function toggleWeek() {
 function selectTimelineDate(){
     jQuery(".timeline_selected_day").removeClass("timeline_selected_day");
     jQuery(this).addClass("timeline_selected_day");
+    jQuery("#searchText").val("");
     page_wookmark=0;
     selectedDate=jQuery(this).attr("date_formated");
     wookmarkFiller(document.optionsWookmark,true,true);

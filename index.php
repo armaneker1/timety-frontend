@@ -1013,7 +1013,7 @@ if (empty($user)) {
                                                     $json_response = UtilFunctions::json_encode($evt);
                                                     echo $json_response;
                                                     ?>';
-                                                            var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                                            tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
                                                             localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                                         } catch(exp){ 
                                                             console.log("<?= LanguageUtils::getText('LANG_ERROR') ?>");
@@ -1419,6 +1419,7 @@ if (empty($user)) {
 
                         <script>
                             function changeChannelProfile(channel){
+                                jQuery("#searchText").val("");
                                 page_wookmark=0;
                                 wookmark_channel=channel;
                                 jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');

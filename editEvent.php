@@ -526,7 +526,7 @@ if (!empty($_POST['rand_session_id'])) {
         }
     }
     if (!empty($var_tags) && sizeof($var_tags) > 0) {
-        $var_tags = UtilFunctions::json_encode($var_tags);
+        $var_tags = UtilFunctions::json_encode($var_tags,false);
     } else {
         $var_tags = "[]";
     }

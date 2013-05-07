@@ -427,6 +427,7 @@ if (isset($_GET['campaignId']) && !empty($_GET['campaignId'])) {
                             <script>
                                 function changeChannelProfile(channel){
                                     page_wookmark=0;
+                                    jQuery("#searchText").val("");
                                     wookmark_channel=channel;
                                     jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
                                     jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');

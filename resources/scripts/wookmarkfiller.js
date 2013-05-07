@@ -50,7 +50,6 @@ function wookmarkFiller(options,clear,loader,channel_)
     {
         searchText='';
     }
-    jQuery('#searchText').val("");
     var dateSelected =null;
     try{
         if(moment(selectedDate,"YYYY-MM-DD").isValid()){

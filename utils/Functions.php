@@ -72,13 +72,15 @@ require_once __DIR__ . '/image_functions.php';
 
 class UtilFunctions {
 
-    public static function json_encode($object) {
+    public static function json_encode($object, $clear = true) {
         $json = '[]';
         if (!empty($object)) {
             $json = json_encode($object);
-            $search = array("\n", "\r", "\f", "\t", "\b", "'");
-            $replace = array("\\n", "\\r", "\\f", "\\t", "\\b", "\'");
-            $json = str_replace($search, $replace, $json);
+            if ($clear) {
+                $search = array("\\", "\n", "\r", "\f", "\t", "\b", "'");
+                $replace = array("\\\\", "\\n", "\\r", "\\f", "\\t", "\\b", "\'");
+                $json = str_replace($search, $replace, $json);
+            }
         }
         return $json;
     }

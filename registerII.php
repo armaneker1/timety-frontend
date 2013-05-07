@@ -75,7 +75,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
             array_push($tagList, $tmp);
         }
     }
-    $tagList = UtilFunctions::json_encode($tagList);
+    $tagList = UtilFunctions::json_encode($tagList,false);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

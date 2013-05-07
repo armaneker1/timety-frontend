@@ -14,7 +14,7 @@ jQuery(document).ready( function() {
     });
     
     jQuery('#searchText').keypress(function(e) {
-        if(e.keyCode == 13) {    
+        if(e.keyCode == 13) {  
             page_wookmark=0;
             isearching=true;
             wookmarkFiller(document.optionsWookmark, true,true);
@@ -39,7 +39,7 @@ jQuery(document).ready( function() {
     });
 
     //new 
-    jQuery('#search_event_btn').click( function() {  
+    jQuery('#search_event_btn').click( function() {
         page_wookmark=0;
         isearching=true;
         wookmarkFiller(document.optionsWookmark, true,true);

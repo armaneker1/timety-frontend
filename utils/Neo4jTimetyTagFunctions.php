@@ -94,7 +94,7 @@ class Neo4jTimetyTagUtil {
                         }
                     }
                 }
-                $json_response = UtilFunctions::json_encode($result);
+                $json_response = UtilFunctions::json_encode($result,false);
                 return $json_response;
             }
         }

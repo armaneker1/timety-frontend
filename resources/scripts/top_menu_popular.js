@@ -31,6 +31,7 @@ jQuery(document).ready(function(){
             jQuery(this).attr("slc","true");
         }
         if(jQuery(this).attr("channelid")>0){
+            jQuery("#searchText").val("");
             page_wookmark=0;
             jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
             jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
@@ -39,6 +40,7 @@ jQuery(document).ready(function(){
             _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
             _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
         }else{
+            jQuery("#searchText").val("");
             wookmark_channel=9;
             wookmark_category=jQuery(this).attr("cat_id");
             page_wookmark=0;

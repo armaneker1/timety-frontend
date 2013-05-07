@@ -182,6 +182,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                         }else{
                             tagIds=tagId;
                         }
+                        jQuery("#searchText").val("");
                         page_wookmark=0;
                         isearching=true;
                         wookmarkFiller(document.optionsWookmark, true,true);
@@ -316,6 +317,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
         } else {
             ?>
                     function changeChannel(item){
+                        jQuery("#searchText").val("");
                         page_wookmark=0;
                         jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
                         jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
