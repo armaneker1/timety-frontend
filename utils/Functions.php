@@ -76,9 +76,8 @@ class UtilFunctions {
         $json = '[]';
         if (!empty($object)) {
             $json = json_encode($object);
-            //var_dump(de($json));
-            $search = array( "\n", "\r", "\f", "\t", "\b", "'");
-            $replace = array("\\n", "\\r", "\\f", "\\t", "\\b", "\\'");
+            $search = array("\n", "\r", "\f", "\t", "\b", "'");
+            $replace = array("\\n", "\\r", "\\f", "\\t", "\\b", "\'");
             $json = str_replace($search, $replace, $json);
         }
         return $json;
