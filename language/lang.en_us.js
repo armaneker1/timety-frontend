@@ -108,7 +108,11 @@ var lang_array={
     LANG_TOKEN_INPUT_NO_RESULT:'No results',
     LANG_TOKEN_INPUT_SEARCHING:'Searching...',
     //verified account
-    LANG_VERIFIED_ACCOUNT:'Verified Account'
+    LANG_VERIFIED_ACCOUNT:'Verified Account',
+    //find friends
+    LANG_PROFILE_FRIENDS_NORESULT_FOLLOWER:'doesn\'t have any followers yet.',
+    LANG_PROFILE_FRIENDS_NORESULT_FOLLOWING:'doesn\'t have any following users yet.',
+    LANG_PROFILE_FRIENDS_NORESULT:'doesn\'t find any user.'
 }
 
 var date_var= {

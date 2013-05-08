@@ -19,7 +19,7 @@ if (isset($_SESSION["SITE_LANG"])) {
 
 <!-- Config Script -->
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/html5shiv-printshiv.js?<?= JS_CONSTANT_PARAM ?>"></script>
-<script language="javascript" src="<?= HOSTNAME ?>config/config.js?2013722119944"></script>
+<script language="javascript" src="<?= HOSTNAME ?>config/config.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <!-- Config Script -->
 
 

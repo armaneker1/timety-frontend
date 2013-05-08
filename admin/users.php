@@ -101,6 +101,7 @@ HttpAuthUtils::checkHttpAuth();
                                 Neo4jUserUtil::removeUserById($userId);
                                 UserUtils::deleteUserSocialProviders($userId);
                                 UserUtils::deleteUser($userId);
+                                ElasticSearchUtils::deleteFromSBIById("user_" . $userId);
 
                                 try {
                                     $redis = new Predis\Client();
@@ -171,10 +172,10 @@ HttpAuthUtils::checkHttpAuth();
                             <td>Action</td>
                         </tr>
 
-<?php
-$user = new User();
-foreach ($userList as $user) {
-    ?>
+                        <?php
+                        $user = new User();
+                        foreach ($userList as $user) {
+                            ?>
                             <tr>
                                 <td><?= $user->id ?></td>
                                 <td><img height="20" src="<?= $user->getUserPic() ?>"/></td>
@@ -186,20 +187,20 @@ foreach ($userList as $user) {
                                 <td><?= $user->getUserLang() ?></td>
                                 <!--<td><a href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?action=delete&userId=" . $user->id ?>">Delete</a></td>-->
                             </tr>
-<?php } ?>
+                        <?php } ?>
                         <tr >
                             <td colspan="10" >
                                 <center>
                                     <a <?php
-if ($page < 0) {
-    echo "onclick='return false;'";
-}
-?> href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?page=" . ($page - 1) ?>">Prev</a>
+                        if ($page < 0) {
+                            echo "onclick='return false;'";
+                        }
+                        ?> href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?page=" . ($page - 1) ?>">Prev</a>
                                     <a <?php
-                                    if (empty($userList)) {
-                                        echo "onclick='return false;'";
-                                    }
-?> href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?page=" . ($page + 1) ?>">Next</a>
+                                        if (empty($userList)) {
+                                            echo "onclick='return false;'";
+                                        }
+                        ?> href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?page=" . ($page + 1) ?>">Next</a>
                                 </center>
                             </td>
                         </tr>

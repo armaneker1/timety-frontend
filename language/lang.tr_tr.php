@@ -159,7 +159,7 @@ define('LANG_UPDATE_PROFILE_CANCEL', 'İptal'); // 1127
 define('LANG_UPDATE_PROFILE_IMAGE_UPLOAD_1', 'Profil resminiz soldaki gibi görüntülenecektir.'); // 1157
 define('LANG_UPDATE_PROFILE_IMAGE_UPLOAD_2', 'Değişiklik yapabilmek için sarı kareyi yeniden boyutlandırabilir ve sürükleyebilirsiniz. Resminizden memnunsanız \'Kaydet\' butonuna tıklayınız.'); // 1161
 define('LANG_UPDATE_PROFILE_SAVE', 'Kaydet'); // 1127
-define('LANG_UPDATE_PROFILE_IMPORT_FROM', 'burdan yükle'); // 1127
+define('LANG_UPDATE_PROFILE_IMPORT_FROM', 'buradan yükle'); // 1127
 
 #USERS PAGE
 define('LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT', 'Etkinlik eklemek için tıklayın');

@@ -20,18 +20,30 @@ if (isset($_GET["u"]))
 try {
     if (!empty($userId)) {
         $result = array();
+        $followings = SocialFriendUtil::getUserFollowList($userId);
         $friendList = SocialFriendUtil::getPopularUserList($userId, $limit, $query);
         if (!empty($friendList) && sizeof($friendList) > 0) {
             $val = new User();
             for ($i = 0; $i < sizeof($friendList); $i++) {
                 $val = $friendList[$i];
-                $obj = new stdClass();
-                $obj->id = $val->id;
-                $obj->fullName = $val->firstName . " " . $val->lastName;
-                $obj->username = $val->userName;
-                $obj->userPicture = $val->getUserPic();
-                $obj->followed = false;
-                array_push($result, $obj);
+                if ($val->id != $userId) {
+                    $followed = false;
+                    if (!empty($followings) && !empty($val->id)) {
+                        foreach ($followings as $follow) {
+                            if (!empty($follow) && !empty($follow->id) && $follow->id == $val->id) {
+                                $followed = true;
+                                break;
+                            }
+                        }
+                    }
+                    $obj = new stdClass();
+                    $obj->id = $val->id;
+                    $obj->fullName = $val->firstName . " " . $val->lastName;
+                    $obj->username = $val->userName;
+                    $obj->userPicture = $val->getUserPic();
+                    $obj->followed = $followed;
+                    array_push($result, $obj);
+                }
             }
         }
         $json_response = json_encode($result);

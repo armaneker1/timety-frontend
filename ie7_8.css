@@ -641,7 +641,8 @@ body {
     border-top-style: solid;
     border-bottom-style: solid;
     border-top-color: #fdfdfd;
-    border-bottom-color: #bbbbbb;
+    border-radius: 5px;
+border-bottom-color: rgb(228, 212, 212);
     font-family: Arial;
     font-size: 12px;
     font-weight: bold;
@@ -661,12 +662,14 @@ body {
     overflow: hidden;
     word-wrap: normal;
     max-height: 48px;
+    cursor: pointer;
 }
 .follow_res {
     float: left;
     margin-right: 10px;
     margin-top: 9px;
     border-radius: 5px;
+    cursor: pointer;
 }
 .invite_friends {
     background-color: #FFF;

@@ -10,15 +10,17 @@ function addSocialReturnButton()
     }
     jQuery('#spinner').show();
     setTimeout(function() { 
-        //restart but add param to open same screen
         window.location=TIMETY_HOSTNAME+"?findfriends=1";
         jQuery('#spinner').hide();
     },1000);
 }
 
-function openFriendsPopup(userId,type)
+function openFriendsPopup(userId,reqUserId,type)
 {
-    if(userId!=null && userId>0)
+    if(reqUserId==null || reqUserId<=0){
+        reqUserId=userId;
+    }
+    if(reqUserId!=null && reqUserId>0)
     { 
         /*
          * clear screen
@@ -26,7 +28,6 @@ function openFriendsPopup(userId,type)
         //input button
         jQuery("#search_people_div").hide();
         
-        //
         jQuery("#profile_friends2_p_list").hide();
         jQuery("#profile_friends2_ul_list").hide();
         jQuery("#profile_friends_p_list").hide();
@@ -37,12 +38,13 @@ function openFriendsPopup(userId,type)
         jQuery("#profile_friends_gg_button").hide();
         //jQuery("#profile_friends_fq_button").hide();
         jQuery("#profile_friends_ul_list").hide();
-        jQuery("#profile_friends_find").show();
-        jQuery("#profile_friends_find").unbind("click");
-        jQuery("#profile_friends_find").bind("click",function(){
-            openFriendsPopup(userId,3);
-        });
-    
+        if(userId!=null && userId>0){
+            jQuery("#profile_friends_find").show();
+            jQuery("#profile_friends_find").unbind("click");
+            jQuery("#profile_friends_find").bind("click",function(){
+                openFriendsPopup(userId,reqUserId,3);
+            });
+        }
         /*
          * clear screen
          */
@@ -55,14 +57,24 @@ function openFriendsPopup(userId,type)
             {
                 //following
                 //set header 
-                pSUPERFLY.virtualPage("/friends/following", "/friends/following");
+                if(typeof pSUPERFLY != "undefined")
+                    pSUPERFLY.virtualPage("/friends/following", "/friends/following");
+                if(typeof(_gaq) != "undefined" && _gaq){
+                    _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                    _gaq.push(['_trackPageview', "/"+reqUserId+"/friends/following"]);
+                }
                 jQuery("#profile_friends_header").text(getLanguageText("LANG_PROFILE_FRIENDS_FOLLOWING")); 
-                url=TIMETY_PAGE_AJAX_GETFRIENDS;
+                url=TIMETY_PAGE_AJAX_GET_FOLLOWINGS;
             } else if(type==2) {
 
                 //follower 
                 //set header 
-                pSUPERFLY.virtualPage("/friends/followers", "/friends/followers");
+                if(typeof pSUPERFLY != "undefined")
+                    pSUPERFLY.virtualPage("/friends/followers", "/friends/followers");
+                if(typeof(_gaq) != "undefined" && _gaq){
+                    _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                    _gaq.push(['_trackPageview', "/"+reqUserId+"/friends/followers"]);
+                }
                 jQuery("#profile_friends_header").text(getLanguageText("LANG_PROFILE_FRIENDS_FOLLOWERS"));
                 url=TIMETY_PAGE_AJAX_GET_FOLLOWERS;
             }
@@ -76,6 +88,7 @@ function openFriendsPopup(userId,type)
                     url: url,
                     data: {
                         'userId':userId,
+                        'reqUserId':reqUserId,
                         'term':'?-2'
                     },
                     success: function(data){
@@ -89,15 +102,22 @@ function openFriendsPopup(userId,type)
                         }
                         
                         if(!data.error) {   
-                            fillFriendsUL(userId,data,type);    
+                            fillFriendsUL(userId,reqUserId,data,type);    
+                        }else{
+                            fillFriendsUL(userId,reqUserId,null,type);    
                         }
                         jQuery('#spinner').hide();
                     }
                 });
             }
-        }else if(type==3)
+        }else if(type==3 && userId!=null && userId>0)
         {
-            pSUPERFLY.virtualPage("/friends/find", "/friends/find");
+            if(typeof pSUPERFLY != "undefined")
+                pSUPERFLY.virtualPage("/friends/find", "/friends/find");
+            if(typeof(_gaq) != "undefined" && _gaq){
+                _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                _gaq.push(['_trackPageview', "/"+userId+"/friends/find"]);
+            }
             jQuery("#search_people_div").show();
             jQuery("#profile_friends_p_list").hide();
             jQuery("#profile_friends2_p_list").hide();
@@ -228,55 +248,50 @@ function openFriendsPopup(userId,type)
                         
                     if(!data.error) {   
                         if(data.length>0){
-                            fillFriendsUL(userId,data,type,null,true); 
+                            fillFriendsUL(userId,reqUserId,data,type,null,true); 
                         }else {
-                            jQuery("#profile_friends_p_list").hide();
-                            jQuery("#profile_friends_ul_list").hide();
+                            fillFriendsUL(userId,reqUserId,null,type,null,true); 
                         }
                     }
                     else
                     {
-                        jQuery("#profile_friends_p_list").hide();
-                        jQuery("#profile_friends_ul_list").hide();
+                        fillFriendsUL(userId,reqUserId,null,type,null,true); 
                     }
-                    closeLoader();
-                }
-            });
-            
-            /*
-             * get user people
-             */
-            jQuery.ajax({
-                type: 'GET',
-                url: TIMETY_PAGE_AJAX_GET_USER_FRIEND_RECOMMENDATIONS,
-                data: {
-                    'u':userId,
-                    'term':searchterm,
-                    'limit':10
-                },
-                success: function(data){
-                    try{
-                        if(typeof data == "string"){
-                            data= jQuery.parseJSON(data);
-                        }
-                    }catch(e) {
-                        console.log(e);
-                        console.log(data);
-                    }
+                    /*
+                    * get user people
+                    */
+                    jQuery.ajax({
+                        type: 'GET',
+                        url: TIMETY_PAGE_AJAX_GET_USER_FRIEND_RECOMMENDATIONS,
+                        data: {
+                            'u':userId,
+                            'term':searchterm,
+                            'limit':10
+                        },
+                        success: function(data){
+                            try{
+                                if(typeof data == "string"){
+                                    data= jQuery.parseJSON(data);
+                                }
+                            }catch(e) {
+                                console.log(e);
+                                console.log(data);
+                            }
                         
-                    if(!data.error) {  
-                        if(data.length){
-                            fillFriendsUL(userId,data,type,jQuery("#profile_friends2_ul_list"));   
-                        }else
-                        {
-                            jQuery("#profile_friends2_p_list").hide();
-                            jQuery("#profile_friends2_ul_list").hide();
+                            if(!data.error) {  
+                                if(data.length){
+                                    fillFriendsUL(userId,reqUserId,data,type,jQuery("#profile_friends2_ul_list"));   
+                                }else
+                                {
+                                    fillFriendsUL(userId,reqUserId,null,type,jQuery("#profile_friends2_ul_list"));  
+                                }
+                            }else
+                            {
+                                fillFriendsUL(userId,reqUserId,null,type,jQuery("#profile_friends2_ul_list"));   
+                            }
+                            closeLoader();
                         }
-                    }else
-                    {
-                        jQuery("#profile_friends2_p_list").hide();
-                        jQuery("#profile_friends2_ul_list").hide();
-                    }
+                    });
                     closeLoader();
                 }
             });
@@ -359,8 +374,8 @@ function closeFriendsPopup()
 }
 
 
-function fillFriendsUL(userId,data,type,customList,justFollow){
-    if(userId && data && data.length>0 && (type==1 || type==2 || type==3))
+function fillFriendsUL(userId,reqUserId,data,type,customList,justFollow){
+    if(userId && (type==1 || type==2 || type==3))
     {
         var list=jQuery("#profile_friends_ul_list");
         if(customList) {
@@ -371,23 +386,33 @@ function fillFriendsUL(userId,data,type,customList,justFollow){
          * clear list
          */
         list.children().not(template).remove();
-        for(var i=0;i<data.length;i++)
+        var addedd=0;
+        for(var i=0;data && i<data.length;i++)
         {
-            var addedd=0;
             if(data[i] && data[i].id)
             {
                 var add=true;
                 if(justFollow && data[i].followed) {
                     add=false;
                 }
+                
+                var userLi=jQuery("#foll_"+data[i].id);
+                if(userLi && userLi.length>0){
+                    add=false;
+                }
+                
                 if(add){
                     var item=template.clone();
+                    jQuery(item).attr("id",jQuery(item).attr("id")+"_"+data[i].id);
                     /*
                  * fill item
                  */
                     var img=jQuery(item).find("img");
                     if(img && img.length>0) {
                         jQuery(img).attr('src',data[i].userPicture);
+                    }
+                    if(data[i].username){
+                        jQuery(img).attr("onclick","window.location='"+TIMETY_HOSTNAME+data[i].username+"';");
                     }
                     var span=jQuery(item).find("span[class='follow_ad']");
                     if(span && span.length>0) {
@@ -396,6 +421,9 @@ function fillFriendsUL(userId,data,type,customList,justFollow){
                             text=text.substring(0, 30);
                         }
                         jQuery(span).text(text);
+                    }
+                    if(data[i].username){
+                        jQuery(span).attr("onclick","window.location='"+TIMETY_HOSTNAME+data[i].username+"';");
                     }
                     var button=jQuery(item).find("a");
                     if(button && button.length>0) {
@@ -421,6 +449,22 @@ function fillFriendsUL(userId,data,type,customList,justFollow){
                     addedd++;
                 }
             }
+        }
+        
+        if(data==null || data.length<=0){
+            text=getLanguageText("LANG_PROFILE_FRIENDS_NORESULT");
+            if(type==1){
+                text=getLanguageText("LANG_PROFILE_FRIENDS_NORESULT_FOLLOWING");
+            }else if(type==2){
+                text=getLanguageText("LANG_PROFILE_FRIENDS_NORESULT_FOLLOWER");
+            }
+            item=template.clone();
+            jQuery(item).attr("id",jQuery(item).attr("id")+"_nodata");
+            jQuery(item).children().remove();
+            jQuery(item).append("<span class=\"follow_ad\" style=\"width:100%;\">"+text+"</span>");
+            jQuery(item).show();
+            list.append(item);
+            addedd++;
         }
         
         if(addedd>0)
@@ -458,5 +502,8 @@ function setFollowButton(button,type,userId,id)
         jQuery(button).removeClass('followed_btn');
         jQuery(button).addClass('follow_btn');
         jQuery(button).attr("onclick","followUser("+userId+","+id+",this);");
+    }
+    if(userId==id){
+        jQuery(button).hide();
     }
 }

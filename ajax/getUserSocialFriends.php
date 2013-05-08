@@ -24,24 +24,31 @@ try {
         }
         $result = array();
 
-        $follow = SocialFriendUtil::getUserFollowList($userId);
+        $followings = SocialFriendUtil::getUserFollowList($userId);
         $friendList = SocialUtil::getUserSocialFriend($userId);
 
         if (!empty($friendList) && sizeof($friendList) > 0) {
             $val = new User();
             for ($i = 0; $i < sizeof($friendList); $i++) {
                 $val = $friendList[$i];
-                $key = false;
-                if (!empty($follow) && !empty($val->id)) {
-                    $key = in_array($val->id, $follow);
+                if ($val->id != $userId) {
+                    $followed = false;
+                    if (!empty($followings) && !empty($val->id)) {
+                        foreach ($followings as $follow) {
+                            if (!empty($follow) && !empty($follow->id) && $follow->id == $val->id) {
+                                $followed = true;
+                                break;
+                            }
+                        }
+                    }
+                    $obj = new stdClass();
+                    $obj->id = $val->id;
+                    $obj->fullName = $val->firstName . " " . $val->lastName;
+                    $obj->username = $val->userName;
+                    $obj->userPicture = $val->getUserPic();
+                    $obj->followed = $followed;
+                    array_push($result, $obj);
                 }
-                $obj = new stdClass();
-                $obj->id = $val->id;
-                $obj->fullName = $val->firstName . " " . $val->lastName;
-                $obj->username = $val->userName;
-                $obj->userPicture = $val->getUserPic();
-                $obj->followed = $key;
-                array_push($result, $obj);
             }
         }
         $json_response = json_encode($result);

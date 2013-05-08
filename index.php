@@ -8,6 +8,7 @@ require_once __DIR__ . '/apis/google/contrib/Google_CalendarService.php';
 $msgs = array();
 $_random_session_id = rand(10000, 9999999);
 $page_id = "index";
+$userIdS = "null";
 
 $user = new User();
 $user = SessionUtil::checkLoggedinUser();
@@ -76,7 +77,7 @@ if (empty($user)) {
 } else {
     SessionUtil::checkUserStatus($user);
     $_random_session_id = $user->id . "_" . $_random_session_id;
-
+    $userIdS = $user->id;
     if (!isset($_POST["te_event_title"])) {
         if (isset($_SESSION[INDEX_POST_SESSION_KEY]) && !empty($_SESSION[INDEX_POST_SESSION_KEY])) {
             $_POST = json_decode($_SESSION[INDEX_POST_SESSION_KEY]);
@@ -519,7 +520,7 @@ if (empty($user)) {
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -709,7 +710,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                            
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -771,7 +772,7 @@ if (empty($user)) {
             ?>
             <script>
                 jQuery(document).ready(function(){
-                    openFriendsPopup(<?= $user->id ?>,3);
+                    openFriendsPopup(<?= $userIdS ?>,null,3);
                 });
             </script>
         <?php } ?>
@@ -810,7 +811,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                            
+                                                                                                                                                                                                    
             </script>
 
 
@@ -1304,8 +1305,8 @@ if (empty($user)) {
                                                     $usr_url = HOSTNAME . $crt->userName;
                                                     ?>
                                                     <div style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
-                                                        <?php if($crt->type.""=="1"){ ?>
-                                                            <div class="event_creator_verified_user timetyVerifiedIcon"><img src="<?=HOSTNAME?>images/timetyVerifiedIcon.png"></div>
+                                                        <?php if ($crt->type . "" == "1") { ?>
+                                                            <div class="event_creator_verified_user timetyVerifiedIcon"><img src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png"></div>
                                                         <?php } ?>
                                                         <img src="<?= PAGE_GET_IMAGEURL . urlencode($crt->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
                                                         <span><?= " " . $crt->getFullName() ?></span>
@@ -1409,8 +1410,8 @@ if (empty($user)) {
                     </div>
                     <div class="profil_btn">
                         <ul>
-                            <li onclick="openFriendsPopup(<?= $user->id ?>,1);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWING") ?></span><span class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></span></li>
-                            <li onclick="openFriendsPopup(<?= $user->id ?>,2);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWERS") ?></span><span class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></span></li>
+                            <li onclick="openFriendsPopup(<?= $userIdS ?>,null,1);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWING") ?></span><span class="prinpt pcolor_mavi" id="prof_following_count"><?= $user->following_count ?></span></li>
+                            <li onclick="openFriendsPopup(<?= $userIdS ?>,null,2);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_FOLLOWERS") ?></span><span class="prinpt pcolor_krmz" id="prof_followers_count"><?= $user->followers_count ?></span></li>
                             <li onclick="changeChannelProfile(6);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_LIKES") ?></span><span class="prinpt pcolor_yesil" id="prof_likes_count"><?= $user->likes_count ?></span></li>
                             <li onclick="changeChannelProfile(7);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_RESHARE") ?></span><span class="prinpt pcolor_gri" id="prof_reshares_count"><?= $user->reshares_count ?></span></li>
                             <li onclick="changeChannelProfile(8);return false;"><span class="profil_btn_ul_li_span"><?= LanguageUtils::getText("LANG_PROFILE_BACTH_JOINED") ?></span><span class="prinpt pcolor_mavi" id="prof_joins_count"><?= $user->joined_count ?></span></li>

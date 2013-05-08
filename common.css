@@ -3047,6 +3047,16 @@ langugae classes
     text-decoration: underline;
 }
 
+.friends_find_buttons{
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#e8e8e8));
+    border: 1px solid #cfcfcf;
+    line-height: 31px;
+}
+
+.tr_tr_class #profile_friends_find{
+    width: 155px !important;
+}
+
 
 /*
  * main_evvent box verifed user img
@@ -3055,4 +3065,11 @@ langugae classes
     position: absolute;
     display: block;
     right: 9px;
+}
+
+/*
+ * follow folowing
+*/
+#people_search_input{
+    width: 295px !important;
 }

@@ -108,7 +108,11 @@
     LANG_TOKEN_INPUT_NO_RESULT:'Sonuç bulunamadı',
     LANG_TOKEN_INPUT_SEARCHING:'Aranıyor...',
     //verified account
-    LANG_VERIFIED_ACCOUNT:'Onaylanmış Hesap'
+    LANG_VERIFIED_ACCOUNT:'Onaylanmış Hesap',
+    //find friends
+    LANG_PROFILE_FRIENDS_NORESULT_FOLLOWER:'Şuan takipcisi bulunmamaktadır.',
+    LANG_PROFILE_FRIENDS_NORESULT_FOLLOWING:'Şuan takip eden bulunmamaktadır.',
+    LANG_PROFILE_FRIENDS_NORESULT:'Kişiler bulunamadı.'
 }
 
 var date_var= {

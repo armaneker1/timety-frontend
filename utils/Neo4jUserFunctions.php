@@ -79,10 +79,16 @@ class Neo4jUserUtil {
         $query = new Cypher\Query($client, $query, null);
         $result = $query->getResultSet();
         foreach ($result as $row) {
-            if ($userId != $row['user']->getProperty(PROP_USER_ID))
-                array_push($array, $row['user']->getProperty(PROP_USER_ID));
+            if ($userId != $row['user']->getProperty(PROP_USER_ID)) {
+                $usr = new User();
+                $usr->createFromNeo4j($row['user']);
+                array_push($array, $usr);
+            }
         }
-        return SocialFriendUtil::getUserSuggestListFromIds($array, $limit, $userId);
+        if (empty($array) && empty($term)) {
+            $array = SocialFriendUtil::getUserSuggestListFromIds(null, $limit, $userId);
+        }
+        return $array;
     }
 
     public static function getUserFollowingCount($userId) {
@@ -393,7 +399,7 @@ class Neo4jUserUtil {
                 $query = new Cypher\Query($client, $query, null);
                 $result = $query->getResultSet();
             } catch (Exception $e) {
-                error_log( "Error" . $e->getTraceAsString());
+                error_log("Error" . $e->getTraceAsString());
             }
         }
     }

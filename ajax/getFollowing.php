@@ -9,10 +9,10 @@ $userId = null;
 if (isset($_GET["userId"]))
     $userId = $_GET["userId"];
 
-
 $reqUserId = null;
 if (isset($_GET["reqUserId"]))
     $reqUserId = $_GET["reqUserId"];
+
 
 
 $query = null;
@@ -27,7 +27,7 @@ try {
     $array = array();
     $result = array();
 
-    $array = RedisUtils::getUserFollowers($reqUserId);
+    $array = RedisUtils::getUserFollowings($reqUserId);
 
     $userFollowing = array();
     if (!empty($userId) && $userId != $reqUserId) {
