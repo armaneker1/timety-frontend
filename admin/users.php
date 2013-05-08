@@ -1,24 +1,24 @@
 <?php
-    session_start();
-                    header("charset=utf8");
+session_start();
+header("charset=utf8");
 
-                    require_once __DIR__ . '/../utils/Functions.php';
+require_once __DIR__ . '/../utils/Functions.php';
 LanguageUtils::setLocale();
-                    HttpAuthUtils::checkHttpAuth();
-                   ?>
+HttpAuthUtils::checkHttpAuth();
+?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Dashboard - Admin Template</title>
-        <link rel="stylesheet" type="text/css" href="css/theme.css?<?=JS_CONSTANT_PARAM?>" />
-        <link rel="stylesheet" type="text/css" href="css/style.css?<?=JS_CONSTANT_PARAM?>" />
+        <link rel="stylesheet" type="text/css" href="css/theme.css?<?= JS_CONSTANT_PARAM ?>" />
+        <link rel="stylesheet" type="text/css" href="css/style.css?<?= JS_CONSTANT_PARAM ?>" />
         <script>
-            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '?<?=JS_CONSTANT_PARAM?>">');
+            document.writeln('<link rel="stylesheet" type="text/css" href="css/' + StyleFile + '?<?= JS_CONSTANT_PARAM ?>">');
         </script>
         <!--[if IE]>
-        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css?<?=JS_CONSTANT_PARAM?>" />
+        <link rel="stylesheet" type="text/css" href="css/ie-sucks.css?<?= JS_CONSTANT_PARAM ?>" />
         <![endif]-->
     </head>
 
@@ -41,8 +41,6 @@ LanguageUtils::setLocale();
             <div id="wrapper">
                 <div id="content">
                     <?php
-                    
-
                     $error = null;
                     if (isset($_GET["action"]) && $_GET["action"] == "delete") {
                         if (isset($_GET["userId"]) && !empty($_GET["userId"])) {
@@ -73,7 +71,7 @@ LanguageUtils::setLocale();
                                                     mysql_query($SQL) or die(mysql_error());
 
                                                     ElasticSearchUtils::deleteFromSBIById($id);
-                                                    
+
                                                     //delete from redis
                                                     $redis = new Predis\Client();
                                                     $keys = $redis->keys("*");
@@ -90,6 +88,7 @@ LanguageUtils::setLocale();
                                                             }
                                                         }
                                                     }
+                                                    EventKeyListUtil::deleteAllRecordForEvent($id);
                                                 }
                                             }
                                         }
@@ -172,10 +171,10 @@ LanguageUtils::setLocale();
                             <td>Action</td>
                         </tr>
 
-                        <?php
-                        $user = new User();
-                        foreach ($userList as $user) {
-                            ?>
+<?php
+$user = new User();
+foreach ($userList as $user) {
+    ?>
                             <tr>
                                 <td><?= $user->id ?></td>
                                 <td><img height="20" src="<?= $user->getUserPic() ?>"/></td>
@@ -187,20 +186,20 @@ LanguageUtils::setLocale();
                                 <td><?= $user->getUserLang() ?></td>
                                 <!--<td><a href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?action=delete&userId=" . $user->id ?>">Delete</a></td>-->
                             </tr>
-                        <?php } ?>
+<?php } ?>
                         <tr >
                             <td colspan="10" >
                                 <center>
                                     <a <?php
-                        if ($page < 0) {
-                            echo "onclick='return false;'";
-                        }
-                        ?> href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?page=" . ($page - 1) ?>">Prev</a>
+if ($page < 0) {
+    echo "onclick='return false;'";
+}
+?> href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?page=" . ($page - 1) ?>">Prev</a>
                                     <a <?php
-                                        if (empty($userList)) {
-                                            echo "onclick='return false;'";
-                                        }
-                        ?> href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?page=" . ($page + 1) ?>">Next</a>
+                                    if (empty($userList)) {
+                                        echo "onclick='return false;'";
+                                    }
+?> href="http://<?= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?page=" . ($page + 1) ?>">Next</a>
                                 </center>
                             </td>
                         </tr>

@@ -42,6 +42,8 @@ if (isset($_POST['eventId']) && !empty($_POST['eventId'])) {
             }
         }
     }
+
+    EventKeyListUtil::deleteAllRecordForEvent($id);
     echo "Event Deleted";
 }
 ?>
