@@ -381,7 +381,7 @@ input[type=text]::-ms-clear {
 
 .desc_area .maxlength-feedback{
     position: relative;
-    left: -5px;
+    left: -12px;
     top: 0px;
     color: #aaa !important;
     text-align: right !important;

@@ -495,7 +495,7 @@ if ($showPopup) {
 
                 <!-- Description -->
                 <div class="eam_bg" style="height: auto;">
-                    <div class="desc_orta input_border desc_area" style="height: auto;width: 581px;overflow: visible;margin-top: 6px;display: table;">
+                    <div class="desc_orta input_border desc_area" style="height: auto;width: 581px;max-width: 581px;overflow: visible;margin-top: 6px;display: table;">
 
                         <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
                                    style="font-size: 16px;resize: none;margin-top: 0px;background-image: none;height: 42px;width: 542px;"
