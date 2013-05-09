@@ -74,17 +74,17 @@ function importPicture(type,crop)
                                 if(crop){
                                     var current_width = data.width;
                                     var current_height = data.height;
-                                    
+                                    var rand=Math.floor((Math.random()*100));
                                     var img=jQuery('#uploaded_image_div').find('#uploaded_image');
-                                    img.attr("src",data.pic);
+                                    img.attr("src",data.pic+"?"+rand);
                                     img.css("width",current_width);
                                     img.css("height",current_height);
                                     jQuery('#div_follow_trans_').show();
                                     jQuery('#thumbnail_form').show();
                                     jQuery('#upload_text').show();
                                     jQuery('#uploaded_image_div').show();
-                                    jQuery('#preview_image').attr("src",data.pic);
-                                    jQuery('#uploaded_image').attr("src",data.pic);
+                                    jQuery('#preview_image').attr("src",data.pic+"?"+rand);
+                                    jQuery('#uploaded_image').attr("src",data.pic+"?"+rand);
                 
                                     jQuery('#progress_div').hide();
                 
@@ -308,17 +308,17 @@ jQuery(document).ready(function () {
                 c_responseLargeImage=responseMsg;
                 var current_width = response[2];
                 var current_height = response[3];
-                
+                var rand=Math.floor((Math.random()*100));
                 var img=jQuery('#uploaded_image_div').find('#uploaded_image');
-                img.attr("src",responseMsg);
+                img.attr("src",responseMsg+"?"+rand);
                 img.css("width",current_width);
                 img.css("height",current_height);
                 jQuery('#div_follow_trans_').show();
                 jQuery('#thumbnail_form').show();
                 jQuery('#upload_text').show();
                 jQuery('#uploaded_image_div').show();
-                jQuery('#preview_image').attr("src",responseMsg);
-                jQuery('#uploaded_image').attr("src",responseMsg);
+                jQuery('#preview_image').attr("src",responseMsg+"?"+rand);
+                jQuery('#uploaded_image').attr("src",responseMsg+"?"+rand);
                 
                 jQuery('#progress_div').hide();
                 
