@@ -747,7 +747,7 @@ if (isset($_POST['te_username'])) {
                         name="te_language"
                         tabindex="5"
                         style="background-image: none"
-                        class="user_inpt email icon_bg user_inpt_pi_height"
+                        class="user_inpt email icon_bg user_inpt_pi_height select_language"
                         id="te_language">
                             <?php
                             $lang_tr_sel = "";

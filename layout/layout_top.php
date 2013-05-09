@@ -165,6 +165,8 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     ))).sort('s_id')
                         .doSearch(function(result,success){
                             gotoResults(result,success,func);
+                        },function(result,error,errorText){
+                            alert(errorText);
                         });
                     }else{
                         if(func && jQuery.isFunction(func)){

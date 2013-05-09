@@ -20,44 +20,48 @@ if (isset($page_id) && $page_id == "user") {
             <tr>
                 <?php if ($showMenu) { ?>
                     <td width="375" valign="middle" id="populer_top_menus_my">
-                        <div class="mytimety_category_item_recommended_div">
-                            <span id="mytimety_category_item_recommended" channelid="1" class="mytimety_category_item mytimety_category_item_selected"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_RECOMMENDED_EVENTS") ?></span>
-                        </div> 
-                        <span class="hd_line">|</span> 
-                        <div class="mytimety_category_item_everything_div">
-                            <span id="mytimety_category_item_everything" class="mytimety_category_item"><?=  LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_ALL_EVENTS")?></span> 
-                        </div>
-                        <span class="hd_line">|</span> 
-                        <div id="mytimety_category_item_categories_btn" class="mytimety_category_item_categories_btn">
-                            <span id="mytimety_category_item_categories" class="mytimety_category_item"><?=  LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_CATEGORIES")?></span> 
-                            <div id="populer_top_menu_my" class="mytimety_category_item_categories_container" style="display: none;">
-                                <div  class="my_timete_popup" >
-                                    <div class="kck_detay_ok"></div>
-                                    <ul id="populer_top_menu_ul_my">
-                                        <?php
-                                        $lang = LANG_EN_US;
-                                        if (!empty($user)) {
-                                            $lang = $user->language;
-                                        }
-                                        $cats = MenuUtils::getCategories($lang);
-                                        foreach ($cats as $cat) {
-                                            ?>
-                                            <li cat_id="<?= $cat->getId() ?>" id="my_cat_id<?= $cat->getId() ?>" style="cursor:pointer"  slc="false">
-                                                <button type="button" class="ekle icon_bg"></button>
-                                                <span><?= $cat->getName() ?></span>
-                                            </li>
+                        <div class="mytimety_menu_class">
+                            <div class="mytimety_category_item_recommended_div">
+                                <span id="mytimety_category_item_recommended" channelid="1" class="mytimety_category_item mytimety_category_item_selected"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_RECOMMENDED_EVENTS") ?></span>
+                            </div> 
+                            <span class="hd_line">|</span> 
+                            <div class="mytimety_category_item_everything_div">
+                                <span id="mytimety_category_item_everything" class="mytimety_category_item"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_ALL_EVENTS") ?></span> 
+                            </div>
+                            <span class="hd_line">|</span> 
+                            <div id="mytimety_category_item_categories_btn" class="mytimety_category_item_categories_btn">
+                                <span id="mytimety_category_item_categories" class="mytimety_category_item"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_CATEGORIES") ?></span> 
+                                <div id="populer_top_menu_my" class="mytimety_category_item_categories_container" style="display: none;">
+                                    <div  class="my_timete_popup" >
+                                        <div class="kck_detay_ok"></div>
+                                        <ul id="populer_top_menu_ul_my">
                                             <?php
-                                        }
-                                        ?>
-                                    </ul>
+                                            $lang = LANG_EN_US;
+                                            if (!empty($user)) {
+                                                $lang = $user->language;
+                                            }
+                                            $cats = MenuUtils::getCategories($lang);
+                                            foreach ($cats as $cat) {
+                                                ?>
+                                                <li cat_id="<?= $cat->getId() ?>" id="my_cat_id<?= $cat->getId() ?>" style="cursor:pointer"  slc="false">
+                                                    <button type="button" class="ekle icon_bg"></button>
+                                                    <span><?= $cat->getName() ?></span>
+                                                </li>
+                                                <?php
+                                            }
+                                            ?>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </td>
                 <?php } ?>
-                <td align="left" valign="middle" class="u_line" width="100%" style='<?php if ($hideBar) {
+                <td align="left" valign="middle" class="u_line" width="100%" style='<?php
+                if ($hideBar) {
                     echo 'display:none;';
-                } ?>'>
+                }
+                ?>'>
                     <?php if ($showMenu) { ?>
                         <input id="populer_top_menus_my_ico" type="button" class="gn_btn" />
 <?php } ?>

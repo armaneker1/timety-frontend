@@ -576,7 +576,9 @@ function setMapLocation(results,status,onlycity)
         jQuery("#te_event_location_city").val(te_loc_city);    
     }else
     {
-        console.log(result);
+        console.log(results);
+        console.log(status);
+        console.log(onlycity);
     }
 }
 

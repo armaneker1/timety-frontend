@@ -117,8 +117,10 @@ if ($showPopup) {
                         </script>
                     <?php } ?>
                 </div>
-                <div class="cae_foto" id="te_event_image_div"
-                     style="position: absolute;"></div>
+               <div class="cae_foto" id="te_event_image_div_cont"
+                     style="position: absolute;">
+                    <div  id="te_event_image_div" style=" height: 106px;width: 100px;cursor: pointer;"></div>
+                </div>
                 <!-- Header Image-->
 
                 <!-- Title, Images and Privacy-->
@@ -142,7 +144,7 @@ if ($showPopup) {
                             </div>
                             <!-- Title -->
                             <!-- Privacy -->
-                            <div class="left" style="margin-top:11px;" >
+                            <div class="left add_event_privacy" >
                                 <p id="on_off_text" style="width: 46px;"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_PRI_PRIVATE") ?></p>
                                 <ol class="on_off">
                                     <li style="width: 48px; height: 17px;"><input type="checkbox"
@@ -455,7 +457,7 @@ if ($showPopup) {
                                echo $event->loc_lat . "," . $event->loc_lng;
                            }
                         ?>"/>
-                        <div class="left">
+                        <div class="left add_event_attach">
                             <div class="link_atac" style="display: none;left: -195px !important;">
                                 <input type="text" name="te_event_attach_link" id="te_event_attach_link" class="link_atac_adrs" value="<?php
                            if ($showPopup) {

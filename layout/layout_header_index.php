@@ -47,7 +47,6 @@ if (stripos($br, 'MSIE')) {
 <link  href="<?= HOSTNAME ?>style.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css"  />
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.core.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.datepicker.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet">
-<link href="<?= HOSTNAME ?>fileuploader.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css">
 <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery.Jcrop.min.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet">
@@ -97,7 +96,6 @@ if (stripos($br, 'MSIE')) {
 <script type="text/javascript" src="<?= HOSTNAME ?>js/checradio.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/createEvent.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/lemmon-slider.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
-<script src="<?= HOSTNAME ?>fileuploader.min.js?<?= JS_CONSTANT_PARAM ?>" type="text/javascript"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_event_invite_people.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/quick_add_event.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script src="<?= HOSTNAME ?>resources/scripts/quick_event_map.min.js?<?= JS_CONSTANT_PARAM ?>" type="text/javascript"></script>
@@ -139,4 +137,5 @@ if ($br == "mozilla") {
     jQuery(document).ready(function(){
         setVerifiedAccountTooltip();
     });
+    jQuery.support.cors = true;
 </script>

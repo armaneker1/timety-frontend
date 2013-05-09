@@ -514,7 +514,6 @@ class Event {
         if (empty($this->headerVideo) && !empty($this->id)) {
             $SQL = "SELECT * FROM " . TBL_VIDEOS . " WHERE eventId=" . $this->id;
             $video = TimeteVideos::findBySql(DBUtils::getConnection(), $SQL);
-            var_dump($video);
             if (!empty($video)) {
                 $this->headerVideo = $video[0];
             }

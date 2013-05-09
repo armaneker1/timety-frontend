@@ -53,7 +53,7 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
     $prm_event = Neo4jEventUtils::getEventFromNode($_GET["eventId"], TRUE);
     if (!empty($prm_event) && !empty($prm_event->id)) {
         $p_user_id = $prm_event->creatorId;
-        $puserIdS = $p_user->id;
+        $puserIdS = $p_user_id;
         $p_user = UserUtils::getUserById($p_user_id);
         if (empty($p_user)) {
             header('Location: ' . HOSTNAME);
@@ -173,6 +173,8 @@ if (isset($_GET['userId']) && !empty($_GET['userId'])) {
         <?php
         if (!empty($prm_event)) {
             $prm_event->getHeaderImage();
+            $prm_event->hasVideo();
+            $prm_event->getHeaderVideo();
             $hdr_img = HOSTNAME . "images/timety.png";
             if (!empty($prm_event->headerImage)) {
                 $hdr_img = HOSTNAME . $prm_event->headerImage->url;

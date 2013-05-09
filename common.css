@@ -1313,7 +1313,6 @@ input[type=text]::-ms-clear {
     border-style: solid !important;
     border-width: 1px !important;
     box-shadow: 0 1px 1px 0 #CFCFCF inset !important;
-    height: 440px !important;
     padding-bottom: 10px !important;
     padding-top: 30px !important;
     width: 350px !important;
@@ -2923,7 +2922,7 @@ span.roll_tr_tr {
 
 .privacy_terms{
     font-size: 12px;
-    display: inline-block;
+    display: table;
     padding-right: 50px;
     padding-left: 10px;
     padding-top: 5px;
@@ -3001,7 +3000,7 @@ play video
     background-image: url('images/play.png?3'); 
     background-size: 30%;  
     background-position: 50%; 
-    background-repeat: no-repeat no-repeat;
+    background-repeat: no-repeat;
 }
 
 /*
@@ -3072,4 +3071,17 @@ langugae classes
 */
 #people_search_input{
     width: 295px !important;
+}
+
+.mytimety_menu_class{
+    width: 382px;
+    display: block;
+}
+
+.add_event_attach{
+    margin-top: 11px !important;
+}
+
+.add_event_privacy{
+    margin-top: 11px !important;
 }

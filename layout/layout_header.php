@@ -135,4 +135,5 @@ if ($br == "mozilla") {
     jQuery(document).ready(function(){
         setVerifiedAccountTooltip();
     });
+    jQuery.support.cors = true;
 </script>

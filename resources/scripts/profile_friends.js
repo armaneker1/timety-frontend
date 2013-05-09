@@ -375,7 +375,7 @@ function closeFriendsPopup()
 
 
 function fillFriendsUL(userId,reqUserId,data,type,customList,justFollow){
-    if(userId && (type==1 || type==2 || type==3))
+    if(reqUserId && (type==1 || type==2 || type==3))
     {
         var list=jQuery("#profile_friends_ul_list");
         if(customList) {
