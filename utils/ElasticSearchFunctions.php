@@ -125,6 +125,7 @@ class ElasticSearchUtils {
                     $event_array["id"] = $event->id;
                     $event_array["title"] = $event->title;
                     $event_array["headerImage"] = $event->headerImage;
+                    $event_array["locationDesc"] = $event->location;
                     $res = $es->index($event_array, $event->id);
                     if (!empty($res) && isset($res["ok"]) && $res["ok"]) {
                         error_log($event->id . " - " . $event->title . " - OK<p/>");
