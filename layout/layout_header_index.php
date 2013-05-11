@@ -107,6 +107,7 @@ if (stripos($br, 'MSIE')) {
 <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/tokeninput/jquery.tokeninput.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.autocomplete.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/language.js?<?= JS_CONSTANT_PARAM ?>"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/resolution.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <!-- Scripts -->
 
 <!--[if IE]>

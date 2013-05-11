@@ -31,7 +31,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
         <?php if (empty($user)) { ?>
             <div style="  display: inline-block; position: absolute; width: 100%;text-align: center;margin-left: -105px;z-index: -1;">
                 <div style="background-color: #f99e19;display: table;margin-left: auto;margin-right: auto; padding: 6px 10px 6px 10px;border-radius: 5px;">
-                    <a href="<?= PAGE_SIGNUP ?>"><span style="color: black;font-size: 23px;"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span></a>
+                    <a class="sign_up_header" href="<?= PAGE_SIGNUP ?>"><span  ><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span></a>
                 </div>
             </div>
         <?php } ?>

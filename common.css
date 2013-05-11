@@ -3085,3 +3085,8 @@ langugae classes
 .add_event_privacy{
     margin-top: 11px !important;
 }
+
+.sign_up_header{
+    color: black;
+    font-size: 24px;
+}
