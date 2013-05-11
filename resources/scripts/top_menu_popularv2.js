@@ -1,14 +1,14 @@
 jQuery(document).ready(function(){ 
     //new menu       
     jQuery('#mytimety_category_item_categories_btn').hover(
-        function () {
-            closeOtherPoppular();
-            openMyTimety();
-        }, 
-        function () {
-            closeMyTimety();
-        }
-        );
+    function () {
+        closeOtherPoppular();
+        openMyTimety();
+    }, 
+    function () {
+        closeMyTimety();
+    }
+);
     jQuery("#mytimety_category_item_recommended").click(mySelectRecommended);
     jQuery("#mytimety_category_item_everything").click(mySelectEverything);
     
@@ -69,15 +69,21 @@ function mySelectCategory(){
 }
 
 function mySelectRecommended(){
-    jQuery("#populer_top_menu_ul_my li button").addClass("ekle");
-    jQuery("#populer_top_menu_ul_my li").attr("slc","false");
-    jQuery("#mytimety_category_item_categories_btn").removeClass("mytimety_category_item_selected");
-    jQuery("#mytimety_category_item_everything").removeClass("mytimety_category_item_selected");
-    jQuery("#mytimety_category_item_recommended").addClass("mytimety_category_item_selected");
-    jQuery("#searchText").val("");
-    page_wookmark=0;
-    wookmark_channel=jQuery(this).attr("channelid") || 1;
-    wookmarkFiller(document.optionsWookmark,true,true);
+    jQuery.sessionphp.get('id',function(userId){
+        if(userId){  
+            jQuery("#populer_top_menu_ul_my li button").addClass("ekle");
+            jQuery("#populer_top_menu_ul_my li").attr("slc","false");
+            jQuery("#mytimety_category_item_categories_btn").removeClass("mytimety_category_item_selected");
+            jQuery("#mytimety_category_item_everything").removeClass("mytimety_category_item_selected");
+            jQuery("#mytimety_category_item_recommended").addClass("mytimety_category_item_selected");
+            jQuery("#searchText").val("");
+            page_wookmark=0;
+            wookmark_channel=jQuery(this).attr("channelid") || 1;
+            wookmarkFiller(document.optionsWookmark,true,true);
+        }else{
+            window.location=TIMETY_PAGE_SIGNUP;
+        }
+    });
 }
 
 function mySelectEverything(){

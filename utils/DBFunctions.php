@@ -79,7 +79,7 @@ class DBUtils {
         if (!empty($str)) {
             $str = mysql_real_escape_string($str);
         }
-        if ($rtn == "1" && ($rtn == "0" || $rtn == 0)) {
+        if ($rtn == "1" && $str."" == "0") {
             return 0;
         }
         if ($rtn == "1" && empty($str)) {

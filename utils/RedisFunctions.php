@@ -3,6 +3,9 @@
 class RedisUtils {
 
     public static function getCategoryEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $categryId = -1, $city_id = -1, $searchtagIds = null) {
+        if ($userId == "*") {
+            $userId = -1;
+        }
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (empty($date)) {
             $date = time();
@@ -34,7 +37,10 @@ class RedisUtils {
             $lang = LANG_EN_US;
             try {
                 $usrr = UserUtils::getUserById($userId);
-                $lang=$usrr->language;
+                if (!empty($usrr))
+                {
+                    $lang = $usrr->language;
+                }
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());
             }

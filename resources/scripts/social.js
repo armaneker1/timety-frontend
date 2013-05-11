@@ -201,7 +201,7 @@ function reshareEvent(button,eventId,secondButton)
             }
         } else{
             jQuery(button).removeAttr("disabled"); 
-        // got to login page
+            window.location=TIMETY_PAGE_SIGNUP;
         }
     });
     return false;
@@ -320,7 +320,7 @@ function sendResponseEvent(button,eventId,type)
         }else
         {
             jQuery(button).removeAttr("disabled"); 
-        // got to login page
+            window.location=TIMETY_PAGE_SIGNUP;
         }
     });
     return false;
@@ -422,7 +422,7 @@ function likeEvent(button,eventId,secondButton)
             }
         } else{
             jQuery(button).removeAttr("disabled"); 
-        // got to login page
+            window.location=TIMETY_PAGE_SIGNUP;
         }
     });
     return false;

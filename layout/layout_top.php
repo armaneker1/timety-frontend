@@ -29,7 +29,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     <div id="top_blm_sol">
 
         <?php if (empty($user)) { ?>
-            <div style="  display: inline-block; position: absolute; width: 100%;text-align: center;margin-left: -105px;z-index: -1;">
+        <div style="  display: inline-block; position: absolute; width: 100%;text-align: center;margin-left: -105px;z-index: -1;" class="sign_up_header_cont">
                 <div style="background-color: #f99e19;display: table;margin-left: auto;margin-right: auto; padding: 6px 10px 6px 10px;border-radius: 5px;">
                     <a class="sign_up_header" href="<?= PAGE_SIGNUP ?>"><span  ><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span></a>
                 </div>
@@ -40,7 +40,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
         <div class="t_bs">
             <!-- Location -->
             <?php
-            if (!empty($page_id) && $page_id == "index" && !empty($user)) {
+            if (!empty($page_id) && $page_id == "index" /* && !empty($user) */) {
 
                 $city_top_name = "";
                 $city_id = "";
@@ -158,85 +158,87 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                         type: 'GET',
                         url: '<?= HOSTNAME . "ajax/searchUserAndTag.php" ?>',
                         data: {
-                            userId : '<?php if (!empty($user)) {
-                                echo $user->id;
-                            } ?>',
-                            term : term
-                        },
-                        success: function(data){
-                                if(typeof data == "string")  {
-                                    data= jQuery.parseJSON(data);
+                            userId : '<?php
+            if (!empty($user)) {
+                echo $user->id;
+            }
+            ?>',
+                                            term : term
+                                        },
+                                        success: function(data){
+                                            if(typeof data == "string")  {
+                                                data= jQuery.parseJSON(data);
+                                            }
+                                            else  {
+                                                data=data;   
+                                            }
+                                            gotoResults(data.data,data.success,func);
+                                        },
+                                        error: function(data){
+                                            if(func && jQuery.isFunction(func)){
+                                                func(null);
+                                            }
+                                        }
+                                    },"json");
                                 }
-                                else  {
-                                    data=data;   
+                
+                                function searchTagAndUser(item){
+                                    if(item.s_type=="tag"){
+                                        var tagId=item.id;
+                                        if(tagIds){
+                                            //tagIds=tagIds+","+tagId;
+                                            tagIds=tagId;
+                                        }else{
+                                            tagIds=tagId;
+                                        }
+                                        jQuery("#searchText").val("");
+                                        page_wookmark=0;
+                                        isearching=true;
+                                        wookmarkFiller(document.optionsWookmark, true,true);
+                                    }else if(item.s_type=="user"){
+                                        window.location=TIMETY_HOSTNAME+item.userName;
+                                    }
                                 }
-                                gotoResults(data.data,data.success,func);
-                            },
-                        error: function(data){
-                            if(func && jQuery.isFunction(func)){
-                                func(null);
-                            }
-                        }
-                    },"json");
-                }
-                
-                function searchTagAndUser(item){
-                    if(item.s_type=="tag"){
-                        var tagId=item.id;
-                        if(tagIds){
-                            //tagIds=tagIds+","+tagId;
-                            tagIds=tagId;
-                        }else{
-                            tagIds=tagId;
-                        }
-                        jQuery("#searchText").val("");
-                        page_wookmark=0;
-                        isearching=true;
-                        wookmarkFiller(document.optionsWookmark, true,true);
-                    }else if(item.s_type=="user"){
-                        window.location=TIMETY_HOSTNAME+item.userName;
-                    }
-                }
                 
                 
                 
-                jQuery(document).ready(function(){
-                    try{
-                        jQuery( "#searchText" ).autocomplete({ 
-                            source: searchUserTagFunction, 
-                            minLength: 2,
-                            labelField:'s_label',
-                            delay:50,
-                            valueField:'s_id',
-                            appendTo: "#autocomplete_search" ,
-                            select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
-                            focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
-                        }).data('autocomplete')._renderItem = function(ul, item) {
-                            if(item.s_type=="tag"){
-                                return jQuery('<li></li>')
-                                .data('item.autocomplete', item)
-                                .append('<a>' + item.s_label + '</a>')
-                                .appendTo(ul);
-                            }else if(item.s_type=="user"){
-                                var img="";
-                                if(item.userPicture){
-                                    img=item.userPicture;
-                                    if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
-                                        img=TIMETY_HOSTNAME+img;
-                                    } 
-                                }else{
-                                    img=TIMETY_HOSTNAME+"images/anonymous.png";  
-                                }                    
-                                return jQuery('<li></li>')
-                                .data('item.autocomplete', item)
-                                .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
-                                .appendTo(ul);
-                            }
-                        };
-                    }catch(exp){
-                        console.log(exp);
-                    }
-                });
+                                jQuery(document).ready(function(){
+                                    try{
+                                        jQuery( "#searchText" ).autocomplete({ 
+                                            source: searchUserTagFunction, 
+                                            minLength: 2,
+                                            labelField:'s_label',
+                                            delay:50,
+                                            valueField:'s_id',
+                                            appendTo: "#autocomplete_search" ,
+                                            select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
+                                            focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
+                                        }).data('autocomplete')._renderItem = function(ul, item) {
+                                            if(item.s_type=="tag"){
+                                                return jQuery('<li></li>')
+                                                .data('item.autocomplete', item)
+                                                .append('<a>' + item.s_label + '</a>')
+                                                .appendTo(ul);
+                                            }else if(item.s_type=="user"){
+                                                var img="";
+                                                if(item.userPicture){
+                                                    img=item.userPicture;
+                                                    if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
+                                                        img=TIMETY_HOSTNAME+img;
+                                                    } 
+                                                }else{
+                                                    img=TIMETY_HOSTNAME+"images/anonymous.png";  
+                                                }                    
+                                                return jQuery('<li></li>')
+                                                .data('item.autocomplete', item)
+                                                .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
+                                                .appendTo(ul);
+                                            }
+                                        };
+                                    }catch(exp){
+                                        console.log(exp);
+                                    }
+                                });
             </script>
             <!-- Tag token input -->
         </div>
@@ -244,6 +246,8 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     </div>
     <!--top_blm_sol-->
 
+     <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js?201308089744"></script> -->
+    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popularv2.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
     <?php if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) { ?>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
         <?php
@@ -266,8 +270,6 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     });
                 });
             </script>
-            <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js?201308089744"></script> -->
-            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popularv2.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
             <?php
         }
     }
@@ -385,10 +387,10 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                                 <a id="logout_top_menu_a"  class="child"  href="<?= PAGE_LIKES . "?edit" ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_ADD_INTEREST") ?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_UPDATE_PROFILE ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS") ?></a>
+                                <a id="logout_top_menu_a"  class="child" onclick="if(typeof(pSUPERFLY) != 'undefined'){pSUPERFLY.virtualPage('/profile','/profile');}return true;" href="<?= PAGE_UPDATE_PROFILE ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS") ?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_LOGOUT ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a>
+                                <a id="logout_top_menu_a"  class="child" onclick="if(typeof(pSUPERFLY) != 'undefined'){pSUPERFLY.virtualPage('/logout','/logout');}return true;" href="<?= PAGE_LOGOUT ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a>
                             </li>
                         </ul>
                     </li>

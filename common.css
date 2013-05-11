@@ -1450,9 +1450,12 @@ input[type=text]::-ms-clear {
     box-shadow: inset 0px 1px 1px #bcbcbc;
     text-align: center;
     margin-left: 140px;
-    display: inline-block;
+    display: table;
 }
 
+.t_account a {
+    display: table-cell !important;   
+}
 
 .user_inpt::-ms-clear {
     display: none;

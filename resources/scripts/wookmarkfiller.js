@@ -465,9 +465,9 @@ function wookmarkHTML(dataArray,userId)
             jQuery(likeShareDiv).append(btnJoinDiv);
             jQuery(likeShareDiv).append(editJoinDiv);
             
-            if(userId){
+            //if(userId){
                 jQuery(imgDiv).append(likeShareDiv);
-            }
+            //}
             
             //video
             if(data.has_video){
