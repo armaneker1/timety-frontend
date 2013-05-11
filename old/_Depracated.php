@@ -2,6 +2,26 @@
 
 class Depracated {
 
+    /* if(ejs){
+                        ejs.client=ejs.jQueryClient("http://<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) ?>:<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT) ?>");
+                        var request=ejs.Request({indices: "<?= ELASTICSEACRH_TIMETY_INDEX ?>", types: '<?= ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG ?>'});
+                       
+                        request.query(ejs.FilteredQuery(
+                        ejs.MatchAllQuery(),ejs.AndFilter(
+                        [ejs.QueryFilter(ejs.QueryStringQuery(term+'*').defaultField('s_label')),
+                            ejs.QueryFilter(ejs.QueryStringQuery('*'+getLanguageText('LOCALE_CODE')+'*').defaultField('s_lang'))]
+                    ))).sort('s_id')
+                        .doSearch(function(result,success){
+                            gotoResults(result,success,func);
+                        },function(result,error,errorText){
+                            alert(errorText);
+                        });
+                    }else{
+                        if(func && jQuery.isFunction(func)){
+                            func(null);
+                        }
+                    } */
+    
     public static function getAllEvents($pageNumber = 0, $pageItemCount = 15, $query = "") {
         $array = array();
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));

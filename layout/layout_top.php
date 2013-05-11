@@ -154,25 +154,30 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                             term=term.term;
                         }
                     }
-                    if(ejs){
-                        ejs.client=ejs.jQueryClient("http://<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_IP) ?>:<?= SettingsUtil::getSetting(SETTINGS_ELASTICSEARCH_PORT) ?>");
-                        var request=ejs.Request({indices: "<?= ELASTICSEACRH_TIMETY_INDEX ?>", types: '<?= ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG ?>'});
-                       
-                        request.query(ejs.FilteredQuery(
-                        ejs.MatchAllQuery(),ejs.AndFilter(
-                        [ejs.QueryFilter(ejs.QueryStringQuery(term+'*').defaultField('s_label')),
-                            ejs.QueryFilter(ejs.QueryStringQuery('*'+getLanguageText('LOCALE_CODE')+'*').defaultField('s_lang'))]
-                    ))).sort('s_id')
-                        .doSearch(function(result,success){
-                            gotoResults(result,success,func);
-                        },function(result,error,errorText){
-                            alert(errorText);
-                        });
-                    }else{
-                        if(func && jQuery.isFunction(func)){
-                            func(null);
+                    jQuery.ajax({
+                        type: 'GET',
+                        url: '<?= HOSTNAME . "ajax/searchUserAndTag.php" ?>',
+                        data: {
+                            userId : '<?php if (!empty($user)) {
+                                echo $user->id;
+                            } ?>',
+                            term : term
+                        },
+                        success: function(data){
+                                if(typeof data == "string")  {
+                                    data= jQuery.parseJSON(data);
+                                }
+                                else  {
+                                    data=data;   
+                                }
+                                gotoResults(data.data,data.success,func);
+                            },
+                        error: function(data){
+                            if(func && jQuery.isFunction(func)){
+                                func(null);
+                            }
                         }
-                    }
+                    },"json");
                 }
                 
                 function searchTagAndUser(item){
@@ -346,7 +351,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                         <div class="top_notification_bg"></div>
                         <?php if ($user->getUserNotificationCount()) { ?>
                             <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-                        <?php } ?>
+        <?php } ?>
                     </div>
                 </div>
                 <!-- Notification -->
@@ -399,8 +404,8 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     </div>
                 </div>
                 <!-- Notification -->
-            <?php } else {
-                ?>
+    <?php } else {
+        ?>
                 <div class="top_menu">
                     <ul>
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a"><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a></li>
@@ -409,7 +414,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 <div class="avatar" id="te_avatar_img"> <a href="#"><img class="avatar_img_custom" src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
                     <?php if ($user->getUserNotificationCount()) { ?>
                         <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-                    <?php } ?>
+        <?php } ?>
                 </div>
                 <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
                     <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
@@ -437,7 +442,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
             ?>
             <div class="t_account"><a href="<?= PAGE_SIGNUP ?>" class="cr_acc <?= $create_class ?>"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_CREATE_ACCOUNT') ?></a><a href="<?= PAGE_LOGIN ?>" class="sgn_in <?= $signin_class ?>"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_SIGNIN') ?></a></div>
 
-        <?php } ?>
+<?php } ?>
     </div>
     <!--top_blm_sag-->
 </div>
