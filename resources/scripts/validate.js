@@ -52,7 +52,7 @@
     emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$/i,
     alphaRegex = /^[a-z]+$/i,
     alphaNumericRegex = /^[a-z0-9]+$/i,
-    alphaDashRegex = /^[a-z0-9_-]+$/i,
+    alphaDashRegex = /^[a-z0-9_-\.]+$/i,
     alphaTurkishRegex = /^[\w\süçğöÜİÇĞÖ]*$/i,
     naturalRegex = /^[0-9]+$/i,
     naturalNoZeroRegex = /^[1-9][0-9]*$/i,
