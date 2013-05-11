@@ -19,6 +19,15 @@ if (isset($_GET['uid'])) {
     $uid = $_GET['uid'];
 }
 
+//user_email
+$email = null;
+if (isset($_POST['email'])) {
+    $email = $_POST['email'];
+}
+if (isset($_GET['email'])) {
+    $email = $_GET['email'];
+}
+
 //first Name
 $firstName = null;
 if (isset($_POST['firstName'])) {
@@ -111,6 +120,27 @@ if (!empty($uid)) {
             $user->lastName = $lastName;
         }
 
+        if (empty($email)) {
+            $msg = new stdClass();
+            $msg->type = "e";
+            $msg->msg = "Email address empty";
+            array_push($error_mesages, $msg);
+        } else {
+            if (!UtilFunctions::check_email_address($email)) {
+                $msg = new stdClass();
+                $msg->type = "e";
+                $msg->msg = "Email address not valid";
+                array_push($error_mesages, $msg);
+            } else if (!UserUtils::checkEmail($email)) {
+                if ($user->email != $email) {
+                    $msg = new stdClass();
+                    $msg->type = "e";
+                    $msg->msg = "Email address already exits";
+                    array_push($error_mesages, $msg);
+                }
+            }
+        }
+
         if ($gender == 'f') {
             $user->gender = 0;
         } else if ($gender == 'm') {
@@ -169,8 +199,8 @@ if (!empty($uid)) {
         } else {
             $r = new stdClass();
             $r->success = 0;
-            $r->code = 103;
-            $r->error = "User not found";
+            $r->code = 101;
+            $r->error = $error_mesages;
             $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
             echo $result;
             exit(1);
