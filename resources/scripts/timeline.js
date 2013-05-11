@@ -32,7 +32,7 @@ function initTimeline(){
         var weekText=getLanguageText("LANG_TIMELINE_THIS_WEEK");
         while(dayString!=monthEndDayString){
             //create week 
-            if(day.day()==0 || weekCounter==1){
+            if(day.day()==1 || weekCounter==1){
                 weekText=getWeekText(day);
                 var  week=createlielement(timeline_ul,weekText,"timeline_week",monthString,true,null);
                 if(weekText==getLanguageText("LANG_TIMELINE_THIS_WEEK")){
@@ -67,22 +67,22 @@ function initTimeline(){
 
 function createlielement(ul,text,firstClass,secondClass,week,monthString){
     var liElement=jQuery("<li><a style='cursor:pointer'>"+text+"</a></li>");
-    liElement.addClass(firstClass.replace(/\s/g, ''));
+    liElement.addClass(clearClassName(firstClass));
     if(secondClass && !week){
-        liElement.addClass("week_day_"+monthString.replace(/\s/g, '')+"_"+secondClass.replace(/\s/g, ''));
-        liElement.attr("day",text.replace(/\s/g, ''));
-        liElement.attr("week",secondClass.replace(/\s/g, ''));
-        liElement.attr("month",monthString.replace(/\s/g, ''));
+        liElement.addClass("week_day_"+clearClassName(monthString)+"_"+clearClassName(secondClass));
+        liElement.attr("day",clearClassName(text));
+        liElement.attr("week",clearClassName(secondClass));
+        liElement.attr("month",clearClassName(monthString));
         liElement.attr("act","false");
         liElement.hide();
     }else if(secondClass && week){
-        liElement.addClass("month_week_"+secondClass.replace(/\s/g, ''));
-        liElement.attr("week",text.replace(/\s/g, ''));
-        liElement.attr("month",secondClass.replace(/\s/g, ''));
+        liElement.addClass("month_week_"+clearClassName(secondClass));
+        liElement.attr("week",clearClassName(text));
+        liElement.attr("month",clearClassName(secondClass));
         liElement.attr("show","false");
         liElement.hide();
     }else{
-        liElement.attr("month",text.replace(/\s/g, ''));
+        liElement.attr("month",clearClassName(text));
         liElement.attr("show","false");
     }
     ul.append(liElement);
@@ -148,4 +148,10 @@ function weekOfDate(date){
         result=result+52;
     }
     return result;
+}
+
+function clearClassName(className){
+    className=className.replace(/\s/g, '');
+    className=className.replace(/\./g, '');
+    return className;
 }
