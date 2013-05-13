@@ -78,7 +78,8 @@ toJsonStringArray:function(arg, out) {
                 var n=this.pathMem;
                 for(var i=0;i<m.length;i++){
                     if(arg===m[i]){
-                        out.push('"JSONcircRef:'+n[i]+'"');
+						if(n[i])
+							out.push('"JSONcircRef:'+n[i]+'"');
                         return out
                     }
                 };

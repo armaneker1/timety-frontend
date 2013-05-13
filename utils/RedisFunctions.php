@@ -31,14 +31,13 @@ class RedisUtils {
             $key = REDIS_PREFIX_CITY . $city_id;
         }
         $events = array();
-        if ($categryId < 0) {
+        if ($categryId < 0 || empty($categryId)) {
             $events = $redis->zrangebyscore($key, $date, "+inf");
         } else {
             $lang = LANG_EN_US;
             try {
                 $usrr = UserUtils::getUserById($userId);
-                if (!empty($usrr))
-                {
+                if (!empty($usrr)) {
                     $lang = $usrr->language;
                 }
             } catch (Exception $exc) {

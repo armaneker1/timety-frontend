@@ -7,6 +7,14 @@ require_once __DIR__ . '/../utils/Functions.php';
 LanguageUtils::setAJAXLocale();
 HttpAuthUtils::checkMobileHttpAuth();
 
+$uid=-1;
+if (isset($_POST['uid'])) {
+    $uid = $_POST['uid'];
+}
+if (isset($_GET["uid"])) {
+    $uid = $_GET["uid"];
+}
+
 
 $pageNumber = null;
 if (isset($_POST['pageNumber'])) {
@@ -104,36 +112,26 @@ if (empty($date) || substr($date, 0, 1) == "0") {
     $date = strtotime($date);
 }
 
-if (!empty($uid)) {
-    if ($pageNumber >= 0) {
-        if ($pageItemCount <= 0) {
-            $pageItemCount = 40;
-        }
-        $events = RedisUtils::getCategoryEvents($uid, $pageNumber, $pageItemCount, $date, null, $categoryId, $city, $tagId);
-        $events = json_decode($events);
-        $r = new stdClass();
-        $r->success = 1;
-        $r->code = 100;
-        $r->data = new stdClass();
-        $r->data->events = $events;
-        $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
-        echo $result;
-        exit(1);
-        var_dump($recommended);
-    } else {
-        $r = new stdClass();
-        $r->success = 0;
-        $r->code = 106;
-        $r->error = "page numner is wrong ";
-        $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
-        echo $result;
-        exit(1);
+if ($pageNumber >= 0) {
+    if ($pageItemCount <= 0) {
+        $pageItemCount = 40;
     }
+    $events = RedisUtils::getCategoryEvents($uid, $pageNumber, $pageItemCount, $date, null, $categoryId, $city, $tagId);
+    $events = json_decode($events);
+    $r = new stdClass();
+    $r->success = 1;
+    $r->code = 100;
+    $r->data = new stdClass();
+    $r->data->events = $events;
+    $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
+    echo $result;
+    exit(1);
+    var_dump($recommended);
 } else {
     $r = new stdClass();
     $r->success = 0;
     $r->code = 106;
-    $r->error = "User Id is empty";
+    $r->error = "page numner is wrong ";
     $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
     echo $result;
     exit(1);

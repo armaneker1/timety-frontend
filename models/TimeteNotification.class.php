@@ -71,13 +71,13 @@ class TimeteNotification extends Db2PhpEntityBase implements Db2PhpEntityModific
 		self::FIELD_NOT_USER_ID=>null,
 		self::FIELD_NOT_EVENT_ID=>null,
 		self::FIELD_NOT_CUSTOM=>null);
-	private $id;
-	private $type;
-	private $userId;
-	private $read;
-	private $notUserId;
-	private $notEventId;
-	private $notCustom;
+	public $id;
+	public $type;
+	public $userId;
+	public $read;
+	public $notUserId;
+	public $notEventId;
+	public $notCustom;
 
 	/**
 	 * set value for id 
