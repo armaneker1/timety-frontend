@@ -2758,6 +2758,7 @@ span.roll_tr_tr {
     position: absolute;
     margin-left: 5px;
     overflow: hidden;
+    height: 37px;
 }
 
 #autocomplete_search .ui-menu .ui-menu-item a.ui-state-hover,

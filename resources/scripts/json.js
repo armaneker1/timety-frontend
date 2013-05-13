@@ -24,8 +24,8 @@ JSONstring={
     compactOutput:false, 		
     includeProtos:false, 	
     includeFunctions: false,
-    detectCirculars:true,
-    restoreCirculars:true,
+    detectCirculars:false,
+    restoreCirculars:false,
     make:function(arg,restore) {
         this.restore=restore;
         this.mem=[];
@@ -78,8 +78,7 @@ toJsonStringArray:function(arg, out) {
                 var n=this.pathMem;
                 for(var i=0;i<m.length;i++){
                     if(arg===m[i]){
-						if(n[i])
-							out.push('"JSONcircRef:'+n[i]+'"');
+			out.push('"JSONcircRef:'+n[i]+'"');
                         return out
                     }
                 };
