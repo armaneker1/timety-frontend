@@ -434,7 +434,7 @@ class UtilFunctions {
         if (empty($object)) {
             return true;
         }
-        if (!empty($search)) {
+        if (!empty($search) || !empty($tagIds)) {
             $event = new Event();
             if ($isstring) {
                 try {
@@ -464,10 +464,7 @@ class UtilFunctions {
                     $creator = strtolower($event->creator->firstName . " " . $event->creator->lastName);
                 }
                 $search = strtolower($search);
-
-                if (preg_match('/' . $search . '/', $title) || preg_match('/' . $search . '/', $desc) || preg_match('/' . $search . '/', $creator)) {
-                    return false;
-                }
+                
                 if (!empty($tagIds) && !empty($event->tags) && sizeof($event->tags) > 0) {
                     $tagIds = explode(',', $tagIds);
                     foreach ($tagIds as $t) {
@@ -476,7 +473,9 @@ class UtilFunctions {
                         }
                     }
                     return true;
-                } else {
+                }else if (preg_match('/' . $search . '/', $title) || preg_match('/' . $search . '/', $desc) || preg_match('/' . $search . '/', $creator)) {
+                    return false;
+                }else {
                     return true;
                 }
             } else {
