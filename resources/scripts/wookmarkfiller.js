@@ -67,37 +67,6 @@ function wookmarkFiller(options,clear,loader,channel_)
         if(post_wookmark) {
             return null;
         }
-        /*
-         * track event
-         */
-        var track="";
-        if(channel==1){
-            track="/index/events/upcoming?pageId="+page;
-        }else if(channel==2){
-            track="/index/events/mytimety?pageId="+page;
-        }else if(channel==3){
-            track="/index/events/following?pageId="+page;
-        }else if(channel==4){
-            track="/index/events/user?userId"+userSelected+"&pageId="+page;
-        }else if(channel==5){
-            track="/index/events/created?pageId="+page;
-        }else if(channel==6){
-            track="/index/events/liked?pageId="+page;
-        }else if(channel==7){
-            track="/index/events/reshared?pageId="+page;
-        }else if(channel==8){
-            track="/index/events/joined?pageId="+page;
-        }else if(channel==9){
-            track="/index/events/category/"+categoryId+"?pageId="+page;
-        }
-        if(typeof(pSUPERFLY) != "undefined")
-        {
-            pSUPERFLY.virtualPage(track,track);
-        }
-        if(typeof(_gaq) != "undefined" && _gaq){
-            _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-            _gaq.push(['_trackPageview', track]);
-        }
         var tagIdsParam=null;
         try{
             if(tagIds)
@@ -192,6 +161,37 @@ function wookmarkFiller(options,clear,loader,channel_)
 
                     if(dataJSON.length>0)
                     {
+                        /*
+                        * track event
+                        */
+                        var track="";
+                        if(channel==1){
+                            track="/index/events/upcoming?pageId="+page_wookmark;
+                        }else if(channel==2){
+                            track="/index/events/mytimety?pageId="+page_wookmark;
+                        }else if(channel==3){
+                            track="/index/events/following?pageId="+page_wookmark;
+                        }else if(channel==4){
+                            track="/index/events/user?userId"+userSelected+"&pageId="+page_wookmark;
+                        }else if(channel==5){
+                            track="/index/events/created?pageId="+page_wookmark;
+                        }else if(channel==6){
+                            track="/index/events/liked?pageId="+page_wookmark;
+                        }else if(channel==7){
+                            track="/index/events/reshared?pageId="+page_wookmark;
+                        }else if(channel==8){
+                            track="/index/events/joined?pageId="+page_wookmark;
+                        }else if(channel==9){
+                            track="/index/events/category/"+categoryId+"?pageId="+page_wookmark;
+                        }
+                        if(typeof(pSUPERFLY) != "undefined")
+                        {
+                            pSUPERFLY.virtualPage(track,track);
+                        }
+                        if(typeof(_gaq) != "undefined" && _gaq){
+                            _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                            _gaq.push(['_trackPageview', track]);
+                        }
                         page_wookmark++;
                     }else
                     {
@@ -466,7 +466,7 @@ function wookmarkHTML(dataArray,userId)
             jQuery(likeShareDiv).append(editJoinDiv);
             
             //if(userId){
-                jQuery(imgDiv).append(likeShareDiv);
+            jQuery(imgDiv).append(likeShareDiv);
             //}
             
             //video
@@ -519,7 +519,7 @@ function wookmarkHTML(dataArray,userId)
                 if(data.creator){
                     jQuery(creatorDIVP).attr("onclick","window.location='"+TIMETY_HOSTNAME+data.creator.userName+"';");
                     if(data.creator.type+""=="1"){
-                         jQuery(creatorDIVP).append('<div class="event_creator_verified_user timetyVerifiedIcon"><img src="'+TIMETY_HOSTNAME+'images/timetyVerifiedIcon.png"></div>');
+                        jQuery(creatorDIVP).append('<div class="event_creator_verified_user timetyVerifiedIcon"><img src="'+TIMETY_HOSTNAME+'images/timetyVerifiedIcon.png"></div>');
                     }
                     var url=data.creator.userPicture;
                     if(url==null || url=="" )
