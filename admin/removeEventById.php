@@ -30,8 +30,9 @@ if (isset($_POST['eventId']) && !empty($_POST['eventId'])) {
     $redis = new Predis\Client();
     $keys = $redis->keys("*");
     $friendsKeys = $redis->keys("user:friend*");
+    $socialKeys = $redis->keys("user:social*");
     foreach ($keys as $key) {
-        if (!in_array($key, $friendsKeys)) {
+        if (!in_array($key, $friendsKeys) && !in_array($key, $socialKeys)) {
             $events = $redis->zrevrange($key, 0, -1);
             foreach ($events as $item) {
                 $evt = json_decode($item);

@@ -51,7 +51,7 @@ if (isset($_GET['lng'])) {
     $lat = $_GET['lng'];
 }
 
-if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_TEXT || $type == GOOGLE_MAPS_API_KEY || $type == FOURSQUARE_TEXT || $type == 'email')) {
+if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_TEXT || $type == GOOGLE_PLUS_TEXT || $type == FOURSQUARE_TEXT || $type == 'email')) {
     if (!empty($uid)) {
         if ($type == 'email') {
             $email = false;
