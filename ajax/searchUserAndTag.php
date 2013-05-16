@@ -36,6 +36,10 @@ if (isset($_GET["term"]))
     $term = $_GET["term"];
 
 
+if(empty($lang) || strtolower($lang)!="tr_tr" || strtolower($lang)!="en_us"){
+    $lang="en_us";
+}
+
 if (!empty($term)) {
     $es = Client::connection(array(
                 'servers' => 'localhost:9200',
