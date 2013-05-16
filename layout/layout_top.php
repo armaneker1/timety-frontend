@@ -158,6 +158,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                         type: 'GET',
                         url: '<?= HOSTNAME . "ajax/searchUserAndTag.php" ?>',
                         data: {
+                            lang : getLanguageText("LOCALE_CODE"),
                             userId : '<?php
             if (!empty($user)) {
                 echo $user->id;
