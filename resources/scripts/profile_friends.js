@@ -298,7 +298,7 @@ function openFriendsPopup(userId,reqUserId,type)
             
         }else
         {
-            return false;
+            window.location=TIMETY_PAGE_SIGNUP;
         }
     
         /*
