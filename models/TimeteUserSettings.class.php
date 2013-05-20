@@ -17,9 +17,9 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 	private static $CLASS_NAME='TimeteUserSettings';
 	const SQL_IDENTIFIER_QUOTE='`';
 	const SQL_TABLE_NAME='timete_user_settings';
-	const SQL_INSERT='INSERT INTO `timete_user_settings` (`user_id`,`bg_image_active`,`bg_image`,`bg_image_repeat`,`bg_color_active`,`bg_color`,`banner_active`) VALUES (?,?,?,?,?,?,?)';
-	const SQL_INSERT_AUTOINCREMENT='INSERT INTO `timete_user_settings` (`user_id`,`bg_image_active`,`bg_image`,`bg_image_repeat`,`bg_color_active`,`bg_color`,`banner_active`) VALUES (?,?,?,?,?,?,?)';
-	const SQL_UPDATE='UPDATE `timete_user_settings` SET `user_id`=?,`bg_image_active`=?,`bg_image`=?,`bg_image_repeat`=?,`bg_color_active`=?,`bg_color`=?,`banner_active`=? WHERE `user_id`=?';
+	const SQL_INSERT='INSERT INTO `timete_user_settings` (`user_id`,`bg_image_active`,`bg_image`,`bg_image_repeat`,`bg_color_active`,`bg_color`,`banner_active`,`mediaactive`) VALUES (?,?,?,?,?,?,?,?)';
+	const SQL_INSERT_AUTOINCREMENT='INSERT INTO `timete_user_settings` (`user_id`,`bg_image_active`,`bg_image`,`bg_image_repeat`,`bg_color_active`,`bg_color`,`banner_active`,`mediaactive`) VALUES (?,?,?,?,?,?,?,?)';
+	const SQL_UPDATE='UPDATE `timete_user_settings` SET `user_id`=?,`bg_image_active`=?,`bg_image`=?,`bg_image_repeat`=?,`bg_color_active`=?,`bg_color`=?,`banner_active`=?,`mediaactive`=? WHERE `user_id`=?';
 	const SQL_SELECT_PK='SELECT * FROM `timete_user_settings` WHERE `user_id`=?';
 	const SQL_DELETE_PK='DELETE FROM `timete_user_settings` WHERE `user_id`=?';
 	const FIELD_USER_ID=995851703;
@@ -29,6 +29,7 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 	const FIELD_BG_COLOR_ACTIVE=-464624444;
 	const FIELD_BG_COLOR=-192283583;
 	const FIELD_BANNER_ACTIVE=914425121;
+	const FIELD_MEDIAACTIVE=526184338;
 	private static $PRIMARY_KEYS=array(self::FIELD_USER_ID);
 	private static $AUTOINCREMENT_FIELDS=array();
 	private static $FIELD_NAMES=array(
@@ -38,7 +39,8 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 		self::FIELD_BG_IMAGE_REPEAT=>'bg_image_repeat',
 		self::FIELD_BG_COLOR_ACTIVE=>'bg_color_active',
 		self::FIELD_BG_COLOR=>'bg_color',
-		self::FIELD_BANNER_ACTIVE=>'banner_active');
+		self::FIELD_BANNER_ACTIVE=>'banner_active',
+		self::FIELD_MEDIAACTIVE=>'mediaactive');
 	private static $PROPERTY_NAMES=array(
 		self::FIELD_USER_ID=>'userId',
 		self::FIELD_BG_IMAGE_ACTIVE=>'bgImageActive',
@@ -46,7 +48,8 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 		self::FIELD_BG_IMAGE_REPEAT=>'bgImageRepeat',
 		self::FIELD_BG_COLOR_ACTIVE=>'bgColorActive',
 		self::FIELD_BG_COLOR=>'bgColor',
-		self::FIELD_BANNER_ACTIVE=>'bannerActive');
+		self::FIELD_BANNER_ACTIVE=>'bannerActive',
+		self::FIELD_MEDIAACTIVE=>'mediaactive');
 	private static $PROPERTY_TYPES=array(
 		self::FIELD_USER_ID=>Db2PhpEntity::PHP_TYPE_INT,
 		self::FIELD_BG_IMAGE_ACTIVE=>Db2PhpEntity::PHP_TYPE_INT,
@@ -54,7 +57,8 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 		self::FIELD_BG_IMAGE_REPEAT=>Db2PhpEntity::PHP_TYPE_STRING,
 		self::FIELD_BG_COLOR_ACTIVE=>Db2PhpEntity::PHP_TYPE_INT,
 		self::FIELD_BG_COLOR=>Db2PhpEntity::PHP_TYPE_STRING,
-		self::FIELD_BANNER_ACTIVE=>Db2PhpEntity::PHP_TYPE_INT);
+		self::FIELD_BANNER_ACTIVE=>Db2PhpEntity::PHP_TYPE_INT,
+		self::FIELD_MEDIAACTIVE=>Db2PhpEntity::PHP_TYPE_INT);
 	private static $FIELD_TYPES=array(
 		self::FIELD_USER_ID=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false),
 		self::FIELD_BG_IMAGE_ACTIVE=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false),
@@ -62,7 +66,8 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 		self::FIELD_BG_IMAGE_REPEAT=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,100,0,false),
 		self::FIELD_BG_COLOR_ACTIVE=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false),
 		self::FIELD_BG_COLOR=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,100,0,false),
-		self::FIELD_BANNER_ACTIVE=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false));
+		self::FIELD_BANNER_ACTIVE=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false),
+		self::FIELD_MEDIAACTIVE=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false));
 	private static $DEFAULT_VALUES=array(
 		self::FIELD_USER_ID=>0,
 		self::FIELD_BG_IMAGE_ACTIVE=>0,
@@ -70,7 +75,8 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 		self::FIELD_BG_IMAGE_REPEAT=>'',
 		self::FIELD_BG_COLOR_ACTIVE=>0,
 		self::FIELD_BG_COLOR=>'',
-		self::FIELD_BANNER_ACTIVE=>0);
+		self::FIELD_BANNER_ACTIVE=>0,
+		self::FIELD_MEDIAACTIVE=>0);
 	private $userId;
 	private $bgImageActive;
 	private $bgImage;
@@ -78,6 +84,7 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 	private $bgColorActive;
 	private $bgColor;
 	private $bannerActive;
+	private $mediaactive;
 
 	/**
 	 * set value for user_id 
@@ -255,6 +262,31 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 	}
 
 	/**
+	 * set value for mediaactive 
+	 *
+	 * type:INT UNSIGNED,size:10,default:null
+	 *
+	 * @param mixed $mediaactive
+	 * @return TimeteUserSettings
+	 */
+	public function &setMediaactive($mediaactive) {
+		$this->notifyChanged(self::FIELD_MEDIAACTIVE,$this->mediaactive,$mediaactive);
+		$this->mediaactive=$mediaactive;
+		return $this;
+	}
+
+	/**
+	 * get value for mediaactive 
+	 *
+	 * type:INT UNSIGNED,size:10,default:null
+	 *
+	 * @return mixed
+	 */
+	public function getMediaactive() {
+		return $this->mediaactive;
+	}
+
+	/**
 	 * Get table name
 	 *
 	 * @return string
@@ -371,7 +403,8 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 			self::FIELD_BG_IMAGE_REPEAT=>$this->getBgImageRepeat(),
 			self::FIELD_BG_COLOR_ACTIVE=>$this->getBgColorActive(),
 			self::FIELD_BG_COLOR=>$this->getBgColor(),
-			self::FIELD_BANNER_ACTIVE=>$this->getBannerActive());
+			self::FIELD_BANNER_ACTIVE=>$this->getBannerActive(),
+			self::FIELD_MEDIAACTIVE=>$this->getMediaactive());
 	}
 
 
@@ -648,6 +681,7 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 		$this->setBgColorActive($result['bg_color_active']);
 		$this->setBgColor($result['bg_color']);
 		$this->setBannerActive($result['banner_active']);
+		$this->setMediaactive($result['mediaactive']);
 	}
 
 	/**
@@ -689,6 +723,7 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 		$stmt->bindValue(5,$this->getBgColorActive());
 		$stmt->bindValue(6,$this->getBgColor());
 		$stmt->bindValue(7,$this->getBannerActive());
+		$stmt->bindValue(8,$this->getMediaactive());
 	}
 
 
@@ -721,7 +756,7 @@ class TimeteUserSettings extends Db2PhpEntityBase implements Db2PhpEntityModific
 	public function updateToDatabase(PDO $db) {
 		$stmt=self::prepareStatement($db,self::SQL_UPDATE);
 		$this->bindValues($stmt);
-		$stmt->bindValue(8,$this->getUserId());
+		$stmt->bindValue(9,$this->getUserId());
 		$affected=$stmt->execute();
 		if (false===$affected) {
 			$stmt->closeCursor();

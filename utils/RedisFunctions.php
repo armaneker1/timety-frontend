@@ -2,6 +2,55 @@
 
 class RedisUtils {
 
+    public static function getUserSocailMedia($userId = null, $reqUserId = null, $pageNumber = 0, $pageItemCount = 50, $type = null) {
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $date = time();
+        if (!empty($reqUserId)) {
+            $pgStart = $pageNumber * $pageItemCount;
+            $pgEnd = $pgStart + $pageItemCount - 1;
+            $key = REDIS_PREFIX_USER_SOCIAL . $reqUserId . REDIS_SUFFIX_USER_SOCIAL;
+            if (empty($type)) {
+                $redis = new Predis\Client();
+                $events = $redis->zrevrangebyscore($key,$date,"-inf");
+                $result = "[";
+                $ik = 0;
+                for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
+                    if ($ik <= $pgEnd) {
+                        try {
+                            $r = ",";
+                            if (strlen($result) < 2) {
+                                $r = "";
+                            }
+                            if ($ik >= $pgStart) {
+                                $ev=  json_decode($events[$i]);
+                                $ev->recordJSON="";
+                                //temp
+                                $ev->recorJSON="";
+                                $result = $result . $r . json_encode($ev);
+                            }
+                            $ik++;
+                        } catch (Exception $exc) {
+                            $log->logError("RedisUtils > getUserSocailMedia > $i Error : " . $exc->getTraceAsString());
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                $result = $result . "]";
+                return $result;
+            } else {
+                // TODO : fb,tw,goog vss
+                return "[]";
+            }
+        } else {
+            $res = new Result();
+            $res->error = true;
+            $res->success = false;
+            $res->param = "reqUserId is empty";
+            return json_encode($res);
+        }
+    }
+
     public static function getCategoryEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $categryId = -1, $city_id = -1, $searchtagIds = null) {
         if ($userId == "*") {
             $userId = -1;

@@ -75,6 +75,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
+<script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/mediapopup.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/loader.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/infopopup.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/index.min.js?<?= JS_CONSTANT_PARAM ?>"></script>

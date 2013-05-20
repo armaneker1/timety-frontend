@@ -29,8 +29,8 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     <div id="top_blm_sol">
 
         <?php if (empty($user)) { ?>
-        <div style="  display: inline-block; position: absolute; width: 100%;text-align: center;margin-left: -105px;z-index: -1;" class="sign_up_header_cont">
-                <div style="background-color: #f99e19;display: table;margin-left: auto;margin-right: auto; padding: 6px 10px 6px 10px;border-radius: 5px;">
+            <div style="  display: inline-block; position: absolute; width: 100%;text-align: center;margin-left: -105px;z-index: -1;" class="sign_up_header_cont">
+                <div style="background-color: #cfcfcf;display: table;margin-left: auto;margin-right: auto; padding: 6px 10px 6px 10px;border-radius: 5px;">
                     <a class="sign_up_header" href="<?= PAGE_SIGNUP ?>"><span  ><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span></a>
                 </div>
             </div>
@@ -164,84 +164,97 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 echo $user->id;
             }
             ?>',
-                                            term : term
-                                        },
-                                        success: function(data){
-                                            if(typeof data == "string")  {
-                                                data= jQuery.parseJSON(data);
-                                            }
-                                            else  {
-                                                data=data;   
-                                            }
-                                            gotoResults(data.data,data.success,func);
-                                        },
-                                        error: function(data){
-                                            if(func && jQuery.isFunction(func)){
-                                                func(null);
-                                            }
-                                        }
-                                    },"json");
-                                }
+                            term : term
+                        },
+                        success: function(data){
+                            if(typeof data == "string")  {
+                                data= jQuery.parseJSON(data);
+                            }
+                            else  {
+                                data=data;   
+                            }
+                            gotoResults(data.data,data.success,func);
+                        },
+                        error: function(data){
+                            if(func && jQuery.isFunction(func)){
+                                func(null);
+                            }
+                        }
+                    },"json");
+                }
                 
-                                function searchTagAndUser(item){
-                                    if(item.s_type=="tag"){
-                                        var tagId=item.id;
-                                        if(tagIds){
-                                            //tagIds=tagIds+","+tagId;
-                                            tagIds=tagId;
-                                        }else{
-                                            tagIds=tagId;
-                                        }
-                                        jQuery("#searchText").val("");
-                                        page_wookmark=0;
-                                        isearching=true;
-                                        wookmarkFiller(document.optionsWookmark, true,true);
-                                    }else if(item.s_type=="user"){
-                                        window.location=TIMETY_HOSTNAME+item.userName;
-                                    }
-                                }
+                function searchTagAndUser(item){
+                    if(item.s_type=="tag"){
+                        var tagId=item.id;
+                        if(tagIds){
+                            //tagIds=tagIds+","+tagId;
+                            tagIds=tagId;
+                        }else{
+                            tagIds=tagId;
+                        }
+                        jQuery("#searchText").val("");
+                        page_wookmark=0;
+                        isearching=true;
+                        wookmarkFiller(document.optionsWookmark, true,true);
+                    }else if(item.s_type=="user"){
+                        window.location=TIMETY_HOSTNAME+item.userName;
+                    }
+                }
                 
                 
                 
-                                jQuery(document).ready(function(){
-                                    try{
-                                        jQuery( "#searchText" ).autocomplete({ 
-                                            source: searchUserTagFunction, 
-                                            minLength: 2,
-                                            labelField:'s_label',
-                                            delay:50,
-                                            valueField:'s_id',
-                                            appendTo: "#autocomplete_search" ,
-                                            select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
-                                            focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
-                                        }).data('autocomplete')._renderItem = function(ul, item) {
-                                            if(item.s_type=="tag"){
-                                                return jQuery('<li></li>')
-                                                .data('item.autocomplete', item)
-                                                .append('<a>' + item.s_label + '</a>')
-                                                .appendTo(ul);
-                                            }else if(item.s_type=="user"){
-                                                var img="";
-                                                if(item.userPicture){
-                                                    img=item.userPicture;
-                                                    if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
-                                                        img=TIMETY_HOSTNAME+img;
-                                                    } 
-                                                }else{
-                                                    img=TIMETY_HOSTNAME+"images/anonymous.png";  
-                                                }                    
-                                                return jQuery('<li></li>')
-                                                .data('item.autocomplete', item)
-                                                .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
-                                                .appendTo(ul);
-                                            }
-                                        };
-                                    }catch(exp){
-                                        console.log(exp);
-                                    }
-                                });
+                jQuery(document).ready(function(){
+                    try{
+                        jQuery( "#searchText" ).autocomplete({ 
+                            source: searchUserTagFunction, 
+                            minLength: 2,
+                            labelField:'s_label',
+                            delay:50,
+                            valueField:'s_id',
+                            appendTo: "#autocomplete_search" ,
+                            select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
+                            focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
+                        }).data('autocomplete')._renderItem = function(ul, item) {
+                            if(item.s_type=="tag"){
+                                return jQuery('<li></li>')
+                                .data('item.autocomplete', item)
+                                .append('<a>' + item.s_label + '</a>')
+                                .appendTo(ul);
+                            }else if(item.s_type=="user"){
+                                var img="";
+                                if(item.userPicture){
+                                    img=item.userPicture;
+                                    if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
+                                        img=TIMETY_HOSTNAME+img;
+                                    } 
+                                }else{
+                                    img=TIMETY_HOSTNAME+"images/anonymous.png";  
+                                }                    
+                                return jQuery('<li></li>')
+                                .data('item.autocomplete', item)
+                                .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
+                                .appendTo(ul);
+                            }
+                        };
+                    }catch(exp){
+                        console.log(exp);
+                    }
+                });
             </script>
             <!-- Tag token input -->
+            <?php
+            $ismedia = false;
+
+            if (!empty($p_user)) {
+                $settings = UserSettingsUtil::getUserSettings($p_user->id);
+                if (!empty($settings) && $settings->getMediaactive() == 1) {
+                    ?>
+                    <div id="user_media" style="float: left;display: inline-block;position: absolute;line-height: 36px;margin-left: 20px;">
+                        <a href="#" onclick="page_wookmark=0;wookmarkFiller(document.optionsWookmark, true, true, 14);return false;">Media</a>
+                    </div>
+                    <?php }
+            }
+            ?>
         </div>
         <!--city & sarch -->
     </div>
@@ -407,8 +420,8 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     </div>
                 </div>
                 <!-- Notification -->
-    <?php } else {
-        ?>
+            <?php } else {
+                ?>
                 <div class="top_menu">
                     <ul>
                         <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a"><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a></li>

@@ -57,6 +57,7 @@ define('PAGE_NEW_PASSWORD', HOSTNAME . 'new-password');
 define('PAGE_CONFIRM', HOSTNAME . 'confirm-user');
 define('PAGE_EDIT_EVENT', HOSTNAME . 'editEvent.php');
 define('PAGE_EVENT', HOSTNAME . 'event/');
+define('PAGE_MEDIA', HOSTNAME . 'media/');
 define('PAGE_USER', HOSTNAME . 'user/');
 define('PAGE_UPDATE_PROFILE', HOSTNAME . 'profile');
 define('PAGE_UPDATE_EVENT', HOSTNAME . 'updateevent/');
@@ -142,6 +143,8 @@ define('REDIS_PREFIX_USER_FRIEND', 'user:friend:');
 define('REDIS_SUFFIX_FRIEND_FOLLOWING', ':following');
 define('REDIS_SUFFIX_FRIEND_FOLLOWERS', ':follower');
 define('REDIS_PREFIX_CITY', 'events:city:');
+define('REDIS_PREFIX_USER_SOCIAL', 'user:social:');
+define('REDIS_SUFFIX_USER_SOCIAL', ':media');
 //LOG PATH
 define('KLOGGER_PATH', '/home/ubuntu/log/');
 

@@ -37,6 +37,7 @@ if (!empty($query)) {
             $usr->about = $user->about;
             $usr->gender = $user->gender;
             $usr->language = $user->language;
+            $usr->time_zone = $user->time_zone;
             array_push($array, $usr);
         }
     } else if ($num > 0) {
@@ -53,6 +54,7 @@ if (!empty($query)) {
         $usr->about = $user->about;
         $usr->gender = $user->gender;
         $usr->language = $user->language;
+        $usr->time_zone = $user->time_zone;
         array_push($array, $usr);
     }
 }

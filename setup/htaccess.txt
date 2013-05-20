@@ -54,6 +54,8 @@ RewriteRule ^event/([0-9]+)/([^/]+)$ /event/$1
 RewriteRule ^event/([0-9]+)/$ /event/$1
 RewriteRule ^event/([0-9]+)$ /user.php?eventId=$1
 
+RewriteRule ^media/([0-9]+)/([^/]+)/$ /media/$1/$2
+RewriteRule ^media/([0-9]+)/([^/]+)$ /user.php?userId=$1&mediaId=$2&media=1
 
 RewriteRule ^updateevent/([0-9]+)/([^/]+)/$ /updateevent/$1
 RewriteRule ^updateevent/([0-9]+)/([^/]+)$ /updateevent/$1
@@ -67,4 +69,4 @@ RewriteRule ^index.php/$ / [R]
 RewriteRule ^index.php$ / [R]
 
 
-RewriteRule ^((?!.*\.html*.)(?!.*\.php*.)(?!.*\.js*.)(?!.*\.css*.)(?!.*\.jpg*.)(?!.*\.jpeg*.)(?!.*\.gif*.)(?!.*\.png*.)(?!.*\.svg*.)(?!.*\.txt*.)(?!.*\.ico*.)[a-zA-Z][a-zA-Z0-9\.\-_]{2,40})$ /user.php?userName=$1
+RewriteRule ^((?!.*\.html*.)(?!.*\.php*.)(?!.*\.js*.)(?!.*\.css*.)(?!.*\.jpg*.)(?!.*\.jpeg*.)(?!.*\.gif*.)(?!.*\.png*.)(?!.*\.svg*.)(?!.*\.txt*.)(?!.*\.ico*.)[a-zA-Z][a-zA-Z0-9\.\-_]{2,40})$ /user.php?userName=$1&%{QUERY_STRING}

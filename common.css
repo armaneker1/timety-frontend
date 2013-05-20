@@ -3094,3 +3094,35 @@ langugae classes
     color: black;
     font-size: 24px;
 }
+
+.media_arrow{
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    display: block;
+    top: 0;
+    cursor: pointer;
+}
+.media_arrow_left{
+    left: 0;
+}
+
+.media_arrow_left:hover{
+    left: 0;
+    background: url('images/imghovnav_prev.png');
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position-y: 20%;
+}
+
+.media_arrow_right{
+    right:  0;
+}
+
+.media_arrow_right:hover{
+    right: 0;
+    background: url('images/imghovnav_next.png');
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position-y: 20%;
+}

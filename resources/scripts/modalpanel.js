@@ -43,6 +43,7 @@ function showBackGround()
     jQuery(detailModalPanelBackground).unbind('click');
     jQuery(detailModalPanelBackground).bind('click',function(){
         closeModalPanel();
+        closeMedialPanel();
     });
     jQuery(detailModalPanelBackground).fadeIn(200);
     document.body.style.overflow = "hidden";
@@ -151,7 +152,11 @@ function setHeaderImage(headerImage,data)
                 mWidth=561;
             }
         }
-        var imgUrl=TIMETY_PAGE_GET_IMAGE_URL+""+TIMETY_SUBFOLDER+data.url+"&w="+mWidth+"&h="+mHeight;
+        var _url=TIMETY_SUBFOLDER+data.url;
+        if(data.url.indexOf("http")==0  || data.url.indexOf("www")==0){
+            _url=encodeURIComponent(data.url);
+        }
+        var imgUrl=TIMETY_PAGE_GET_IMAGE_URL+""+_url+"&w="+mWidth+"&h="+mHeight;
         myImage.src= imgUrl;
         myImage.onload=function(){
             var set=false;
@@ -222,6 +227,7 @@ function getEventDetailFromServer(eventId){
 }
 
 function openModalPanel(event_id,custom) {
+    jQuery("#media_panel").hide();
     /*
      *Clear dropable
      */
@@ -783,21 +789,31 @@ function addUrlEventId(event_id,title)
         var url_=window.location.href.split("/");
         if(url_)
         {
-            if(jQuery.inArray("event",url_)<0)
+            if(jQuery.inArray("event",url_)<0 && jQuery.inArray("media",url_)<0)
             {
                 window.History.pushState(null, null, "event/"+event_id+"/"+title);  
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
                 if(typeof pSUPERFLY != "undefined")
                     pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title+"");
-            }else
-            {
+            } else if (jQuery.inArray("event",url_)>=0)  {
                 path="";
                 for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
                 {
                     path=path+"/"+url_[i];
                 }
                 window.History.pushState(null, null, path+"/"+"event/"+event_id+"/"+title);  
+                _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
+                if(typeof pSUPERFLY != "undefined")
+                    pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title+"");
+            }else if (jQuery.inArray("media",url_)>=0) {
+                path="";
+                for(i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="media";i++)
+                {
+                    path=path+"/"+url_[i];
+                }
+                window.History.pushState(null, null,path+"/"+"event/"+event_id+"/"+title);  
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
                 if(typeof pSUPERFLY != "undefined")
@@ -826,6 +842,16 @@ function remUrlEventId()
                 if(jQuery.inArray("event",url_)>=0)  {
                     var path="";
                     for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)  {
+                        path=path+"/"+url_[i];
+                    }
+                    if(popup_userName){
+                        window.History.pushState(null, null,path+"/"+popup_userName);  
+                    } else{
+                        window.History.pushState(null, null, path+"/");
+                    }
+                } else if(jQuery.inArray("media",url_)>=0)  {
+                    var path="";
+                    for(i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="media";i++)  {
                         path=path+"/"+url_[i];
                     }
                     if(popup_userName){

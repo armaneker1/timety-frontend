@@ -5,7 +5,7 @@ header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
 LanguageUtils::setAJAXLocale();
-$userId = null;
+$userId = "-1";
 if (isset($_GET["userId"]))
     $userId = $_GET["userId"];
 
@@ -62,12 +62,13 @@ $res->success = false;
  * 11=user liked
  * 12=user reshared
  * 13=user joined
+ * 14=reqUser soacial meida
  * $query search paramaters deeafult "" all
  * $pageNumber deafult 0
  * $pageItemCount default 15
  */
 
-if ($userId != null && $pageNumber != "" && $pageItemCount != null && $type != null) {
+if ($userId != null && $pageNumber != null && $pageItemCount != null && $type != null) {
     echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $category, $reqUserId, $city_channel,$tagIds);
 } else {
     $json_response = json_encode($res);

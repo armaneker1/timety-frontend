@@ -10,6 +10,7 @@ require_once __DIR__ . '/TimeteUserCookie.class.php';
 require_once __DIR__ . '/TimeteEventKeyList.class.php';
 require_once __DIR__ . '/TimeteUserSettings.class.php';
 require_once __DIR__ . '/TimeteVideos.class.php';
+require_once __DIR__ . '/TimeteSocialMedia.class.php';
 
 class User {
 

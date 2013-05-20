@@ -69,6 +69,7 @@ if ($showPopup) {
     echo "none";
 }
 ?>;">
+     <?php include('layout/template_mediadetail.php'); ?>
      <?php include('layout/template_eventdetail.php'); ?>
      <?php include('layout/template_following.php');  ?>
     <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/profile_friends.js?<?= JS_CONSTANT_PARAM ?>"></script>   

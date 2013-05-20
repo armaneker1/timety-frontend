@@ -8,7 +8,7 @@ class EventUtil {
             if (!empty($eventDB)) {
                 $event->id = $eventDB->id;
                 Neo4jEventUtils::createEvent($event, $user);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $user->id, "type" => 6,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $user->id, "type" => 6, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
                 ElasticSearchUtils::insertEventtoEventIndex($eventDB);
                 return $eventDB;
             }
@@ -309,7 +309,7 @@ class EventUtil {
             return null;
         }
     }
-    
+
     public static function getEventByIdNeo4j($id) {
         if (!empty($id)) {
             $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id;
@@ -330,12 +330,25 @@ class EventUtil {
     public static function getUserLastActivityString($event, $userId) {
         if (!empty($userId) && !empty($event)) {
             try {
+                
                 if (!empty($event->userEventLog)) {
                     $action = "";
+                    $log=null;
                     if (is_array($event->userEventLog)) {
                         $log = $event->userEventLog[0];
                     } else {
-                        $log = $event->userEventLog;
+                        if (isset($log->userId)) {
+                            $log = $event->userEventLog;
+                        }else{
+                            $array = get_object_vars($event->userEventLog);
+                            $event->userEventLog=array();
+                            foreach ($array as $value) {
+                                array_push($event->userEventLog, $value);
+                            }
+                            if(!empty($event->userEventLog)){
+                                $log=$event->userEventLog[0];
+                            }
+                        }
                     }
                     if (!empty($log)) {
                         if ($log->userId == $userId) {

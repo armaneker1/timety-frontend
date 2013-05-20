@@ -15,7 +15,7 @@ class DBUtils {
         }
         return self::$db;
     }
-
+    
     public static function getNextId($field) {
         if (!empty($field)) {
             $field = DBUtils::mysql_escape($field);

@@ -922,6 +922,7 @@ class Neo4jFuctions {
      * 11=i liked
      * 12=i reshared
      * 13=i joined
+     * 14=reqUser soacial meida
      * $query search paramaters deeafult "" all
      * $pageNumber deafult 0
      * $pageItemCount default 15
@@ -938,7 +939,7 @@ class Neo4jFuctions {
                 if (!empty($tagIds) && $tagIds != "null" && $tagIds != "undefined") {
                     $tagIds = $tagIds . "," . $tag->id;
                 } else {
-                    $tagIds = $tag->id."";
+                    $tagIds = $tag->id . "";
                 }
             }
         }
@@ -1034,6 +1035,11 @@ class Neo4jFuctions {
             } else {
                 return RedisUtils::getUserJoinedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $reqUserId, $tagIds, $dateCalc);
             }
+        } else if ($type == 14) {
+            if ($userId == -1 || $userId = "*") {
+                $userId = null;
+            };
+            return RedisUtils::getUserSocailMedia($userId, $reqUserId, $pageNumber, $pageItemCount, null);
         } else if ($type == 5) {
             return RedisUtils::getCreatedEvents($userId, $pageNumber, $pageItemCount, $date, $query, $tagIds, $dateCalc);
         } else if ($type == 6) {

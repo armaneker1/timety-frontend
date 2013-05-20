@@ -1,5 +1,12 @@
 <?php
 
+if (!defined("LANG_EN_US")) {
+    define("LANG_EN_US", "en_US");
+}
+if (!defined("LANG_TR_TR")) {
+    define("LANG_TR_TR", "tr_TR");
+}
+
 class LanguageUtils {
 
     public static function getBrowserLanguage() {
