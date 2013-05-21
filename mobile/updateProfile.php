@@ -138,6 +138,8 @@ if (!empty($uid)) {
                     $msg->msg = "Email address already exits";
                     array_push($error_mesages, $msg);
                 }
+            } else {
+                $user->email = $email;
             }
         }
 
