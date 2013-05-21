@@ -250,7 +250,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 if (!empty($settings) && $settings->getMediaactive() == 1) {
                     ?>
                     <div id="user_media" style="float: left;display: inline-block;position: absolute;line-height: 36px;margin-left: 20px;">
-                        <a href="#" onclick="page_wookmark=0;wookmarkFiller(document.optionsWookmark, true, true, 14);return false;">Media</a>
+                        <a href="<?=HOSTNAME.$p_user->userName."/media"?>" style="font-size: 15px;color: #505050;"><?=  LanguageUtils::getText("LANG_PAGE_TOP_MEDIA")?></a>
                     </div>
                     <?php }
             }

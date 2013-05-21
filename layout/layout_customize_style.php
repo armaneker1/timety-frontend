@@ -6,12 +6,12 @@ if (!empty($p_user)) {
         <style>
             .bg{
                 <?php if ($settings->getBgImageActive() == 1) { ?>
-                    background-image:  url(<?= $settings->getBgImage() ?>);
-                    background-repeat: <?= $settings->getBgImageRepeat() ?>;
-                    background-attachment: fixed;
+                background-image:  url('<?= $settings->getBgImage()?>') !important;
+                background-repeat: <?= $settings->getBgImageRepeat() ?> !important;
+                    background-attachment: fixed !important;
                 <?php } ?>
                 <?php if ($settings->getBgColorActive() == 1) { ?>
-                    background-color:  <?= $settings->getBgColor() ?>;
+                    background-color:  <?= $settings->getBgColor() ?> !important;
                 <?php } ?>
             }
         </style>

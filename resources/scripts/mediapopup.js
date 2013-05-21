@@ -2,7 +2,7 @@ var meida_oldUrl=null;
 var meida_popup_userName=null;
 
 jQuery(document).ready(function(){
-    meida_oldUrl=window.location.href;
+    meida_oldUrl=location.pathname+location.search+location.hash;
 });
 
 /*
@@ -124,7 +124,7 @@ function openMediaModalPanel(media_id,custom) {
             }else if(data.type=="instagram"){
                 url=TIMETY_HOSTNAME+"images/ins_logo.png"; 
             }
-            /*
+        /*
                   
                   else if(data.type=="facebook"){
                     data_id=data.type;
@@ -310,8 +310,8 @@ function setMediaHeaderImage(headerImage,data,media_id)
                         jQuery(headerImage).attr('width', width);
                     }, 10);
             
-                    //param=param+"&h="+height;
-                    //param=param+"&w="+width;
+                //param=param+"&h="+height;
+                //param=param+"&w="+width;
                 }else
                 {
                     jQuery(headerImage).css('max-width','560px');    
@@ -328,7 +328,7 @@ function setMediaHeaderImage(headerImage,data,media_id)
 
 function addUrlMediaId(data)
 {
-    if(selectedUser){
+    if(popup_userName){
         var id=null;
         if(data && data.type && data.socialID){ 
             id=data.type+"_"+ data.socialID;
@@ -338,36 +338,12 @@ function addUrlMediaId(data)
                 /*
                  * Url rewrite
                  */
-                var url_=window.location.href.split("/");
-                if(url_)
-                {
-                    if(jQuery.inArray("event",url_)<0 && jQuery.inArray("media",url_)<0)   {
-                        window.History.pushState(null, null, "media/"+selectedUser+"/"+id);  
-                        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                    } else if (jQuery.inArray("event",url_)>=0)  {
-                        path="";
-                        for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
-                        {
-                            path=path+"/"+url_[i];
-                        }
-                        window.History.pushState(null, null, path+"/media/"+selectedUser+"/"+id);  
-                        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                    } else if (jQuery.inArray("media",url_)>=0) {
-                        path="";
-                        for(i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="media";i++)
-                        {
-                            path=path+"/"+url_[i];
-                        }
-                        window.History.pushState(null, null,path+"/media/"+selectedUser+"/"+id);  
-                        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                    }
-                }
+                window.History.pushState(null, null, "/"+popup_userName+"/media/"+id);  
+                _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
             } else {
                 getLoader(true);
-                window.location=TIMETY_PAGE_MEDIA_DETAIL+selectedUser+"/"+id;
+                window.location=TIMETY_HOSTNAME+popup_userName+"/media/"+id;
                 return false;
             }
         }
@@ -378,7 +354,7 @@ function addUrlMediaId(data)
 function remUrlMediaId()
 {
     if (history.pushState) {
-        if(oldUrl && false){
+        if(oldUrl){
             window.History.pushState(null, null,oldUrl);  
         }else{
             /*
@@ -392,7 +368,7 @@ function remUrlMediaId()
                         path=path+"/"+url_[i];
                     }
                     if(popup_userName){
-                        window.History.pushState(null, null,path+"/"+popup_userName);  
+                        window.History.pushState(null, null,path+"/"+popup_userName+"/media");  
                     } else{
                         window.History.pushState(null, null, path+"/");
                     }
@@ -402,7 +378,7 @@ function remUrlMediaId()
                         path=path+"/"+url_[i];
                     }
                     if(popup_userName){
-                        window.History.pushState(null, null,path+"/"+popup_userName);  
+                        window.History.pushState(null, null,path+"/"+popup_userName+"/media");  
                     } else{
                         window.History.pushState(null, null, path+"/");
                     }

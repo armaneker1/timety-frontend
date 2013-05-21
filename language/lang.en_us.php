@@ -62,6 +62,7 @@ define('LANG_PAGE_TOP_MENU_SETTINGS', 'Settings');
 define('LANG_PAGE_TOP_MENU_LOGOUT', 'Logout');
 define('LANG_PAGE_TOP_NO_USER_CREATE_ACCOUNT', 'create account');
 define('LANG_PAGE_TOP_NO_USER_SIGNIN', 'sign-in');
+define('LANG_PAGE_TOP_MEDIA', 'Media');
 
 #INDEX - MY TIMETY MENU
 define('LANG_PAGE_MY_TIMETY_MENU_RECOMMENDED_EVENTS', 'Recommended Events');

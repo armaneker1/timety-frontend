@@ -4,7 +4,7 @@ var oldUrl=null;
 var popup_userName=null;
 
 jQuery(document).ready(function(){
-    oldUrl=window.location.href;
+    oldUrl=location.pathname+location.search+location.hash;
     jQuery("#sendComment").keyup(function(event){
         if(event.keyCode==13)
         {
@@ -786,40 +786,11 @@ function addUrlEventId(event_id,title)
         /*
          * Url rewrite
          */
-        var url_=window.location.href.split("/");
-        if(url_)
-        {
-            if(jQuery.inArray("event",url_)<0 && jQuery.inArray("media",url_)<0)
-            {
-                window.History.pushState(null, null, "event/"+event_id+"/"+title);  
-                _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                if(typeof pSUPERFLY != "undefined")
-                    pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title+"");
-            } else if (jQuery.inArray("event",url_)>=0)  {
-                path="";
-                for(var i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="event";i++)
-                {
-                    path=path+"/"+url_[i];
-                }
-                window.History.pushState(null, null, path+"/"+"event/"+event_id+"/"+title);  
-                _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                if(typeof pSUPERFLY != "undefined")
-                    pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title+"");
-            }else if (jQuery.inArray("media",url_)>=0) {
-                path="";
-                for(i=jQuery.inArray(window.location.hostname,url_)+1;i<url_.length && url_[i]!="media";i++)
-                {
-                    path=path+"/"+url_[i];
-                }
-                window.History.pushState(null, null,path+"/"+"event/"+event_id+"/"+title);  
-                _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                if(typeof pSUPERFLY != "undefined")
-                    pSUPERFLY.virtualPage("/event/"+event_id+"/"+title, title+"");
-            }
-        }
+        window.History.pushState(null, null, "/"+"event/"+event_id+"/"+title);  
+        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
+        if(typeof pSUPERFLY != "undefined")
+            pSUPERFLY.virtualPage(location.pathname + location.search + location.hash,""+title);
     } else {
         getLoader(true);
         window.location=TIMETY_PAGE_EVENT_DETAIL+event_id+"/"+title;
@@ -831,7 +802,7 @@ function addUrlEventId(event_id,title)
 function remUrlEventId()
 {
     if (history.pushState) {
-        if(oldUrl && false){
+        if(oldUrl){
             window.History.pushState(null, null,oldUrl);  
         }else{
             /*

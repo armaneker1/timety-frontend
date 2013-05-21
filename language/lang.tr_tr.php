@@ -62,6 +62,7 @@ define('LANG_PAGE_TOP_MENU_SETTINGS', 'Ayarlar');
 define('LANG_PAGE_TOP_MENU_LOGOUT', 'Çıkış');
 define('LANG_PAGE_TOP_NO_USER_CREATE_ACCOUNT', 'hesap yaratın');
 define('LANG_PAGE_TOP_NO_USER_SIGNIN', 'giriş yapın');
+define('LANG_PAGE_TOP_MEDIA', 'Medya');
 
 #INDEX - MY TIMETY MENU
 define('LANG_PAGE_MY_TIMETY_MENU_RECOMMENDED_EVENTS', 'Önerilen Etkinlikler');

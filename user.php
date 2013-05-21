@@ -59,7 +59,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                     $media_id = $media_id . $con . $mediaIds[$i];
                 }
             }
-
+            
             $m = new TimeteSocialMedia();
             $m->setSocialID($media_id);
             $m->setType($media_type);
@@ -271,7 +271,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="<?= $media->getDescription() ?>"/>
-            <meta property="og:url" content="<?= PAGE_MEDIA . $media->getUserId() . "/" . $media->getType() . "_" . $media->getSocialID() ?>"/>
+            <meta property="og:url" content="<?= HOSTNAME . $p_user->userName . "/media/" . $media->getType() . "_" . $media->getSocialID() ?>"/>
             <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
 
             <script>
