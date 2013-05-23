@@ -3107,7 +3107,7 @@ langugae classes
     left: 0;
 }
 
-.media_arrow_left:hover{
+.gdy_resim:hover .media_arrow_left{
     left: 0;
     background: url('images/imghovnav_prev.png');
     background-repeat: no-repeat;
@@ -3119,7 +3119,7 @@ langugae classes
     right:  0;
 }
 
-.media_arrow_right:hover{
+.gdy_resim:hover .media_arrow_right{
     right: 0;
     background: url('images/imghovnav_next.png');
     background-repeat: no-repeat;

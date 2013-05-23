@@ -428,6 +428,19 @@ class UtilFunctions {
         }
         return $date;
     }
+    
+    public static function convertRevertTimeZone($date, $zone) {
+        try {
+            $zone=  str_replace("-", "*", $zone);
+            $zone=  str_replace("+", "-", $zone);
+            $zone=  str_replace("*", "+", $zone);
+            $dateS = strtotime($date . $zone);
+            return date(DATETIME_DB_FORMAT, $dateS);
+        } catch (Exception $exc) {
+            error_log($exc->getTraceAsString());
+        }
+        return $date;
+    }
 
     public static function findString($object = null, $search = null, $isstring = true, $tagIds = null) {
         //reverse true means not found

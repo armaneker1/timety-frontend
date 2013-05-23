@@ -145,6 +145,10 @@ if (!empty($lat) && !empty($lng) && !empty($radius)) {
                     $events = array();
                     foreach ($hits as $hit) {
                         $hit = $hit['_source'];
+                        if (isset($hit['startDateTimeLong']) && !empty($hit['startDateTimeLong'])) {
+                            $d = $hit['startDateTimeLong'];
+                            $hit['startDateTimeFormated'] = date("Y-m-d H:i", $d);
+                        }
                         array_push($events, $hit);
                     }
                     $r = new stdClass();

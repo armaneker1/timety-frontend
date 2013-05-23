@@ -11,7 +11,7 @@ class RedisUtils {
             $key = REDIS_PREFIX_USER_SOCIAL . $reqUserId . REDIS_SUFFIX_USER_SOCIAL;
             if (empty($type)) {
                 $redis = new Predis\Client();
-                $events = $redis->zrevrangebyscore($key,$date,"-inf");
+                $events = $redis->zrevrangebyscore($key, $date, "-inf");
                 $result = "[";
                 $ik = 0;
                 for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
@@ -22,10 +22,10 @@ class RedisUtils {
                                 $r = "";
                             }
                             if ($ik >= $pgStart) {
-                                $ev=  json_decode($events[$i]);
-                                $ev->recordJSON="";
+                                $ev = json_decode($events[$i]);
+                                $ev->recordJSON = "";
                                 //temp
-                                $ev->recorJSON="";
+                                $ev->recorJSON = "";
                                 $result = $result . $r . json_encode($ev);
                             }
                             $ik++;
@@ -496,6 +496,43 @@ class RedisUtils {
                         }
                     } else {
                         break;
+                    }
+                }
+            }
+        }
+        $result = $result . "]";
+        return $result;
+    }
+
+    public static function getUserPublicEventsByDate($userId = -1, $startDate = null, $endDate = null, $query = null, $reqUserId = -1, $tagIds = null) {
+        if (empty($reqUserId) || $reqUserId < 0) {
+            return "[]";
+        }
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
+        $redis = new Predis\Client();
+        $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, $startDate, $endDate);
+        $result = "[";
+        $userRelationEmpty = new stdClass();
+        $userRelationEmpty->joinType = 0;
+        $userRelationEmpty->like = false;
+        $userRelationEmpty->reshare = false;
+        for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
+            $evt = json_decode($events[$i]);
+            if ($evt->privacy == "true") {
+                $add = true;
+                if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
+                    $add = false;
+                }
+                if ($add) {
+                    try {
+                        $r = ",";
+                        if (strlen($result) < 2) {
+                            $r = "";
+                        }
+                        $evt->userRelation = $userRelationEmpty;
+                        $result = $result . $r . json_encode($evt);
+                    } catch (Exception $exc) {
+                        $log->logError("RedisUtils > getOwnerEvents > $i Error : " . $exc->getTraceAsString());
                     }
                 }
             }

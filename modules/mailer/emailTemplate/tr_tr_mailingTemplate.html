@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    </head>
+    <body style="background-image: url(http://timety.com/images/bg.png);font-family: 'helvetica neue',helvetica,arial,sans-serif;">
+
+        <!--HEADER PART /Message / without image-->
+        <table style="margin-left: auto;margin-right: auto;">
+            <tr>
+                <td class="rowHead" style="text-align: center;padding-top: 50px;"><img src="http://timety.com/images/timetyMail.png" style="height: 85px;"></td>
+            </tr>
+            <tr>            
+                <td class="mainLine" style="background-image: url(http://timety.com/images/u_line.png);background-repeat: repeat-x;background-position: center center; width: 611px;"></td>
+            </tr>
+            <tr>
+                <td><h1 style="font-size: 22px; font-weight:normal; color: #black;font-family: 'helvetica neue',helvetica,arial,sans-serif;">Merhaba ${firstName},</h1></td>
+            </tr>
+        </table>
+        <!--HEADER PART-->
+
+
+        <!--BODY PART / without image-->
+         ${rec_event_open} 
+        <table style="margin-left: auto;margin-right: auto;">
+            <tr>            
+                <td class="middleLine" style="width: 611px;"></td>
+            </tr>
+            <tr>
+                <td><h1 style="font-size: 21px; font-weight:normal; color: #black;font-family: 'helvetica neue',helvetica,arial,sans-serif;">Bu hafta Timety'nin önerisi,</h1></td>
+            </tr>
+            <tr>
+                <td style="width: 186px">
+                    <div class="main_event_box" style="min-height: 80px;width: 194px;border: 1px solid #bcbcbc;background-color: #FFF;margin-right: 3px;margin-left: 4px;float: left;margin-top: 4px;margin-bottom: 4px;box-shadow: 0px 1px 3px rgba(34,25,25,0.4);">
+                        <div class="m_e_img" style="padding: 4px;">
+                            <img src="http://www.biletix.com/static/images/live/event/groupimages/tolgacevik_kd.jpg" style="width: 186px; height: 104px">
+                        </div>
+                    </div>
+                    <div>
+                        <p style="margin-top: 6px;margin-left: 220px;text-align: justify;font-size: 16px;color: #black;font-family: 'helvetica neue',helvetica,arial,sans-serif; line-height: 22px;">Aydilge yeni klibi için kamera karşısında ve birazdan ortalık karışacak! Klibin en güzel kareleri için; http://bit.ly/AydilgeKlipCekiminde</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+          ${rec_event_close} 
+        <!--BODY PART-->
+
+
+
+        <!--BODY PART / with image-->
+        <table style="margin-left: auto;margin-right: auto;">
+            <tr>            
+                <td colspan="3" class="middleLine" style="background-image: url(http://timety.com/images/kare.png);background-repeat: repeat-x;background-position: center center;height: 45px;width: 611px;"></td>
+            </tr>
+            <tr>
+                <td colspan="3"><h1 style="font-size: 21px; font-weight:normal; color: #black;font-family: 'helvetica neue',helvetica,arial,sans-serif;">Bu hafta İstanbul'da sana önerilerimiz;</h1></td>
+            </tr>
+            <tr>
+                <td width="202" style="vertical-align:top">${column1}</td>
+                <td width="202" style="vertical-align:top">${column2}</td>
+                <td width="202" style="vertical-align:top">${column3}</td>
+            </tr>
+        </table>
+        <!--BODY PART-->
+
+
+
+        <!--TRAILER PART PART-->
+        <table style="margin-left: auto;margin-right: auto;">
+            <tr>            
+                <td class="mainLine" style="background-image: url(http://timety.com/images/u_line.png);background-repeat: repeat-x;background-position: center center;height: 45px;width: 611px;"></td>
+            </tr>
+            <tr>            
+                <td style="text-align: center; width: 500px"><p style="font-size: 12px; color: #black; font-family: 'helvetica neue',helvetica,arial,sans-serif">
+                        This email was sent to ${email_address}.<br> 
+                        Don't want your weekly event feed? <a href="http://timety.com/profile">Change your email preferences.</a></p></td>
+            </tr>
+            <tr>            
+                <td style="text-align: center; width: 500px"><p style="font-size: 12px; color: #black; font-family: 'helvetica neue',helvetica,arial,sans-serif">©2013 Timety, Inc. | All Rights Reserved.</p></td>
+            </tr>
+        </table>
+        <!--TRAILER PART PART-->
+
+    </body>
+</html>

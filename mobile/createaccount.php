@@ -24,6 +24,22 @@ if (isset($_GET['username'])) {
     $username = $_GET['username'];
 }
 
+$firstName = null;
+if (isset($_POST['firstName'])) {
+    $firstName = $_POST['firstName'];
+}
+if (isset($_GET['firstName'])) {
+    $firstName = $_GET['firstName'];
+}
+
+$lastName = null;
+if (isset($_POST['lastName'])) {
+    $lastName = $_POST['lastName'];
+}
+if (isset($_GET['lastName'])) {
+    $lastName = $_GET['lastName'];
+}
+
 $uid = null;
 if (isset($_POST['uid'])) {
     $uid = $_POST['uid'];
@@ -77,6 +93,8 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                             if (UserUtils::checkEmail($email)) {
                                 if (UserUtils::checkUserName($username)) {
                                     $user = new User();
+                                    $user->firstName = $firstName;
+                                    $user->lastName = $lastName;
                                     $user->email = $email;
                                     $user->userName = $username;
                                     $user->password = $password;
@@ -104,8 +122,8 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                                         $r = new stdClass();
                                         $r->success = 1;
                                         $r->code = 100;
-                                        $r->data =new stdClass();
-                                        $r->data->user=$user;
+                                        $r->data = new stdClass();
+                                        $r->data->user = $user;
                                         $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
                                         echo $result;
                                         exit(1);
@@ -153,8 +171,8 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                                 $r = new stdClass();
                                 $r->success = 1;
                                 $r->code = 110;
-                                $r->data =new stdClass();
-                                $r->data->user=$usr;
+                                $r->data = new stdClass();
+                                $r->data->user = $usr;
                                 $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
                                 echo $result;
                                 exit(1);
@@ -165,6 +183,8 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
 
                                             $user = new User();
                                             $user->email = $email;
+                                            $user->firstName = $firstName;
+                                            $user->lastName = $lastName;
                                             $user->userName = $username;
                                             $user->password = $password;
                                             $user->status = 0;
@@ -201,8 +221,8 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                                                 $r = new stdClass();
                                                 $r->success = 1;
                                                 $r->code = 100;
-                                                $r->data =new stdClass();
-                                                $r->data->user=$user;
+                                                $r->data = new stdClass();
+                                                $r->data->user = $user;
                                                 $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
                                                 echo $result;
                                                 exit(1);
