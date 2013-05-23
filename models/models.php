@@ -50,6 +50,7 @@ class User {
             $this->last_login_date = $result['register_date'];
             $this->register_date = $result['last_login_date'];
             $this->time_zone = $result['time_zone'];
+            $this->business_user = $result['business_user'];
         }
     }
 
@@ -85,6 +86,7 @@ class User {
                 $this->time_zone = $tmp->time_zone;
                 $this->last_login_date = $tmp->getLastLoginDate();
                 $this->register_date = $tmp->getRegisterDate();
+                $this->business_user = $tmp->business_user;
             } else {
                 $this->id = null;
             }
@@ -114,6 +116,7 @@ class User {
     private $register_date;
     private $last_login_date;
     public $time_zone;
+    public $business_user=0;
     //location
     public $location_country;
     public $location_city;
@@ -127,7 +130,7 @@ class User {
     public $reshares_count = 0;
     public $joined_count = 0;
     public $created_count = 0;
-
+    
     public function getUserLang() {
         return $this->language;
     }

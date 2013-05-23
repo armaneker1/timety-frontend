@@ -24,7 +24,7 @@ class MailerUtils {
         if (!empty($users)) {
             $user = new User();
             foreach ($users as $user) {
-                if (!empty($user)) {
+                if (!empty($user) && $user->business_user."" != "1") {
                     if (empty($startDateR)) {
                         $startDate = time();
                     } else {
@@ -63,7 +63,7 @@ class MailerUtils {
                     foreach ($day_events as $key => $day_array) {
                         //var_dump($key . " - day Size : " . sizeof($day_array));
                         //echo "<p/>";
-                        if(sizeof($resultArray)>$maxCount){
+                        if (sizeof($resultArray) > $maxCount) {
                             break;
                         }
                         if (!empty($day_array)) {
@@ -93,7 +93,7 @@ class MailerUtils {
                                             array_push($resultArrayId, $day_event->id);
                                             $thrid = 1;
                                         }
-                                    } else if ($neededDay > 0 && sizeof($resultArray)<=$maxCount) {
+                                    } else if ($neededDay > 0 && sizeof($resultArray) <= $maxCount) {
                                         if (!in_array($day_event->id, $resultArrayId)) {
                                             array_push($resultArray, $day_event);
                                             array_push($resultArrayId, $day_event->id);
@@ -105,7 +105,7 @@ class MailerUtils {
                                 }
                             }
                             $neededDay = $neededDay + (3 - ($first + $second + $thrid));
-                            if ($neededDay > 0 && sizeof($resultArray)<=$maxCount) {
+                            if ($neededDay > 0 && sizeof($resultArray) <= $maxCount) {
                                 for ($i = sizeof($other) - 1; $i >= 0; $i--) {
                                     $val = $other[$i];
                                     if (!in_array($val->id, $resultArrayId)) {
@@ -124,7 +124,7 @@ class MailerUtils {
                             //echo "<p/>";
                         }
                     }
-                    if ($neededDay > 0 && sizeof($resultArray)<=$maxCount) {
+                    if ($neededDay > 0 && sizeof($resultArray) <= $maxCount) {
                         for ($i = sizeof($allOther) - 1; $i >= 0; $i--) {
                             $val = $allOther[$i];
                             if (!in_array($val->id, $resultArrayId)) {
