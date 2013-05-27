@@ -26,7 +26,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 3,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 3, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
@@ -55,7 +55,7 @@ class SocialUtil {
                 $result->error = false;
                 SocialUtil::decLikeCountAsync($userId, $eventId);
                 Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_UNLIKE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 3,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 3, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
@@ -86,7 +86,7 @@ class SocialUtil {
                 $result->success = true;
                 $result->error = false;
                 Queue::reshareEvent($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 4,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 4, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
@@ -115,9 +115,9 @@ class SocialUtil {
                 $result->error = false;
                 SocialUtil::decReshareCountAsync($userId, $eventId);
                 Queue::reshareEvent($eventId, $userId, REDIS_USER_INTERACTION_UNSHARE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId,"type" => 4,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 4, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
-                error_log("Error" .$e->getTraceAsString());
+                error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
             }
         } else {
@@ -166,7 +166,7 @@ class SocialUtil {
         }
     }
 
-    public static function checkUserInterestTag($userId, $tagId, $property, $type=null, $lang = null) {
+    public static function checkUserInterestTag($userId, $tagId, $property, $type = null, $lang = null) {
         if (($lang != LANG_EN_US && $lang != LANG_TR_TR) || empty($lang)) {
             $lang = LANG_EN_US;
         }
@@ -331,34 +331,46 @@ class SocialUtil {
                     RedisUtils::addUserFollow($fromUserId, $toUserId, true);
                     RedisUtils::addUserFollower($toUserId, $fromUserId, true);
                     Queue::followUser($fromUserId, $toUserId);
-                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId,"type" => 2,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
-                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId,"type" => 1,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId, "type" => 2, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                    UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId, "type" => 1, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
                     $fu = new User();
                     $fu->createFromNeo4j($fromUsr);
                     $tu = new User();
                     $tu->createFromNeo4j($toUsr);
-                    
-                    $follow_color="#588cc8";
-                    $following_color="#84C449";
-                    $style=$follow_color;
-                    $flw_text=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOW");
-                    if(RedisUtils::isUserInFollowings($fromUserId, $toUserId)){
-                        $style=$following_color;
-                        $flw_text=LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOWING");
+
+                    $follow_color = "#588cc8";
+                    $following_color = "#84C449";
+                    $style = $follow_color;
+                    $flw_text = LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOW");
+                    if (RedisUtils::isUserInFollowings($fromUserId, $toUserId)) {
+                        $style = $following_color;
+                        $flw_text = LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOWING");
                     }
+                    $name_name = $tu->firstName;
+                    if (!empty($tu->business_user)) {
+                        $name_name = $tu->getFullName();
+                    }
+
+                    $followerNameR = $fu->firstName;
+                    $followerSurnameR = $fu->lastName;
+                    if (!empty($tu->business_user)) {
+                        $followerNameR = $fu->getFullName();
+                        $followerSurnameR = "";
+                    }
+
                     $params = array(
-                        array('folw_bg_color',$style),
-                        array('folw_text',$flw_text),
-                        array('name', $tu->firstName),
-                        array('followerName', $fu->firstName),
-                        array('followerSurname', $fu->lastName),
+                        array('folw_bg_color', $style),
+                        array('folw_text', $flw_text),
+                        array('name', $name_name),
+                        array('followerName', $followerNameR),
+                        array('followerSurname', $followerSurnameR),
                         array('followerUsername', $fu->userName),
                         array('bio', $fu->about),
                         array('img', PAGE_GET_IMAGEURL . urlencode($fu->getUserPic()) . "&h=90&w=90"),
-                        array('$profileUrl',HOSTNAME.$fu->userName),
+                        array('$profileUrl', HOSTNAME . $fu->userName),
                         array('email_address', $tu->email));
                     //TODO
-                    MailUtil::sendSESMailFromFile(LanguageUtils::getLocale()."_followedBy.html", $params, "".$tu->getFullName()." <".$tu->email.">", LanguageUtils::getText("LANG_MAIL_FOLLOWED_BY_SUBJECT"));
+                    MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_followedBy.html", $params, "" . $tu->getFullName() . " <" . $tu->email . ">", LanguageUtils::getText("LANG_MAIL_FOLLOWED_BY_SUBJECT"));
                 } else {
                     $res->error = LanguageUtils::getText("LANG_UTILS_NEO4J_SOCIAL_ERROR_USER_NOT_FOUND");
                 }
@@ -366,7 +378,7 @@ class SocialUtil {
                 $res->success = true;
             }
         } catch (Exception $e) {
-            error_log("Error". $e->getTraceAsString() );
+            error_log("Error" . $e->getTraceAsString());
             $res->error = $e->getTraceAsString();
         }
         return $res;
@@ -403,10 +415,10 @@ class SocialUtil {
             RedisUtils::addUserFollow($fromUserId, $toUserId, false);
             RedisUtils::addUserFollower($toUserId, $fromUserId, false);
             Queue::unFollowUser($fromUserId, $toUserId);
-            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId,"type" => 2,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
-            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId,"type" => 1,"ajax_guid"=>  SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $toUserId, "type" => 2, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $fromUserId, "type" => 1, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         } catch (Exception $e) {
-            error_log("Error ". $e->getTraceAsString());
+            error_log("Error " . $e->getTraceAsString());
             $res->error = $e->getTraceAsString();
         }
         return $res;

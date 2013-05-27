@@ -49,7 +49,12 @@ if (array_key_exists("te_username", $_POST)) {
         $uname = preg_replace('/\s+/', '', $uname);
         $uname = strtolower($uname);
         $upass = preg_replace('/\s+/', '', $upass);
-        $user = UserUtils::login($uname, sha1($upass));
+
+        if (UtilFunctions::check_email_address($uname)) {
+             $user = UserUtils::loginEmail($uname, sha1($upass));
+        } else {
+            $user = UserUtils::login($uname, sha1($upass));
+        }
         if (!empty($user)) {
             //$rmb=false;
             //for now
@@ -78,7 +83,7 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
         LanguageUtils::setUserLocaleJS(null);
         include('layout/layout_header.php');
         ?>
-        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?=JS_CONSTANT_PARAM?>"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?= JS_CONSTANT_PARAM ?>"></script>
         <script type="text/javascript">
             $(function() {
                 sessionStorage.setItem('id','');
@@ -153,23 +158,23 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
         <?php include('layout/layout_top_sign.php'); ?>
         <div class="register_bg"></div>
         <div id="create_account" class="create_account_outline">
-            <div class="create_acco_ust"><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_HEADER")?></div>
+            <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_HEADER") ?></div>
             <div class="create_acco_alt">
                 <div class="account_sol" style="padding-top: 21px;">
                     <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="return openSocialLogin('gg');">
-                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE")?></b>
+                        <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE") ?></b>
                     </button>
 
                     <button class="big-icon-f btn-sign-big fb facebook" onclick="return openSocialLogin('fb');">
-                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK")?></b>
+                        <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK") ?></b>
                     </button>
 
                     <button class="big-icon-t btn-sign-big tw twitter" onclick="return openSocialLogin('tw');">
-                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER")?></b>
+                        <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER") ?></b>
                     </button>
                 </div>
                 <div class="account_sag" style="margin-top: 21px;padding-left: 40px;">
@@ -178,7 +183,7 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
                                class="user_inpt username  icon_bg user_inpt_pi_height login_inpt_ie" 
                                id="te_username"
                                name="te_username" value="<?= $uname ?>" 
-                               placeholder="<?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_USERNAME_PLACEHOLDER")?>"
+                               placeholder="<?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_USERNAME_PLACEHOLDER") ?>"
                                />
                         <!--   onkeyup="validateUserName(this,false,false)"
                                onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,false,true) }" -->
@@ -201,7 +206,7 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
                         <input
                             name="te_password" type="password"
                             class="user_inpt password icon_bg user_inpt_pi_height login_inpt_ie"  id="te_password"
-                            name="te_password" value="" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_PASSWORD_PLACEHOLDER")?>"
+                            name="te_password" value="" placeholder="<?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_PASSWORD_PLACEHOLDER") ?>"
                             />
                         <!--  onkeyup="validatePassword(this,$('#te_password'),false,false);"
                            onblur="validatePassword(this,$('#te_password'),false,true);" -->
@@ -230,14 +235,14 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
                                 ?>
                                     name="te_rememberme2" id="te_rememberme2" value="<?= $urmme ?>"
                                     type="checkbox" onclick="$('#te_rememberme').value=this.checked" />
-                                <?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_REMEMBER_ME")?>
+                                    <?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_REMEMBER_ME") ?>
                             </label> 
 
                             <input name="te_rememberme" id="te_rememberme"
                                    value="<?= $urmme ?>" type="hidden" />
                             <button style="width: 79px !important;margin-left: 58px;" type="submit" onclick="jQuery('.php_errors').remove();"
-                                    class="reg_btn reg_btn_width" name="" value=""><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_LOGIN")?></button>
-                            <br /> <a href="forgotpassword.php"><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS")?></a> <br />
+                                    class="reg_btn reg_btn_width" name="" value=""><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_LOGIN") ?></button>
+                            <br /> <a href="forgotpassword.php"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS") ?></a> <br />
                             <div class="ts_box" style="font-size: 12px;">
                                 <span style="color: red; display: none;" id="msg"></span>
                                 <?php
@@ -254,7 +259,7 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
                     </form>
                 </div>
             </div>
-            <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button"><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_ABOUT_US")?></a></div>
+            <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_ABOUT_US") ?></a></div>
         </div>
         <?php include('layout/templete_aboutus.php'); ?>
     </body>

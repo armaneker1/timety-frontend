@@ -41,10 +41,11 @@ try {
         $val = new User();
         for ($i = 0; $i < sizeof($array); $i++) {
             $val = $array[$i];
+            $val=  UtilFunctions::cast('User', $val);
             if (!empty($val) && !empty($val->id)) {
                 $obj = new stdClass();
                 $obj->id = $val->id;
-                $obj->fullName = $val->firstName . " " . $val->lastName;
+                $obj->fullName = $val->getFullName();
                 $obj->username = $val->userName;
                 $obj->userPicture = $val->getUserPic();
                 array_push($result, $obj);

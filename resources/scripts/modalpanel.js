@@ -358,7 +358,7 @@ function openModalPanel(event_id,custom) {
         jQuery("#image_creator").unbind("click");
         if(data.creatorId)
         {
-            jQuery("#name_creator").text(data.creator.firstName+" "+data.creator.lastName);
+            jQuery("#name_creator").text(getUserFullName(data.creator));
             setImageBackGroundCenter(jQuery("#image_creator"),48,48,0,0,data.creator.userPicture);
             if(data.creator.userName){
                 jQuery("#image_creator").click(function(){

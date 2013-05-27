@@ -93,3 +93,21 @@ function getLocalTime(time){
         console.log(exp);
     }
 }
+
+function getUserFullName(user){
+    if(typeof user != 'undefined'){
+        if(user.business_user && user.business_user+""=="1"){
+            
+        }else{
+            var name="";
+            if(user.firstName){
+                name=user.firstName+" ";
+            }
+            if(user.lastName){
+                name=name+user.lastName;
+            }
+            return name;
+        }
+    }
+    return "";
+}

@@ -47,6 +47,7 @@ define('MQ_PORT', SettingsUtil::getSetting(SETTINGS_MQ_PORT));
 //URLLER
 define('PAGE_TEST', HOSTNAME . 'test');
 define('PAGE_ABOUT_YOU', HOSTNAME . 'gettingstarted/about-you');
+define('PAGE_BUSINESS_CREATE', HOSTNAME . 'business/create');
 define('PAGE_WHO_TO_FOLLOW', HOSTNAME . 'gettingstarted/who-to-follow');
 define('PAGE_LIKES', HOSTNAME . 'gettingstarted/likes');
 define('PAGE_SIGNUP', HOSTNAME . 'signup');
@@ -189,4 +190,8 @@ define('ELASTICSEACRH_TIMETY_INDEX', 'timety');
 define('ELASTICSEACRH_TIMETY_PROTOCOL', 'http');
 define('ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG', 'timety_user_tag');
 define('ELASTICSEACRH_TIMETY_DOCUMENT_EVENT', 'timety_event');
+
+//LOCATION
+define('LOCATION_HOSTIP_API','http://freegeoip.net/json/');
+
 ?>

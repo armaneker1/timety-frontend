@@ -18,46 +18,53 @@ class TimeteMailReports extends Db2PhpEntityBase implements Db2PhpEntityModifica
 	private static $CLASS_NAME='TimeteMailReports';
 	const SQL_IDENTIFIER_QUOTE='`';
 	const SQL_TABLE_NAME='timete_mail_reports';
-	const SQL_INSERT='INSERT INTO `timete_mail_reports` (`id`,`date`,`success_count`,`fail_count`) VALUES (?,?,?,?)';
-	const SQL_INSERT_AUTOINCREMENT='INSERT INTO `timete_mail_reports` (`date`,`success_count`,`fail_count`) VALUES (?,?,?)';
-	const SQL_UPDATE='UPDATE `timete_mail_reports` SET `id`=?,`date`=?,`success_count`=?,`fail_count`=? WHERE `id`=?';
+	const SQL_INSERT='INSERT INTO `timete_mail_reports` (`id`,`date`,`success_count`,`fail_count`,`type`) VALUES (?,?,?,?,?)';
+	const SQL_INSERT_AUTOINCREMENT='INSERT INTO `timete_mail_reports` (`date`,`success_count`,`fail_count`,`type`) VALUES (?,?,?,?)';
+	const SQL_UPDATE='UPDATE `timete_mail_reports` SET `id`=?,`date`=?,`success_count`=?,`fail_count`=?,`type`=? WHERE `id`=?';
 	const SQL_SELECT_PK='SELECT * FROM `timete_mail_reports` WHERE `id`=?';
 	const SQL_DELETE_PK='DELETE FROM `timete_mail_reports` WHERE `id`=?';
 	const FIELD_ID=468025073;
 	const FIELD_DATE=-1199619068;
 	const FIELD_SUCCESS_COUNT=364237373;
 	const FIELD_FAIL_COUNT=-1534429052;
+	const FIELD_TYPE=-1199119472;
 	private static $PRIMARY_KEYS=array(self::FIELD_ID);
 	private static $AUTOINCREMENT_FIELDS=array(self::FIELD_ID);
 	private static $FIELD_NAMES=array(
 		self::FIELD_ID=>'id',
 		self::FIELD_DATE=>'date',
 		self::FIELD_SUCCESS_COUNT=>'success_count',
-		self::FIELD_FAIL_COUNT=>'fail_count');
+		self::FIELD_FAIL_COUNT=>'fail_count',
+		self::FIELD_TYPE=>'type');
 	private static $PROPERTY_NAMES=array(
 		self::FIELD_ID=>'id',
 		self::FIELD_DATE=>'date',
 		self::FIELD_SUCCESS_COUNT=>'successCount',
-		self::FIELD_FAIL_COUNT=>'failCount');
+		self::FIELD_FAIL_COUNT=>'failCount',
+		self::FIELD_TYPE=>'type');
 	private static $PROPERTY_TYPES=array(
 		self::FIELD_ID=>Db2PhpEntity::PHP_TYPE_INT,
 		self::FIELD_DATE=>Db2PhpEntity::PHP_TYPE_STRING,
 		self::FIELD_SUCCESS_COUNT=>Db2PhpEntity::PHP_TYPE_INT,
-		self::FIELD_FAIL_COUNT=>Db2PhpEntity::PHP_TYPE_INT);
+		self::FIELD_FAIL_COUNT=>Db2PhpEntity::PHP_TYPE_INT,
+		self::FIELD_TYPE=>Db2PhpEntity::PHP_TYPE_INT);
 	private static $FIELD_TYPES=array(
 		self::FIELD_ID=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false),
 		self::FIELD_DATE=>array(Db2PhpEntity::JDBC_TYPE_TIMESTAMP,19,0,false),
 		self::FIELD_SUCCESS_COUNT=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false),
-		self::FIELD_FAIL_COUNT=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false));
+		self::FIELD_FAIL_COUNT=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false),
+		self::FIELD_TYPE=>array(Db2PhpEntity::JDBC_TYPE_TINYINT,3,0,true));
 	private static $DEFAULT_VALUES=array(
 		self::FIELD_ID=>null,
 		self::FIELD_DATE=>'',
 		self::FIELD_SUCCESS_COUNT=>0,
-		self::FIELD_FAIL_COUNT=>0);
+		self::FIELD_FAIL_COUNT=>0,
+		self::FIELD_TYPE=>null);
 	private $id;
 	private $date;
 	private $successCount;
 	private $failCount;
+	private $type;
 
 	/**
 	 * set value for id 
@@ -157,6 +164,31 @@ class TimeteMailReports extends Db2PhpEntityBase implements Db2PhpEntityModifica
 	 */
 	public function getFailCount() {
 		return $this->failCount;
+	}
+
+	/**
+	 * set value for type 
+	 *
+	 * type:TINYINT UNSIGNED,size:3,default:null,index,nullable
+	 *
+	 * @param mixed $type
+	 * @return TimeteMailReports
+	 */
+	public function &setType($type) {
+		$this->notifyChanged(self::FIELD_TYPE,$this->type,$type);
+		$this->type=$type;
+		return $this;
+	}
+
+	/**
+	 * get value for type 
+	 *
+	 * type:TINYINT UNSIGNED,size:3,default:null,index,nullable
+	 *
+	 * @return mixed
+	 */
+	public function getType() {
+		return $this->type;
 	}
 
 	/**
@@ -273,7 +305,8 @@ class TimeteMailReports extends Db2PhpEntityBase implements Db2PhpEntityModifica
 			self::FIELD_ID=>$this->getId(),
 			self::FIELD_DATE=>$this->getDate(),
 			self::FIELD_SUCCESS_COUNT=>$this->getSuccessCount(),
-			self::FIELD_FAIL_COUNT=>$this->getFailCount());
+			self::FIELD_FAIL_COUNT=>$this->getFailCount(),
+			self::FIELD_TYPE=>$this->getType());
 	}
 
 
@@ -547,6 +580,7 @@ class TimeteMailReports extends Db2PhpEntityBase implements Db2PhpEntityModifica
 		$this->setDate($result['date']);
 		$this->setSuccessCount($result['success_count']);
 		$this->setFailCount($result['fail_count']);
+		$this->setType($result['type']);
 	}
 
 	/**
@@ -585,6 +619,7 @@ class TimeteMailReports extends Db2PhpEntityBase implements Db2PhpEntityModifica
 		$stmt->bindValue(2,$this->getDate());
 		$stmt->bindValue(3,$this->getSuccessCount());
 		$stmt->bindValue(4,$this->getFailCount());
+		$stmt->bindValue(5,$this->getType());
 	}
 
 
@@ -600,6 +635,7 @@ class TimeteMailReports extends Db2PhpEntityBase implements Db2PhpEntityModifica
 			$stmt->bindValue(1,$this->getDate());
 			$stmt->bindValue(2,$this->getSuccessCount());
 			$stmt->bindValue(3,$this->getFailCount());
+			$stmt->bindValue(4,$this->getType());
 		} else {
 			$stmt=self::prepareStatement($db,self::SQL_INSERT);
 			$this->bindValues($stmt);
@@ -628,7 +664,7 @@ class TimeteMailReports extends Db2PhpEntityBase implements Db2PhpEntityModifica
 	public function updateToDatabase(PDO $db) {
 		$stmt=self::prepareStatement($db,self::SQL_UPDATE);
 		$this->bindValues($stmt);
-		$stmt->bindValue(5,$this->getId());
+		$stmt->bindValue(6,$this->getId());
 		$affected=$stmt->execute();
 		if (false===$affected) {
 			$stmt->closeCursor();

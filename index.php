@@ -18,7 +18,11 @@ if (isset($_GET['finish']) && !empty($user)) {
     $user->status = 3;
     UserUtils::updateUser($user->id, $user);
     $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
-    $params = array(array('name', $user->firstName), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
+    $ufname = $user->firstName;
+    if (!isset($user->business_user) && !empty($user->business_user)) {
+        $ufname = $user->business_name;
+    }
+    $params = array(array('name', $ufname), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
     MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_confirm_mail.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_CONFIRM_ACCOUNT_EMAIL"));
     RegisterAnaliticsUtils::increasePageRegisterCount("index.php?complete=1");
     header('Location: ' . HOSTNAME);
@@ -520,7 +524,7 @@ if (empty($user)) {
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -710,7 +714,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                        
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -811,7 +815,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                        
+                                                                                                                                                                                                                
             </script>
 
 
@@ -1359,7 +1363,7 @@ if (empty($user)) {
                                        if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
                                            echo "_k";
                                        }
-                                            ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
+                                            ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime($time_zone) ?>
                                                     </a>
                                                 </li>
                                             </ul>

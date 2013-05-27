@@ -2,6 +2,208 @@
 
 class MailerUtils {
 
+    //
+    public static function sendCustomOneMail($events, $email) {
+        $mailENTemplate = file_get_contents(MAIL_TEMP_EN_ONE_FILE);
+        $mailTRTemplate = file_get_contents(MAIL_TEMP_TR_ONE_FILE);
+
+        $mailENTagTemplate = file_get_contents(MAIL_TEMP_EN_ONE_TAG_FILE);
+        $mailTRTagTemplate = file_get_contents(MAIL_TEMP_TR_ONE_TAG_FILE);
+
+        $mailItemTemplate = file_get_contents(MAIL_TEMP_ITEM_FILE);
+        $msgs = array();
+
+        $users = UserUtils::getUserList(0, 10000);
+
+        $timete_mail_report = new TimeteMailReports();
+        $timete_mail_report->setDate(date("Y-m-d H:i:s"));
+        $timete_mail_report->setType(1);
+        $success_count = 0;
+        $fail_count = 0;
+
+
+        if (!empty($events) && is_array($events) && sizeof($events) > 0) {
+            foreach ($events as $evt) {
+                if (!empty($evt)) {
+                    $tag = null;
+                    if (isset($evt->tag)) {
+                        $tag = $evt->tag;
+                        $t_en = Neo4jTimetyTagUtil::getTimetyTagById($tag, LANG_EN_US);
+                        if (empty($t_en)) {
+                            array_push($msgs, "Tag " . $evt->tag . " en is not found");
+                        }
+                        $t_tr = Neo4jTimetyTagUtil::getTimetyTagById($tag, LANG_TR_TR);
+                        if (empty($t_tr)) {
+                            array_push($msgs, "Tag " . $evt->tag . " tr is not found");
+                        }
+                        $evt->tag = new stdClass();
+                        $evt->tag->en = $t_en;
+                        $evt->tag->tr = $t_tr;
+                        if (isset($evt->events) && !empty($evt->events) && is_array($evt->events) && sizeof($evt->events) > 0) {
+                            $evts = $evt->events;
+                            for ($i = 0; $i < sizeof($evts); $i++) {
+                                $e = $evts[$i];
+                                if (!empty($e)) {
+                                    $e_tmp = EventUtil::getEventById($e);
+                                    $e_tmp->getHeaderImage();
+                                    $e_tmp->getCreator();
+                                    if (!empty($e_tmp)) {
+                                        $evts[$i] = $e_tmp;
+                                    } else {
+                                        array_push($msgs, "Tag ($tag) event ($e)  is not found");
+                                    }
+                                } else {
+                                    array_push($msgs, "Tag ($tag) events empty 2");
+                                }
+                            }
+                            $evt->events = $evts;
+                        } else {
+                            array_push($msgs, "Tag ($tag) events empty");
+                        }
+                    } else {
+                        array_push($msgs, "Events not valid empty tag");
+                    }
+                }
+            }
+        } else {
+            array_push($msgs, "No event set ");
+        }
+
+        if (!empty($msgs)) {
+            return $msgs;
+        }
+        if (!empty($users)) {
+            $user = new User();
+            foreach ($users as $user) {
+                if (!empty($user) && ((isset($user->business_user) && $user->business_user . "" != "1") || !isset($user->business_user))) {
+                    $mail_tmp = $mailTRTemplate;
+                    if ($user->language == LANG_EN_US) {
+                        $mail_tmp = $mailENTemplate;
+                    }
+                    $mailtags = "";
+                    foreach ($events as $tag) {
+                        $mail_tag_tmp = $mailTRTagTemplate;
+                        if ($user->language == LANG_EN_US) {
+                            $mail_tag_tmp = $mailENTagTemplate;
+                        }
+
+                        $events_tmp = $tag->events;
+                        usort($events_tmp, function($a, $b) {
+                                    return $a->startDateTimeLong - $b->startDateTimeLong;
+                                });
+                        $tag_name = $tag->tag->tr;
+                        if ($user->language == LANG_EN_US) {
+                            $tag_name = $tag->tag->en;
+                        }
+                        $tag_name = $tag_name->name;
+                        $mail_tag_tmp = self::getEventsTagHTML($user, $events_tmp, $tag_name, $mail_tag_tmp, $mailItemTemplate);
+                        $mailtags = $mailtags . $mail_tag_tmp;
+                    }
+
+                    $mail_tmp = str_replace("\${" . "email_address" . "}", $user->email, $mail_tmp);
+                    $mail_tmp = str_replace("\${" . "firstName" . "}", $user->firstName, $mail_tmp);
+                    $mail_tmp = str_replace("\${" . "tags_html" . "}", $mailtags, $mail_tmp);
+
+                    $rec_event = null;
+                    if (!empty($rec_event)) {
+                        $mail_tmp = str_replace("\${" . "rec_event_open" . "}", '', $mail_tmp);
+                        $mail_tmp = str_replace("\${" . "rec_event_close" . "}", '', $mail_tmp);
+                    } else {
+                        $mail_tmp = str_replace("\${" . "rec_event_open" . "}", '<!--', $mail_tmp);
+                        $mail_tmp = str_replace("\${" . "rec_event_close" . "}", '-->', $mail_tmp);
+                    }
+
+                    //send mail
+                    if (empty($email)) {
+                        $email = $user->email;
+                    }
+                    $mailSubject = LANG_WEEKLY_MAIL_SUBJECT_TR;
+                    if ($user->language == LANG_EN_US) {
+                        $mailSubject = LANG_WEEKLY_MAIL_SUBJECT_EN;
+                    }
+                    $result = false;
+                    try {
+                        $result = MailUtil::sendSESFromHtml($mail_tmp, $email, $mailSubject);
+                    } catch (Exception $exc) {
+                        error_log($exc->getTraceAsString());
+                        $result = false;
+                    }
+
+                    if ($result == false) {
+                        array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $email . " send fail");
+                        self::saveFailedMailToDB($user, $email, $mail_tmp, "mail api");
+                        $fail_count++;
+                    } else {
+                        array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $email . " sended");
+                        $success_count++;
+                    }
+                }
+            }
+            try {
+                $timete_mail_report->setSuccessCount($success_count);
+                $timete_mail_report->setFailCount($fail_count);
+                $timete_mail_report->insertIntoDatabase(DBUtils::getConnection());
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+                array_push($msgs, $exc->getTraceAsString());
+            }
+        } else {
+            array_push($msgs, "No user found");
+        }
+        return $msgs;
+    }
+
+    public static function getEventsTagHTML(User $user, $events, $tag_name, $mail_tag_tmp, $mailItemTemplate) {
+        if (!empty($user) && !empty($events)) {
+            $col1 = "";
+            $col2 = "";
+            $col3 = "";
+            $counter = 0;
+            setLocale(LC_TIME, $user->language);
+            $analitics = "?utm_source=newsletter-" . strtolower(date("M")) . "-" . date("W") . "-" . date("Y") . "&utm_medium=email&utm_content=html&utm_campaign=Timety+Weekly";
+            $event = new Event();
+            foreach ($events as $event) {
+                $itemTmp = $mailItemTemplate;
+                $itemTmp = str_replace("\${" . "event_url" . "}", MAIL_HOSTNAME . "event/" . $event->id . $analitics, $itemTmp);
+                $itemTmp = str_replace("\${" . "event_img" . "}", MAIL_HOSTNAME . $event->headerImage->url, $itemTmp);
+                $itemTmp = str_replace("\${" . "event_title" . "}", $event->title, $itemTmp);
+                $itemTmp = str_replace("\${" . "user_url" . "}", MAIL_HOSTNAME . $event->creator->userName . $analitics, $itemTmp);
+                $itemTmp = str_replace("\${" . "user_img" . "}", $event->creator->userPicture, $itemTmp);
+                $uname = $event->creator->firstName . " " . $event->creator->lastName;
+                if (isset($event->creator) && !empty($event->creator)) {
+                    if (isset($event->creator->business_user) && !empty($event->creator->business_user)) {
+                        if (isset($event->creator->business_name)) {
+                            $uname = $event->creator->business_name;
+                        }
+                    }
+                }
+                $itemTmp = str_replace("\${" . "user_name" . "}", $uname, $itemTmp);
+                $itemTmp = str_replace("\${" . "event_desc" . "}", $event->description, $itemTmp);
+                $itemTmp = str_replace("\${" . "day_week" . "}", strftime("%A", strtotime(UtilFunctions::convertRevertTimeZone($event->startDateTime, $user->time_zone))), $itemTmp);
+                $itemTmp = str_replace("\${" . "hour" . "}", strftime("%H:%M", strtotime(UtilFunctions::convertRevertTimeZone($event->startDateTime, $user->time_zone))), $itemTmp);
+
+
+                $counter++;
+                if ($counter == 1) {
+                    $col1 = $col1 . $itemTmp;
+                } else if ($counter == 2) {
+                    $col2 = $col2 . $itemTmp;
+                } else {
+                    $col3 = $col3 . $itemTmp;
+                    $counter = 0;
+                }
+            }
+
+
+            $mail_tag_tmp = str_replace("\${" . "tag" . "}", $tag_name, $mail_tag_tmp);
+            $mail_tag_tmp = str_replace("\${" . "column1" . "}", $col1, $mail_tag_tmp);
+            $mail_tag_tmp = str_replace("\${" . "column2" . "}", $col2, $mail_tag_tmp);
+            $mail_tag_tmp = str_replace("\${" . "column3" . "}", $col3, $mail_tag_tmp);
+
+            return $mail_tag_tmp;
+        }
+    }
+
     // getter user and event for mail
     public static function sendCustomMail($startDateR, $endDateR, $userId, $email, $maxCount) {
         $mailENTemplate = file_get_contents(MAIL_TEMP_EN_FILE);
@@ -18,13 +220,14 @@ class MailerUtils {
 
         $timete_mail_report = new TimeteMailReports();
         $timete_mail_report->setDate(date("Y-m-d H:i:s"));
+        $timete_mail_report->setType(0);
         $success_count = 0;
         $fail_count = 0;
 
         if (!empty($users)) {
             $user = new User();
             foreach ($users as $user) {
-                if (!empty($user) && $user->business_user."" != "1") {
+                if (!empty($user) && ((isset($user->business_user) && $user->business_user . "" != "1") || !isset($user->business_user))) {
                     if (empty($startDateR)) {
                         $startDate = time();
                     } else {
@@ -37,7 +240,7 @@ class MailerUtils {
                         $endDate = strtotime('+1 day', strtotime(UtilFunctions::convertTimeZone($endDateR . " 00:00:00", $user->time_zone)));
                     }
 
-                    $events = RedisUtils::getUserPublicEventsByDate($user->id, $startDate, $endDate, null, $user->id, null);
+                    $events = RedisUtils::getUserUpcomingPublicEventsByDate($user->id, $startDate, $endDate, null, $user->id, null);
                     $events = json_decode($events);
                     $day_events = array();
                     $event = new Event();
@@ -221,8 +424,35 @@ class MailerUtils {
                 $itemTmp = str_replace("\${" . "event_title" . "}", $event->title, $itemTmp);
                 $itemTmp = str_replace("\${" . "user_url" . "}", MAIL_HOSTNAME . $event->creator->userName . $analitics, $itemTmp);
                 $itemTmp = str_replace("\${" . "user_img" . "}", $event->creator->userPicture, $itemTmp);
-                $itemTmp = str_replace("\${" . "user_name" . "}", $event->creator->firstName . " " . $event->creator->lastName, $itemTmp);
+                $uname = $event->creator->firstName . " " . $event->creator->lastName;
+                if (isset($event->creator) && !empty($event->creator)) {
+                    if (isset($event->creator->business_user) && !empty($event->creator->business_user)) {
+                        if (isset($event->creator->business_name)) {
+                            $uname = $event->creator->business_name;
+                        }
+                    }
+                }
+                $itemTmp = str_replace("\${" . "user_name" . "}", $uname, $itemTmp);
                 $itemTmp = str_replace("\${" . "event_desc" . "}", $event->description, $itemTmp);
+                //Test
+                /*
+                  var_dump("Title : " . $event->title);
+                  echo "<p/>";
+                  var_dump("Date 0 : " . $event->startDateTime);
+                  echo "<p/>";
+                  var_dump("Date 0 Long : " . $event->startDateTimeLong);
+                  echo "<p/>";
+                  var_dump("Timezone : " . $user->time_zone);
+                  echo "<p/>";
+
+                  var_dump("Convert Timezone : " . UtilFunctions::convertRevertTimeZone($event->startDateTime, $user->time_zone));
+                  echo "<p/>";
+                  var_dump("Convert Timezone Long : " . strtotime(UtilFunctions::convertRevertTimeZone($event->startDateTime, $user->time_zone)));
+                  echo "<p/>";
+                  var_dump("Convert Lang : " . strftime("%A", strtotime(UtilFunctions::convertRevertTimeZone($event->startDateTime, $user->time_zone))));
+                  echo "<p/>";
+                 */
+                //Test
                 $itemTmp = str_replace("\${" . "day_week" . "}", strftime("%A", strtotime(UtilFunctions::convertRevertTimeZone($event->startDateTime, $user->time_zone))), $itemTmp);
                 $itemTmp = str_replace("\${" . "hour" . "}", strftime("%H:%M", strtotime(UtilFunctions::convertRevertTimeZone($event->startDateTime, $user->time_zone))), $itemTmp);
 

@@ -144,8 +144,8 @@ class UtilFunctions {
     public static function getTimeDiffString($datestart, $dateend, $time_zone = null) {
         try {
             if (!empty($time_zone)) {
-                $datestart = UtilFunctions::convertTimeZone($datestart, $time_zone);
-                $dateend = UtilFunctions::convertTimeZone($dateend, $time_zone);
+                $datestart = UtilFunctions::convertRevertTimeZone($datestart, $time_zone);
+                $dateend = UtilFunctions::convertRevertTimeZone($dateend, $time_zone);
             }
             $start_date = new DateTime($datestart, new DateTimeZone('GMT'));
             $end_date = new DateTime($dateend, new DateTimeZone('GMT'));
@@ -428,12 +428,12 @@ class UtilFunctions {
         }
         return $date;
     }
-    
+
     public static function convertRevertTimeZone($date, $zone) {
         try {
-            $zone=  str_replace("-", "*", $zone);
-            $zone=  str_replace("+", "-", $zone);
-            $zone=  str_replace("*", "+", $zone);
+            $zone = str_replace("-", "*", $zone);
+            $zone = str_replace("+", "-", $zone);
+            $zone = str_replace("*", "+", $zone);
             $dateS = strtotime($date . $zone);
             return date(DATETIME_DB_FORMAT, $dateS);
         } catch (Exception $exc) {
@@ -474,10 +474,14 @@ class UtilFunctions {
                 $desc = strtolower($event->description);
                 $creator = "";
                 if (!empty($event->creator)) {
-                    $creator = strtolower($event->creator->firstName . " " . $event->creator->lastName);
+                    if (isset($event->creator->business_user) && !empty($event->creator->business_user)) {
+                        $creator = strtolower($event->creator->business_name);
+                    } else {
+                        $creator = strtolower($event->creator->firstName . " " . $event->creator->lastName);
+                    }
                 }
                 $search = strtolower($search);
-                
+
                 if (!empty($tagIds) && !empty($event->tags) && sizeof($event->tags) > 0) {
                     $tagIds = explode(',', $tagIds);
                     foreach ($tagIds as $t) {
@@ -486,9 +490,9 @@ class UtilFunctions {
                         }
                     }
                     return true;
-                }else if (preg_match('/' . $search . '/', $title) || preg_match('/' . $search . '/', $desc) || preg_match('/' . $search . '/', $creator)) {
+                } else if (preg_match('/' . $search . '/', $title) || preg_match('/' . $search . '/', $desc) || preg_match('/' . $search . '/', $creator)) {
                     return false;
-                }else {
+                } else {
                     return true;
                 }
             } else {

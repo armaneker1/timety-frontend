@@ -31,6 +31,7 @@ try {
             $val = new User();
             for ($i = 0; $i < sizeof($friendList); $i++) {
                 $val = $friendList[$i];
+                $val=  UtilFunctions::cast('User', $val);
                 if ($val->id != $userId) {
                     $followed = false;
                     if (!empty($followings) && !empty($val->id)) {
@@ -43,7 +44,7 @@ try {
                     }
                     $obj = new stdClass();
                     $obj->id = $val->id;
-                    $obj->fullName = $val->firstName . " " . $val->lastName;
+                    $obj->fullName = $val->getFullName();
                     $obj->username = $val->userName;
                     $obj->userPicture = $val->getUserPic();
                     $obj->followed = $followed;

@@ -119,7 +119,7 @@ if (empty($user)) {
                                     <li><img src="<?php echo $friend->getUserPic(); ?>" width="30"
                                              height="30" border="0" align="absmiddle" class="follow_res" /><span
                                              class="follow_ad"><?php
-                            $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
+                            $texxt = $friend->getFullName() . " (" . $friend->userName . ")";
                             if (strlen($texxt) > 30) {
                                 $texxt = substr($texxt, 0, 30);
                             } echo $texxt;
@@ -177,7 +177,7 @@ if (empty($user)) {
                                                  height="30" border="0" align="absmiddle" class="follow_res" /><span
                                                  class="follow_ad">
                                                      <?php
-                                                     $texxt = $friend->firstName . " " . $friend->lastName . " (" . $friend->userName . ")";
+                                                     $texxt = $friend->getFullName() . " (" . $friend->userName . ")";
                                                      if (strlen($texxt) > 30) {
                                                          $texxt = substr($texxt, 0, 30);
                                                      }

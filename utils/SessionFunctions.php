@@ -137,7 +137,7 @@ class SessionUtil {
                 $val = false;
                 if (isset($_COOKIE[$key]))
                     $val = $_COOKIE[$key];
-                if (!(!empty($val) && $val)) {
+                if (!(!empty($val) && $val) && $user->business_user.""!="1") {
                     $tags = Neo4jUserUtil::getUserTimetyTags($user->id);
                     if (!empty($tags) && sizeof($tags)) {
                         @setcookie($key, true, time() + (5 * 24 * 60 * 60), "/");

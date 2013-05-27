@@ -504,13 +504,13 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUserPublicEventsByDate($userId = -1, $startDate = null, $endDate = null, $query = null, $reqUserId = -1, $tagIds = null) {
+    public static function getUserUpcomingPublicEventsByDate($userId = -1, $startDate = null, $endDate = null, $query = null, $reqUserId = -1, $tagIds = null) {
         if (empty($reqUserId) || $reqUserId < 0) {
             return "[]";
         }
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         $redis = new Predis\Client();
-        $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_MY_TIMETY, $startDate, $endDate);
+        $events = $redis->zrangebyscore(REDIS_PREFIX_USER . $reqUserId . REDIS_SUFFIX_UPCOMING, $startDate, $endDate);
         $result = "[";
         $userRelationEmpty = new stdClass();
         $userRelationEmpty->joinType = 0;
@@ -1402,7 +1402,7 @@ class RedisUtils {
                     $usr = UtilFunctions::cast("User", $usr);
                     if (!empty($query) && $query != "*") {
                         $query = trim($query);
-                        $search_test = $usr->firstName . " " . $usr->lastName . " " . $usr->userName;
+                        $search_test = $usr->getFullName() . " " . $usr->userName;
                         if (strpos($search_test, $query) > -1)
                             array_push($result, $usr);
                     } else {

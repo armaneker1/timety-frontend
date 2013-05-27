@@ -93,6 +93,8 @@ define('PROP_USER_STA_LIKES_COUNT', 'likes_count');
 define('PROP_USER_STA_RESHARES_COUNT', 'reshares_count');
 define('PROP_USER_STA_JOINED_COUNT', 'joined_count');
 define('PROP_USER_STA_CREATED_COUNT', 'created_count');
+define('PROP_USER_BUSINESSUSER', 'business_user');
+define('PROP_USER_BUSINESSNAME', 'business_name');
 /*
  * category props
  */
@@ -182,6 +184,9 @@ define('PROP_EVENT_CREATOR_F_NAME', 'creator_f_name');
 define('PROP_EVENT_CREATOR_L_NAME', 'creator_l_name');
 define('PROP_EVENT_CREATOR_IMAGE', 'creator_image');
 define('PROP_EVENT_CREATOR_ABOUT', 'creator_about');
+define('PROP_EVENT_CREATOR_BUSINESSUSER', 'creator_buser');
+define('PROP_EVENT_CREATOR_BUSINESSNAME', 'creator_bname');
+define('PROP_EVENT_CREATOR_DISPLAYNAME', 'creator_displayname');
 define('PROP_EVENT_LOC_LAT', 'loc_lat');
 define('PROP_EVENT_LOC_LNG', 'loc_lng');
 define('PROP_EVENT_LOC_COUNTRY', 'loc_country');

@@ -2,7 +2,7 @@
 $showMenu = true;
 $hideBar = false;
 //if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) {
-if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI")) {
+if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI" || $page_id == "createusiness")) {
     $showMenu = false;
 }
 //}

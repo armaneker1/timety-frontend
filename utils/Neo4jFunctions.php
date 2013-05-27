@@ -305,6 +305,8 @@ class Neo4jFuctions {
                     $usr->setProperty(PROP_USER_ID, $userId);
                     $usr->setProperty(PROP_USER_USERNAME, $userName);
                     $usr->setProperty(PROP_USER_CM_INVITED, false);
+                    $usr->setProperty(PROP_USER_BUSINESSUSER, 0);
+                    $usr->setProperty(PROP_USER_BUSINESSNAME, "");
                     if ($type == USER_TYPE_INVITED) {
                         $type = USER_TYPE_NORMAL;
                         $usr->setProperty(PROP_USER_CM_INVITED, true);
@@ -327,7 +329,7 @@ class Neo4jFuctions {
         }
     }
 
-    function addUserInfo($userId, $firstName, $lastName, $type = USER_TYPE_NORMAL, $userName = null) {
+    function addUserInfo($userId, $firstName, $lastName, $type = USER_TYPE_NORMAL, $userName = null, $businessName = null, $businessUser = 0) {
         try {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
@@ -336,6 +338,13 @@ class Neo4jFuctions {
                 $usr->setProperty(PROP_USER_LASTNAME, $lastName);
                 $usr->setProperty(PROP_USER_FIRSTNAME, $firstName);
                 $usr->setProperty(PROP_USER_TYPE, $type);
+                if ($businessUser == 1) {
+                    $usr->setProperty(PROP_USER_BUSINESSUSER, $businessUser);
+                    $usr->setProperty(PROP_USER_BUSINESSNAME, $businessName);
+                } else {
+                    $usr->setProperty(PROP_USER_BUSINESSUSER, 0);
+                    $usr->setProperty(PROP_USER_BUSINESSNAME, "");
+                }
                 if (!empty($userName)) {
                     $usr->setProperty(PROP_USER_USERNAME, $userName);
                 }

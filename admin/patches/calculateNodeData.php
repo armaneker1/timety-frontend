@@ -38,6 +38,9 @@ foreach ($array as $evt) {
             $evt->setProperty(PROP_EVENT_CREATOR_L_NAME, $user->lastName);
             $evt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
             $evt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
+            $evt->setProperty(PROP_EVENT_CREATOR_BUSINESSUSER, $user->business_user);
+            $evt->setProperty(PROP_EVENT_CREATOR_BUSINESSNAME, $user->business_name);
+            $evt->setProperty(PROP_EVENT_CREATOR_DISPLAYNAME, $user->getFullName());
             $evt->save();
         }
     }

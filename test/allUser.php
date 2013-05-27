@@ -31,6 +31,7 @@ if (!empty($query)) {
             $usr->id = $user->id;
             $usr->firstName = $user->firstName;
             $usr->lastName = $user->lastName;
+            $usr->fullName = $user->getFullName();
             $usr->userName = $user->userName;
             $usr->email = $user->email;
             $usr->userPicture = $user->userPicture;
@@ -49,6 +50,7 @@ if (!empty($query)) {
         $usr->firstName = $user->firstName;
         $usr->lastName = $user->lastName;
         $usr->userName = $user->userName;
+        $usr->fullName = $user->getFullName();
         $usr->email = $user->email;
         $usr->userPicture = $user->userPicture;
         $usr->about = $user->about;

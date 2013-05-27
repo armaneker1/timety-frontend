@@ -51,6 +51,7 @@ class User {
             $this->register_date = $result['last_login_date'];
             $this->time_zone = $result['time_zone'];
             $this->business_user = $result['business_user'];
+            $this->business_name = $result['business_name'];
         }
     }
 
@@ -87,6 +88,7 @@ class User {
                 $this->last_login_date = $tmp->getLastLoginDate();
                 $this->register_date = $tmp->getRegisterDate();
                 $this->business_user = $tmp->business_user;
+                $this->business_name = $tmp->business_name;
             } else {
                 $this->id = null;
             }
@@ -116,7 +118,8 @@ class User {
     private $register_date;
     private $last_login_date;
     public $time_zone;
-    public $business_user=0;
+    public $business_user = 0;
+    public $business_name;
     //location
     public $location_country;
     public $location_city;
@@ -130,7 +133,7 @@ class User {
     public $reshares_count = 0;
     public $joined_count = 0;
     public $created_count = 0;
-    
+
     public function getUserLang() {
         return $this->language;
     }
@@ -156,7 +159,11 @@ class User {
     }
 
     public function getFullName() {
-        return $this->firstName . " " . $this->lastName;
+        if (isset($this->business_user) && !empty($this->business_user)) {
+            return $this->business_name;
+        } else {
+            return $this->firstName . " " . $this->lastName;
+        }
     }
 
     public function getLocationCity() {
@@ -342,6 +349,10 @@ class Event {
             $cretorImage = $result->getProperty(PROP_EVENT_CREATOR_IMAGE);
             $cretorAbout = $result->getProperty(PROP_EVENT_CREATOR_ABOUT);
 
+            $creatorBusinessUser = $result->getProperty(PROP_EVENT_CREATOR_BUSINESSUSER);
+            $creatorBusinessName = $result->getProperty(PROP_EVENT_CREATOR_BUSINESSNAME);
+            $creatorDisplayName = $result->getProperty(PROP_EVENT_CREATOR_DISPLAYNAME);
+
             $crt = new User();
             $crt->id = $cretorId;
             $this->creatorId = $cretorId;
@@ -350,6 +361,9 @@ class Event {
             $crt->userName = $cretorUsername;
             $crt->userPicture = $cretorImage;
             $crt->about = $cretorAbout;
+            $crt->business_user = $creatorBusinessUser;
+            $crt->business_name = $creatorBusinessName;
+            $crt->displayName = $creatorDisplayName;
             $this->creator = $crt;
             $this->creatorId = $cretorId;
         }

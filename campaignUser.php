@@ -734,7 +734,7 @@ if (isset($_GET['campaignId']) && !empty($_GET['campaignId'])) {
                                     if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
                                         echo "_k";
                                     }
-                ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime() ?>
+                ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime($time_zone) ?>
                                                     </a>
                                                 </li>
                                             </ul>

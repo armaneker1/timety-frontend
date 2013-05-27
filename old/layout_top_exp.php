@@ -152,7 +152,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     <?php if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) { ?>
         <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?20135879133"></script>
         <?php
-        if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI")) {
+        if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI" || $page_id == "createusiness")) {
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function(){
@@ -190,7 +190,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
     }
 
     if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
-        if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI"))) {
+        if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI" || $page_id == "createusiness"))) {
             ?>
             <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js?2355"></script>
             <?php

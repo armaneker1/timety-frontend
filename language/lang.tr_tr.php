@@ -121,11 +121,14 @@ define('LANG_PAGE_ABOUT_US_SHARE_TRACK_PEOPLE_TEXT', 'Sevdiğiniz insanların ne
 define('LANG_UPDATE_PROFILE_ERROR_USERNAME_EMPTY', 'Kullanıcı adı bos'); // 128 
 define('LANG_UPDATE_PROFILE_ERROR_USERNAME_TAKEN', 'Kullanıcı adı alindi'); // 133 675
 define('LANG_UPDATE_PROFILE_ERROR_ENTER_NAME', 'Lütfen adınızı giriniz'); // 141 
+define('LANG_UPDATE_PROFILE_ERROR_BUSINESS_NAME','Lütfen kurum adınızı giriniz');  
+define('LANG_UPDATE_PROFILE_ERROR_BUSINESS_NAME_MIN','kurum adı en az 2 karakter olmalıdır'); 
 define('LANG_UPDATE_PROFILE_ERROR_ENTER_LASTNAME', 'Lütfen soyadınızı giriniz'); // 146 
 define('LANG_UPDATE_PROFILE_ERROR_EMAIL_EMPTY', 'E-Posta boş'); // 151 
 define('LANG_UPDATE_PROFILE_ERROR_EMAIL_NOTVALID', 'E-Posta geçersiz'); // 155 
 define('LANG_UPDATE_PROFILE_ERROR_EMAIL_EXISTS', 'E-Posta alındı'); // 159 665
 define('LANG_UPDATE_PROFILE_ERROR_BIRTHDAY_NOTVALID', 'Doğum tarihi geçersiz'); // 168 
+define('LANG_UPDATE_PROFILE_ERROR_FOUNDED_DATE_NOTVALID','Kurluş tarihi geçersiz');
 define('LANG_UPDATE_PROFILE_ERROR_ENTER_LOCATION', 'Oturduğunuz yeri giriniz'); // 174
 define('LANG_UPDATE_PROFILE_ERROR_PASSWORD_NOTMATCH', 'Şifreler uyuşmuyor'); // 195 
 define('LANG_UPDATE_PROFILE_ERROR_MINCHAR', 'En az 6 karakter kullanın'); // 200,205,213
@@ -148,6 +151,7 @@ define('LANG_UPDATE_PROFILE_FIRST_NAME', 'Ad'); // 960
 define('LANG_UPDATE_PROFILE_SURNAME', 'Soyad'); // 977
 define('LANG_UPDATE_PROFILE_LAST_NAME', 'Soyad'); // 985
 define('LANG_UPDATE_PROFILE_BIRTHDAY', 'Doğum Tarihi'); // 1001
+define('LANG_UPDATE_PROFILE_FOUNDED_DATE', 'Kuruluş Tarihi'); // 1001
 define('LANG_UPDATE_PROFILE_BIRTHDAY_DETAIL', '(gg.aa.yyyy)'); // 1005
 define('LANG_UPDATE_PROFILE_PROFILE', 'Profil Resmi'); // 1032
 define('LANG_UPDATE_PROFILE_SHORT_BIO', 'Kısa Bilgiler'); // 1041
@@ -191,7 +195,7 @@ define('LANG_PAGE_SIGNIN_LOGIN_HEADER', 'Giriş');
 define('LANG_PAGE_SIGNIN_LOGIN_GOOGLE', 'Google+ ile giriş');
 define('LANG_PAGE_SIGNIN_LOGIN_FACEBOOK', 'Facebook ile giriş');
 define('LANG_PAGE_SIGNIN_LOGIN_TWITTER', 'Twitter ile giriş');
-define('LANG_PAGE_SIGNIN_INPUT_USERNAME_PLACEHOLDER', 'Kullanıcı adı');
+define('LANG_PAGE_SIGNIN_INPUT_USERNAME_PLACEHOLDER', 'Kullanıcı adı veya email');
 define('LANG_PAGE_SIGNIN_INPUT_PASSWORD_PLACEHOLDER', 'Şifre');
 define('LANG_PAGE_SIGNIN_INPUT_REMEMBER_ME', 'Beni hatırla');
 define('LANG_PAGE_SIGNIN_BUTTON_LOGIN', 'Giriş');
@@ -284,7 +288,7 @@ define('LANG_PAGE_EDIT_EVENT_BUTTON_UPDATE_EVENT', 'Etkinlik güncelle');
 #create account 
 define('LANG_PAGE_CREATE_ACCOUNT_TITLE', 'Timety | Üye olun');
 define('LANG_PAGE_CREATE_ACCOUNT_FORM_HEADER', 'Hesap oluşturun');
-define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', 'veya e-posta adresinizle <a href="' . PAGE_ABOUT_YOU . '?new">üye olunuz.</a>');
+define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', 'e-posta adresinizle <a href="' . PAGE_ABOUT_YOU . '?new">üye olunuz.</a><p/>veya kurum olarak <a href="'.PAGE_BUSINESS_CREATE.'">üye olunuz.</a>');
 define('LANG_PAGE_CREATE_ACCOUNT_ABOUT_TIMETY', 'Timety Nedir');
 
 #add facebook user
@@ -392,4 +396,14 @@ define('LANG_TR_TR_TEXT', 'Türkçe');
 define('LANG_EN_US_TEXT', 'İngilizce');
 define('LANG_SELECT_LANGUAGE', 'Dil Seçiniz');
 define('LANG_LANGUAGE', 'Diliniz');
+
+#Create Business
+define('LANG_PAGE_TITLE_BUSINESS', 'Timety | Create Business Account');
+define('LANG_PAGE_BUSINESS_HEADER', 'Kurum Bilgileri');
+define('LANG_PAGE_BUSINESS_NAME_PLACEHOLDER', 'Kurum Adı');
+define('LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_PLACEHOLDER', 'İlgili kişi adı');
+define('LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_PLACEHOLDER', 'İlgili kişi soyadı');
+define('LANG_PAGE_BUSINESS_BUSINESSNAME_ERROR_MIN', 'en az 2 karakter olmalıdır');
+define('LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_ERROR', 'en az 3 karakter olmalıdır');
+define('LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_ERROR', 'en az 3 karakter olmalıdır');
 ?>

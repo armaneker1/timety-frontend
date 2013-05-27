@@ -28,7 +28,13 @@ try {
                 $result->error = LanguageUtils::getText("LANG_AJAX_INVITE_MAIL_ERROR_SAME_USER");
             } else {
                 $result->success = false;
-                $params = array(array('name', $user->firstName), array('surname', $user->lastName), array('username', $user->userName), array('bio', $user->about), array('email_address', $query));
+                $ufname = $user->firstName;
+                $ulname = $user->lastName;
+                if (!empty($user->business_user)) {
+                    $ufname = $user->getFullName();
+                    $ulname = "";
+                }
+                $params = array(array('name', $ufname), array('surname', $ulname), array('username', $user->userName), array('bio', $user->about), array('email_address', $query));
                 $res = MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_invite.html", $params, $query, LanguageUtils::getText("LANG_MAIL_INVITE_SUBJECT"));
                 $result->success = true;
                 $result->param = $res;

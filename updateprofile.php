@@ -13,6 +13,9 @@ if (empty($user)) {
 }
 
 
+$businessName = $user->business_name;
+$businessNameError = "";
+
 $email = $user->email;
 $defaultEmail = $user->email;
 $emailError = "";
@@ -92,6 +95,8 @@ if (isset($_SESSION['profile_session']) && $_SESSION['profile_session'] == "1") 
     $success = $_SESSION['pr_success'];
     $language = $_SESSION['pr_language'];
     $languageError = $_SESSION['pr_languageError'];
+    $businessName = $_SESSION['pr_businessName'];
+    $businessNameError = $_SESSION['pr_businessNameError'];
 
     $te_location_country = $_SESSION['pr_location_country'];
     $te_location_city = $_SESSION['pr_location_city'];
@@ -123,6 +128,8 @@ if (isset($_SESSION['profile_session']) && $_SESSION['profile_session'] == "1") 
     $_SESSION['pr_success'] = false;
     $_SESSION['pr_language'] = "";
     $_SESSION['pr_languageError'] = "";
+    $_SESSION['pr_businessName'] = "";
+    $_SESSION['pr_businessNameError'] = "";
 
     $_SESSION['pr_location_country'] = "";
     $_SESSION['pr_location_city'] = "";
@@ -143,6 +150,17 @@ if (isset($_POST['update'])) {
                 $usernameError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_USERNAME_TAKEN");
                 $param = false;
             }
+        }
+    }
+
+    $businessName = $_POST['te_businessname'];
+    if (!empty($user->business_user)) {
+        if (empty($businessName)) {
+            $businessNameError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_BUSINESS_NAME");
+            $param = false;
+        } else if (strlen($businessName) < 2) {
+            $businessNameError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_BUSINESS_NAME_MIN");
+            $param = false;
         }
     }
 
@@ -175,7 +193,10 @@ if (isset($_POST['update'])) {
     $te_birthday = $_POST['te_birthday'];
     if (!empty($te_birthday)) {
         if (!UtilFunctions::checkDate($te_birthday)) {
-            $te_birthdayError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_BIRTHDAY_NOTVALID");
+            if (!empty($user->business_user))
+                $te_birthdayError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_BIRTHDAY_NOTVALID");
+            else
+                $te_birthdayError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_FOUNDED_DATE_NOTVALID");
             $param = false;
         }
     }
@@ -199,8 +220,10 @@ if (isset($_POST['update'])) {
     $unewpassError = "";
     $unewrepassError = "";
     $newPassword = null;
-    if (!empty($uoldpass) || !empty($unewpass) || !empty($unewrepass)) {
-        if (!empty($uoldpass) && strlen($uoldpass) > 5) {
+    $org_pass = $user->getPassword();
+
+    if (!empty($uoldpass) || (empty($uoldpass) && empty($org_pass)) || !empty($unewpass) || !empty($unewrepass)) {
+        if ((!empty($uoldpass) && strlen($uoldpass) > 5)) {
             $uoldpass = sha1($uoldpass);
             if ($uoldpass == $user->getPassword()) {
                 if (!empty($unewpass) && strlen($unewpass) > 5) {
@@ -225,12 +248,29 @@ if (isset($_POST['update'])) {
                 $param = false;
                 $uoldpassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_PASSWORD_INCORRECT");
             }
+        } else if (empty($uoldpass) && empty($org_pass)) {
+            if (!empty($unewpass) && strlen($unewpass) > 5) {
+                if (!empty($unewrepass) && strlen($unewrepass) > 5) {
+                    if ($unewpass == $unewrepass) {
+                        $newPassword = $unewpass;
+                    } else {
+                        $param = false;
+                        $unewrepassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_PASSWORD_NOTMATCH");
+                    }
+                }
+            } else {
+                $param = false;
+                $unewpassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_MINCHAR");
+            }
+            if (empty($unewrepass) || strlen($unewrepass) < 5) {
+                $param = false;
+                $unewrepassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_MINCHAR");
+            }
         } else {
             $param = false;
             $uoldpassError = LanguageUtils::getText("LANG_UPDATE_PROFILE_ERROR_MINCHAR");
         }
     }
-
 
     $website = $_POST['te_web_site'];
     $about = $_POST['te_about'];
@@ -258,6 +298,12 @@ if (isset($_POST['update'])) {
     }
     if ($user->about != $about) {
         $updateEvents = true;
+    }
+    if (!empty($user->business_user)) {
+        if ($user->business_name != $businessName) {
+            $updateEvents = true;
+        }
+        $user->business_name = $businessName;
     }
 
     $user->userName = $username;
@@ -329,7 +375,8 @@ if (isset($_POST['update'])) {
     $_SESSION['profile_session'] = "1";
     $_SESSION['pr_language'] = $language;
     $_SESSION['pr_languageError'] = $languageError;
-
+    $_SESSION['pr_businessName'] = $businessName;
+    $_SESSION['pr_businessNameError'] = $businessNameError;
 
     $_SESSION['pr_location_country'] = $te_location_country;
     $_SESSION['pr_location_city'] = $te_location_city;
@@ -639,6 +686,9 @@ if (isset($_POST['update'])) {
                     jQuery('#te_firstname_span').attr('class', 'onay icon_bg');
                     jQuery('#te_firstname').attr('class', 'user_inpt onay_brdr');
                     
+                    jQuery('#te_businessname_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_businessname').attr('class', 'user_inpt  onay_brdr user_inpt_pi_height');
+                    
                     jQuery('#te_lastname_span').attr('class', 'onay icon_bg');
                     jQuery('#te_lastname').attr('class', 'user_inpt  onay_brdr');
                     
@@ -664,7 +714,9 @@ if (isset($_POST['update'])) {
                                 jQuery('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
                             }
                         }
-                        validatePassword(jQuery("#te_old_password"),null,false,true);
+                        var oldN= jQuery("#te_old_password").val();
+                        if(oldN)
+                            validatePassword(jQuery("#te_old_password"),null,false,true);
                         validatePassword(jQuery("#te_new_password"),jQuery('#te_new_repassword'),false,true);
                         validatePassword(jQuery('#te_new_repassword'),jQuery('#te_new_password'),true,true);
                     } else {
@@ -704,12 +756,11 @@ if (isset($_POST['update'])) {
                 
                 validator.registerCallback('check_password', function(value) {
                     
-                    var oldP= jQuery("#te_old_password").val();
                     var oldN= jQuery("#te_new_password").val();
                     var oldRN= jQuery("#te_new_repassword").val();     
-                    if(oldN || oldP || oldRN)
+                    if(oldN ||  oldRN)
                     {
-                        var result=  validatePassword(jQuery("#te_old_password"),null,false,false);
+                        var result=  true;
                         result=result && validatePassword(jQuery("#te_new_password"),jQuery('#te_new_repassword'),false,false);
                         result=result &&  validatePassword(jQuery('#te_new_repassword'),jQuery('#te_new_password'),true,false);
                         return result;
@@ -737,7 +788,7 @@ if (isset($_POST['update'])) {
             <div class="profil_form">
                 <div class="p_form_sol">
                     <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_EMAIL") ?></p>    
-                    <input name="te_default_username" type="hidden" value="<?= $defaultUsername?>"/>
+                    <input name="te_default_username" type="hidden" value="<?= $defaultUsername ?>"/>
                     <input name="te_default_email" type="hidden" value="<?= $defaultEmail ?>"/>
                     <input 
                         name="te_email" 
@@ -764,7 +815,14 @@ if (isset($_POST['update'])) {
                     </span><br /> 
 
 
-                    <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_OLD_PASSWORD") ?></p>
+                    <?php
+                    $display_bus_n = "";
+                    $org_pass = $user->getPassword();
+                    if (empty($org_pass)) {
+                        $display_bus_n = "display:none;";
+                    }
+                    ?>
+                    <p class="profil_etiket" style="<?= $display_bus_n ?>"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_OLD_PASSWORD") ?></p>
 
                     <input 
                         name="te_old_password" 
@@ -773,7 +831,7 @@ if (isset($_POST['update'])) {
                         id="te_old_password" 
                         value=""
                         placeholder="<?= LanguageUtils::getText("LANG_UPDATE_PROFILE_OLD_PASSWORD") ?>"
-                        style="width:356px;height:40px"
+                        style="width:356px;height:40px;<?= $display_bus_n ?>"
                         onkeyup="validatePassword(this,null,false,false);"
                         onblur="validatePassword(this,null,false,true);" />
                         <?php
@@ -784,9 +842,9 @@ if (isset($_POST['update'])) {
                             $class = "sil icon_bg";
                         }
                         ?>
-                    <span id='te_old_password_span' class="<?= $class ?>">
+                    <span id='te_old_password_span' class="<?= $class ?>" style="<?= $display_bus_n ?>">
                         <div class="create_acco_popup" id="te_old_password_span_msg" style="display:<?= $display ?>;"><?= $uoldpassError ?><div class="kok"></div></div>
-                    </span> <br />
+                    </span> <br style="<?= $display_bus_n ?>" />
 
 
                     <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_NEW_PASSWORD") ?></p>
@@ -872,20 +930,23 @@ if (isset($_POST['update'])) {
                     <br /> 
 
                     <br />
-                    <div class="profil_g">
-                        <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER") ?></p>
+                    <?php if (empty($user->business_user)) { ?>
 
-                        <label class="label_radio" for="te_gender_male">
-                            <input name="te_gender" id="te_gender_male" <?php if ($te_gender == 1 || $te_gender == '1') echo "checked='checked'"; ?> value="1" type="radio" />
-                            <?= LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER_MALE") ?>
-                        </label>
-                        <label class="label_radio" for="te_gender_female">
-                            <input name="te_gender" id="te_gender_female" <?php if ($te_gender . "" == '0') echo "checked='checked'"; ?> value="0" type="radio" />
-                            <?= LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER_FEMALE") ?>
-                        </label>
-                    </div>
-                    <br />
+                        <div class="profil_g">
+                            <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER") ?></p>
 
+                            <label class="label_radio" for="te_gender_male">
+                                <input name="te_gender" id="te_gender_male" <?php if ($te_gender == 1 || $te_gender == '1') echo "checked='checked'"; ?> value="1" type="radio" />
+                                <?= LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER_MALE") ?>
+                            </label>
+                            <label class="label_radio" for="te_gender_female">
+                                <input name="te_gender" id="te_gender_female" <?php if ($te_gender . "" == '0') echo "checked='checked'"; ?> value="0" type="radio" />
+                                <?= LanguageUtils::getText("LANG_UPDATE_PROFILE_GENDER_FEMALE") ?>
+                            </label>
+                        </div>
+                        <br />
+
+                    <?php } ?>
                     <!--
                     <div class="profil_g">
                         <p class="profil_etiket">Language</p>
@@ -975,6 +1036,38 @@ if (isset($_POST['update'])) {
 
 
                 <div class="p_form_sag">
+
+
+                    <?php
+                    $display_bus = "display:none;";
+                    if (!empty($user) && !empty($user->business_user)) {
+                        $display_bus = "";
+                    }
+                    ?>
+                    <p class="profil_etiket" style="<?= $display_bus ?>"><?= LanguageUtils::getText("LANG_PAGE_BUSINESS_NAME_PLACEHOLDER") ?></p>
+
+                    <input 
+                        name="te_businessname"
+                        type="text" 
+                        class="user_inpt" 
+                        style="width:356px;height:40px;<?= $display_bus ?>"
+                        id="te_businessname"
+                        value="<?php echo $businessName ?>" 
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_NAME_PLACEHOLDER") ?>"
+                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,2) }" /> 
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($businessNameError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
+                    <span id='te_businessname_span' class="<?= $class ?>" style="<?= $display_bus ?>">
+                        <div class="create_acco_popup" id="te_businessname_span_msg" style="display:<?= $display ?>;"><?= $businessNameError ?><div class="kok"></div></div>
+                    </span><br style="<?= $display_bus ?>"/> 
+
+
                     <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_USERNAME") ?></p>
                     <input 
                         name="te_username" 
@@ -1001,7 +1094,13 @@ if (isset($_POST['update'])) {
                     </span> <br /> 
 
 
-                    <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_NAME") ?></p>
+                    <p class="profil_etiket"><?php
+                        if (!empty($user->business_user)) {
+                            echo LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_PLACEHOLDER");
+                        } else {
+                            echo LanguageUtils::getText("LANG_UPDATE_PROFILE_NAME");
+                        }
+                        ?></p>
                     <input 
                         name="te_firstname"
                         type="text" 
@@ -1009,7 +1108,13 @@ if (isset($_POST['update'])) {
                         style="width:356px;height:40px"
                         id="te_firstname"
                         value="<?php echo $name ?>" 
-                        placeholder="<?= LanguageUtils::getText("LANG_UPDATE_PROFILE_FIRST_NAME") ?>"
+                        placeholder="<?php
+                        if (!empty($user->business_user)) {
+                            echo LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_PLACEHOLDER");
+                        } else {
+                            echo LanguageUtils::getText("LANG_UPDATE_PROFILE_FIRST_NAME");
+                        }
+                        ?>"
                         onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
                         <?php
@@ -1026,7 +1131,13 @@ if (isset($_POST['update'])) {
 
 
 
-                    <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_SURNAME") ?></p>
+                    <p class="profil_etiket"><?php
+                        if (!empty($user->business_user)) {
+                            echo LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_PLACEHOLDER");
+                        } else {
+                            echo LanguageUtils::getText("LANG_UPDATE_PROFILE_SURNAME");
+                        }
+                        ?></p>
                     <input 
                         name="te_lastname"
                         type="text" 
@@ -1034,7 +1145,13 @@ if (isset($_POST['update'])) {
                         style="width:356px;height:40px"
                         id="te_lastname"
                         value="<?php echo $lastname ?>" 
-                        placeholder="<?= LanguageUtils::getText("LANG_UPDATE_PROFILE_LAST_NAME") ?>" 
+                        placeholder="<?php
+                        if (!empty($user->business_user)) {
+                            echo LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_PLACEHOLDER");
+                        } else {
+                            echo LanguageUtils::getText("LANG_UPDATE_PROFILE_LAST_NAME");
+                        }
+                        ?>"
                         onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
                         <?php
@@ -1050,7 +1167,13 @@ if (isset($_POST['update'])) {
                     </span> <br />
 
 
-                    <p class="profil_etiket"><?= LanguageUtils::getText("LANG_UPDATE_PROFILE_BIRTHDAY") ?></p>   
+                    <p class="profil_etiket"><?php
+                        if (empty($user->business_user)) {
+                            echo LanguageUtils::getText("LANG_UPDATE_PROFILE_BIRTHDAY");
+                        } else {
+                            echo LanguageUtils::getText("LANG_UPDATE_PROFILE_FOUNDED_DATE");
+                        }
+                        ?></p>   
                     <input 
                         name="te_birthday" 
                         type="text" 
@@ -1098,7 +1221,7 @@ if (isset($_POST['update'])) {
                             style="width:356px;height:40px;resize: none;"
                             id="te_about"
                             charlength="50"
-                            placeholder="<?= LanguageUtils::getText("LANG_UPDATE_PROFILE_ABOUT") ?>" ><?php echo htmlspecialchars($about,ENT_COMPAT) ?></textarea>
+                            placeholder="<?= LanguageUtils::getText("LANG_UPDATE_PROFILE_ABOUT") ?>" ><?php echo htmlspecialchars($about, ENT_COMPAT) ?></textarea>
                             <?php
                             $display = "none";
                             $class = "";
@@ -1130,7 +1253,7 @@ if (isset($_POST['update'])) {
                         id="te_hometown" 
                         autocomplete="off"
                         style="width:356px;height:40px"
-                        value="<?php echo htmlspecialchars($hometown,ENT_COMPAT) ?>"
+                        value="<?php echo htmlspecialchars($hometown, ENT_COMPAT) ?>"
                         onkeyup="validateInput(this,true,false,3)"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
                         <?php

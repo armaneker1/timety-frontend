@@ -5,11 +5,13 @@ header("charset=utf8;");
 require_once __DIR__ . '/utils/Functions.php';
 require_once __DIR__ . '/apis/google/contrib/Google_Oauth2Service.php';
 
-$page_id = "registerPI";
+$page_id = "createusiness";
 
 $visible = false;
 $msgs = array();
 
+$businessName = "";
+$businessNameError = "";
 $username = "";
 $defaultUsername = "";
 $usernameError = null;
@@ -40,13 +42,6 @@ $te_location_all_json = "";
 $te_location_cor_x = "";
 $te_location_cor_y = "";
 
-if (!isset($_SESSION['id'])) {
-    if (!isset($_GET['new'])) {
-        unset($_SESSION['id']);
-        header("location: " . HOSTNAME);
-        exit(1);
-    }
-}
 // Set location
 $user = SessionUtil::checkLoggedinUser(false);
 LanguageUtils::setUserLocale($user);
@@ -74,14 +69,20 @@ if (isset($_POST['te_username'])) {
     }
 
 
+    $businessName = $_POST['te_businessname'];
+    if (empty($businessName) && strlen($businessName) < 2) {
+        $businessNameError = LanguageUtils::getText("LANG_PAGE_BUSINESS_BUSINESSNAME_ERROR_MIN");
+        $param = false;
+    }
+
     $name = $_POST['te_firstname'];
     if (empty($name)) {
-        $nameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_FIRST_NAME");
+        $nameError = LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_ERROR");
         $param = false;
     }
     $lastname = $_POST['te_lastname'];
     if (empty($lastname)) {
-        $ulastnameError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_EMPTY_LAST_NAME");
+        $ulastnameError = LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_ERROR");
         $param = false;
     }
     $language = $_POST['te_language'];
@@ -139,33 +140,31 @@ if (isset($_POST['te_username'])) {
 
     if (sizeof($msgs) <= 0 && $param) {
         $firstOK = false;
-        if (isset($_GET['new'])) {
-            $user = new User();
-            $user->email = $email;
-            $user->userName = $username;
-            $user->password = sha1($password);
-            $user->status = 0;
-            $_SESSION["te_invitation_code"] = "success";
-            $user = UserUtils::createUser($user);
-            if (!empty($user)) {
-                $_SESSION['id'] = $user->id;
-                $_SESSION['username'] = $user->userName;
-                $_SESSION['oauth_provider'] = 'timety';
-                $firstOK = true;
-            } else {
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = LanguageUtils::getText("LANG_PAGE_PI_ERROR");
-                array_push($msgs, $m);
-                $param = false;
-            }
-        } else {
+        $user = new User();
+        $user->email = $email;
+        $user->userName = $username;
+        $user->password = sha1($password);
+        $user->status = 0;
+        $_SESSION["te_invitation_code"] = "success";
+        $user = UserUtils::createUser($user);
+        if (!empty($user)) {
+            $_SESSION['id'] = $user->id;
+            $_SESSION['username'] = $user->userName;
+            $_SESSION['oauth_provider'] = 'timety';
             $firstOK = true;
+        } else {
+            $m = new HtmlMessage();
+            $m->type = "e";
+            $m->message = LanguageUtils::getText("LANG_PAGE_PI_ERROR");
+            array_push($msgs, $m);
+            $param = false;
         }
 
         if ($firstOK) {
             $user = UserUtils::getUserById($user->id);
             if ($user != null) {
+                $user->business_user = 1;
+                $user->business_name = $businessName;
                 $user->userName = $username;
                 $user->firstName = $name;
                 $user->lastName = $lastname;
@@ -175,18 +174,8 @@ if (isset($_POST['te_username'])) {
                 if (!empty($password)) {
                     $user->password = sha1($password);
                 }
-                $user->status = 1;
+                $user->status = 3;
                 $user->language = $language;
-                /* if (!empty($te_location_country) && ( $te_location_country == "Turkey" ||
-                  $te_location_country == "turkey" ||
-                  $te_location_country == "Türkiye" ||
-                  $te_location_country == "TR" ||
-                  $te_location_country == "tr" ||
-                  $te_location_country == "türkiye")) {
-                  $user->language = LANG_TR_TR;
-                  } else {
-                  $user->language = LANG_EN_US;
-                  } */
                 UserUtils::updateUser($user->id, $user);
                 $user = UserUtils::getUserById($_SESSION['id']);
                 $user->location_country = $te_location_country;
@@ -194,6 +183,7 @@ if (isset($_POST['te_username'])) {
                 $user->location_all_json = $te_location_all_json;
                 $user->location_cor_x = $te_location_cor_x;
                 $user->location_cor_y = $te_location_cor_y;
+
                 UserUtils::addUserLocation($user->id, $te_location_country, LocationUtils::getCityId($te_location_city), $te_location_all_json, $te_location_cor_x, $te_location_cor_y);
                 UserUtils::addUserInfoNeo4j($user);
                 $userProfilePic = UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType, FALSE);
@@ -223,247 +213,14 @@ if (isset($_POST['te_username'])) {
         }
     }
 } else {
-    if (isset($_GET['new'])) {
-        RegisterAnaliticsUtils::increasePageRegisterCount("about-you?new");
-    } else {
-        RegisterAnaliticsUtils::increasePageRegisterCount("about-you");
-    }
-    $user = null;
-    if (isset($_SESSION['id']))
-        $user = UserUtils::getUserById($_SESSION['id']);
-    if (!empty($user)) {
-        if ($user->status != 0) {
-            SessionUtil::checkUserStatus($user, true);
-        }
-        $socialProviders = $user->socialProviders;
-        if (!empty($socialProviders)) {
-            $username = $user->userName;
-            $defaultUsername = $user->userName;
-            $defaultEmail = $user->email;
-            $provider = new SocialProvider();
-            for ($i = 0; $i < sizeof($socialProviders); $i++) {
-                $provider = $socialProviders[$i];
-                if ($provider->oauth_provider == FACEBOOK_TEXT) {
-                    $facebook = new Facebook(array(
-                                'appId' => FB_APP_ID,
-                                'secret' => FB_APP_SECRET,
-                                'cookie' => true
-                            ));
-                    $facebook->setAccessToken($provider->oauth_token);
-                    $fbUser = $facebook->api('/me');
-                    $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?width=200&height=200";
-                    $userProfilePicType = FACEBOOK_TEXT;
-                    $name = null;
-                    if (isset($fbUser['first_name'])) {
-                        $name = $fbUser['first_name'];
-                    }
-                    $lastname = null;
-                    if (isset($fbUser['last_name'])) {
-                        $lastname = $fbUser['last_name'];
-                    }
-                    $email = null;
-                    if (isset($fbUser['email'])) {
-                        $email = $fbUser['email'];
-                    }
-                    if (!empty($name) && !empty($lastname) && !empty($email)) {
-
-                        $email = preg_replace('/\s+/', '', $email);
-                        $email = strtolower($email);
-                        if (!UtilFunctions::check_email_address($email)) {
-                            $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_NOT_VALID_EMAIL");
-                            $param = false;
-                        } else if (!UserUtils::checkEmail($email)) {
-                            $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_EMAIL");
-                            $param = false;
-                        }
-                        if ($param) {
-                            try {
-                                $locs = LocationUtils::getGeoLocationFromIP();
-                                if (!empty($locs)) {
-                                    $location_cor_x = $locs[0];
-                                    $location_cor_y = $locs[1];
-                                    $lo = LocationUtils::getCityCountry($location_cor_x, $location_cor_y);
-                                    $location_country = $lo['country'];
-                                    $location_city = $lo['city'];
-                                    $location_city = LocationUtils::getCityId($location_city);
-                                    $lang = LanguageUtils::getBrowserLanguage();
-
-                                    if (!empty($lang) && !empty($location_city) && !empty($location_country)) {
-                                        $user->firstName = $name;
-                                        $user->lastName = $lastname;
-                                        $user->email = $email;
-                                        $user->status = 1;
-                                        $user->language = $lang;
-                                        UserUtils::updateUser($user->id, $user);
-                                        $user = UserUtils::getUserById($_SESSION['id']);
-                                        $user->location_country = $location_country;
-                                        $user->location_city = $location_city;
-                                        $user->location_all_json = "";
-                                        $user->location_cor_x = $location_cor_x;
-                                        $user->location_cor_y = $location_cor_y;
-                                        UserUtils::addUserLocation($user->id, $location_country, $location_city, "", $location_cor_x, $location_cor_y);
-                                        UserUtils::addUserInfoNeo4j($user);
-                                        UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType, FALSE);
-                                        /*
-                                         * check user is invited
-                                         */
-                                        $user = UserUtils::getUserById($user->id);
-                                        $tmpuser = UserUtils::checkInvitedEmail($email);
-                                        if (!empty($tmpuser)) {
-                                            $newUserId = UserUtils::moveUser($user->id, $tmpuser->id);
-                                            if (!empty($newUserId)) {
-                                                $user = UserUtils::getUserById($newUserId);
-                                                $_SESSION['id'] = $newUserId;
-                                            }
-                                        }
-                                        ElasticSearchUtils::insertUsertoSBI($user);
-                                        header('Location: ' . PAGE_LIKES);
-                                        exit(1);
-                                    }
-                                }
-                            } catch (Exception $exc) {
-                                error_log($exc->getTraceAsString());
-                            }
-                        }
-                    }
-                    $hometown = "";
-                } elseif ($provider->oauth_provider == TWITTER_TEXT) {
-                    $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);
-                    $user_info = $twitteroauth->get('account/verify_credentials');
-                    if (isset($user_info->error)) {
-                        header('Location: login-twitter.php');
-                    } else {
-                        $name = $user_info->name;
-                        $keywords = preg_split("/[\s,]+/", $name);
-                        $lastname = $keywords[sizeof($keywords) - 1];
-                        $name = "";
-                        for ($i = 0; $i < sizeof($keywords) - 1; $i++) {
-                            $name = $name .$keywords[$i]." ";
-                        }
-                        $email = "";
-                        $hometown = "";
-                        $userProfilePic = $user_info->profile_image_url;
-                        $userProfilePicType = TWITTER_TEXT;
-                    }
-                } elseif ($provider->oauth_provider == FOURSQUARE_TEXT) {
-                    $foursquare = new FoursquareAPI(FQ_CLIENT_ID, FQ_CLIENT_SECRET);
-                    $foursquare->SetAccessToken($provider->oauth_token);
-                    $res = $foursquare->GetPrivate("users/self");
-                    $details = json_decode($res);
-                    $res = $details->response;
-                    $user = $res->user;
-                    $name = $user->firstName;
-                    $lastname = $user->lastName;
-                    $email = $user->contact->email;
-                    //$hometown = $user->homeCity;
-                    $hometown = "";
-                    $userProfilePic = $user->photo;
-                    $userProfilePicType = FOURSQUARE_TEXT;
-                } elseif ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
-                    $google = new Google_Client();
-                    $google->setApplicationName(GG_APP_NAME);
-                    $google->setClientId(GG_CLIENT_ID);
-                    $google->setClientSecret(GG_CLIENT_SECRET);
-                    $google->setRedirectUri(HOSTNAME . GG_CALLBACK_URL);
-                    $google->setDeveloperKey(GG_DEVELOPER_KEY);
-                    $oauth2 = new Google_Oauth2Service($google);
-                    $google->setAccessToken($provider->oauth_token);
-                    $me = $oauth2->userinfo->get();
-                    if (!empty($me)) {
-                        if (!empty($me['email']))
-                            $email = $me['email'];
-                        if (!empty($me['given_name'])) {
-                            $name = $me['given_name'];
-                        }
-                        if (!empty($me['family_name'])) {
-                            $lastname = $me['family_name'];
-                        }
-                        $hometown = "";
-                        if (!empty($me['picture'])) {
-                            $userProfilePic = $me['picture'];
-                            $userProfilePicType = GOOGLE_PLUS_TEXT;
-                        }
-
-                        if (!empty($name) && !empty($lastname) && !empty($email)) {
-                            $email = preg_replace('/\s+/', '', $email);
-                            $email = strtolower($email);
-                            if (!UtilFunctions::check_email_address($email)) {
-                                $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_NOT_VALID_EMAIL");
-                                $param = false;
-                            } else if (!UserUtils::checkEmail($email)) {
-                                $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_EMAIL");
-                                $param = false;
-                            }
-                            if ($param) {
-                                try {
-                                    $locs = LocationUtils::getGeoLocationFromIP();
-                                    if (!empty($locs)) {
-                                        $location_cor_x = $locs[0];
-                                        $location_cor_y = $locs[1];
-                                        $lo = LocationUtils::getCityCountry($location_cor_x, $location_cor_y);
-                                        $location_country = $lo['country'];
-                                        $location_city = $lo['city'];
-                                        $location_city = LocationUtils::getCityId($location_city);
-                                        $lang = LanguageUtils::getBrowserLanguage();
-
-                                        if (!empty($lang) && !empty($location_city) && !empty($location_country)) {
-                                            $user->firstName = $name;
-                                            $user->lastName = $lastname;
-                                            $user->email = $email;
-                                            $user->status = 1;
-                                            $user->language = $lang;
-                                            UserUtils::updateUser($user->id, $user);
-                                            $user = UserUtils::getUserById($_SESSION['id']);
-                                            $user->location_country = $location_country;
-                                            $user->location_city = $location_city;
-                                            $user->location_all_json = "";
-                                            $user->location_cor_x = $location_cor_x;
-                                            $user->location_cor_y = $location_cor_y;
-                                            UserUtils::addUserLocation($user->id, $location_country, $location_city, "", $location_cor_x, $location_cor_y);
-                                            UserUtils::addUserInfoNeo4j($user);
-                                            UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType, FALSE);
-                                            /*
-                                             * check user is invited
-                                             */
-                                            $user = UserUtils::getUserById($user->id);
-                                            $tmpuser = UserUtils::checkInvitedEmail($email);
-                                            if (!empty($tmpuser)) {
-                                                $newUserId = UserUtils::moveUser($user->id, $tmpuser->id);
-                                                if (!empty($newUserId)) {
-                                                    $user = UserUtils::getUserById($newUserId);
-                                                    $_SESSION['id'] = $newUserId;
-                                                }
-                                            }
-                                            ElasticSearchUtils::insertUsertoSBI($user);
-                                            header('Location: ' . PAGE_LIKES);
-                                            exit(1);
-                                        }
-                                    }
-                                } catch (Exception $exc) {
-                                    error_log($exc->getTraceAsString());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            $email = $user->email;
-            $username = $user->userName;
-            $defaultUsername = $user->userName;
-            $defaultEmail = $user->email;
-        }
-    } else {
-        //unset($_SESSION['id']);
-        //header('Location: ' . PAGE_SIGNUP);
-    }
+    RegisterAnaliticsUtils::increasePageRegisterCount("createbusiness");
 }
 ?>
-<!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>
         <?php
-        $timety_header = LanguageUtils::getText("LANG_PAGE_PI_TITLE");
+        $timety_header = LanguageUtils::getText("LANG_PAGE_TITLE_BUSINESS");
         LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header.php');
         ?>
@@ -476,6 +233,10 @@ if (isset($_POST['te_username'])) {
                 'registerPI',
                 [
                     {
+                        name : 'te_businessname',
+                        display : 'businessname',
+                        rules : 'required|min_length[2]'
+                    },{
                         name : 'te_username',
                         display : 'username',
                         rules : 'required|min_length[3]|alpha_dash|callback_check_username'
@@ -506,6 +267,9 @@ if (isset($_POST['te_username'])) {
                     
                     jQuery('#te_username_span').attr('class', 'onay icon_bg');
                     jQuery('#te_username').attr('class', 'user_inpt username icon_bg onay_brdr user_inpt_pi_height');
+                    
+                    jQuery('#te_businessname_span').attr('class', 'onay icon_bg');
+                    jQuery('#te_businessname').attr('class', 'user_inpt  onay_brdr user_inpt_pi_height');
                     
                     jQuery('#te_firstname_span').attr('class', 'onay icon_bg');
                     jQuery('#te_firstname').attr('class', 'user_inpt onay_brdr user_inpt_pi_height');
@@ -742,16 +506,39 @@ if (isset($_POST['te_username'])) {
         include('layout/layout_top.php');
         ?>
         <div id="personel_info_h">
-            <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_PI_FORM_HEADER") ?></div>
-            <div class="personel_info">
+            <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_BUSINESS_HEADER") ?></div>
+            <div class="personel_info" style="height: 550px !important;">
                 <form id="per_info_form" action="" method="post" style="margin-left: 48px;"
                       name="registerPI">
+
+                    <input 
+                        name="te_businessname"
+                        type="text" 
+                        class="user_inpt user_inpt_pi_height" 
+                        id="te_businessname"
+                        tabindex="1"
+                        value="<?php echo $businessName ?>" 
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_NAME_PLACEHOLDER") ?>"
+                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,2) }" /> 
+                        <?php
+                        $display = "none";
+                        $class = "";
+                        if (!empty($businessNameError)) {
+                            $display = "block";
+                            $class = "sil icon_bg";
+                        }
+                        ?>
+                    <span id='te_businessname_span' class="<?= $class ?>">
+                        <div class="create_acco_popup" id="te_businessname_span_msg" style="display:<?= $display ?>;"><?= $businessNameError ?><div class="kok"></div></div>
+                    </span><br /> 
+
+
                     <input 
                         name="te_username" 
                         type="text"
                         class="user_inpt username icon_bg user_inpt_pi_height" 
                         id="te_username"
-                        tabindex="1"
+                        tabindex="2"
                         value="<?php echo $username ?>" 
                         placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_USERNAME_PLACEHOLDER") ?>"
                         suc="true"
@@ -775,9 +562,9 @@ if (isset($_POST['te_username'])) {
                         type="text" 
                         class="user_inpt user_inpt_pi_height" 
                         id="te_firstname"
-                        tabindex="2"
+                        tabindex="3"
                         value="<?php echo $name ?>" 
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_FIRST_NAME_PLACEHOLDER") ?>"
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_PLACEHOLDER") ?>"
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
                         <?php
                         $display = "none";
@@ -797,9 +584,9 @@ if (isset($_POST['te_username'])) {
                         type="text" 
                         class="user_inpt user_inpt_pi_height" 
                         id="te_lastname"
-                        tabindex="3"
+                        tabindex="4"
                         value="<?php echo $lastname ?>" 
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_LAST_NAME_PLACEHOLDER") ?>" 
+                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_PLACEHOLDER") ?>" 
                         onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
                         <?php
                         $display = "none";
@@ -818,7 +605,7 @@ if (isset($_POST['te_username'])) {
                         name="te_email" 
                         type="text"
                         suc="true"
-                        tabindex="4"
+                        tabindex="5"
                         placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_EMAIL_PLACEHOLDER") ?>" 
                         class="user_inpt email icon_bg user_inpt_pi_height" 
                         id="te_email"
@@ -847,7 +634,7 @@ if (isset($_POST['te_username'])) {
                         <input 
                             name="te_hometown"
                             type="text" 
-                            tabindex="5"
+                            tabindex="6"
                             placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_LOCATON_PLACEHOLDER") ?>" 
                             class="user_inpt user_inpt_pi_height"
                             id="te_hometown" 
@@ -876,8 +663,8 @@ if (isset($_POST['te_username'])) {
 
                     <select 
                         name="te_language"
-                        tabindex="5"
-                        style="background-image: none"
+                        tabindex="7"
+                        style="background-image: none; width: 260px;"
                         class="user_inpt email icon_bg user_inpt_pi_height select_language"
                         id="te_language">
                             <?php
@@ -915,7 +702,7 @@ if (isset($_POST['te_username'])) {
                         class="user_inpt password icon_bg user_inpt_pi_height" 
                         id="te_password" 
                         value=""
-                        tabindex="6"
+                        tabindex="8"
                         placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_PASSWORD_PLACEHOLDER") ?>"
                         onblur="validatePassword(this,jQuery('#te_repassword'),false,true);" />
                         <?php
@@ -936,7 +723,7 @@ if (isset($_POST['te_username'])) {
                         class="user_inpt password icon_bg user_inpt_pi_height"
                         id="te_repassword" 
                         value="" 
-                        tabindex="7"
+                        tabindex="9"
                         placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_REPASSWORD_PLACEHOLDER") ?>"
                         onblur="validatePassword(this,$('#te_password'),true,true)" />
                         <?php

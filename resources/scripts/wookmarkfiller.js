@@ -546,15 +546,7 @@ function wookmarkHTML(dataArray,userId)
                         url=TIMETY_HOSTNAME+url; 
                     }
                     jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
-                    var name="";
-                    if(data.creator.firstName)
-                    {
-                        name=data.creator.firstName+" ";
-                    }
-                    if(data.creator.lastName)
-                    {
-                        name=name+data.creator.lastName+" ";
-                    }
+                    var name=getUserFullName(data.creator);                    
                     jQuery(creatorDIVP).append(jQuery("<span>"+" "+name+"</span>"));
                 }
             }else{

@@ -160,6 +160,25 @@ class LocationUtils {
         return null;
     }
 
+    public static function getGeoLocationFromIP() {
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+            try {
+                $data = file_get_contents(LOCATION_HOSTIP_API . $ip);
+                $data = json_decode($data);
+                $array = array();
+                $array[0] = $data->latitude;
+                $array[1] = $data->longitude;
+                $array['latitude'] = $data->latitude;
+                $array['longitude'] = $data->longitude;
+                return $array;
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+        }
+        return null;
+    }
+
 }
 
 ?>

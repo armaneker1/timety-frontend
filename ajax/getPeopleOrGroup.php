@@ -35,8 +35,9 @@ try {
             $val = new User();
             for ($i = 0; $i < sizeof($array); $i++) {
                 $val = $array[$i];
+                $val=  UtilFunctions::cast('User', $val);
                 $val->id = "u_" . $val->id;
-                $val->label = $val->firstName . " " . $val->lastName . " (" . $val->userName . ")";
+                $val->label = $val->getFullName() . " (" . $val->userName . ")";
                 array_push($result, $val);
             }
         }

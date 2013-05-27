@@ -10,7 +10,7 @@ if (!defined("LANG_TR_TR")) {
 class LanguageUtils {
 
     public static function getBrowserLanguage() {
-        $lang = "";
+        $lang = LANG_EN_US;
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
             $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
         switch ($lang) {

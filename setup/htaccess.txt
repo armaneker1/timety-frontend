@@ -17,6 +17,9 @@ RewriteRule ^gettingstarted/who-to-follow$ /suggest-friend.php
 RewriteRule ^signup/$ /signup [R]
 RewriteRule ^signup$ /createaccount.php
 
+RewriteRule ^business/create/$ /createbusiness.php
+RewriteRule ^business/create$ /createbusiness.php
+
 
 RewriteRule ^login/$ /login [R]
 RewriteRule ^login$ /signin.php
@@ -40,9 +43,6 @@ RewriteRule ^new-password$ /rememberpassword.php
 RewriteRule ^confirm-user/$ /confirm-user [R]
 RewriteRule ^confirm-user$ /confirm.php
 
-
-RewriteRule ^test/$ /test [R]
-RewriteRule ^test$ /test.php
 
 RewriteRule ^campaign/([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/([^/]+)/$ /campaign/$1
 RewriteRule ^campaign/([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/([^/]+)$ /campaign/$1

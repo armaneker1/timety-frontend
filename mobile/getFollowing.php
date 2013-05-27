@@ -26,7 +26,7 @@ if (!empty($uid)) {
         foreach ($array as $val) {
             $obj = new stdClass();
             $obj->id = $val->id;
-            $obj->fullName = $val->firstName . " " . $val->lastName;
+            $obj->fullName = $val->getFullName();
             $obj->username = $val->userName;
             $obj->userPicture = $val->getUserPic();
             array_push($result, $obj);

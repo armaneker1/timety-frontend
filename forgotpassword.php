@@ -42,7 +42,11 @@ if (array_key_exists("te_email", $_POST)) {
             $lss = LostPassUtil::insert($lss);
             if (!empty($lss)) {
                 $lost = base64_encode($lss->id . ";" . $userId . ";" . $guid);
-                $params = array(array('name', $user->firstName), array('link', PAGE_NEW_PASSWORD . "?guid=" . $lost), array('email_address', $user->email));
+                $ufname=$user->firstName;
+                if(!empty($user->business_user)){
+                    $ufname=$user->business_name;
+                }
+                $params = array(array('name', $ufname), array('link', PAGE_NEW_PASSWORD . "?guid=" . $lost), array('email_address', $user->email));
                 MailUtil::sendSESMailFromFile(LanguageUtils::getLocale()."_reset_password.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_RESET_PASS_SUBJECT"));
                 $m = new HtmlMessage();
                 $m->type = "s";

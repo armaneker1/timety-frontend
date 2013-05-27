@@ -19,6 +19,15 @@ if (isset($_GET['uid'])) {
     $uid = $_GET['uid'];
 }
 
+//user_ business name
+$bname = null;
+if (isset($_POST['business_name'])) {
+    $bname = $_POST['business_name'];
+}
+if (isset($_GET['business_name'])) {
+    $bname = $_GET['business_name'];
+}
+
 //user_email
 $email = null;
 if (isset($_POST['email'])) {
@@ -106,6 +115,26 @@ if (!empty($uid)) {
                 $update = true;
             }
             $user->firstName = $firstName;
+        }
+
+        if (!empty($user->business_user)) {
+
+            if (empty($bname)) {
+                $msg = new stdClass();
+                $msg->type = "e";
+                $msg->msg = "Business Name is empty";
+                array_push($error_mesages, $msg);
+            } else if (strlen($bname) < 2) {
+                $msg = new stdClass();
+                $msg->type = "e";
+                $msg->msg = "Business Name length must be at least 2 char";
+                array_push($error_mesages, $msg);
+            } else {
+                if ($user->business_name != $bname) {
+                    $update = true;
+                }
+                $user->business_name = $bname;
+            }
         }
 
         if (empty($lastName)) {

@@ -44,8 +44,11 @@ foreach ($eventList as $event) {
             $evnt->setProperty(PROP_EVENT_CREATOR_L_NAME, $creator->lastName);
             $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $creator->userName);
             $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $creator->userPicture);
+            $evnt->setProperty(PROP_EVENT_CREATOR_BUSINESSUSER, $creator->business_user);
+            $evnt->setProperty(PROP_EVENT_CREATOR_BUSINESSNAME, $creator->business_name);
+            $evnt->setProperty(PROP_EVENT_CREATOR_DISPLAYNAME, $creator->getFullName());
             $evnt->save();
-            Queue::updateEvent($id,$creator->id);
+            Queue::updateEvent($id, $creator->id);
         }
     } catch (Exception $exc) {
         echo $exc->getTraceAsString();
