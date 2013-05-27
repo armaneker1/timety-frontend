@@ -31,12 +31,16 @@ if (isset($_POST['send'])) {
     if (isset($_POST['events'])) {
         $events = $_POST['events'];
     }
+    $userId=null;
+    if (isset($_POST['userId'])) {
+        $userId = $_POST['userId'];
+    }
     $email = null;
     if (isset($_POST['email'])) {
         $email = $_POST['email'];
     }
     $events = json_decode($events);
-    $msgs = MailerUtils::sendCustomOneMail($events, $email);
+    $msgs = MailerUtils::sendCustomOneMail($events, $email,$userId);
 }
 ?>
 <html>
@@ -58,6 +62,8 @@ if (isset($_POST['send'])) {
             </p>
             <p> Example : 
                 [{"tag": 31,"events": [1000376,1001165,1001447]},{"tag": 137,"events": [1001261,1001276,1001251]},{"tag": 107,"events": [1001211,1001309,1001209]}]
+            </p>
+            <p>User Id :<input type="text" value="" name="userId"/>
             </p>
             <p>To (Mail):<input type="text" value="hasan@timety.com" name="email"/>
             </p>

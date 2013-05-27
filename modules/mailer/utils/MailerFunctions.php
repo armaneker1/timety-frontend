@@ -3,7 +3,7 @@
 class MailerUtils {
 
     //
-    public static function sendCustomOneMail($events, $email) {
+    public static function sendCustomOneMail($events, $email, $userId = null) {
         $mailENTemplate = file_get_contents(MAIL_TEMP_EN_ONE_FILE);
         $mailTRTemplate = file_get_contents(MAIL_TEMP_TR_ONE_FILE);
 
@@ -13,7 +13,13 @@ class MailerUtils {
         $mailItemTemplate = file_get_contents(MAIL_TEMP_ITEM_FILE);
         $msgs = array();
 
-        $users = UserUtils::getUserList(0, 10000);
+        if (empty($userId)) {
+            $users = UserUtils::getUserList(0, 10000);
+        } else {
+            $users = array();
+            $user = UserUtils::getUserById($userId);
+            array_push($users, $user);
+        }
 
         $timete_mail_report = new TimeteMailReports();
         $timete_mail_report->setDate(date("Y-m-d H:i:s"));
