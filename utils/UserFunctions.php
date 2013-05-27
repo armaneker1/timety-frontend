@@ -350,10 +350,10 @@ class UserUtils {
         }
     }
 
-    public static function confirmUser($uid) {
+    public static function confirmUser($uid,$type=2) {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
-            $SQL = "UPDATE " . TBL_USERS . " set confirm=1 WHERE id = $uid";
+            $SQL = "UPDATE " . TBL_USERS . " set confirm=".$type." WHERE id = $uid";
             mysql_query($SQL) or die(mysql_error());
         }
     }

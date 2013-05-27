@@ -24,6 +24,7 @@ if (isset($_GET['finish']) && !empty($user)) {
     }
     $params = array(array('name', $ufname), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
     MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_confirm_mail.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_CONFIRM_ACCOUNT_EMAIL"));
+    UserUtils::confirmUser($user->id, 1);
     RegisterAnaliticsUtils::increasePageRegisterCount("index.php?complete=1");
     header('Location: ' . HOSTNAME);
     exit(1);
@@ -80,6 +81,16 @@ if (empty($user)) {
     }
 } else {
     SessionUtil::checkUserStatus($user);
+    if (!empty($user) && $user->confirm < 1) {
+        $confirm = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
+        $ufname = $user->firstName;
+        if (!isset($user->business_user) && !empty($user->business_user)) {
+            $ufname = $user->business_name;
+        }
+        $params = array(array('name', $ufname), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
+        MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_confirm_mail.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_CONFIRM_ACCOUNT_EMAIL"));
+        UserUtils::confirmUser($user->id, 1);
+    }
     $_random_session_id = $user->id . "_" . $_random_session_id;
     $userIdS = $user->id;
     if (!isset($_POST["te_event_title"])) {
@@ -524,7 +535,7 @@ if (empty($user)) {
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -714,7 +725,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                    
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -815,7 +826,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                
+                                                                                                                                                                                                                            
             </script>
 
 

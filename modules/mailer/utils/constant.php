@@ -11,8 +11,8 @@ define("MAIL_SESSION_KEY", 'mailer_session_key');
 define("MAIL_HOSTNAME", 'http://timety.com/');
 
 
-define('LANG_WEEKLY_MAIL_SUBJECT_TR', 'Haftalık Timety');
-define('LANG_WEEKLY_MAIL_SUBJECT_EN', 'Weekly Timety');
+define('LANG_WEEKLY_MAIL_SUBJECT_TR', 'Timety - Bu Haftanın Etkinlik Önerileri');
+define('LANG_WEEKLY_MAIL_SUBJECT_EN', 'Timety - Your Events This Week');
 
 
 define("TBL_MAIL_FAIL_REPORT", "timete_mail_fail_reports");

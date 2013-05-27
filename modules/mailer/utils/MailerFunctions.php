@@ -72,6 +72,7 @@ class MailerUtils {
         if (!empty($msgs)) {
             return $msgs;
         }
+        $a = 0;
         if (!empty($users)) {
             $user = new User();
             foreach ($users as $user) {
@@ -137,6 +138,11 @@ class MailerUtils {
                         array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $email . " sended");
                         $success_count++;
                     }
+
+                    $a++;
+                    if ($a == 3) {
+                        exit(1);
+                    }
                 }
             }
             try {
@@ -159,7 +165,7 @@ class MailerUtils {
             $col2 = "";
             $col3 = "";
             $counter = 0;
-            setLocale(LC_TIME, $user->language);
+            setLocale(LC_TIME, $user->language . ".UTF-8");
             $analitics = "?utm_source=newsletter-" . strtolower(date("M")) . "-" . date("W") . "-" . date("Y") . "&utm_medium=email&utm_content=html&utm_campaign=Timety+Weekly";
             $event = new Event();
             foreach ($events as $event) {
