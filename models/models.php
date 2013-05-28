@@ -52,7 +52,7 @@ class User {
             $this->time_zone = $result['time_zone'];
             $this->business_user = $result['business_user'];
             $this->business_name = $result['business_name'];
-            $this->send_weekly_mail=$result['send_weekly_mail'];
+            $this->send_weekly_mail = $result['send_weekly_mail'];
         }
     }
 
@@ -90,7 +90,7 @@ class User {
                 $this->register_date = $tmp->getRegisterDate();
                 $this->business_user = $tmp->business_user;
                 $this->business_name = $tmp->business_name;
-                $this->send_weekly_mail=$tmp->send_weekly_mail;
+                $this->send_weekly_mail = $tmp->send_weekly_mail;
             } else {
                 $this->id = null;
             }
@@ -313,6 +313,8 @@ class Event {
             $this->creatorId = $result['creator_id'];
             $this->worldwide = $result['worldwide'];
             $this->has_video = $result['has_video'];
+            $this->created_time = $result['created_time'];
+            $this->last_changed = $result['last_changed'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -421,6 +423,8 @@ class Event {
         $this->loc_city = $tmp->loc_city;
         $this->worldwide = $tmp->worldwide;
         $this->has_video = $tmp->has_video;
+        $this->created_time = $tmp->created_time;
+        $this->last_changed = $tmp->last_changed;
     }
 
     public function getRemainingTime($time_one = null) {
@@ -480,6 +484,8 @@ class Event {
     public $loc_city;
     public $worldwide;
     public $has_video;
+    public $created_time;
+    public $last_changed;
     /*
      * Additional Data
      */
