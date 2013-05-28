@@ -78,11 +78,10 @@ class MailerUtils {
         if (!empty($msgs)) {
             return $msgs;
         }
-        $a = 0;
         if (!empty($users)) {
             $user = new User();
             foreach ($users as $user) {
-                if (!empty($user) && ((isset($user->business_user) && $user->business_user . "" != "1") || !isset($user->business_user))) {
+                if (!empty($user) && $user->status > 0 && ((isset($user->business_user) && $user->business_user . "" != "1") || !isset($user->business_user))) {
                     $mail_tmp = $mailTRTemplate;
                     if ($user->language == LANG_EN_US) {
                         $mail_tmp = $mailENTemplate;
@@ -121,8 +120,11 @@ class MailerUtils {
                     }
 
                     //send mail
+                    $sended_mail = null;
                     if (empty($email)) {
-                        $email = $user->email;
+                        $sended_mail = $user->email;
+                    } else {
+                        $sended_mail = $email;
                     }
                     $mailSubject = LANG_WEEKLY_MAIL_SUBJECT_TR;
                     if ($user->language == LANG_EN_US) {
@@ -130,24 +132,22 @@ class MailerUtils {
                     }
                     $result = false;
                     try {
-                        $result = MailUtil::sendSESFromHtml($mail_tmp, $email, $mailSubject);
+                        $result = MailUtil::sendSESFromHtml($mail_tmp, $sended_mail, $mailSubject);
+                        $result=true;
                     } catch (Exception $exc) {
                         error_log($exc->getTraceAsString());
                         $result = false;
                     }
 
                     if ($result == false) {
-                        array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $email . " send fail");
-                        self::saveFailedMailToDB($user, $email, $mail_tmp, "mail api");
+                        array_push($msgs, $user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " send fail");
+                        error_log($user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " send fail");
+                        self::saveFailedMailToDB($user, $sended_mail, $mail_tmp, "mail api");
                         $fail_count++;
                     } else {
-                        array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $email . " sended");
+                        array_push($msgs, $user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " sended");
+                        error_log($user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " sended");
                         $success_count++;
-                    }
-
-                    $a++;
-                    if ($a == 3) {
-                        exit(1);
                     }
                 }
             }
@@ -239,7 +239,7 @@ class MailerUtils {
         if (!empty($users)) {
             $user = new User();
             foreach ($users as $user) {
-                if (!empty($user) && ((isset($user->business_user) && $user->business_user . "" != "1") || !isset($user->business_user))) {
+                if (!empty($user) && $user->status > 0 && ((isset($user->business_user) && $user->business_user . "" != "1") || !isset($user->business_user))) {
                     if (empty($startDateR)) {
                         $startDate = time();
                     } else {
@@ -393,28 +393,31 @@ class MailerUtils {
     //check event count if is enough 
     public static function sendMailEventsForUser($events, User $user, $email, $mailFormat, $mailItemTemplate, $mailSubject) {
         $msgs = array();
+        $sended_mail = null;
         if (empty($email)) {
-            $email = $user->email;
+            $sended_mail = $user->email;
+        } else {
+            $sended_mail = $email;
         }
         if (sizeof($events) > 3) {
             $mailHTML = self::getEventsHTML($user, $events, $mailFormat, $mailItemTemplate);
             $result = false;
             try {
-                $result = MailUtil::sendSESFromHtml($mailHTML, $email, $mailSubject);
+                $result = MailUtil::sendSESFromHtml($mailHTML, $sended_mail, $mailSubject);
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());
                 $result = false;
             }
 
             if ($result == false) {
-                array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $email . " send fail");
-                self::saveFailedMailToDB($user, $email, $mailHTML, "mail api");
+                array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $sended_mail . " send fail");
+                self::saveFailedMailToDB($user, $sended_mail, $mailHTML, "mail api");
             } else {
-                array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $email . " sended");
+                array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $sended_mail . " sended");
             }
         } else {
-            array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $email . " not enough event (" . sizeof($events) . ")");
-            self::saveFailedMailToDB($user, $email, null, "not enough event");
+            array_push($msgs, $user->id . " - " . $user->getFullName() . " to " . $sended_mail . " not enough event (" . sizeof($events) . ")");
+            self::saveFailedMailToDB($user, $sended_mail, null, "not enough event");
         }
         return $msgs;
     }
