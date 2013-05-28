@@ -24,6 +24,9 @@ RewriteRule ^business/create$ /createbusiness.php
 RewriteRule ^login/$ /login [R]
 RewriteRule ^login$ /signin.php
 
+RewriteRule ^unsubscribe/$ /unsubscribe&%{QUERY_STRING} [R]
+RewriteRule ^unsubscribe$ /unsubscribe.php&%{QUERY_STRING}
+
 RewriteRule ^profile/$ /profile [R]
 RewriteRule ^profile$ /updateprofile.php
 

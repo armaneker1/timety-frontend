@@ -11,6 +11,7 @@ define('LANG_MAIL_CONFIRM_ACCOUNT_EMAIL', 'Lütfen E-Postanızı onaylayın.');
 
 #INDEX
 define('LANG_PAGE_INDEX_REGISTRATION_COMPLETE', 'Üyeliğiniz tamamlandı.');
+define('LANG_PAGE_INDEX_UNREGISTER_WEEKLY_MAIL', 'Abonelikten Ayrıldınız');
 define('LANG_PAGE_INDEX_REGISTRATION_USER_DOESNT_EXIST', 'Kullanıcı yok');
 define('LANG_PAGE_INDEX_REGISTRATION_PARAMETERS_WRONG', 'Parametreler hatalı');
 define('LANG_PAGE_INDEX_PAGE_CLICK_HERE_ADD_EVENT', 'Etkinlik eklemek için tıklayın');

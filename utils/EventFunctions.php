@@ -58,28 +58,29 @@ class EventUtil {
         }
         if (!empty($event) && !empty($headerImage)) {
             if (!empty($headerImage)) {
-                error_log($headerImage);
+                $error = false;
                 if (!file_exists(__DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/")) {
                     mkdir(__DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/", 0777, true);
-                    error_log("events createed" . "events/" . $event->id . "/");
                 }
-                if (copy(__DIR__ . "/../" . UPLOAD_FOLDER . $headerImage, __DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage)) {
+                if (file_exists(__DIR__ . "/../" . UPLOAD_FOLDER . $headerImage) &&
+                        copy(__DIR__ . "/../" . UPLOAD_FOLDER . $headerImage, __DIR__ . "/../" . UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage)) {
                     unlink(__DIR__ . "/../" . UPLOAD_FOLDER . $headerImage);
-                    error_log("image copied " . " from " . UPLOAD_FOLDER . $headerImage . " to " . UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage);
+                    $error = true;
                 }
 
-                $img = new Image();
-                $img->url = UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage;
-                error_log($img->url);
-                $img->header = 1;
-                $img->eventId = $event->id;
-                $size = ImageUtil::getSize(__DIR__ . "/../" . $img->url);
-                $img->width = $size[0];
-                $img->height = $size[1];
-                $img->org_width = $size[2];
-                $img->org_height = $size[3];
-                if (!empty($img)) {
-                    ImageUtil::insert($img);
+                if ($error) {
+                    $img = new Image();
+                    $img->url = UPLOAD_FOLDER . "events/" . $event->id . "/" . $headerImage;
+                    $img->header = 1;
+                    $img->eventId = $event->id;
+                    $size = ImageUtil::getSize(__DIR__ . "/../" . $img->url);
+                    $img->width = $size[0];
+                    $img->height = $size[1];
+                    $img->org_width = $size[2];
+                    $img->org_height = $size[3];
+                    if (!empty($img)) {
+                        ImageUtil::insert($img);
+                    }
                 }
             }
         }
@@ -330,23 +331,23 @@ class EventUtil {
     public static function getUserLastActivityString($event, $userId) {
         if (!empty($userId) && !empty($event)) {
             try {
-                
+
                 if (!empty($event->userEventLog)) {
                     $action = "";
-                    $log=null;
+                    $log = null;
                     if (is_array($event->userEventLog)) {
                         $log = $event->userEventLog[0];
                     } else {
                         if (isset($log->userId)) {
                             $log = $event->userEventLog;
-                        }else{
+                        } else {
                             $array = get_object_vars($event->userEventLog);
-                            $event->userEventLog=array();
+                            $event->userEventLog = array();
                             foreach ($array as $value) {
                                 array_push($event->userEventLog, $value);
                             }
-                            if(!empty($event->userEventLog)){
-                                $log=$event->userEventLog[0];
+                            if (!empty($event->userEventLog)) {
+                                $log = $event->userEventLog[0];
                             }
                         }
                     }

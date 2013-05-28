@@ -61,9 +61,9 @@ class Neo4jEventUtils {
                 $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
                 $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
                 $evnt->setProperty(PROP_EVENT_CREATOR_ABOUT, $user->about);
-                $evt->setProperty(PROP_EVENT_CREATOR_BUSINESSUSER, $user->business_user);
-                $evt->setProperty(PROP_EVENT_CREATOR_BUSINESSNAME, $user->business_name);
-                $evt->setProperty(PROP_EVENT_CREATOR_DISPLAYNAME, $user->getFullName());
+                $evnt->setProperty(PROP_EVENT_CREATOR_BUSINESSUSER, $user->business_user);
+                $evnt->setProperty(PROP_EVENT_CREATOR_BUSINESSNAME, $user->business_name);
+                $evnt->setProperty(PROP_EVENT_CREATOR_DISPLAYNAME, $user->getFullName());
 
                 $evnt->setProperty(PROP_EVENT_LOC_LAT, $event->loc_lat);
                 $evnt->setProperty(PROP_EVENT_LOC_LNG, $event->loc_lng);
@@ -306,9 +306,9 @@ class Neo4jEventUtils {
             $evnt->setProperty(PROP_EVENT_CREATOR_USERNAME, $user->userName);
             $evnt->setProperty(PROP_EVENT_CREATOR_IMAGE, $user->userPicture);
             $evnt->setProperty(PROP_EVENT_CREATOR_ABOUT, $user->about);
-            $evt->setProperty(PROP_EVENT_CREATOR_BUSINESSUSER, $user->business_user);
-            $evt->setProperty(PROP_EVENT_CREATOR_BUSINESSNAME, $user->business_name);
-            $evt->setProperty(PROP_EVENT_CREATOR_DISPLAYNAME, $user->getFullName());
+            $evnt->setProperty(PROP_EVENT_CREATOR_BUSINESSUSER, $user->business_user);
+            $evnt->setProperty(PROP_EVENT_CREATOR_BUSINESSNAME, $user->business_name);
+            $evnt->setProperty(PROP_EVENT_CREATOR_DISPLAYNAME, $user->getFullName());
 
             $evnt->setProperty(PROP_EVENT_LOC_LAT, $event->loc_lat);
             $evnt->setProperty(PROP_EVENT_LOC_LNG, $event->loc_lng);

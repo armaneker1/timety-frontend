@@ -52,6 +52,7 @@ class User {
             $this->time_zone = $result['time_zone'];
             $this->business_user = $result['business_user'];
             $this->business_name = $result['business_name'];
+            $this->send_weekly_mail=$result['send_weekly_mail'];
         }
     }
 
@@ -89,6 +90,7 @@ class User {
                 $this->register_date = $tmp->getRegisterDate();
                 $this->business_user = $tmp->business_user;
                 $this->business_name = $tmp->business_name;
+                $this->send_weekly_mail=$tmp->send_weekly_mail;
             } else {
                 $this->id = null;
             }
@@ -120,6 +122,7 @@ class User {
     public $time_zone;
     public $business_user = 0;
     public $business_name;
+    public $send_weekly_mail;
     //location
     public $location_country;
     public $location_city;

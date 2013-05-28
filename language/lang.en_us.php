@@ -11,6 +11,7 @@ define('LANG_MAIL_CONFIRM_ACCOUNT_EMAIL', 'Please confirm your email');
 
 #INDEX
 define('LANG_PAGE_INDEX_REGISTRATION_COMPLETE', 'Registration is complete');
+define('LANG_PAGE_INDEX_UNREGISTER_WEEKLY_MAIL', 'Successfully Unsubscribed');
 define('LANG_PAGE_INDEX_REGISTRATION_USER_DOESNT_EXIST', 'User doesn\'t exist');
 define('LANG_PAGE_INDEX_REGISTRATION_PARAMETERS_WRONG', 'Parameters wrong');
 define('LANG_PAGE_INDEX_PAGE_CLICK_HERE_ADD_EVENT', 'Click Here to Add Event');

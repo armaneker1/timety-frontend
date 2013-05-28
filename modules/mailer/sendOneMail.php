@@ -31,7 +31,11 @@ if (isset($_POST['send'])) {
     if (isset($_POST['events'])) {
         $events = $_POST['events'];
     }
-    $userId=null;
+    $sendmail = null;
+    if (isset($_POST['sendmail'])) {
+        $sendmail = $_POST['sendmail'];
+    }
+    $userId = null;
     if (isset($_POST['userId'])) {
         $userId = $_POST['userId'];
     }
@@ -40,7 +44,7 @@ if (isset($_POST['send'])) {
         $email = $_POST['email'];
     }
     $events = json_decode($events);
-    $msgs = MailerUtils::sendCustomOneMail($events, $email,$userId);
+    $msgs = MailerUtils::sendCustomOneMail($events, $email, $userId,$sendmail);
 }
 ?>
 <html>
@@ -66,6 +70,8 @@ if (isset($_POST['send'])) {
             <p>User Id :<input type="text" value="" name="userId"/>
             </p>
             <p>To (Mail):<input type="text" value="hasan@timety.com" name="email"/>
+            </p>
+            <p>Send Mail('send'):<input type="text" value="notsend" name="sendmail"/>
             </p>
             <input name="send" value="Send" type="submit"/>
         </form>

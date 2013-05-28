@@ -2,8 +2,12 @@
 
 class MailerUtils {
 
-    //
-    public static function sendCustomOneMail($events, $email, $userId = null) {
+    public static function sendCustomOneMail($events, $email, $userId = null, $sendmail = null) {
+        $send = false;
+        if (!empty($sendmail) && $sendmail == "send") {
+            $send = true;
+        }
+
         $mailENTemplate = file_get_contents(MAIL_TEMP_EN_ONE_FILE);
         $mailTRTemplate = file_get_contents(MAIL_TEMP_TR_ONE_FILE);
 
@@ -51,9 +55,9 @@ class MailerUtils {
                                 $e = $evts[$i];
                                 if (!empty($e)) {
                                     $e_tmp = EventUtil::getEventById($e);
-                                    $e_tmp->getHeaderImage();
-                                    $e_tmp->getCreator();
                                     if (!empty($e_tmp)) {
+                                        $e_tmp->getHeaderImage();
+                                        $e_tmp->getCreator();
                                         $evts[$i] = $e_tmp;
                                     } else {
                                         array_push($msgs, "Tag ($tag) event ($e)  is not found");
@@ -81,7 +85,7 @@ class MailerUtils {
         if (!empty($users)) {
             $user = new User();
             foreach ($users as $user) {
-                if (!empty($user) && $user->status > 0 && ((isset($user->business_user) && $user->business_user . "" != "1") || !isset($user->business_user))) {
+                if (!empty($user) && $user->status > 0 && $user->send_weekly_mail . "" == "1" && ((isset($user->business_user) && $user->business_user . "" != "1") || !isset($user->business_user))) {
                     $mail_tmp = $mailTRTemplate;
                     if ($user->language == LANG_EN_US) {
                         $mail_tmp = $mailENTemplate;
@@ -110,6 +114,8 @@ class MailerUtils {
                     $mail_tmp = str_replace("\${" . "firstName" . "}", $user->firstName, $mail_tmp);
                     $mail_tmp = str_replace("\${" . "tags_html" . "}", $mailtags, $mail_tmp);
 
+                    $unsubscribe_param = base64_encode($user->id . ";" . $user->userName . ";" . DBUtils::get_uuid());
+                    $mail_tmp = str_replace("\${" . "unsubscribe_param" . "}", $unsubscribe_param, $mail_tmp);
                     $rec_event = null;
                     if (!empty($rec_event)) {
                         $mail_tmp = str_replace("\${" . "rec_event_open" . "}", '', $mail_tmp);
@@ -132,32 +138,40 @@ class MailerUtils {
                     }
                     $result = false;
                     try {
-                        $result = MailUtil::sendSESFromHtml($mail_tmp, $sended_mail, $mailSubject);
-                        $result=true;
+                        if ($send) {
+                            $result = MailUtil::sendSESFromHtml($mail_tmp, $sended_mail, $mailSubject);
+                        } else {
+                            $result = true;
+                            array_push($msgs, $user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " send simulated");
+                        }
                     } catch (Exception $exc) {
                         error_log($exc->getTraceAsString());
                         $result = false;
                     }
 
-                    if ($result == false) {
-                        array_push($msgs, $user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " send fail");
-                        error_log($user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " send fail");
-                        self::saveFailedMailToDB($user, $sended_mail, $mail_tmp, "mail api");
-                        $fail_count++;
-                    } else {
-                        array_push($msgs, $user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " sended");
-                        error_log($user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " sended");
-                        $success_count++;
+                    if ($send) {
+                        if ($result == false) {
+                            array_push($msgs, $user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " send fail");
+                            error_log($user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " send fail");
+                            self::saveFailedMailToDB($user, $sended_mail, $mail_tmp, "mail api");
+                            $fail_count++;
+                        } else {
+                            array_push($msgs, $user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " sended");
+                            error_log($user->id . " - " . $user->getFullName() . "(" . $user->email . ")" . " to " . $sended_mail . " sended");
+                            $success_count++;
+                        }
                     }
                 }
             }
-            try {
-                $timete_mail_report->setSuccessCount($success_count);
-                $timete_mail_report->setFailCount($fail_count);
-                $timete_mail_report->insertIntoDatabase(DBUtils::getConnection());
-            } catch (Exception $exc) {
-                error_log($exc->getTraceAsString());
-                array_push($msgs, $exc->getTraceAsString());
+            if ($send) {
+                try {
+                    $timete_mail_report->setSuccessCount($success_count);
+                    $timete_mail_report->setFailCount($fail_count);
+                    $timete_mail_report->insertIntoDatabase(DBUtils::getConnection());
+                } catch (Exception $exc) {
+                    error_log($exc->getTraceAsString());
+                    array_push($msgs, $exc->getTraceAsString());
+                }
             }
         } else {
             array_push($msgs, "No user found");

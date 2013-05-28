@@ -381,17 +381,17 @@ if (empty($user)) {
                                 basename($fileName) => '@' . $fileName
                             );
                             if ($user->id == 6618346 || !SERVER_PROD) {
-                                var_dump($event_info);
+                               // var_dump($event_info);
                             }
                             $result = $facebook->api('me/events', 'post', $event_info);
                             if ($user->id == 6618346 || !SERVER_PROD) {
-                                var_dump($result);
+                               // var_dump($result);
                             }
                             //exit(1);
                         } catch (Exception $exc) {
                             if ($user->id == 6618346 || !SERVER_PROD) {
-                                var_dump($exc);
-                                exit(1);
+                               // var_dump($exc);
+                               // exit(1);
                             }
                             error_log(UtilFunctions::json_encode($exc));
                         }
@@ -432,7 +432,7 @@ if (empty($user)) {
                             $event->setVisibility($pr2);
                             $event->setHtmlLink(HOSTNAME . "events/" . $eventDB->id);
                             if ($user->id == 6618346 || $user->id == 6618344 || !SERVER_PROD) {
-                                var_dump($event);
+                                //var_dump($event);
                             }
                             $createdEvent = $cal->events->insert('primary', $event);
                             //echo $createdEvent->getId();
@@ -441,8 +441,8 @@ if (empty($user)) {
                         } catch (Exception $exc) {
                             //dump
                             if ($user->id == 6618346 || $user->id == 6618344 || !SERVER_PROD) {
-                                var_dump($exc);
-                                exit(1);
+                                //var_dump($exc);
+                                //exit(1);
                             }
                             error_log($exc->getTraceAsString());
                         }
@@ -535,7 +535,7 @@ if (empty($user)) {
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -725,7 +725,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                            
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -826,7 +826,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                    
             </script>
 
 
@@ -944,10 +944,14 @@ if (empty($user)) {
             }
             $_SESSION[INDEX_MSG_SESSION_KEY . "eventId"] = '';
             $_SESSION[INDEX_MSG_SESSION_KEY] = '';
+            $mtype = "info";
+            if (isset($m->type) && $m->type == "e") {
+                $mtype = "error";
+            }
             ?>
             <script>
                 jQuery(document).ready(function() {
-                    getInfo(true,'<?= $m->message ?>','info',4000);
+                    getInfo(true,'<?= $m->message ?>','<?= $mtype ?>',4000);
                     btnClickFinishAddEvent();
                 });
             </script>
