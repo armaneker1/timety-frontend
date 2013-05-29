@@ -83,6 +83,8 @@ class UserUtils {
 
     public static function cookieLogin($timeHash, $clientGuid) {
         if (!empty($timeHash) && !empty($clientGuid)) {
+            $timeHash=  DBUtils::mysql_escape($timeHash);
+            $clientGuid=  DBUtils::mysql_escape($clientGuid);
             $SQL = "SELECT * FROM " . TBL_USER_COOKIE . " WHERE time_hash = '$timeHash' AND client_guid='$clientGuid'";
             $cookie = null;
             try {
