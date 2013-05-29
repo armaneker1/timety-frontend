@@ -70,7 +70,7 @@ class ErrorUtils {
             $url = $url . $_SERVER['PHP_SELF'];
         }
         if (isset($_SERVER['QUERY_STRING'])) {
-            $url = $url . $_SERVER['QUERY_STRING'];
+            $url = $url ."?". $_SERVER['QUERY_STRING'];
         }
         $userId = "";
         if (isset($_SESSION["id"])) {
