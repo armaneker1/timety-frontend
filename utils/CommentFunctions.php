@@ -6,7 +6,7 @@ class CommentUtil {
         if (!empty($commentId)) {
             $commentId = DBUtils::mysql_escape($commentId);
             $SQL = "SELECT * FROM " . TBL_COMMENT . " WHERE id = $commentId";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return null;
@@ -35,7 +35,7 @@ class CommentUtil {
                 $SQL = $SQL . " LIMIT 0," . $count;
             }
             //echo "<p/>".$SQL."<p/>";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $array = array();
             if (!empty($query)) {
                 $num = mysql_num_rows($query);
@@ -66,7 +66,7 @@ class CommentUtil {
                 $SQL = $SQL . " AND  id<" . $lastCommentId . " ";
             }
             //echo "<p/>".$SQL."<p/>";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             if (!empty($query)) {
                 mysql_num_rows($query);
                 $db_field = mysql_fetch_assoc($query);
@@ -90,7 +90,7 @@ class CommentUtil {
                     ",'" . DBUtils::mysql_escape($comment->datetime, 1) .
                     "'," . DBUtils::mysql_escape($comment->eventId, 1) .
                     ",'" . DBUtils::mysql_escape($comment->comment) . "')";
-            mysql_query($SQL) or die(mysql_error($comment->eventId));
+            mysql_query($SQL);
             Neo4jEventUtils::increaseCommentCount($comment->eventId);
             $ev = new Event();
             $ev = EventUtil::getEventById($comment->eventId);

@@ -52,7 +52,7 @@ class UserUtils {
             $userName = strtolower($userName);
             $userName = DBUtils::mysql_escape($userName);
             $SQL = "SELECT id FROM " . TBL_USERS . " WHERE userName = '$userName'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return true;
@@ -69,7 +69,7 @@ class UserUtils {
             $userId = DBUtils::mysql_escape($userId);
             $t = date(DATETIME_DB_FORMAT);
             $SQL = "UPDATE " . TBL_USERS . " set last_login_date='$t' WHERE id = $userId";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -77,7 +77,7 @@ class UserUtils {
         if (!empty($userId) && !empty($zone) && strlen($zone) == 6) {
             $userId = DBUtils::mysql_escape($userId);
             $SQL = "UPDATE " . TBL_USERS . " set time_zone='$zone' WHERE id = $userId";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -116,7 +116,7 @@ class UserUtils {
             $userName = strtolower($userName);
             $pass = preg_replace('/\s+/', '', $pass);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName' AND password='$pass'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             $user = new User();
             $user->create($result);
@@ -134,7 +134,7 @@ class UserUtils {
             $email = strtolower($email);
             $pass = preg_replace('/\s+/', '', $pass);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE email = '$email' AND password='$pass'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             $user = new User();
             $user->create($result);
@@ -150,7 +150,7 @@ class UserUtils {
         if (!empty($id)) {
             try {
                 $SQL = "SELECT location_city FROM " . TBL_USERS . " WHERE id=" . $id;
-                $query = mysql_query($SQL) or die(mysql_error());
+                $query = mysql_query($SQL);
                 $result = mysql_fetch_array($query);
                 $city = $result['location_city'];
                 if (!empty($city)) {
@@ -171,7 +171,7 @@ class UserUtils {
             if (UtilFunctions::check_email_address($email)) {
                 $email = DBUtils::mysql_escape($email);
                 $SQL = "SELECT id FROM " . TBL_USERS . " WHERE email = '$email' AND invited!=1";
-                $query = mysql_query($SQL) or die(mysql_error());
+                $query = mysql_query($SQL);
                 $result = mysql_fetch_array($query);
                 if (empty($result)) {
                     return true;
@@ -191,7 +191,7 @@ class UserUtils {
             $email = preg_replace('/\s+/', '', $email);
             $email = strtolower($email);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE email = '$email' AND invited=1";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (!empty($result)) {
                 $user = new User();
@@ -224,7 +224,7 @@ class UserUtils {
         if (!empty($userId)) {
             $userId = DBUtils::mysql_escape($userId);
             $SQL = "DELETE FROM " . TBL_USERS . " WHERE id=" . $userId;
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -232,7 +232,7 @@ class UserUtils {
         if (!empty($userId)) {
             $userId = DBUtils::mysql_escape($userId);
             $SQL = "DELETE FROM " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id=" . $userId;
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -240,7 +240,7 @@ class UserUtils {
         if (!empty($userId) && !empty($provider)) {
             $userId = DBUtils::mysql_escape($userId);
             $SQL = "DELETE FROM " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id=" . $userId . " AND oauth_provider='" . $provider . "'";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -251,7 +251,7 @@ class UserUtils {
             $toUserId = DBUtils::mysql_escape($toUserId);
             $fromUserId = DBUtils::mysql_escape($fromUserId);
             $SQL = "UPDATE " . TBL_USERS_SOCIALPROVIDER . " SET user_id=" . $toUserId . " WHERE user_id=" . $fromUserId;
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -276,7 +276,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE id = $uid";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return null;
@@ -298,7 +298,7 @@ class UserUtils {
             $userName = DBUtils::mysql_escape($userName);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE userName = '$userName'";
             //echo "<p>".$SQL."</p>";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             //var_dump($result);
             if (empty($result)) {
@@ -318,7 +318,7 @@ class UserUtils {
         if (!empty($email)) {
             $email = DBUtils::mysql_escape($email);
             $SQL = "SELECT * FROM " . TBL_USERS . " WHERE email = '$email'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return null;
@@ -346,7 +346,7 @@ class UserUtils {
             $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='" . DBUtils::mysql_escape($user->about) . "',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language',business_user=" . DBUtils::mysql_escape($user->business_user, 1) . ",business_name='" . DBUtils::mysql_escape($user->business_name) . "'  WHERE id = $uid";
             //var_dump($SQL);
             //error_log($SQL);
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -354,7 +354,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set confirm=" . $type . " WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -362,7 +362,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set send_weekly_mail=" . $type . " WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -375,7 +375,7 @@ class UserUtils {
             $loc_x = DBUtils::mysql_escape($loc_x, 1);
             $loc_y = DBUtils::mysql_escape($loc_y, 1);
             $SQL = "UPDATE " . TBL_USERS . " set location_country='$country',location_city='$city',location_all_json='$all_json',location_cor_x=$loc_x,location_cor_y=$loc_y WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -384,7 +384,7 @@ class UserUtils {
             $userId = DBUtils::mysql_escape($userId);
             $lang = DBUtils::mysql_escape($lang);
             $SQL = "UPDATE " . TBL_USERS . " set lang='$lang' WHERE id = $userId";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -407,7 +407,7 @@ class UserUtils {
             $url = DBUtils::mysql_escape($url);
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
             if ($updateInfo)
                 UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_INFO, array("userId" => $uid, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
         }
@@ -514,7 +514,7 @@ class UserUtils {
                 }
                 $t = date(DATETIME_DB_FORMAT);
                 $SQL = "INSERT INTO " . TBL_USERS . " (id,username,email,birthdate,firstName,lastName,hometown,status,saved,password,confirm,userPicture,invited,lang,register_date,last_login_date) VALUES ($userId,'$user->userName','$user->email',$b,'$user->firstName','$user->lastName','$user->hometown',$user->status,1,'$user->password',$user->confirm,'$user->userPicture',$user->invited,'$user->language','$t','$t')";
-                mysql_query($SQL) or die(mysql_error());
+                mysql_query($SQL);
                 $user_ = UserUtils::getUserByUserName($user->userName);
             }
         }
@@ -543,7 +543,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id = $uid";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $array = array();
             if (!empty($query)) {
                 $num = mysql_num_rows($query);
@@ -570,7 +570,7 @@ class UserUtils {
         if (!empty($uid) && !empty($type)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id = $uid and oauth_provider='$type'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $array = array();
             if (!empty($query)) {
                 $num = mysql_num_rows($query);
@@ -598,7 +598,7 @@ class UserUtils {
             $oauth_provider = DBUtils::mysql_escape($oauth_provider);
             $oauth_id = DBUtils::mysql_escape($oauth_id);
             $SQL = "SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE oauth_uid = '$oauth_id' and oauth_provider = '$oauth_provider'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             $provider = new SocialProvider();
             if (!empty($result)) {
@@ -614,12 +614,12 @@ class UserUtils {
 
     public static function updateSocialProvider(SocialProvider $provider) {
         if (!empty($provider) && !empty($provider->user_id)) {
-            $query = mysql_query("SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id = $provider->user_id and oauth_provider = '$provider->oauth_provider' ") or die(mysql_error());
+            $query = mysql_query("SELECT * from " . TBL_USERS_SOCIALPROVIDER . " WHERE user_id = $provider->user_id and oauth_provider = '$provider->oauth_provider' ");
             $result = mysql_fetch_array($query);
             if (!empty($result) && $result != null && sizeof($result) > 0) {
-                $query = mysql_query("UPDATE " . TBL_USERS_SOCIALPROVIDER . " set oauth_uid='$provider->oauth_uid',oauth_token='$provider->oauth_token',oauth_token_secret='$provider->oauth_token_secret',status=$provider->status  WHERE user_id = $provider->user_id and oauth_provider = '$provider->oauth_provider'") or die(mysql_error());
+                $query = mysql_query("UPDATE " . TBL_USERS_SOCIALPROVIDER . " set oauth_uid='$provider->oauth_uid',oauth_token='$provider->oauth_token',oauth_token_secret='$provider->oauth_token_secret',status=$provider->status  WHERE user_id = $provider->user_id and oauth_provider = '$provider->oauth_provider'");
             } else {
-                $query = mysql_query("INSERT INTO " . TBL_USERS_SOCIALPROVIDER . " (user_id,oauth_uid,oauth_provider,oauth_token,oauth_token_secret,status) VALUES ($provider->user_id,'$provider->oauth_uid','$provider->oauth_provider','$provider->oauth_token','$provider->oauth_token_secret',$provider->status)") or die(mysql_error());
+                $query = mysql_query("INSERT INTO " . TBL_USERS_SOCIALPROVIDER . " (user_id,oauth_uid,oauth_provider,oauth_token,oauth_token_secret,status) VALUES ($provider->user_id,'$provider->oauth_uid','$provider->oauth_provider','$provider->oauth_token','$provider->oauth_token_secret',$provider->status)");
             }
         }
     }
@@ -634,7 +634,7 @@ class UserUtils {
 
         $SQL = "SELECT * FROM " . TBL_USERS . " LIMIT " . ($page * $limit) . "," . $limit;
         //echo $SQL;
-        $query = mysql_query($SQL) or die(mysql_error());
+        $query = mysql_query($SQL);
         $array = array();
         if (!empty($query)) {
             $num = mysql_num_rows($query);
@@ -658,7 +658,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set following_count=$following_count,followers_count=$followers_count,likes_count=$likes_count,reshares_count=$reshares_count,joined_count=$joined_count,created_count=$created_count WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -666,7 +666,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set following_count=$following_count WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -674,7 +674,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set followers_count=$followers_count WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -682,7 +682,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set likes_count=$likes_count WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -690,7 +690,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set reshares_count=$reshares_count WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -698,7 +698,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set joined_count=$joined_count WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -706,7 +706,7 @@ class UserUtils {
         if (!empty($uid)) {
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set created_count=$created_count WHERE id = $uid";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 

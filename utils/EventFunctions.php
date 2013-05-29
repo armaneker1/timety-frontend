@@ -23,7 +23,7 @@ class EventUtil {
         $t = date(DATETIME_DB_FORMAT);
         $SQL = "INSERT INTO " . TBL_EVENTS . " (id, title, location, description, startDateTime, endDateTime,reminderType,reminderUnit,reminderValue,privacy,allday,repeat_,addsocial_fb,addsocial_gg,addsocial_fq,addsocial_tw,reminderSent,attach_link,lat,lng,creator_id,loc_country,loc_city,worldwide,last_changed) " .
                 " VALUES (" . $id . ",\"" . DBUtils::mysql_escape($event->title) . "\",\"" . DBUtils::mysql_escape($event->location) . "\",\"" . DBUtils::mysql_escape($event->description) . "\",\"$event->startDateTime\",\"$event->endDateTime\",\"$event->reminderType\",\"$event->reminderUnit\",$event->reminderValue,$event->privacy,$event->allday,$event->repeat,$event->addsocial_fb,$event->addsocial_gg,$event->addsocial_fq,$event->addsocial_tw,$event->reminderSent,\"$event->attach_link\"," . DBUtils::mysql_escape($event->loc_lat, 1) . "," . DBUtils::mysql_escape($event->loc_lng, 1) . "," . DBUtils::mysql_escape($user->id, 1) . ",'$event->loc_country','$event->loc_city'," . DBUtils::mysql_escape($event->worldwide, 1) . ",'".$t."')";
-        mysql_query($SQL) or die(mysql_error());
+        mysql_query($SQL);
         $event = EventUtil::getEventById($id);
         /*
          * Image'ler eklenecek
@@ -105,7 +105,7 @@ class EventUtil {
         $id = $event->id;
         $t = date(DATETIME_DB_FORMAT);
         $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1) . ",loc_country='$event->loc_country',loc_city='$event->loc_city',worldwide=" . DBUtils::mysql_escape($event->worldwide, 1) . ",last_changed='".$t."' WHERE id=" . $id;
-        mysql_query($SQL) or die(mysql_error());
+        mysql_query($SQL);
         $event = EventUtil::getEventById($id);
         /*
          * Imagelri sil
@@ -212,7 +212,7 @@ class EventUtil {
     public static function getEventById($id) {
         if (!empty($id)) {
             $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id;
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             $event = new Event();
             $event->create($result, FALSE);
@@ -229,7 +229,7 @@ class EventUtil {
     public static function getEventAttachLink($id) {
         if (!empty($id)) {
             $SQL = "SELECT attach_link FROM " . TBL_EVENTS . " WHERE id=" . $id;
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             $link = $result['attach_link'];
             if (!empty($link)) {
@@ -245,7 +245,7 @@ class EventUtil {
     public static function getEventCityId($id) {
         if (!empty($id)) {
             $SQL = "SELECT loc_city FROM " . TBL_EVENTS . " WHERE id=" . $id;
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             $city = $result['loc_city'];
             if (!empty($city)) {
@@ -261,7 +261,7 @@ class EventUtil {
     public static function getEventWorldWide($id) {
         if (!empty($id)) {
             $SQL = "SELECT worldwide FROM " . TBL_EVENTS . " WHERE id=" . $id;
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             $worldwide = $result['worldwide'];
             if (!empty($worldwide)) {
@@ -276,7 +276,7 @@ class EventUtil {
 
     public static function getAllEvents() {
         $SQL = "SELECT * FROM " . TBL_EVENTS;
-        $result = mysql_query($SQL) or die(mysql_error());
+        $result = mysql_query($SQL);
         $array = array();
         if (!empty($result)) {
             $num = mysql_num_rows($result);
@@ -299,7 +299,7 @@ class EventUtil {
     public static function hasEventVideo($id) {
         if (!empty($id)) {
             $SQL = "SELECT has_video FROM " . TBL_EVENTS . " WHERE id=" . $id;
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (!empty($result)) {
                 return $result['has_video'];
@@ -314,7 +314,7 @@ class EventUtil {
     public static function getEventByIdNeo4j($id) {
         if (!empty($id)) {
             $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE id=" . $id;
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             $event = new Event();
             $event->create($result, FALSE);

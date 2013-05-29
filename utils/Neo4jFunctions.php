@@ -5,9 +5,6 @@ use Everyman\Neo4j\Transport,
     Everyman\Neo4j\Index,
     Everyman\Neo4j\Cypher;
 
-error_reporting(-1);
-ini_set('display_errors', 1);
-
 function loader($sClass) {
     $sLibPath = __DIR__ . '/../apis/';
     $sClassFile = str_replace('\\', DIRECTORY_SEPARATOR, $sClass) . '.php';

@@ -30,7 +30,7 @@ class EventKeyListUtil {
     public static function deleteAllRecordForEvent($eventId) {
         if (!empty($eventId)) {
             $SQL = "DELETE  from " . TBL_EVENT_KEY_LIST . " WHERE eventId=" . $eventId;
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 

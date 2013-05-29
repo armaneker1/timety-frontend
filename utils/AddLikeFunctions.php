@@ -11,7 +11,7 @@ class AddLikeUtils {
             $cat = AddLikeUtils::getCategory($catId, $lang);
             if (empty($cat)) {
                 $SQL = "INSERT INTO  " . TBL_ADDLIKE_CAT . " (id,lang,name) VALUES ($catId,'$lang','$name')";
-                $result = mysql_query($SQL) or die(mysql_error());
+                $result = mysql_query($SQL);
             }
         }
     }
@@ -22,7 +22,7 @@ class AddLikeUtils {
         }
         if (!empty($catId) && !empty($lang)) {
             $SQL = "SELECT * FROM " . TBL_ADDLIKE_CAT . " WHERE id=" . $catId . " AND lang='" . $lang . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (!empty($result)) {
                 $cat = new AddLikeCategory();
@@ -39,7 +39,7 @@ class AddLikeUtils {
         }
         if (!empty($catId) && !empty($lang)) {
             $SQL = "DELETE FROM " . TBL_ADDLIKE_CAT . " WHERE id = " . $catId . " AND lang = '" . $lang . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
 
             $tags = AddLikeUtils::getTagByCategory($lang, $catId);
             foreach ($tags as $tag) {
@@ -54,7 +54,7 @@ class AddLikeUtils {
         }
         if (!empty($lang)) {
             $SQL = "SELECT * FROM " . TBL_ADDLIKE_CAT . " WHERE lang = '" . $lang . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $array = array();
             if (!empty($query)) {
                 $num = mysql_num_rows($query);
@@ -86,7 +86,7 @@ class AddLikeUtils {
             $tag = AddLikeUtils::getTag($catId, $id, $lang);
             if (empty($tag)) {
                 $SQL = "INSERT INTO " . TBL_ADDLIKE_TAG . " (cat_id, id, lang, name) VALUES ($catId, $id, '$lang', '$name')";
-                $result = mysql_query($SQL) or die(mysql_error());
+                $result = mysql_query($SQL);
             }
         }
     }
@@ -97,7 +97,7 @@ class AddLikeUtils {
         }
         if (!empty($catId) && !empty($id) && !empty($lang)) {
             $SQL = "DELETE FROM " . TBL_ADDLIKE_TAG . " WHERE id = " . $id . " AND cat_id = " . $catId . " AND lang = '" . $lang . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
         }
     }
 
@@ -108,7 +108,7 @@ class AddLikeUtils {
         }
         if (!empty($catId) && !empty($id) && !empty($lang)) {
             $SQL = "SELECT * FROM " . TBL_ADDLIKE_TAG . " WHERE id = " . $id . " AND cat_id = " . $catId . " AND lang = '" . $lang . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (!empty($result)) {
                 $tag = new AddLikeTag();
@@ -125,7 +125,7 @@ class AddLikeUtils {
         }
         if (!empty($lang) && !empty($catId)) {
             $SQL = "SELECT * FROM " . TBL_ADDLIKE_TAG . " WHERE lang = '" . $lang . "' AND cat_id=" . $catId;
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $array = array();
             if (!empty($query)) {
                 $num = mysql_num_rows($query);

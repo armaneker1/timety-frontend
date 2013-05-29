@@ -18,13 +18,13 @@ if (isset($_POST['eventId']) && !empty($_POST['eventId'])) {
 
     //delete from mysql
     $SQL = "DELETE  FROM " . TBL_EVENTS . " WHERE id=" . $id;
-    mysql_query($SQL) or die(mysql_error());
+    mysql_query($SQL);
 
     $SQL = "DELETE  FROM " . TBL_COMMENT . " WHERE event_id=" . $id;
-    mysql_query($SQL) or die(mysql_error());
+    mysql_query($SQL);
 
     $SQL = "DELETE  FROM " . TBL_IMAGES . " WHERE eventId=" . $id;
-    mysql_query($SQL) or die(mysql_error());
+    mysql_query($SQL);
 
     //delete from redis
     $redis = new Predis\Client();

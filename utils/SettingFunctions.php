@@ -55,7 +55,7 @@ class SettingsUtil {
     public static function getSetting($param = null) {
         if (!empty($param)) {
             $SQL = "SELECT value_ FROM " . TBL_SETTINGS . " WHERE key_='" . $param . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (!empty($result)) {
                 return $result['value_'];
@@ -67,9 +67,9 @@ class SettingsUtil {
     public static function setSetting($param = null, $value = null) {
         if (!empty($param) && !empty($value)) {
             $SQL = "DELETE FROM " . TBL_SETTINGS . " WHERE key_='" . $param . "'";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
             $SQL = "INSERT INTO " . TBL_SETTINGS . " (key_,value_) VALUES ('" . $param . "','" . $value . "')";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
         return false;
     }

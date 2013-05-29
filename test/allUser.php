@@ -18,7 +18,7 @@ if (!empty($userId)) {
     $SQL = $SQL . " WHERE id=$userId";
 }
 
-$query = mysql_query($SQL) or die(mysql_error());
+$query = mysql_query($SQL);
 $array = array();
 
 if (!empty($query)) {

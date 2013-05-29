@@ -38,7 +38,7 @@ class SocialFriendUtil {
             $usr_ids = $usr_ids . $friend;
         }
         $SQL = "SELECT usr.* from " . TBL_USERS . " AS usr ," . TBL_USERS_SOCIALPROVIDER . " AS soc  WHERE soc.oauth_uid IN  (" . $usr_ids . ") AND soc.oauth_provider='" . $socialType . "' AND soc.user_id=usr.id;";
-        $query = mysql_query($SQL) or die(mysql_errno());
+        $query = mysql_query($SQL);
         $array = array();
         $num = mysql_num_rows($query);
         if (!empty($query) && $num > 0) {
@@ -76,7 +76,7 @@ class SocialFriendUtil {
             }
             $SQL = "SELECT * from " . TBL_USERS . " WHERE  id <> ".$userId."  LIMIT 0," . $limit;
         }
-        $query = mysql_query($SQL) or die(mysql_errno());
+        $query = mysql_query($SQL);
         $num = mysql_num_rows($query);
         if (!empty($query) && $num > 0) {
             if ($num > 1) {

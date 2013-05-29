@@ -17,6 +17,12 @@ RewriteRule ^gettingstarted/who-to-follow$ /suggest-friend.php
 RewriteRule ^signup/$ /signup [R]
 RewriteRule ^signup$ /createaccount.php
 
+RewriteRule ^error/$ /error/error_page.php
+RewriteRule ^error$ /error/error_page.php
+
+RewriteRule ^404/$ /error/404.php 
+RewriteRule ^404$ /error/404.php
+
 RewriteRule ^business/create/$ /createbusiness.php
 RewriteRule ^business/create$ /createbusiness.php
 

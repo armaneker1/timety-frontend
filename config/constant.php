@@ -1,7 +1,5 @@
 <?php
-
-error_reporting(E_ERROR | E_PARSE);
-ini_set('error_reporting', E_ERROR | E_PARSE);
+error_reporting(0);
 
 /*
  * Dependencies
@@ -37,6 +35,7 @@ define('LANG_EN_US', 'en_US');
 define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
 define('INDEX_POST_SESSION_KEY', 'index_post_session');
 define('EDIT_POST_SESSION_KEY', 'edit_post_session');
+define('GLOBAL_ERROR_SESSION_KEY', 'timety_global_error_session');
 
 //REDIS IP ADDRS
 define('REDIS_IP', SettingsUtil::getSetting(SETTINGS_REDIS_IP));
@@ -62,6 +61,7 @@ define('PAGE_USER', HOSTNAME . 'user/');
 define('PAGE_UPDATE_PROFILE', HOSTNAME . 'profile');
 define('PAGE_UPDATE_EVENT', HOSTNAME . 'updateevent/');
 define('PAGE_GET_IMAGEURL', HOSTNAME . 'getImage.php?src=');
+define('PAGE_ERROR_PAGE', HOSTNAME . 'error');
 define('PAGE_GET_IMAGEURL_SUBFOLDER', 'timety/');
 
 
@@ -147,6 +147,7 @@ define('REDIS_PREFIX_USER_SOCIAL', 'user:social:');
 define('REDIS_SUFFIX_USER_SOCIAL', ':media');
 //LOG PATH
 define('KLOGGER_PATH', '/home/ubuntu/log/');
+define('KLOGGER_ALL_ERROR_PATH', '/home/ubuntu/log/all/');
 
 //USER INTERACTION
 define('REDIS_USER_INTERACTION_UPDATED', 'updated');

@@ -64,7 +64,7 @@ class LocationUtils {
     public static function getCityName($id) {
         if (!empty($id)) {
             $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_id =" . $id;
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (!empty($result)) {
                 $name = $result['city_name'];
@@ -77,7 +77,7 @@ class LocationUtils {
     public static function getCityMaps() {
         $array = array();
         $SQL = "SELECT * FROM " . TBL_CITY_MAP;
-        $result = mysql_query($SQL) or die(mysql_error());
+        $result = mysql_query($SQL);
         if (!empty($result)) {
             $num = mysql_num_rows($result);
             if ($num > 1) {
@@ -106,7 +106,7 @@ class LocationUtils {
             if (preg_match('/^[0-9]+$/', $city)) {
 
                 $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_id =" . $city;
-                $query = mysql_query($SQL) or die(mysql_error());
+                $query = mysql_query($SQL);
                 $result = mysql_fetch_array($query);
                 if (!empty($result)) {
                     $id = $result['city_id'];
@@ -115,7 +115,7 @@ class LocationUtils {
             }
 
             $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_name ='" . $city . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (!empty($result)) {
                 $id = $result['city_id'];
@@ -134,7 +134,7 @@ class LocationUtils {
             if (preg_match('/^[0-9]+$/', $city)) {
 
                 $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_id =" . $city;
-                $query = mysql_query($SQL) or die(mysql_error());
+                $query = mysql_query($SQL);
                 $result = mysql_fetch_array($query);
                 if (!empty($result)) {
                     $id = $result['city_id'];
@@ -143,7 +143,7 @@ class LocationUtils {
             }
 
             $SQL = "SELECT * FROM " . TBL_CITY_MAP . " WHERE city_name ='" . $city . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (!empty($result)) {
                 $id = $result['city_id'];
@@ -152,7 +152,7 @@ class LocationUtils {
             if (empty($id)) {
                 $c_id = DBUtils::getNextId(CLM_CITY_ID);
                 $SQL = "INSERT INTO " . TBL_CITY_MAP . " (city_name,city_id) VALUES ('$city',$c_id)";
-                mysql_query($SQL) or die(mysql_error());
+                mysql_query($SQL);
                 $id = $c_id;
             }
             return $id;

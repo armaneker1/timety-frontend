@@ -4,6 +4,7 @@ date_default_timezone_set('UTC');
 /*
  * Dependencies
  */
+require_once __DIR__ . '/ErrorFunctions.php';
 require_once __DIR__ . '/../apis/facebook/facebook.php';
 require_once __DIR__ . '/../apis/twitter/twitteroauth.php';
 require_once __DIR__ . '/../apis/foursquare/FoursquareAPI.php';
@@ -339,23 +340,23 @@ class UtilFunctions {
 
     public static function decInvitationCodeCount($invitationCode) {
         $SQL = "SELECT * FROM timete_cupon WHERE id='" . $invitationCode . "' AND count>0";
-        $query = mysql_query($SQL) or die(mysql_error());
+        $query = mysql_query($SQL);
         $result = mysql_fetch_array($query);
         if (!empty($result)) {
             $count = (int) $result["count"];
             $SQL = "UPDATE timete_cupon SET  count=" . ($count - 1) . " WHERE id='" . $invitationCode . "'";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
     public static function incInvitationCodeCount($invitationCode) {
         $SQL = "SELECT * FROM timete_cupon WHERE id='" . $invitationCode . "' AND count>0";
-        $query = mysql_query($SQL) or die(mysql_error());
+        $query = mysql_query($SQL);
         $result = mysql_fetch_array($query);
         if (!empty($result)) {
             $count = (int) $result["count"];
             $SQL = "UPDATE timete_cupon SET  count=" . ($count + 1) . " WHERE id='" . $invitationCode . "'";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -365,7 +366,7 @@ class UtilFunctions {
         $res->error = false;
         /* if (!empty($invitationCode)) {
           $SQL = "SELECT * FROM timete_cupon WHERE id='" . $invitationCode . "' AND count>0";
-          $query = mysql_query($SQL) or die(mysql_error());
+          $query = mysql_query($SQL);
           $result = mysql_fetch_array($query);
           if (!empty($result)) {
           UtilFunctions::decInvitationCodeCount($invitationCode);
@@ -382,7 +383,7 @@ class UtilFunctions {
 
     public static function insertUserInvitation($userId, $invitationCode) {
         $SQL = "INSERT INTO timete_cuponuser (user_id,cupon) VALUES (" . $userId . ",'" . $invitationCode . "')";
-        $query = mysql_query($SQL) or die(mysql_error());
+        $query = mysql_query($SQL);
     }
 
     public static function removeUpdateFolder($url = null) {

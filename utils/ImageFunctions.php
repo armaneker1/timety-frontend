@@ -22,7 +22,7 @@ class ImageUtil {
         if (!empty($idListString)) {
             $idListString = DBUtils::mysql_escape($idListString);
             $SQL = "SELECT * from " . TBL_IMAGES . " WHERE header=1 AND eventId IN (" . $idListString . ")";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $array = array();
             if (!empty($query)) {
                 $num = mysql_num_rows($query);
@@ -47,7 +47,7 @@ class ImageUtil {
         if (!empty($eventId)) {
             $eventId = DBUtils::mysql_escape($eventId);
             $SQL = "SELECT * from " . TBL_IMAGES . " WHERE eventId=$eventId";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $array = array();
             if (!empty($query)) {
                 $num = mysql_num_rows($query);
@@ -74,7 +74,7 @@ class ImageUtil {
         if (!empty($imageId)) {
             $imageId = DBUtils::mysql_escape($imageId);
             $SQL = "SELECT * FROM " . TBL_IMAGES . " WHERE id = $imageId";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return null;
@@ -92,7 +92,7 @@ class ImageUtil {
         if (!empty($image)) {
             $imageId = DBUtils::getNextId(CLM_IMAGEID);
             $SQL = "INSERT INTO " . TBL_IMAGES . " (id,url,header,eventId,width,height,org_width,org_height) VALUES (" . $imageId . ",'" . DBUtils::mysql_escape($image->url) . "'," . DBUtils::mysql_escape($image->header) . "," . DBUtils::mysql_escape($image->eventId) . ",$image->width,$image->height,$image->org_width,$image->org_height)";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
             return ImageUtil::getImageById($imageId);
         } else {
             return null;
@@ -102,7 +102,7 @@ class ImageUtil {
     public static function deleteEventImages($eventId) {
         if (!empty($eventId)) {
             $SQL = "DELETE  FROM " . TBL_IMAGES . " WHERE eventId=" . $eventId;
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 
@@ -110,7 +110,7 @@ class ImageUtil {
         if (!empty($imageId)) {
             $imageId = DBUtils::mysql_escape($imageId);
             $SQL = "DELETE FROM " . TBL_IMAGES . " WHERE id = $imageId";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 

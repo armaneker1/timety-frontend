@@ -4,8 +4,8 @@ define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 //ebYU35198.@!1t
 define('DB_DATABASE', 'timete');
-$connection = mysql_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD) or die(mysql_error());
-$database = mysql_select_db(DB_DATABASE) or die(mysql_error());
+$connection = mysql_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+$database = mysql_select_db(DB_DATABASE);
 mysql_query("SET NAMES UTF8");
 mysql_query("SET CHARACTER SET latin5_turkish_ci");
 mysql_query("SET COLLATION_CONNECTION = 'UTF8' ");

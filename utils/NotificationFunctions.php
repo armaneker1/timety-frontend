@@ -49,7 +49,7 @@ class NotificationUtils {
         if (!empty($userId)) {
             try {
                 $SQL = "SELECT count(id) as cn FROM " . TBL_TIMETY_NOTIFICATION . " WHERE " . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_USERID) . " = " . $userId . " AND" . TimeteNotification::getFieldNameByFieldId(TimeteNotification::FIELD_READ) . "=0";
-                $query = mysql_query($SQL) or die(mysql_error());
+                $query = mysql_query($SQL);
                 $result = mysql_fetch_array($query);
                 return (int) $result['cn'];
             } catch (Exception $exc) {

@@ -8,7 +8,7 @@ require_once __DIR__ . '/../apis/Mail/ses.php';
 
 class MailUtil {
 
-    public static function sendTemplateEmail($templateName, $param, $subject, $to) {
+    private static function sendTemplateEmail($templateName, $param, $subject, $to) {
         if (!empty($param)) {
             $param = '"global_merge_vars": [' . $param . '],';
         } else {
@@ -49,7 +49,7 @@ class MailUtil {
         return $ret;
     }
 
-    public static function sendEmail($html, $subject, $to) {
+    private static function sendEmail($html, $subject, $to) {
         $html = str_replace("\"", "'", $html);
         $subject = str_replace("\"", "'", $subject);
         $param = "";

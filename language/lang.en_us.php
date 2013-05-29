@@ -407,4 +407,12 @@ define('LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_PLACEHOLDER', 'Contact Last Name');
 define('LANG_PAGE_BUSINESS_BUSINESSNAME_ERROR_MIN', 'must be at least 2 characters');
 define('LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_ERROR', 'must be at least 3 characters ');
 define('LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_ERROR', 'must be at least 3 characters');
+
+#Error Pages
+define('LANG_404_PAGE_TITLE', 'Page doesn\'t exists');
+define('LANG_404_PAGE_CONTEXT', 'Page doesn\'t exists');
+define('LANG_ERROR_PAGE_TITLE', 'An Error Occoured.');
+define('LANG_ERROR_PAGE_CONTEXT', 'An Error Occoured. We will take care of it as soon as possible.<br/>You will be redirected to main page.');
+define('LANG_ERROR_PAGE_SEND_MAIL', 'Send Mail');
+define('LANG_ERROR_PAGE_ALL_RIGHTS', 'All Rights Reserved.');
 ?>

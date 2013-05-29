@@ -20,14 +20,14 @@ class DBUtils {
         if (!empty($field)) {
             $field = DBUtils::mysql_escape($field);
             $SQL = "SELECT * FROM " . TBL_KEYGENERATOR . " WHERE  PK_COLUMN = '" . $field . "'";
-            $query = mysql_query($SQL) or die(mysql_error());
+            $query = mysql_query($SQL);
             $result = mysql_fetch_array($query);
             if (empty($result)) {
                 return DBUtils::setNextId($field);
             } else {
                 $val = ($result['VALUE_COLUMN'] + 1);
                 $SQL = "UPDATE  " . TBL_KEYGENERATOR . " SET  VALUE_COLUMN=$val WHERE PK_COLUMN = '" . $field . "'";
-                mysql_query($SQL) or die(mysql_error());
+                mysql_query($SQL);
                 return $val;
             }
         } else {
@@ -40,7 +40,7 @@ class DBUtils {
             $field = DBUtils::mysql_escape($field);
             $id = rand(1000, 10000000);
             $SQL = "INSERT INTO " . TBL_KEYGENERATOR . " (PK_COLUMN,VALUE_COLUMN)  VALUES ('" . $field . "'," . $id . ")";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
             return $id;
         } else {
             return -1;

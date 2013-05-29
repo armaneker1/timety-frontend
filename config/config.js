@@ -97,17 +97,18 @@ function getLocalTime(time){
 function getUserFullName(user){
     if(typeof user != 'undefined'){
         if(user.business_user && user.business_user+""=="1"){
-            
-        }else{
-            var name="";
-            if(user.firstName){
-                name=user.firstName+" ";
+            if(user.business_name && user.business_name.length){
+                return user.business_name;
             }
-            if(user.lastName){
-                name=name+user.lastName;
-            }
-            return name;
         }
+        var name="";
+        if(user.firstName){
+            name=user.firstName+" ";
+        }
+        if(user.lastName){
+            name=name+user.lastName;
+        }
+        return name;
     }
     return "";
 }

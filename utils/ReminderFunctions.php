@@ -18,7 +18,7 @@ class ReminderUtil {
             $unit = "hour";
         }
         $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE reminderSent=0 AND reminderValue>0 AND startDateTime>now() AND reminderType='" . $type_ . "' AND reminderUnit='" . $unit . "' AND  startDateTime-now()<(" . $dif ." * reminderValue) ORDER BY startDateTime DESC LIMIT ".$count;
-        $query = mysql_query($SQL) or die(mysql_error());
+        $query = mysql_query($SQL);
         $num = mysql_num_rows($query);
         $array=array();
         if (!empty($query) && $num > 0) {

@@ -38,7 +38,7 @@ class MenuUtils {
         $cat = self::getCategory($catId, $lang);
         if (!empty($cat)) {
             $SQL = "UPDATE " . TBL_MENU_CAT . " SET name='" . $name . "' WHERE id=" . $catId . " AND lang='" . $lang . "'";
-            mysql_query($SQL) or die(mysql_error());
+            mysql_query($SQL);
         }
     }
 

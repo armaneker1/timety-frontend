@@ -8,7 +8,7 @@ LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
 $SQL = "SELECT * from " . TBL_IMAGES;
-$query = mysql_query($SQL) or die(mysql_error());
+$query = mysql_query($SQL);
 $array = array();
 if (!empty($query)) {
     $num = mysql_num_rows($query);
@@ -34,7 +34,7 @@ if (!empty($array) && sizeof($array) > 0) {
             var_dump($size);
             if (!empty($size) && sizeof($size) == 4 && !empty($size[2]) && !empty($size[3])) {
                 $SQL = "UPDATE " . TBL_IMAGES . " SET org_width= $size[2] ,org_height= $size[3]  WHERE id=$img->id";
-                $query = mysql_query($SQL) or die(mysql_error());
+                $query = mysql_query($SQL);
                 echo "<h3>Done </h3>";
             } else {
                 echo "<h3>Error 01 </h3>";

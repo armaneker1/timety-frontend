@@ -407,4 +407,12 @@ define('LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_PLACEHOLDER', 'İlgili kişi soyad�
 define('LANG_PAGE_BUSINESS_BUSINESSNAME_ERROR_MIN', 'en az 2 karakter olmalıdır');
 define('LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_ERROR', 'en az 3 karakter olmalıdır');
 define('LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_ERROR', 'en az 3 karakter olmalıdır');
+
+#Error Pages
+define('LANG_404_PAGE_TITLE', 'Sayfa Bulunamadı');
+define('LANG_404_PAGE_CONTEXT', 'Sayfa Bulunamadı');
+define('LANG_ERROR_PAGE_TITLE', 'Hata meydana geldi.');
+define('LANG_ERROR_PAGE_CONTEXT', 'Hata meydana geldi.En kısa zamanda hata ile ilgileneceğiz.<br/>Ana sayfaya yönlendireleceksiniz.');
+define('LANG_ERROR_PAGE_SEND_MAIL', 'Mail Gönder');
+define('LANG_ERROR_PAGE_ALL_RIGHTS', 'Tüm hakları saklıdır');
 ?>
