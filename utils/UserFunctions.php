@@ -83,8 +83,8 @@ class UserUtils {
 
     public static function cookieLogin($timeHash, $clientGuid) {
         if (!empty($timeHash) && !empty($clientGuid)) {
-            $timeHash=  DBUtils::mysql_escape($timeHash);
-            $clientGuid=  DBUtils::mysql_escape($clientGuid);
+            $timeHash = DBUtils::mysql_escape($timeHash);
+            $clientGuid = DBUtils::mysql_escape($clientGuid);
             $SQL = "SELECT * FROM " . TBL_USER_COOKIE . " WHERE time_hash = '$timeHash' AND client_guid='$clientGuid'";
             $cookie = null;
             try {
@@ -153,12 +153,14 @@ class UserUtils {
             try {
                 $SQL = "SELECT location_city FROM " . TBL_USERS . " WHERE id=" . $id;
                 $query = mysql_query($SQL);
-                $result = mysql_fetch_array($query);
-                $city = $result['location_city'];
-                if (!empty($city)) {
-                    return $city;
-                } else {
-                    return null;
+                if (!empty($query)) {
+                    $result = mysql_fetch_array($query);
+                    $city = $result['location_city'];
+                    if (!empty($city)) {
+                        return $city;
+                    } else {
+                        return null;
+                    }
                 }
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());
@@ -166,6 +168,7 @@ class UserUtils {
         } else {
             return null;
         }
+        return null;
     }
 
     public static function checkEmail($email) {
