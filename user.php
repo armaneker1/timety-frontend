@@ -59,7 +59,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                     $media_id = $media_id . $con . $mediaIds[$i];
                 }
             }
-            
+
             $m = new TimeteSocialMedia();
             $m->setSocialID($media_id);
             $m->setType($media_type);
@@ -258,7 +258,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                            
             </script>
 
 
@@ -290,7 +290,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                            
             </script>
 
             <?php
@@ -322,8 +322,8 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
             ?>
             <script>
                 jQuery(document).ready(function(){
-                    if(typeof(pSUPERFLY) != 'undefined')
-                        pSUPERFLY.virtualPage('/logout','/logout'); 
+                    if(typeof(mixpanel) != 'undefined')
+                        mixpanel.track_pageview('/logout','/logout'); 
                 });  
             </script>
         <?php } ?>
@@ -348,7 +348,14 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                 document.isuser=true;
             </script>
         <?php } ?>
-
+        <script>
+            setTimeout(function(){
+                analytics_setProperty("userpage", true); 
+                analytics_setProperty("userpageId", '<?= $p_user_id ?>'); 
+                analytics_setProperty("campaign", false); 
+                analytics_setProperty("campaignId", '0'); 
+            },300);
+        </script>
         <div class="main_sol" style="width:91%;">
             <?php
             $hideBar = true;
@@ -964,7 +971,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                                                         $date = $main_media->getDate();
                                                         $date_text = "";
                                                         if (!empty($date)) {
-                                                            if (strlen($date."") > 10) {
+                                                            if (strlen($date . "") > 10) {
                                                                 $date = $date / 1000;
                                                             }
                                                             $date_text = strftime('%d', $date) . " " . strftime('%b', $date);

@@ -25,6 +25,7 @@ if (isset($_GET['finish']) && !empty($user)) {
     $params = array(array('name', $ufname), array('link', HOSTNAME . "?guid=" . $confirm), array('email_address', $user->email));
     MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_confirm_mail.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_CONFIRM_ACCOUNT_EMAIL"));
     UserUtils::confirmUser($user->id, 1);
+    $_SESSION['MIXPANEL_SIGNUP_SESSION_RI'] = true;
     RegisterAnaliticsUtils::increasePageRegisterCount("index.php?complete=1");
     header('Location: ' . HOSTNAME);
     exit(1);
@@ -381,17 +382,17 @@ if (empty($user)) {
                                 basename($fileName) => '@' . $fileName
                             );
                             if ($user->id == 6618346 || !SERVER_PROD) {
-                               // var_dump($event_info);
+                                // var_dump($event_info);
                             }
                             $result = $facebook->api('me/events', 'post', $event_info);
                             if ($user->id == 6618346 || !SERVER_PROD) {
-                               // var_dump($result);
+                                // var_dump($result);
                             }
                             //exit(1);
                         } catch (Exception $exc) {
                             if ($user->id == 6618346 || !SERVER_PROD) {
-                               // var_dump($exc);
-                               // exit(1);
+                                // var_dump($exc);
+                                // exit(1);
                             }
                             error_log(UtilFunctions::json_encode($exc));
                         }
@@ -457,6 +458,9 @@ if (empty($user)) {
                     $m->type = "s";
                     $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_SUC_CREATED");
                     $_SESSION[INDEX_MSG_SESSION_KEY] = json_encode($m);
+
+                    $_SESSION[MIXPANEL_CREATEEVENT_RESULT_EVENTID] = $eventDB->id;
+                    $_SESSION[MIXPANEL_CREATEEVENT_RESULT] = "success";
                     exit(header('Location: ' . HOSTNAME));
                 } else {
                     $error = true;
@@ -472,6 +476,11 @@ if (empty($user)) {
                 $m->message = LanguageUtils::getText("LANG_ERROR") . $e->getTraceAsString();
                 array_push($msgs, $m);
             }
+        }
+
+        if ($error) {
+            $_SESSION[MIXPANEL_CREATEEVENT_RESULT_EVENTID] = "";
+            $_SESSION[MIXPANEL_CREATEEVENT_RESULT] = "fail";
         }
 
         if ($error && !$notpost) {
@@ -535,7 +544,7 @@ if (empty($user)) {
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -725,7 +734,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -826,7 +835,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                        
             </script>
 
 
@@ -876,9 +885,9 @@ if (empty($user)) {
             ?>
             <script>
                 jQuery(document).ready(function(){
-                    if(typeof(pSUPERFLY) != "undefined")
-                        pSUPERFLY.virtualPage('/logout','/logout'); 
-                });  
+                    if(typeof(mixpanel) != "undefined")
+                        mixpanel.track_pageview('/logout'); 
+                });    
             </script>
         <?php } ?>
 
@@ -905,6 +914,40 @@ if (empty($user)) {
         <?php } ?>
     </head>
     <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
+        <!-- register mixpnael -->
+        <?php
+        if (!empty($user) && isset($_SESSION['MIXPANEL_SIGNUP_SESSION_RI'])) {
+            unset($_SESSION['MIXPANEL_SIGNUP_SESSION_RI']);
+            $tag_list = Neo4jUserUtil::getUserTimetyTags($user->id);
+            $tags_ids = array();
+            if (!empty($tag_list)) {
+                foreach ($tag_list as $tag) {
+                    if (!empty($tag)) {
+                        if (isset($tags_ids[$tag->id])) {
+                            $t = $tags_ids[$tag->id];
+                            if ($t->lang != LANG_EN_US) {
+                                $tags_ids[$tag->id] = $tag;
+                            }
+                        } else {
+                            $tags_ids[$tag->id] = $tag;
+                        }
+                    }
+                }
+            }
+            $tags = array();
+            foreach ($tags_ids as $tag) {
+                array_push($tags, $tag->name);
+            }
+            $tags = json_encode($tags);
+            ?>
+            <script>
+                analytics_postInterestsForm('<?= $tags ?>');
+            </script>
+            <?php
+        }
+        ?>
+        <!-- register mixpnael -->
+
         <?php include('layout/layout_top.php'); ?>
         <!-- Add Event -->
         <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
@@ -933,6 +976,39 @@ if (empty($user)) {
                 }
             });
         </script>
+        <!-- MIXPANEL ADD EVENT -->
+        <?php
+        if (isset($_SESSION[MIXPANEL_CREATEEVENT_RESULT]) && isset($_SESSION[MIXPANEL_CREATEEVENT_RESULT_EVENTID])) {
+            $mix_ce_id = $_SESSION[MIXPANEL_CREATEEVENT_RESULT_EVENTID];
+            $mix_ce_result = $_SESSION[MIXPANEL_CREATEEVENT_RESULT];
+            unset($_SESSION[MIXPANEL_CREATEEVENT_RESULT_EVENTID]);
+            unset($_SESSION[MIXPANEL_CREATEEVENT_RESULT]);
+            ?>
+            <script>
+                analytics_addEvent('<?= $mix_ce_id ?>','<?= $mix_ce_result ?>');
+            </script>
+            <?php
+        }
+        ?>
+        <!-- MIXPANEL ADD EVENT -->
+        
+        <!-- MIXPANEL UPDATE EVENT -->
+        <?php
+        if (isset($_SESSION[MIXPANEL_EDITEVENT_RESULT_EVENTID]) && isset($_SESSION[MIXPANEL_EDITEVENT_RESULT])) {
+            $mix_ee_id = $_SESSION[MIXPANEL_EDITEVENT_RESULT_EVENTID];
+            $mix_ee_result = $_SESSION[MIXPANEL_EDITEVENT_RESULT];
+            unset($_SESSION[MIXPANEL_EDITEVENT_RESULT_EVENTID]);
+            unset($_SESSION[MIXPANEL_EDITEVENT_RESULT]);
+            ?>
+            <script>
+                analytics_editEvent('<?= $mix_ee_id ?>','<?= $mix_ee_result ?>');
+            </script>
+            <?php
+        }
+        ?>
+        <!-- MIXPANEL UPDATE EVENT -->
+
+
         <!-- Add Event -->
         <?php
         if (isset($_SESSION[INDEX_MSG_SESSION_KEY]) && !empty($_SESSION[INDEX_MSG_SESSION_KEY])) {
@@ -1297,7 +1373,7 @@ if (empty($user)) {
                                             <!-- edit button -->
 
                                         </div>
-                                        <?php //} ?>
+                                        <?php //}  ?>
                                         <?php
                                         $margin_h = 0;
                                         if ($height < 125) {
@@ -1389,9 +1465,9 @@ if (empty($user)) {
                                              $json_response = UtilFunctions::json_encode($main_event);
                                              echo $json_response;
                                              ?>';
-                                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                            tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                            var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                            localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
                                     </script>
                                     <!-- event box -->
                                 </div>

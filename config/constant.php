@@ -1,5 +1,13 @@
 <?php
-error_reporting(0);
+
+if (!isset($error_handling)) {
+    error_reporting(0);
+} else {
+    error_reporting(-1);
+    error_reporting(E_ALL);
+    ini_set('error_reporting', E_ALL);
+    ini_set('display_errors', 1);
+}
 
 /*
  * Dependencies
@@ -36,6 +44,12 @@ define('INDEX_MSG_SESSION_KEY', 'index_msg_session');
 define('INDEX_POST_SESSION_KEY', 'index_post_session');
 define('EDIT_POST_SESSION_KEY', 'edit_post_session');
 define('GLOBAL_ERROR_SESSION_KEY', 'timety_global_error_session');
+define('MIXPANEL_SIGNUP_SESSION_PI', 'mixpanel_signup_session_pi');
+define('MIXPANEL_SIGNUP_SESSION_RI', 'mixpanel_signup_session_ri');
+define('MIXPANEL_CREATEEVENT_RESULT_EVENTID', 'mixpanel_create_event_result_event_id');
+define('MIXPANEL_CREATEEVENT_RESULT', 'mixpanel_create_event_result');
+define('MIXPANEL_EDITEVENT_RESULT_EVENTID', 'mixpanel_edit_event_result_event_id');
+define('MIXPANEL_EDITEVENT_RESULT', 'mixpanel_edit_event_result');
 
 //REDIS IP ADDRS
 define('REDIS_IP', SettingsUtil::getSetting(SETTINGS_REDIS_IP));
@@ -193,6 +207,5 @@ define('ELASTICSEACRH_TIMETY_DOCUMENT_USER_TAG', 'timety_user_tag');
 define('ELASTICSEACRH_TIMETY_DOCUMENT_EVENT', 'timety_event');
 
 //LOCATION
-define('LOCATION_HOSTIP_API','http://freegeoip.net/json/');
-
+define('LOCATION_HOSTIP_API', 'http://freegeoip.net/json/');
 ?>

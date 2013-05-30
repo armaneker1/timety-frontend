@@ -338,7 +338,7 @@ if (isset($_POST['te_username'])) {
                         $lastname = $keywords[sizeof($keywords) - 1];
                         $name = "";
                         for ($i = 0; $i < sizeof($keywords) - 1; $i++) {
-                            $name = $name .$keywords[$i]." ";
+                            $name = $name . $keywords[$i] . " ";
                         }
                         $email = "";
                         $hometown = "";

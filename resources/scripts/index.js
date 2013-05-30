@@ -261,6 +261,7 @@ jQuery(document).ready(function() {
 function openEditEvent(eventId)
 {
     if(eventId){
+        analytics_openEditEvent(eventId);
         window.location=TIMETY_PAGE_UPDATE_EVENT+eventId;   
     }
 }
@@ -365,8 +366,7 @@ function openCreatePopup() {
     /*
          * Clean Popup
          */
-    if(typeof pSUPERFLY != "undefined")
-        pSUPERFLY.virtualPage("/createevent","/createevent");
+    analytics_openCreateEvent();
     jQuery('.php_errors').remove();
     
     jQuery("#div_follow_trans").unbind('click');
@@ -439,6 +439,7 @@ function beforeChangePublicPrivate(elem){
 
 function closeCreatePopup() {
     try{
+        analytics_closeCreateEvent();
         //jQuery("#div_follow_trans").hide();
         //jQuery("#div_event_add_ekr").hide();
         jQuery("#div_follow_trans").fadeOut(550);

@@ -20,8 +20,10 @@ function custom_shutdown_handler() {
     }
 }
 
-set_error_handler("custom_error_handler");
-register_shutdown_function("custom_shutdown_handler");
+if (!isset($error_handling)) {
+    set_error_handler("custom_error_handler");
+    register_shutdown_function("custom_shutdown_handler");
+}
 
 class ErrorUtils {
 

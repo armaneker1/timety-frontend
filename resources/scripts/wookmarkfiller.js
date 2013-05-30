@@ -195,9 +195,9 @@ function wookmarkFiller(options,clear,loader,channel_)
                         }else if(channel==14){
                             track="/index/medias/"+selectedUser+"?pageId="+page_wookmark;
                         }
-                        if(typeof(pSUPERFLY) != "undefined")
+                        if(typeof(mixpanel) != "undefined")
                         {
-                            pSUPERFLY.virtualPage(track,track);
+                            mixpanel.track_pageview(track);
                         }
                         if(typeof(_gaq) != "undefined" && _gaq){
                             _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);

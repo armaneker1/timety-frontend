@@ -57,8 +57,8 @@ function openFriendsPopup(userId,reqUserId,type)
             {
                 //following
                 //set header 
-                if(typeof pSUPERFLY != "undefined")
-                    pSUPERFLY.virtualPage("/friends/following", "/friends/following");
+                if(typeof mixpanel != "undefined")
+                    pSUPERFLY.track_pageview("/friends/following");
                 if(typeof(_gaq) != "undefined" && _gaq){
                     _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                     _gaq.push(['_trackPageview', "/"+reqUserId+"/friends/following"]);
@@ -69,8 +69,8 @@ function openFriendsPopup(userId,reqUserId,type)
 
                 //follower 
                 //set header 
-                if(typeof pSUPERFLY != "undefined")
-                    pSUPERFLY.virtualPage("/friends/followers", "/friends/followers");
+                if(typeof mixpanel != "undefined")
+                    mixpanel.track_pageview("/friends/followers");
                 if(typeof(_gaq) != "undefined" && _gaq){
                     _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                     _gaq.push(['_trackPageview', "/"+reqUserId+"/friends/followers"]);
@@ -112,8 +112,8 @@ function openFriendsPopup(userId,reqUserId,type)
             }
         }else if(type==3 && userId!=null && userId>0)
         {
-            if(typeof pSUPERFLY != "undefined")
-                pSUPERFLY.virtualPage("/friends/find", "/friends/find");
+            if(typeof mixpanel != "undefined")
+                mixpanel.track_pageview("/friends/find");
             if(typeof(_gaq) != "undefined" && _gaq){
                 _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
                 _gaq.push(['_trackPageview', "/"+userId+"/friends/find"]);

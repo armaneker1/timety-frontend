@@ -112,3 +112,14 @@ function getUserFullName(user){
     }
     return "";
 }
+
+function s46786() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+             .toString(16)
+             .substring(1);
+};
+
+function generate_guid() {
+  return s46786() + s46786() + '-' + s46786() + '-' + s46786() + '-' +
+         s46786() + '-' + s46786() + s46786() + s46786();
+}

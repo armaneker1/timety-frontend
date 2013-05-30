@@ -6,8 +6,11 @@ require_once __DIR__ . '/../utils/Functions.php';
 LanguageUtils::setLocale();
 HttpAuthUtils::checkHttpAuth();
 
-$time = 1369965600;
-$result = strftime('%A', $time);
+$xml=new stdClass();
+$xml->a="sadasd";
+$xml->b=new stdClass();
+$xml->b->c="dasd";
 
-var_dump($result);
+$xml=XMLSerializer::generate_valid_xml_from_array($xml, "Result");
 ?>
+<?=$xml?>

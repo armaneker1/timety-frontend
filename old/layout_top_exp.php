@@ -285,10 +285,10 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                                 <a id="logout_top_menu_a"  class="child"  href="<?= PAGE_LIKES."?edit" ?>" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_ADD_INTEREST")?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_UPDATE_PROFILE ?>" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS")?></a>
+                                <a id="logout_top_menu_a"  class="child" href="<?= PAGE_UPDATE_PROFILE ?>" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS")?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child" onclick="pSUPERFLY.virtualPage('/logout','/logout');return true;" href="<?= PAGE_LOGOUT ?>" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT")?></a>
+                                <a id="logout_top_menu_a"  class="child" ><?=  LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT")?></a>
                             </li>
                         </ul>
                     </li>

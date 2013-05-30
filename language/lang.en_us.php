@@ -289,7 +289,7 @@ define('LANG_PAGE_EDIT_EVENT_BUTTON_UPDATE_EVENT', 'Update Event');
 #create account 
 define('LANG_PAGE_CREATE_ACCOUNT_TITLE', 'Timety | Signup');
 define('LANG_PAGE_CREATE_ACCOUNT_FORM_HEADER', 'Create Account');
-define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', 'Sign up with <a href="'.PAGE_ABOUT_YOU.'?new">your email address.</a><p/>or, sign up <a href="'.PAGE_BUSINESS_CREATE.'">as a bussiness.</a>');
+define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', 'Sign up with <a onclick="analytics_createAccountButtonClicked();" href="'.PAGE_ABOUT_YOU.'?new">your email address.</a><p/>or, sign up <a onclick="analytics_createBussinessAccountButtonClicked();" href="'.PAGE_BUSINESS_CREATE.'">as a bussiness.</a>');
 define('LANG_PAGE_CREATE_ACCOUNT_ABOUT_TIMETY', 'About Timety');
 
 #add facebook user

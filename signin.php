@@ -165,15 +165,15 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
             <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_HEADER") ?></div>
             <div class="create_acco_alt">
                 <div class="account_sol" style="padding-top: 21px;">
-                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="return openSocialLogin('gg');">
+                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="analytics_loginGoogleButtonClicked();return openSocialLogin('gg');">
                         <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE") ?></b>
                     </button>
 
-                    <button class="big-icon-f btn-sign-big fb facebook" onclick="return openSocialLogin('fb');">
+                    <button class="big-icon-f btn-sign-big fb facebook" onclick="analytics_loginFacebookButtonClicked();return openSocialLogin('fb');">
                         <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK") ?></b>
                     </button>
 
-                    <button class="big-icon-t btn-sign-big tw twitter" onclick="return openSocialLogin('tw');">
+                    <button class="big-icon-t btn-sign-big tw twitter" onclick="analytics_loginTwitterButtonClicked();return openSocialLogin('tw');">
                         <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER") ?></b>
                     </button>
                 </div>
@@ -240,7 +240,7 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
 
                             <input name="te_rememberme" id="te_rememberme"
                                    value="<?= $urmme ?>" type="hidden" />
-                            <button style="width: 79px !important;margin-left: 58px;" type="submit" onclick="jQuery('.php_errors').remove();"
+                            <button style="width: 79px !important;margin-left: 58px;" type="submit" onclick="analytics_loginButtonClicked();jQuery('.php_errors').remove();"
                                     class="reg_btn reg_btn_width" name="" value=""><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_LOGIN") ?></button>
                             <br /> <a href="forgotpassword.php"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS") ?></a> <br />
                             <div class="ts_box" style="font-size: 12px;">

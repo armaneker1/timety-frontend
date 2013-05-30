@@ -492,11 +492,13 @@ function openModalPanel(event_id,custom) {
       
             if(data.attach_link){
                 jQuery(headerImage).data("attach_link",data.attach_link);
+                jQuery(headerImage).data("dataId",data.id);
                 jQuery(headerImage).click(function(){
                     var dataUrl=jQuery(headerImage).data("attach_link");
                     if(dataUrl.indexOf("http")!=0){
                         dataUrl="http://"+dataUrl;
                     }
+                    analytics_gotoEventUrl(jQuery(headerImage).data("dataId"));
                     window.open(dataUrl,'_blank');
                 });
             }
@@ -506,11 +508,19 @@ function openModalPanel(event_id,custom) {
         jQuery("#fb_share_button").unbind("click");
         jQuery("#tw_share_button").unbind("click");
         jQuery("#gg_share_button").unbind("click");
-        jQuery("#fb_share_button").click(shareThisFacebook);
+        jQuery("#fb_share_button").click(function(){
+            shareThisFacebook();
+            analytics_shareEvent(data.id,"facebook");
+        });
         jQuery("#tw_share_button").click(function(){
             shareThisTwitter(data.title);
+            analytics_shareEvent(data.id,"twitter");
         });
-        jQuery("#gg_share_button").click(shareThisGoogle);
+        jQuery("#gg_share_button").click(function(){
+            shareThisGoogle();
+            analytics_shareEvent(data.id,"google_plus");
+        });
+        
         
         //set button actions
         var liked=false;
@@ -787,10 +797,7 @@ function addUrlEventId(event_id,title)
          * Url rewrite
          */
         window.History.pushState(null, null, "/"+"event/"+event_id+"/"+title);  
-        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-        if(typeof pSUPERFLY != "undefined")
-            pSUPERFLY.virtualPage(location.pathname + location.search + location.hash,""+title);
+        analytics_openEventModal(event_id);
     } else {
         getLoader(true);
         window.location=TIMETY_PAGE_EVENT_DETAIL+event_id+"/"+title;
@@ -932,6 +939,7 @@ function sendComment(){
                         data= JSON.parse(data); 
                         if(!data.error)
                         {
+                            analytics_commentEvent(eventId);
                             var commentItemDIV=jQuery("#comment_template").clone();
                             jQuery(commentItemDIV).attr("id","tmp_comment_template_"+data.id);
                             jQuery(commentItemDIV).insertAfter(jQuery("#comment_template"));

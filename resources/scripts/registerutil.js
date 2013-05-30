@@ -133,9 +133,7 @@ function registerIIBeforeSubmit() {
                 }
             }
         }
-    }
-    btnClickPersonelLikes();
-    
+    }    
     document.getElementById(ELM_ADD_KEY).value = values.toJSON();
     sessionStorage.clear();
 }
