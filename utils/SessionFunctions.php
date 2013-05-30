@@ -60,9 +60,11 @@ class SessionUtil {
                 $cookie->setUserId($user->id);
                 $cookie->setClientGuid(SessionUtil::getClientGUID($user->id));
                 $cookie->insertIntoDatabase(DBUtils::getConnection());
-                @setcookie(COOKIE_KEY_RM, true, time() + (365 * 24 * 60 * 60), "/");
-                @setcookie(COOKIE_KEY_UN, base64_encode($cookie->getTimeHash()), time() + (365 * 24 * 60 * 60), "/");
-                @setcookie(COOKIE_KEY_PSS, base64_encode($cookie->getClientGuid()), time() + (365 * 24 * 60 * 60), "/");
+                if (!headers_sent()) {
+                    @setcookie(COOKIE_KEY_RM, true, time() + (365 * 24 * 60 * 60), "/");
+                    @setcookie(COOKIE_KEY_UN, base64_encode($cookie->getTimeHash()), time() + (365 * 24 * 60 * 60), "/");
+                    @setcookie(COOKIE_KEY_PSS, base64_encode($cookie->getClientGuid()), time() + (365 * 24 * 60 * 60), "/");
+                }
             }
         }
     }
@@ -86,9 +88,11 @@ class SessionUtil {
             }
         }
         unset($_SESSION['id']);
-        @setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
-        @setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
-        @setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
+        if (!headers_sent()) {
+            @setcookie(COOKIE_KEY_RM, false, time() + (365 * 24 * 60 * 60), "/");
+            @setcookie(COOKIE_KEY_UN, "", time() + (365 * 24 * 60 * 60), "/");
+            @setcookie(COOKIE_KEY_PSS, "", time() + (365 * 24 * 60 * 60), "/");
+        }
     }
 
     /*  */
@@ -97,8 +101,10 @@ class SessionUtil {
         if (isset($_SESSION['id'])) {
             $user = new User();
             $user = UserUtils::getUserById($_SESSION['id']);
-            @header("location: " . HOSTNAME);
-            exit(1);
+            if (!headers_sent()) {
+                @header("location: " . HOSTNAME);
+                exit(1);
+            }
         } else {
             //check cookie
             $rmm = false;
@@ -111,8 +117,10 @@ class SessionUtil {
                     $user = UserUtils::cookieLogin($timeHash, $clientGuid);
                     if (!empty($user)) {
                         $_SESSION['id'] = $user->id;
-                        @header("location: " . HOSTNAME);
-                        exit(1);
+                        if (!headers_sent()) {
+                            @header("location: " . HOSTNAME);
+                            exit(1);
+                        }
                     }
                 }
             }
@@ -127,29 +135,36 @@ class SessionUtil {
         if (!empty($user)) {
             $status = $user->status;
             if ($status == 0) {
-                @header("location: " . PAGE_ABOUT_YOU);
+                if (!headers_sent())
+                    @header("location: " . PAGE_ABOUT_YOU);
             } else if ($status == 1) {
-                @header("location: " . PAGE_LIKES);
+                if (!headers_sent())
+                    @header("location: " . PAGE_LIKES);
             } else if ($status == 2) {
-                @header("location: " . PAGE_WHO_TO_FOLLOW);
+                if (!headers_sent())
+                    @header("location: " . PAGE_WHO_TO_FOLLOW);
             } else {
                 $key = $user->id . "ieow";
                 $val = false;
                 if (isset($_COOKIE[$key]))
                     $val = $_COOKIE[$key];
-                if (!(!empty($val) && $val) && $user->business_user.""!="1") {
+                if (!(!empty($val) && $val) && $user->business_user . "" != "1") {
                     $tags = Neo4jUserUtil::getUserTimetyTags($user->id);
                     if (!empty($tags) && sizeof($tags)) {
-                        @setcookie($key, true, time() + (5 * 24 * 60 * 60), "/");
+                        if (!headers_sent())
+                            @setcookie($key, true, time() + (5 * 24 * 60 * 60), "/");
                     } else {
-                        @setcookie($key, false, time() + (5 * 24 * 60 * 60), "/");
+                        if (!headers_sent())
+                            @setcookie($key, false, time() + (5 * 24 * 60 * 60), "/");
                         $redirectHome = false;
-                        @header("location: " . PAGE_LIKES."?edit");
+                        if (!headers_sent())
+                            @header("location: " . PAGE_LIKES . "?edit");
                     }
                 }
 
                 if ($redirectHome) {
-                    @header("location: " . HOSTNAME);
+                    if (!headers_sent())
+                        @header("location: " . HOSTNAME);
                 }
             }
         }
