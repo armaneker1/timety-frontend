@@ -70,7 +70,7 @@ class ErrorUtils {
             $url = $url . $_SERVER['PHP_SELF'];
         }
         if (isset($_SERVER['QUERY_STRING'])) {
-            $url = $url ."?". $_SERVER['QUERY_STRING'];
+            $url = $url . "?" . $_SERVER['QUERY_STRING'];
         }
         $userId = "";
         if (isset($_SESSION["id"])) {
@@ -91,7 +91,12 @@ class ErrorUtils {
         $msg = $msg . "<h2>BROWSER : " . $browser . " </h2>";
         $msg = $msg . "</body></html>";
 
-        MailUtil::sendSESFromHtml($msg, "technical@timety.com", "Error - " . HOSTNAME . " - (" . $time . ")");
+        $fatal = "";
+        if ($type) {
+            $fatal = "FATAL";
+        }
+
+        MailUtil::sendSESFromHtml($msg, "technical@timety.com", $fatal . " ERROR - " . HOSTNAME . " - (" . $time . ")");
     }
 
 }
