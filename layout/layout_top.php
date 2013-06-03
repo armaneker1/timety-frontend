@@ -45,7 +45,7 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 $city_top_name = "";
                 $city_id = "";
                 if (!empty($user)) {
-                    $city_top = $user->hometown;
+                    $city_top_name = $user->hometown;
                     $city_id = $user->location_city;
                 }
 
@@ -54,7 +54,18 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                     if (empty($city_top_name)) {
                         $city_top_name = LocationUtils::getCityName($city_id);
                     }
+                }else{
+                    $loc=  LocationUtils::getGeoLocationFromIP();
+                    if(!empty($loc)){
+                        $loc=  LocationUtils::getCityCountry($loc['latitude'], $loc['longitude']);
+                        if(!empty($loc)){
+                              $city_top_name =$loc['city'];
+                              $city_id = LocationUtils::getCityId($city_top_name);
+                        }
+                    }
                 }
+                
+                
                 ?>
                 <div class="div_city_top">
                     <input 
