@@ -1171,7 +1171,37 @@ if (empty($user)) {
                 if (!empty($user)) {
                     $user_id = $user->id;
                 }
-                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, -1, -1, -1);
+                
+                if(!isset($city_top_name))
+                {
+                    $city_top_name = "";
+                }
+                if(!isset($city_id))
+                {
+                    $city_id = "";
+                }
+                if (!empty($user)) {
+                    $city_top_name = $user->hometown;
+                    $city_id = $user->location_city;
+                }
+
+                if (!empty($city_id)) {
+                    //echo "<script>city_channel=" . $city_id . ";</script>";
+                    if (empty($city_top_name)) {
+                        $city_top_name = LocationUtils::getCityName($city_id);
+                    }
+                }else{
+                    $loc=  LocationUtils::getGeoLocationFromIP();
+                    if(!empty($loc)){
+                        $loc=  LocationUtils::getCityCountry($loc['latitude'], $loc['longitude']);
+                        if(!empty($loc)){
+                              $city_top_name =$loc['city'];
+                              $city_id = LocationUtils::getCityId($city_top_name);
+                        }
+                    }
+                }
+                    
+                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, -1, -1, $city_id);
                 $main_pages_events = json_decode($main_pages_events);
                 if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     $main_event = new Event();
