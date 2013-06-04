@@ -11,6 +11,7 @@ require_once __DIR__ . '/TimeteEventKeyList.class.php';
 require_once __DIR__ . '/TimeteUserSettings.class.php';
 require_once __DIR__ . '/TimeteVideos.class.php';
 require_once __DIR__ . '/TimeteSocialMedia.class.php';
+require_once __DIR__ . '/TimeteUserSocialprovider.class.php';
 
 class User {
 
