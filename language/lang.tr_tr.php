@@ -289,7 +289,7 @@ define('LANG_PAGE_EDIT_EVENT_BUTTON_UPDATE_EVENT', 'Etkinlik güncelle');
 #create account 
 define('LANG_PAGE_CREATE_ACCOUNT_TITLE', 'Timety | Üye olun');
 define('LANG_PAGE_CREATE_ACCOUNT_FORM_HEADER', 'Hesap oluşturun');
-define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', 'e-posta adresinizle <a onclick="analytics_createAccountButtonClicked();"  href="' . PAGE_ABOUT_YOU . '?new">üye olunuz.</a><p/>veya kurum olarak <a onclick="analytics_createBussinessAccountButtonClicked();"  href="'.PAGE_BUSINESS_CREATE.'">üye olunuz.</a>');
+define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', 'e-posta adresinizle <a onclick="analytics_createAccountButtonClicked(function(){window.location=\''.PAGE_ABOUT_YOU.'?new\';});"  style="cursor:pointer;color:#0000EE;">üye olunuz.</a><p/>veya kurum olarak <a onclick="analytics_createBussinessAccountButtonClicked(function(){window.location=\''.PAGE_BUSINESS_CREATE.'\';});"  style="cursor:pointer;color:#0000EE;">üye olunuz.</a>');
 define('LANG_PAGE_CREATE_ACCOUNT_ABOUT_TIMETY', 'Timety Nedir');
 
 #add facebook user

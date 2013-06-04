@@ -83,6 +83,7 @@ if (isset($_GET['error'])) {
                             if (isset($_SESSION["te_invitation_code"]) && !empty($_SESSION["te_invitation_code"]) && strlen($_SESSION["te_invitation_code"]) > 0) {
                                 UtilFunctions::incInvitationCodeCount($_SESSION["te_invitation_code"]);
                             }
+                            $_SESSION[MIXPANEL_LOGIN_FROM_SIGNUP]=true;
                             header("Location: " . HOSTNAME);
                         } else if ($type == 2) {
                             RegisterAnaliticsUtils::increasePageRegisterCount("getGoogleUser.php?signup=1");

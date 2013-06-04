@@ -67,15 +67,15 @@ if (array_key_exists("login", $_GET)) {
             <div class="create_acco_ust"><?=  LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_FORM_HEADER")?></div>
             <div class="create_acco_alt create_acco_alt_height">
                 <div class="account_sol_page" style="padding-top: 30px;">
-                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="analytics_createGoogleAccountButtonClicked();return openSocialLogin('gg');">
+                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="analytics_createGoogleAccountButtonClicked(function(){openSocialLogin('gg');});">
                         <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE")?></b>
                     </button>
 
-                    <button class="big-icon-f btn-sign-big fb facebook" onclick="analytics_createFacebookAccountButtonClicked();return openSocialLogin('fb');">
+                    <button class="big-icon-f btn-sign-big fb facebook" onclick="analytics_createFacebookAccountButtonClicked(function(){openSocialLogin('fb');})">
                         <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK")?></b>
                     </button>
 
-                    <button class="big-icon-t btn-sign-big tw twitter" onclick="analytics_createTwitterAccountButtonClicked();return openSocialLogin('tw');">
+                    <button class="big-icon-t btn-sign-big tw twitter" onclick="analytics_createTwitterAccountButtonClicked(function(){openSocialLogin('tw');})">
                         <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER")?></b>
                     </button>
 

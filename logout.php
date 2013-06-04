@@ -7,5 +7,5 @@ LanguageUtils::setLocale();
 
 SessionUtil::deleteLoggedinUser();
 session_destroy();
-header("location: " . HOSTNAME."?l=1");
+header("location: " . HOSTNAME);
 ?>

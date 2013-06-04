@@ -51,7 +51,7 @@ if (array_key_exists("te_username", $_POST)) {
         $upass = preg_replace('/\s+/', '', $upass);
 
         if (UtilFunctions::check_email_address($uname)) {
-             $user = UserUtils::loginEmail($uname, sha1($upass));
+            $user = UserUtils::loginEmail($uname, sha1($upass));
         } else {
             $user = UserUtils::login($uname, sha1($upass));
         }
@@ -63,8 +63,10 @@ if (array_key_exists("te_username", $_POST)) {
                 $rmb = true;
             }
             SessionUtil::storeLoggedinUser($user, $rmb);
+            $_SESSION[MIXPANEL_LOGIN_FIRST]=true;
             header("location: " . HOSTNAME);
         } else {
+            $param = false;
             $m = new HtmlMessage();
             $m->type = "s";
             $m->message = LanguageUtils::getText("LANG_PAGE_SIGNIN_USERNAME_OR_PASSWORD_WRONG");
@@ -161,19 +163,26 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
     <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
         <?php include('layout/layout_top_sign.php'); ?>
         <div class="register_bg"></div>
+        <!-- login mail button mixpanel -->
+        <?php if (isset($param) && empty($param)) { ?>
+            <script>
+                analytics_loginButtonClicked(false);
+            </script>
+        <?php } ?>
+        <!-- login mail button mixpanel -->
         <div id="create_account" class="create_account_outline">
             <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_HEADER") ?></div>
             <div class="create_acco_alt">
                 <div class="account_sol" style="padding-top: 21px;">
-                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="analytics_loginGoogleButtonClicked();return openSocialLogin('gg');">
+                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="analytics_loginGoogleButtonClicked(function(){openSocialLogin('gg');});">
                         <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE") ?></b>
                     </button>
 
-                    <button class="big-icon-f btn-sign-big fb facebook" onclick="analytics_loginFacebookButtonClicked();return openSocialLogin('fb');">
+                    <button class="big-icon-f btn-sign-big fb facebook" onclick="analytics_loginFacebookButtonClicked(function(){openSocialLogin('fb');});">
                         <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK") ?></b>
                     </button>
 
-                    <button class="big-icon-t btn-sign-big tw twitter" onclick="analytics_loginTwitterButtonClicked();return openSocialLogin('tw');">
+                    <button class="big-icon-t btn-sign-big tw twitter" onclick="analytics_loginTwitterButtonClicked(function(){openSocialLogin('tw');});">
                         <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER") ?></b>
                     </button>
                 </div>
@@ -240,7 +249,7 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
 
                             <input name="te_rememberme" id="te_rememberme"
                                    value="<?= $urmme ?>" type="hidden" />
-                            <button style="width: 79px !important;margin-left: 58px;" type="submit" onclick="analytics_loginButtonClicked();jQuery('.php_errors').remove();"
+                            <button style="width: 79px !important;margin-left: 58px;" type="submit" onclick="jQuery('.php_errors').remove();"
                                     class="reg_btn reg_btn_width" name="" value=""><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_LOGIN") ?></button>
                             <br /> <a href="forgotpassword.php"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS") ?></a> <br />
                             <div class="ts_box" style="font-size: 12px;">

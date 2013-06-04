@@ -1,5 +1,5 @@
 
-var mix_panel_prefix="qa01_";
+var mix_panel_prefix="qa03_";
 
 jQuery(document).ready(function(){
     analytics_setUserId();
@@ -55,37 +55,69 @@ function analytics_setProperty(name,value){
 /*
  * SIGN UP
  */
-function analytics_createAccountButtonClicked(){
+function analytics_createAccountButtonClicked(fn){
+    if(typeof(fn) == "undefined" || !fn || !jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"signup_createaccount_clicked");
+        mixpanel.track(mix_panel_prefix+"signup_createaccount_clicked",{
+            'createaccount_type':'normal'
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_createBussinessAccountButtonClicked(){
+function analytics_createBussinessAccountButtonClicked(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"signup_bussiness_createaccount_clicked");
+        mixpanel.track(mix_panel_prefix+"signup_createaccount_clicked",{
+            'createaccount_type':'bussiness'
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_createFacebookAccountButtonClicked(){
+function analytics_createFacebookAccountButtonClicked(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"signup_facebook_createaccount_clicked");
+        mixpanel.track(mix_panel_prefix+"signup_createaccount_clicked",{
+            'createaccount_type':'facebook'
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_createGoogleAccountButtonClicked(){
+function analytics_createGoogleAccountButtonClicked(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"signup_google_createaccount_clicked");
+        mixpanel.track(mix_panel_prefix+"signup_createaccount_clicked",{
+            'createaccount_type':'google'
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_createTwitterAccountButtonClicked(){
+function analytics_createTwitterAccountButtonClicked(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"signup_twitter_createaccount_clicked");
+        mixpanel.track(mix_panel_prefix+"signup_createaccount_clicked",{
+            'createaccount_type':'twitter'
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_postPersonalInfoForm(country,city,language){
+function analytics_postPersonalInfoForm(country,city,language,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
         if(typeof city == "undefined" || city == ""){
             city="0";
@@ -100,53 +132,104 @@ function analytics_postPersonalInfoForm(country,city,language){
             "country":country,
             "city":city,
             "language":language
-        });
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_postInterestsForm(interests){
+function analytics_postInterestsForm(interests,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
         if(typeof interests == "undefined" || interests==""){
             interests="[]";
         }
         mixpanel.track(mix_panel_prefix+"signup_interest_completed",{
             "interests":interests
-        });
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 /*
  * LOGIN
  */
 
-function analytics_loginButtonClicked(){
+function analytics_loginButtonClicked(success,fn){
+    if(typeof(success) == "undefined")
+        success="success";
+    else if(success)
+        success="success";
+    else
+        success="fail";
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"login_mail_clicked");
+        mixpanel.track(mix_panel_prefix+"login_clicked",{
+            'login_type':'mail',
+            'success':success
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_loginFacebookButtonClicked(){
+function analytics_loginFacebookButtonClicked(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"login_facebook_clicked");
+        mixpanel.track(mix_panel_prefix+"login_clicked",{
+            'login_type':'facebook',
+            'success':"0"
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_loginGoogleButtonClicked(){
+function analytics_loginGoogleButtonClicked(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"login_google_clicked");
+        mixpanel.track(mix_panel_prefix+"login_clicked",{
+            'login_type':'google',
+            'success':"0"
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
-function analytics_loginTwitterButtonClicked(){
+function analytics_loginTwitterButtonClicked(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined"){
-        mixpanel.track(mix_panel_prefix+"login_twitter_clicked");
+        mixpanel.track(mix_panel_prefix+"login_clicked",{
+            'login_type':'twitter',
+            'success':"0"
+        },fn);
+    }else{
+        fn.call(this);
     }
 }
 
+function analytics_loginFromSignup(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
+    if(typeof mixpanel != "undefined"){
+        mixpanel.track(mix_panel_prefix+"login_from_signup",{},fn);
+    }else{
+        fn.call(this);
+    }
+}
 
 /*
  * Event 
  */
-function analytics_openEventModal(event_id){
+function analytics_openEventModal(event_id,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     var trackPage=location.pathname + location.search + location.hash;
     if(typeof event_id == "undefined" || event_id == ""){
         event_id="0";
@@ -160,12 +243,16 @@ function analytics_openEventModal(event_id){
         mixpanel.track_pageview(trackPage); 
         mixpanel.track(mix_panel_prefix+"event_popup",{
             "eventId":event_id
-        });
+        },fn);
+    }else{
+        fn.call(this);
     }  
 }
 
 
-function analytics_shareEvent(event_id,type){
+function analytics_shareEvent(event_id,type,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof event_id == "undefined" || event_id == ""){
         event_id="0";
     }
@@ -177,11 +264,15 @@ function analytics_shareEvent(event_id,type){
         mixpanel.track(mix_panel_prefix+"event_shared",{
             "eventId":event_id,
             "socialType":type
-        });
-    }  
+        },fn);
+    } else{
+        fn.call(this);
+    }
 }
 
-function analytics_commentEvent(event_id){
+function analytics_commentEvent(event_id,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof event_id == "undefined" || event_id == ""){
         event_id="0";
     }
@@ -189,11 +280,13 @@ function analytics_commentEvent(event_id){
     {
         mixpanel.track(mix_panel_prefix+"event_commented",{
             "eventId":event_id
-        });
+        },fn);
     }  
 }
 
-function analytics_gotoEventUrl(event_id){
+function analytics_gotoEventUrl(event_id,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof event_id == "undefined" || event_id == ""){
         event_id="0";
     }
@@ -201,14 +294,18 @@ function analytics_gotoEventUrl(event_id){
     {
         mixpanel.track(mix_panel_prefix+"event_gotourl",{
             "eventId":event_id
-        });
-    }  
+        },fn);
+    } else{
+        fn.call(this);
+    } 
 }
 
 /*
  * EDIT EVENT
  */
-function analytics_openEditEvent(event_id){
+function analytics_openEditEvent(event_id,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof event_id == "undefined" || event_id == ""){
         event_id="0";
     }
@@ -216,11 +313,15 @@ function analytics_openEditEvent(event_id){
     {
         mixpanel.track(mix_panel_prefix+"edit_event_popup_clicked",{
             "eventId":event_id
-        });
-    }  
+        },fn);
+    } else{
+        fn.call(this);
+    } 
 }
 
-function analytics_editEvent(event_id,result){
+function analytics_editEvent(event_id,result,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof event_id == "undefined" || event_id == ""){
         event_id="0";
     }
@@ -233,8 +334,10 @@ function analytics_editEvent(event_id,result){
         mixpanel.track(mix_panel_prefix+"edit_event_close_popup",{
             "eventId":event_id,
             "result":result
-        });
-    }  
+        },fn);
+    } else{
+        fn.call(this);
+    }
 }
 
 /*
@@ -242,23 +345,33 @@ function analytics_editEvent(event_id,result){
  */
 
 
-function analytics_openCreateEvent(){
+function analytics_openCreateEvent(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined")
     {
         mixpanel.track_pageview("/createevent");
-        mixpanel.track(mix_panel_prefix+"create_event_popup");
-    }  
+        mixpanel.track(mix_panel_prefix+"create_event_popup",{},fn);
+    } else{
+        fn.call(this);
+    }
 }
 
-function analytics_closeCreateEvent(){
+function analytics_closeCreateEvent(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof mixpanel != "undefined")
     {
-        mixpanel.track(mix_panel_prefix+"create_event_close_popup");
-    }  
+        mixpanel.track(mix_panel_prefix+"create_event_close_popup",{},fn);
+    } else{
+        fn.call(this);
+    }
 }
 
 
-function analytics_addEvent(event_id,result){
+function analytics_addEvent(event_id,result,fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
     if(typeof result == "undefined" || result == "")
     {
         result="0";
@@ -271,6 +384,24 @@ function analytics_addEvent(event_id,result){
         mixpanel.track(mix_panel_prefix+"create_event_close_popup",{
             "eventId":event_id,
             "result":result
-        });
-    }  
+        },fn);
+    } else{
+        fn.call(this);
+    }
+}
+
+/*
+ * Logout
+ */
+
+function analytics_logout(fn){
+    if(typeof(fn) == "undefined"|| !fn || ! jQuery.isFunction( fn))
+        fn=function(){};
+    if(typeof mixpanel != "undefined")
+    {
+        mixpanel.track_pageview('/logout'); 
+        mixpanel.track(mix_panel_prefix+"user_logout",{},fn);
+    } else{
+        fn.call(this);
+    }
 }

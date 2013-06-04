@@ -191,15 +191,6 @@ if (isset($_GET['campaignId']) && !empty($_GET['campaignId'])) {
         <?php } ?>
         <!-- User fb info -->
 
-        <?php if (isset($_GET['l']) && $_GET['l'] == "1") {
-            ?>
-            <script>
-                jQuery(document).ready(function(){
-                    if(typeof(mixpanel) != "undefined")
-                        mixpanel.track_pageview('/logout'); 
-                });  
-            </script>
-        <?php } ?>
         <!-- Customize -->
         <?php include('layout/layout_customize_style.php'); ?>
         <!-- Customize -->

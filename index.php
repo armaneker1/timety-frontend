@@ -881,16 +881,7 @@ if (empty($user)) {
         <?php } ?>
 
 
-        <?php if (isset($_GET['l']) && $_GET['l'] == "1") {
-            ?>
-            <script>
-                jQuery(document).ready(function(){
-                    if(typeof(mixpanel) != "undefined")
-                        mixpanel.track_pageview('/logout'); 
-                });    
-            </script>
-        <?php } ?>
-
+        
 
         <?php
         $br = UtilFunctions::getBrowser();
@@ -948,6 +939,32 @@ if (empty($user)) {
         ?>
         <!-- register mixpnael -->
 
+        <!-- mixpanel login from signup -->
+        <?php 
+            if(isset( $_SESSION[MIXPANEL_LOGIN_FROM_SIGNUP])){
+                unset($_SESSION[MIXPANEL_LOGIN_FROM_SIGNUP]);
+                ?>
+            <script>
+                analytics_loginFromSignup();
+            </script>
+        <?php
+            }
+        ?>
+        <!-- mixpanel login from signup -->
+        
+         <!-- mixpanel login from login -->
+        <?php 
+            if(isset( $_SESSION[MIXPANEL_LOGIN_FIRST])){
+                unset($_SESSION[MIXPANEL_LOGIN_FIRST]);
+                ?>
+            <script>
+                analytics_loginButtonClicked(true);
+            </script>
+        <?php
+            }
+        ?>
+        <!-- mixpanel login from login -->
+        
         <?php include('layout/layout_top.php'); ?>
         <!-- Add Event -->
         <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>

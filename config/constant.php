@@ -50,6 +50,8 @@ define('MIXPANEL_CREATEEVENT_RESULT_EVENTID', 'mixpanel_create_event_result_even
 define('MIXPANEL_CREATEEVENT_RESULT', 'mixpanel_create_event_result');
 define('MIXPANEL_EDITEVENT_RESULT_EVENTID', 'mixpanel_edit_event_result_event_id');
 define('MIXPANEL_EDITEVENT_RESULT', 'mixpanel_edit_event_result');
+define('MIXPANEL_LOGIN_FROM_SIGNUP', 'mixpanel_login_from_signup');
+define('MIXPANEL_LOGIN_FIRST', 'mixpanel_login_first');
 
 //REDIS IP ADDRS
 define('REDIS_IP', SettingsUtil::getSetting(SETTINGS_REDIS_IP));

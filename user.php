@@ -318,15 +318,6 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
         <?php } ?>
         <!-- User fb info -->
 
-        <?php if (isset($_GET['l']) && $_GET['l'] == "1") {
-            ?>
-            <script>
-                jQuery(document).ready(function(){
-                    if(typeof(mixpanel) != 'undefined')
-                        mixpanel.track_pageview('/logout','/logout'); 
-                });  
-            </script>
-        <?php } ?>
         <!-- Customize -->
         <?php include('layout/layout_customize_style.php'); ?>
         <!-- Customize -->

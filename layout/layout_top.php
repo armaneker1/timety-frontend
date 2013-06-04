@@ -409,13 +409,13 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                                 <a id="following_top_menu_a" class="child" channelId="3" onclick="changeChannel(this)" href="#following" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_FOLLOWING") ?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child"  href="<?= PAGE_LIKES . "?edit" ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_ADD_INTEREST") ?></a>
+                                <a id="user_pages_like_a"  class="child"  href="<?= PAGE_LIKES . "?edit" ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_ADD_INTEREST") ?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child" href="<?= PAGE_UPDATE_PROFILE ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS") ?></a>
+                                <a id="user_update_profile_a"  class="child" href="<?= PAGE_UPDATE_PROFILE ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS") ?></a>
                             </li>
                             <li>
-                                <a id="logout_top_menu_a"  class="child" href="<?= PAGE_LOGOUT ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a>
+                                <a id="logout_top_menu_a"  class="child" style="cursor: pointer;" onclick="analytics_logout(function(){window.location='<?= PAGE_LOGOUT ?>';});" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a>
                             </li>
                         </ul>
                     </li>
