@@ -25,11 +25,11 @@ if (isset($_POST['userName'])) {
 
 if (!empty($userId)) {
     SessionUtil::storeLoggedinUser(UserUtils::getUserById($userId));
-    header("Location : " . HOSTNAME);
+    header("location: " . HOSTNAME);
     exit(1);
 } else {
     SessionUtil::storeLoggedinUser(UserUtils::getUserByUserName($userName));
-    header("Location : " . HOSTNAME);
+    header("location: " . HOSTNAME);
     exit(1);
 }
 ?>

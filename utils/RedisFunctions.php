@@ -206,11 +206,14 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUpcomingEventsForUser($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $city_channel = -1, $searchtagIds = null) {
+    public static function getUpcomingEventsForUser($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null,$end_date=null, $query = null, $city_channel = -1, $searchtagIds = null) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
             if (empty($date)) {
                 $date = time();
+            }
+            if (empty($end_date)) {
+                $end_date="+inf";
             }
             if (!empty($userId) && $userId > 0) {
                 $key = REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING;
@@ -260,10 +263,10 @@ class RedisUtils {
                     $redis->getProfile()->defineCommand('seacrhEventByTag', 'SeacrhEventByTag');
                     $events = $redis->seacrhEventByTag($key, $tagIds, $date, '');
                 } else {
-                    $events = $redis->zrangebyscore($key, $date, "+inf");
+                    $events = $redis->zrangebyscore($key, $date, $end_date);
                 }
             } else {
-                $events = $redis->zrangebyscore($key, $date, "+inf");
+                $events = $redis->zrangebyscore($key, $date, $end_date);
             }
             //$log->logInfo("RedisUtils > getUpcomingEvents > size " . sizeof($events));
             $result = "[";

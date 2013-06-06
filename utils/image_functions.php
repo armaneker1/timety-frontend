@@ -47,9 +47,9 @@ $thumb_width = "176";      // Width of thumbnail image
 $thumb_height = "176";      // Height of thumbnail image
 // Only one of these image types should be allowed for upload
 $allowed_image_types = array('image/pjpeg' => "jpg", 'image/jpeg' => "jpeg", 'image/jpg' => "jpg", 'image/png' => "png", 'image/x-png' => "png", 'image/gif' => "gif");
-$allowed_image_ext =array_unique($allowed_image_types); // Do not change this
-$allowed_image_ext_s= array("jpg", "jpeg",  "png", "gif","bmp");
-$allowed_image_type_s= array("image/jpg", "image/jpeg",  "image/png", "image/gif","image/bmp","image/pjpeg","image/x-png");
+$allowed_image_ext = array_unique($allowed_image_types); // Do not change this
+$allowed_image_ext_s = array("jpg", "jpeg", "png", "gif", "bmp");
+$allowed_image_type_s = array("image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp", "image/pjpeg", "image/x-png");
 $image_ext = "";
 foreach ($allowed_image_ext as $mime_type => $ext) {
     $image_ext.= strtoupper($ext) . " ";
@@ -139,7 +139,8 @@ function resizeThumbnailImage($thumb_image_name, $image, $width, $height, $start
             imagepng($newImage, $thumb_image_name);
             break;
     }
-    chmod($thumb_image_name, 0777);
+    if (file_exists($thumb_image_name))
+        chmod($thumb_image_name, 0777);
     return $thumb_image_name;
 }
 
@@ -161,8 +162,8 @@ function getWidth($image) {
 $large_image_location = $upload_path . $large_image_name;
 $thumb_image_location = $upload_path . $thumb_image_name;
 
-$large_image_path = HOSTNAME."uploads/" . $large_image_name;
-$thumb_image_path =  HOSTNAME."uploads/"  . $thumb_image_name;
+$large_image_path = HOSTNAME . "uploads/" . $large_image_name;
+$thumb_image_path = HOSTNAME . "uploads/" . $thumb_image_name;
 
 //Create the upload directory with the right permissions if it doesn't exist
 if (!is_dir($upload_dir)) {

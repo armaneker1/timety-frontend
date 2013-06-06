@@ -44,22 +44,28 @@ if (isset($_GET["city"])) {
 }
 
 
-$date = date(DATETIME_DB_FORMAT);
-if (isset($_POST['date'])) {
-    $date = $_POST['date'];
+$start_date = date(DATETIME_DB_FORMAT);
+if (isset($_POST['start_date'])) {
+    $start_date = $_POST['start_date'];
 }
-if (isset($_GET["date"])) {
-    $date = $_GET["date"];
+if (isset($_GET["start_date"])) {
+    $start_date = $_GET["start_date"];
+}
+
+$end_date = date(DATETIME_DB_FORMAT);
+if (isset($_POST['end_date'])) {
+    $end_date = $_POST['end_date'];
+}
+if (isset($_GET["end_date"])) {
+    $end_date = $_GET["end_date"];
 }
 
 $city = LocationUtils::getCityIdNotAdd($city);
 
-$dateCalc = false;
-if (empty($date) || substr($date, 0, 1) == "0") {
-    $dateCalc = true;
-    $date = strtotime("now");
+if (empty($start_date) || substr($start_date, 0, 1) == "0") {
+    $start_date = strtotime("now");
 } else {
-    $datestr = $date . ":00";
+    $datestr = $start_date . ":00";
     $datestr = date_parse_from_format(DATETIME_DB_FORMAT, $datestr);
     if (checkdate($datestr['month'], $datestr['day'], $datestr['year'])) {
         $result = $datestr['year'] . "-";
@@ -87,13 +93,51 @@ if (empty($date) || substr($date, 0, 1) == "0") {
             $result = $result . $datestr['minute'];
         }
         $result = $result . ":00";
-        $date = $result;
+        $start_date = $result;
     } else {
-        $dateCalc = true;
-        $date = date(DATE_FORMAT);
-        $date = $date . " 00:00:00";
+        $start_date = date(DATE_FORMAT);
+        $start_date = $start_date . " 00:00:00";
     }
-    $date = strtotime($date);
+    $start_date = strtotime($start_date);
+}
+
+if (empty($end_date) || substr($end_date, 0, 1) == "0") {
+    $end_date = strtotime("now");
+} else {
+    $datestr = $end_date . ":00";
+    $datestr = date_parse_from_format(DATETIME_DB_FORMAT, $datestr);
+    if (checkdate($datestr['month'], $datestr['day'], $datestr['year'])) {
+        $result = $datestr['year'] . "-";
+        if (strlen($datestr['month']) == 1) {
+            $result = $result . "0" . $datestr['month'] . "-";
+        } else {
+            $result = $result . $datestr['month'] . "-";
+        }
+        if (strlen($datestr['day']) == 1) {
+            $result = $result . "0" . $datestr['day'];
+        } else {
+            $result = $result . $datestr['day'];
+        }
+
+        $result = $result . " ";
+        if (strlen($datestr['hour']) == 1) {
+            $result = $result . "0" . $datestr['hour'];
+        } else {
+            $result = $result . $datestr['hour'];
+        }
+        $result = $result . ":";
+        if (strlen($datestr['minute']) == 1) {
+            $result = $result . "0" . $datestr['minute'];
+        } else {
+            $result = $result . $datestr['minute'];
+        }
+        $result = $result . ":00";
+        $end_date = $result;
+    } else {
+        $end_date = date(DATE_FORMAT);
+        $end_date = $end_date . " 00:00:00";
+    }
+    $end_date = strtotime($end_date);
 }
 
 if (!empty($uid)) {
@@ -101,10 +145,7 @@ if (!empty($uid)) {
         if ($pageItemCount <= 0) {
             $pageItemCount = 40;
         }
-        $recommended = RedisUtils::getUpcomingEventsForUser($uid, $pageNumber, $pageItemCount, $date,null, null, $city, null);
-        if (empty($recommended)) {
-            $recommended = RedisUtils::getUpcomingEvents($uid, $pageNumber, $pageItemCount, $date, null, $city, null);
-        }
+        $recommended = RedisUtils::getUpcomingEventsForUser($uid, $pageNumber, $pageItemCount, $start_date,$end_date, null, $city, null);
         $recommended = json_decode($recommended);
         $r = new stdClass();
         $r->success = 1;

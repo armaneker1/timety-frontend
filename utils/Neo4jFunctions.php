@@ -1059,7 +1059,7 @@ class Neo4jFuctions {
         } else if ($type == 9) {
             return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $query, $categoryId, $city_channel, $tagIds);
         } else {
-            $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date, $query, $city_channel, $tagIds);
+            $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date,null, $query, $city_channel, $tagIds);
             $check = false;
             if ($pageNumber == 0 || $pageNumber == "0") {
                 if ((empty($recommended) || strlen($recommended) < 3)) {

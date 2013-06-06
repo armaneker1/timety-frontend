@@ -12,6 +12,7 @@ require_once __DIR__ . '/TimeteUserSettings.class.php';
 require_once __DIR__ . '/TimeteVideos.class.php';
 require_once __DIR__ . '/TimeteSocialMedia.class.php';
 require_once __DIR__ . '/TimeteUserSocialprovider.class.php';
+require_once __DIR__ . '/TimeteUserDefaults.class.php';
 
 class User {
 
@@ -316,6 +317,7 @@ class Event {
             $this->has_video = $result['has_video'];
             $this->created_time = $result['created_time'];
             $this->last_changed = $result['last_changed'];
+            $this->facebook_id = $result['facebook_id'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -426,6 +428,7 @@ class Event {
         $this->has_video = $tmp->has_video;
         $this->created_time = $tmp->created_time;
         $this->last_changed = $tmp->last_changed;
+        $this->facebook_id = $tmp->facebook_id;
     }
 
     public function getRemainingTime($time_one = null) {
@@ -487,6 +490,7 @@ class Event {
     public $has_video;
     public $created_time;
     public $last_changed;
+    public $facebook_id;
     /*
      * Additional Data
      */

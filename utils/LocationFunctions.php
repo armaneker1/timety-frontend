@@ -166,12 +166,16 @@ class LocationUtils {
             try {
                 $data = file_get_contents(LOCATION_HOSTIP_API . $ip);
                 $data = json_decode($data);
-                $array = array();
-                $array[0] = $data->latitude;
-                $array[1] = $data->longitude;
-                $array['latitude'] = $data->latitude;
-                $array['longitude'] = $data->longitude;
-                return $array;
+                if (!empty($data)) {
+                    $array = array();
+                    $array[0] = $data->latitude;
+                    $array[1] = $data->longitude;
+                    $array['latitude'] = $data->latitude;
+                    $array['longitude'] = $data->longitude;
+                    return $array;
+                }else{
+                    error_log("Location cıldn't get ip is ".$ip);
+                }
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());
             }

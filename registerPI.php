@@ -244,89 +244,93 @@ if (isset($_POST['te_username'])) {
             for ($i = 0; $i < sizeof($socialProviders); $i++) {
                 $provider = $socialProviders[$i];
                 if ($provider->oauth_provider == FACEBOOK_TEXT) {
-                    $facebook = new Facebook(array(
-                                'appId' => FB_APP_ID,
-                                'secret' => FB_APP_SECRET,
-                                'cookie' => true
-                            ));
-                    $facebook->setAccessToken($provider->oauth_token);
-                    $fbUser = $facebook->api('/me');
-                    $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?width=200&height=200";
-                    $userProfilePicType = FACEBOOK_TEXT;
-                    $name = null;
-                    if (isset($fbUser['first_name'])) {
-                        $name = $fbUser['first_name'];
-                    }
-                    $lastname = null;
-                    if (isset($fbUser['last_name'])) {
-                        $lastname = $fbUser['last_name'];
-                    }
-                    $email = null;
-                    if (isset($fbUser['email'])) {
-                        $email = $fbUser['email'];
-                    }
-                    if (!empty($name) && !empty($lastname) && !empty($email)) {
-
-                        $email = preg_replace('/\s+/', '', $email);
-                        $email = strtolower($email);
-                        if (!UtilFunctions::check_email_address($email)) {
-                            $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_NOT_VALID_EMAIL");
-                            $param = false;
-                        } else if (!UserUtils::checkEmail($email)) {
-                            $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_EMAIL");
-                            $param = false;
+                    try {
+                        $facebook = new Facebook(array(
+                                    'appId' => FB_APP_ID,
+                                    'secret' => FB_APP_SECRET,
+                                    'cookie' => true
+                                ));
+                        $facebook->setAccessToken($provider->oauth_token);
+                        $fbUser = $facebook->api('/me');
+                        $userProfilePic = "http://graph.facebook.com/" . $fbUser['id'] . "/picture?width=200&height=200";
+                        $userProfilePicType = FACEBOOK_TEXT;
+                        $name = null;
+                        if (isset($fbUser['first_name'])) {
+                            $name = $fbUser['first_name'];
                         }
-                        if ($param) {
-                            try {
-                                $locs = LocationUtils::getGeoLocationFromIP();
-                                if (!empty($locs)) {
-                                    $location_cor_x = $locs[0];
-                                    $location_cor_y = $locs[1];
-                                    $lo = LocationUtils::getCityCountry($location_cor_x, $location_cor_y);
-                                    $location_country = $lo['country'];
-                                    $location_city = $lo['city'];
-                                    $location_city = LocationUtils::getCityId($location_city);
-                                    $lang = LanguageUtils::getBrowserLanguage();
+                        $lastname = null;
+                        if (isset($fbUser['last_name'])) {
+                            $lastname = $fbUser['last_name'];
+                        }
+                        $email = null;
+                        if (isset($fbUser['email'])) {
+                            $email = $fbUser['email'];
+                        }
+                        if (!empty($name) && !empty($lastname) && !empty($email)) {
 
-                                    if (!empty($lang) && !empty($location_city) && !empty($location_country)) {
-                                        $user->firstName = $name;
-                                        $user->lastName = $lastname;
-                                        $user->email = $email;
-                                        $user->status = 1;
-                                        $user->language = $lang;
-                                        UserUtils::updateUser($user->id, $user);
-                                        $user = UserUtils::getUserById($_SESSION['id']);
-                                        $user->location_country = $location_country;
-                                        $user->location_city = $location_city;
-                                        $user->location_all_json = "";
-                                        $user->location_cor_x = $location_cor_x;
-                                        $user->location_cor_y = $location_cor_y;
-                                        UserUtils::addUserLocation($user->id, $location_country, $location_city, "", $location_cor_x, $location_cor_y);
-                                        UserUtils::addUserInfoNeo4j($user);
-                                        UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType, FALSE);
-                                        /*
-                                         * check user is invited
-                                         */
-                                        $user = UserUtils::getUserById($user->id);
-                                        $tmpuser = UserUtils::checkInvitedEmail($email);
-                                        if (!empty($tmpuser)) {
-                                            $newUserId = UserUtils::moveUser($user->id, $tmpuser->id);
-                                            if (!empty($newUserId)) {
-                                                $user = UserUtils::getUserById($newUserId);
-                                                $_SESSION['id'] = $newUserId;
+                            $email = preg_replace('/\s+/', '', $email);
+                            $email = strtolower($email);
+                            if (!UtilFunctions::check_email_address($email)) {
+                                $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_NOT_VALID_EMAIL");
+                                $param = false;
+                            } else if (!UserUtils::checkEmail($email)) {
+                                $emailError = LanguageUtils::getText("LANG_PAGE_PI_ERROR_TAKEN_EMAIL");
+                                $param = false;
+                            }
+                            if ($param) {
+                                try {
+                                    $locs = LocationUtils::getGeoLocationFromIP();
+                                    if (!empty($locs)) {
+                                        $location_cor_x = $locs[0];
+                                        $location_cor_y = $locs[1];
+                                        $lo = LocationUtils::getCityCountry($location_cor_x, $location_cor_y);
+                                        $location_country = $lo['country'];
+                                        $location_city = $lo['city'];
+                                        $location_city = LocationUtils::getCityId($location_city);
+                                        $lang = LanguageUtils::getBrowserLanguage();
+
+                                        if (!empty($lang) && !empty($location_city) && !empty($location_country)) {
+                                            $user->firstName = $name;
+                                            $user->lastName = $lastname;
+                                            $user->email = $email;
+                                            $user->status = 1;
+                                            $user->language = $lang;
+                                            UserUtils::updateUser($user->id, $user);
+                                            $user = UserUtils::getUserById($_SESSION['id']);
+                                            $user->location_country = $location_country;
+                                            $user->location_city = $location_city;
+                                            $user->location_all_json = "";
+                                            $user->location_cor_x = $location_cor_x;
+                                            $user->location_cor_y = $location_cor_y;
+                                            UserUtils::addUserLocation($user->id, $location_country, $location_city, "", $location_cor_x, $location_cor_y);
+                                            UserUtils::addUserInfoNeo4j($user);
+                                            UserUtils::changeserProfilePic($user->id, $userProfilePic, $userProfilePicType, FALSE);
+                                            /*
+                                             * check user is invited
+                                             */
+                                            $user = UserUtils::getUserById($user->id);
+                                            $tmpuser = UserUtils::checkInvitedEmail($email);
+                                            if (!empty($tmpuser)) {
+                                                $newUserId = UserUtils::moveUser($user->id, $tmpuser->id);
+                                                if (!empty($newUserId)) {
+                                                    $user = UserUtils::getUserById($newUserId);
+                                                    $_SESSION['id'] = $newUserId;
+                                                }
                                             }
+                                            ElasticSearchUtils::insertUsertoSBI($user);
+                                            header('Location: ' . PAGE_LIKES);
+                                            exit(1);
                                         }
-                                        ElasticSearchUtils::insertUsertoSBI($user);
-                                        header('Location: ' . PAGE_LIKES);
-                                        exit(1);
                                     }
+                                } catch (Exception $exc) {
+                                    error_log($exc->getTraceAsString());
                                 }
-                            } catch (Exception $exc) {
-                                error_log($exc->getTraceAsString());
                             }
                         }
+                        $hometown = "";
+                    } catch (Exception $exc) {
+                        error_log($exc->getTraceAsString());
                     }
-                    $hometown = "";
                 } elseif ($provider->oauth_provider == TWITTER_TEXT) {
                     $twitteroauth = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $provider->oauth_token, $provider->oauth_token_secret);
                     $user_info = $twitteroauth->get('account/verify_credentials');

@@ -21,8 +21,8 @@ class EventUtil {
         $headerImage = $event->headerImage;
         $id = DBUtils::getNextId(CLM_EVENTID);
         $t = date(DATETIME_DB_FORMAT);
-        $SQL = "INSERT INTO " . TBL_EVENTS . " (id, title, location, description, startDateTime, endDateTime,reminderType,reminderUnit,reminderValue,privacy,allday,repeat_,addsocial_fb,addsocial_gg,addsocial_fq,addsocial_tw,reminderSent,attach_link,lat,lng,creator_id,loc_country,loc_city,worldwide,last_changed) " .
-                " VALUES (" . $id . ",\"" . DBUtils::mysql_escape($event->title) . "\",\"" . DBUtils::mysql_escape($event->location) . "\",\"" . DBUtils::mysql_escape($event->description) . "\",\"$event->startDateTime\",\"$event->endDateTime\",\"$event->reminderType\",\"$event->reminderUnit\",$event->reminderValue,$event->privacy,$event->allday,$event->repeat,$event->addsocial_fb,$event->addsocial_gg,$event->addsocial_fq,$event->addsocial_tw,$event->reminderSent,\"$event->attach_link\"," . DBUtils::mysql_escape($event->loc_lat, 1) . "," . DBUtils::mysql_escape($event->loc_lng, 1) . "," . DBUtils::mysql_escape($user->id, 1) . ",'$event->loc_country','$event->loc_city'," . DBUtils::mysql_escape($event->worldwide, 1) . ",'".$t."')";
+        $SQL = "INSERT INTO " . TBL_EVENTS . " (id, title, location, description, startDateTime, endDateTime,reminderType,reminderUnit,reminderValue,privacy,allday,repeat_,addsocial_fb,addsocial_gg,addsocial_fq,addsocial_tw,reminderSent,attach_link,lat,lng,creator_id,loc_country,loc_city,worldwide,last_changed,facebook_id) " .
+                " VALUES (" . $id . ",\"" . DBUtils::mysql_escape($event->title) . "\",\"" . DBUtils::mysql_escape($event->location) . "\",\"" . DBUtils::mysql_escape($event->description) . "\",\"$event->startDateTime\",\"$event->endDateTime\",\"$event->reminderType\",\"$event->reminderUnit\",$event->reminderValue,$event->privacy,$event->allday,$event->repeat,$event->addsocial_fb,$event->addsocial_gg,$event->addsocial_fq,$event->addsocial_tw,$event->reminderSent,\"$event->attach_link\"," . DBUtils::mysql_escape($event->loc_lat, 1) . "," . DBUtils::mysql_escape($event->loc_lng, 1) . "," . DBUtils::mysql_escape($user->id, 1) . ",'$event->loc_country','$event->loc_city'," . DBUtils::mysql_escape($event->worldwide, 1) . ",'" . $t . "','" . $event->facebook_id . "')";
         mysql_query($SQL);
         $event = EventUtil::getEventById($id);
         /*
@@ -104,7 +104,7 @@ class EventUtil {
         $headerImage = $event->headerImage;
         $id = $event->id;
         $t = date(DATETIME_DB_FORMAT);
-        $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1) . ",loc_country='$event->loc_country',loc_city='$event->loc_city',worldwide=" . DBUtils::mysql_escape($event->worldwide, 1) . ",last_changed='".$t."' WHERE id=" . $id;
+        $SQL = "UPDATE  " . TBL_EVENTS . " SET title=\"" . DBUtils::mysql_escape($event->title) . "\", location=\"" . DBUtils::mysql_escape($event->location) . "\", description=\"" . DBUtils::mysql_escape($event->description) . "\", startDateTime=\"$event->startDateTime\", endDateTime=\"$event->endDateTime\",reminderType=\"$event->reminderType\",reminderUnit=\"$event->reminderUnit\",reminderValue=$event->reminderValue,privacy=$event->privacy,allday=$event->allday,repeat_=$event->repeat,addsocial_fb=$event->addsocial_fb,addsocial_gg=$event->addsocial_gg,addsocial_fq=$event->addsocial_fq,addsocial_tw=$event->addsocial_tw,reminderSent=$event->reminderSent,attach_link=\"$event->attach_link\",lat=" . DBUtils::mysql_escape($event->loc_lat, 1) . ",lng=" . DBUtils::mysql_escape($event->loc_lng, 1) . ",loc_country='$event->loc_country',loc_city='$event->loc_city',worldwide=" . DBUtils::mysql_escape($event->worldwide, 1) . ",last_changed='" . $t . "',facebook_id='" . $event->facebook_id . "' WHERE id=" . $id;
         mysql_query($SQL);
         $event = EventUtil::getEventById($id);
         /*
@@ -256,6 +256,20 @@ class EventUtil {
         } else {
             return null;
         }
+    }
+
+    public static function getEventByFacebookId($fbId) {
+        if (!empty($fbId)) {
+            $SQL = "SELECT * FROM " . TBL_EVENTS . " WHERE facebook_id='" . $fbId . "'";
+            $query = mysql_query($SQL);
+            $result = mysql_fetch_array($query);
+            if (!empty($result)) {
+                $evt = new Event();
+                $evt->create($result);
+                return $evt;
+            }
+        }
+        return null;
     }
 
     public static function getEventWorldWide($id) {

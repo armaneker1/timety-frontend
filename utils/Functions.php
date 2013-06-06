@@ -49,6 +49,7 @@ require_once __DIR__ . '/EventKeyListFunction.php';
 require_once __DIR__ . '/XMLFunctions.php';
 require_once __DIR__ . '/LanguageFunctions.php';
 require_once __DIR__ . '/ElasticSearchFunctions.php';
+require_once __DIR__ . '/CreateEventFunctions.php';
 
 require_once __DIR__ . '/Neo4jFunctions.php';
 require_once __DIR__ . '/Neo4jTimetyCategoryFunctions.php';
