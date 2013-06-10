@@ -13,6 +13,7 @@ require_once __DIR__ . '/TimeteVideos.class.php';
 require_once __DIR__ . '/TimeteSocialMedia.class.php';
 require_once __DIR__ . '/TimeteUserSocialprovider.class.php';
 require_once __DIR__ . '/TimeteUserDefaults.class.php';
+require_once __DIR__ . '/TimeteFacebookEventFailReports.class.php';
 
 class User {
 
