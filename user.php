@@ -128,7 +128,11 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>
-        <script>oldUrl='<?=HOSTNAME.$user->userName?>';</script>
+        <?php if (!empty($user)) { ?>
+            <script>oldUrl='<?= HOSTNAME . $user->userName ?>';</script>
+        <?php } else { ?>
+            <script>oldUrl='<?= HOSTNAME ?>';</script>
+        <?php } ?>
         <?php
         if (!empty($p_user)) {
             $timety_header = $p_user->getFullName();
@@ -280,7 +284,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                            
             </script>
 
 
@@ -312,7 +316,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                            
             </script>
 
             <?php
@@ -490,10 +494,10 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                                     type="button" 
                                     name="" 
                                     value="" 
-                                    follow_id="<?=$fuId?>" 
+                                    follow_id="<?= $fuId ?>" 
                                     active_class="profile_follow_btn"
                                     passive_class="profile_followed_btn"
-                                    f_status="<?=$followStatus?>"
+                                    f_status="<?= $followStatus ?>"
                                     class="<?= $followClass ?>" 
                                     id="foll_profile_user" 
                                     onclick="followUser(<?= $tuId ?>,<?= $fuId ?>,this,true);">
