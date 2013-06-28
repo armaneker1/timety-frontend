@@ -1,7 +1,7 @@
 <?php
 
 ini_set('max_execution_time', 600);
-session_start();
+session_start();session_write_close();
 header("charset=utf8");
 
 

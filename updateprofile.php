@@ -399,6 +399,7 @@ if (isset($_POST['update'])) {
         include('layout/layout_header.php');
         ?>
 
+        <script>jQuery(document).ready( function(){layout_top_menu_redirect=true;})</script>
         <script src="<?= HOSTNAME ?>js/prototype.js?<?= JS_CONSTANT_PARAM ?>" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js?<?= JS_CONSTANT_PARAM ?>" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js?<?= JS_CONSTANT_PARAM ?>" type="text/javascript" charset="utf-8"></script>
@@ -774,15 +775,16 @@ if (isset($_POST['update'])) {
        
             });
         </script>
-        <meta property="og:title" content="Timety"/>
+        <meta property="og:title" content="<?=LanguageUtils::getText("LANG_PAGE_TITLE")?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="Timety"/>
+        <meta property="og:description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
+        <meta property="description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
         <?php include('layout/layout_top.php'); ?>
         <form id="per_update_info_form" action="" method="post" name="udateForm">
             <div class="profil_form">

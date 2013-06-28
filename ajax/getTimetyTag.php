@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+session_write_close();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
@@ -12,13 +13,13 @@ if (isset($_GET["term"]))
 $lang = null;
 if (isset($_GET["lang"]))
     $lang = $_GET["lang"];
- 
+
 
 try {
     $result = array();
     if (!empty($query)) {
         $array = array();
-        $array = Neo4jTimetyTagUtil::searchTags($query,$lang);
+        $array = Neo4jTimetyTagUtil::searchTags($query, $lang);
         if (!empty($array)) {
             $tag = new TimetyTag();
             for ($i = 0; $i < sizeof($array); $i++) {

@@ -164,7 +164,14 @@ class LocationUtils {
         if (isset($_SERVER['REMOTE_ADDR'])) {
             $ip = $_SERVER['REMOTE_ADDR'];
             try {
-                $data = file_get_contents(LOCATION_HOSTIP_API . $ip);
+                $opts = array('http' =>
+                    array(
+                        'method' => 'GET',
+                        'timeout' => 2
+                    )
+                );
+                $context = stream_context_create($opts);
+                $data = file_get_contents(LOCATION_HOSTIP_API . $ip, false,$context);
                 $data = json_decode($data);
                 if (!empty($data)) {
                     $array = array();
@@ -173,8 +180,8 @@ class LocationUtils {
                     $array['latitude'] = $data->latitude;
                     $array['longitude'] = $data->longitude;
                     return $array;
-                }else{
-                    error_log("Location cıldn't get ip is ".$ip);
+                } else {
+                    error_log("Location cıldn't get ip is " . $ip);
                 }
             } catch (Exception $exc) {
                 error_log($exc->getTraceAsString());

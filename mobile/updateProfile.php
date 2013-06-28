@@ -63,6 +63,9 @@ if (isset($_POST['about'])) {
 if (isset($_GET['about'])) {
     $about = $_GET['about'];
 }
+if (!empty($about)) {
+    $about = str_replace("%20", " ", $about);
+} 
 
 //gender
 $gender = "";
@@ -90,6 +93,9 @@ if (isset($_POST['website'])) {
 if (isset($_GET['website'])) {
     $website = $_GET['website'];
 }
+if (!empty($website)) {
+    $website = str_replace("%20", " ", $website);
+} 
 
 //image
 $image = null;

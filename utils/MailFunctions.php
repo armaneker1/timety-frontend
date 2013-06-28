@@ -7,77 +7,6 @@ require_once __DIR__ . '/../apis/Mail/Mandrill.php';
 require_once __DIR__ . '/../apis/Mail/ses.php';
 
 class MailUtil {
-
-    private static function sendTemplateEmail($templateName, $param, $subject, $to) {
-        if (!empty($param)) {
-            $param = '"global_merge_vars": [' . $param . '],';
-        } else {
-            $param = "";
-        }
-        $request_json = '{
-		"type":"messages",
-		"call":"send-template",
-		"key": "' . MANDRILL_API_KEY . '",
-		"template_name": "' . $templateName . '",
-		"template_content": [
-		{
-		"name": "fabelist",
-		"content": "Fabelist Mandrill"
-	}
-	],
-	"message": {
-	"subject": "' . $subject . '",
-	"from_email": "info@fabelist.com",
-	"from_name": "Fabelist",
-	"to": [
-	' . $to . '
-	],
-	' . $param . '
-	"track_opens": true,
-	"track_clicks": true,
-	"tags": [
-	"Fabelist"
-	]
-	}
-	}';
-        try {
-            $ret = Mandrill::call((array) json_decode($request_json));
-        } catch (Exception $e) {
-            throw($e);
-            return $e;
-        }
-        return $ret;
-    }
-
-    private static function sendEmail($html, $subject, $to) {
-        $html = str_replace("\"", "'", $html);
-        $subject = str_replace("\"", "'", $subject);
-        $param = "";
-        $request_json = '{
-		"type":"messages",
-		"call":"send",
-		"key": "' . MANDRILL_API_KEY . '",
-		"message": {
-		"html": "' . $html . '",
-		"subject": "' . $subject . '",
-		"from_email": "no-reply@timety.com",
-		"from_name": "Timety",
-		"to": [' . $to . '],
-		' . $param . '
-		"track_opens": true,
-		"track_clicks": true,
-		"tags": ["Timety"]
-	}
-	}';
-        try {
-            $ret = Mandrill::call((array) json_decode($request_json));
-        } catch (Exception $e) {
-            throw($e);
-            return $e;
-        }
-        return $ret;
-    }
-
     public static function sendSESMailFromFile($fileName, $params, $to, $subject) {
         $file = EMAIL_TEMPLATE_FOLDER . $fileName;
         if (file_exists($file)) {
@@ -117,10 +46,12 @@ class MailUtil {
                 $m->setMessageFromString(null, $template);
                 return $ses->sendEmail($m);
             } else {
-                throw new Exception(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_EMAIL_EMPTY"));
+                error_log(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_EMAIL_EMPTY"));
+                //throw new Exception(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_EMAIL_EMPTY"));
             }
         } else {
-            throw new Exception(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_FILE_NOT_FOUND"));
+            error_log(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_FILE_NOT_FOUND"));
+            //throw new Exception(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_FILE_NOT_FOUND"));
         }
         return false;
     }
@@ -155,7 +86,8 @@ class MailUtil {
             $m->setMessageFromString(null, $html);
             return $ses->sendEmail($m);
         } else {
-            throw new Exception(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_EMAIL_EMPTY"));
+             error_log(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_EMAIL_EMPTY"));
+            //throw new Exception(LanguageUtils::getText("LANG_UTILS_MAIL_ERROR_EMAIL_EMPTY"));
         }
         return false;
     }

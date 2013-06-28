@@ -3,6 +3,7 @@
 use ElasticSearch\Client;
 
 session_start();
+session_write_close();
 header("charset=utf8;");
 
 function loader($sClass) {

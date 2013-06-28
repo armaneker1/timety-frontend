@@ -1,179 +1,152 @@
-<div class="genel_detay_yeni" id="genel_detay_yeni" style="position: relative; display: none;padding-bottom: 45px;">
-    <div class="gdy_sol">
-        <h1 class="gdy_baslik" id="gdy_event_title">Event Title</h1>
-        <p class="gdy_metin"   id="gdy_event_description">Event Description</p>
-        <p class="gdy_zaman"  id="gdy_event_date">
-            <span class="gn">DD</span> 
-            <span class="ay">MM</span> 
-            <span class="yil">YYYY</span> 
-            <span class="hd_line">|</span> 
-            <span class="gn d_day">dddd</span>
-            <span class="">at</span> 
-            <span class="gn d_hour">HH:mm</span>
-        </p>
-        <p class="gdy_location"  id="gdy_event_location">Event Location</p>
-        <div class="gdy_resim">
-            <img id="big_image_header" src="<?= HOSTNAME ?>images/loader.gif" width="30" height="30" border="0" />
-            <iframe id="youtube_player" style="display: none;" type="text/html" width="" height="" frameborder="0" src="<?=HOSTNAME?>cache/index.html"></iframe>
+<div class="mainEventContainer" id="mainEventContainer" style="position: relative; display: none;padding-bottom: 45px;">
+    <div id="leftEventContainer" class="leftEventContainer">
+        <div id="headerImage" class="headerImage roundedCorner">
+            <img id="big_image_header" src="<?= HOSTNAME ?>images/loader.gif" width="30" height="30" border="0"/>
+            <iframe id="youtube_player" style="display: none;" type="text/html" width="" height="" frameborder="0" src="<?= HOSTNAME ?>cache/index.html"></iframe>
         </div>
-        <div class="gdy_bgln">
-            <div class="bgln_rsm">
-                <div class="gdy_creator_img gdy_bg_loader" id="image_creator" ></div>
+        <div id="eventDesc" class="eventDesc roundedCorner">
+            <div class="descText">
+                <p id="m_event_description">Event Description</p>
             </div>
-            <div class="bgln_user">
-                <h1 id="name_creator" class="name_creator">Event Creator</h1>
-                <h1 id="about_creator" class="about_creator"></h1>
-                <a  type="button" name="" value="" disabled="disabled" class="modal_follow_btn" id="foll_modal_creator" onclick="followUser(null,null,this,'modal_');">
-                    <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOW")?></span>
-                    <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOWING")?></span>
-                    <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_UNFOLLOW")?></span>
+            <div class="shareEvent"> 
+                <a id="fb_share_button" class="fbIcon rounded">Facebook</a>
+                <a id="tw_share_button" class="twIcon rounded">Twitter</a>
+                <a id="gg_share_button" class="gpIcon rounded">Google+</a>
+                <a class="mailIcon rounded" href="mailto:hi@timety.com?Subject="><?= LanguageUtils::getText("LANG_MAIL_TEXT") ?></a>
+            </div>
+        </div>
+        <div id="m_event_write_comment" class="eventComment roundedCorner">
+            <div>
+                <?php
+                $user_img = PAGE_GET_IMAGEURL . 'images/anonymous.png&h=45&w=45';
+                if (!empty($user)) {
+                    $user_img = PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . $user->getUserPic()."&h=45&h=45";
+                }
+                ?>
+                <a id="usr_comment_photo" class="profileImage" style="background-image: url('<?= $user_img ?>')">
                 </a>
             </div>
-
-
-            <!-- like and share -->
-            <div class="likeshare" style="float: right;right: 12px;" id="likeshare_modal_panel">
-                <!-- like button -->
-                <div id="div_like_btn_div_modal_panel" class="timelineLikes" style=""> 
-                    <a  id="div_like_btn_modal_panel" 
-                        data-toggle="tooltip" 
-                        data-placement="bottom" 
-                        title=""
-                        class="timelineButton like_btn"  
-                        class_aktif="like_btn_aktif" 
-                        class_pass="like_btn"      
-                        pressed="false"  
-                        onclick="return false;"></a>
-                </div>
-                <!-- like button -->
-
-
-                <!-- share button -->
-                <div id="div_share_btn_div_modal_panel" class="timelineLikes" style=""> 
-                    <a  id="div_share_btn_modal_panel" 
-                        data-toggle="tooltip" 
-                        data-placement="bottom" 
-                        title=""
-                        class="timelineButton share_btn"
-                        class_aktif="share_btn_aktif" 
-                        class_pass="share_btn"      
-                        pressed="false"  
-                        onclick="return false;"></a>
-                </div>
-                <!-- share button -->
-
-                <!-- maybe button -->
-                <div id="div_maybe_btn_div_modal_panel" class="timelineLikes" style=""> 
-                    <a  id="div_maybe_btn_modal_panel" 
-                        data-toggle="tooltip" 
-                        data-placement="bottom" 
-                        title=""
-                        class="timelineButton maybe_btn"  
-                        class_aktif="maybe_btn_aktif" 
-                        class_pass="maybe_btn"      
-                        pressed="false"  
-                        onclick="return false;"></a>
-                </div>
-                <!-- maybe button -->
-
-                <!-- join button -->
-                <div id="div_join_btn_div_modal_panel" class="timelineLikes" style=""> 
-                    <a  id="div_join_btn_modal_panel" 
-                        data-toggle="tooltip" 
-                        data-placement="bottom" 
-                        title=""
-                        class="timelineButton join_btn"
-                        class_aktif="join_btn_aktif" 
-                        class_pass="join_btn"      
-                        pressed="false"  
-                        onclick="return false;"></a>
-                </div>
-                <!-- join button -->
-
-                <!-- edit button -->
-                <div id="div_edit_btn_div_modal_panel" class="timelineLikes" style="float: right;margin-right: 9px;"> 
-                    <a  id="div_edit_btn_modal_panel" 
-                        data-toggle="tooltip" 
-                        data-placement="bottom" 
-                        title=""
-                        class="timelineButton edit_btn"  
-                        class_aktif="edit_btn_aktif" 
-                        class_pass="edit_btn" 
-                        onclick="return false;"></a>
+            <div class="textField">
+                <textarea id="sendComment" class="content" eventid="" placeholder="<?= LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_COMMENT_INPUT_PLACEHOLDER") ?>"></textarea>
+            </div>
+            <div>
+                <button class="submitComment" type="button" onclick="sendComment()"><?= LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_COMMENT_BUTTON") ?></button>
+            </div>
+        </div>
+        <div id="m_comment_template" class="eventUserComment roundedCorner" style="display: none">
+            <div>
+                <a id="m_comment_user_img" class="profileImage" style="background-image: url('<?= PAGE_GET_IMAGEURL ?>images/anonymous.png&h=23&w=23')"></a>
+                <a id="m_comment_user" style="cursor: pointer;">Comment User Name</a>
+                <a id="m_comment_time" style="float: right; margin-right: 17px;">Comment Time</a>
+                <div class="commentText">
+                    <p id="m_comment_text">Comment Text</p>
                 </div>
             </div>
-            <!-- like and share -->
-
-
-            <!--<button type="button" class="gdy_btn" id="button_reshare">Reshare</button>
-            <button type="button" class="gdy_btn" id="button_maybe">Maybe</button>
-            <button type="button" class="gdy_btn_mavi" id="button_join">
-                <img src="<?= HOSTNAME ?>images/ti.png" width="17" height="18" class="gdy_btn_res" />Join</button>
-            -->
         </div>
-    </div>
-    <div class="gdy_sag">
-        <div class="sosyal_btn">
-            <button id="fb_share_button" type="button" class="big-icon-f-share btn-sign-big-share fb facebook" ></button>
+    </div>    
+    <div id="rightEventContainer" class="rightEventContainer">
+        <div id="eventDetail" class="eventDetail roundedCorner">
+            <h1 id="m_event_title">Event Title</h1>
+            <div class="userImage" style="cursor: pointer;">
+                <img id="m_event_creator_img" src="<?= PAGE_GET_IMAGEURL ?>images/anonymous.png&h=24&w=24">
+            </div>
+            <h2 id="m_event_creator_name" style="display:inline-block;line-height: 22px; vertical-align: top;cursor: pointer;">Event Creator Name</h2>
+            <a  
+                type="button" 
+                name="" 
+                value="" 
+                follow_id=""
+                active_class="modal_follow_btn"
+                passive_class="modal_followed_btn"
+                f_status="follow"
+                class="modal_follow_btn" 
+                id="foll_modal_creator" 
+                onclick="followUser(null,null,this);">
+                <span class="follow_text"><?= LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOW") ?></span>
+                <span class="following_text"><?= LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_FOLLOWING") ?></span>
+                <span class="unfollow_text"><?= LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_UNFOLLOW") ?></span>
+            </a>
+            <div class="eventDateLocation">
+                <div class="eventDate"></div>
+                <h2 id="m_event_date" style="display: inline-block;padding-left: 20px;vertical-align: top;">Event Date</h2>
+                <div class="eventLocation" id="m_event_location_div">
+                    <div class="eventLocationIcon"></div>
+                    <h2 id="m_event_location" style="display: inline-block;padding-left: 40px;vertical-align: top;">Event Location</h2>
+                </div>
+            </div>
+            <div class="eventStat" id="m_event_stat">
+                <div class="eventWeather" id="m_event_weathear_div">
+                    <h2><?= LanguageUtils::getText("LANG_POPUP_WEATHER") ?></h2>
+                    <div class="eventWeatherIcon">
+                        <a><span id="m_event_weather">22</span><span id="m_event_weather_unit">°</span></a>
+                    </div>
+                </div>
+                <div class="eventPrice" id="m_event_price_div">
+                    <h2><?= LanguageUtils::getText("LANG_POPUP_TICKET") ?></h2>
+                    <div class="eventPriceIcon"><a style="padding-left: 19px;"><span id="m_event_price">22</span><span id="m_event_price_unit">$</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="joinLikeBtn">
+                <div class="editEvent" id="m_event_edit_btn">
+                    <a onclick="openEditEvent(null);return false;"><?= LanguageUtils::getText("LANG_SOCIAL_EDIT") ?></a>
+                </div>
+                <div 
+                    id="m_event_join_btn"
+                    class="joinMaybeEvent"
+                    eventid=""
+                    btntype="join"
+                    class_aktif="joinMaybeEvent_active" 
+                    class_pass="joinMaybeEvent"
+                    class_loader="social_button_loader"
+                    pressed="false">
+                    <a class="m_join"><?= LanguageUtils::getText("LANG_SOCIAL_JOIN") ?></a>
+                    <a class="m_joined"><?= LanguageUtils::getText("LANG_SOCIAL_JOINED") ?></a>
+                </div>
+                <div
+                    id="m_event_maybe_btn"
+                    class="joinMaybeEvent"
+                    eventid=""
+                    btntype="maybe"
+                    class_aktif="joinMaybeEvent_active" 
+                    class_pass="joinMaybeEvent"
+                    class_loader="social_button_loader"
+                    pressed="false">
+                    <a><?= LanguageUtils::getText("LANG_SOCIAL_MAYBE") ?></a>
+                </div>
+                <div class="wrapperlikeReshareEvent" style="margin-left: 4px;">
+                    <div 
+                        id="m_event_reshare_btn"
+                        class="reshareEvent"
+                        class_aktif="reshareEvent_active" 
+                        class_pass="reshareEvent"
+                        pressed="false"
+                        data-toggle="tooltip" 
+                        data-placement="bottom">
+                        <a class="reshareIcon"></a>
+                    </div>
+                    <div 
+                        id="m_event_like_btn"
+                        class="likeEvent"
+                        class_aktif="likeEvent_active" 
+                        class_pass="likeEvent"
+                        pressed="false"
+                        data-toggle="tooltip" 
+                        data-placement="bottom">
+                        <a class="likeIcon"></a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="sosyal_btn">
-            <button id="gg_share_button" type="button" class="big-icon-g-share btn-sign-big-share google"></button>
-        </div>
-        <div class="sosyal_btn">
-            <button id="tw_share_button" type="button"  class="big-icon-t-share btn-sign-big-share tw twitter"></button>
-        </div>
-    </div>
-    <div class="gdy_alt">
-        <div class="gdy_satir" id="gdy_images_div_container" style="display: none;">
-            <div class="gdy_alt_sol">
-                <img src="<?= HOSTNAME ?>images/rsm.png" width="27" height="24" align="middle" />
+        <div id="eventMap_div" class="eventMap roundedCorner" style="z-index: 10000;background: none;cursor: pointer;position: absolute;"></div>
+        <div id="eventMap" class="eventMap roundedCorner"></div>
+        <div id="m_event_all_attendees" class="eventAttendee roundedCorner">
+            <div class="joiningAttendee" id="m_event_attendees">
+                <p><?= LanguageUtils::getText("LANG_POPUP_JOINING") ?></p>
             </div>
-            <div class="gdy_alt_orta" id="gdy_images_div">
+            <div class="maybeAttendee" id="m_event_maybe_attendees" style="padding-top: 8px;">
+                <p><?= LanguageUtils::getText("LANG_POPUP_MAYBE") ?></p>
             </div>
-            <div class="gdy_alt_sag">
-                <p id="gdy_images_count">5</p>
-                <p><a href="#">
-                        <img src="<?= HOSTNAME ?>images/bendedok.png" width="12" height="13" border="0" />
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="gdy_satir" id="gdy_users_div_container">
-            <div class="gdy_alt_sol">
-                <img src="<?= HOSTNAME ?>images/klnc.png" width="22" height="20" align="middle" />
-                <span style="font-family: Arial, Helvetica, sans-serif;font-size: 11px;color: #959595;"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_JOINED_TEXT")?></span>
-            </div>
-            <div class="gdy_alt_orta" id="gdy_users_div">
-            </div>
-            <div class="gdy_alt_sag">
-                <p id="gdy_users_count">0</p>
-                <p><a href="#">
-                        <img src="<?= HOSTNAME ?>images/bendedok.png" width="12" height="13" border="0" />
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div id="write_comment" class="gdy_satir" style="display: none;">
-            <div class="gdy_alt_sol_yorum">
-                <img src="<?= HOSTNAME ?>images/yz.png" width="22" height="23" align="middle" style="margin-top: -20px;">
-            </div>
-            <div class="gdy_alt_orta_yorum gdy_alt_orta_yorum_bggri_sendbtn bggri">
-                <input name="" type="text" class="gdyorum" id="sendComment" eventid="" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_COMMENT_INPUT_PLACEHOLDER")?>">
-                <button class="gdy_send" type="button" onclick="sendComment()"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_COMMENT_BUTTON")?></button>
-            </div>
-        </div>
-        <div class="gdy_satir comment_classs" id="comment_template" style="display: none;">
-            <div class="gdy_alt_sol_yorum">
-                <div style="width:56px;height:31px;margin-top: -7px;" id="comment_user_img"></div>
-            </div>
-            <div class="gdy_alt_orta_yorum gdy_alt_orta_yorum_bggri bggri">
-                <h1 id="comment_user"></h1>
-                <p  id="comment_text"></p>
-            </div>
-        </div>
-
-        <div class="tumyorumlar" id="tumyorumlar" style="display: none">
-            <a href="#" id="tumyorumlar_text"><?=  LanguageUtils::getText("LANG_PAGE_EVENT_DETAIL_COMMENT_SEE_MORE")?></a>
-        </div>
+        </div>     
     </div>
 </div>

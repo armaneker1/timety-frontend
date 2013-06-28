@@ -2,6 +2,41 @@
 
 class EventUtil {
 
+    public static function removeEventById($id = null) {
+        if (empty($id)) {
+            return false;
+        }
+        //delete from redis
+        $tables = EventKeyListUtil::getEventKeyList($id);
+
+        if (!empty($tables) && sizeof($tables) > 0) {
+            $redis = new Predis\Client();
+            $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+            foreach ($tables as $key) {
+                $key_ = $key->getKey();
+                $redis->removeItemById($key_, $id);
+            }
+        }
+        EventKeyListUtil::deleteAllRecordForEvent($id);
+
+        //delete fromneo4j
+        try {
+            Neo4jEventUtils::removeEventById($id);
+        } catch (Exception $exc) {
+            error_log($exc->getTraceAsString());
+        }
+        //delete from mysql
+        $SQL = "DELETE  FROM " . TBL_EVENTS . " WHERE id=" . $id;
+        mysql_query($SQL);
+
+        $SQL = "DELETE  FROM " . TBL_COMMENT . " WHERE event_id=" . $id;
+        mysql_query($SQL);
+
+        $SQL = "DELETE  FROM " . TBL_IMAGES . " WHERE eventId=" . $id;
+        mysql_query($SQL);
+        return true;
+    }
+
     public static function createEvent(Event $event, $user) {
         if (!empty($event) && !empty($user)) {
             $eventDB = EventUtil::addEventToDB($event, $user);
@@ -366,7 +401,7 @@ class EventUtil {
                         }
                     }
                     if (!empty($log)) {
-                        if ($log->userId == $userId) {
+                        if (isset($log->userId) && $log->userId == $userId) {
                             $action = $log->action;
                             if ($action == REDIS_USER_INTERACTION_CREATED) {
                                 return LanguageUtils::getText("LANG_UTILS_EVENT_FUNCTIONS_ACTIVITY_CREATED");
@@ -377,7 +412,7 @@ class EventUtil {
                     for ($i = sizeof($event->userEventLog) - 1; $i >= 0; $i--) {
                         $log = $event->userEventLog[$i];
                         if (!empty($log)) {
-                            if ($log->userId == $userId) {
+                            if (isset($log->userId) && $log->userId == $userId) {
                                 $action = $log->action;
                                 break;
                             }

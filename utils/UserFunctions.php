@@ -349,8 +349,6 @@ class UserUtils {
                 $user->password = $user->getPassword();
             }
             $SQL = "UPDATE " . TBL_USERS . " set email='$user->email',userName='$user->userName',birthdate=$b,firstName='$user->firstName',lastName='$user->lastName',hometown='$user->hometown',status=$user->status,password='$user->password',confirm=$user->confirm,userPicture='$user->userPicture',invited=$user->invited,website='$user->website',about='" . DBUtils::mysql_escape($user->about) . "',gender=" . DBUtils::mysql_escape($user->gender, 1) . ",lang='$user->language',business_user=" . DBUtils::mysql_escape($user->business_user, 1) . ",business_name='" . DBUtils::mysql_escape($user->business_name) . "'  WHERE id = $uid";
-            //var_dump($SQL);
-            //error_log($SQL);
             mysql_query($SQL);
         }
     }

@@ -11,7 +11,7 @@ LanguageUtils::setLocale();
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
         <title><?=  LanguageUtils::getText("LANG_404_PAGE_TITLE")?></title>
     </head>
-    <body style="background-image: url('<?=HOSTNAME?>images/bg.png');font-family: 'helvetica neue',helvetica,arial,sans-serif;">
+    <body style="background-image: url('<?=HOSTNAME?>images/bg.png');font-family: 'helvetica neue',helvetica,arial,sans-serif;" itemscope="itemscope" itemtype="http://schema.org/WebPage">
 
         <table style="margin-left: auto;margin-right: auto;">
             <tr>

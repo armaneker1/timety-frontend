@@ -16,6 +16,8 @@ jQuery(document).ready( function() {
     jQuery('#searchText').keypress(function(e) {
         if(e.keyCode == 13) {  
             page_wookmark=0;
+            selectedEndDate=null;
+            selectedDate=null;
             isearching=true;
             wookmarkFiller(document.optionsWookmark, true,true);
             inputText.blur();
@@ -41,6 +43,8 @@ jQuery(document).ready( function() {
     //new 
     jQuery('#search_event_btn').click( function() {
         page_wookmark=0;
+        selectedEndDate=null;
+        selectedDate=null;
         isearching=true;
         wookmarkFiller(document.optionsWookmark, true,true);
         inputText.blur();
@@ -49,6 +53,8 @@ jQuery(document).ready( function() {
     //old
     jQuery('.searchbtn').click( function() {  
         page_wookmark=0;
+        selectedEndDate=null;
+        selectedDate=null;
         isearching=true;
         wookmarkFiller(document.optionsWookmark, true,true);
         inputText.blur();

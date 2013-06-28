@@ -40,7 +40,29 @@ function updateBadge(field,val,userPage) {
             console.log(exp);
         }
     }
-    
+}
+
+function updateEventBadge(field,eventId,val) {
+    if(eventId){
+        var element=null;
+        if(field==1) {
+            // like
+            element=jQuery(".iconHeart[eventid='"+eventId+"'] a");
+        } else if(field==2 ) {
+            // join
+            element=jQuery(".iconPeople[eventid='"+eventId+"'] a");
+        }
+        if(element){
+            try{
+                var v=jQuery(element).text();
+                v=parseInt(v)+parseInt(val);
+                jQuery(element).text(v);
+            }catch(exp)
+            {
+                console.log(exp);
+            }
+        }
+    }
 }
 
 function shareThisFacebook()
@@ -72,15 +94,45 @@ function setButtonStatus(button,status)
 {
     if(status)
     {
-        jQuery(button).removeClass(jQuery(button).attr("class_pass"));
-        jQuery(button).addClass(jQuery(button).attr("class_aktif"));
-        jQuery(button).attr('pressed','true');   
+        if(button.length>0){
+            jQuery.each(button, function(i, val) {
+                if(jQuery(val).attr("class_loader"))
+                    jQuery(val).removeClass(jQuery(val).attr("class_loader"));
+                jQuery(val).removeClass(jQuery(val).attr("class_pass"));
+                jQuery(val).addClass(jQuery(val).attr("class_aktif"));
+                jQuery(val).attr('pressed','true');   
+            });
+        }else{
+            if(jQuery(button).attr("class_loader"))
+                jQuery(button).removeClass(jQuery(button).attr("class_loader"));
+            jQuery(button).removeClass(jQuery(button).attr("class_pass"));
+            jQuery(button).addClass(jQuery(button).attr("class_aktif"));
+            jQuery(button).attr('pressed','true'); 
+        }
     }else
     {
-        jQuery(button).removeClass(jQuery(button).attr("class_aktif"));
-        jQuery(button).addClass(jQuery(button).attr("class_pass"));
-        jQuery(button).attr('pressed','false');
+        if(button.length>0){
+            jQuery.each(button, function(i, val) {
+                if(jQuery(val).attr("class_loader"))
+                    jQuery(val).removeClass(jQuery(val).attr("class_loader"));
+                jQuery(val).removeClass(jQuery(val).attr("class_aktif"));
+                jQuery(val).addClass(jQuery(val).attr("class_pass"));
+                jQuery(val).attr('pressed','false');
+            });
+        }else{
+            if(jQuery(button).attr("class_loader"))
+                jQuery(button).removeClass(jQuery(button).attr("class_loader"));
+            jQuery(button).removeClass(jQuery(button).attr("class_aktif"));
+            jQuery(button).addClass(jQuery(button).attr("class_pass"));
+            jQuery(button).attr('pressed','false'); 
+        }
     }
+}
+
+function setButtonStatusLoader(button)
+{
+    if(jQuery(button).attr("class_loader"))
+        jQuery(button).addClass(jQuery(button).attr("class_loader"));
 }
 
 function changeLocalData(eventId,type,value)
@@ -103,104 +155,96 @@ function changeLocalData(eventId,type,value)
 }
 
 
-function reshareEvent(button,eventId,secondButton)
+function reshareEvent(button,eventId)
 {
-    /*
-     * disable button
-     */
     jQuery.sessionphp.get('id',function(user___id){
         var userId = user___id;
-        jQuery(button).attr("disabled", "disabled");
         if(eventId && userId)
         {
-            if(jQuery(button).attr("pressed")=="true")
-            {
-                setButtonStatus(button,false);
-                setButtonStatus(secondButton,false);
-                // not pressed goto not reshare post
-                jQuery.ajax({
-                    type: 'POST',
-                    url: TIMETY_PAGE_AJAX_RESHARE_EVENT,
-                    data: {
-                        'eventId':eventId,
-                        'userId':userId,
-                        'revert':1
-                    },
-                    success: function(data){
-                        if(typeof data == "string")
-                        {
-                            data= jQuery.parseJSON(data);
+            var isDisabled=jQuery(button).data("disabled");
+            if(!isDisabled){
+                var reshareButtons=jQuery(".wrapperlikeReshareEvent div[class_pass='reshareEvent'][eventid='"+eventId+"']");
+                jQuery(reshareButtons).data("disabled",true);
+                if(jQuery(button).attr("pressed")=="true")
+                {
+                    setButtonStatus(reshareButtons,false);
+                    // not pressed goto not reshare post
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: TIMETY_PAGE_AJAX_RESHARE_EVENT,
+                        data: {
+                            'eventId':eventId,
+                            'userId':userId,
+                            'revert':1
+                        },
+                        success: function(data){
+                            if(typeof data == "string")
+                            {
+                                data= jQuery.parseJSON(data);
+                            }
+                            else
+                            {
+                                data=data;   
+                            }
+                            if(data.error) {
+                                getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
+                                setButtonStatus(reshareButtons,true);
+                            }else {
+                                updateBadge(2, -1);
+                                updateLocalEvent(userId, eventId, 'reshare', false);
+                                setTooltipButton(reshareButtons,getLanguageText("LANG_SOCIAL_RESHARE"));
+                                setButtonStatus(reshareButtons,false);
+                                changeLocalData(eventId,2,false);
+                            }
+                            jQuery(reshareButtons).data("disabled",false);
+                        },
+                        error : function(error_data){
+                            console.log(error_data);
+                            setButtonStatus(reshareButtons,true); 
+                            jQuery(reshareButtons).data("disabled",false);
                         }
-                        else
-                        {
-                            data=data;   
+                    },"json");
+                }else
+                {
+                    setButtonStatus(reshareButtons,true);
+                    // not pressed goto reshare post
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: TIMETY_PAGE_AJAX_RESHARE_EVENT,
+                        data: {
+                            'eventId':eventId,
+                            'userId':userId
+                        },
+                        success: function(data){
+                            if(typeof data == "string")
+                            {
+                                data= jQuery.parseJSON(data);
+                            }
+                            else
+                            {
+                                data=data;   
+                            }
+                            if(data.error) {
+                                getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
+                                setButtonStatus(reshareButtons,false);
+                            }else {
+                                updateBadge(2, 1);
+                                updateLocalEvent(userId, eventId, 'reshare', true);
+                                setTooltipButton(reshareButtons,null);
+                                changeLocalData(eventId,2,true);
+                                setButtonStatus(reshareButtons,true);
+                            }
+                            jQuery(reshareButtons).data("disabled",false);
+                        },
+                        error : function(error_data){
+                            console.log(error_data);
+                            setButtonStatus(reshareButtons,false);
+                            jQuery(reshareButtons).data("disabled",false);
                         }
-                        jQuery(button).removeAttr("disabled"); 
-                        if(data.error) {
-                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
-                            setButtonStatus(button,true);
-                            setButtonStatus(secondButton,true);
-                        }else {
-                            updateBadge(2, -1);
-                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_RESHARE"));
-                            setButtonStatus(button,false);
-                            setButtonStatus(secondButton,false);
-                            changeLocalData(eventId,2,false);
-                        }
-                    },
-                    error : function(error_data){
-                        console.log(error_data);
-                        setButtonStatus(button,true);
-                        setButtonStatus(secondButton,true);
-                        jQuery(button).removeAttr("disabled"); 
-                    }
-                },"json");
-            }else
-            {
-                setButtonStatus(button,true);
-                setButtonStatus(secondButton,true);
-                // not pressed goto reshare post
-                jQuery.ajax({
-                    type: 'POST',
-                    url: TIMETY_PAGE_AJAX_RESHARE_EVENT,
-                    data: {
-                        'eventId':eventId,
-                        'userId':userId
-                    },
-                    success: function(data){
-                        if(typeof data == "string")
-                        {
-                            data= jQuery.parseJSON(data);
-                        }
-                        else
-                        {
-                            data=data;   
-                        }
-                        jQuery(button).removeAttr("disabled"); 
-                        if(data.error) {
-                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
-                            setButtonStatus(button,false);
-                            setButtonStatus(secondButton,false);
-                        }else {
-                            updateBadge(2, 1);
-                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_REVERT"));
-                            //var msg='You reshared Event';
-                            //getInfo(true,msg,'info',4000);
-                            changeLocalData(eventId,2,true);
-                            setButtonStatus(button,true);
-                            setButtonStatus(secondButton,true);
-                        }
-                    },
-                    error : function(error_data){
-                        console.log(error_data);
-                        setButtonStatus(button,false);
-                        setButtonStatus(secondButton,false);
-                        jQuery(button).removeAttr("disabled"); 
-                    }
-                },"json");
+                    },"json");
+                }
             }
-        } else{
-            jQuery(button).removeAttr("disabled"); 
+        }else{
             window.location=TIMETY_PAGE_SIGNUP;
         }
     });
@@ -211,217 +255,243 @@ function reshareEvent(button,eventId,secondButton)
 
 function sendResponseEvent(button,eventId,type)
 {
-    var modal_maybe=jQuery("#div_maybe_btn_modal_panel");
-    var modal_join=jQuery("#div_join_btn_modal_panel");
+   
     /*
      * disable button
      */
     jQuery.sessionphp.get('id',function(user___id){
         var userId = user___id;
-        jQuery(button).attr("disabled", "disabled");
         if(eventId && userId)
         {
-            if(jQuery(button).attr("pressed")=="true")
-            {
-                type=5;
-                setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
-                setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
-                setButtonStatus(modal_join,false);
-                setButtonStatus(modal_maybe,false);
-            }else{
-                if(type==1){
-                    setButtonStatus(button,true);
-                    setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
-                    setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),true);
-                    setButtonStatus(modal_maybe,false);
-                }else if(type==2){
-                    setButtonStatus(button,true);
-                    setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
-                    setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),true);
-                    setButtonStatus(modal_join,false);
-                }else if(type==3){
+            var maybe_buttons=jQuery("div[btntype='maybe'][eventid='"+eventId+"']");
+            var joins_buttons=jQuery("div[btntype='join'][eventid='"+eventId+"']");
+            var isDisabled=jQuery(button).data("disabled");
+            if(!isDisabled){
+                jQuery(maybe_buttons).data("disabled", true);
+                jQuery(joins_buttons).data("disabled", true);
+                      
+                var maybe_pressed_before=jQuery(maybe_buttons).attr("pressed");
+                var maybe_visible_before=jQuery(maybe_buttons).is(":visible");
+                var join_pressed_before=jQuery(joins_buttons).attr("pressed");
+                var join_visible_before=jQuery(joins_buttons).is(":visible");
+                if(jQuery(button).attr("pressed")=="true")
+                {
+                    type=5;
                     setButtonStatus(button,false);
+                    //setButtonStatus(maybe_buttons,false);
+                    //jQuery(maybe_buttons).show();
+                    //setButtonStatus(joins_buttons,false);
+                    //jQuery(joins_buttons).show();
+                }else{
+                    if(type==1){
+                        //setButtonStatus(maybe_buttons,false);
+                        jQuery(maybe_buttons).hide();
+                        //setButtonStatus(joins_buttons,true);
+                        jQuery(joins_buttons).show();
+                    }else if(type==2){
+                        //setButtonStatus(maybe_buttons,true);
+                        jQuery(maybe_buttons).show();
+                        //setButtonStatus(joins_buttons,false);
+                        jQuery(joins_buttons).hide();
+                    }else if(type==3){
+                        //setButtonStatus(button,false);
+                    }
                 }
-            }
-            jQuery.ajax({
-                type: 'POST',
-                url: TIMETY_PAGE_AJAX_JOINEVENT,
-                data: {
-                    'eventId':eventId,
-                    'userId':userId,
-                    'type':type
-                },
-                success: function(data){
-                    if(typeof data == "string")
-                    {
-                        data= jQuery.parseJSON(data);
-                    }
-                    else
-                    {
-                        data=data;   
-                    }
-                    jQuery(button).removeAttr("disabled"); 
-                    if(data.error) {
-                        getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
-                    }else {
-                        if(type==0 || type==5)
+                setButtonStatusLoader(button);                
+                jQuery.ajax({
+                    type: 'POST',
+                    url: TIMETY_PAGE_AJAX_JOINEVENT,
+                    async:true,
+                    data: {
+                        'eventId':eventId,
+                        'userId':userId,
+                        'type':type
+                    },
+                    success: function(data){
+                        if(typeof data == "string")
                         {
-                            
-                            updateBadge(1, -1);
-                            //reject
-                            if(jQuery(button).attr("class_pass")=="join_btn"){
-                                setTooltipButton(button,getLanguageText("LANG_SOCIAL_JOIN"));
-                            }else{
-                                setTooltipButton(button,getLanguageText("LANG_SOCIAL_MAYBE"));
-                            }
-                            //setButtonStatus(button,false);
-                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
-                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
-                            setButtonStatus(modal_join,false);
-                            setButtonStatus(modal_maybe,false);
-                            removeFromMyTimety(eventId);
-                            changeLocalData(eventId,0,0);
-                        }else if(type==1)
-                        {
-                            updateBadge(1, 1);
-                            //join
-                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_DECLINE"));
-                            addToMyTimety(eventId,userId);
-                            setButtonStatus(button,true);
-                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),false);
-                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),true);
-                            setButtonStatus(modal_maybe,false);
-                            changeLocalData(eventId,0,1);
-                        }else if(type==2)
-                        {
-                            updateBadge(1, 1);
-                            //maybe
-                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_DECLINE"));
-                            addToMyTimety(eventId,userId);
-                            setButtonStatus(button,true);
-                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_join_btn"),false);
-                            setButtonStatus(jQuery("#div_img_event_"+eventId+" #div_maybe_btn"),true);
-                            setButtonStatus(modal_join,false);
-                            changeLocalData(eventId,0,2);
-                        }else if(type==3)
-                        {
-                            //ignore
-                            setButtonStatus(button,false);
-                            removeFromMyTimety(eventId);
+                            data= jQuery.parseJSON(data);
                         }
-                    //getInfo(true,msg,'info',4000);
+                        else
+                        {
+                            data=data;   
+                        }
+                        if(data.error) {
+                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
+                            if(maybe_pressed_before!=null)
+                                setButtonStatus(maybe_buttons,!maybe_pressed_before);
+                            if(maybe_visible_before)
+                                jQuery(maybe_buttons).show();
+                            else
+                                jQuery(maybe_buttons).hide();
+                        
+                            if(join_pressed_before!=null)
+                                setButtonStatus(joins_buttons,!join_pressed_before);
+                            if(join_visible_before)
+                                jQuery(joins_buttons).show();
+                            else
+                                jQuery(joins_buttons).hide();
+                        }else {
+                            if(type==0 || type==5)
+                            {
+                            
+                                updateBadge(1, -1);
+                                updateEventBadge(2,eventId,-1);
+                                updateLocalEvent(userId, eventId, 'joinType', 0);
+                                setButtonStatus(maybe_buttons,false);
+                                jQuery(maybe_buttons).show();
+                                setButtonStatus(joins_buttons,false);
+                                jQuery(joins_buttons).show();
+                                changeLocalData(eventId,0,0);
+                            }else if(type==1)
+                            {
+                                updateBadge(1, 1);
+                                updateEventBadge(2,eventId,1);
+                                updateLocalEvent(userId, eventId, 'joinType', 1);
+                                setButtonStatus(maybe_buttons,false);
+                                jQuery(maybe_buttons).hide();
+                                setButtonStatus(joins_buttons,true);
+                                jQuery(joins_buttons).show();
+                                changeLocalData(eventId,0,1);
+                            }else if(type==2)
+                            {
+                                updateBadge(1, 1);
+                                updateEventBadge(2,eventId,1);
+                                updateLocalEvent(userId, eventId, 'joinType', 2);
+                                setButtonStatus(maybe_buttons,true);
+                                jQuery(maybe_buttons).show();
+                                setButtonStatus(joins_buttons,false);
+                                jQuery(joins_buttons).hide();
+                                changeLocalData(eventId,0,2);
+                            }else if(type==3)
+                            {
+                                setButtonStatus(button,false);
+                                removeFromMyTimety(eventId);
+                            }
+                        }
+                        jQuery(maybe_buttons).data("disabled", false);
+                        jQuery(joins_buttons).data("disabled", false);
+                    },
+                    error : function(error_data){
+                        if(maybe_pressed_before!=null)
+                            setButtonStatus(maybe_buttons,!maybe_pressed_before);
+                        if(maybe_visible_before)
+                            jQuery(maybe_buttons).show();
+                        else
+                            jQuery(maybe_buttons).hide();
+                        
+                        if(join_pressed_before!=null)
+                            setButtonStatus(joins_buttons,!join_pressed_before);
+                        if(join_visible_before)
+                            jQuery(joins_buttons).show();
+                        else
+                            jQuery(joins_buttons).hide();
+                        console.log(error_data);
+                        jQuery(maybe_buttons).data("disabled", false);
+                        jQuery(joins_buttons).data("disabled", false);
                     }
-                },
-                error : function(error_data){
-                    console.log(error_data);
-                    jQuery(button).removeAttr("disabled"); 
-                }
-            },"json");
+                },"json");
+            }
         }else
         {
-            jQuery(button).removeAttr("disabled"); 
             window.location=TIMETY_PAGE_SIGNUP;
         }
     });
     return false;
 }
 
-function likeEvent(button,eventId,secondButton)
+function likeEvent(button,eventId)
 {
     /*
      * disable button
      */
     jQuery.sessionphp.get('id',function(user___id){
         var userId = user___id;
-        jQuery(button).attr("disabled", "disabled");
         if(eventId && userId)
         {
-            if(jQuery(button).attr("pressed")=="true")
-            {
-                setButtonStatus(button,false);
-                setButtonStatus(secondButton,false);
-                jQuery.ajax({
-                    type: 'POST',
-                    url: TIMETY_PAGE_AJAX_LIKE_EVENT,
-                    data: {
-                        'eventId':eventId,
-                        'userId':userId,
-                        'revert':1
-                    },
-                    success: function(data){
-                        if(typeof data == "string")
-                        {
-                            data= jQuery.parseJSON(data);
+            var likeButtons=jQuery(".wrapperlikeReshareEvent div[class_pass='likeEvent'][eventid='"+eventId+"']");
+            var isDisabled=jQuery(button).data("disabled");
+            if(!isDisabled){
+                jQuery(likeButtons).data("disabled",true);
+                if(jQuery(button).attr("pressed")=="true")
+                {
+                    setButtonStatus(likeButtons,false);
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: TIMETY_PAGE_AJAX_LIKE_EVENT,
+                        data: {
+                            'eventId':eventId,
+                            'userId':userId,
+                            'revert':1
+                        },
+                        success: function(data){
+                            if(typeof data == "string")
+                            {
+                                data= jQuery.parseJSON(data);
+                            }
+                            else
+                            {
+                                data=data;   
+                            }
+                            if(data.error) {
+                                getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
+                                setButtonStatus(likeButtons,true);
+                            }else {
+                                updateBadge(3, -1);
+                                updateEventBadge(1,eventId,-1);
+                                updateLocalEvent(userId, eventId, 'like', false);
+                                setTooltipButton(likeButtons,getLanguageText("LANG_SOCIAL_LIKE"));
+                                setButtonStatus(likeButtons,false);
+                                changeLocalData(eventId,1,false);
+                            }
+                            jQuery(likeButtons).data("disabled",false);
+                        },
+                        error : function(error_data){
+                            setButtonStatus(likeButtons,true);
+                            console.log(error_data);
+                            jQuery(likeButtons).data("disabled",false);
                         }
-                        else
-                        {
-                            data=data;   
+                    },"json");
+                }else{
+                    setButtonStatus(likeButtons,true);
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: TIMETY_PAGE_AJAX_LIKE_EVENT,
+                        data: {
+                            'eventId':eventId,
+                            'userId':userId
+                        },
+                        success: function(data){
+                            if(typeof data == "string")
+                            {
+                                data= jQuery.parseJSON(data);
+                            }
+                            else
+                            {
+                                data=data;   
+                            }
+                            if(data.error) {
+                                getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
+                                setButtonStatus(likeButtons,false);
+                            }else {
+                                updateBadge(3, 1);
+                                updateEventBadge(1,eventId,1);
+                                updateLocalEvent(userId, eventId, 'like', true);
+                                setTooltipButton(likeButtons,null);
+                                setButtonStatus(likeButtons,true);
+                                changeLocalData(eventId,1,true);
+                            }
+                            jQuery(likeButtons).data("disabled",false);
+                        },
+                        error : function(error_data){
+                            setButtonStatus(likeButtons,false);
+                            console.log(error_data);
+                            jQuery(likeButtons).data("disabled",false);
                         }
-                        jQuery(button).removeAttr("disabled"); 
-                        if(data.error) {
-                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
-                            setButtonStatus(button,true);
-                            setButtonStatus(secondButton,true);
-                        }else {
-                            updateBadge(3, -1);
-                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_LIKE"));
-                            //var msg='You unliked Event';
-                            //getInfo(true,msg,'info',4000);
-                            setButtonStatus(button,false);
-                            setButtonStatus(secondButton,false);
-                            changeLocalData(eventId,1,false);
-                        }
-                    },
-                    error : function(error_data){
-                        setButtonStatus(button,true);
-                        setButtonStatus(secondButton,true);
-                        console.log(error_data);
-                        jQuery(button).removeAttr("disabled"); 
-                    }
-                },"json");
-            }else{
-                setButtonStatus(button,true);
-                setButtonStatus(secondButton,true);
-                jQuery.ajax({
-                    type: 'POST',
-                    url: TIMETY_PAGE_AJAX_LIKE_EVENT,
-                    data: {
-                        'eventId':eventId,
-                        'userId':userId
-                    },
-                    success: function(data){
-                        if(typeof data == "string")
-                        {
-                            data= jQuery.parseJSON(data);
-                        }
-                        else
-                        {
-                            data=data;   
-                        }
-                        jQuery(button).removeAttr("disabled"); 
-                        if(data.error) {
-                            getInfo(true,getLanguageText("LANG_SOCIAL_SOMETHING_WENT_WRONG"),'error',4000);
-                            setButtonStatus(button,false);
-                            setButtonStatus(secondButton,false);
-                        }else {
-                            updateBadge(3, 1);
-                            setTooltipButton(button,getLanguageText("LANG_SOCIAL_UNLIKE"));
-                            //getInfo(true,msg,'info',4000);
-                            setButtonStatus(button,true);
-                            setButtonStatus(secondButton,true);
-                            changeLocalData(eventId,1,true);
-                        }
-                    },
-                    error : function(error_data){
-                        setButtonStatus(button,false);
-                        setButtonStatus(secondButton,false);
-                        console.log(error_data);
-                        jQuery(button).removeAttr("disabled"); 
-                    }
-                },"json");
+                    },"json");
+                }
             }
-        } else{
-            jQuery(button).removeAttr("disabled"); 
+        }else{
             window.location=TIMETY_PAGE_SIGNUP;
         }
     });

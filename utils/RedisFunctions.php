@@ -51,13 +51,16 @@ class RedisUtils {
         }
     }
 
-    public static function getCategoryEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $query = null, $categryId = -1, $city_id = -1, $searchtagIds = null) {
+    public static function getCategoryEvents($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $end_date = null, $query = null, $categryId = -1, $city_id = -1, $searchtagIds = null) {
         if ($userId == "*") {
             $userId = -1;
         }
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (empty($date)) {
             $date = time();
+        }
+        if (empty($end_date)) {
+            $end_date = "+inf";
         }
         $redis = new Predis\Client();
         $pgStart = $pageNumber * $pageItemCount;
@@ -81,7 +84,7 @@ class RedisUtils {
         }
         $events = array();
         if ($categryId < 0 || empty($categryId)) {
-            $events = $redis->zrangebyscore($key, $date, "+inf");
+            $events = $redis->zrangebyscore($key, $date, $end_date);
         } else {
             $lang = LANG_EN_US;
             try {
@@ -206,14 +209,14 @@ class RedisUtils {
         return $result;
     }
 
-    public static function getUpcomingEventsForUser($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null,$end_date=null, $query = null, $city_channel = -1, $searchtagIds = null) {
+    public static function getUpcomingEventsForUser($userId = -1, $pageNumber = 0, $pageItemCount = 50, $date = null, $end_date = null, $query = null, $city_channel = -1, $searchtagIds = null) {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         if (!empty($userId)) {
             if (empty($date)) {
                 $date = time();
             }
             if (empty($end_date)) {
-                $end_date="+inf";
+                $end_date = "+inf";
             }
             if (!empty($userId) && $userId > 0) {
                 $key = REDIS_PREFIX_USER . $userId . REDIS_SUFFIX_UPCOMING;
@@ -445,7 +448,7 @@ class RedisUtils {
         $ik = 0;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             $evt = json_decode($events[$i]);
-            if ($evt->privacy == "true") {
+            if ($evt->privacy == "true" || $evt->privacy == "1") {
                 if ($ik <= $pgEnd) {
                     $add = true;
                     if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
@@ -476,7 +479,7 @@ class RedisUtils {
             $ij = 0;
             for ($j = 0; !empty($events) && $j < sizeof($events); $j++) {
                 $evt = json_decode($events[$j]);
-                if ($evt->privacy == "true") {
+                if ($evt->privacy == "true" || $evt->privacy == "1") {
                     if (($ik + $ij) <= $pgEnd) {
                         $add = true;
                         if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
@@ -521,7 +524,7 @@ class RedisUtils {
         $userRelationEmpty->reshare = false;
         for ($i = 0; !empty($events) && $i < sizeof($events); $i++) {
             $evt = json_decode($events[$i]);
-            if ($evt->privacy == "true") {
+            if ($evt->privacy == "true" || $evt->privacy == "1") {
                 $add = true;
                 if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                     $add = false;
@@ -566,7 +569,7 @@ class RedisUtils {
             if ($ik <= $pgEnd) {
                 try {
                     $evt = json_decode($events[$i]);
-                    if ($evt->creatorId == $reqUserId && $evt->privacy == "true") {
+                    if ($evt->creatorId == $reqUserId && ($evt->privacy == "true" || $evt->privacy == "1")) {
                         $add = true;
                         if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
@@ -597,7 +600,7 @@ class RedisUtils {
                 if (($ik + $ij) <= $pgEnd) {
                     try {
                         $evt = json_decode($events[$j]);
-                        if ($evt->creatorId == $reqUserId && $evt->privacy == "true") {
+                        if ($evt->creatorId == $reqUserId && ($evt->privacy == "true" || $evt->privacy == "1")) {
                             $add = true;
                             if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
@@ -650,7 +653,7 @@ class RedisUtils {
                 try {
                     $evt = json_decode($events[$i]);
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
-                    if (($rel->like . "" == "true" || $rel->like) && $evt->privacy == "true") {
+                    if (($rel->like . "" == "true" || $rel->like) && ($evt->privacy == "true" || $evt->privacy == "1")) {
                         $add = true;
                         if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
@@ -682,7 +685,7 @@ class RedisUtils {
                     try {
                         $evt = json_decode($events[$j]);
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
-                        if (($rel->like . "" == "true" || $rel->like) && $evt->privacy == "true") {
+                        if (($rel->like . "" == "true" || $rel->like) && ($evt->privacy == "true" || $evt->privacy == "1")) {
                             $add = true;
                             if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
@@ -734,7 +737,7 @@ class RedisUtils {
                 try {
                     $evt = json_decode($events[$i]);
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
-                    if (($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) && $evt->privacy == "true") {
+                    if (($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) && ($evt->privacy == "true" || $evt->privacy == "1")) {
                         $add = true;
                         if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
@@ -766,7 +769,7 @@ class RedisUtils {
                     try {
                         $evt = json_decode($events[$j]);
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
-                        if (($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) && $evt->privacy == "true") {
+                        if (($rel->joinType == TYPE_JOIN_MAYBE || $rel->joinType == TYPE_JOIN_YES) && ($evt->privacy == "true" || $evt->privacy == "1")) {
                             $add = true;
                             if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
@@ -819,7 +822,7 @@ class RedisUtils {
                     $evt = json_decode($events[$i]);
 
                     $rel = RedisUtils::getUserRelation($evt->userRelation);
-                    if (($rel->reshare . "" == "true" || $rel->reshare) && $evt->privacy == "true") {
+                    if (($rel->reshare . "" == "true" || $rel->reshare) && ($evt->privacy == "true" || $evt->privacy == "1")) {
                         $add = true;
                         if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                             $add = false;
@@ -851,7 +854,7 @@ class RedisUtils {
                     try {
                         $evt = json_decode($events[$j]);
                         $rel = RedisUtils::getUserRelation($evt->userRelation);
-                        if (($rel->reshare . "" == "true" || $rel->reshare) && $evt->privacy == "true") {
+                        if (($rel->reshare . "" == "true" || $rel->reshare) && ($evt->privacy == "true" || $evt->privacy == "1")) {
                             $add = true;
                             if (UtilFunctions::findString($evt, $query, false, $tagIds)) {
                                 $add = false;
@@ -1446,7 +1449,10 @@ class RedisUtils {
         if (empty($array)) {
             $array = array();
         }
-        if (!is_array($array)) {
+
+        if (is_object($array)) {
+            array_push($result, $array);
+        } else if (!is_array($array)) {
             $array = json_decode($array);
         } else {
             //error_log("Not Array 1:'" . json_encode($array) . "'");

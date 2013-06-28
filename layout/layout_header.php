@@ -1,4 +1,5 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
 <?php
 if (!isset($timety_header)) {
@@ -76,6 +77,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/jquery.wookmark.js?<?=JS_CONSTANT_PARAM?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.js?<?=JS_CONSTANT_PARAM?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.js?<?=JS_CONSTANT_PARAM?>"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/userEvents.js?<?=JS_CONSTANT_PARAM?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.js?<?=JS_CONSTANT_PARAM?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.js?<?=JS_CONSTANT_PARAM?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/mediapopup.js?<?= JS_CONSTANT_PARAM ?>"></script>

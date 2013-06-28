@@ -128,7 +128,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>
-
+        <script>oldUrl='<?=HOSTNAME.$user->userName?>';</script>
         <?php
         if (!empty($p_user)) {
             $timety_header = $p_user->getFullName();
@@ -148,17 +148,32 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                 popup_userName='<?= $p_user->userName ?>';
             </script>
         <?php } ?>
-
+        <script>jQuery(document).ready( function(){layout_top_menu_redirect=true;})</script>
         <script language="javascript">
             var handler = null;
             wookmark_channel=4;
-            selectedUser=<?= $p_user_id ?>;  					
+            selectedUser=<?= $p_user_id ?>;  
+            jQuery(document).ready(function(){
+                function resizeSlide()
+                {
+                    var fullWidth=jQuery("#top_blm").width()-100;
+                    var width=Math.floor(fullWidth/262)*262;
+                    var left=(fullWidth-width)/2;
+                    jQuery("#main_message").css("width",(width-40)+"px");
+                    if(left>0){
+                        jQuery(".main_sol").css("margin-left",left+"px");
+                    }
+                    jQuery(".main_sol").css("width",width+"px");
+                }
+                jQuery(window).resize(resizeSlide);   
+                jQuery('document').ready(resizeSlide);
+            });
             jQuery(document).ready(function(){   
                 var optionsWookmark = {
                     autoResize: true, // This will auto-update the layout when the browser window is resized.
                     container: jQuery(".main_event"), // Optional, used for some extra CSS styling
-                    offset: 10, // Optional, the distance between grid items
-                    itemWidth: 200 // Optional, the width of a grid item
+                    offset: 26, // Optional, the distance between grid items
+                    itemWidth: 236 // Optional, the width of a grid item
                 };
                     
                 document.optionsWookmark = optionsWookmark;
@@ -181,6 +196,13 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                 jQuery(document).bind('scroll', onScroll);
             });
         </script>
+        <?php
+        if ($is_media) {
+            ?>
+            <script>wookmark_channel=14;</script>
+            <?php
+        }
+        ?>
 
         <!--Placeholder-->
         <script>
@@ -258,7 +280,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                        
             </script>
 
 
@@ -290,7 +312,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                        
             </script>
 
             <?php
@@ -307,11 +329,12 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
             <?php
         } else {
             ?>
-            <meta property="og:title" content="Timety"/>
+            <meta property="og:title" content="<?= LanguageUtils::getText("LANG_PAGE_TITLE") ?>"/>
             <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
-            <meta property="og:description" content="Timety"/>
+            <meta property="og:description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
+            <meta property="description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
             <meta property="og:url" content="<?= HOSTNAME ?>"/>
             <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
 
@@ -322,7 +345,50 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
         <?php include('layout/layout_customize_style.php'); ?>
         <!-- Customize -->
     </head>
-    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+        <?php
+        if (!empty($prm_event)) {
+            $hdr_img = HOSTNAME . "images/timety.png";
+            if (!empty($prm_event->headerImage)) {
+                $hdr_img = HOSTNAME . $prm_event->headerImage->url;
+            }
+            $crt = $prm_event->creator;
+            $crt = UtilFunctions::cast("User", $crt);
+            ?>
+            <div itemscope="itemscope" itemtype="http://schema.org/Event" class="microdata_css">
+                <meta itemprop="image" content="<?= $hdr_img ?>">
+                <meta itemprop="name" content="<?= $prm_event->title ?>">
+                <meta itemprop="description" content="<?= $prm_event->description ?>">
+                <meta itemprop="startDate" content="<?= date("Y-m-d\TH:i", $prm_event->startDateTimeLong) ?>">
+                <meta itemprop="enddate" content="<?= date("Y-m-d\TH:i", $prm_event->endDateTimeLong) ?>">
+                <div itemprop="performer" itemscope="itemscope" itemtype="http://schema.org/Person" class="microdata_css">
+                    <span itemprop="name"><?= $crt->getFullName() ?></span>
+                    <a href="<?= HOSTNAME . $crt->userName ?>" itemprop="url"><?= $crt->getFullName() ?></a>
+                </div>
+                <div itemprop="location" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness" class="microdata_css">
+                    <span itemprop="name"><?= $prm_event->location ?></span>
+                    <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                        <meta itemprop="latitude" content="<?= $prm_event->loc_lat ?>" />
+                        <meta itemprop="longitude" content="<?= $prm_event->loc_lng ?>" />
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+
+        <?php
+        if (!empty($p_user)) {
+            $p_user_img = $p_user->getUserPic();
+            ?>
+            <div itemscope="itemscope" itemtype="http://schema.org/Person" class="microdata_css">
+                <meta itemprop="image" content="<?= $p_user_img ?>">
+                <meta itemprop="name" content="<?= $p_user->getFullName() ?>">
+                <meta itemprop="description" content="<?= $p_user->about ?>">
+                <meta itemprop="url" content="<?= HOSTNAME . $p_user->userName ?>">
+                <meta itemprop="birthDate" content="<?= $p_user->birthdate ?>">
+            </div>
+        <?php } ?>
+
+
         <?php $page_id = "user"; ?>
         <?php include('layout/layout_top.php'); ?>
 
@@ -347,150 +413,32 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                 analytics_setProperty("campaignId", '0'); 
             },300);
         </script>
-        <div class="main_sol" style="width:91%;">
+        <div class="main_sol">
             <?php
-            $hideBar = true;
-            if (!empty($p_user)) {
-                $settings = UserSettingsUtil::getUserSettings($p_user->id);
-                if (!empty($settings)) {
-                    if ($settings->getBannerActive() == 1) {
-                        $hideBar = false;
-                    }
-                }
+            $message_class = "main_message";
+            if (empty($user)) {
+                $message_class = "main_message_login";
             }
             ?>
-            <div style="height: 20px;<?php
-            if (!$hideBar) {
-                echo "display:none;";
-            }
-            ?>"></div>
-            <div class="ust_blm" style="<?php
-                 if ($hideBar) {
-                     echo "display:none;";
-                 }
-            ?>">
-                <div class="trh_gn">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                        <tr style="display: none;">
-                            <td width="180" valign="middle"><span class="gn"><?= strftime('%d') ?></span> <span
-                                    class="ay"> <?= strtoupper(strftime('%b')) ?></span> <span class="yil"><?= strftime('%Y') ?></span> <span
-                                    class="hd_line">|</span> <span class="gn"><?= strtoupper(strftime('%A')) ?></span>
-                            </td>
-                            <td align="left" valign="middle" class="u_line" width="100%"><input
-                                    type="button" class="gn_btn" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">
-                                <div id="slides" style="overflow: hidden;max-height: 120px;display: none;">
-                                    <div id="slides_container">
-                                        <?php if (empty($user)) { ?>
-                                            <div class="slide_item" id="create_event_empty">
-                                                <div class="akt_tkvm">
-                                                    <a href="<?= HOSTNAME ?>login"  class="add_event_link"><?= LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT") ?></a>
-                                                </div>
-                                            </div>
-                                            <?php
-                                        } else {
-                                            $userId = -1;
-                                            if (!empty($user)) {
-                                                $userId = $user->id;
-                                            }
-                                            $events = RedisUtils::getTodayEvents($userId);
-                                            $events = json_decode($events);
-                                            if (empty($events)) {
-                                                ?>
-                                                <div class="slide_item" id="create_event_empty">
-                                                    <div class="akt_tkvm">
-                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link"><?= LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT") ?></a>
-                                                    </div>
-                                                </div>
-
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <div class="slide_item" id="create_event_empty" style="display: none">
-                                                    <div class="akt_tkvm">
-                                                        <a href="#" onclick="window.location=TIMETY_HOSTNAME+'#addevent';"  class="add_event_link"><?= LanguageUtils::getText("LANG_PAGE_USERS_CLICK_HERE_ADD_EVENT") ?></a>
-                                                    </div>
-                                                </div>
-
-                                                <?php
-                                                for ($i = 0; $i < sizeof($events); $i++) {
-                                                    $evt = $events[$i];
-                                                    $evt = UtilFunctions::cast("Event", $evt);
-                                                    $evtDesc = $evt->description;
-                                                    if (strlen($evtDesc) > 55) {
-                                                        $evtDesc = substr($evtDesc, 0, 55) . "...";
-                                                    }
-                                                    ?>   
-                                                    <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
-                                                        <h1><?= $evt->title ?></h1>
-                                                        <p><?= LanguageUtils::getText("LANG_PAGE_USERS_MY_TIMETY_TODAY") ?> @<span class="date_timezone"><?php
-                                        $dt = strtotime($evt->startDateTime);
-                                        echo date('H:i', $dt);
-                                                    ?></span></p>
-                                                       <!-- <p><?= $evtDesc ?></p> -->
-                                                        <script>
-                                                            var tmpDataJSON='<?php
-                                                    $json_response = UtilFunctions::json_encode($evt);
-                                                    echo $json_response;
-                                                    ?>';
-                                                        tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                        var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                        localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
-                                                        </script>
-                                                    </div>
-                                                    <?php
-                                                }
-                                            }
-                                        }
-                                        ?>
-
-                                    </div>
-                                    <script>
-                                        jQuery(document).ready(function(){
-                                            jQuery.each(jQuery(".date_timezone"),function(){
-                                                var text=jQuery(this).text();
-                                                if(text){
-                                                    try{
-                                                        jQuery(this).text( getLocalTime(moment().format("YYYY-MM-DD")+" "+text).format('HH:mm'));
-                                                    }catch(exp){
-                                                        console.log(exp);
-                                                    }
-                                                }
-                                            });
-                                        });
-                                        
-                                        var slide_handler;
-                                        function resizeSlide()
-                                        {
-                                            var fullWidth=jQuery(".main_event").width();
-                                            var width=Math.floor(fullWidth/209)*209-2;
-                                            var left=(fullWidth-width)/2+25;
-                                            jQuery(".main_sol").css("margin-left",left+"px");
-                                            jQuery("#slides").width(width);
-                                            jQuery(".ust_blm").width(jQuery(window).width()-left-150);
-                                            if(slide_handler) slide_handler.lemmonSlider('destroy');
-                                            slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
-                                        }
-                                        jQuery(window).resize(resizeSlide);   
-                                        jQuery('document').ready(resizeSlide);
-                                                
-                                    </script>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php include('layout/layout_mytimety_menu.php'); ?>
-                    </table>
-                </div>
+            <div id="main_message" class="<?= $message_class ?>" >
+                <center><a><?= LanguageUtils::getText("LANG_PAGE_TOP_NO_USER_HEADER_TEXT") ?></a></center>
             </div>
+            <?php if (empty($user)) { ?>
+                <script>
+                    jQuery(document).ready(function(){
+                        jQuery("#main_message").click(function(){
+                            window.location=TIMETY_PAGE_SIGNUP;
+                        });
+                    });
+                </script>
+            <?php } ?>
             <div class="main_event">
                 <!-- profil box -->
                 <script>
                     reqUserPic='<?= $p_user->getUserPic() ?>';
                     reqUserFullName='<?= $p_user->getFullName() ?>';
                     reqUserUserName='<?= $p_user->userName ?>';
+                    reqUserUserIsVerfied='<?= $p_user->type ?>';
                 </script>
                 <?php if (!empty($p_user) && !empty($p_user->id)) { ?>
                     <div class="profil_box main_event_box">
@@ -531,14 +479,24 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                                 }
                             }
                             $followClass = "profile_follow_btn";
-                            $followJS = "followUser";
+                            $followStatus = "follow";
                             if ($isFollow) {
                                 $followClass = "profile_followed_btn";
-                                $followJS = "unfollowUser";
+                                $followStatus = "followed";
                             }
                             ?>
                             <div class="profil_user profil_user_follow">
-                                <a  type="button" name="" value="" class="<?= $followClass ?>" id="foll_profile_user" onclick="<?= $followJS ?>(<?= $tuId ?>,<?= $fuId ?>,this,'profile_',true);">
+                                <a  
+                                    type="button" 
+                                    name="" 
+                                    value="" 
+                                    follow_id="<?=$fuId?>" 
+                                    active_class="profile_follow_btn"
+                                    passive_class="profile_followed_btn"
+                                    f_status="<?=$followStatus?>"
+                                    class="<?= $followClass ?>" 
+                                    id="foll_profile_user" 
+                                    onclick="followUser(<?= $tuId ?>,<?= $fuId ?>,this,true);">
                                     <span class="follow_text"><?= LanguageUtils::getText("LANG_PAGE_USERS_FOLLOW") ?></span>
                                     <span class="following_text"><?= LanguageUtils::getText("LANG_PAGE_USERS_FOLLOWING") ?></span>
                                     <span class="unfollow_text"><?= LanguageUtils::getText("LANG_PAGE_USERS_UNFOLLOW") ?></span>
@@ -559,6 +517,8 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                                 function changeChannelProfile(channel){
                                     jQuery("#searchText").val("");
                                     page_wookmark=0;
+                                    selectedEndDate=null;
+                                    selectedDate=null;
                                     wookmark_channel=channel;
                                     jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
                                     jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
@@ -584,299 +544,284 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                         foreach ($main_pages_events as $main_event) {
                             $main_event = UtilFunctions::cast("Event", $main_event);
                             if (!empty($main_event) && !empty($main_event->id)) {
-                                if (!empty($main_event->ad) && $main_event->ad) {
-                                    ?>
+                                $width = null;
+                                $height = null;
+                                if (!empty($main_event->headerImage)) {
+                                    $width = $main_event->headerImage->width;
+                                }
+                                if (empty($width)) {
+                                    $width = TIMETY_MAIN_IMAGE_DEFAULT_WIDTH;
+                                }
+                                if (!empty($main_event->headerImage)) {
+                                    $height = $main_event->headerImage->height;
+                                }
+                                if (empty($height)) {
+                                    $height = TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT;
+                                }
+                                $res = ImageUtil::getImageSizeByWidth($height, $width, TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+                                if (!empty($res) && sizeof($res) == 2) {
+                                    $width = $res[0];
+                                    $height = $res[1];
+                                }
+                                ?>
+                                <div class="main_event_box" date="<?= $main_event->startDateTime ?>" eventid="<?= $main_event->id ?>"  itemscope="itemscope" itemtype="http://schema.org/Event">
                                     <!-- event box -->
-                                    <div class="main_event_box">
-                                        <div class="m_e_img">
-                                            <img  onclick="window.open('<?= $main_event->url ?>','_blank');return false;" src="<?= HOSTNAME . $main_event->img ?>" width="<?= $main_event->imgWidth ?>" height="<?= $main_event->imgHeight ?>"
-                                                  class="main_draggable"/>
-                                        </div>
-                                        <div class="m_e_metin">
-                                            <div class="m_e_drm">
-                                                <ul>
-                                                    <li class="m_e_cizgi"><a href="#" class="mavi_link" onclick="return false;"> <img
-                                                                src="<?= HOSTNAME ?>images/usr.png" width="18" height="18" border="0"
-                                                                align="absmiddle" /><?= $main_event->people ?>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m_e_cizgi"><a href="#" onclick="return false;" class="turuncu_link"> <img
-                                                                src="<?= HOSTNAME ?>images/comm.png" width="19" height="18" border="0"
-                                                                align="absmiddle" /><?= $main_event->comment ?>
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="#" class="yesil_link" onclick="return false;"> <img src="<?= HOSTNAME ?>images/zmn.png"
-                                                                                                                     width="19" height="18" border="0" align="absmiddle" /><?= $main_event->time ?>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                    <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
+                                        <?php
+                                        $margin_h = 0;
+                                        if ($height < TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT && false) {
+                                            $margin_h = (int) ((TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT - $height) / 2);
+                                        }
+                                        ?>
+                                        <?php if (!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
+                                            <div class="play_video" onclick="return openModalPanel('<?= $main_event->id ?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
+                                        <?php } ?>
+                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
+                                            <?php
+                                            $headerImageTmp = "";
+                                            if (!empty($main_event) && !empty($main_event->headerImage))
+                                                $headerImageTmp = $main_event->headerImage->url
+                                                ?>
+                                            <img itemprop="image" eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                                 />
                                         </div>
                                     </div>
-                                    <?php
-                                } else {
-                                    $width = null;
-                                    $height = null;
-                                    if (!empty($main_event->headerImage)) {
-                                        $width = $main_event->headerImage->width;
-                                    }
-                                    if (empty($width)) {
-                                        $width = 186;
-                                    }
-                                    if (!empty($main_event->headerImage)) {
-                                        $height = $main_event->headerImage->height;
-                                    }
-                                    if (empty($height)) {
-                                        $height = 219;
-                                    }
-                                    ?>
-                                    <div class="main_event_box" date="<?= $main_event->startDateTime ?>" >
-                                        <!-- event box -->
-                                        <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
+                                    <div class="m_e_metin">
+                                        <div class="m_e_baslik_container">
+                                            <div class="m_e_baslik">
+                                                <h1 itemprop="name"><?= $main_event->title ?></h1>
+                                            </div>
+                                            <div class="joinLikeCount">
+                                                <div class="iconHeart" eventid="<?= $main_event->id ?>"><a><?= $main_event->likescount ?></a></div>
+                                                <div class="iconPeople" eventid="<?= $main_event->id ?>"><a><?= $main_event->attendancecount ?></a></div>
+                                            </div>
+                                        </div>
+                                        <div class="m_e_com">
+                                            <?php
+                                            if (!empty($main_event->creatorId)) {
+                                                $crt = $main_event->creator;
+                                                $crt = UtilFunctions::cast("User", $crt);
+                                                if (!empty($crt) && !empty($crt->id)) {
+                                                    $usr_url = HOSTNAME . $crt->userName;
+                                                    ?>
+                                                    <div class="m_userImage" onclick="window.location='<?= $usr_url ?>';">
+                                                        <img src="<?= PAGE_GET_IMAGEURL . urlencode($crt->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
+                                                    </div>
+                                                    <?php if ($crt->type . "" == "1") { ?>
+                                                        <div class="event_creator_verified_user timetyVerifiedIcon"><img src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png"></div>
+                                                    <?php } ?>
+                                                    <?php
+                                                    $evt_result = EventUtil::getUserLastActivityString($main_event, $p_user_id);
+                                                    ?>    
+                                                    <h1><span onclick="window.location='<?= $usr_url ?>';" class="event_box_username"><?= " " . $crt->getFullName() . " " . $evt_result ?></span></h1>
+                                                    <div itemprop="performer" itemscope="itemscope" itemtype="http://schema.org/Person" class="microdata_css">
+                                                        <span itemprop="name"><?= $crt->getFullName() ?></span>
+                                                        <a href="<?= HOSTNAME . $crt->userName ?>" itemprop="url"><?= $crt->getFullName() ?></a>
+                                                    </div>
+                                                    <?php
+                                                    unset($evt_result);
+                                                }
+                                            } else {
+                                                ?>
+                                                <div class="m_userImage">
+                                                    <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" >
+                                                </div>
+                                                <h1><span style="padding-left: 28px; line-height: 26px; color: #7d7d7d"> </span></h1>
+                                            <?php }
+                                            ?>
+
+                                            <div class="eventDate"></div>
+                                            <?php
+                                            $time_zone = "+00:00";
+                                            if (!empty($user)) {
+                                                $time_zone = $user->time_zone;
+                                            }
+                                            $event_start_date = UtilFunctions::convertRevertTimeZone($main_event->startDateTime, $time_zone);
+                                            $event_start_date = strtotime($event_start_date);
+                                            ?>
+                                            <h2><span style="padding-left: 28px;"><?= strftime("%a , %d %B , %H:%M", $event_start_date) ?></span></h2>
+                                            <meta itemprop="startDate" content="<?= date("Y-m-d\TH:i", $main_event->startDateTimeLong) ?>">
+                                            <meta itemprop="endDate" content="<?= date("Y-m-d\TH:i", $main_event->endDateTimeLong) ?>">
+                                            <meta itemprop="description" content="<?= $main_event->description ?>">
+                                            <?php
+                                            $locc_url = "";
+                                            if (!empty($main_event->loc_lat) && !empty($main_event->loc_lng)) {
+                                                $locc_url = "https://maps.google.com/maps?&q=" . $main_event->loc_lat . "," . $main_event->loc_lng;
+                                            } else {
+                                                $locc_url = "https://maps.google.com/maps?&q=" . $main_event->location;
+                                            }
+                                            ?>
+                                            <div class="eventLocation" onclick="window.open('<?= $locc_url ?>','_blank');">
+                                                <div class="eventLocationIcon"></div>
+                                                <h2><span style="padding-left: 28px;"><?php
+                            $locc = $main_event->location;
+                            if (strlen($locc) > 30) {
+                                $locc = substr($locc, 0, 30) . "...";
+                            } echo $locc;
+                                            ?></span></h2>
+                                            </div>
+                                            <div itemprop="location" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness" class="microdata_css">
+                                                <span itemprop="name"><?= $main_event->location ?></span>
+                                                <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                                                    <meta itemprop="latitude" content="<?= $main_event->loc_lat ?>" />
+                                                    <meta itemprop="longitude" content="<?= $main_event->loc_lng ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="joinLikeBtn">
                                             <?php
                                             $u_id = "_empty_";
                                             if (!empty($user)) {
                                                 $u_id = $user->id;
                                             }
                                             ?>
-                                            <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>" >
-                                                <!-- like button -->
-                                                <div class="timelineLikes" style="<?php
-                        if ($main_event->creatorId == $u_id) {
-                            echo "display:none;";
-                        }
-                                            ?>"> 
-                                                    <a  id="div_like_btn" 
-                                                        data-toggle="tooltip" 
-                                                        data-placement="bottom" 
-                                                        title=""
-                                                        class="timelineButton <?php
-                                 if ($main_event->userRelation->like) {
-                                     echo "like_btn_aktif";
-                                 } else {
-                                     echo "like_btn";
-                                 }
-                                            ?>"  
-                                                        class_aktif="like_btn_aktif" 
-                                                        class_pass="like_btn"      
-                                                        pressed="<?php
-                                    if ($main_event->userRelation->like) {
-                                        echo "true";
-                                    } else {
-                                        echo "false";
-                                    }
-                                            ?>"  
-                                                        onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></a>
-                                                </div>
-                                                <!-- like button -->
+                                            <?php if ($main_event->creatorId != $u_id) { ?>
+
+                                                <?php if ($main_event->userRelation->joinType == 2) { ?>
+                                                    <div 
+                                                        style="display: none"
+                                                        class="joinMaybeEvent"
+                                                        btntype="join"
+                                                        eventid="<?= $main_event->id ?>"
+                                                        class_aktif="joinMaybeEvent_active" 
+                                                        class_pass="joinMaybeEvent"
+                                                        class_loader="social_button_loader"
+                                                        pressed="false"
+                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;">
+                                                        <a class="m_join"><?= LanguageUtils::getText("LANG_SOCIAL_JOIN") ?></a>
+                                                        <a class="m_joined"><?= LanguageUtils::getText("LANG_SOCIAL_JOINED") ?></a>
+                                                    </div>
 
 
-                                                <!-- share button -->
-                                                <div class="timelineLikes" style="<?php
-                                    if ($main_event->creatorId == $u_id) {
-                                        echo "display:none;";
-                                    }
-                                            ?>"> 
-                                                    <a  id="div_share_btn" 
-                                                        data-toggle="tooltip" 
-                                                        data-placement="bottom" 
-                                                        title=""
-                                                        class="timelineButton <?php
-                                 if ($main_event->userRelation->reshare) {
-                                     echo "share_btn_aktif";
-                                 } else {
-                                     echo "share_btn";
-                                 }
-                                            ?>"  
-                                                        class_aktif="share_btn_aktif" 
-                                                        class_pass="share_btn"      
-                                                        pressed="<?php
-                                    if ($main_event->userRelation->reshare) {
-                                        echo "true";
-                                    } else {
-                                        echo "false";
-                                    }
-                                            ?>"  
-                                                        onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></a>
-                                                </div>
-                                                <!-- share button -->
+                                                    <div 
+                                                        class="joinMaybeEvent_active"
+                                                        eventid="<?= $main_event->id ?>"
+                                                        btntype="maybe"
+                                                        class_aktif="joinMaybeEvent_active" 
+                                                        class_pass="joinMaybeEvent"
+                                                        class_loader="social_button_loader"
+                                                        pressed="true"
+                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;">
+                                                        <a><?= LanguageUtils::getText("LANG_SOCIAL_MAYBE") ?></a>
+                                                    </div>
+                                                <?php } else if ($main_event->userRelation->joinType == 1) { ?>
+                                                    <div 
+                                                        class="joinMaybeEvent_active"
+                                                        eventid="<?= $main_event->id ?>"
+                                                        btntype="join"
+                                                        class_aktif="joinMaybeEvent_active" 
+                                                        class_pass="joinMaybeEvent"
+                                                        class_loader="social_button_loader"
+                                                        pressed="true"
+                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;">
+                                                        <a class="m_join"><?= LanguageUtils::getText("LANG_SOCIAL_JOIN") ?></a>
+                                                        <a class="m_joined"><?= LanguageUtils::getText("LANG_SOCIAL_JOINED") ?></a>
+                                                    </div>
 
-                                                <!-- maybe button -->
-                                                <div class="timelineLikes" style="<?php
-                                    if ($main_event->creatorId == $u_id) {
-                                        echo "display:none;";
-                                    }
-                                            ?>"> 
-                                                    <a  id="div_maybe_btn" 
-                                                        data-toggle="tooltip" 
-                                                        data-placement="bottom" 
-                                                        title=""
-                                                        class="timelineButton <?php
-                                 if ($main_event->userRelation->joinType == 2) {
-                                     echo "maybe_btn_aktif";
-                                 } else {
-                                     echo "maybe_btn";
-                                 }
-                                            ?>"  
-                                                        class_aktif="maybe_btn_aktif" 
-                                                        class_pass="maybe_btn"      
-                                                        pressed="<?php
-                                    if ($main_event->userRelation->joinType == 2) {
-                                        echo "true";
-                                    } else {
-                                        echo "false";
-                                    }
-                                            ?>"  
-                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;"></a>
-                                                </div>
-                                                <!-- maybe button -->
+                                                    <div 
+                                                        style="display: none"
+                                                        class="joinMaybeEvent"
+                                                        eventid="<?= $main_event->id ?>"
+                                                        btntype="maybe"
+                                                        class_aktif="joinMaybeEvent_active" 
+                                                        class_pass="joinMaybeEvent"
+                                                        class_loader="social_button_loader"
+                                                        pressed="false"
+                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;">
+                                                        <a><?= LanguageUtils::getText("LANG_SOCIAL_MAYBE") ?></a>
+                                                    </div>
+                                                <?php } else { ?>
+                                                    <div 
+                                                        class="joinMaybeEvent"
+                                                        eventid="<?= $main_event->id ?>"
+                                                        btntype="join"
+                                                        class_aktif="joinMaybeEvent_active" 
+                                                        class_pass="joinMaybeEvent"
+                                                        class_loader="social_button_loader"
+                                                        pressed="false"
+                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;">
+                                                        <a class="m_join"><?= LanguageUtils::getText("LANG_SOCIAL_JOIN") ?></a>
+                                                        <a class="m_joined"><?= LanguageUtils::getText("LANG_SOCIAL_JOINED") ?></a>
+                                                    </div>
+                                                    <div 
+                                                        class="joinMaybeEvent"
+                                                        eventid="<?= $main_event->id ?>"
+                                                        btntype="maybe"
+                                                        class_aktif="joinMaybeEvent_active" 
+                                                        class_pass="joinMaybeEvent"
+                                                        class_loader="social_button_loader"
+                                                        pressed="false"
+                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;">
+                                                        <a><?= LanguageUtils::getText("LANG_SOCIAL_MAYBE") ?></a>
+                                                    </div>
+                                                <?php } ?>
 
-                                                <!-- join button -->
-                                                <div class="timelineLikes" style="<?php
-                                    if ($main_event->creatorId == $u_id) {
-                                        echo "display:none;";
-                                    }
-                                            ?>"> 
-                                                    <a  id="div_join_btn" 
-                                                        data-toggle="tooltip" 
-                                                        data-placement="bottom" 
-                                                        title=""
-                                                        class="timelineButton <?php
-                                 if ($main_event->userRelation->joinType == 1) {
-                                     echo "join_btn_aktif";
-                                 } else {
-                                     echo "join_btn";
-                                 }
-                                            ?>"  
-                                                        class_aktif="join_btn_aktif" 
-                                                        class_pass="join_btn"      
-                                                        pressed="<?php
-                                    if ($main_event->userRelation->joinType == 1) {
-                                        echo "true";
-                                    } else {
-                                        echo "false";
-                                    }
-                                            ?>"  
-                                                        onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"></a>
-                                                </div>
-                                                <!-- join button -->
 
-                                                <!-- edit button -->
-                                                <div class="timelineLikes" style="<?php
-                                    if ($main_event->creatorId != $u_id) {
-                                        echo "display:none;";
-                                    }
-                                            ?>"> 
-                                                    <a  id="div_edit_btn" 
-                                                        data-toggle="tooltip" 
-                                                        data-placement="bottom" 
-                                                        title=""
-                                                        class="timelineButton edit_btn"  
-                                                        class_aktif="edit_btn_aktif" 
-                                                        class_pass="edit_btn" 
-                                                        onclick="openEditEvent(<?= $main_event->id ?>);return false;"></a>
-                                                </div>
-                                                <!-- edit button -->
 
-                                            </div>
-                                            <?php //}    ?>
-                                            <?php
-                                            $margin_h = 0;
-                                            if ($height < 125) {
-                                                $margin_h = (int) ((125 - $height) / 2);
-                                            }
-                                            ?>
-                                            <?php if (!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
-                                                <div class="play_video" onclick="return openModalPanel('<?= $main_event->id ?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
-                                            <?php } ?>
-                                            <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
-                                                <?php
-                                                $headerImageTmp = "";
-                                                if (!empty($main_event) && !empty($main_event->headerImage))
-                                                    $headerImageTmp = $main_event->headerImage->url
-                                                    ?>
-                                                <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
-                                                     class="main_draggable" />
-                                            </div>
-                                        </div>
-                                        <div class="m_e_metin">
-                                            <div class="m_e_baslik">
-                                                <?= $main_event->title ?>
-                                            </div>
-                                            <div class="m_e_com">
 
-                                                <?php
-                                                if (!empty($main_event->creatorId)) {
-                                                    $evt_result = EventUtil::getUserLastActivityString($main_event, $p_user_id);
-                                                    $usr_url = HOSTNAME . $p_user->userName;
-                                                    if (!empty($p_user) && !empty($p_user->id)) {
-                                                        ?>
-                                                        <p style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
-                                                            <img src="<?= PAGE_GET_IMAGEURL . urlencode($p_user->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
-                                                            <span><?= " " . $p_user->getFullName() ?></span>
-                                                            <span><?= " " . $evt_result ?></span>
-                                                        </p>
-                                                        <?php
+                                                <div class="wrapperlikeReshareEvent">
+                                                    <?php
+                                                    $button_class = "reshareEvent";
+                                                    $button_pressed = "false";
+                                                    if ($main_event->userRelation->like) {
+                                                        $button_class = "reshareEvent_active";
+                                                        $button_pressed = "true";
                                                     }
-                                                } else {
                                                     ?>
-                                                    <p>
-                                                        <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" />
-                                                        <span> </span>
-                                                    </p>
-                                                <?php }
-                                                ?>
-                                            </div>
-                                            <div class="m_e_ackl">
-                                                <?= $main_event->description ?>
-                                            </div>
-                                            <div class="m_e_drm">
-                                                <ul>
-                                                    <li class="m_e_cizgi"><a href="#" onclick="return false;" class="mavi_link"> <img
-                                                                src="<?= HOSTNAME ?>images/usr.png" width="18" height="18" border="0"
-                                                                align="absmiddle" /><?= $main_event->attendancecount ?>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m_e_cizgi"><a href="#"  onclick="return false;" class="turuncu_link"> <img
-                                                                src="<?= HOSTNAME ?>images/comm.png" width="19" height="18" border="0"
-                                                                align="absmiddle" /><?= $main_event->commentCount ?>
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="#" class="<?php
-                            $time_zone = "+00:00";
-                            if (!empty($user)) {
-                                $time_zone = $user->time_zone;
-                            }
-                            $tt = $main_event->getRemainingTime($time_zone);
-                            if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
-                                echo "turuncu_link";
-                            } else {
-                                echo "yesil_link";
-                            }
-                                                ?>" onclick="return false;"> 
-                                                            <img src="<?= HOSTNAME ?>images/zmn<?php
-                                       if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
-                                           echo "_k";
-                                       }
-                                                ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime($time_zone) ?>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                    <div 
+                                                        class="<?= $button_class ?>"
+                                                        class_aktif="reshareEvent_active" 
+                                                        class_pass="reshareEvent"
+                                                        eventid="<?= $main_event->id ?>"
+                                                        pressed="<?= $button_pressed ?>"
+                                                        onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"
+                                                        data-toggle="tooltip" 
+                                                        data-placement="bottom" >
+                                                        <a class="reshareIcon"></a>
+                                                    </div>
+                                                    <?php
+                                                    $button_class = "likeEvent";
+                                                    $button_pressed = "false";
+                                                    if ($main_event->userRelation->reshare) {
+                                                        $button_class = "likeEvent_active";
+                                                        $button_pressed = "true";
+                                                    }
+                                                    ?>
+                                                    <div 
+                                                        class="<?= $button_class ?>"
+                                                        class_aktif="likeEvent_active" 
+                                                        class_pass="likeEvent"
+                                                        eventid="<?= $main_event->id ?>"
+                                                        pressed="<?= $button_pressed ?>"
+                                                        onclick="likeEvent(this,<?= $main_event->id ?>);return false;"
+                                                        data-toggle="tooltip" 
+                                                        data-placement="bottom">
+                                                        <a class="likeIcon"></a>
+                                                    </div>
+                                                    <?php
+                                                    unset($button_class);
+                                                    unset($button_pressed);
+                                                    ?>
+                                                </div>
+                                            <?php } else { ?>
+                                                <div class="editEvent">
+                                                    <a onclick="openEditEvent(<?= $main_event->id ?>);return false;"><?= LanguageUtils::getText("LANG_SOCIAL_EDIT") ?></a>
+                                                </div>
+                                            <?php } ?>
                                         </div>
-                                        <script>
-                                            var tmpDataJSON='<?php
-                                             $json_response = UtilFunctions::json_encode($main_event);
-                                             echo $json_response;
-                                             ?>';
-                                                 tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                                 var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                 localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
-                                        </script>
-                                        <!-- event box -->
                                     </div>
-                                    <?php
-                                }
+                                    <script>
+                                        var tmpDataJSON='<?php
+                            $json_response = UtilFunctions::json_encode($main_event);
+                            echo $json_response;
+                            ?>';
+                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                    </script>
+                                    <!-- event box -->
+                                </div>
+                                <?php
                             }
                         }
                     }
@@ -893,24 +838,25 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                                 $width = $main_media->getImgWidth();
                                 $height = $main_media->getImgHeight();
                                 if (empty($width)) {
-                                    $width = 186;
+                                    $width = TIMETY_MAIN_IMAGE_DEFAULT_WIDTH;
                                 }
                                 if (empty($height)) {
-                                    $height = 186;
+                                    $height = TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT;
                                 }
 
-                                if ($width > 186) {
-                                    $height = $height * 186 / $width;
-                                    $width = 186;
+                                $res = ImageUtil::getImageSizeByWidth($height, $width, TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+                                if (!empty($res) && sizeof($res) == 2) {
+                                    $width = $res[0];
+                                    $height = $res[1];
                                 }
                                 ?>
-                                <div class="main_event_box" date="<?= $main_media->getDate() ?>" >
+                                <div class="main_event_box" date="<?= $main_media->getDate() ?>" mediaid="<?= $main_media_id ?>">
                                     <!-- event box -->
                                     <div class="m_e_img" id="div_img_media_<?= $main_media_id ?>">
                                         <?php
                                         $margin_h = 0;
-                                        if ($height < 125) {
-                                            $margin_h = (int) ((125 - $height) / 2);
+                                        if ($height < TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT && false) {
+                                            $margin_h = (int) ((TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT - $height) / 2);
                                         }
                                         ?>
                                         <?php
@@ -922,37 +868,33 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                                         <?php } ?>
                                         <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
                                             <img mediaid="<?= $main_media_id ?>" onclick="return openMediaModalPanel('<?= $main_media_id ?>');" src="<?= PAGE_GET_IMAGEURL . urlencode($main_media->getImgUrl()) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
-                                                 class="main_draggable" />
+                                                 />
                                         </div>
                                     </div>
-                                    <div class="m_e_metin">
-                                        <div class="m_e_com">
-                                            <?php
-                                            $ussrImg = HOSTNAME . "images/anonymous.png";
-                                            if ($main_media->getType() == TWITTER_TEXT) {
-                                                $ussrImg = HOSTNAME . "images/tw_logo.png";
-                                            } else if ($main_media->getType() == "vine") {
-                                                $ussrImg = HOSTNAME . "images/vine_logo.png";
-                                            } else if ($main_media->getType() == "instagram") {
-                                                $ussrImg = HOSTNAME . "images/ins_logo.png";
-                                            }
-                                            /*
-
-                                              else if(data.type=="facebook"){
-                                              data_id=data.type;
-                                              }else if(data.type=="foursquare"){
-                                              data_id=data.type;
-                                              }else if(data.type=="google_plus"){
-                                              data_id=data.type;
-                                              }
-                                             */
-                                            ?>
-                                            <p>
+                                    <div class="m_e_metin" style="padding-left: 0px;padding-top: 0px;">
+                                        <?php
+                                        $ussrImg = HOSTNAME . "images/anonymous.png";
+                                        if ($main_media->getType() == TWITTER_TEXT) {
+                                            $ussrImg = HOSTNAME . "images/tw_logo.png";
+                                        } else if ($main_media->getType() == "vine") {
+                                            $ussrImg = HOSTNAME . "images/vine_logo.png";
+                                        } else if ($main_media->getType() == "instagram") {
+                                            $ussrImg = HOSTNAME . "images/ins_logo.png";
+                                        }
+                                        $usr_url = $main_media->getSocialUrl();
+                                        if ($main_media->getType() == TWITTER_TEXT) {
+                                            $usr_url = "https://twitter.com/" . $main_media->getUserName();
+                                        } else if ($main_media->getType() == "instagram") {
+                                            $usr_url = "http://instagram.com/" . $main_media->getUserName();
+                                        }
+                                        ?>
+                                        <div class="m_e_com" onclick="window.open('<?= $usr_url ?>','_blank');">
+                                            <div class="m_userImage" >
                                                 <img src="<?= $ussrImg ?>" width="22" height="22" align="absmiddle" />
-                                                <span><?= $main_media->getUserName() ?></span>
-                                            </p>
+                                            </div>
+                                            <h1><span class="event_box_username"><?= " " . $main_media->getUserName() ?></span></h1>
                                         </div>
-                                        <div class="m_e_ackl">
+                                        <div class="m_e_ackl" style="padding-bottom: 12px;">
                                             <?= $main_media->getDescription() ?>
                                         </div>
                                         <div class="m_e_drm">
@@ -965,7 +907,7 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                                                             if (strlen($date . "") > 10) {
                                                                 $date = $date / 1000;
                                                             }
-                                                            $date_text = strftime('%d', $date) . " " . strftime('%b', $date);
+                                                            $date_text = strftime("%a , %d %B", $date);
                                                         }
                                                         echo $date_text;
                                                         ?>
@@ -993,19 +935,6 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                 }
                 ?>
             </div>
-        </div>
-        <div class="main_sag_header" style="z-index: 9">
-            <ul id="timeline_header">
-                <li class="scrl_btn"><input type="button" id="prev_button"
-                                            class="solscrl prev-page" /> <input type="button" id="next_button"
-                                            class="sagscrl next-page" />
-                </li>
-            </ul>
-        </div>
-        <div class="main_sag" style="z-index: 10;height: 2000px;top: -80px;padding-top: 80px;">
-            <ul id="timeline" style="">
-                <li class="timeline_month timeline_fisrt"><a href="#" class="">March</a></li>
-            </ul>
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
         <div id="dump" style="display: none">

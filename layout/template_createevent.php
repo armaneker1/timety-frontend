@@ -98,7 +98,7 @@ if ($showPopup) {
                 }
             }
             ?>
-            <form id="add_event_form_id" name="add_event_form" action="" method="post">
+                        <form id="add_event_form_id" name="add_event_form" action="" method="post" style="background-color: #ededeb;">
 
                 <input type="hidden" name="te_timezone" id="te_timezone" value="+02:00"/>
                 <script>

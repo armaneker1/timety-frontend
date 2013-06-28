@@ -8,7 +8,7 @@ use Everyman\Neo4j\Transport,
     Everyman\Neo4j\Node,
     Everyman\Neo4j\Cypher;
 
-session_start();
+session_start();session_write_close();
 header("charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';

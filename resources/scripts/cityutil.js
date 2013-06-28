@@ -152,6 +152,8 @@ function selectCity(cityName){
                         city_channel=dataJSON.param;
                         jQuery("#searchText").val("");
                         page_wookmark=0;
+                        selectedEndDate=null;
+                        selectedDate=null;
                         wookmarkFiller(document.optionsWookmark,true,true);
                     }
                 }
@@ -160,6 +162,8 @@ function selectCity(cityName){
     }else{
         jQuery("#searchText").val("");
         page_wookmark=0;
+        selectedEndDate=null;
+        selectedDate=null;
         wookmarkFiller(document.optionsWookmark,true,true);
     }
 }

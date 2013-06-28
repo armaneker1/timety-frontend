@@ -404,6 +404,7 @@ function fillFriendsUL(userId,reqUserId,data,type,customList,justFollow){
                 if(add){
                     var item=template.clone();
                     jQuery(item).attr("id",jQuery(item).attr("id")+"_"+data[i].id);
+                    jQuery(item).attr('follow_id',data[i].id);
                     /*
                  * fill item
                  */
@@ -492,17 +493,13 @@ function fillFriendsUL(userId,reqUserId,data,type,customList,justFollow){
 function setFollowButton(button,type,userId,id)
 {
     jQuery(button).removeAttr("onclick");
-    if(type)
-    {  
-        jQuery(button).removeClass('follow_btn');
-        jQuery(button).addClass('followed_btn');
-        jQuery(button).attr("onclick","unfollowUser("+userId+","+id+",this);");
-    }else
-    {
-        jQuery(button).removeClass('followed_btn');
-        jQuery(button).addClass('follow_btn');
-        jQuery(button).attr("onclick","followUser("+userId+","+id+",this);");
+    if(type){  
+        setFollowButtonStatus(button, true);
+        
+    }else {
+        setFollowButtonStatus(button, false);
     }
+    jQuery(button).attr("onclick","followUser("+userId+","+id+",this);");
     if(userId==id){
         jQuery(button).hide();
     }

@@ -1,65 +1,93 @@
-function followUser(fromUserId, toUSerId, button,prefix,userPage) {
+function followUser(fromUserId, toUSerId, button,userPage) {
     if(!(fromUserId && toUSerId)){
         window.location=TIMETY_PAGE_LOGIN;
         return;
     }
-    if(!prefix){
-        prefix="";
-    }
     if(!userPage){
         userPage=false;
     }
-    button.className = prefix+'followed_btn';
-    jQuery(button).attr("disabled","disabled");
     
-    jQuery.post(TIMETY_PAGE_AJAX_FOLLOWUSER, { 
-        fuser : fromUserId,
-        tuser : toUSerId
-    }, function(data) {
-        jQuery(button).removeAttr("disabled");
-        if (data.success) {
-            button.className = prefix+'followed_btn';
-            button.setAttribute('onclick', 'un'
-                + button.getAttribute('onclick'));
-            updateBadge(4,1,userPage);
-        } else {
-            button.className = prefix+'follow_btn';
-            getInfo(true, 'Error occured try again', "error", 4000);
+    var isDisabled=jQuery(button).data("disabled");
+    if(!isDisabled){
+        var follow_buttons=jQuery("a[follow_id='"+toUSerId+"']");
+        var follow_status=jQuery(button).attr("f_status");
+        if(follow_status=="follow"){
+            jQuery(follow_buttons).data("disabled",true);
+            setFollowButtonStatus(follow_buttons, true);
+            
+            jQuery.post(TIMETY_PAGE_AJAX_FOLLOWUSER, { 
+                fuser : fromUserId,
+                tuser : toUSerId
+            }, function(data) {
+                jQuery(follow_buttons).data("disabled",false);
+                if (data.success) {
+                    updateBadge(4,1,userPage);
+                } else {
+                    setFollowButtonStatus(follow_buttons, false);
+                    getInfo(true, 'Error occured try again', "error", 4000);
+                }
+            }, "json");
+        }else if(follow_status=="followed"){
+            jQuery(follow_buttons).data("disabled",true);
+            setFollowButtonStatus(follow_buttons, false);
+
+            jQuery.post(TIMETY_PAGE_AJAX_UNFOLLOWUSER, {
+                fuser : fromUserId,
+                tuser : toUSerId
+            }, function(data) {
+                jQuery(follow_buttons).data("disabled",false);
+                if (data.success) {
+                    updateBadge(4,-1,userPage);
+                } else {
+                    setFollowButtonStatus(follow_buttons, true);
+                    getInfo(true, getLanguageText("LANG_FOLLOW_SOMETHING_WRONG"), "error", 4000);
+                }
+            }, "json");
+            
         }
-    }, "json");
+        
+    }
 }
 
-function unfollowUser(fromUserId, toUSerId, button,prefix,userPage) {
-    if(!(fromUserId && toUSerId)){
-        window.location=TIMETY_PAGE_LOGIN;
-        return;
-    }
-    if(!prefix){
-        prefix="";
-    }
-    if(!userPage){
-        userPage=false;
-    }
-    button.className = prefix+'follow_btn';
-    jQuery(button).attr("disabled","disabled");
-    
-    jQuery.post(TIMETY_PAGE_AJAX_UNFOLLOWUSER, {
-        fuser : fromUserId,
-        tuser : toUSerId
-    }, function(data) {
-        jQuery(button).removeAttr("disabled");
-        if (data.success) {
-            button.className = prefix+'follow_btn';
-            button.setAttribute('onclick', button.getAttribute('onclick')
-                .substring(2));
-            updateBadge(4,-1,userPage);
-        } else {
-            button.className = prefix+'followed_btn';
-            getInfo(true, getLanguageText("LANG_FOLLOW_SOMETHING_WRONG"), "error", 4000);
-        }
-    }, "json");
-}
 
+function setFollowButtonStatus(button,status)
+{
+    if(status)
+    {
+        if(button.length>0){
+            jQuery.each(button, function(i, val) {
+                if(jQuery(val).attr("class_loader"))
+                    jQuery(val).removeClass(jQuery(val).attr("class_loader"));
+                jQuery(val).removeClass(jQuery(val).attr("active_class"));
+                jQuery(val).addClass(jQuery(val).attr("passive_class"));
+                jQuery(val).attr('f_status','followed');   
+            });
+        }else{
+            if(jQuery(button).attr("class_loader"))
+                jQuery(button).removeClass(jQuery(button).attr("class_loader"));
+            jQuery(button).removeClass(jQuery(button).attr("active_class"));
+            jQuery(button).addClass(jQuery(button).attr("passive_class"));
+            jQuery(button).attr('f_status','followed'); 
+        }
+    }else
+    {
+        if(button.length>0){
+            jQuery.each(button, function(i, val) {
+                if(jQuery(val).attr("class_loader"))
+                    jQuery(val).removeClass(jQuery(val).attr("class_loader"));
+                jQuery(val).removeClass(jQuery(val).attr("passive_class"));
+                jQuery(val).addClass(jQuery(val).attr("active_class"));
+                jQuery(val).attr('f_status','follow');   
+            });
+        }else{
+            if(jQuery(button).attr("class_loader"))
+                jQuery(button).removeClass(jQuery(button).attr("class_loader"));
+            jQuery(button).removeClass(jQuery(button).attr("passive_class"));
+            jQuery(button).addClass(jQuery(button).attr("active_class"));
+            jQuery(button).attr('f_status','follow'); 
+        }
+    }
+}
 
 function onBlurFirstPreventTwo(input)
 {

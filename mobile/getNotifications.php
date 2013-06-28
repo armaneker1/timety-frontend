@@ -93,6 +93,11 @@ if (!empty($userId)) {
                         }
                     }
                 }
+                try {
+                    NotificationUtils::makeReadNotification($res->getId());
+                } catch (Exception $exc) {
+                    error_log($exc->getTraceAsString());
+                }
             }
             $r = new stdClass();
             $r->success = 1;

@@ -504,6 +504,7 @@ class Event {
     public $commentCount;
     public $remainingtime;
     public $attendancecount;
+    public $likescount=0;
     public $startDateTimeLong;
     public $endDateTimeLong;
     public $creator;

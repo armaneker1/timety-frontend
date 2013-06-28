@@ -50,8 +50,8 @@ define('LANG_PROFILE_BACTH_IGNORED', 'Ignored');
 define('LANG_PROFILE_BACTH_CRATED_EVENTS', 'Created Event');
 
 #PAGE TOP
-define('LANG_PAGE_TOP_NO_USER_HEADER_TEXT', '<span class="no_user_top_underline">Sign Up Now</span> to Discover, Share and Track All Events Around You');
-define('LANG_PAGE_TOP_CITY_INPUT_HINT', 'Select City');
+define('LANG_PAGE_TOP_NO_USER_HEADER_TEXT', 'Sign Up Now to Discover, Share and Track All Events Around You');
+define('LANG_PAGE_TOP_CITY_INPUT_HINT', 'Location');
 define('LANG_PAGE_TOP_CATEGORY_RECOMMENDED', 'Recommended');
 define('LANG_PAGE_TOP_CATEGORY_EVERYTHIG', 'Everything');
 define('LANG_PAGE_TOP_SEARCH_INPUT_HINT', 'Search for events');
@@ -69,6 +69,14 @@ define('LANG_PAGE_TOP_MEDIA', 'Media');
 define('LANG_PAGE_MY_TIMETY_MENU_RECOMMENDED_EVENTS', 'Recommended Events');
 define('LANG_PAGE_MY_TIMETY_MENU_ALL_EVENTS', 'All Events');
 define('LANG_PAGE_MY_TIMETY_MENU_CATEGORIES', 'Categories');
+define('LANG_PAGE_MY_TIMETY_MENU_WEEKEND', 'Weekend');
+define('LANG_PAGE_MY_TIMETY_MENU_FOURYOU', 'For You');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_ALL_EVENTS', 'All Events');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_TODAY', 'Today');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_TOMORROW', 'Tomorrow');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_THISWEEKEND', 'This Weekend');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_NEXT_7_DAYS', 'Next 7 Days');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_NEXT_30_DAYS', 'Next 30 Days');
 
 #PAGE REGISTER TOP NO USER REGISTER
 define('LANG_PAGE_REGISTER_TOP_NO_USER_HEADER_TEXT', 'Discover, Share and Track Events All Around You');
@@ -89,6 +97,7 @@ define('LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER', 'tag');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_DESC_PLACEHOLDER', 'description');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER', 'add people manually');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL', 'Cancel');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_DELETE', 'Delete Event');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_ADD_EVENT', 'Add Event');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_DATE_TO', '-');
 
@@ -285,6 +294,8 @@ define('LANG_PAGE_EDIT_EVENT_TITLE', 'Timety | Edit Event');
 define('LANG_PAGE_EDIT_EVENT_SUC_UPDATED', 'Event Updated');
 define('LANG_PAGE_EDIT_EVENT_ERROR', 'Error ocoured :');
 define('LANG_PAGE_EDIT_EVENT_BUTTON_UPDATE_EVENT', 'Update Event');
+define('LANG_PAGE_EDIT_EVENT_ERROR_ON_DELETE', 'Error while deleting event');
+define('LANG_PAGE_EDIT_EVENT_DELETE_SUC', 'Event deleted');
 
 #create account 
 define('LANG_PAGE_CREATE_ACCOUNT_TITLE', 'Timety | Signup');
@@ -415,4 +426,40 @@ define('LANG_ERROR_PAGE_TITLE', 'An Error Occoured.');
 define('LANG_ERROR_PAGE_CONTEXT', 'An Error Occoured. We will take care of it as soon as possible.<br/>You will be redirected to main page.');
 define('LANG_ERROR_PAGE_SEND_MAIL', 'Send Mail');
 define('LANG_ERROR_PAGE_ALL_RIGHTS', 'All Rights Reserved.');
+
+#MAIN_ EVENTS
+define('LANG_SOCIAL_JOIN', 'Join');
+define('LANG_SOCIAL_MAYBE', 'Maybe');
+define('LANG_SOCIAL_EDIT', 'Edit');
+define('LANG_SOCIAL_JOINED', 'Joined');
+
+#LANG
+define('LANG_LOCALE', 'en_US');
+
+#PAGE_TITLE
+define('LANG_PAGE_TITLE_EVENTS','Events');
+define('LANG_PAGE_TITLE_ALL_EVENTS','All Events');
+define('LANG_PAGE_TITLE_FOLOOWING_EVENTS','Following Events');
+define('LANG_PAGE_TITLE_EVENTS_FOR_TODAY','Events for Today');
+define('LANG_PAGE_TITLE_EVENTS_FOR_NEXT_7_DAYS','Events for Next 7 Days');
+define('LANG_PAGE_TITLE_EVENTS_FOR_NEXT_30_DAYS','Events for Next 30 Days');
+define('LANG_PAGE_TITLE_EVENTS_FOR_TOMORROW','Events for Tomorrow');
+define('LANG_PAGE_TITLE_EVENTS_FOR_THIS_WEEKEND','Events for this Weekend');
+define('LANG_PAGE_TITLE_EVENTS_FOR_YOU','Events For You');
+
+#PAGE_DESCRIPTION
+define('LANG_PAGE_DESC_ALL_INDEX','Never Miss Out! Now is the time to find events you like, share them with friends and have fun. Events are now better than ever.');
+define('LANG_PAGE_DESC_ALL_EVENTS','All events-  Now is the time to find events you like, share them with friends and have fun. Events are now better than ever.');
+define('LANG_PAGE_DESC_EVENTS_FOR_TODAY','Events for Today -  Now is the time to find events you like, share them with friends and have fun. Events are now better than ever.');
+define('LANG_PAGE_DESC_EVENTS_FOR_TOMORROW','Events for Tomorrow -  Now is the time to find events you like, share them with friends and have fun. Events are now better than ever.');
+define('LANG_PAGE_DESC_EVENTS_FOR_THIS_WEEKEND','Events for this Weekend-  Now is the time to find events you like, share them with friends and have fun. Events are now better than ever.');
+define('LANG_PAGE_DESC_EVENTS_FOR_YOU','Events you will like -  Now is the time to find events you like, share them with friends and have fun. Events are now better than ever.');
+define('LANG_PAGE_DESC_EVENTS_CATEGORY','{0} Events -  Now is the time to find {1} events you like, share them with friends and have fun. {0} Events are now better than ever.');
+define('LANG_PAGE_DESC_EVENTS_FOR_NEXT_N_DAYS','Events for Next {0} Days -  Now is the time to find events you like, share them with friends and have fun. Events are now better than ever.');
+#EVENT POPUP
+define('LANG_MAIL_TEXT','Mail');
+define('LANG_POPUP_WEATHER','Weather');
+define('LANG_POPUP_TICKET','Ticket');
+define('LANG_POPUP_JOINING','Joining');
+define('LANG_POPUP_MAYBE','Maybe');
 ?>

@@ -3,11 +3,20 @@ var page_wookmark=1;
 var city_channel=-1;// ww -2 olcak 
 var wookmark_channel=1;
 var wookmark_category=-1;
-localStorage.clear();
 var selectedDate=null;
+var selectedEndDate=null;
 var selectedUser=null;
 var isearching=false;
 var tagIds=null;
+
+function clearWMEventsLocalStorage(){
+    var prefix='event_';
+    for(var eventKey in localStorage){ 
+        if(eventKey && eventKey.indexOf(prefix)==0){
+            localStorage.removeItem(eventKey);
+        }
+    } 
+}
 /*
  * $userId= user id that logged in -1 default guest
  * list events after given date dafault current date
@@ -58,6 +67,14 @@ function wookmarkFiller(options,clear,loader,channel_)
     }catch (exp){
         
     }
+    var endDateSelected =null;
+    try{
+        if(moment(selectedEndDate,"YYYY-MM-DD").isValid()){
+            endDateSelected = selectedEndDate+" 00:00:00";
+        }   
+    }catch (exp){
+        
+    }
     //Start loader animation
     if(loader)
         getLoader(true);
@@ -92,7 +109,8 @@ function wookmarkFiller(options,clear,loader,channel_)
                 'category':categoryId,
                 'reqUserId':userSelected,
                 'city_channel': city_channel,
-                'tagIds': tagIdsParam
+                'tagIds': tagIdsParam,
+                'endDate':endDateSelected
             },
             error: function (request, status, error) {
                 if(post_wookmark) {
@@ -133,7 +151,7 @@ function wookmarkFiller(options,clear,loader,channel_)
                 
                     if(clear) {
                         page_wookmark=0;
-                        localStorage.clear();
+                        clearWMEventsLocalStorage();
                         jQuery('.main_event .main_event_box').not(jQuery(".profil_box")).remove();
                     }
                 
@@ -268,290 +286,160 @@ function wookmarkHTML(dataArray,userId)
         }
     }
     jQuery.each(dataArray, function(i, data) { 
-        if(!data.ad)
+        //whole html    
+        var result = document.createElement('div');
+        jQuery(result).addClass('main_event_box');
+        //schema.org
+        jQuery(result).attr('itemscope','itemscope');
+        jQuery(result).attr('itemtype','http://schema.org/Event');
+        //schema.org
+        jQuery(result).attr('date',data.endDateTime);
+        jQuery(result).attr('eventid',data.id);
+        // img DIV
+        var imgDiv = document.createElement('div');
+        jQuery(imgDiv).addClass('m_e_img');    
+        jQuery(imgDiv).attr('id','div_img_event_'+data.id);
+            
+        //IMG tag
+        var imgDivEdge=jQuery('<div style="overflow: hidden;"></div>');
+        //video
+        var videoDivEdge=jQuery('<div class="play_video" style=""></div>');
+        jQuery(videoDivEdge).attr('onclick','return openModalPanel('+data.id+');');
+            
+        var img = document.createElement('img');
+        jQuery(img).attr('eventid',data.id);  
+        jQuery(img).attr('itemprop','image');          
+        jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
+            
+            
+        if(data.headerImage)
         {
-            //whole html    
-            var result = document.createElement('div');
-            jQuery(result).addClass('main_event_box');
-            jQuery(result).attr('date',data.endDateTime);
-            // img DIV
-            var imgDiv = document.createElement('div');
-            jQuery(imgDiv).addClass('m_e_img');    
-            //jQuery(imgDiv).attr('onclick','return openModalPanel('+data.id+');');
-
-            //IMG tag
-            var imgDivEdge=jQuery('<div style="overflow: hidden;"></div>');
-            //video
-            var videoDivEdge=jQuery('<div class="play_video" style=""></div>');
-            var img = document.createElement('img');
-            jQuery(img).attr('eventid',data.id);  
-            jQuery(img).attr('onclick','return openModalPanel('+data.id+');');
-            //vide
-            jQuery(videoDivEdge).attr('onclick','return openModalPanel('+data.id+');');
-            if(data.headerImage)
+            var param="";
+            if(data.headerImage.width && data.headerImage.width!=0)
             {
-                var param="";
-                if(data.headerImage.width && data.headerImage.width!=0)
-                {
-                    jQuery(img).attr('width',data.headerImage.width); 
-                    jQuery(imgDivEdge).css('width',data.headerImage.width+'px');
-                    //video
-                    jQuery(videoDivEdge).css('width',data.headerImage.width+'px');
-                    param=param+"&w="+data.headerImage.width;
-                }   
-                else
-                {
-                    jQuery(img).attr('width',186);
-                    jQuery(imgDivEdge).css('width','186px');
-                    //video
-                    jQuery(videoDivEdge).css('width','186px');
-                } 
+                var result_size=getImageSizeByWidth(data.headerImage.org_height,data.headerImage.org_width,TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+                data.headerImage.width=result_size[0];
+                data.headerImage.height=result_size[1];
+                    
+                    
+                jQuery(img).attr('width',data.headerImage.width); 
+                jQuery(imgDivEdge).css('width',data.headerImage.width+'px');
+                //video
+                jQuery(videoDivEdge).css('width',data.headerImage.width+'px');
+                param=param+"&w="+data.headerImage.width;
+            }   
+            else
+            {
+                jQuery(img).attr('width',TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+                jQuery(imgDivEdge).css('width',TIMETY_MAIN_IMAGE_DEFAULT_WIDTH+'px');
+                //video
+                jQuery(videoDivEdge).css('width',TIMETY_MAIN_IMAGE_DEFAULT_WIDTH+'px');
+            } 
                 
-                if(data.headerImage.height && data.headerImage.height!=0)
-                {
-                    jQuery(img).attr('height',data.headerImage.height);
-                    var margin_h=0;
-                    if(data.headerImage.height<125){
-                        margin_h=((125-data.headerImage.height)/2);
-                    }
-                    jQuery(imgDivEdge).css('margin-bottom',margin_h+'px');
-                    jQuery(imgDivEdge).css('margin-top',margin_h+'px');
-                    jQuery(imgDivEdge).css('height',data.headerImage.height+'px');
-                    //video
-                    jQuery(videoDivEdge).css('margin-bottom',margin_h+'px');
-                    jQuery(videoDivEdge).css('margin-top',margin_h+'px');
-                    jQuery(videoDivEdge).css('height',data.headerImage.height+'px');
-                    param=param+"&h="+data.headerImage.height;
+            if(data.headerImage.height && data.headerImage.height!=0)
+            {
+                jQuery(img).attr('height',data.headerImage.height);
+                var margin_h=0;
+                if(data.headerImage.height<TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT && false){
+                    margin_h=((TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT-data.headerImage.height)/2);
+                }
+                jQuery(imgDivEdge).css('margin-bottom',margin_h+'px');
+                jQuery(imgDivEdge).css('margin-top',margin_h+'px');
+                jQuery(imgDivEdge).css('height',data.headerImage.height+'px');
+                //video
+                jQuery(videoDivEdge).css('margin-bottom',margin_h+'px');
+                jQuery(videoDivEdge).css('margin-top',margin_h+'px');
+                jQuery(videoDivEdge).css('height',data.headerImage.height+'px');
+                param=param+"&h="+data.headerImage.height;
                      
-                }
-                jQuery(img).attr('src',TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.headerImage.url+param);
-            }else
-            {
-                jQuery(img).attr('width',186);
-                jQuery(img).attr('heigh',219);
             }
-            jQuery(img).addClass('main_draggable');
+            jQuery(img).attr('src',TIMETY_PAGE_GET_IMAGE_URL+TIMETY_SUBFOLDER+data.headerImage.url+param);
+        }else
+        {
+            jQuery(img).attr('width',TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+            jQuery(img).attr('height',TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT);
+        }
             
-            //like share 
-            var likeShareDiv = document.createElement('div');
-            jQuery(likeShareDiv).addClass('likeshare'); 
-            jQuery(likeShareDiv).css("display","none");
-            jQuery(likeShareDiv).attr("id","likeshare_"+data.id);
+        //video
+        if(data.has_video){
+            if(data.headerVideo && data.headerVideo.id){
+                jQuery(imgDiv).append(videoDivEdge);
+            }
+        }
+            
+        //binding DIV with Image
+        jQuery(imgDivEdge).append(img);
+        jQuery(imgDiv).append(imgDivEdge);
+        jQuery(result).append(imgDiv);
 
-            var btnLikeDiv=document.createElement('a');
-            jQuery(btnLikeDiv).addClass("timelineLikes");
-            var btnLike = document.createElement('a');
-            jQuery(btnLike).addClass('timelineButton');
-            jQuery(btnLike).attr('data-toggle','tooltip');
-            jQuery(btnLike).attr('data-placement','bottom');
-            jQuery(btnLike).attr('title','');
-            jQuery(btnLike).attr("class_aktif","like_btn_aktif");
-            jQuery(btnLike).attr("id","div_like_btn");
-            jQuery(btnLike).attr("class_pass","like_btn");
-            if(userId==data.creatorId){
-                jQuery(btnLikeDiv).css("display","none");  
-            }
-            if(data.userRelation.like)
-            {
-                jQuery(btnLike).addClass('like_btn_aktif'); 
-                jQuery(btnLike).attr('pressed','true'); 
-            }else
-            {
-                jQuery(btnLike).addClass('like_btn'); 
-                jQuery(btnLike).attr('pressed','false'); 
-            }
-            jQuery(btnLike).click(function() {
-                likeEvent(this,data.id);
-                return false;
-            });
-            jQuery(btnLikeDiv).append(btnLike);
-            
-            var btnMaybeDiv=document.createElement('a');
-            jQuery(btnMaybeDiv).addClass("timelineLikes");
-            var btnMaybe = document.createElement('a');
-            jQuery(btnMaybe).addClass('timelineButton'); 
-            jQuery(btnMaybe).attr('data-toggle','tooltip');
-            jQuery(btnMaybe).attr('data-placement','bottom');
-            jQuery(btnMaybe).attr('title','');
-            jQuery(btnMaybe).attr("class_aktif","maybe_btn_aktif");
-            jQuery(btnMaybe).attr("id","div_maybe_btn");
-            jQuery(btnMaybe).attr("class_pass","maybe_btn");
-            if(userId==data.creatorId){
-                jQuery(btnMaybe).css("display","none");  
-            }
-            if(userId==data.creatorId){
-                jQuery(btnMaybeDiv).css("display","none");  
-            }
-            if(data.userRelation.joinType==2)
-            {
-                jQuery(btnMaybe).addClass('maybe_btn_aktif'); 
-                jQuery(btnMaybe).attr('pressed','true'); 
-            }else
-            {
-                jQuery(btnMaybe).addClass('maybe_btn'); 
-                jQuery(btnMaybe).attr('pressed','false'); 
-            }
-            jQuery(btnMaybe).click(function() {
-                sendResponseEvent(this,data.id,2);
-                return false;
-            });
-            jQuery(btnMaybeDiv).append(btnMaybe);
-            
-            var btnShareDiv=document.createElement('a');
-            jQuery(btnShareDiv).addClass("timelineLikes");
-            var btnShare = document.createElement('a');
-            jQuery(btnShare).addClass('timelineButton'); 
-            jQuery(btnShare).attr('data-toggle','tooltip');
-            jQuery(btnShare).attr('data-placement','bottom');
-            jQuery(btnShare).attr('title','');
-            jQuery(btnShare).attr("class_aktif","share_btn_aktif");
-            jQuery(btnShare).attr("id","div_share_btn");
-            jQuery(btnShare).attr("class_pass","share_btn");
-            if(userId==data.creatorId){
-                jQuery(btnShareDiv).css("display","none");  
-            }
-            if(data.userRelation.reshare)
-            {
-                jQuery(btnShare).addClass('share_btn_aktif'); 
-                jQuery(btnShare).attr('pressed','true'); 
-            }else
-            {
-                jQuery(btnShare).addClass('share_btn'); 
-                jQuery(btnShare).attr('pressed','false'); 
-            }
-            jQuery(btnShare).click(function() {
-                reshareEvent(this,data.id);
-                return false;
-            });
-            jQuery(btnShareDiv).append(btnShare);
-            
-            var btnJoinDiv=document.createElement('a');
-            jQuery(btnJoinDiv).addClass("timelineLikes");
-            var btnJoin = document.createElement('a');
-            jQuery(btnJoin).addClass('timelineButton'); 
-            jQuery(btnJoin).attr('data-toggle','tooltip');
-            jQuery(btnJoin).attr('data-placement','bottom');
-            jQuery(btnJoin).attr('title','');
-            jQuery(btnJoin).attr("class_aktif","join_btn_aktif");
-            jQuery(btnJoin).attr("id","div_join_btn");
-            jQuery(btnJoin).attr("class_pass","join_btn");
-            if(userId==data.creatorId){
-                jQuery(btnJoinDiv).css("display","none");  
-            }
-            if(data.userRelation.joinType==1)
-            {
-                jQuery(btnJoin).addClass('join_btn_aktif'); 
-                jQuery(btnJoin).attr('pressed','true'); 
-            }else
-            {
-                jQuery(btnJoin).addClass('join_btn'); 
-                jQuery(btnJoin).attr('pressed','false'); 
-            }
-            jQuery(btnJoin).click(function() {
-                sendResponseEvent(this,data.id,1);
-                return false;
-            });
-            jQuery(btnJoinDiv).append(btnJoin);
-            
-            var editJoinDiv=document.createElement('a');
-            jQuery(editJoinDiv).addClass("timelineLikes");
-            var editJoin = document.createElement('a');
-            jQuery(editJoin).addClass('timelineButton'); 
-            jQuery(editJoin).attr('data-toggle','tooltip');
-            jQuery(editJoin).attr('data-placement','bottom');
-            jQuery(editJoin).attr('title','');
-            jQuery(editJoin).attr("class_aktif","edit_btn_aktif");
-            jQuery(editJoin).attr("id","div_edit_btn");
-            jQuery(editJoin).attr("class_pass","edit_btn");
-            if(userId!=data.creatorId){
-                jQuery(editJoinDiv).css("display","none");  
-            }
-            jQuery(editJoin).addClass('edit_btn');
-            jQuery(editJoin).click(function() {
-                openEditEvent(data.id);
-                return false;
-            });
-            jQuery(editJoinDiv).append(editJoin);
-            // bind click event
-            
-            jQuery(likeShareDiv).append(btnLikeDiv);
-            jQuery(likeShareDiv).append(btnShareDiv);
-            jQuery(likeShareDiv).append(btnMaybeDiv);
-            jQuery(likeShareDiv).append(btnJoinDiv);
-            jQuery(likeShareDiv).append(editJoinDiv);
-            
-            //if(userId){
-            jQuery(imgDiv).append(likeShareDiv);
-            //}
-            
-            //video
-            if(data.has_video){
-                if(data.headerVideo && data.headerVideo.id){
-                    jQuery(imgDiv).append(videoDivEdge);
-                }
-            }
-            
-            //binding DIV with Image
-            jQuery(imgDiv).attr('id','div_img_event_'+data.id);
-            jQuery(imgDivEdge).append(img);
-            jQuery(imgDiv).append(imgDivEdge);
-            jQuery(result).append(imgDiv);
+        //content DIV
+        var contentDIV = document.createElement('div');
+        jQuery(contentDIV).addClass('m_e_metin');
 
-            //content DIV
-            var contentDIV = document.createElement('div');
-            jQuery(contentDIV).addClass('m_e_metin');
-
-            //title
-            var titleDIV = document.createElement('div');
-            jQuery(titleDIV).addClass('m_e_baslik');
-            jQuery(titleDIV).append(data.title);
-            jQuery(contentDIV).append(titleDIV);
+        //title container
+        var titleContentDIV=document.createElement('div');
+        jQuery(titleContentDIV).addClass('m_e_baslik_container');
             
+        //title
+        var titleDIV = document.createElement('div');
+        jQuery(titleDIV).addClass('m_e_baslik');
+        jQuery(titleDIV).append('<h1 itemprop="name">'+data.title+'</h1>');
+        jQuery(titleContentDIV).append(titleDIV);
             
-            //Creator Div
-            var creatorDIV = document.createElement('div');
-            jQuery(creatorDIV).addClass('m_e_com');
-            var creatorDIVP=document.createElement('p');
-            jQuery(creatorDIVP).css("cursor","pointer");
+        //joinLikeCount
+        var joinLikeCountDIV = document.createElement('div');
+        jQuery(joinLikeCountDIV).addClass('joinLikeCount');
+        //like count
+        var likeCountDIV = document.createElement('div');
+        jQuery(likeCountDIV).addClass('iconHeart');
+        jQuery(likeCountDIV).attr('eventid',data.id);
+        var likescount=0;
+        if(data.likescount)
+            likescount=data.likescount;
+        jQuery(likeCountDIV).append(jQuery("<a>"+likescount+"</a>"));
+        jQuery(joinLikeCountDIV).append(likeCountDIV);
+        //people count
+        var joinCountDIV = document.createElement('div');
+        jQuery(joinCountDIV).addClass('iconPeople');
+        jQuery(joinCountDIV).attr('eventid',data.id);
+        var attendancecount=0;
+        if(data.attendancecount)
+            attendancecount=data.attendancecount;
+        jQuery(joinCountDIV).append(jQuery("<a>"+attendancecount+"</a>"));
+        jQuery(joinLikeCountDIV).append(joinCountDIV);
+        jQuery(titleContentDIV).append(joinLikeCountDIV);
+        jQuery(contentDIV).append(titleContentDIV);
             
+        //Creator Div
+        var creatorDIV = document.createElement('div');
+        jQuery(creatorDIV).addClass('m_e_com');
             
-            jQuery(creatorDIV).append(creatorDIVP);
-            jQuery(contentDIV).append(creatorDIV);
-            var normal=true;
+        jQuery(contentDIV).append(creatorDIV);
             
-            if(typeof(campaignPage) != "undefined"){
-                campaignPage=true;
-            }else{
-                campaignPage=false;
-            }
+        var normal=true;
+        if(typeof(campaignPage) != "undefined"){
+            campaignPage=true;
+        }else{
+            campaignPage=false;
+        }
             
-            if((wookmark_channel==4 || wookmark_channel==10 ||
-                wookmark_channel==11 || wookmark_channel==12 ||
-                wookmark_channel==13) && reqUserPic && reqUserUserName && reqUserFullName && (selectedUser && !campaignPage)){
-                normal=false;
-            }
-            if(normal){
-                if(data.creator){
-                    jQuery(creatorDIVP).attr("onclick","window.location='"+TIMETY_HOSTNAME+data.creator.userName+"';");
-                    if(data.creator.type+""=="1"){
-                        jQuery(creatorDIVP).append('<div class="event_creator_verified_user timetyVerifiedIcon"><img src="'+TIMETY_HOSTNAME+'images/timetyVerifiedIcon.png"></div>');
-                    }
-                    var url=data.creator.userPicture;
-                    if(url==null || url=="" )
-                    {
-                        url=TIMETY_HOSTNAME+"images/anonymous.png"; 
-                    }
-                    if(url.indexOf("http")!=0)
-                    {
-                        url=TIMETY_HOSTNAME+url; 
-                    }
-                    jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
-                    var name=getUserFullName(data.creator);                    
-                    jQuery(creatorDIVP).append(jQuery("<span>"+" "+name+"</span>"));
+        if((wookmark_channel==4 || wookmark_channel==10 ||
+            wookmark_channel==11 || wookmark_channel==12 ||
+            wookmark_channel==13) && reqUserPic && reqUserUserName && reqUserFullName && (selectedUser && !campaignPage)){
+            normal=false;
+        }
+        if(normal){
+            if(data.creator){                    
+                if(data.creator.type+""=="1"){
+                    jQuery(creatorDIV).append(jQuery('<div class="event_creator_verified_user timetyVerifiedIcon"><img src="'+TIMETY_HOSTNAME+'images/timetyVerifiedIcon.png"></div>'));
                 }
-            }else{
-                jQuery(creatorDIVP).attr("onclick","window.location='"+TIMETY_HOSTNAME+reqUserUserName+"';");
-                var url=reqUserPic;
+                    
+                //user image 
+                var userImageDiv=document.createElement('div');
+                jQuery(userImageDiv).addClass("m_userImage");
+                jQuery(userImageDiv).attr("onclick","window.location='"+TIMETY_HOSTNAME+data.creator.userName+"';");
+                   
+                var url=data.creator.userPicture;
                 if(url==null || url=="" )
                 {
                     url=TIMETY_HOSTNAME+"images/anonymous.png"; 
@@ -560,195 +448,203 @@ function wookmarkHTML(dataArray,userId)
                 {
                     url=TIMETY_HOSTNAME+url; 
                 }
-                jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
-                jQuery(creatorDIVP).append(jQuery("<span>"+" "+reqUserFullName+"</span>"));
-                jQuery(creatorDIVP).append(jQuery("<span>"+" "+getUserLastActivityString(data,selectedUser)+"</span>"));
-            }
-            
-            
-            //description
-            var descriptionDIV = document.createElement('div');
-            jQuery(descriptionDIV).addClass('m_e_ackl');
-            jQuery(descriptionDIV).append(data.description);
-            jQuery(contentDIV).append(descriptionDIV);
-
-            //durum
-            var durumDIV = document.createElement('div');
-            jQuery(durumDIV).addClass('m_e_drm');
-            var durumUL = document.createElement('ul');
-
-            //li mavi
-            var liMavi = document.createElement('li');
-            var liMaviA = document.createElement('a');
-            var liMaviAImg = document.createElement('img');
-            jQuery(liMaviAImg).attr('src',TIMETY_HOSTNAME+'images/usr.png');
-            jQuery(liMaviAImg).attr('width',18);
-            jQuery(liMaviAImg).attr('heigh',18);
-            jQuery(liMaviAImg).attr('align','absmiddle');
-            jQuery(liMaviAImg).attr('border',0);
-            jQuery(liMaviA).attr('href','#');
-            jQuery(liMaviA).attr('onclick','return false;');
-            jQuery(liMaviA).addClass('mavi_link');
-            jQuery(liMavi).addClass('m_e_cizgi');
-            jQuery(liMaviA).append(liMaviAImg);
-            jQuery(liMaviA).append(data.attendancecount);
-            jQuery(liMavi).append(liMaviA);
-            jQuery(durumUL).append(liMavi);
-
-            //li turuncu
-            var liTuruncu = document.createElement('li');
-            var liTuruncuA = document.createElement('a');
-            var liTuruncuAImg = document.createElement('img');
-            jQuery(liTuruncuAImg).attr('src',TIMETY_HOSTNAME+'images/comm.png');
-            jQuery(liTuruncuAImg).attr('width',18);
-            jQuery(liTuruncuAImg).attr('heigh',18);
-            jQuery(liTuruncuAImg).attr('align','absmiddle');
-            jQuery(liTuruncuAImg).attr('border',0);
-            jQuery(liTuruncuA).attr('href','#');
-            jQuery(liTuruncuA).attr('onclick','return false;');
-            jQuery(liTuruncuA).addClass('turuncu_link');
-            jQuery(liTuruncu).addClass('m_e_cizgi');
-            jQuery(liTuruncuA).append(liTuruncuAImg);
-            jQuery(liTuruncuA).append(data.commentCount);
-            jQuery(liTuruncu).append(liTuruncuA);
-            jQuery(durumUL).append(liTuruncu);
-
-            //li yesil
-            var remTime=calculateRemainingTime(data.startDateTime);
-            var liYesil = document.createElement('li');
-            var liYesilA = document.createElement('a');
-            var liYesilAImg = document.createElement('img');
-            if(remTime==getLanguageText("LANG_WOOKMARK_FILLER_TIME_PAST")){
-                jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn_k.png');
+                jQuery(userImageDiv).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
+                jQuery(creatorDIV).append(userImageDiv);
+                    
+                var name=getUserFullName(data.creator);                    
+                jQuery(creatorDIV).append(jQuery("<h1><span class=\"event_box_username\" onclick=\"window.location='"+TIMETY_HOSTNAME+data.creator.userName+"';\">"+name+"<span></h1>"));
+                jQuery(creatorDIV).append(jQuery('<div itemprop="performer" itemscope="itemscope" itemtype="http://schema.org/Person" class="microdata_css"><span itemprop="name">'+name+'</span><a href="'+TIMETY_HOSTNAME+data.creator.userName+'" itemprop="url">'+name+'</div>'));  
             }else{
-                jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
+                //user image 
+                userImageDiv=document.createElement('div');
+                jQuery(userImageDiv).addClass("m_userImage");
+                     
+                url=TIMETY_HOSTNAME+"images/anonymous.png"; 
+                jQuery(userImageDiv).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
+                jQuery(creatorDIV).append(userImageDiv);
+                                        
+                jQuery(creatorDIV).append(jQuery("<h1><span class=\"event_box_username\"><span></h1>"));
             }
-            jQuery(liYesilAImg).attr('width',18);
-            jQuery(liYesilAImg).attr('heigh',18);
-            jQuery(liYesilAImg).attr('align','absmiddle');
-            jQuery(liYesilAImg).attr('border',0);
-            jQuery(liYesilA).attr('href','#');
-            jQuery(liYesilA).attr('onclick','return false;');
-            if(remTime==getLanguageText("LANG_WOOKMARK_FILLER_TIME_PAST")){
-                jQuery(liYesilA).addClass('turuncu_link');
-            }else{
-                jQuery(liYesilA).addClass('yesil_link');
+        }else{
+            if(reqUserUserIsVerfied+""=="1"){
+                jQuery(creatorDIV).append(jQuery('<div class="event_creator_verified_user timetyVerifiedIcon"><img src="'+TIMETY_HOSTNAME+'images/timetyVerifiedIcon.png"></div>'));
             }
-            jQuery(liYesilA).append(liYesilAImg);
-            jQuery(liYesilA).append(calculateRemainingTime(data.startDateTime));
-            jQuery(liYesil).append(liYesilA);
-            jQuery(durumUL).append(liYesil);
-
-            if(!!(data.location)){
-                var durumAlt = document.createElement('div');
-                jQuery(durumAlt).addClass('m_e_alt');
-                jQuery(durumAlt).append(data.location);
-            }
-
-            jQuery(durumDIV).append(durumUL);
-            jQuery(contentDIV).append(durumDIV);
-            jQuery(result).append(contentDIV);
-            //jQuery(result).append(durumAlt);    
-            
-            jQuery('.main_event').append(result);
-            
-            likeshareInit(userId, likeShareDiv);
-        }else
-        {
-            result = document.createElement('div');
-            jQuery(result).addClass('main_event_box');
-            
-            // img DIV
-            imgDiv = document.createElement('div');
-            jQuery(imgDiv).addClass('m_e_img');    
-
-            //IMG tag
-            img = document.createElement('img');
-            jQuery(img).attr('onclick','window.open("'+data.url+'","_blank");return false;');
-            if(data.img)
+                    
+            //user image 
+            userImageDiv=document.createElement('div');
+            jQuery(userImageDiv).addClass("m_userImage");
+            jQuery(userImageDiv).attr("onclick","window.location='"+TIMETY_HOSTNAME+reqUserUserName+"';");
+                   
+            url=reqUserPic;
+            if(url==null || url=="" )
             {
-                jQuery(img).attr('src',TIMETY_HOSTNAME+data.img);
-                if(data.imgWidth && data.imgWidth!=0)
-                    jQuery(img).attr('width',data.imgWidth);
-                else
-                    jQuery(img).attr('width',186);
-                if(data.imgHeight && data.imgHeight!=0)
-                    jQuery(img).attr('height',data.imgHeight);
-            }else
-            {
-                jQuery(img).attr('width',186);
-                jQuery(img).attr('heigh',275);
+                url=TIMETY_HOSTNAME+"images/anonymous.png"; 
             }
-            //binding DIV with Image
-            jQuery(imgDiv).append(img);
-            jQuery(result).append(imgDiv);
-            
-            
-            contentDIV = document.createElement('div');
-            jQuery(contentDIV).addClass('m_e_metin');
-            
-            //durum
-            durumDIV = document.createElement('div');
-            jQuery(durumDIV).addClass('m_e_drm');
-            durumUL = document.createElement('ul');
-
-            //li mavi
-            liMavi = document.createElement('li');
-            liMaviA = document.createElement('a');
-            liMaviAImg = document.createElement('img');
-            jQuery(liMaviAImg).attr('src',TIMETY_HOSTNAME+'images/usr.png');
-            jQuery(liMaviAImg).attr('width',18);
-            jQuery(liMaviAImg).attr('heigh',18);
-            jQuery(liMaviAImg).attr('align','absmiddle');
-            jQuery(liMaviAImg).attr('border',0);
-            jQuery(liMaviA).attr('href','#');
-            jQuery(liMaviA).addClass('mavi_link');
-            jQuery(liMavi).addClass('m_e_cizgi');
-            jQuery(liMaviA).append(liMaviAImg);
-            jQuery(liMaviA).append(data.people);
-            jQuery(liMavi).append(liMaviA);
-            jQuery(durumUL).append(liMavi);
-
-            //li turuncu
-            liTuruncu = document.createElement('li');
-            liTuruncuA = document.createElement('a');
-            liTuruncuAImg = document.createElement('img');
-            jQuery(liTuruncuAImg).attr('src',TIMETY_HOSTNAME+'images/comm.png');
-            jQuery(liTuruncuAImg).attr('width',18);
-            jQuery(liTuruncuAImg).attr('heigh',18);
-            jQuery(liTuruncuAImg).attr('align','absmiddle');
-            jQuery(liTuruncuAImg).attr('border',0);
-            jQuery(liTuruncuA).attr('href','#');
-            jQuery(liTuruncuA).addClass('turuncu_link');
-            jQuery(liTuruncu).addClass('m_e_cizgi');
-            jQuery(liTuruncuA).append(liTuruncuAImg);
-            jQuery(liTuruncuA).append(data.comment);
-            jQuery(liTuruncu).append(liTuruncuA);
-            jQuery(durumUL).append(liTuruncu);
-
-            //li yesil
-            liYesil = document.createElement('li');
-            liYesilA = document.createElement('a');
-            liYesilAImg = document.createElement('img');
-            jQuery(liYesilAImg).attr('src',TIMETY_HOSTNAME+'images/zmn.png');
-            jQuery(liYesilAImg).attr('width',18);
-            jQuery(liYesilAImg).attr('heigh',18);
-            jQuery(liYesilAImg).attr('align','absmiddle');
-            jQuery(liYesilAImg).attr('border',0);
-            jQuery(liYesilA).attr('href','#');
-            jQuery(liYesilA).addClass('yesil_link');
-            jQuery(liYesilA).append(liYesilAImg);
-            jQuery(liYesilA).append(data.time);
-            jQuery(liYesil).append(liYesilA);
-            jQuery(durumUL).append(liYesil);
-            
-            
-            jQuery(durumDIV).append(durumUL);
-            jQuery(contentDIV).append(durumDIV);
-            jQuery(result).append(contentDIV);
-            
-            jQuery('.main_event').append(result);
+            if(url.indexOf("http")!=0)
+            {
+                url=TIMETY_HOSTNAME+url; 
+            }
+            jQuery(userImageDiv).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
+            jQuery(creatorDIV).append(userImageDiv);
+                                     
+            jQuery(creatorDIV).append(jQuery("<h1><span class=\"event_box_username\" onclick=\"window.location='"+TIMETY_HOSTNAME+data.creator.userName+"';\">"+reqUserFullName+" "+getUserLastActivityString(data,selectedUser)+"<span></h1>"));
         }
+            
+        // tarih 
+        jQuery(creatorDIV).append(jQuery("<div class=\"eventDate\"></div>"));
+        var localDate=moment();
+        if(data.startDateTime)
+            localDate=getLocalTime(data.startDateTime);
+        localDate=localDate.format("ddd , DD MMMM , HH:mm");
+        jQuery(creatorDIV).append(jQuery("<h2><span style=\"padding-left: 28px;\">"+localDate+"</span></h2>"));
+        jQuery(creatorDIV).append(jQuery('<meta itemprop="startDate" content="'+moment.utc(data.startDateTimeLong).format("YYYY-MM-DDTHH:mm")+'">'));
+        jQuery(creatorDIV).append(jQuery('<meta itemprop="endDate" content="'+moment.utc(data.endDateTimeLong).format("YYYY-MM-DDTHH:mm")+'">'));
+        jQuery(creatorDIV).append(jQuery('<meta itemprop="description" content="'+data.description+'">'));
+            
+        //location
+        var locationDIV=jQuery("<div class=\"eventLocation\"></div>")
+        jQuery(locationDIV).append(jQuery("<div class=\"eventLocationIcon\"></div>"));
+        var locc="";
+        if(data.location)
+            locc=data.location;
+        if(locc.length>30)
+            locc= locc.substr(0, 30);
+        jQuery(locationDIV).append(jQuery("<h2><span style=\"padding-left: 28px;\">"+locc+"...</span></h2>"));
+        if(data.loc_lat && data.loc_lng){
+            jQuery(locationDIV).click(function(){
+                window.open('https://maps.google.com/maps?&q='+data.loc_lat+','+data.loc_lng, '_blank');
+            });
+        }else{
+            jQuery(locationDIV).click(function(){
+                window.open('https://maps.google.com/maps?&q='+data.location, '_blank');
+            });
+        }
+        
+        var location_schema=jQuery('<div itemprop="location" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness" class="microdata_css"></div>');
+        jQuery(location_schema).append('<span itemprop="name">'+data.location+'</span>');
+        jQuery(location_schema).append('<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates"><meta itemprop="latitude" content="'+data.loc_lat+'" /><meta itemprop="longitude" content="'+data.loc_lng+'" /></div>');
+        jQuery(locationDIV).append(location_schema);                                                                      
+                                            
+        jQuery(creatorDIV).append(locationDIV);
+        
+            
+        //join like share
+        var likeShareDiv=jQuery("<div class=\"joinLikeBtn\"></div>");
+        
+        if(userId==data.creatorId){
+            var btnEditEvent=jQuery("<div class=\"editEvent\"></div>");
+            jQuery(btnEditEvent).append(jQuery("<a onclick=\"openEditEvent("+data.id+");return false;\">"+getLanguageText("LANG_SOCIAL_EDIT_EVENT")+"</a>"));      
+            jQuery(likeShareDiv).append(btnEditEvent);
+        }else{
+            // check userRelation from local
+            var obj=getLocalEventData(userId, data.id);
+            if(obj && obj.userRelation){
+                if(data.userRelation && (data.userRelation.joinType!=2 || data.userRelation.joinType!=1) && obj.userRelation.joinType){
+                    data.userRelation.joinType=obj.userRelation.joinType;
+                    jQuery(likeShareDiv).data('checked','true');
+                }
+                
+                if(data.userRelation && !data.userRelation.reshare && obj.userRelation.reshare ){
+                    data.userRelation.reshare=obj.userRelation.reshare;
+                    jQuery(likeShareDiv).data('checked','true');
+                }
+                
+                if(data.userRelation && !data.userRelation.like && obj.userRelation.like ){
+                    data.userRelation.like=obj.userRelation.like;
+                    jQuery(likeShareDiv).data('checked','true');
+                }
+            }
+            
+            if(data.userRelation.joinType==2)
+            {
+                btnJoin=jQuery('<div class="joinMaybeEvent" class_aktif="joinMaybeEvent_active" class_pass="joinMaybeEvent" class_loader="social_button_loader" pressed="false"><div>');
+                jQuery(btnJoin).attr("onclick",'sendResponseEvent(this,'+data.id+',1);return false;');
+                jQuery(btnJoin).append("<a class=\"m_join\">"+getLanguageText("LANG_SOCIAL_JOIN")+"</a>");
+                jQuery(btnJoin).append("<a class=\"m_joined\">"+getLanguageText("LANG_SOCIAL_JOINED")+"</a>");
+                jQuery(btnJoin).css("display","none");
+                jQuery(btnJoin).attr("eventid",data.id);
+                jQuery(btnJoin).attr("btntype","join");
+                jQuery(likeShareDiv).append(btnJoin);
+                
+                
+                var btnMaybe=jQuery('<div class="joinMaybeEvent_active" class_aktif="joinMaybeEvent_active" class_pass="joinMaybeEvent" class_loader="social_button_loader" pressed="true"></div>');
+                jQuery(btnMaybe).attr("onclick",'sendResponseEvent(this,'+data.id+',2);return false;');
+                jQuery(btnMaybe).append("<a>"+getLanguageText("LANG_SOCIAL_MAYBE")+"</a>");
+                jQuery(btnMaybe).attr("eventid",data.id);
+                jQuery(likeShareDiv).append(btnMaybe);
+                jQuery(btnMaybe).attr("btntype","maybe");
+            }else if(data.userRelation.joinType==1)
+            {
+                var btnJoin=jQuery('<div class="joinMaybeEvent_active" class_aktif="joinMaybeEvent_active" class_pass="joinMaybeEvent" class_loader="social_button_loader" pressed="true"></div>');
+                jQuery(btnJoin).attr("onclick",'sendResponseEvent(this,'+data.id+',1);return false;');
+                jQuery(btnJoin).append("<a class=\"m_join\">"+getLanguageText("LANG_SOCIAL_JOIN")+"</a>");
+                jQuery(btnJoin).append("<a class=\"m_joined\">"+getLanguageText("LANG_SOCIAL_JOINED")+"</a>");
+                jQuery(btnJoin).attr("eventid",data.id);
+                jQuery(btnJoin).attr("btntype","join");
+                jQuery(likeShareDiv).append(btnJoin); 
+                
+                btnMaybe=jQuery('<div class="joinMaybeEvent" class_aktif="joinMaybeEvent_active" class_pass="joinMaybeEvent" class_loader="social_button_loader" pressed="false"></div>');
+                jQuery(btnMaybe).attr("onclick",'sendResponseEvent(this,'+data.id+',2);return false;');
+                jQuery(btnMaybe).append("<a>"+getLanguageText("LANG_SOCIAL_MAYBE")+"</a>");
+                jQuery(btnMaybe).css("display","none");
+                jQuery(btnMaybe).attr("eventid",data.id);
+                jQuery(btnMaybe).attr("btntype","maybe");
+                jQuery(likeShareDiv).append(btnMaybe);
+            }else{
+                btnJoin=jQuery('<div class="joinMaybeEvent" class_aktif="joinMaybeEvent_active" class_pass="joinMaybeEvent" class_loader="social_button_loader" pressed="false"><div>');
+                jQuery(btnJoin).attr("onclick",'sendResponseEvent(this,'+data.id+',1);return false;');
+                jQuery(btnJoin).attr("eventid",data.id);
+                jQuery(btnJoin).append("<a class=\"m_join\">"+getLanguageText("LANG_SOCIAL_JOIN")+"</a>");
+                jQuery(btnJoin).append("<a class=\"m_joined\">"+getLanguageText("LANG_SOCIAL_JOINED")+"</a>");
+                jQuery(btnJoin).attr("btntype","join");
+                jQuery(likeShareDiv).append(btnJoin);
+                
+                btnMaybe=jQuery('<div class="joinMaybeEvent" class_aktif="joinMaybeEvent_active" class_pass="joinMaybeEvent" class_loader="social_button_loader" pressed="false"></div>');
+                jQuery(btnMaybe).attr("onclick",'sendResponseEvent(this,'+data.id+',2);return false;');
+                jQuery(btnMaybe).append("<a>"+getLanguageText("LANG_SOCIAL_MAYBE")+"</a>");
+                jQuery(btnMaybe).attr("eventid",data.id);
+                jQuery(btnMaybe).attr("btntype","maybe");
+                jQuery(likeShareDiv).append(btnMaybe);
+            }
+            
+            //like and share
+            var wrapperlikeReshareEventDiv=jQuery('<div class="wrapperlikeReshareEvent"></div>');
+            var btnReshare=jQuery('<div class_aktif="reshareEvent_active" class_pass="reshareEvent" onclick="reshareEvent(this,'+data.id+');return false;" data-toggle="tooltip" data-placement="bottom"></div>');
+            jQuery(btnReshare).attr("eventid",data.id);
+            if(data.userRelation.reshare)
+            {
+                jQuery(btnReshare).addClass('reshareEvent_active'); 
+                jQuery(btnReshare).attr('pressed','true'); 
+            }else{
+                jQuery(btnReshare).addClass('reshareEvent'); 
+                jQuery(btnReshare).attr('pressed','false'); 
+            }
+            jQuery(btnReshare).append('<a class="reshareIcon"></a>');
+            jQuery(wrapperlikeReshareEventDiv).append(btnReshare);
+            
+            var btnLike=jQuery('<div class_aktif="likeEvent_active" class_pass="likeEvent" onclick="likeEvent(this,'+data.id+');return false;" data-toggle="tooltip" data-placement="bottom"></div>');
+            jQuery(btnLike).attr("eventid",data.id);
+            if(data.userRelation.like)
+            {
+                jQuery(btnLike).addClass('likeEvent_active'); 
+                jQuery(btnLike).attr('pressed','true'); 
+            }else{
+                jQuery(btnLike).addClass('likeEvent'); 
+                jQuery(btnLike).attr('pressed','false'); 
+            }
+            jQuery(btnLike).append('<a class="likeIcon"></a>');
+            jQuery(btnLike).css("margin-left","4px");
+            jQuery(wrapperlikeReshareEventDiv).append(btnLike);
+            jQuery(likeShareDiv).append(wrapperlikeReshareEventDiv);
+            likeshareInit(userId, wrapperlikeReshareEventDiv);
+        //like and share
+        }
+        jQuery(contentDIV).append(likeShareDiv);
+        //join like share 
+        
+        
+        jQuery(result).append(contentDIV);
+        jQuery('.main_event').append(result);
     }); 
     setVerifiedAccountTooltip();
 }
@@ -933,12 +829,14 @@ function wookmarkHTMLMedia(dataArray,userId)
             //whole html    
             var result = document.createElement('div');
             jQuery(result).addClass('main_event_box');
+            jQuery(result).attr('mediaid',data.id);
             if(data.date){
                 jQuery(result).attr('date',data.date);
             }
             // img DIV
             var imgDiv = document.createElement('div');
-            jQuery(imgDiv).addClass('m_e_img');    
+            jQuery(imgDiv).addClass('m_e_img'); 
+            jQuery(imgDiv).attr('id','div_img_media_'+data_id);
            
             //IMG tag
             var imgDivEdge=jQuery('<div style="overflow: hidden;"></div>');
@@ -947,21 +845,16 @@ function wookmarkHTMLMedia(dataArray,userId)
             var img = document.createElement('img');
             jQuery(img).attr('mediaid', data_id);  
             jQuery(img).attr('onclick','return openMediaModalPanel("'+data_id+'");');
-            //vide
+            //video
             jQuery(videoDivEdge).attr('onclick','return openMediaModalPanel("'+data_id+'");');
             if(data.imgUrl)
             {
                 var param="";
-                
                 if(data.imgWidth && data.imgWidth!=0)
                 {
-                    if(data.imgWidth>186){
-                        if(data.imgHeight && data.imgHeight!=0)
-                        {
-                            data.imgHeight=(data.imgHeight*186)/data.imgWidth;
-                            data.imgWidth=186;
-                        }
-                    }
+                    var result_size=getImageSizeByWidth(data.imgHeight,data.imgWidth,TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+                    data.imgWidth=result_size[0];
+                    data.imgHeight=result_size[1];
                     
                     jQuery(img).attr('width',data.imgWidth); 
                     jQuery(imgDivEdge).css('width',data.imgWidth+'px');
@@ -971,18 +864,18 @@ function wookmarkHTMLMedia(dataArray,userId)
                 }   
                 else
                 {
-                    jQuery(img).attr('width',186);
-                    jQuery(imgDivEdge).css('width','186px');
+                    jQuery(img).attr('width',TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+                    jQuery(imgDivEdge).css('width',TIMETY_MAIN_IMAGE_DEFAULT_WIDTH+'px');
                     //video
-                    jQuery(videoDivEdge).css('width','186px');
+                    jQuery(videoDivEdge).css('width',TIMETY_MAIN_IMAGE_DEFAULT_WIDTH+'px');
                 } 
                 
                 if(data.imgHeight && data.imgHeight!=0)
                 {
                     jQuery(img).attr('height',data.imgHeight);
                     var margin_h=0;
-                    if(data.imgHeight<125){
-                        margin_h=((125-data.imgHeight)/2);
+                    if(data.imgHeight<TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT && false){
+                        margin_h=((TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT-data.imgHeight)/2);
                     }
                     jQuery(imgDivEdge).css('margin-bottom',margin_h+'px');
                     jQuery(imgDivEdge).css('margin-top',margin_h+'px');
@@ -997,10 +890,9 @@ function wookmarkHTMLMedia(dataArray,userId)
                 jQuery(img).attr('src',TIMETY_PAGE_GET_IMAGE_URL+encodeURIComponent(data.imgUrl)+param);
             }else
             {
-                jQuery(img).attr('width',186);
-                jQuery(img).attr('heigh',219);
+                jQuery(img).attr('width',TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+                jQuery(img).attr('height',TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT);
             }
-            jQuery(img).addClass('main_draggable');
             
             //video
             if(data.meidaType && data.meidaType==1 && data.videoUrl && data.videoUrl!="" ){
@@ -1008,26 +900,34 @@ function wookmarkHTMLMedia(dataArray,userId)
             }
             
             //binding DIV with Image
-            jQuery(imgDiv).attr('id','div_img_media_'+data_id);
             jQuery(imgDivEdge).append(img);
             jQuery(imgDiv).append(imgDivEdge);
             jQuery(result).append(imgDiv);
 
             //content DIV
             var contentDIV = document.createElement('div');
-            jQuery(contentDIV).addClass('m_e_metin');         
+            jQuery(contentDIV).addClass('m_e_metin');  
+            jQuery(contentDIV).css('padding-left','0px'); 
+            jQuery(contentDIV).css('padding-top','0px');
             
             //Creator Div
             var creatorDIV = document.createElement('div');
             jQuery(creatorDIV).addClass('m_e_com');
-            var creatorDIVP=document.createElement('p');
-            jQuery(creatorDIVP).css("cursor","pointer");
             
+            var usr_url=data.socialUrl;
+            if(data.type == "twitter"){
+                usr_url="https://twitter.com/"+data.userName;
+            }else if(data.type == "instagram"){
+                usr_url="http://instagram.com/"+data.userName;
+            }
+            jQuery(creatorDIV).click(function(){
+                window.open(usr_url, "_blank"); 
+            });
             
-            jQuery(creatorDIV).append(creatorDIVP);
             jQuery(contentDIV).append(creatorDIV);
             
-            jQuery(creatorDIVP).attr("onclick","return false;");
+            var userImgDIV=jQuery('<div class="m_userImage" ></div>');
+            
             var url=TIMETY_HOSTNAME+"images/anonymous.png"; 
             if(data.type){
                 if(data.type=="twitter"){
@@ -1037,28 +937,20 @@ function wookmarkHTMLMedia(dataArray,userId)
                 }else if(data.type=="instagram"){
                     url=TIMETY_HOSTNAME+"images/ins_logo.png"; 
                 }
-            /*
-                  
-                  else if(data.type=="facebook"){
-                    data_id=data.type;
-                }else if(data.type=="foursquare"){
-                    data_id=data.type;
-                }else if(data.type=="google_plus"){
-                    data_id=data.type;
-                }
-                */
             }
-            jQuery(creatorDIVP).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
+            jQuery(userImgDIV).append(jQuery("<img src=\""+url+"\" width=\"22\" height=\"22\" align=\"absmiddle\"></img>"));
+            var data_userName="";
             if(data.userName){
-                jQuery(creatorDIVP).append(jQuery("<span>"+" "+data.userName+"</span>"));      
-            }else{
-                jQuery(creatorDIVP).append(jQuery("<span> </span>")); 
+                data_userName=data.userName;
             }
+            jQuery(creatorDIV).append(userImgDIV);
+            jQuery(creatorDIV).append(jQuery('<h1><span class="event_box_username">'+data_userName+'</span></h1>'));  
             
             
             //description
             var descriptionDIV = document.createElement('div');
             jQuery(descriptionDIV).addClass('m_e_ackl');
+            jQuery(descriptionDIV).css("padding-bottom","12px;");
             if(data.description){
                 jQuery(descriptionDIV).append(data.description);
             }
@@ -1069,15 +961,15 @@ function wookmarkHTMLMedia(dataArray,userId)
             jQuery(durumDIV).addClass('m_e_drm');
             var durumUL = document.createElement('ul');
            
-           
             //li yesil
             var date_text="";
             if(data.date){
-                if((data.date+"").length>10){
-                    data.date=data.date/1000;
+                if((data.date+"").length<11){
+                    data.date=data.date*1000;
                 }
-                var d=moment.unix(data.date);
-                date_text = d.format("DD MMMM");
+                /*var d=moment.unix(data.date);
+                date_text = d.format("ddd , DD MMMM");*/
+                date_text= moment.utc(data.date).format("ddd , DD MMMM")
             }
             var liYesil = document.createElement('li');
             var liYesilA = document.createElement('a');
@@ -1097,4 +989,33 @@ function wookmarkHTMLMedia(dataArray,userId)
         }
     }); 
     setVerifiedAccountTooltip();
+}
+
+
+
+function getImageSizeByWidth(org_height,org_width,width) {
+    if(typeof org_width == "undefined"){
+        org_width= null;
+    }
+    if(typeof org_height == "undefined"){
+        org_height= null;
+    }
+    try{ 
+        var result = new Array();
+        if (org_height!=null && org_width!=null) {
+            if(typeof width == "undefined"){
+                width= TIMETY_MAIN_IMAGE_DEFAULT_WIDTH;
+            }
+            if (org_width != width) {
+                org_height = org_height * width;
+                org_height = Math.ceil(org_height / org_width);
+                org_width = width;
+            }
+        }
+    }catch (exp){
+        console.log(exp);
+    }
+    result[0] = org_width;
+    result[1] = org_height;
+    return result;
 }

@@ -26,11 +26,12 @@ if (array_key_exists("login", $_GET)) {
 <!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html  xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>       
-        <meta property="og:title" content="Timety"/>
+        <meta property="og:title" content="<?=LanguageUtils::getText("LANG_PAGE_TITLE")?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.png"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="Timety"/>
+        <meta property="og:description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
+        <meta property="description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
         <?php
@@ -59,8 +60,8 @@ if (array_key_exists("login", $_GET)) {
                     
         </script>
     </head>
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
-        <?php include('layout/layout_top_sign.php');
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+        <?php include('layout/layout_top.php');
         ?>
         <div class="register_bg"></div>
         <div id="create_account" class="create_account_width create_account_outline">

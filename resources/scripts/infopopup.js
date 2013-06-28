@@ -10,21 +10,22 @@ jQuery(document).ready(function(){
 
 function closeInfo()
 {
-     jQuery('.info_popup_open').fadeOut(200);
-     jQuery('.info_popup_open > p').remove();
+     jQuery('.info_popup_open').fadeOut(200,function(){
+         jQuery('.info_popup_open > p').remove();
+     });
 }
 
 function getInfo(show, text, state, duration){
     if(show) {
         if(state == "info") {
             jQuery('.info_popup_open > p').remove();
-            jQuery('.info_popup_open').css({'background-color':'#acc665'});
+            jQuery('.info_popup_open').css({'background-color':'#FFF'});
             jQuery('.info_popup_open').fadeIn('fast');
             jQuery('.info_popup_open').append('<p>' + text + '</p>');
         }
         else{
             jQuery('.info_popup_open > p').remove();
-            jQuery('.info_popup_open').css({'background-color':'#FF0000'});
+            jQuery('.info_popup_open').css({'background-color':'#FFF'});
             jQuery('.info_popup_open').fadeIn('fast');
             jQuery('.info_popup_open').append('<p>' + text + '</p>');
         }

@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    session_start();session_write_close();
                     header("charset=utf8");
 
                     require_once __DIR__ . '/../utils/Functions.php';

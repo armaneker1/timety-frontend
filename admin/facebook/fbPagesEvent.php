@@ -1,14 +1,15 @@
 <?php
 
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 3000);
 $error_handling = true;
 
-session_start();
+session_start();session_write_close();
+
 header("charset=utf8");
 
 require_once __DIR__ . '/../../utils/Functions.php';
 LanguageUtils::setLocale();
-HttpAuthUtils::checkHttpAuth();
+//HttpAuthUtils::checkHttpAuth();
 
 
 $facebook = new Facebook(array(
@@ -65,6 +66,10 @@ try {
                                 if (!empty($events) && is_array($events)) {
                                     foreach ($events as $event) {
                                         if (!empty($event) && isset($event['id'])) {
+                                            $fail = new TimeteFacebookEventFailReports();
+                                            $fail->setFacebookId($event['id']);
+                                            $fail->setUserId($userId);
+                                            $fail_status = false;
                                             $check = EventUtil::getEventByFacebookId($event['id']);
                                             if (empty($check)) {
                                                 try {
@@ -81,75 +86,6 @@ try {
 
                                                     if ($evt_creaor_id == $oauthId) {
                                                         $evt_obj = new Event();
-
-                                                        if (isset($evt['name']))
-                                                            $evt_obj->title = $evt['name'];
-                                                        if (isset($evt['description']))
-                                                            $evt_obj->description = $evt['description'];
-                                                        else
-                                                            $evt_obj->description = $evt['name'];
-
-                                                        if (!empty($evt_obj->description) && strlen($evt_obj->description) > 255) {
-                                                            $evt_obj->description = substr($evt_obj->description, 0, 255);
-                                                        }
-
-                                                        $evt_obj->privacy = 0;
-                                                        if (isset($evt['privacy']) && $evt['privacy'] == "OPEN") {
-                                                            $evt_obj->privacy = 1;
-                                                        }
-                                                        if (isset($evt['start_time']))
-                                                            $evt_obj->startDateTime = date(DATETIME_DB_FORMAT, strtotime($evt['start_time']));
-                                                        if (isset($evt['end_time']))
-                                                            $evt_obj->endDateTime = date(DATETIME_DB_FORMAT, strtotime($evt['end_time']));
-                                                        $evt_obj->addsocial_fb = 1;
-                                                        if (isset($evt['id']))
-                                                            $evt_obj->facebook_id = $evt['id'];
-                                                        if (isset($evt['location']))
-                                                            $evt_obj->location = $evt['location'];
-
-                                                        if (isset($evt['venue'])) {
-                                                            if (!empty($evt['venue']) && is_array($evt['venue']) && isset($evt['venue']['id'])) {
-                                                                try {
-                                                                    $ven = $facebook->api("/" . $evt['venue']['id']);
-                                                                    if (isset($ven['location']) && !empty($ven['location']) && is_array($ven['location'])) {
-                                                                        $l = $ven['location'];
-                                                                        if (isset($l['latitude']) && !empty($l['latitude'])) {
-                                                                            $evt_obj->loc_lat = $l['latitude'];
-                                                                        }
-                                                                        if (isset($l['longitude']) && !empty($l['longitude'])) {
-                                                                            $evt_obj->loc_lng = $l['longitude'];
-                                                                        }
-                                                                        if (isset($l['country']) && !empty($l['country'])) {
-                                                                            $evt_obj->loc_country = $l['country'];
-                                                                        }
-                                                                        if (empty($evt_obj->location) && isset($ven['name'])) {
-                                                                            $evt_obj->location = $evt['venue']['name'];
-                                                                        }
-                                                                    }
-                                                                } catch (Exception $exc) {
-                                                                    echo "115 -><p/>";
-                                                                    var_dump($exc);
-                                                                    echo "115 -><p/>";
-                                                                }
-                                                            }
-                                                        }
-
-                                                        if (empty($evt_obj->location) && !empty($timetyUserDefaults)) {
-                                                            $evt_obj->location = $timetyUserDefaults->getLocation();
-                                                        }
-
-                                                        if (empty($evt_obj->loc_city) && !empty($timetyUserDefaults)) {
-                                                            $evt_obj->loc_city = $timetyUserDefaults->getLocationCity();
-                                                        }
-
-                                                        if (empty($evt_obj->loc_country) && !empty($timetyUserDefaults)) {
-                                                            $evt_obj->loc_country = $timetyUserDefaults->getLocationCountry();
-                                                        }
-
-                                                        if ((empty($evt_obj->loc_lat) || empty($evt_obj->loc_lng)) && !empty($timetyUserDefaults)) {
-                                                            $evt_obj->loc_lat = $timetyUserDefaults->getLocationCorX();
-                                                            $evt_obj->loc_lng = $timetyUserDefaults->getLocationCorY();
-                                                        }
 
                                                         $pic = null;
                                                         if (isset($evt['cover']) && !empty($evt['cover']) & is_array($evt['cover']) && isset($evt['cover']['source'])) {
@@ -168,39 +104,160 @@ try {
                                                                 echo "116 -><p/>";
                                                             }
                                                         }
-                                                        $evt_obj->attach_link = "https://www.facebook.com/events/" . $event['id'];
-                                                        $evt_obj->creatorId = $userId;
+                                                        if (!empty($evt_obj->headerImage)) {
+                                                            if (isset($evt['name']))
+                                                                $evt_obj->title = $evt['name'];
+                                                            if (isset($evt['description']))
+                                                                $evt_obj->description = $evt['description'];
+                                                            else
+                                                                $evt_obj->description = $evt['name'];
 
-                                                        /*
-                                                         * 
-                                                         */
-                                                        $evt_obj->allday = 0;
-                                                        $evt_obj->repeat = 0;
-                                                        $evt_obj->addsocial_fb = 1;
-                                                        $evt_obj->addsocial_gg = 0;
-                                                        $evt_obj->addsocial_tw = 0;
-                                                        $evt_obj->addsocial_fq = 0;
-                                                        $evt_obj->reminderType = "";
-                                                        $evt_obj->reminderUnit = "";
-                                                        $evt_obj->reminderValue = 0;
-                                                        $evt_obj->attendance = null;
-                                                        $evt_obj->worldwide = 0;
+                                                            if (!empty($evt_obj->description) && strlen($evt_obj->description) > 255) {
+                                                                $evt_obj->description = substr($evt_obj->description, 0, 255);
+                                                            }
 
-                                                        //Tags
-                                                        $evt_obj->tags = null;
-                                                        if (!empty($timetyUserDefaults)) {
-                                                            $evt_obj->tags = $timetyUserDefaults->getEventTags();
+                                                            $evt_obj->privacy = 0;
+                                                            if (isset($evt['privacy']) && $evt['privacy'] == "OPEN") {
+                                                                $evt_obj->privacy = 1;
+                                                            }
+                                                            if (isset($evt['start_time']))
+                                                                $evt_obj->startDateTime = date(DATETIME_DB_FORMAT, strtotime($evt['start_time']));
+                                                            if (isset($evt['end_time']))
+                                                                $evt_obj->endDateTime = date(DATETIME_DB_FORMAT, strtotime($evt['end_time']));
+                                                            $evt_obj->addsocial_fb = 1;
+                                                            if (isset($evt['id']))
+                                                                $evt_obj->facebook_id = $evt['id'];
+                                                            if (isset($evt['location']))
+                                                                $evt_obj->location = $evt['location'];
+
+                                                            if (isset($evt['venue'])) {
+                                                                if (!empty($evt['venue']) && is_array($evt['venue']) && isset($evt['venue']['id'])) {
+                                                                    try {
+                                                                        $ven = $facebook->api("/" . $evt['venue']['id']);
+                                                                        if (isset($ven['location']) && !empty($ven['location']) && is_array($ven['location'])) {
+                                                                            $l = $ven['location'];
+                                                                            if (isset($l['latitude']) && !empty($l['latitude'])) {
+                                                                                $evt_obj->loc_lat = $l['latitude'];
+                                                                            }
+                                                                            if (isset($l['longitude']) && !empty($l['longitude'])) {
+                                                                                $evt_obj->loc_lng = $l['longitude'];
+                                                                            }
+                                                                            if (isset($l['country']) && !empty($l['country'])) {
+                                                                                $evt_obj->loc_country = $l['country'];
+                                                                            }
+                                                                            if (empty($evt_obj->location) && isset($ven['name'])) {
+                                                                                $evt_obj->location = $evt['venue']['name'];
+                                                                            }
+                                                                        }
+                                                                    } catch (Exception $exc) {
+                                                                        echo "115 -><p/>";
+                                                                        var_dump($exc);
+                                                                        echo "115 -><p/>";
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            if (empty($evt_obj->location) && !empty($timetyUserDefaults)) {
+                                                                $evt_obj->location = $timetyUserDefaults->getLocation();
+                                                            }
+
+                                                            if (empty($evt_obj->loc_city) && !empty($timetyUserDefaults)) {
+                                                                $evt_obj->loc_city = $timetyUserDefaults->getLocationCity();
+                                                            }
+
+                                                            if (empty($evt_obj->loc_country) && !empty($timetyUserDefaults)) {
+                                                                $evt_obj->loc_country = $timetyUserDefaults->getLocationCountry();
+                                                            }
+
+                                                            if ((empty($evt_obj->loc_lat) || empty($evt_obj->loc_lng)) && !empty($timetyUserDefaults)) {
+                                                                $evt_obj->loc_lat = $timetyUserDefaults->getLocationCorX();
+                                                                $evt_obj->loc_lng = $timetyUserDefaults->getLocationCorY();
+                                                            }
+
+                                                            $evt_obj->attach_link = "https://www.facebook.com/events/" . $event['id'];
+                                                            $evt_obj->creatorId = $userId;
+
+                                                            /*
+                                                             * 
+                                                             */
+                                                            $evt_obj->allday = 0;
+                                                            $evt_obj->repeat = 0;
+                                                            $evt_obj->addsocial_fb = 1;
+                                                            $evt_obj->addsocial_gg = 0;
+                                                            $evt_obj->addsocial_tw = 0;
+                                                            $evt_obj->addsocial_fq = 0;
+                                                            $evt_obj->reminderType = "";
+                                                            $evt_obj->reminderUnit = "";
+                                                            $evt_obj->reminderValue = 0;
+                                                            $evt_obj->attendance = null;
+                                                            $evt_obj->worldwide = 0;
+
+                                                            //Tags
+                                                            $evt_obj->tags = null;
+                                                            if (!empty($timetyUserDefaults)) {
+                                                                $evt_obj->tags = $timetyUserDefaults->getEventTags();
+                                                            }
+                                                            
+                                                            //$result = CreateEventUtil::createEvent($evt_obj);
+                                                            $result=new Result();
+                                                            $result->success=true;
+                                                            if (!empty($result) && (!$result->success || $result->error)) {
+                                                                $fail->setReason("error while creating");
+                                                                $fail->setContent(json_encode($result->param));
+                                                                $fail_status = true;
+                                                            }
+                                                            echo "<h4>Event (" . $evt_obj->facebook_id . ")</h4>";
+                                                            var_dump($evt_obj);
+                                                            echo "<p/> - - - </p>";
+                                                            var_dump($result);
+                                                            echo "<p/>";
+                                                        } else {
+                                                            $fail->setReason("cover img is empty");
+                                                            $fail_status = true;
                                                         }
-                                                        $result = CreateEventUtil::createEvent($evt_obj);
-                                                        var_dump($result);
                                                     }
                                                 } catch (Exception $exc) {
+                                                    $fail->setReason("exception");
+                                                    $fail->setContent($exc->getTraceAsString());
+                                                    $fail_status = true;
                                                     echo "114 -><p/>";
                                                     var_dump($exc);
                                                     echo "114 -><p/>";
                                                 }
-                                            }else{
-                                                var_dump("oley ".$event['id']);
+                                            } else {
+                                                //$fail->setReason("already exists");
+                                                //$fail_status = true;
+                                            }
+
+                                            if ($fail_status) {
+                                                //save
+                                                $time = date(DATETIME_DB_FORMAT);
+                                                try {
+                                                    $fail->setTriedAt($time);
+                                                    $fail->insertIntoDatabase(DBUtils::getConnection());
+                                                } catch (Exception $exc) {
+                                                    echo "124 -><p/>";
+                                                    var_dump($exc);
+                                                    echo "124 -><p/>";
+                                                }
+                                                //mail
+                                                try {
+                                                    $msg = "<html><body>";
+                                                    $msg = $msg . "<h1>User : " . $fail->getUserId() . " </h1>";
+                                                    $msg = $msg . "<h1>Facebook Id : " . $fail->getFacebookId() . " </h1>";
+                                                    $msg = $msg . "<h1>Error Reason : " . $fail->getReason() . " </h1>";
+                                                    $msg = $msg . "<h1>Content :</h1>";
+                                                    $msg = $msg . "<h3>" . $fail->getContent() . "</h3> <p/><p/>";
+                                                    $msg = $msg . "<h2>TIME : " . $time . " </h2>";
+                                                    $msg = $msg . "</body></html>";
+
+
+                                                    MailUtil::sendSESFromHtml($msg, "technical@timety.com", "FACEBOOK EVENT  ERROR - " . $fail->getUserId() . " - (" . $time . ")");
+                                                } catch (Exception $exc) {
+                                                    echo "125 -><p/>";
+                                                    var_dump($exc);
+                                                    echo "125 -><p/>";
+                                                }
                                             }
                                         }
                                     }

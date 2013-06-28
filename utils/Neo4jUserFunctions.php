@@ -492,6 +492,53 @@ class Neo4jUserUtil {
         }
     }
 
+    public static function getUserLikesEventsId($userId) {
+        if (!empty($userId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
+                    ".out('" . REL_EVENTS_LIKE . "').dedup.event_id";
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $result = $query->getResultSet();
+            $array = array();
+            foreach ($result as $row) {
+                array_push($array, $row[0]);
+            }
+            return $array;
+        }
+    }
+
+    public static function getUserResharesEventsId($userId) {
+        if (!empty($userId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
+                    ".out('" . REL_EVENTS_RESHARE . "').dedup.event_id";
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $result = $query->getResultSet();
+            $array = array();
+            foreach ($result as $row) {
+                array_push($array, $row[0]);
+            }
+            return $array;
+        }
+    }
+
+    public static function getUserJoinsEventsId($userId, $type) {
+        if (empty($type)) {
+            $type = 0;
+        }
+        if (!empty($userId)) {
+            $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+            $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
+                    ".outE('" . REL_EVENTS_JOINS . "').filter{it." . PROP_JOIN_TYPE . "==" . $type . "}.inV.dedup.event_id";
+            $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+            $result = $query->getResultSet();
+            $array = array();
+            foreach ($result as $row) {
+                array_push($array, $row[0]);
+            }
+            return $array;
+        }
+    }
 }
 
 ?>

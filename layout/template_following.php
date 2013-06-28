@@ -71,9 +71,16 @@ if (!isset($puserIdS) || empty($puserIdS)) {
                  height="30" border="0" align="absmiddle" class="follow_res" />
             <span class="follow_ad">
             </span> 
-            <a type="button" name="" value="" class="followed_btn"
+            <a type="button" 
+               name="" 
+               value="" 
+               class="followed_btn"
                id="foll_id"
-               onclick="unfollowUser(-1,-1,this);">
+               follow_id=""
+               active_class="follow_btn"
+               passive_class="followed_btn"
+               f_status="followed"
+               onclick="followUser(-1,-1,this);">
                 <span class="follow_text"><?= LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_FOLLOW") ?></span>
                 <span class="following_text"><?= LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_FOLLOWING") ?></span>
                 <span class="unfollow_text"><?= LanguageUtils::getText("LANG_PAGE_FOLLOWING_TEMPLATE_UNFOLLOW") ?></span>

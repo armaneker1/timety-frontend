@@ -3,7 +3,7 @@ p,h1,h2,h3,h4,h5{
     padding:0px
 }
 .bg {
-    background-image: url(images/bg.png);
+    background-color: #ededeb;
     margin: 0px;
     padding: 0px;
 }
@@ -157,15 +157,6 @@ p,h1,h2,h3,h4,h5{
     color: #626262;
     text-decoration: none;
 }
-.main_sol {
-    display: inline-block;
-    float: left;
-    width: auto;
-    margin-left: 30px;
-    position: relative;
-    margin-right: 100px;
-    margin-top: 50px;
-}
 
 .trh_gn {
     height: auto;
@@ -213,9 +204,6 @@ p,h1,h2,h3,h4,h5{
 
 
 
-.m_e_img {
-    padding: 4px;
-}
 .m_e_add_event {
     background-image: url(images/abbg.png);
     height: 179px;
@@ -230,26 +218,7 @@ p,h1,h2,h3,h4,h5{
     text-decoration: none;
 }
 
-.m_e_metin {
-    background-image: url(images/m_ebg.png);
-    background-repeat: repeat;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
-    border-top-style: solid;
-    border-bottom-style: solid;
-    border-top-color: #d1d1d1;
-    border-bottom-color: #e1e1e1;
-}
-.m_e_baslik {
-    font-size: 12px;
-    font-weight: bold;
-    color: #6a6a6a;
-    text-align: center;
-    padding: 10px 2px 10px 2px ;
-    background-image: url(images/u_line.png);
-    background-repeat: repeat-x;
-    background-position: bottom;
-}
+
 .m_e_ackl {
     font-size: 11px;
     color: #6a6a6a;
@@ -538,7 +507,7 @@ body {
     background-image: url(images/iconlar.png);
 }
 .follow_trans {
-    background-color: rgba(202,202,202,0.7);
+    background-color: rgba(202,202,202,0.9);
     height: 100%;
     width: 100%;
     position: fixed;
@@ -580,7 +549,7 @@ body {
 
 
 .follow_ekr {
-    background-image: url(images/bg.png);
+    background-color: #ededeb;
     background-repeat: repeat;
     width: 370px;
     border: 5px solid #FFF;
@@ -750,7 +719,7 @@ body {
 }
 
 .add_timete_ekr {
-    background-image: url(images/bg.png);
+    background-color: #ededeb;
     background-repeat: repeat;
     min-width:770px;
     border: 5px solid #FFF;
@@ -1022,7 +991,7 @@ body {
     margin-right: auto;
     margin-left: auto;
     position: absolute;
-    background-image: url(images/bg.png);
+    background-color: #ededeb;
     z-index: 600;
     top: 100px;
     border: 5px solid #FFF;

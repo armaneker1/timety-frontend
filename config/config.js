@@ -8,7 +8,7 @@ var TIMETY_PAGE_AJAX_SESSION=TIMETY_HOSTNAME+'session.php';
 var TIMETY_PAGE_ABOUT_YOU=TIMETY_HOSTNAME+'about-you';
 var TIMETY_PAGE_EVENT_DETAIL=TIMETY_HOSTNAME+'event/';
 var TIMETY_PAGE_USER_DETAIL=TIMETY_HOSTNAME+'user/';
-var TIMETY_PAGE_GET_IMAGE_URL=TIMETY_HOSTNAME+'getImage.php?src=';
+var TIMETY_PAGE_GET_IMAGE_URL=TIMETY_HOSTNAME+'getImage.php?zc=0&src=';
 var TIMETY_PAGE_UPDATE_PROFILE=TIMETY_HOSTNAME+'profile';
 var TIMETY_PAGE_UPDATE_EVENT=TIMETY_HOSTNAME+'updateevent/';
 var TIMETY_PAGE_SIGNUP=TIMETY_HOSTNAME+'signup/';
@@ -72,6 +72,7 @@ var TIMETY_PAGE_AJAX_GET_CITY_MAPS=TIMETY_AJAX_FOLDER+'getCityMaps.php';
 var TIMETY_PAGE_AJAX_GET_CITY_ID=TIMETY_AJAX_FOLDER+'getCityId.php';
 var TIMETY_PAGE_AJAX_IMG_UPLOAD=TIMETY_AJAX_FOLDER+'image_handling.php';
 var TIMETY_PAGE_AJAX_SET_USER_TIMEZONE=TIMETY_AJAX_FOLDER+'setUserTimeZone.php';
+var TIMETY_PAGE_AJAX_GET_USER_EVENTS=TIMETY_AJAX_FOLDER+'getUserEvents.php';
 
 
 var TIMETY_GOOGLE_MAPS_API_KEY="AIzaSyBEqRYW2dtiN3V6n2MLaP58MiZkoGG__Ek";
@@ -83,6 +84,14 @@ var FOURSQUARE_TEXT='foursquare';
 var GOOGLE_PLUS_TEXT='google_plus';
 var TWITTER_TEXT='twitter';
 
+
+var TIMETY_MAIN_IMAGE_DEFAULT_WIDTH=236;
+var TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT=236;
+var TIMETY_POPUP_HEADER_IMAGE_DEFAULT_WIDTH=500;
+var TIMETY_POPUP_HEADER_IMAGE_DEFAULT_HEIGHT=342;
+
+
+var TIMETY_NOTIFICATION_CHECK_TIME=10000;
 
 function getLocalTime(time){
     try{
@@ -114,12 +123,12 @@ function getUserFullName(user){
 }
 
 function s46786() {
-  return Math.floor((1 + Math.random()) * 0x10000)
-             .toString(16)
-             .substring(1);
+    return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
 };
 
 function generate_guid() {
-  return s46786() + s46786() + '-' + s46786() + '-' + s46786() + '-' +
-         s46786() + '-' + s46786() + s46786() + s46786();
+    return s46786() + s46786() + '-' + s46786() + '-' + s46786() + '-' +
+    s46786() + '-' + s46786() + s46786() + s46786();
 }

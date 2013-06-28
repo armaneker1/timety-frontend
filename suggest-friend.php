@@ -41,15 +41,16 @@ if (empty($user)) {
             });
             
         </script>
-        <meta property="og:title" content="Timety"/>
+        <meta property="og:title" content="<?=LanguageUtils::getText("LANG_PAGE_TITLE")?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="Timety"/>
+        <meta property="og:description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
+        <meta property="description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
         <?php $checkUserStatus =false;include('layout/layout_top.php'); ?>
         <div class="follow_trans"></div>
         <div class="follow_ekr" style="display: table">
@@ -132,15 +133,25 @@ if (empty($user)) {
 
                                          if ($key) {
                                         ?>
-                                            <a type="button" name="" value="" class="followed_btn"
+                                            <a type="button" name="" value="" 
+                                               class="followed_btn"
                                                id="foll_<?php echo $friend->id; ?>"
-                                               onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
+                                               follow_id="<?php echo $friend->id; ?>"
+                                               active_class="follow_btn"
+                                               passive_class="followed_btn"
+                                               f_status="followed"
+                                               onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
                                                 <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOW")?></span>
                                                 <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOWING")?></span>
                                                 <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_UNFOLLOW")?></span>
                                             </a>
                                         <?php } else { ?>
-                                            <a type="button" name="" value="" class="follow_btn"
+                                            <a type="button" name="" value="" 
+                                               class="follow_btn"
+                                               follow_id="<?php echo $friend->id; ?>"
+                                               active_class="follow_btn"
+                                               passive_class="followed_btn"
+                                               f_status="follow"
                                                id="foll_<?php echo $friend->id; ?>"
                                                onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
                                                 <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOW")?></span>
@@ -186,6 +197,10 @@ if (empty($user)) {
                                                 <!-- Bunlar ztn takip edilmediginden-->
                                             </span> <?php if (true) { ?>
                                                 <a type="button" name="" value="" class="follow_btn"
+                                                   follow_id="<?php echo $friend->id; ?>"
+                                                   active_class="follow_btn"
+                                                   passive_class="followed_btn"
+                                                   f_status="follow"
                                                    id="foll_<?php echo $friend->id; ?>"
                                                    onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
                                                     <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOW")?></span>
@@ -195,7 +210,11 @@ if (empty($user)) {
                                             <?php } else { ?>
                                                 <a type="button" name="" value="" class="followed_btn"
                                                    id="foll_<?php echo $friend->id; ?>"
-                                                   onclick="unfollowUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
+                                                   follow_id="<?php echo $friend->id; ?>"
+                                                   active_class="follow_btn"
+                                                   passive_class="followed_btn"
+                                                   f_status="followed"
+                                                   onclick="followUser(<?php echo $user->id . "," . $friend->id; ?>,this);">
                                                     <span class="follow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOW")?></span>
                                                     <span class="following_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_FOLLOWING")?></span>
                                                     <span class="unfollow_text"><?=  LanguageUtils::getText("LANG_PAGE_SUGGEST_FRIEND_UNFOLLOW")?></span>

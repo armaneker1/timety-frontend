@@ -97,7 +97,7 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                                     $user->lastName = $lastName;
                                     $user->email = $email;
                                     $user->userName = $username;
-                                    $user->password = $password;
+                                    $user->password = sha1($password);
                                     $user->status = 0;
                                     $user->location_cor_x = $lat;
                                     $user->location_cor_y = $lng;
@@ -223,6 +223,7 @@ if (!empty($type) && $type != "" && ($type == FACEBOOK_TEXT || $type == TWITTER_
                                                 $r->code = 100;
                                                 $r->data = new stdClass();
                                                 $r->data->user = $user;
+                                                ElasticSearchUtils::insertUsertoSBI($user);
                                                 $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
                                                 echo $result;
                                                 exit(1);

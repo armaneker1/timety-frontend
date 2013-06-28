@@ -50,8 +50,8 @@ define('LANG_PROFILE_BACTH_IGNORED', 'Önemseme');
 define('LANG_PROFILE_BACTH_CRATED_EVENTS', 'Oluşturduklarım');
 
 #PAGE TOP
-define('LANG_PAGE_TOP_NO_USER_HEADER_TEXT', '<span class="no_user_top_underline">Şimdi üye olun</span> ve etrafınızdaki tüm etkinlikleri Keşfedin, Paylaşın ve Takip edin'); 
-define('LANG_PAGE_TOP_CITY_INPUT_HINT', 'Şehir seçin');
+define('LANG_PAGE_TOP_NO_USER_HEADER_TEXT', 'Şimdi üye olun ve etrafınızdaki tüm etkinlikleri Keşfedin, Paylaşın ve Takip edin'); 
+define('LANG_PAGE_TOP_CITY_INPUT_HINT', 'Lokasyon');
 define('LANG_PAGE_TOP_CATEGORY_RECOMMENDED', 'Önerilen');
 define('LANG_PAGE_TOP_CATEGORY_EVERYTHIG', 'Tümü');
 define('LANG_PAGE_TOP_SEARCH_INPUT_HINT', 'Etkinlik ara');
@@ -69,6 +69,14 @@ define('LANG_PAGE_TOP_MEDIA', 'Medya');
 define('LANG_PAGE_MY_TIMETY_MENU_RECOMMENDED_EVENTS', 'Önerilen Etkinlikler');
 define('LANG_PAGE_MY_TIMETY_MENU_ALL_EVENTS', 'Tüm Etkinlikler');
 define('LANG_PAGE_MY_TIMETY_MENU_CATEGORIES', 'Kategoriler');
+define('LANG_PAGE_MY_TIMETY_MENU_WEEKEND', 'Hafta Sonu');
+define('LANG_PAGE_MY_TIMETY_MENU_FOURYOU', 'Sana Özel');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_ALL_EVENTS', 'Tüm Etkinlikler');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_TODAY', 'Bugün');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_TOMORROW', 'Yarın');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_THISWEEKEND', 'Bu Hafta Sonu');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_NEXT_7_DAYS', 'Önümüzdeki 7 Gün');
+define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_NEXT_30_DAYS', 'Önümüzdeki 30 Gün');
 
 #PAGE REGISTER TOP NO USER REGISTER
 define('LANG_PAGE_REGISTER_TOP_NO_USER_HEADER_TEXT', 'Etrafınızdaki tüm etkinlikleri Keşfedin, Paylaşın ve Takip edin');
@@ -89,6 +97,7 @@ define('LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER', 'etiket');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_DESC_PLACEHOLDER', 'açıklama');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER', 'davet edin');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL', 'İptal');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_DELETE', 'Etkinliği Sil');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_ADD_EVENT', 'Etkinliği Oluştur');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_DATE_TO', 'to');
 
@@ -285,6 +294,8 @@ define('LANG_PAGE_EDIT_EVENT_TITLE', 'Timety | Etkinlik güncelle');
 define('LANG_PAGE_EDIT_EVENT_SUC_UPDATED', 'Etkinlik güncellendi');
 define('LANG_PAGE_EDIT_EVENT_ERROR', 'Hata oluştu:');
 define('LANG_PAGE_EDIT_EVENT_BUTTON_UPDATE_EVENT', 'Etkinlik güncelle');
+define('LANG_PAGE_EDIT_EVENT_ERROR_ON_DELETE', 'Etkinlik silinirken hata meydana geldi');
+define('LANG_PAGE_EDIT_EVENT_DELETE_SUC', 'Etkinlik Sİlindi');
 
 #create account 
 define('LANG_PAGE_CREATE_ACCOUNT_TITLE', 'Timety | Üye olun');
@@ -415,4 +426,42 @@ define('LANG_ERROR_PAGE_TITLE', 'Hata meydana geldi.');
 define('LANG_ERROR_PAGE_CONTEXT', 'Hata meydana geldi.En kısa zamanda hata ile ilgileneceğiz.<br/>Ana sayfaya yönlendireleceksiniz.');
 define('LANG_ERROR_PAGE_SEND_MAIL', 'Mail Gönder');
 define('LANG_ERROR_PAGE_ALL_RIGHTS', 'Tüm hakları saklıdır');
+
+#MAIN_ EVENTS
+define('LANG_SOCIAL_JOIN', 'Katıl');
+define('LANG_SOCIAL_MAYBE', 'Belki');
+define('LANG_SOCIAL_EDIT', 'Düzenle');
+define('LANG_SOCIAL_JOINED', 'Gidiyorsun');
+
+#LANG
+define('LANG_LOCALE', 'tr_TR');
+
+#PAGE_TITLE
+define('LANG_PAGE_TITLE_EVENTS','Etkinlikler');
+define('LANG_PAGE_TITLE_ALL_EVENTS','Tüm Etkinlikler');
+define('LANG_PAGE_TITLE_FOLOOWING_EVENTS','Takip Etkimlerimin Etkinlikleri');
+define('LANG_PAGE_TITLE_EVENTS_FOR_TODAY','Büugün için Etkinlikler');
+define('LANG_PAGE_TITLE_EVENTS_FOR_NEXT_7_DAYS','Önümüzdeki 7 Gün için Etkinlikler');
+define('LANG_PAGE_TITLE_EVENTS_FOR_NEXT_30_DAYS','Önümüzdeki 30 Gün için Etkinlikler');
+define('LANG_PAGE_TITLE_EVENTS_FOR_TOMORROW','Yarın için Etkinlikler');
+define('LANG_PAGE_TITLE_EVENTS_FOR_THIS_WEEKEND','Bu Haftasonu için Etkinlikler');
+define('LANG_PAGE_TITLE_EVENTS_FOR_YOU','Size Özel Etkinlikler');
+
+#PAGE_DESCRIPTION
+define('LANG_PAGE_DESC_ALL_INDEX','Asla Kaçırma! Şimdi sevdiğiniz etkinlikleri keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. Etkinlikler artık her zamankinden daha iyi.');
+define('LANG_PAGE_DESC_ALL_EVENTS','All events-  Şimdi sevdiğiniz etkinlikleri keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. Etkinlikler artık her zamankinden daha iyi.');
+define('LANG_PAGE_DESC_FOLLOWING_EVENTS','Takip Etkimlerimin Etkinlikleri-  Şimdi sevdiğiniz etkinlikleri keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. Etkinlikler artık her zamankinden daha iyi.');
+define('LANG_PAGE_DESC_EVENTS_FOR_TODAY','Bugünki etkinlikler -  Şimdi sevdiğiniz etkinlikleri keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. Etkinlikler artık her zamankinden daha iyi.');
+define('LANG_PAGE_DESC_EVENTS_FOR_TOMORROW','Yarınki etkinlikler -  Şimdi sevdiğiniz etkinlikleri keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. Etkinlikler artık her zamankinden daha iyi.');
+define('LANG_PAGE_DESC_EVENTS_FOR_THIS_WEEKEND','Bu haftasonundaki etkinlikler -  Şimdi sevdiğiniz etkinlikleri keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. Etkinlikler artık her zamankinden daha iyi.');
+define('LANG_PAGE_DESC_EVENTS_FOR_YOU','Seveceğiniz etkinlikler -  Şimdi sevdiğiniz etkinlikleri keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. Etkinlikler artık her zamankinden daha iyi.');
+define('LANG_PAGE_DESC_EVENTS_CATEGORY','{0} Etkilikleri -  Şimdi {1} etkinliklerini keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. {0} etkinliklerini artık her zamankinden daha iyi.');
+define('LANG_PAGE_DESC_EVENTS_FOR_NEXT_N_DAYS','Önümüzdeki {0} Dün içindeki Etkinlikler -  Şimdi sevdiğiniz etkinlikleri keşfetme, arkadaşlarınız ile paylaşma ve eğlenme zamanı. Etkinlikler artık her zamankinden daha iyi.');
+
+#EVENT POPUP
+define('LANG_MAIL_TEXT','Eposta');
+define('LANG_POPUP_WEATHER','Hava Durumu');
+define('LANG_POPUP_TICKET','Bilet');
+define('LANG_POPUP_JOINING','Katılanlar');
+define('LANG_POPUP_MAYBE','Belki');
 ?>

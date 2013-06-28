@@ -116,7 +116,7 @@ if ($pageNumber >= 0) {
     if ($pageItemCount <= 0) {
         $pageItemCount = 40;
     }
-    $events = RedisUtils::getCategoryEvents($uid, $pageNumber, $pageItemCount, $date, null, $categoryId, $city, $tagId);
+    $events = RedisUtils::getCategoryEvents($uid, $pageNumber, $pageItemCount, $date,null, null, $categoryId, $city, $tagId);
     $events = json_decode($events);
     $r = new stdClass();
     $r->success = 1;
@@ -126,7 +126,6 @@ if ($pageNumber >= 0) {
     $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
     echo $result;
     exit(1);
-    var_dump($recommended);
 } else {
     $r = new stdClass();
     $r->success = 0;

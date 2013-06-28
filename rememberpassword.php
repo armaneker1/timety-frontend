@@ -159,7 +159,7 @@ if (!empty($userId)) {
         </script>
     </head>
 
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>">
+    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
         <?php include('layout/layout_top.php'); ?>
         <div id="personel_info_h">
             <div class="create_acco_ust"><?=  LanguageUtils::getText("LANG_PAGE_REMEMBER_HEADER_FORGOT")?></div>

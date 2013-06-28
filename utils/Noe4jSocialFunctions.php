@@ -8,25 +8,25 @@ use Everyman\Neo4j\Transport,
 class SocialUtil {
 
     public static function likeEvent($userId, $eventId) {
-        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
-        $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
-        $usr = $userIndex->findOne(PROP_USER_ID, $userId);
-        $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
         $result = new Result();
         $result->success = false;
         $result->error = true;
+        $res = SocialUtil::checkLike($userId, $eventId);
+        if (!empty($res) && sizeof($res) == 3) {
+            $rel = $res['rel'];
+            $usr = $res['user'];
+            $event = $res['event'];
+        }
         if (!empty($event) && !empty($usr)) {
             try {
-                if (!SocialUtil::checkLike($userId, $eventId)) {
+                $extra = false;
+                if (empty($rel)) {
                     $usr->relateTo($event, REL_EVENTS_LIKE)->save();
-                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_LIKED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
+                    $extra = true;
                 }
-                SocialUtil::incLikeCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
-                Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_LIKE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 3, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+                Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_LIKE, $extra);
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
@@ -53,9 +53,7 @@ class SocialUtil {
                 $result = $query->getResultSet();
                 $result->success = true;
                 $result->error = false;
-                SocialUtil::decLikeCountAsync($userId, $eventId);
                 Queue::likeEvent($eventId, $userId, REDIS_USER_INTERACTION_UNLIKE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 3, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
@@ -68,25 +66,26 @@ class SocialUtil {
     }
 
     public static function reshareEvent($userId, $eventId) {
-        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
-        $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
-        $usr = $userIndex->findOne(PROP_USER_ID, $userId);
-        $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
         $result = new Result();
         $result->success = false;
         $result->error = true;
+
+        $res = SocialUtil::checkReshare($userId, $eventId);
+        if (!empty($res) && sizeof($res) == 3) {
+            $rel = $res['rel'];
+            $usr = $res['user'];
+            $event = $res['event'];
+        }
         if (!empty($event) && !empty($usr)) {
             try {
-                if (!SocialUtil::checkReshare($userId, $eventId)) {
+                $extra = false;
+                if (empty($rel)) {
                     $usr->relateTo($event, REL_EVENTS_RESHARE)->save();
-                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_SHARED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
+                    $extra = true;
                 }
-                SocialUtil::incReshareCountAsync($userId, $eventId);
                 $result->success = true;
                 $result->error = false;
                 Queue::reshareEvent($eventId, $userId, REDIS_USER_INTERACTION_RESHARE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 4, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
@@ -113,9 +112,7 @@ class SocialUtil {
                 $result = $query->getResultSet();
                 $result->success = true;
                 $result->error = false;
-                SocialUtil::decReshareCountAsync($userId, $eventId);
                 Queue::reshareEvent($eventId, $userId, REDIS_USER_INTERACTION_UNSHARE);
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 4, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
@@ -287,13 +284,16 @@ class SocialUtil {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
                     " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
-                    " MATCH  event-[r:" . REL_EVENTS_RESHARE . "]-user" .
-                    " RETURN r";
-            //echo $query;
+                    " MATCH  event-[r?:" . REL_EVENTS_RESHARE . "]-user" .
+                    " RETURN event,user,r";
             $query = new Cypher\Query($client, $query, null);
             $nresult = $query->getResultSet();
             foreach ($nresult as $row) {
-                return true;
+                $result = array();
+                $result['rel'] = $row['r'];
+                $result['user'] = $row['user'];
+                $result['event'] = $row['event'];
+                return $result;
             }
         }
         return false;
@@ -304,13 +304,16 @@ class SocialUtil {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
             $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'), " .
                     " user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "') " .
-                    " MATCH  event-[r:" . REL_EVENTS_LIKE . "]-user" .
-                    " RETURN r";
-            //echo $query;
+                    " MATCH  event-[r?:" . REL_EVENTS_LIKE . "]-user" .
+                    " RETURN event,user,r";
             $query = new Cypher\Query($client, $query, null);
             $nresult = $query->getResultSet();
             foreach ($nresult as $row) {
-                return true;
+                $result = array();
+                $result['rel'] = $row['r'];
+                $result['user'] = $row['user'];
+                $result['event'] = $row['event'];
+                return $result;
             }
         }
         return false;

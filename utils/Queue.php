@@ -37,29 +37,32 @@ class Queue {
                 ), QUEUE_PRIORITY_HIGH);
     }
 
-    public static function likeEvent($eventId, $userId, $type) {
+    public static function likeEvent($eventId, $userId, $type,$redisQueueExtraParam=false) {
         self::send("event", "likeEvent", array(
             "eventID" => $eventId,
             "userID" => $userId,
             "type" => $type,
+            "extra" => $redisQueueExtraParam,
             "time" => time()
                 ), QUEUE_PRIORITY_HIGH);
     }
 
-    public static function reshareEvent($eventId, $userId, $type) {
+    public static function reshareEvent($eventId, $userId, $type, $redisQueueExtraParam = false) {
         self::send("event", "reshareEvent", array(
             "eventID" => $eventId,
             "userID" => $userId,
             "type" => $type,
+            "extra" => $redisQueueExtraParam,
             "time" => time()
                 ), QUEUE_PRIORITY_HIGH);
     }
 
-    public static function joinEvent($eventId, $userId, $type) {
+    public static function joinEvent($eventId, $userId, $type, $redisQueueExtraParam = false) {
         self::send("event", "joinEvent", array(
             "eventID" => $eventId,
             "userID" => $userId,
             "type" => $type,
+            "extra" => $redisQueueExtraParam,
             "time" => time()
                 ), QUEUE_PRIORITY_HIGH);
     }

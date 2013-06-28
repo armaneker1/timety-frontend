@@ -10,9 +10,10 @@ class EventProcessor {
     public $type;
     public $time;
     public $followID;
+    public $extra;
 
     public function addEvent() {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         $log->logInfo("event > addEvent > start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
         $redis = new Predis\Client();
         $event = new Event();
@@ -30,6 +31,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > addEvent Error" . $exc->getTraceAsString());
@@ -92,7 +94,7 @@ class EventProcessor {
     }
 
     public function addEventForOthers() {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         $log->logInfo("event > addEventForOthers > start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
         $redis = new Predis\Client();
         $event = new Event();
@@ -110,6 +112,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > addEventForOthers Error" . $exc->getTraceAsString());
@@ -151,7 +154,7 @@ class EventProcessor {
     }
 
     public function addEventToFollowers() {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
         $log->logInfo("event > addEventToFollowers >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
         $redis = new Predis\Client();
         $event = new Event();
@@ -168,6 +171,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > likeEvent Error" . $exc->getTraceAsString());
@@ -199,7 +203,7 @@ class EventProcessor {
     }
 
     public function likeEvent() {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > likeEvent >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
 
@@ -207,6 +211,43 @@ class EventProcessor {
         $event = new Event();
         $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
         if (!empty($event)) {
+            /*
+             * Event Process
+             */
+            if ($this->type == REDIS_USER_INTERACTION_LIKE) {
+                SocialUtil::incLikeCountAsync($this->userID, $this->eventID);
+                if ($this->extra) {
+                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_LIKED, $event->creatorId, $this->userID, $this->eventID, null);
+                }
+            } else if ($this->type == REDIS_USER_INTERACTION_UNLIKE) {
+                SocialUtil::decLikeCountAsync($this->userID, $this->eventID);
+            }
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $this->userID, "type" => 3, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+
+            /*
+             * Event Process
+             */
+
+
+            if ($this->type == REDIS_USER_INTERACTION_JOIN) {
+                NotificationUtils::insertNotification(NOTIFICATION_TYPE_JOIN, $event->creatorId, $this->userID, $this->eventID, null);
+                SocialUtil::incJoinCountAsync($this->userID, $this->eventID);
+                Neo4jEventUtils::increaseAttendanceCount($this->eventID);
+            } else if ($this->type == REDIS_USER_INTERACTION_DECLINE) {
+                if ($this->extra) {
+                    SocialUtil::decJoinCountAsync($this->userID, $this->eventID);
+                    Neo4jEventUtils::decreaseAttendanceCount($this->eventID);
+                }
+            } else if ($this->type == REDIS_USER_INTERACTION_MAYBE) {
+                SocialUtil::incJoinCountAsync($this->userID, $this->eventID);
+            } else if ($this->type == REDIS_USER_INTERACTION_IGNORE) {
+                
+            }
+            /*
+             * Event Process
+             */
+
+
             try {
                 $event->getHeaderImage();
                 $event->images = array();
@@ -218,6 +259,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > likeEvent Error" . $exc->getTraceAsString());
@@ -229,10 +271,39 @@ class EventProcessor {
              */
             if (!empty($this->userID)) {
                 $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
-                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY;
-                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
                 //get user rel to event
                 $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+
+
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result && $event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+                /*
+                 * Upcomming 
+                 */
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_UPCOMING;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result && $event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+
+                /*
+                 * Following
+                 */
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
                 //add event log
                 $result = $this->addUserEventLog($it, $event);
                 if ($result && $event->privacy . "" == "true") {
@@ -243,13 +314,14 @@ class EventProcessor {
                 }
             }
             Queue::addEventToFollowers($this->eventID, $this->userID, $this->type);
+            Queue::updateEventInfo($this->eventID, $this->userID, $this->type);
         } else {
             $log->logInfo("event > likeEvent >  event empty");
         }
     }
 
     public function reshareEvent() {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > reshareEvent >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
 
@@ -257,6 +329,24 @@ class EventProcessor {
         $event = new Event();
         $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
         if (!empty($event)) {
+
+            /*
+             * Event Process
+             */
+            if ($this->type == REDIS_USER_INTERACTION_RESHARE) {
+                if ($this->extra) {
+                    NotificationUtils::insertNotification(NOTIFICATION_TYPE_SHARED, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
+                }
+                SocialUtil::incReshareCountAsync($this->userID, $this->eventID);
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $this->userID, "type" => 4, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+            } else if ($this->type == REDIS_USER_INTERACTION_UNSHARE) {
+                SocialUtil::decReshareCountAsync($this->userID, $this->eventID);
+                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $this->userID, "type" => 4, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+            }
+            /*
+             * Event Process
+             */
+
             try {
                 $event->getHeaderImage();
                 $event->images = array();
@@ -268,6 +358,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > reshareEvent Error" . $exc->getTraceAsString());
@@ -279,10 +370,41 @@ class EventProcessor {
              */
             if (!empty($this->userID)) {
                 $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
-                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY;
-                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
                 //get user rel to event
                 $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+
+
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result && $event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+
+
+                /*
+                 * Upcomming 
+                 */
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_UPCOMING;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result && $event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+
+                /*
+                 * Following
+                 */
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
                 //add event log
                 $result = $this->addUserEventLog($it, $event);
                 if ($result && $event->privacy . "" == "true") {
@@ -299,7 +421,7 @@ class EventProcessor {
     }
 
     public function joinEvent() {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > joinEvent >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
 
@@ -307,6 +429,28 @@ class EventProcessor {
         $event = new Event();
         $event = Neo4jEventUtils::getNeo4jEventById($this->eventID);
         if (!empty($event)) {
+            /*
+             * Event Process
+             */
+            if ($this->type == REDIS_USER_INTERACTION_JOIN) {
+                NotificationUtils::insertNotification(NOTIFICATION_TYPE_JOIN, $event->creatorId, $this->userID, $this->eventID, null);
+                SocialUtil::incJoinCountAsync($this->userID, $this->eventID);
+                Neo4jEventUtils::increaseAttendanceCount($this->eventID);
+            } else if ($this->type == REDIS_USER_INTERACTION_DECLINE) {
+                if ($this->extra) {
+                    SocialUtil::decJoinCountAsync($this->userID, $this->eventID);
+                    Neo4jEventUtils::decreaseAttendanceCount($this->eventID);
+                }
+            } else if ($this->type == REDIS_USER_INTERACTION_MAYBE) {
+                SocialUtil::incJoinCountAsync($this->userID, $this->eventID);
+            } else if ($this->type == REDIS_USER_INTERACTION_IGNORE) {
+                
+            }
+            UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $this->userID, "type" => 5, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+            /*
+             * Event Process
+             */
+
             try {
                 $event->getHeaderImage();
                 $event->images = array();
@@ -318,6 +462,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > joinEvent Error" . $exc->getTraceAsString());
@@ -329,10 +474,41 @@ class EventProcessor {
              */
             if (!empty($this->userID)) {
                 $redis->getProfile()->defineCommand('removeItemByIdReturnItem', 'RemoveItemByIdReturnItem');
-                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY;
-                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
                 //get user rel to event
                 $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($event->id, $this->userID);
+
+
+
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_MY_TIMETY;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result && $event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+
+                /*
+                 * Upcomming 
+                 */
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_UPCOMING;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
+                //add event log
+                $result = $this->addUserEventLog($it, $event);
+                if ($result && $event->privacy . "" == "true") {
+                    RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                    EventKeyListUtil::updateEventKey($event->id, $key);
+                } else {
+                    EventKeyListUtil::deleteRecordForEvent($event->id, $key);
+                }
+
+                /*
+                 * Following
+                 */
+                $key = REDIS_PREFIX_USER . $this->userID . REDIS_SUFFIX_FOLLOWING;
+                $it = $redis->removeItemByIdReturnItem($key, $this->eventID);
                 //add event log
                 $result = $this->addUserEventLog($it, $event);
                 if ($result && $event->privacy . "" == "true") {
@@ -350,7 +526,7 @@ class EventProcessor {
     }
 
     public function updateEventInfo() {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > updateEventInfo >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time);
 
@@ -369,6 +545,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > updateEventInfo Error" . $exc->getTraceAsString());
@@ -418,6 +595,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > updateEventInfoForOthers Error" . $exc->getTraceAsString());
@@ -464,6 +642,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > updateEventForOthers Error" . $exc->getTraceAsString());
@@ -537,6 +716,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
             } catch (Exception $exc) {
                 $log->logError("event > updateEvent Error" . $exc->getTraceAsString());
@@ -605,7 +785,7 @@ class EventProcessor {
     }
 
     public function findUserForEvents($rem = true) {
-        $log = KLogger::instance(KLOGGER_PATH, KLogger::WARN);
+        $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("event > findUserForEvents >  start userId : " . $this->userID . " eventId : " . $this->eventID . " type : " . $this->type . " time : " . $this->time . " added : " . $rem);
         $keyArray = array();
@@ -623,6 +803,7 @@ class EventProcessor {
                 $event->getHeaderVideo();
                 $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
                 $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                $event->likescount = Neo4jEventUtils::getEventLikesCount($event->id);
                 $event->getCreatorType();
                 $log->logInfo("event > findUserForEvents >  event from neo4j : " . $event->id);
                 $users = Neo4jRecommendationUtils::getUserForEvent($this->eventID);
@@ -759,10 +940,10 @@ class EventProcessor {
 
                 if ($this->type == REDIS_USER_INTERACTION_FOLLOW) {
                     foreach ($secondArray as $r) {
-                        if ($r->userId == $this->followID) {
+                        if (!empty($r) && isset($r->userId) && $r->userId == $this->followID) {
                             $exits = true;
                             foreach ($array as $p) {
-                                if ($r->userId == $p->userId && $r->action == $p->action) {
+                                if (!empty($p) && isset($p->userId) && isset($p->action) && $r->userId == $p->userId && $r->action == $p->action) {
                                     $exits = false;
                                 }
                             }
@@ -777,8 +958,8 @@ class EventProcessor {
                     $log->logInfo("addUserEventLog >  array " . sizeof($array));
                     for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $r = $array[$i];
-                        $log->logInfo("addUserEventLog >  array " . $r->userId . " unfollow " . $this->followID);
-                        if ($r->userId == $this->followID || $r->userId == null || $r->userId == "null") {
+                        $log->logInfo("addUserEventLog >  array " . (isset($r->userId) ? $r->userId : "") . " unfollow " . $this->followID);
+                        if (!isset($r->userId) || $r->userId == null || $r->userId == "null" || $r->userId == $this->followID) {
                             unset($array[$i]);
                         }
                     }
@@ -792,8 +973,7 @@ class EventProcessor {
                     $added = true;
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
-                        if ($rel->action == REDIS_USER_INTERACTION_JOIN && $rel->userId == $this->userID) {
-//$rel->time = $this->time;
+                        if (!empty($rel) && isset($rel->userId) && isset($rel->action) && $rel->action == REDIS_USER_INTERACTION_JOIN && $rel->userId == $this->userID) {
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_JOIN);
                             $array[$i] = $rel;
                             $added = false;
@@ -810,8 +990,7 @@ class EventProcessor {
                     $added = true;
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
-                        if ($rel->action == REDIS_USER_INTERACTION_MAYBE && $rel->userId == $this->userID) {
-//$rel->time = $this->time;
+                        if (!empty($rel) && isset($rel->action) && isset($rel->userId) && $rel->action == REDIS_USER_INTERACTION_MAYBE && $rel->userId == $this->userID) {
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_MAYBE);
                             $array[$i] = $rel;
                             $added = false;
@@ -827,7 +1006,7 @@ class EventProcessor {
                 } else if ($this->type == REDIS_USER_INTERACTION_DECLINE || $this->type == REDIS_USER_INTERACTION_IGNORE) {
                     for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $rel = $array[$i];
-                        if (($rel->action == REDIS_USER_INTERACTION_JOIN || $rel->action == REDIS_USER_INTERACTION_MAYBE) && ( $rel->userId == $this->userID || $rel->userId == null || $rel->userId == "null" )) {
+                        if ((isset($rel->action) && ($rel->action == REDIS_USER_INTERACTION_JOIN || $rel->action == REDIS_USER_INTERACTION_MAYBE)) && ( $rel->userId == $this->userID || $rel->userId == null || $rel->userId == "null" )) {
                             unset($array[$i]);
                             $log->logInfo("addUserEventLog >  removed array " . REDIS_USER_INTERACTION_DECLINE . " rel -> " . $rel->action);
                         }
@@ -836,8 +1015,8 @@ class EventProcessor {
                     $added = true;
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
-                        if ($rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
-//$rel->time = $this->time;
+                        if (!empty($rel) && isset($rel->action) && isset($rel->userId) && $rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
+                            //$rel->time = $this->time;
                             $array[$i] = $rel;
                             $added = false;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_LIKE);
@@ -853,7 +1032,7 @@ class EventProcessor {
                 } else if ($this->type == REDIS_USER_INTERACTION_UNLIKE) {
                     for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $rel = $array[$i];
-                        if ($rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
+                        if (!empty($rel) && isset($rel->action) && isset($rel->userId) && $rel->action == REDIS_USER_INTERACTION_LIKE && $rel->userId == $this->userID) {
                             unset($array[$i]);
                             $log->logInfo("addUserEventLog >  removed array " . REDIS_USER_INTERACTION_UNLIKE);
                         }
@@ -862,8 +1041,7 @@ class EventProcessor {
                     $added = true;
                     for ($i = 0; $i < sizeof($array); $i++) {
                         $rel = $array[$i];
-                        if ($rel->action == REDIS_USER_INTERACTION_RESHARE && $rel->userId == $this->userID) {
-//$rel->time = $this->time;
+                        if (!empty($rel) && isset($rel->action) && isset($rel->userId) && $rel->action == REDIS_USER_INTERACTION_RESHARE && $rel->userId == $this->userID) {
                             $array[$i] = $rel;
                             $added = false;
                             $log->logInfo("addUserEventLog >  updated array " . REDIS_USER_INTERACTION_RESHARE);
@@ -879,7 +1057,7 @@ class EventProcessor {
                 } else if ($this->type == REDIS_USER_INTERACTION_UNSHARE) {
                     for ($i = sizeof($array) - 1; $i >= 0; $i--) {
                         $rel = $array[$i];
-                        if ($rel->action == REDIS_USER_INTERACTION_RESHARE && ( $rel->userId == $this->userID || $rel->userId == null || $rel->userId == "null" )) {
+                        if (!empty($rel) && isset($rel->action) && $rel->action == REDIS_USER_INTERACTION_RESHARE && ( $rel->userId == $this->userID || $rel->userId == null || $rel->userId == "null" )) {
                             unset($array[$i]);
                             $log->logInfo("addUserEventLog >  removed array " . REDIS_USER_INTERACTION_UNSHARE);
                         }

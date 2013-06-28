@@ -152,16 +152,17 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
             }
                     
         </script>
-        <meta property="og:title" content="Timety"/>
+        <meta property="og:title" content="<?=LanguageUtils::getText("LANG_PAGE_TITLE")?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="Timety"/>
+        <meta property="og:description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
+        <meta property="description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
-        <?php include('layout/layout_top_sign.php'); ?>
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+        <?php include('layout/layout_top.php'); ?>
         <div class="register_bg"></div>
         <!-- login mail button mixpanel -->
         <?php if (isset($param) && empty($param)) { ?>

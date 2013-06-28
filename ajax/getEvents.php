@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+session_write_close();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
@@ -20,6 +21,10 @@ if (isset($_GET["pageItemCount"]))
 $date = date(DATETIME_DB_FORMAT);
 if (isset($_GET["date"]))
     $date = $_GET["date"];
+
+$end_date = null;
+if (isset($_GET["endDate"]))
+    $end_date = $_GET["endDate"];
 
 $query = null;
 if (isset($_GET["query"]))
@@ -69,7 +74,7 @@ $res->success = false;
  */
 
 if ($userId != null && $pageNumber != null && $pageItemCount != null && $type != null) {
-    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $category, $reqUserId, $city_channel,$tagIds);
+    echo Neo4jFuctions::getEvents($userId, $pageNumber, $pageItemCount, $date, $query, $type, $category, $reqUserId, $city_channel,$tagIds,$end_date);
 } else {
     $json_response = json_encode($res);
     echo $json_response;

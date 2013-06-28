@@ -98,7 +98,6 @@ class Neo4jRecommendationUtils {
             $query = "g.idx('" . IND_USER_INDEX . "')[[" . PROP_USER_ID . ":'" . $userId . "']]" .
                     ".out('" . REL_TIMETY_INTERESTS . "').dedup.out('" . REL_TAGS . "').dedup.has('" . PROP_EVENT_PRIVACY . "','true')";
             $query = $query . ".filter{it." . PROP_EVENT_START_DATE . ">=" . $date . "}._()";
-            //echo $query;
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
             $result = $query->getResultSet();
             foreach ($result as $row) {

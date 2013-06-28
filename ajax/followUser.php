@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+session_write_close();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
@@ -15,7 +16,6 @@ if (isset($_POST["tuser"]))
 
 $result = new Result();
 try {
-
     if (!empty($fromUserId) && !empty($toUserId) && $fromUserId != $toUserId) {
         if (!SessionUtil::isUser($fromUserId)) {
             $res = new stdClass();

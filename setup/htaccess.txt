@@ -69,16 +69,43 @@ RewriteRule ^([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/media/([^/]+)$ /user.php?userName=
 RewriteRule ^([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/media/$ /user.php?userName=$1&media=1
 RewriteRule ^([a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/media$ /user.php?userName=$1&media=1
 
-RewriteRule ^updateevent/([0-9]+)/([^/]+)/$ /updateevent/$1
-RewriteRule ^updateevent/([0-9]+)/([^/]+)$ /updateevent/$1
-RewriteRule ^updateevent/([0-9]+)/$ /updateevent/$1
-RewriteRule ^updateevent/([0-9]+)$ /editEvent.php?eventId=$1
+RewriteRule ^updateevent/([0-9]+)/([^/]+)/$ /updateevent/$1&%{QUERY_STRING}
+RewriteRule ^updateevent/([0-9]+)/([^/]+)$ /updateevent/$1&%{QUERY_STRING}
+RewriteRule ^updateevent/([0-9]+)/$ /updateevent/$1&%{QUERY_STRING}
+RewriteRule ^updateevent/([0-9]+)$ /editEvent.php?eventId=$1&%{QUERY_STRING}
 
 RewriteRule ^event/$ / [R]
 RewriteRule ^event$ / [R]
 
+RewriteRule ^foryou/$ /?foryou
+RewriteRule ^foryou$ /?foryou
+
+RewriteRule ^following/$ /?following
+RewriteRule ^following$ /?following
+
+RewriteRule ^all/$ /?all
+RewriteRule ^all$ /?all
+
+RewriteRule ^today/$ /?today
+RewriteRule ^today$ /?today
+
+RewriteRule ^tomorrow/$ /?tomorrow
+RewriteRule ^tomorrow$ /?tomorrow
+
+RewriteRule ^thisweekend/$ /?thisweekend
+RewriteRule ^thisweekend$ /?thisweekend
+
+RewriteRule ^next7days/$ /?next7days
+RewriteRule ^next7days$ /?next7days
+
+RewriteRule ^next30days/$ /?next30days
+RewriteRule ^next30days$ /?next30days
+
+RewriteRule ^category/([0-9]+)/$ /?category=$1
+RewriteRule ^category/([0-9]+)$ /?category=$1
+
 RewriteRule ^index.php/$ / [R]
 RewriteRule ^index.php$ / [R]
 
-
-RewriteRule ^((?!.*\.html*.)(?!.*\.php*.)(?!.*\.js*.)(?!.*\.css*.)(?!.*\.jpg*.)(?!.*\.jpeg*.)(?!.*\.gif*.)(?!.*\.png*.)(?!.*\.svg*.)(?!.*\.txt*.)(?!.*\.ico*.)[a-zA-Z][a-zA-Z0-9\.\-_]{2,40})$ /user.php?userName=$1&%{QUERY_STRING}
+RewriteRule ^((?!.*\.html*.)(?!.*\.php*.)(?!.*\.js*.)(?!.*\.css*.)(?!.*\.jpg*.)(?!.*\.jpeg*.)(?!.*\.gif*.)(?!.*\.png*.)(?!.*\.svg*.)(?!.*\.txt*.)(?!.*\.ico*.)(?!.*\.zip*.)(?!.*\.gzip*.)(?!.*\.xml*.)[a-zA-Z][a-zA-Z0-9\.\-_]{2,40})$ /user.php?userName=$1&%{QUERY_STRING}
+RewriteRule ^((?!.*\.html*.)(?!.*\.php*.)(?!.*\.js*.)(?!.*\.css*.)(?!.*\.jpg*.)(?!.*\.jpeg*.)(?!.*\.gif*.)(?!.*\.png*.)(?!.*\.svg*.)(?!.*\.txt*.)(?!.*\.ico*.)(?!.*\.zip*.)(?!.*\.gzip*.)(?!.*\.xml*.)[a-zA-Z][a-zA-Z0-9\.\-_]{2,40})/$ /user.php?userName=$1&%{QUERY_STRING}

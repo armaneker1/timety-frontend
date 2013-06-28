@@ -31,9 +31,28 @@ if (empty($user) || empty($user->id)) {
 /*
  * event id form get
  */
-$eventId = $_GET["eventId"];
+$eventId = null;
 if (!isset($_GET["eventId"]) || (isset($_GET["eventId"]) && empty($_GET["eventId"]))) {
     exit(header('Location: ' . HOSTNAME));
+} else {
+    $eventId = $_GET["eventId"];
+}
+
+if (isset($_GET['delete'])) {
+    $result = EventUtil::removeEventById($eventId);
+    if ($result) {
+        $m = new HtmlMessage();
+        $m->type = "s";
+        $m->message = LanguageUtils::getText("LANG_PAGE_EDIT_EVENT_DELETE_SUC");
+
+        $_SESSION[INDEX_MSG_SESSION_KEY] = UtilFunctions::json_encode($m);
+        exit(header('Location: ' . HOSTNAME));
+    } else {
+        $m = new HtmlMessage();
+        $m->type = "e";
+        $m->message = LanguageUtils::getText("LANG_PAGE_EDIT_EVENT_ERROR_ON_DELETE");
+        array_push($msgs, $m);
+    }
 }
 
 /*
@@ -548,7 +567,7 @@ if (!empty($_POST['rand_session_id'])) {
         LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header.php');
         ?>
-
+        <script>jQuery(document).ready( function(){layout_top_menu_redirect=true;})</script>
         <script src="<?= HOSTNAME ?>js/prototype.js?<?= JS_CONSTANT_PARAM ?>" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/scriptaculous.js?<?= JS_CONSTANT_PARAM ?>" type="text/javascript" charset="utf-8"></script>
         <script src="<?= HOSTNAME ?>js/iphone-style-checkboxes.js?<?= JS_CONSTANT_PARAM ?>" type="text/javascript" charset="utf-8"></script>
@@ -727,7 +746,7 @@ if (!empty($_POST['rand_session_id'])) {
         }
         ?>
         <!-- MIXPANEL UPDATE EVENT -->
-        
+
         <!--takvim-->
         <SCRIPT type="text/javascript">
             jQuery.noConflict();
@@ -827,16 +846,17 @@ if ($event->addsocial_tw == 1) {
             </style>
         <?php } ?>
 
-        <meta property="og:title" content="Timety"/>
+        <meta property="og:title" content="<?= LanguageUtils::getText("LANG_PAGE_TITLE") ?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="Timety"/>
+        <meta property="og:description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
+        <meta property="description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
 
-    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
         <?php
         if (!empty($msgs)) {
             $txt = "";
@@ -1218,13 +1238,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                                                                                                                                                                                                                <label
-                                                                                                                                                                                                                                                                    class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
-                                                                                                                                                                                                                                                                        onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                                                                                                                                                                                                        checked=""
-                                                                                                                                                                                                                                                                        name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
-                                                                                                                                                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                                                                                                                                                                                                                </label> <br /> 
+                                                                                                                                                                                                                                                                                <label
+                                                                                                                                                                                                                                                                                    class="label_radio" for="te_event_category1_<?= $cat->id ?>"> <input
+                                                                                                                                                                                                                                                                                        onclick="selectCategory1('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                                                                                                                                                                                                        checked=""
+                                                                                                                                                                                                                                                                                        name="te_event_category_1_" id="te_event_category1_<?= $cat->id ?>"
+                                                                                                                                                                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                                                                                                                                                                                                </label> <br /> 
                             <?php
                         }
                     }
@@ -1240,13 +1260,13 @@ if ($event->addsocial_tw == 1) {
                     if (!empty($categories) && sizeof($categories) > 0) {
                         foreach ($categories as $cat) {
                             ?>
-                                                                                                                                                                                                                                                                <label
-                                                                                                                                                                                                                                                                    class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
-                                                                                                                                                                                                                                                                        onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
-                                                                                                                                                                                                                                                                        checked=""
-                                                                                                                                                                                                                                                                        name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
-                                                                                                                                                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
-                                                                                                                                                                                                                                                                </label> <br /> 
+                                                                                                                                                                                                                                                                                <label
+                                                                                                                                                                                                                                                                                    class="label_radio" for="te_event_category2_<?= $cat->id ?>"> <input
+                                                                                                                                                                                                                                                                                        onclick="selectCategory2('<?= $cat->name ?>','<?= $cat->id ?>');"
+                                                                                                                                                                                                                                                                                        checked=""
+                                                                                                                                                                                                                                                                                        name="te_event_category_2_" id="te_event_category2_<?= $cat->id ?>"
+                                                                                                                                                                                                                                                                                        value="<?= $cat->id ?>" type="radio" /> <?= $cat->name ?>
+                                                                                                                                                                                                                                                                                </label> <br /> 
                             <?php
                         }
                     }
@@ -1276,7 +1296,7 @@ if ($event->addsocial_tw == 1) {
                                 $iddd = $var_cats[$i]->id;
                             }
                             ?>
-                                                                                                                                                                                                                                                        jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
+                                                                                                                                                                                                                                                                        jQuery("#te_event_category<?= ($i + 1) . "_" . $iddd ?>").click();
                             <?php
                         }
                     }
@@ -1528,6 +1548,7 @@ if ($event->addsocial_tw == 1) {
                                     class="googl_plus back_btn sosyal_icon"></button>
                         </div>
                         <div class="ea_alt_btn">
+                            <a href="<?= PAGE_UPDATE_EVENT . $eventId . "?delete" ?>" class="dugme dugme_esit"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_DELETE") ?></a>
                             <a href="<?= HOSTNAME ?>" class="dugme dugme_esit"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL") ?></a>
                             <script>
                             function disButton(elem){

@@ -515,8 +515,7 @@ class Neo4jEventUtils {
     public static function getEventFromNode($eventId, $additionalData = FALSE) {
         if (!empty($eventId)) {
             $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-            $query = "g.idx('" . IND_ROOT_INDEX . "')[[" . PROP_ROOT_ID . ":'" . PROP_ROOT_EVENT . "']]" .
-                    ".out('" . REL_EVENT . "').dedup.filter{it." . PROP_EVENT_ID . "==" . $eventId . " || it." . PROP_EVENT_ID . "=='" . $eventId . "'}";
+            $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']]";
             $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
             $result = $query->getResultSet();
             foreach ($result as $row) {
@@ -559,11 +558,25 @@ class Neo4jEventUtils {
         return false;
     }
 
+    public static function relateUserToEvent2($usrNode, $eventNode, $rel, $creator, $type) {
+        if (!empty($usrNode) && !empty($eventNode)) {
+            if (empty($rel)) {
+                $usrNode->relateTo($eventNode, REL_EVENTS_JOINS)->setProperty(PROP_JOIN_CREATE, (int) $creator)->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
+                return true;
+            } else {
+                $rel->setProperty(PROP_JOIN_TYPE, (int) $type)->save();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static function getUserEventJoinRelation($userId, $eventId) {
         if (!empty($userId) && !empty($eventId)) {
             try {
                 $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "'),user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "')" .
+                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "')" .
+                        ",user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "')" .
                         "MATCH  event-[r:" . REL_EVENTS_JOINS . "]-user " .
                         "RETURN r";
                 //echo $query;
@@ -575,6 +588,30 @@ class Neo4jEventUtils {
                     if (!empty($rel) && !empty($t)) {
                         return $rel;
                     }
+                }
+            } catch (Exception $e) {
+                error_log("Error" . $e->getTraceAsString());
+            }
+        }
+        return null;
+    }
+
+    public static function getUserEventRelation($userId, $eventId) {
+        if (!empty($userId) && !empty($eventId)) {
+            try {
+                $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+                $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":" . $eventId . "')" .
+                        ",user=node:" . IND_USER_INDEX . "('" . PROP_USER_ID . ":" . $userId . "')" .
+                        "MATCH  event-[r?:" . REL_EVENTS_JOINS . "]-user " .
+                        "RETURN user,event,r";
+                $query = new Cypher\Query($client, $query, null);
+                $result = $query->getResultSet();
+                foreach ($result as $row) {
+                    $result = array();
+                    $result['rel'] = $row['r'];
+                    $result['user'] = $row['user'];
+                    $result['event'] = $row['event'];
+                    return $result;
                 }
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
@@ -928,6 +965,18 @@ class Neo4jEventUtils {
         return 0;
     }
 
+    public static function getEventLikesCount($eventId) {
+        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
+        $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].in('" . REL_EVENTS_LIKE . "').dedup.count()";
+        echo $query;
+        $query = new Everyman\Neo4j\Gremlin\Query($client, $query, null);
+        $result = $query->getResultSet();
+        foreach ($result as $row) {
+            return $row[0];
+        }
+        return 0;
+    }
+
     public static function getEventCreator($eventId) {
         $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
         $query = "g.idx('" . IND_EVENT_INDEX . "')[[" . PROP_EVENT_ID . ":'" . $eventId . "']].inE('" . REL_EVENTS_JOINS . "').dedup.filter{(it." . PROP_JOIN_CREATE . "==true || it." . PROP_JOIN_CREATE . "==1)  && (it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_YES . " ||  it." . PROP_JOIN_TYPE . "==" . TYPE_JOIN_MAYBE . ")}.outV.dedup";
@@ -966,7 +1015,7 @@ class Neo4jEventUtils {
             $query = "START event=node:" . IND_EVENT_INDEX . "('" . PROP_EVENT_ID . ":*" . $eventId . "*') " .
                     "MATCH (event)<-[r:" . REL_EVENTS_JOINS . "]-(usr)  " .
                     " WHERE (HAS (r." . PROP_JOIN_TYPE . ") AND (r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_YES . " OR r." . PROP_JOIN_TYPE . "=" . TYPE_JOIN_MAYBE . ")) " .
-                    "RETURN usr,count(*) ";
+                    "RETURN usr,r,count(*) ";
             //echo $query;
             $query = new Cypher\Query($client, $query, null);
             $result = $query->getResultSet();
@@ -976,12 +1025,20 @@ class Neo4jEventUtils {
                     if (!empty($id)) {
                         $uf = new UserUtils();
                         $user = $uf->getUserById($row['usr']->getProperty(PROP_USER_ID));
+                        $type = TYPE_JOIN_YES;
+                        try {
+                            $type = $row['r']->getProperty(PROP_JOIN_TYPE);
+                        } catch (Exception $exc) {
+                            echo $exc->getTraceAsString();
+                        }
+
                         if (!empty($user)) {
                             $usr = new stdClass();
                             $usr->id = $user->id;
                             $usr->fullName = $user->getFullName();
                             $usr->pic = $user->getUserPic();
                             $usr->userName = $user->userName;
+                            $usr->type = $type;
                             array_push($array, $usr);
                         }
                     }

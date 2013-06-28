@@ -14,6 +14,84 @@ $user = new User();
 $user = SessionUtil::checkLoggedinUser();
 //set langugae
 LanguageUtils::setUserLocale($user);
+
+$index_page_tite = null;
+$index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX");
+
+
+$is_page_category = null;
+$index_page_category = null;
+if (isset($_GET['category']) && !empty($_GET['category'])) {
+    $example = new TimeteMenuCategory();
+    $example->setId($_GET['category']);
+    $example->setLang(LanguageUtils::getText("LANG_LOCALE"));
+    $index_page_category = TimeteMenuCategory::findByExample(DBUtils::getConnection(), $example);
+    if (!empty($index_page_category) && sizeof($index_page_category) > 0) {
+        $index_page_category = $index_page_category[0];
+        $is_page_category = $_GET['category'];
+        $index_page_tite = $index_page_category->name . " " . LanguageUtils::getText("LANG_PAGE_TITLE_EVENTS");
+        $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_EVENTS_CATEGORY", $index_page_category->name, strtolower($index_page_category->name));
+    }
+}
+
+$is_page_foryou = false;
+if (isset($_GET['foryou'])) {
+    $is_page_foryou = true;
+    $index_page_tite = LanguageUtils::getText("LANG_PAGE_TITLE_EVENTS_FOR_YOU");
+    $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_EVENTS_FOR_YOU");
+}
+
+$is_page_following = false;
+if (isset($_GET['following']) && !empty($user)) {
+    $is_page_following = true;
+    $index_page_tite = LanguageUtils::getText("LANG_PAGE_TITLE_FOLOOWING_EVENTS");
+    $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_FOLLOWING_EVENTS");
+}
+
+$is_page_all = false;
+if (isset($_GET['all'])) {
+    $is_page_all = true;
+    $index_page_tite = LanguageUtils::getText("LANG_PAGE_TITLE_ALL_EVENTS");
+    $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_ALL_EVENTS");
+}
+$is_page_today = false;
+if (isset($_GET['today'])) {
+    $is_page_today = true;
+    $index_page_tite = LanguageUtils::getText("LANG_PAGE_TITLE_EVENTS_FOR_TODAY");
+    $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_EVENTS_FOR_TODAY");
+}
+
+$is_page_next7days = false;
+if (isset($_GET['next7days'])) {
+    $is_page_next7days = true;
+    $index_page_tite = LanguageUtils::getText("LANG_PAGE_TITLE_EVENTS_FOR_NEXT_7_DAYS");
+    $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_EVENTS_FOR_NEXT_N_DAYS", 7);
+}
+
+$is_page_next30days = false;
+if (isset($_GET['next30days'])) {
+    $is_page_next30days = true;
+    $index_page_tite = LanguageUtils::getText("LANG_PAGE_TITLE_EVENTS_FOR_NEXT_30_DAYS");
+    $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_EVENTS_FOR_NEXT_N_DAYS", 30);
+}
+
+$is_page_tomorrow = false;
+if (isset($_GET['tomorrow'])) {
+    $is_page_tomorrow = true;
+    $index_page_tite = LanguageUtils::getText("LANG_PAGE_TITLE_EVENTS_FOR_TOMORROW");
+    $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_EVENTS_FOR_TOMORROW");
+}
+
+
+$is_page_thisweekend = false;
+if (isset($_GET['thisweekend'])) {
+    $is_page_thisweekend = true;
+    $index_page_tite = LanguageUtils::getText("LANG_PAGE_TITLE_EVENTS_FOR_THIS_WEEKEND");
+    $index_page_description = LanguageUtils::getText("LANG_PAGE_DESC_EVENTS_FOR_THIS_WEEKEND");
+}
+
+
+
 if (isset($_GET['finish']) && !empty($user)) {
     $user->status = 3;
     UserUtils::updateUser($user->id, $user);
@@ -493,6 +571,7 @@ if (empty($user)) {
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>
+        <script>oldUrl='<?= HOSTNAME ?>';</script>
         <?php
         $prm_event = null;
         if (isset($_GET["eventId"]) && !empty($_GET["eventId"])) {
@@ -500,6 +579,8 @@ if (empty($user)) {
         }
         if (!empty($prm_event)) {
             $timety_header = $prm_event->title;
+        } else {
+            $timety_header = $index_page_tite;
         }
         LanguageUtils::setUserLocaleJS($user);
         include_once ('layout/layout_header_index.php');
@@ -544,7 +625,7 @@ if (empty($user)) {
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -633,13 +714,28 @@ if (empty($user)) {
                 clear('invites');
             });
                 
-			
+            jQuery(document).ready(function(){
+                function resizeSlide()
+                {
+                    var fullWidth=jQuery("#top_blm").width()-100;
+                    var width=Math.floor(fullWidth/262)*262;
+                    var left=(fullWidth-width)/2;
+                    jQuery("#main_message").css("width",(width-40)+"px");
+                    if(left>0){
+                        jQuery(".main_sol").css("margin-left",left+"px");
+                    }
+                    jQuery(".main_sol").css("width",width+"px");
+                }
+                jQuery(window).resize(resizeSlide);   
+                jQuery('document').ready(resizeSlide);
+            });
+            
             jQuery(document).ready(function(){   
                 var optionsWookmark = {
                     autoResize: true, // This will auto-update the layout when the browser window is resized.
                     container: jQuery(".main_event"), // Optional, used for some extra CSS styling
-                    offset: 10, // Optional, the distance between grid items
-                    itemWidth: 200 // Optional, the width of a grid item
+                    offset: 26, // Optional, the distance between grid items
+                    itemWidth: 236 // Optional, the width of a grid item
                 };
                     
                 document.optionsWookmark = optionsWookmark;
@@ -661,6 +757,7 @@ if (empty($user)) {
                 };
                 jQuery(document).bind('scroll', onScroll);
             });
+            
         </script>
 
 
@@ -734,7 +831,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -815,6 +912,7 @@ if (empty($user)) {
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
             <meta property="og:description" content="<?= $prm_event->description ?>"/>
+            <meta name="description" content="<?= $prm_event->description ?>">
             <meta property="og:url" content="<?= PAGE_EVENT . $prm_event->id ?>"/>
             <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
 
@@ -835,20 +933,28 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                        
             </script>
 
 
             <?php
         } else {
+            $selfUrl = $_SERVER['PHP_SELF'];
+            $getValues = array();
+            foreach ($_GET as $key => $value) {
+                array_push($getValues, $key . "=" . $value);
+            }
+            if (count($getValues) > 0)
+                $selfUrl .= "?" . implode('&', $getValues);
             ?>
             <meta property="og:locale" content="en_US" />
-            <meta property="og:title" content="Timety"/>
+            <meta property="og:title" content="<?= $index_page_tite ?>"/>
             <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.png"/>
             <meta property="og:site_name" content="Timety"/>
             <meta property="og:type" content="website"/>
-            <meta property="og:description" content="Timety"/>
-            <meta property="og:url" content="<?= HOSTNAME ?>"/>
+            <meta property="og:description" content="<?= $index_page_description ?>"/>
+            <meta name="description" content="<?= $index_page_description ?>">
+            <meta property="og:url" content="<?= $selfUrl ?>"/>
             <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
 
         <?php } ?>
@@ -881,7 +987,7 @@ if (empty($user)) {
         <?php } ?>
 
 
-        
+
 
         <?php
         $br = UtilFunctions::getBrowser();
@@ -904,7 +1010,7 @@ if (empty($user)) {
             </style>
         <?php } ?>
     </head>
-    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>">
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
         <!-- register mixpnael -->
         <?php
         if (!empty($user) && isset($_SESSION['MIXPANEL_SIGNUP_SESSION_RI'])) {
@@ -940,42 +1046,38 @@ if (empty($user)) {
         <!-- register mixpnael -->
 
         <!-- mixpanel login from signup -->
-        <?php 
-            if(isset( $_SESSION[MIXPANEL_LOGIN_FROM_SIGNUP])){
-                unset($_SESSION[MIXPANEL_LOGIN_FROM_SIGNUP]);
-                ?>
+        <?php
+        if (isset($_SESSION[MIXPANEL_LOGIN_FROM_SIGNUP])) {
+            unset($_SESSION[MIXPANEL_LOGIN_FROM_SIGNUP]);
+            ?>
             <script>
                 analytics_loginFromSignup();
             </script>
-        <?php
-            }
+            <?php
+        }
         ?>
         <!-- mixpanel login from signup -->
-        
-         <!-- mixpanel login from login -->
-        <?php 
-            if(isset( $_SESSION[MIXPANEL_LOGIN_FIRST])){
-                unset($_SESSION[MIXPANEL_LOGIN_FIRST]);
-                ?>
+
+        <!-- mixpanel login from login -->
+        <?php
+        if (isset($_SESSION[MIXPANEL_LOGIN_FIRST])) {
+            unset($_SESSION[MIXPANEL_LOGIN_FIRST]);
+            ?>
             <script>
                 analytics_loginButtonClicked(true);
             </script>
-        <?php
-            }
+            <?php
+        }
         ?>
         <!-- mixpanel login from login -->
-        
+
         <?php include('layout/layout_top.php'); ?>
         <!-- Add Event -->
         <?php if (isset($_GET['addevent']) && !empty($_GET['addevent'])) { ?>
             <!-- channel -->
             <script>
                 jQuery(document).ready(function(){
-                    //old
-                    jQuery("#add_event_button").click();
-                    jQuery("#te_quick_event_desc").focus();
-                    //new
-                    jQuery(".top_addeventButton").click();
+                    jQuery("#top_addeventButton").click();
                 });
             </script>
             <!-- channel -->
@@ -984,11 +1086,7 @@ if (empty($user)) {
             jQuery(document).ready(function(){
                 if(location.hash){
                     if(location.hash=='#addevent'){
-                        //old
-                        jQuery("#add_event_button").click();
-                        jQuery("#te_quick_event_desc").focus();
-                        //new
-                        jQuery(".top_addeventButton").click();
+                        jQuery("#top_addeventButton").click();
                     }  
                 }
             });
@@ -1008,7 +1106,7 @@ if (empty($user)) {
         }
         ?>
         <!-- MIXPANEL ADD EVENT -->
-        
+
         <!-- MIXPANEL UPDATE EVENT -->
         <?php
         if (isset($_SESSION[MIXPANEL_EDITEVENT_RESULT_EVENTID]) && isset($_SESSION[MIXPANEL_EDITEVENT_RESULT])) {
@@ -1057,144 +1155,36 @@ if (empty($user)) {
                 </script>
             <?php } ?>
         <?php } ?>
-        <div class="main_sol" style="width:91%;">
-            <div class="ust_blm">
-                <div class="trh_gn">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td width="180" valign="middle"><span class="gn"><?= strftime('%d') ?></span> <span
-                                    class="ay"> <?= LanguageUtils::uppercase(strftime('%b')) ?></span> <span class="yil"><?= strftime('%Y') ?></span> <span
-                                    class="hd_line">|</span> <span class="gn"><?= LanguageUtils::uppercase(strftime('%A')) ?></span>
-                            </td>
-                            <td align="left" valign="middle" class="u_line" width="100%"><input
-                                    type="button" class="gn_btn" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">
-                                <div id="slides" style="overflow: hidden;max-height: 120px;">
-                                    <div id="slides_container">
-                                        <?php if (empty($user)) { ?>
-                                            <div class="slide_item" id="create_event_empty">
-                                                <div class="akt_tkvm">
-                                                    <a href="<?= HOSTNAME ?>login"  class="add_event_link"><?= LanguageUtils::getText('LANG_PAGE_INDEX_PAGE_CLICK_HERE_ADD_EVENT') ?></a>
-                                                </div>
-                                            </div>
-                                            <?php
-                                        } else {
-                                            $userId = -1;
-                                            if (!empty($user)) {
-                                                $userId = $user->id;
-                                            }
-                                            $events = RedisUtils::getTodayEvents($userId);
-                                            $events = json_decode($events);
-                                            if (empty($events)) {
-                                                ?>
-                                                <div class="slide_item" id="create_event_empty">
-                                                    <div class="akt_tkvm">
-                                                        <a href="#" onclick="openCreatePopup();"  class="add_event_link"><?= LanguageUtils::getText('LANG_PAGE_INDEX_PAGE_CLICK_HERE_ADD_EVENT') ?></a>
-                                                    </div>
-                                                </div>
-
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <div class="slide_item" id="create_event_empty" style="display: none">
-                                                    <div class="akt_tkvm">
-                                                        <a href="#" onclick="openCreatePopup();"  class="add_event_link"><?= LanguageUtils::getText('LANG_PAGE_INDEX_PAGE_CLICK_HERE_ADD_EVENT') ?></a>
-                                                    </div>
-                                                </div>
-
-                                                <?php
-                                                for ($i = 0; $i < sizeof($events); $i++) {
-                                                    $evt = $events[$i];
-                                                    $evt = UtilFunctions::cast("Event", $evt);
-                                                    $evtDesc = $evt->description;
-                                                    if (strlen($evtDesc) > 55) {
-                                                        $evtDesc = substr($evtDesc, 0, 55) . "...";
-                                                    }
-                                                    ?>   
-                                                    <div class="akt_tkvm" id="<?= $evt->id ?>" time="<?= $evt->startDateTimeLong ?>" style="cursor: pointer" onclick="return openModalPanel(<?= $evt->id ?>);">
-                                                        <h1><?= $evt->title ?></h1>
-                                                        <p><?= LanguageUtils::getText('LANG_PAGE_INDEX_MY_TIMETY_TODAY') ?> @<span class="date_timezone"><?php
-                                        $dt = strtotime($evt->startDateTime);
-                                        echo date('H:i', $dt);
-                                                    ?></span></p>
-                                                       <!-- <p><?= $evtDesc ?></p> -->
-                                                        <script>
-                                                            try{
-                                                                var tmpDataJSON='<?php
-                                                    $json_response = UtilFunctions::json_encode($evt);
-                                                    echo $json_response;
-                                                    ?>';
-                                                            tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                                            localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
-                                                        } catch(exp){ 
-                                                            console.log("<?= LanguageUtils::getText('LANG_ERROR') ?>");
-                                                            console.log('<?php
-                                                    $json_response = UtilFunctions::json_encode($evt);
-                                                    echo $json_response;
-                                                    ?>');
-                                                        }
-                                                        </script>
-                                                    </div>
-                                                    <?php
-                                                }
-                                            }
-                                        }
-                                        ?>
-
-                                    </div>
-                                    <script>
-                                        jQuery(document).ready(function(){
-                                            jQuery.each(jQuery(".date_timezone"),function(){
-                                                var text=jQuery(this).text();
-                                                if(text){
-                                                    try{
-                                                        jQuery(this).text( getLocalTime(moment().format("YYYY-MM-DD")+" "+text).format('HH:mm'));
-                                                    }catch(exp){
-                                                        console.log(exp);
-                                                    }
-                                                }
-                                            });
-                                        });
-                                        
-                                        var slide_handler;
-                                        function resizeSlide()
-                                        {
-                                            var fullWidth=jQuery(".main_event").width();
-                                            var width=Math.floor(fullWidth/209)*209-2;
-                                            var left=(fullWidth-width)/2+25;
-                                            jQuery(".main_sol").css("margin-left",left+"px");
-                                            jQuery("#slides").width(width);
-                                            jQuery(".ust_blm").width(jQuery(window).width()-left-150);
-                                            if(slide_handler) slide_handler.lemmonSlider('destroy');
-                                            slide_handler=jQuery('#slides').lemmonSlider({ options_container: '.scrl_btn',infinite:false,loop:false });   
-                                        }
-                                        jQuery(window).resize(resizeSlide);   
-                                        jQuery('document').ready(resizeSlide);
-                                                
-                                    </script>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php include('layout/layout_mytimety_menu.php'); ?>
-                    </table>
-                </div>
+        <div class="main_sol">
+            <?php
+            $message_class = "main_message";
+            if (empty($user)) {
+                $message_class = "main_message_login";
+            }
+            ?>
+            <div id="main_message" class="<?= $message_class ?>" >
+                <center><a><?= LanguageUtils::getText("LANG_PAGE_TOP_NO_USER_HEADER_TEXT") ?></a></center>
             </div>
+            <?php if (empty($user)) { ?>
+                <script>
+                    jQuery(document).ready(function(){
+                        jQuery("#main_message").click(function(){
+                            window.location=TIMETY_PAGE_SIGNUP;
+                        });
+                    });
+                </script>
+            <?php } ?>
             <div class="main_event">
                 <?php
                 $user_id = null;
                 if (!empty($user)) {
                     $user_id = $user->id;
                 }
-                
-                if(!isset($city_top_name))
-                {
+
+                if (!isset($city_top_name)) {
                     $city_top_name = "";
                 }
-                if(!isset($city_id))
-                {
+                if (!isset($city_id)) {
                     $city_id = "";
                 }
                 if (!empty($user)) {
@@ -1207,336 +1197,363 @@ if (empty($user)) {
                     if (empty($city_top_name)) {
                         $city_top_name = LocationUtils::getCityName($city_id);
                     }
-                }else{
-                    $loc=  LocationUtils::getGeoLocationFromIP();
-                    if(!empty($loc)){
-                        $loc=  LocationUtils::getCityCountry($loc['latitude'], $loc['longitude']);
-                        if(!empty($loc)){
-                              $city_top_name =$loc['city'];
-                              $city_id = LocationUtils::getCityId($city_top_name);
+                } else {
+                    $loc = LocationUtils::getGeoLocationFromIP();
+                    if (!empty($loc)) {
+                        $loc = LocationUtils::getCityCountry($loc['latitude'], $loc['longitude']);
+                        if (!empty($loc)) {
+                            $city_top_name = $loc['city'];
+                            $city_id = LocationUtils::getCityId($city_top_name);
                         }
                     }
                 }
-                    
-                $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, -1, -1, $city_id);
+
+                if (!empty($is_page_category)) {
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 9, $is_page_category, -1, -1);
+                    echo "<script>
+                            wookmark_category=" . $is_page_category . ";
+                            wookmark_channel=9;
+                         </script>";
+                } else if ($is_page_foryou) {
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, -1, -1, -1);
+                } else if ($is_page_following) {
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 3, -1, -1, -1);
+                    echo "<script>
+                            wookmark_channel=3;
+                         </script>";
+                } else if ($is_page_thisweekend) {
+                    $st_date = date(DATETIME_DB_FORMAT, strtotime('next Saturday'));
+                    $ed_date = date(DATETIME_DB_FORMAT, strtotime('next Monday'));
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, $st_date, null, 9, -1, -1, -1, null, $ed_date);
+                    echo "<script>
+                            selectedDate='" . substr($st_date, 0, 10) . "';
+                            selectedEndDate='" . substr($ed_date, 0, 10) . "';
+                         </script>";
+                } else if ($is_page_today) {
+                    $st_date = date(DATETIME_DB_FORMAT);
+                    $ed_date = date(DATETIME_DB_FORMAT, strtotime('+1 day', time()));
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, $st_date, null, 9, -1, -1, -1, null, $ed_date);
+                    echo "<script>
+                            selectedDate='" . substr($st_date, 0, 10) . "';
+                            selectedEndDate='" . substr($ed_date, 0, 10) . "';
+                         </script>";
+                } else if ($is_page_tomorrow) {
+                    $st_date = date(DATETIME_DB_FORMAT, strtotime('+1 day', time()));
+                    $ed_date = date(DATETIME_DB_FORMAT, strtotime('+2 day', time()));
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, $st_date, null, 9, -1, -1, -1, null, $ed_date);
+                    echo "<script>
+                            selectedDate='" . substr($st_date, 0, 10) . "';
+                            selectedEndDate='" . substr($ed_date, 0, 10) . "';
+                         </script>";
+                } else if ($is_page_next7days) {
+                    $st_date = date(DATETIME_DB_FORMAT);
+                    $ed_date = date(DATETIME_DB_FORMAT, strtotime('+7 day', time()));
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, $st_date, null, 9, -1, -1, -1, null, $ed_date);
+                    echo "<script>
+                            selectedDate='" . substr($st_date, 0, 10) . "';
+                            selectedEndDate='" . substr($ed_date, 0, 10) . "';
+                         </script>";
+                } else if ($is_page_next30days) {
+                    $st_date = date(DATETIME_DB_FORMAT);
+                    $ed_date = date(DATETIME_DB_FORMAT, strtotime('+30 day', time()));
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, $st_date, null, 9, -1, -1, -1, null, $ed_date);
+                    echo "<script>
+                            selectedDate='" . substr($st_date, 0, 10) . "';
+                            selectedEndDate='" . substr($ed_date, 0, 10) . "';
+                         </script>";
+                } else if ($is_page_all) {
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 9, -1, -1, -1);
+                    echo "<script>
+                            wookmark_category=-1;
+                            wookmark_channel=9;
+                         </script>";
+                } else {
+                    $main_pages_events = Neo4jFuctions::getEvents($user_id, 0, 40, null, null, 1, -1, -1, -1);
+                }
                 $main_pages_events = json_decode($main_pages_events);
                 if (!empty($main_pages_events) && sizeof($main_pages_events)) {
                     $main_event = new Event();
                     foreach ($main_pages_events as $main_event) {
                         $main_event = UtilFunctions::cast("Event", $main_event);
                         if (!empty($main_event) && !empty($main_event->id)) {
-                            if (!empty($main_event->ad) && $main_event->ad) {
-                                ?>
+                            $width = null;
+                            $height = null;
+                            if (!empty($main_event->headerImage)) {
+                                $width = $main_event->headerImage->org_width;
+                            }
+                            if (empty($width)) {
+                                $width = TIMETY_MAIN_IMAGE_DEFAULT_WIDTH;
+                            }
+                            if (!empty($main_event->headerImage)) {
+                                $height = $main_event->headerImage->org_height;
+                            }
+                            if (empty($height)) {
+                                $height = TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT;
+                            }
+                            $res = ImageUtil::getImageSizeByWidth($height, $width, TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
+                            if (!empty($res) && sizeof($res) == 2) {
+                                $width = $res[0];
+                                $height = $res[1];
+                            }
+                            ?>
+                            <div class="main_event_box" date="<?= $main_event->startDateTime ?>" eventid="<?= $main_event->id ?>"  itemscope="itemscope" itemtype="http://schema.org/Event">
                                 <!-- event box -->
-                                <div class="main_event_box">
-                                    <div class="m_e_img">
-                                        <img  onclick="window.open('<?= $main_event->url ?>','_blank');return false;" src="<?= HOSTNAME . $main_event->img ?>" width="<?= $main_event->imgWidth ?>" height="<?= $main_event->imgHeight ?>"
-                                              class="main_draggable"/>
-                                    </div>
-                                    <div class="m_e_metin">
-                                        <div class="m_e_drm">
-                                            <ul>
-                                                <li class="m_e_cizgi"><a href="#" class="mavi_link" onclick="return false;"> <img
-                                                            src="<?= HOSTNAME ?>images/usr.png" width="18" height="18" border="0"
-                                                            align="absmiddle" /><?= $main_event->people ?>
-                                                    </a>
-                                                </li>
-                                                <li class="m_e_cizgi"><a href="#" onclick="return false;" class="turuncu_link"> <img
-                                                            src="<?= HOSTNAME ?>images/comm.png" width="19" height="18" border="0"
-                                                            align="absmiddle" /><?= $main_event->comment ?>
-                                                    </a>
-                                                </li>
-                                                <li><a href="#" class="yesil_link" onclick="return false;"> <img src="<?= HOSTNAME ?>images/zmn.png"
-                                                                                                                 width="19" height="18" border="0" align="absmiddle" /><?= $main_event->time ?>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
+                                    <?php
+                                    $margin_h = 0;
+                                    if ($height < TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT && false) {
+                                        $margin_h = (int) ((TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT - $height) / 2);
+                                    }
+                                    ?>
+                                    <?php if (!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
+                                        <div class="play_video" onclick="return openModalPanel('<?= $main_event->id ?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
+                                    <?php } ?>
+                                    <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
+                                        <?php
+                                        $headerImageTmp = "";
+                                        if (!empty($main_event) && !empty($main_event->headerImage))
+                                            $headerImageTmp = $main_event->headerImage->url
+                                            ?>
+                                        <img itemprop="image" eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                             />
                                     </div>
                                 </div>
-                                <?php
-                            } else {
-                                $width = null;
-                                $height = null;
-                                if (!empty($main_event->headerImage)) {
-                                    $width = $main_event->headerImage->width;
-                                }
-                                if (empty($width)) {
-                                    $width = 186;
-                                }
-                                if (!empty($main_event->headerImage)) {
-                                    $height = $main_event->headerImage->height;
-                                }
-                                if (empty($height)) {
-                                    $height = 219;
-                                }
-                                ?>
-                                <div class="main_event_box" date="<?= $main_event->startDateTime ?>">
-                                    <!-- event box -->
-                                    <div class="m_e_img" id="div_img_event_<?= $main_event->id ?>">
+                                <div class="m_e_metin">
+                                    <div class="m_e_baslik_container">
+                                        <div class="m_e_baslik">
+                                            <h1 itemprop="name"><?= $main_event->title ?></h1>
+                                        </div>
+                                        <div class="joinLikeCount">
+                                            <div class="iconHeart" eventid="<?= $main_event->id ?>"><a><?= $main_event->likescount ?></a></div>
+                                            <div class="iconPeople" eventid="<?= $main_event->id ?>"><a><?= $main_event->attendancecount ?></a></div>
+                                        </div>
+                                    </div>
+                                    <div class="m_e_com">
+                                        <?php
+                                        if (!empty($main_event->creatorId)) {
+                                            $crt = $main_event->creator;
+                                            $crt = UtilFunctions::cast("User", $crt);
+                                            if (!empty($crt) && !empty($crt->id)) {
+                                                $usr_url = HOSTNAME . $crt->userName;
+                                                ?>
+                                                <div class="m_userImage" onclick="window.location='<?= $usr_url ?>';">
+                                                    <img src="<?= PAGE_GET_IMAGEURL . urlencode($crt->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
+                                                </div>
+                                                <?php if ($crt->type . "" == "1") { ?>
+                                                    <div class="event_creator_verified_user timetyVerifiedIcon"><img src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png"></div>
+                                                <?php } ?>
+                                                <h1><span onclick="window.location='<?= $usr_url ?>';" class="event_box_username"><?= " " . $crt->getFullName() ?></span></h1>
+                                                <div itemprop="performer" itemscope="itemscope" itemtype="http://schema.org/Person" class="microdata_css">
+                                                    <span itemprop="name"><?= $crt->getFullName() ?></span>
+                                                    <a href="<?= HOSTNAME . $crt->userName ?>" itemprop="url"><?= $crt->getFullName() ?></a>
+                                                </div>
+                                                <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <div class="m_userImage">
+                                                <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" >
+                                            </div>
+                                            <h1><span style="padding-left: 28px; line-height: 26px; color: #7d7d7d"> </span></h1>
+                                        <?php }
+                                        ?>
+
+                                        <div class="eventDate"></div>
+                                        <?php
+                                        $time_zone = "+00:00";
+                                        if (!empty($user)) {
+                                            $time_zone = $user->time_zone;
+                                        }
+                                        $event_start_date = UtilFunctions::convertRevertTimeZone($main_event->startDateTime, $time_zone);
+                                        $event_start_date = strtotime($event_start_date);
+                                        ?>
+                                        <h2><span style="padding-left: 28px;"><?= strftime("%a , %d %B , %H:%M", $event_start_date) ?></span></h2>
+                                        <meta itemprop="startDate" content="<?= date("Y-m-d\TH:i", $main_event->startDateTimeLong) ?>">
+                                        <meta itemprop="endDate" content="<?= date("Y-m-d\TH:i", $main_event->endDateTimeLong) ?>">
+                                        <meta itemprop="description" content="<?= $main_event->description ?>">
+                                        <?php
+                                        $locc_url = "";
+                                        if (!empty($main_event->loc_lat) && !empty($main_event->loc_lng)) {
+                                            $locc_url = "https://maps.google.com/maps?&q=" . $main_event->loc_lat . "," . $main_event->loc_lng;
+                                        } else {
+                                            $locc_url = "https://maps.google.com/maps?&q=" . $main_event->location;
+                                        }
+                                        ?>
+                                        <div class="eventLocation"  onclick="window.open('<?= $locc_url ?>','_blank');">
+                                            <div class="eventLocationIcon"></div>
+                                            <h2><span style="padding-left: 28px;"><?php
+                            $locc = $main_event->location;
+                            if (strlen($locc) > 30) {
+                                $locc = substr($locc, 0, 30) . "...";
+                            } echo $locc;
+                                        ?></span></h2>
+                                            <div itemprop="location" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness" class="microdata_css">
+                                                <span itemprop="name"><?= $main_event->location ?></span>
+                                                <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                                                    <meta itemprop="latitude" content="<?= $main_event->loc_lat ?>" />
+                                                    <meta itemprop="longitude" content="<?= $main_event->loc_lng ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="joinLikeBtn">
                                         <?php
                                         $u_id = "_empty_";
                                         if (!empty($user)) {
                                             $u_id = $user->id;
                                         }
                                         ?>
-                                        <div class="likeshare" style="display: none" id="likeshare_<?= $main_event->id ?>">
-                                            <!-- like button -->
-                                            <div class="timelineLikes" style="<?php
-                        if ($main_event->creatorId == $u_id) {
-                            echo "display:none;";
-                        }
-                                        ?>"> 
-                                                <a  id="div_like_btn" 
-                                                    data-toggle="tooltip" 
-                                                    data-placement="bottom" 
-                                                    title=""
-                                                    class="timelineButton <?php
-                                 if ($main_event->userRelation->like) {
-                                     echo "like_btn_aktif";
-                                 } else {
-                                     echo "like_btn";
-                                 }
-                                        ?>"  
-                                                    class_aktif="like_btn_aktif" 
-                                                    class_pass="like_btn"      
-                                                    pressed="<?php
-                                    if ($main_event->userRelation->like) {
-                                        echo "true";
-                                    } else {
-                                        echo "false";
-                                    }
-                                        ?>"  
-                                                    onclick="likeEvent(this,<?= $main_event->id ?>);return false;"></a>
-                                            </div>
-                                            <!-- like button -->
+                                        <?php if ($main_event->creatorId != $u_id) { ?>
+
+                                            <?php if ($main_event->userRelation->joinType == 2) { ?>
+                                                <div 
+                                                    style="display: none"
+                                                    class="joinMaybeEvent"
+                                                    eventid="<?= $main_event->id ?>"
+                                                    btntype="join"
+                                                    class_aktif="joinMaybeEvent_active" 
+                                                    class_pass="joinMaybeEvent"
+                                                    class_loader="social_button_loader"
+                                                    pressed="false"
+                                                    onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;">
+                                                    <a class="m_join"><?= LanguageUtils::getText("LANG_SOCIAL_JOIN") ?></a>
+                                                    <a class="m_joined"><?= LanguageUtils::getText("LANG_SOCIAL_JOINED") ?></a>
+                                                </div>
+
+                                                <div 
+                                                    class="joinMaybeEvent_active"
+                                                    eventid="<?= $main_event->id ?>"
+                                                    btntype="maybe"
+                                                    class_aktif="joinMaybeEvent_active" 
+                                                    class_pass="joinMaybeEvent"
+                                                    class_loader="social_button_loader"
+                                                    pressed="true"
+                                                    onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;">
+                                                    <a><?= LanguageUtils::getText("LANG_SOCIAL_MAYBE") ?></a>
+                                                </div>
+                                            <?php } else if ($main_event->userRelation->joinType == 1) { ?>
+                                                <div 
+                                                    class="joinMaybeEvent_active"
+                                                    eventid="<?= $main_event->id ?>"
+                                                    btntype="join"
+                                                    class_aktif="joinMaybeEvent_active" 
+                                                    class_pass="joinMaybeEvent"
+                                                    class_loader="social_button_loader"
+                                                    pressed="true"
+                                                    onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;">
+                                                    <a class="m_join"><?= LanguageUtils::getText("LANG_SOCIAL_JOIN") ?></a>
+                                                    <a class="m_joined"><?= LanguageUtils::getText("LANG_SOCIAL_JOINED") ?></a>
+                                                </div>
+
+                                                <div 
+                                                    style="display: none"
+                                                    class="joinMaybeEvent"
+                                                    eventid="<?= $main_event->id ?>"
+                                                    btntype="maybe"
+                                                    class_aktif="joinMaybeEvent_active" 
+                                                    class_pass="joinMaybeEvent"
+                                                    class_loader="social_button_loader"
+                                                    pressed="false"
+                                                    onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;">
+                                                    <a><?= LanguageUtils::getText("LANG_SOCIAL_MAYBE") ?></a>
+                                                </div>
+                                            <?php } else { ?>
+                                                <div 
+                                                    class="joinMaybeEvent"
+                                                    eventid="<?= $main_event->id ?>"
+                                                    btntype="join"
+                                                    class_aktif="joinMaybeEvent_active" 
+                                                    class_pass="joinMaybeEvent"
+                                                    class_loader="social_button_loader"
+                                                    pressed="false"
+                                                    onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;">
+                                                    <a class="m_join"><?= LanguageUtils::getText("LANG_SOCIAL_JOIN") ?></a>
+                                                    <a class="m_joined"><?= LanguageUtils::getText("LANG_SOCIAL_JOINED") ?></a>
+                                                </div>
+                                                <div 
+                                                    class="joinMaybeEvent"
+                                                    eventid="<?= $main_event->id ?>"
+                                                    btntype="maybe"
+                                                    class_aktif="joinMaybeEvent_active" 
+                                                    class_pass="joinMaybeEvent"
+                                                    class_loader="social_button_loader"
+                                                    pressed="false"
+                                                    onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;">
+                                                    <a><?= LanguageUtils::getText("LANG_SOCIAL_MAYBE") ?></a>
+                                                </div>
+                                            <?php } ?>
 
 
-                                            <!-- share button -->
-                                            <div class="timelineLikes" style="<?php
-                                    if ($main_event->creatorId == $u_id) {
-                                        echo "display:none;";
-                                    }
-                                        ?>"> 
-                                                <a  id="div_share_btn" 
-                                                    data-toggle="tooltip" 
-                                                    data-placement="bottom" 
-                                                    title=""
-                                                    class="timelineButton <?php
-                                 if ($main_event->userRelation->reshare) {
-                                     echo "share_btn_aktif";
-                                 } else {
-                                     echo "share_btn";
-                                 }
-                                        ?>"  
-                                                    class_aktif="share_btn_aktif" 
-                                                    class_pass="share_btn"      
-                                                    pressed="<?php
-                                    if ($main_event->userRelation->reshare) {
-                                        echo "true";
-                                    } else {
-                                        echo "false";
-                                    }
-                                        ?>"  
-                                                    onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"></a>
-                                            </div>
-                                            <!-- share button -->
 
-                                            <!-- maybe button -->
-                                            <div class="timelineLikes" style="<?php
-                                    if ($main_event->creatorId == $u_id) {
-                                        echo "display:none;";
-                                    }
-                                        ?>"> 
-                                                <a  id="div_maybe_btn" 
-                                                    data-toggle="tooltip" 
-                                                    data-placement="bottom" 
-                                                    title=""
-                                                    class="timelineButton <?php
-                                 if ($main_event->userRelation->joinType == 2) {
-                                     echo "maybe_btn_aktif";
-                                 } else {
-                                     echo "maybe_btn";
-                                 }
-                                        ?>"  
-                                                    class_aktif="maybe_btn_aktif" 
-                                                    class_pass="maybe_btn"      
-                                                    pressed="<?php
-                                    if ($main_event->userRelation->joinType == 2) {
-                                        echo "true";
-                                    } else {
-                                        echo "false";
-                                    }
-                                        ?>"  
-                                                    onclick="sendResponseEvent(this,<?= $main_event->id ?>,2);return false;"></a>
-                                            </div>
-                                            <!-- maybe button -->
 
-                                            <!-- join button -->
-                                            <div class="timelineLikes" style="<?php
-                                    if ($main_event->creatorId == $u_id) {
-                                        echo "display:none;";
-                                    }
-                                        ?>"> 
-                                                <a  id="div_join_btn" 
-                                                    data-toggle="tooltip" 
-                                                    data-placement="bottom" 
-                                                    title=""
-                                                    class="timelineButton <?php
-                                 if ($main_event->userRelation->joinType == 1) {
-                                     echo "join_btn_aktif";
-                                 } else {
-                                     echo "join_btn";
-                                 }
-                                        ?>"  
-                                                    class_aktif="join_btn_aktif" 
-                                                    class_pass="join_btn"      
-                                                    pressed="<?php
-                                    if ($main_event->userRelation->joinType == 1) {
-                                        echo "true";
-                                    } else {
-                                        echo "false";
-                                    }
-                                        ?>"  
-                                                    onclick="sendResponseEvent(this,<?= $main_event->id ?>,1);return false;"></a>
-                                            </div>
-                                            <!-- join button -->
-
-                                            <!-- edit button -->
-                                            <div class="timelineLikes" style="<?php
-                                    if ($main_event->creatorId != $u_id) {
-                                        echo "display:none;";
-                                    }
-                                        ?>"> 
-                                                <a  id="div_edit_btn" 
-                                                    data-toggle="tooltip" 
-                                                    data-placement="bottom" 
-                                                    title=""
-                                                    class="timelineButton edit_btn"  
-                                                    class_aktif="edit_btn_aktif" 
-                                                    class_pass="edit_btn" 
-                                                    onclick="openEditEvent(<?= $main_event->id ?>);return false;"></a>
-                                            </div>
-                                            <!-- edit button -->
-
-                                        </div>
-                                        <?php //}  ?>
-                                        <?php
-                                        $margin_h = 0;
-                                        if ($height < 125) {
-                                            $margin_h = (int) ((125 - $height) / 2);
-                                        }
-                                        ?>
-                                        <?php if (!empty($main_event->has_video) && !empty($main_event->headerVideo)) { ?>
-                                            <div class="play_video" onclick="return openModalPanel('<?= $main_event->id ?>');" style="width: <?= $width ?>px;height:<?= $height ?>px;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;"></div>
-                                        <?php } ?>
-                                        <div style="width: <?= $width ?>px;height:<?= $height ?>px;overflow: hidden;margin-top: <?= $margin_h ?>px;margin-bottom:<?= $margin_h ?>px;">
-                                            <?php
-                                            $headerImageTmp = "";
-                                            if (!empty($main_event) && !empty($main_event->headerImage))
-                                                $headerImageTmp = $main_event->headerImage->url
-                                                ?>
-                                            <img eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
-                                                 class="main_draggable" />
-                                        </div>
-                                    </div>
-                                    <div class="m_e_metin">
-                                        <div class="m_e_baslik">
-                                            <?= $main_event->title ?>
-                                        </div>
-                                        <div class="m_e_com">
-                                            <?php
-                                            if (!empty($main_event->creatorId)) {
-                                                $crt = $main_event->creator;
-                                                $crt = UtilFunctions::cast("User", $crt);
-                                                if (!empty($crt) && !empty($crt->id)) {
-                                                    $usr_url = HOSTNAME . $crt->userName;
-                                                    ?>
-                                                    <div style="cursor: pointer" onclick="window.location='<?= $usr_url ?>';">
-                                                        <?php if ($crt->type . "" == "1") { ?>
-                                                            <div class="event_creator_verified_user timetyVerifiedIcon"><img src="<?= HOSTNAME ?>images/timetyVerifiedIcon.png"></div>
-                                                        <?php } ?>
-                                                        <img src="<?= PAGE_GET_IMAGEURL . urlencode($crt->getUserPic()) . "&h=22&w=22" ?>" width="22" height="22" align="absmiddle" />
-                                                        <span><?= " " . $crt->getFullName() ?></span>
-                                                    </div>
-                                                    <?php
+                                            <div class="wrapperlikeReshareEvent">
+                                                <?php
+                                                $button_class = "reshareEvent";
+                                                $button_pressed = "false";
+                                                if ($main_event->userRelation->like) {
+                                                    $button_class = "reshareEvent_active";
+                                                    $button_pressed = "true";
                                                 }
-                                            } else {
                                                 ?>
-                                                <p>
-                                                    <img src="<?= HOSTNAME . "images/anonymous.png" ?>" width="22" height="22" align="absmiddle" />
-                                                    <span> </span>
-                                                </p>
-                                            <?php }
-                                            ?>
-                                        </div>
-                                        <div class="m_e_ackl">
-                                            <?= $main_event->description ?>
-                                        </div>
-                                        <div class="m_e_drm">
-                                            <ul>
-                                                <li class="m_e_cizgi"><a href="#" onclick="return false;" class="mavi_link"> <img
-                                                            src="<?= HOSTNAME ?>images/usr.png" width="18" height="18" border="0"
-                                                            align="absmiddle" /><?= $main_event->attendancecount ?>
-                                                    </a>
-                                                </li>
-                                                <li class="m_e_cizgi"><a href="#"  onclick="return false;" class="turuncu_link"> <img
-                                                            src="<?= HOSTNAME ?>images/comm.png" width="19" height="18" border="0"
-                                                            align="absmiddle" /><?= $main_event->commentCount ?>
-                                                    </a>
-                                                </li>
-                                                <li><a href="#" class="<?php
-                            $time_zone = "+00:00";
-                            if (!empty($user)) {
-                                $time_zone = $user->time_zone;
-                            }
-                            $tt = $main_event->getRemainingTime($time_zone);
-                            if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
-                                echo "turuncu_link";
-                            } else {
-                                echo "yesil_link";
-                            }
-                                            ?>" onclick="return false;"> 
-                                                        <img src="<?= HOSTNAME ?>images/zmn<?php
-                                       if ($tt == LanguageUtils::getText("LANG_UTILS_FUNCTIONS_PAST")) {
-                                           echo "_k";
-                                       }
-                                            ?>.png" width="19" height="18" border="0" align="absmiddle" /><?= $main_event->getRemainingTime($time_zone) ?>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                                <div 
+                                                    class="<?= $button_class ?>"
+                                                    class_aktif="reshareEvent_active" 
+                                                    class_pass="reshareEvent"
+                                                    eventid="<?= $main_event->id ?>"
+                                                    pressed="<?= $button_pressed ?>"
+                                                    onclick="reshareEvent(this,<?= $main_event->id ?>);return false;"
+                                                    data-toggle="tooltip" 
+                                                    data-placement="bottom" >
+                                                    <a class="reshareIcon"></a>
+                                                </div>
+                                                <?php
+                                                $button_class = "likeEvent";
+                                                $button_pressed = "false";
+                                                if ($main_event->userRelation->reshare) {
+                                                    $button_class = "likeEvent_active";
+                                                    $button_pressed = "true";
+                                                }
+                                                ?>
+                                                <div 
+                                                    class="<?= $button_class ?>"
+                                                    class_aktif="likeEvent_active" 
+                                                    class_pass="likeEvent"
+                                                    eventid="<?= $main_event->id ?>"
+                                                    pressed="<?= $button_pressed ?>"
+                                                    onclick="likeEvent(this,<?= $main_event->id ?>);return false;"
+                                                    data-toggle="tooltip" 
+                                                    data-placement="bottom">
+                                                    <a class="likeIcon"></a>
+                                                </div>
+                                                <?php
+                                                unset($button_class);
+                                                unset($button_pressed);
+                                                ?>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="editEvent">
+                                                <a onclick="openEditEvent(<?= $main_event->id ?>);return false;"><?= LanguageUtils::getText("LANG_SOCIAL_EDIT") ?></a>
+                                            </div>
+                                        <?php } ?>
                                     </div>
-                                    <script>
-                                        var tmpDataJSON='<?php
-                                             $json_response = UtilFunctions::json_encode($main_event);
-                                             echo $json_response;
-                                             ?>';
-                                            tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
-                                            var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
-                                            localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
-                                    </script>
-                                    <!-- event box -->
                                 </div>
-                                <?php
-                            }
+                                <script>
+                                    var tmpDataJSON='<?php
+                            $json_response = UtilFunctions::json_encode($main_event);
+                            echo $json_response;
+                            ?>';
+                                tmpDataJSON=tmpDataJSON.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+                                var tmpDataJSON= jQuery.parseJSON(tmpDataJSON);
+                                localStorage.setItem('event_' + tmpDataJSON.id,JSON.stringify(tmpDataJSON));
+                                </script>
+                                <!-- event box -->
+                            </div>
+                            <?php
                         }
                     }
                 }
                 ?>
             </div>
-        </div>
-        <div class="main_sag_header" style="z-index: 9">
-            <ul id="timeline_header">
-                <li class="scrl_btn"><input type="button" id="prev_button"
-                                            class="solscrl prev-page" /> <input type="button" id="next_button"
-                                            class="sagscrl next-page" />
-                </li>
-            </ul>
-        </div>
-        <div class="main_sag" style="z-index: 10;height: 2000px;top: -80px;padding-top: 80px;">
-            <ul id="timeline" style="">
-            </ul>
         </div>
         <div style="z-index:100000;position: fixed; width: 400px;top: 60px;left: 50%;margin-left: -200px;" id="boot_msg"></div>
         <div id="dump" style="display: none">
@@ -1570,6 +1587,8 @@ if (empty($user)) {
                             function changeChannelProfile(channel){
                                 jQuery("#searchText").val("");
                                 page_wookmark=0;
+                                selectedEndDate=null;
+                                selectedDate=null;
                                 wookmark_channel=channel;
                                 jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
                                 jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');

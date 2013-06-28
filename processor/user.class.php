@@ -1,7 +1,8 @@
-<?php
+f<?php
 
 require_once __DIR__ . '/../utils/Functions.php';
 LanguageUtils::setLocale();
+
 class UserProcessor {
 
     public $userID;
@@ -12,7 +13,7 @@ class UserProcessor {
         $log = KLogger::instance(KLOGGER_PATH, KLogger::DEBUG);
 
         $log->logInfo("user > updateUser >  start userId : " . $this->userID . " type : " . $this->type . " time : " . $this->time);
-        
+
         $redis = new Predis\Client();
         if (!empty($this->userID)) {
             $user = UserUtils::getUserById($this->userID);
@@ -27,28 +28,31 @@ class UserProcessor {
                         $evt = json_decode($item);
                         if (!empty($evt) && $evt->creatorId == $this->userID) {
                             $event = Neo4jEventUtils::getNeo4jEventById($evt->id);
-                            try {
-                                $event->getHeaderImage();
-                                $event->images = array();
-                                $event->getAttachLink();
-                                $event->getTags();
-                                $event->getLocCity();
-                                $event->getWorldWide();
-                                $event->hasVideo();
-                                $event->getHeaderVideo();
-                                $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
-                                $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
-                                $event->getCreatorType();
-                            } catch (Exception $exc) {
-                                $log->logError("event > addEvent Error" . $exc->getTraceAsString());
-                            }
-                            $event->userEventLog = $evt->userEventLog;
-                            $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($evt->id, $this->userID);
+                            if (!empty($event) && !empty($event->id)) {
+                                try {
+                                    $event->getHeaderImage();
+                                    $event->images = array();
+                                    $event->getAttachLink();
+                                    $event->getTags();
+                                    $event->getLocCity();
+                                    $event->getWorldWide();
+                                    $event->hasVideo();
+                                    $event->getHeaderVideo();
+                                    $event->attendancecount = Neo4jEventUtils::getEventAttendanceCount($event->id);
+                                    $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
+                                    $event->likescount=  Neo4jEventUtils::getEventLikesCount($event->id);
+                                    $event->getCreatorType();
+                                } catch (Exception $exc) {
+                                    $log->logError("event > addEvent Error" . $exc->getTraceAsString());
+                                }
+                                $event->userEventLog = $evt->userEventLog;
+                                $event->userRelation = Neo4jEventUtils::getEventUserRelationCypher($evt->id, $this->userID);
 
-                            $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
-                            $redis->removeItemById($key, $evt->id);
-                            RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
-                            Queue::updateEventInfoForOthers($evt->id, $evt->creatorId, REDIS_USER_INTERACTION_UPDATED);
+                                $redis->getProfile()->defineCommand('removeItemById', 'RemoveItemById');
+                                $redis->removeItemById($key, $evt->id);
+                                RedisUtils::addItem($redis, $key, json_encode($event), $event->startDateTimeLong);
+                                Queue::updateEventInfoForOthers($evt->id, $evt->creatorId, REDIS_USER_INTERACTION_UPDATED);
+                            }
                         }
                     }
                 }

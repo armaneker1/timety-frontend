@@ -67,58 +67,50 @@ class Neo4jFuctions {
         }
     }
 
-    function responseToEventInvites($userId, $eventId, $resp) {
-        $this->removeEventInvite($userId, $eventId);
-        $client = new Client(new Transport(NEO4J_URL, NEO4J_PORT));
-        $eventIndex = new Index($client, Index::TypeNode, IND_EVENT_INDEX);
-        $userIndex = new Index($client, Index::TypeNode, IND_USER_INDEX);
-        $usr = $userIndex->findOne(PROP_USER_ID, $userId);
-        $event = $eventIndex->findOne(PROP_EVENT_ID, $eventId);
+    public static function responseToEventInvites($userId, $eventId, $resp) {
         $result = new Result();
         $result->success = false;
         $result->error = true;
-
-        if (!empty($event) && !empty($usr)) {
+        
+        $res = Neo4jEventUtils::getUserEventRelation($userId, $eventId);
+        if (!empty($res) && sizeof($res) == 3) {
+            $rel = $res['rel'];
+            $usr = $res['user'];
+            $event = $res['event'];
+        }
+        if (!empty($usr) && !empty($event)) {
             try {
+                $relateUserToEventParam = null;
+                $redisQueueParam = null;
                 if ($resp == 1) {
-                    if (Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_YES)) {
-                        NotificationUtils::insertNotification(NOTIFICATION_TYPE_JOIN, $event->getProperty(PROP_EVENT_CREATOR_ID), $userId, $eventId, null);
-                    }
-                    SocialUtil::incJoinCountAsync($userId, $eventId);
-                    $result->success = true;
-                    $result->error = false;
-                    Neo4jEventUtils::increaseAttendanceCount($eventId);
-                    Queue::joinEvent($eventId, $userId, REDIS_USER_INTERACTION_JOIN);
+                    $relateUserToEventParam = TYPE_JOIN_YES;
+                    $redisQueueParam = REDIS_USER_INTERACTION_JOIN;
                 } else if ($resp == 0 || $resp == 5) {
-                    Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_NO);
-                    if ($resp == 5) {
-                        SocialUtil::decJoinCountAsync($userId, $eventId);
-                        Neo4jEventUtils::decreaseAttendanceCount($eventId);
-                    }
-                    $result->success = true;
-                    $result->error = false;
-                    Queue::joinEvent($eventId, $userId, REDIS_USER_INTERACTION_DECLINE);
+                    $relateUserToEventParam = TYPE_JOIN_NO;
+                    $redisQueueParam = REDIS_USER_INTERACTION_DECLINE;
                 } else if ($resp == 2) {
-                    Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_MAYBE);
-                    $result->success = true;
-                    $result->error = false;
-                    SocialUtil::incJoinCountAsync($userId, $eventId);
-                    Queue::joinEvent($eventId, $userId, REDIS_USER_INTERACTION_MAYBE);
+                    $relateUserToEventParam = TYPE_JOIN_MAYBE;
+                    $redisQueueParam = REDIS_USER_INTERACTION_MAYBE;
                 } else if ($resp == 3 || $resp == 4) {
-                    Neo4jEventUtils::relateUserToEvent($usr, $event, 0, TYPE_JOIN_IGNORE);
-                    //maybe denince sayı azalmıcak
-                    if ($resp == 4 && false) {
-                        SocialUtil::decJoinCountAsync($userId, $eventId);
-                        Neo4jEventUtils::decreaseAttendanceCount($eventId);
-                    }
-                    $result->success = true;
-                    $result->error = false;
-                    Queue::joinEvent($eventId, $userId, REDIS_USER_INTERACTION_IGNORE);
+                    $relateUserToEventParam = TYPE_JOIN_IGNORE;
+                    $redisQueueParam = REDIS_USER_INTERACTION_IGNORE;
                 } else {
                     $result->success = false;
                     $result->error = true;
+                    return $result;
                 }
-                UtilFunctions::curl_post_async(PAGE_AJAX_UPDATE_USER_STATISTICS, array("userId" => $userId, "type" => 5, "ajax_guid" => SettingsUtil::getSetting(SETTINGS_AJAX_KEY)));
+
+                $redisQueueExtraParam = false;
+                if ($resp == 5) {
+                    $redisQueueExtraParam = true;
+                }
+
+                Neo4jEventUtils::relateUserToEvent2($usr, $event, $rel, 0, $relateUserToEventParam);
+                Queue::joinEvent($eventId, $userId, $redisQueueParam, $redisQueueExtraParam);
+                
+                $result->success = true;
+                $result->error = false;
+                return $result;
             } catch (Exception $e) {
                 error_log("Error" . $e->getTraceAsString());
                 $result->error = $e->getTraceAsString();
@@ -934,7 +926,7 @@ class Neo4jFuctions {
      * $pageItemCount default 15
      */
 
-    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 4, $categoryId = -1, $reqUserId = -1, $city_channel = -1, $tagIds = null) {
+    public static function getEvents($userId = -1, $pageNumber = 0, $pageItemCount = 15, $date = "0000-00-00 00:00", $query = "", $type = 4, $categoryId = -1, $reqUserId = -1, $city_channel = -1, $tagIds = null, $end_date = null) {
 
         /*
          * edit query string if match to a tag
@@ -1009,6 +1001,45 @@ class Neo4jFuctions {
             }
             $date = strtotime($date);
         }
+        if (!empty($end_date)) {
+            if (empty($end_date) || substr($end_date, 0, 1) == "0") {
+                $end_date = null;
+            } else {
+                $datestr = $end_date . ":00";
+                $datestr = date_parse_from_format(DATETIME_DB_FORMAT, $datestr);
+                if (checkdate($datestr['month'], $datestr['day'], $datestr['year'])) {
+                    $result = $datestr['year'] . "-";
+                    if (strlen($datestr['month']) == 1) {
+                        $result = $result . "0" . $datestr['month'] . "-";
+                    } else {
+                        $result = $result . $datestr['month'] . "-";
+                    }
+                    if (strlen($datestr['day']) == 1) {
+                        $result = $result . "0" . $datestr['day'];
+                    } else {
+                        $result = $result . $datestr['day'];
+                    }
+
+                    $result = $result . " ";
+                    if (strlen($datestr['hour']) == 1) {
+                        $result = $result . "0" . $datestr['hour'];
+                    } else {
+                        $result = $result . $datestr['hour'];
+                    }
+                    $result = $result . ":";
+                    if (strlen($datestr['minute']) == 1) {
+                        $result = $result . "0" . $datestr['minute'];
+                    } else {
+                        $result = $result . $datestr['minute'];
+                    }
+                    $result = $result . ":00";
+                    $end_date = $result;
+                } else {
+                    $end_date = null;
+                }
+                $end_date = strtotime($end_date);
+            }
+        }
         if ($type == 4) {
             if ($userId == $reqUserId) {
                 return RedisUtils::getOwnerEvents($userId, $pageNumber, $pageItemCount, $date, $query, $tagIds, $dateCalc);
@@ -1057,9 +1088,9 @@ class Neo4jFuctions {
         } else if ($type == 2) {
             return RedisUtils::getOwnerEvents($userId, $pageNumber, $pageItemCount, $date, $query, $tagIds, $dateCalc);
         } else if ($type == 9) {
-            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $query, $categoryId, $city_channel, $tagIds);
+            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $end_date,$query, $categoryId, $city_channel, $tagIds);
         } else {
-            $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date,null, $query, $city_channel, $tagIds);
+            $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date, $end_date, $query, $city_channel, $tagIds);
             $check = false;
             if ($pageNumber == 0 || $pageNumber == "0") {
                 if ((empty($recommended) || strlen($recommended) < 3)) {
@@ -1073,7 +1104,7 @@ class Neo4jFuctions {
                     $check = true;
                 }
             }
-            if ($check) {
+            if ($check && empty($end_date)) {
                 return RedisUtils::getUpcomingEvents($userId, $pageNumber, $pageItemCount, $date, $query, $city_channel, $tagIds);
             } else {
                 return $recommended;

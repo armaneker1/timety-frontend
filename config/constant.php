@@ -76,7 +76,7 @@ define('PAGE_EVENT', HOSTNAME . 'event/');
 define('PAGE_USER', HOSTNAME . 'user/');
 define('PAGE_UPDATE_PROFILE', HOSTNAME . 'profile');
 define('PAGE_UPDATE_EVENT', HOSTNAME . 'updateevent/');
-define('PAGE_GET_IMAGEURL', HOSTNAME . 'getImage.php?src=');
+define('PAGE_GET_IMAGEURL', HOSTNAME . 'getImage.php?zc=0&src=');
 define('PAGE_ERROR_PAGE', HOSTNAME . 'error');
 define('PAGE_GET_IMAGEURL_SUBFOLDER', 'timety/');
 
@@ -210,4 +210,9 @@ define('ELASTICSEACRH_TIMETY_DOCUMENT_EVENT', 'timety_event');
 
 //LOCATION
 define('LOCATION_HOSTIP_API', 'http://freegeoip.net/json/');
+
+
+//IMAGE
+define('TIMETY_MAIN_IMAGE_DEFAULT_WIDTH',236);
+define('TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT',236);
 ?>

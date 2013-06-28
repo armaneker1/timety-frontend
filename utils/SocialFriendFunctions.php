@@ -3,8 +3,6 @@
 class SocialFriendUtil {
 
     public static function getUserFollowList($userId) {
-        //$neo = new Neo4jFuctions();
-        //return $neo->getUserFollowList($userId);
         return RedisUtils::getUserFollowings($userId);
     }
 
@@ -13,8 +11,6 @@ class SocialFriendUtil {
     }
 
     public static function getFriendList($userId, $query, $followers) {
-        //$neo = new Neo4jFuctions();
-        //return $neo->getFriendList($userId, $query, $followers);
         return RedisUtils::getFriendList($userId, $query, $followers);
     }
 

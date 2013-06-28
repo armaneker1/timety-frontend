@@ -44,23 +44,30 @@ if (isset($_GET["uid"]))
     $userId = $_GET["uid"];
 
 //date 
-$date = date(DATETIME_DB_FORMAT);
-if (isset($_POST['date'])) {
-    $date = $_POST['date'];
+$start_date = date(DATETIME_DB_FORMAT);
+if (isset($_POST['start_date'])) {
+    $start_date = $_POST['start_date'];
 }
-if (isset($_GET["date"])) {
-    $date = $_GET["date"];
+if (isset($_GET["start_date"])) {
+    $start_date = $_GET["start_date"];
+}
+
+//date 
+$end_date = date(DATETIME_DB_FORMAT);
+if (isset($_POST['end_date'])) {
+    $end_date = $_POST['end_date'];
+}
+if (isset($_GET["end_date"])) {
+    $end_date = $_GET["end_date"];
 }
 
 
 
 if (!empty($lat) && !empty($lng) && !empty($radius)) {
-    $dateCalc = false;
-    if (empty($date) || substr($date, 0, 1) == "0") {
-        $dateCalc = true;
-        $date = strtotime("now");
+    if (empty($start_date) || substr($start_date, 0, 1) == "0") {
+        $start_date = strtotime("now");
     } else {
-        $datestr = $date . ":00";
+        $datestr = $start_date . ":00";
         $datestr = date_parse_from_format(DATETIME_DB_FORMAT, $datestr);
         if (checkdate($datestr['month'], $datestr['day'], $datestr['year'])) {
             $result = $datestr['year'] . "-";
@@ -88,14 +95,52 @@ if (!empty($lat) && !empty($lng) && !empty($radius)) {
                 $result = $result . $datestr['minute'];
             }
             $result = $result . ":00";
-            $date = $result;
+            $start_date = $result;
         } else {
-            $dateCalc = true;
-            $date = date(DATE_FORMAT);
-            $date = $date . " 00:00:00";
+            $start_date = date(DATE_FORMAT);
+            $start_date = $start_date . " 00:00:00";
         }
-        $date = strtotime($date);
+        $start_date = strtotime($start_date);
     }
+
+    if (empty($end_date) || substr($end_date, 0, 1) == "0") {
+        $end_date = null;
+    } else {
+        $datestr = $end_date . ":00";
+        $datestr = date_parse_from_format(DATETIME_DB_FORMAT, $datestr);
+        if (checkdate($datestr['month'], $datestr['day'], $datestr['year'])) {
+            $result = $datestr['year'] . "-";
+            if (strlen($datestr['month']) == 1) {
+                $result = $result . "0" . $datestr['month'] . "-";
+            } else {
+                $result = $result . $datestr['month'] . "-";
+            }
+            if (strlen($datestr['day']) == 1) {
+                $result = $result . "0" . $datestr['day'];
+            } else {
+                $result = $result . $datestr['day'];
+            }
+
+            $result = $result . " ";
+            if (strlen($datestr['hour']) == 1) {
+                $result = $result . "0" . $datestr['hour'];
+            } else {
+                $result = $result . $datestr['hour'];
+            }
+            $result = $result . ":";
+            if (strlen($datestr['minute']) == 1) {
+                $result = $result . "0" . $datestr['minute'];
+            } else {
+                $result = $result . $datestr['minute'];
+            }
+            $result = $result . ":00";
+            $end_date = $result;
+            $end_date = strtotime($end_date);
+        } else {
+            $end_date = null;
+        }
+    }
+
     $lat = doubleval($lat);
     $lng = doubleval($lng);
     $radius = $radius . "km";
@@ -105,6 +150,12 @@ if (!empty($lat) && !empty($lng) && !empty($radius)) {
                 'index' => ELASTICSEACRH_TIMETY_INDEX,
                 'type' => ELASTICSEACRH_TIMETY_DOCUMENT_EVENT
             ));
+    $date_range = array(
+        'from' => $start_date
+    );
+    if (!empty($end_date)) {
+        $date_range['to'] = $end_date;
+    }
     $QUERY = array(
         'query' => array(
             'filtered' => array(
@@ -118,9 +169,7 @@ if (!empty($lat) && !empty($lng) && !empty($radius)) {
                                 )
                         )),
                         1 => array('range' => array(
-                                'startDateTimeLong' => array(
-                                    'from' => $date
-                                )
+                                'startDateTimeLong' => $date_range
                         ))
                     )
                 )

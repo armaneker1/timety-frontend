@@ -2,6 +2,23 @@
 
 class ImageUtil {
 
+    public static function getImageSizeByWidth($org_height = null, $org_width = null, $width = null) {
+        $result = array();
+        if (!empty($org_height) && !empty($org_width)) {
+            if (empty($width)) {
+                $width = TIMETY_MAIN_IMAGE_DEFAULT_WIDTH;
+            }
+            if ($org_width != $width) {
+                $org_height = $org_height * $width;
+                $org_height = ceil($org_height / $org_width);
+                $org_width = $width;
+            }
+        }
+        $result[0] = $org_width;
+        $result[1] = $org_height;
+        return $result;
+    }
+
     public static function getImageUrl($url, $width = null, $height = null) {
         if (!UtilFunctions::startsWith($url, "http")) {
             if (!UtilFunctions::startsWith($url, "/")) {
@@ -116,11 +133,11 @@ class ImageUtil {
 
     public static function getSize($imagePath) {
         $array = array();
-        array_push($array, 186);
+        array_push($array, TIMETY_MAIN_IMAGE_DEFAULT_WIDTH);
         if (!empty($imagePath) && file_exists($imagePath)) {
             $size = getimagesize($imagePath);
-            $val = $size[1] * 186;
-            $height = floor($val / $size[0]);
+            $val = $size[1] * TIMETY_MAIN_IMAGE_DEFAULT_WIDTH;
+            $height = ceil($val / $size[0]);
             array_push($array, $height);
             array_push($array, $size[0]);
             array_push($array, $size[1]);
@@ -129,7 +146,7 @@ class ImageUtil {
         array_push($array, 0);
         return $array;
     }
-    
+
     public static function getRealSize($imagePath) {
         $array = array();
         if (!empty($imagePath) && file_exists($imagePath)) {

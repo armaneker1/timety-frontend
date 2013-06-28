@@ -164,15 +164,16 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
                 });
             });
         </script>
-        <meta property="og:title" content="Timety"/>
+        <meta property="og:title" content="<?=LanguageUtils::getText("LANG_PAGE_TITLE")?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="Timety"/>
+        <meta property="og:description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
+        <meta property="description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>"
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage"
           onload="checkInterestReady('<?= PAGE_LIKES ?>','#spinner','<?php
         if (!empty($user)) {
             echo $user->id;
@@ -213,7 +214,7 @@ if (!empty($tags_) && sizeof($tags_) > 0) {
             }
         }
         ?>
-        <div class="add_timete_ekr" style="top: 55px;">
+        <div class="add_timete_ekr" style="top: 72px;">
             <div class="add_timete_ols">
                 <p class="find_friends"><?= LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_HEADER1") ?><span id="add_like_count_0" ><?= LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_COUNT_TEXT") ?></span><span id="add_like_count_" style="display:none;"><span id="add_like_count"><?= LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_COUNT_NUMBER") ?></span><?= LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_ITEM_TEXT") ?><span id="add_like_count_s"><?= LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_ITEM_S_TEXT") ?></span><?= LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_ITEM_REMAINING") ?></span><span id="add_like_done" style="display: none;"><?= LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_ITEM_DONE") ?></span><br/>
                     <span class="add_t_k" style="line-height: 12px;"><?= LanguageUtils::getText("LANG_PAGE_ADD_LIKE_FORM_SELECT_SUB_HEADER") ?></span>

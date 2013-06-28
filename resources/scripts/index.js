@@ -236,26 +236,8 @@ jQuery(document).ready(function() {
             return false;
     });
     
-    jQuery("[id*='div_img_event_']").live("hover",function(ev){
-        if (ev.type == 'mouseenter') {
-            jQuery("#"+this.id+" .likeshare").show(); 
-            //jQuery("#"+this.id+" img").css("-webkit-filter","blur(2px)");
-            //jQuery("#"+this.id+" img").css("filter","url(#blur-effect-1)");
-            jQuery("#"+this.id+" img").addClass("main_event_box_img_blur");
-        }
-        
-        if (ev.type == 'mouseleave') {
-            jQuery("#"+this.id+" .likeshare").hide(); 
-            //jQuery("#"+this.id+" img").css("-webkit-filter","");
-            //jQuery("#"+this.id+" img").css("filter","");
-            jQuery("#"+this.id+" img").removeClass("main_event_box_img_blur");
-        }
-    });
-    
+       
     likeshareButtonsInit();
-    jQuery(".likeshare").live("click",function(e){
-        likeshareDivClick(e);
-    });
 });
 
 function openEditEvent(eventId)
@@ -266,23 +248,13 @@ function openEditEvent(eventId)
     }
 }
 
-function likeshareDivClick(e)
-{
-    if(e && e.target && e.target.id && (e.target.id+"").indexOf("likeshare_") == 0)
-    {
-        var id=e.target.id.replace("likeshare_","");
-        openModalPanel(id);
-    }
-    return false;
-}
-
 
 function likeshareButtonsInit()
 {
     jQuery.sessionphp.get('id',function(userId){
         if(userId) 
         {
-            jQuery(".likeshare").each(function(i,e){
+            jQuery(".wrapperlikeReshareEvent").each(function(i,e){
                 likeshareInit(userId,e);
             });
         }
@@ -292,7 +264,7 @@ function likeshareButtonsInit()
 function likeshareInit(userId,element)
 {
     var loaded=jQuery(element).data("loaded");
-    if(!loaded)
+    if(!loaded && false)
     {
         var eventId=jQuery(element).attr("id");
         if(eventId && eventId.split("_").length==2)
@@ -302,7 +274,7 @@ function likeshareInit(userId,element)
             eventId=null;
         }
         // kaldırdık
-        if(eventId && false)
+        if(eventId)
         {
             jQuery(element).hover(function(){
                 jQuery.ajax({
@@ -351,11 +323,7 @@ function likeshareInit(userId,element)
                     }
                 },"json");
             });
-        }else{
-            setTooltipLikeShareDiv(element);
         }
-    }else{
-        setTooltipLikeShareDiv(element);
     }
 }
 

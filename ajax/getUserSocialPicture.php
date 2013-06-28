@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+session_write_close();
 header("charset=utf8;");
 
 require_once __DIR__ . '/../utils/Functions.php';
@@ -45,10 +46,10 @@ if (!empty($userId) && !empty($type) && ($type == 'fb' || $type == 'tw')) {
                         }
                         $large_image_location = $large_image_location . ".png";
                         file_put_contents($large_image_location, $content);
-                        $_SESSION['user_file_ext'] = ".png";
+                        $user_file_ext = ".png";
                         $result->error = false;
                         $result->success = true;
-                        $result->pic = $large_image_path . $_SESSION['user_file_ext'];
+                        $result->pic = $large_image_path . $user_file_ext;
                         $result->width = -1;
                         $result->height = -1;
                         try {
@@ -76,10 +77,10 @@ if (!empty($userId) && !empty($type) && ($type == 'fb' || $type == 'tw')) {
                             }
                             $large_image_location = $large_image_location . ".png";
                             file_put_contents($large_image_location, $content);
-                            $_SESSION['user_file_ext'] = ".png";
+                            $user_file_ext = ".png";
                             $result->error = false;
                             $result->success = true;
-                            $result->pic = $large_image_path . $_SESSION['user_file_ext'];
+                            $result->pic = $large_image_path . $user_file_ext;
                             $result->width = -1;
                             $result->height = -1;
                             try {

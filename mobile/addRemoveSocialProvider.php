@@ -54,7 +54,7 @@ if (!empty($userId) && !empty($provider)) {
         if (!empty($providerId)) {
             $usr = UserUtils::getUserById($userId);
             if (!empty($usr)) {
-                $pr = UserUtils::getSocialProviderWithOAUTHId($userId, $provider);
+                $pr = UserUtils::getSocialProviderWithOAUTHId($providerId, $provider);
                 if (empty($pr)) {
                     $provider_ = new SocialProvider();
                     $provider_->oauth_provider = $provider;
@@ -62,14 +62,22 @@ if (!empty($userId) && !empty($provider)) {
                     $provider_->status = 0;
                     $provider_->user_id = $userId;
                     UserUtils::updateSocialProvider($provider_);
+                    $r = new stdClass();
+                    $r->success = 1;
+                    $r->code = 100;
+                    $r->data = "Success";
+                    $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
+                    echo $result;
+                    exit(1);
+                }else{
+                    $r = new stdClass();
+                    $r->success = 0;
+                    $r->code = 101;
+                    $r->data = "Socail account has already registered";
+                    $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
+                    echo $result;
+                    exit(1);
                 }
-                $r = new stdClass();
-                $r->success = 1;
-                $r->code = 100;
-                $r->data = "Success";
-                $result = XMLSerializer::generate_valid_xml_from_array($r, "Result");
-                echo $result;
-                exit(1);
             } else {
                 $r = new stdClass();
                 $r->success = 0;

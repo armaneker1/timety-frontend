@@ -129,6 +129,7 @@ function selectTimelineDate(){
     jQuery("#searchText").val("");
     page_wookmark=0;
     selectedDate=jQuery(this).attr("date_formated");
+    selectedDate=null;
     wookmarkFiller(document.optionsWookmark,true,true);
 }
 

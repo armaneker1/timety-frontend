@@ -15,21 +15,10 @@ jQuery(document).ready(function(){
         });
     });
     
-    //old 
-    jQuery('#te_avatar').click(function(e) {
-        jQuery.sessionphp.get("id", function(userId){
-            if(userId)
-            {
-                closeOtherNotf();
-                showNotifications(userId);  
-            }
-        });
-    });
-    
     jQuery.sessionphp.get("id", function(userId){
         if(userId)
         {
-            setTimeout(checkNotifications, 10000, userId);    
+            setTimeout(checkNotifications, TIMETY_NOTIFICATION_CHECK_TIME, userId);    
         }
     });
 });
@@ -61,10 +50,6 @@ function checkNotifications(userId)
                 if(!notf.length)
                 {
                     notf=jQuery('<div id="avtr_box_not" class="avtr_box">'+data+'</div>'); 
-                    //old
-                    var notfDiv=jQuery("#te_avatar");
-                    notfDiv.append(notf);
-                    //new 
                     notfDiv=jQuery("#top_notification_button");
                     notfDiv.append(notf);
                 }else
@@ -76,14 +61,17 @@ function checkNotifications(userId)
                 notf=jQuery("#avtr_box_not");
                 notf.remove();
             }
+            setTimeout(checkNotifications, TIMETY_NOTIFICATION_CHECK_TIME, userId); 
+        },
+        error: function(){
+            setTimeout(checkNotifications, TIMETY_NOTIFICATION_CHECK_TIME, userId); 
         }
-    },"json");
-    setTimeout(checkNotifications, 5000, userId);    
+    },"json");   
 }
 
 function closeNotifications(e)
 {
-    if((e && e.target && !((e.target.id+"")=="te_avatar" || jQuery(e.target).parents().is("#te_avatar") || (e.target.id+"")=="top_notification_button" || jQuery(e.target).parents().is("#top_notification_button") ||(e.target.id+"")=="my_timety_notf_container" || jQuery(e.target).parents().is("#my_timety_notf_container"))))
+    if((e && e.target && !((e.target.id+"")=="top_notification_button" || jQuery(e.target).parents().is("#top_notification_button") ||(e.target.id+"")=="my_timety_notf_container" || jQuery(e.target).parents().is("#my_timety_notf_container"))))
     {
         jQuery("body").unbind('click.notfs');
         jQuery("#my_timety_notf_container").hide();
@@ -131,9 +119,7 @@ function showNotifications(userId)
     var notfUl=jQuery("#my_timety_notf ul");
     
     notfPopupContainer.show();
-    var loader=jQuery("#notf_loader_img");
-    //loader.show();
-    
+   
     if(post_notifications) {
         post_notifications.abort();
     }
@@ -146,7 +132,6 @@ function showNotifications(userId)
         },
         success: function(data){
             var dataJSON = jQuery.parseJSON(data);
-            loader.hide();
             if(dataJSON && !dataJSON.error && dataJSON.length>0)
             {
                 for(var i=dataJSON.length-1;i>=0;i--)

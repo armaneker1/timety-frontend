@@ -124,6 +124,9 @@ class ElasticSearchUtils {
                     $event_array["startDateTimeLong"] = $event->startDateTimeLong;
                     $event_array["id"] = $event->id;
                     $event_array["title"] = $event->title;
+                    if (empty($event->headerImage)) {
+                        $event->getHeaderImage();
+                    }
                     $event_array["headerImage"] = $event->headerImage;
                     $event_array["locationDesc"] = $event->location;
                     $res = $es->index($event_array, $event->id);

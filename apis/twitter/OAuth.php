@@ -3,8 +3,10 @@
 
 /* Generic exception class
  */
-class OAuthException extends Exception {
-  // pass
+if (!class_exists('OAuthException')) {
+  class OAuthException extends Exception {
+    // pass
+  }
 }
 
 class OAuthConsumer {
@@ -380,7 +382,7 @@ class OAuthRequest {
   public function get_normalized_http_url() {
     $parts = parse_url($this->http_url);
 
-    $port = @$parts['port'];
+    $port = @(array_key_exists('port', $parts) ? $parts['port'] : '');
     $scheme = $parts['scheme'];
     $host = $parts['host'];
     $path = @$parts['path'];
@@ -870,5 +872,3 @@ class OAuthUtil {
     return implode('&', $pairs);
   }
 }
-
-?>

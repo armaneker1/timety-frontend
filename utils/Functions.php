@@ -449,6 +449,9 @@ class UtilFunctions {
         if (empty($object)) {
             return true;
         }
+        if($search=="-1"){
+            $search=null;
+        }
         if (!empty($search) || !empty($tagIds)) {
             $event = new Event();
             if ($isstring) {

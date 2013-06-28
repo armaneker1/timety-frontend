@@ -13,246 +13,356 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
         sessionStorage.setItem('id',null);
     </script>
 <?php } ?>
-<div class="u_bg"></div>
 
 <!--Loader animation-->
 <div class="loader" style="display: none"></div>
 
 <!--information popup-->
-<div class="info_popup_open" style="display: none">
-    <button class="info_popup_close" style="cursor: pointer"></button>
+<div class="info_popup_open_div">
+    <div class="info_popup_open" style="display: none">
+        <button class="info_popup_close" style="cursor: pointer"></button>
+    </div>
 </div>
 
 <!--top_blm-->
-<div id="top_blm">
-    <!--top_blm_sol-->
-    <div id="top_blm_sol">
+<div id="top_blm" class="layout_top_header">
+    <div class="layout_top_headerBackground"></div>
 
-        <?php if (empty($user)) { ?>
-            <div style="  display: inline-block; position: absolute; width: 100%;text-align: center;margin-left: -105px;z-index: -1;" class="sign_up_header_cont">
-                <div style="background-color: #cfcfcf;display: table;margin-left: auto;margin-right: auto; padding: 6px 10px 6px 10px;border-radius: 5px;">
-                    <a class="sign_up_header" href="<?= PAGE_SIGNUP ?>"><span  ><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_HEADER_TEXT') ?></span></a>
-                </div>
-            </div>
-        <?php } ?>
-        <div class="logo"><a href="<?= HOSTNAME ?>"><img src="<?= HOSTNAME ?>images/timety.png" width="120" height="45" border="0" /></a></div>
-        <!--city & search -->
-        <div class="t_bs">
-            <!-- Location -->
-            <?php
-            if (!empty($page_id) && $page_id == "index" /* && !empty($user) */) {
-
-                $city_top_name = "";
-                $city_id = "";
-                if (!empty($user)) {
-                    $city_top_name = $user->hometown;
-                    $city_id = $user->location_city;
-                }
-
-                if (!empty($city_id)) {
-                    //echo "<script>city_channel=" . $city_id . ";</script>";
-                    if (empty($city_top_name)) {
-                        $city_top_name = LocationUtils::getCityName($city_id);
-                    }
-                }else{
-                    $loc=  LocationUtils::getGeoLocationFromIP();
-                    if(!empty($loc)){
-                        $loc=  LocationUtils::getCityCountry($loc['latitude'], $loc['longitude']);
-                        if(!empty($loc)){
-                              $city_top_name =$loc['city'];
-                              $city_id = LocationUtils::getCityId($city_top_name);
-                        }
-                    }
-                }
-                
-                
-                ?>
-                <div class="div_city_top">
-                    <input 
-                        name="city_top"
-                        type="text" 
-                        placeholder="<?= LanguageUtils::getText('LANG_PAGE_TOP_CITY_INPUT_HINT') ?>" 
-                        class="user_inpt city_top_input"
-                        id="city_top" 
-                        autocomplete="off"
-                        value="<?= $city_top_name ?>"/> 
-                        <?php if (false) { ?>
-                        <div id="category_select_btn" class="category_select_btn">
-                            <div class="category_menu"></div>
-                            <span class="category_seperator">|</span>
-                            <div id="populer_top_menu" class="my_timete_popup_popular_container" style="display: none;">
-                                <div  class="my_timete_popup" >
-                                    <div class="kck_detay_ok"></div>
-                                    <ul id="populer_top_menu_ul">
-                                        <li channelid="1" id="cat_id_all" style="cursor:pointer"  slc="true">
-                                            <button type="button" class="kapat icon_bg"></button>
-                                            <span><?= LanguageUtils::getText('LANG_PAGE_TOP_CATEGORY_RECOMMENDED') ?></span>
-                                        </li>
-                                        <li cat_id="-1" id="cat_id_all" style="cursor:pointer"  slc="false">
-                                            <button type="button" class="ekle icon_bg"></button>
-                                            <span><?= LanguageUtils::getText('LANG_PAGE_TOP_CATEGORY_EVERYTHIG') ?></span>
-                                        </li>
-                                        <?php
-                                        $cats = MenuUtils::getCategories($user->language);
-                                        foreach ($cats as $cat) {
-                                            ?>
-                                            <li cat_id="<?= $cat->getId() ?>" id="cat_id<?= $cat->getId() ?>" style="cursor:pointer"  slc="false">
-                                                <button type="button" class="ekle icon_bg"></button>
-                                                <span><?= $cat->getName() ?></span>
-                                            </li>
-                                            <?php
-                                        }
-                                        ?>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
-                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/cityutil.js?<?= JS_CONSTANT_PARAM ?>"></script>
-
-
-            <?php } ?>
-            <!-- Location -->
-
-            <!-- Search -->
-            <?php if (!empty($user) && (empty($page_id) || $page_id != "profile")) { ?>
-                <div class="div_search_top">
-                    <input 
-                        name="searchText"
-                        type="text" 
-                        placeholder="<?= LanguageUtils::getText('LANG_PAGE_TOP_SEARCH_INPUT_HINT') ?>" 
-                        class="user_inpt search_top_input"
-                        id="searchText" 
-                        value=""/> 
-                    <div id="search_event_btn" class="search_top_btn">
-                        <div class="search_top_bg"></div>
-                    </div>
-                </div>
-            <?php } ?>
-            <!-- Search -->
-            <!-- Tag token input -->
+    <!-- Left Side -->
+    <!-- Logo -->
+    <div>
+        <a href="<?= HOSTNAME ?>" id="layout_top_logo" class="layout_top_logo" userid="<?php if (!empty($user)) {
+    echo $user->id;
+} ?>"></a>
+    </div>
+    <!-- Logo -->
+<?php if ((!empty($page_id) && $page_id != "editevent" && $page_id != "profile") && ((!empty($user) && $user->status > 2) || empty($user))) { ?>
+        <!-- Seacrh -->
+        <div class="layout_top_search">
+            <input 
+                name="searchText"
+                type="text" 
+                placeholder="<?= LanguageUtils::getText('LANG_PAGE_TOP_SEARCH_INPUT_HINT') ?>" 
+                class="layout_top_headerField layout_top_iconSearch"
+                id="searchText" 
+                value="">
+            </input>
             <div id="autocomplete_search"></div>
-            <script>
-                function gotoResults(result,success,func){
-                    if(success && success=="success"){
-                        if(func && jQuery.isFunction(func)){
-                            if(result && result.hits)
-                            {
-                                var hits_result=result.hits;
-                                if(hits_result && hits_result.total && hits_result.total>0){
-                                    var hits=hits_result.hits;
-                                    if(hits && hits.length>0){
-                                        var array=Array();
-                                        for(var i=0;i<hits.length;i++){
-                                            array[array.length]=hits[i]['_source'];
-                                        }
-                                        func(array);
-                                        return;
+        </div>
+        <!-- Tag token input -->
+        <script>
+            function gotoResults(result,success,func){
+                if(success && success=="success"){
+                    if(func && jQuery.isFunction(func)){
+                        if(result && result.hits)
+                        {
+                            var hits_result=result.hits;
+                            if(hits_result && hits_result.total && hits_result.total>0){
+                                var hits=hits_result.hits;
+                                if(hits && hits.length>0){
+                                    var array=Array();
+                                    for(var i=0;i<hits.length;i++){
+                                        array[array.length]=hits[i]['_source'];
                                     }
+                                    func(array);
+                                    return;
                                 }
                             }
                         }
                     }
+                }
+                if(func && jQuery.isFunction(func)){
+                    func(null);
+                }
+            }
+                                                                                                                        
+            function searchUserTagFunction(term,func){
+                if(term){
+                    if(term.term){
+                        term=term.term;
+                    }
+                }
+                jQuery.ajax({
+                    type: 'GET',
+                    url: '<?= HOSTNAME . "ajax/searchUserAndTag.php" ?>',
+                    data: {
+                        lang : getLanguageText("LOCALE_CODE"),
+                        userId : '<?php
+    if (!empty($user)) {
+        echo $user->id;
+    }
+    ?>',
+                    term : term
+                },
+                success: function(data){
+                    if(typeof data == "string")  {
+                        data= jQuery.parseJSON(data);
+                    }
+                    else  {
+                        data=data;   
+                    }
+                    gotoResults(data.data,data.success,func);
+                },
+                error: function(data){
                     if(func && jQuery.isFunction(func)){
                         func(null);
                     }
                 }
-                
-                function searchUserTagFunction(term,func){
-                    if(term){
-                        if(term.term){
-                            term=term.term;
-                        }
-                    }
-                    jQuery.ajax({
-                        type: 'GET',
-                        url: '<?= HOSTNAME . "ajax/searchUserAndTag.php" ?>',
-                        data: {
-                            lang : getLanguageText("LOCALE_CODE"),
-                            userId : '<?php
-            if (!empty($user)) {
-                echo $user->id;
+            },"json");
+        }
+        function searchTagAndUser(item){
+            if(item.s_type=="tag"){
+                var tagId=item.id;
+                if(tagIds){
+                    //tagIds=tagIds+","+tagId;
+                    tagIds=tagId;
+                }else{
+                    tagIds=tagId;
+                }
+                jQuery("#searchText").val("");
+                page_wookmark=0;
+                selectedEndDate=null;
+                selectedDate=null;
+                isearching=true;
+                wookmarkFiller(document.optionsWookmark, true,true);
+            }else if(item.s_type=="user"){
+                window.location=TIMETY_HOSTNAME+item.userName;
             }
-            ?>',
-                            term : term
-                        },
-                        success: function(data){
-                            if(typeof data == "string")  {
-                                data= jQuery.parseJSON(data);
-                            }
-                            else  {
-                                data=data;   
-                            }
-                            gotoResults(data.data,data.success,func);
-                        },
-                        error: function(data){
-                            if(func && jQuery.isFunction(func)){
-                                func(null);
-                            }
-                        }
-                    },"json");
-                }
-                
-                function searchTagAndUser(item){
+        }
+                                                                                                                        
+                                                                                                                        
+                                                                                                                        
+        jQuery(document).ready(function(){
+            try{
+                jQuery( "#searchText" ).autocomplete({ 
+                    source: searchUserTagFunction, 
+                    minLength: 2,
+                    labelField:'s_label',
+                    delay:50,
+                    valueField:'s_id',
+                    appendTo: "#autocomplete_search" ,
+                    select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
+                    focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
+                }).data('autocomplete')._renderItem = function(ul, item) {
                     if(item.s_type=="tag"){
-                        var tagId=item.id;
-                        if(tagIds){
-                            //tagIds=tagIds+","+tagId;
-                            tagIds=tagId;
-                        }else{
-                            tagIds=tagId;
-                        }
-                        jQuery("#searchText").val("");
-                        page_wookmark=0;
-                        isearching=true;
-                        wookmarkFiller(document.optionsWookmark, true,true);
+                        return jQuery('<li></li>')
+                        .data('item.autocomplete', item)
+                        .append('<a>' + item.s_label + '</a>')
+                        .appendTo(ul);
                     }else if(item.s_type=="user"){
-                        window.location=TIMETY_HOSTNAME+item.userName;
+                        var img="";
+                        if(item.userPicture){
+                            img=item.userPicture;
+                            if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
+                                img=TIMETY_HOSTNAME+img;
+                            } 
+                        }else{
+                            img=TIMETY_HOSTNAME+"images/anonymous.png";  
+                        }                    
+                        return jQuery('<li></li>')
+                        .data('item.autocomplete', item)
+                        .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
+                        .appendTo(ul);
                     }
+                };
+            }catch(exp){
+                console.log(exp);
+            }
+        });
+        </script>
+        <!-- Tag token input -->
+        <!-- Seacrh -->        
+    <?php } ?>
+
+    <?php
+    if (!empty($page_id) && $page_id == "index") {
+        $city_top_name = "";
+        $city_id = "";
+        if (!empty($user)) {
+            $city_top_name = $user->hometown;
+            $city_id = $user->location_city;
+        }
+
+        if (!empty($city_id)) {
+            if (empty($city_top_name)) {
+                $city_top_name = LocationUtils::getCityName($city_id);
+            }
+        } else {
+            $loc = LocationUtils::getGeoLocationFromIP();
+            if (!empty($loc)) {
+                $loc = LocationUtils::getCityCountry($loc['latitude'], $loc['longitude']);
+                if (!empty($loc)) {
+                    $city_top_name = $loc['city'];
+                    $city_id = LocationUtils::getCityId($city_top_name);
                 }
-                
-                
-                
-                jQuery(document).ready(function(){
-                    try{
-                        jQuery( "#searchText" ).autocomplete({ 
-                            source: searchUserTagFunction, 
-                            minLength: 2,
-                            labelField:'s_label',
-                            delay:50,
-                            valueField:'s_id',
-                            appendTo: "#autocomplete_search" ,
-                            select: function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label);  searchTagAndUser(ui.item);},10); },
-                            focus : function( event, ui ) { setTimeout(function(){jQuery("#searchText").val(ui.item.s_label)},10); }	
-                        }).data('autocomplete')._renderItem = function(ul, item) {
-                            if(item.s_type=="tag"){
-                                return jQuery('<li></li>')
-                                .data('item.autocomplete', item)
-                                .append('<a>' + item.s_label + '</a>')
-                                .appendTo(ul);
-                            }else if(item.s_type=="user"){
-                                var img="";
-                                if(item.userPicture){
-                                    img=item.userPicture;
-                                    if(img.indexOf("http")!=0 && img.indexOf("www")!=0 ){
-                                        img=TIMETY_HOSTNAME+img;
-                                    } 
-                                }else{
-                                    img=TIMETY_HOSTNAME+"images/anonymous.png";  
-                                }                    
-                                return jQuery('<li></li>')
-                                .data('item.autocomplete', item)
-                                .append('<a><img src="' + img + '" /><div>' + item.s_label + '</div></a>')
-                                .appendTo(ul);
-                            }
-                        };
-                    }catch(exp){
-                        console.log(exp);
-                    }
-                });
+            }
+        }
+        ?>
+        <!-- Location -->
+        <?php
+        $location_style = "";
+        if (empty($user)) {
+            // $location_style = 'style="margin-left: 280px!important;";';
+        }
+        ?>
+        <div class="layout_top_location" <?= $location_style ?>>
+            <input 
+                name="city_top"
+                type="text" 
+                placeholder="<?= LanguageUtils::getText('LANG_PAGE_TOP_CITY_INPUT_HINT') ?>" 
+                id="city_top" 
+                autocomplete="off"
+                value="<?= $city_top_name ?>"
+                class="layout_top_headerField layout_top_iconLocation"></input>
+            <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/cityutil.js?<?= JS_CONSTANT_PARAM ?>"></script>
+        </div>
+        <!-- Location -->
+<?php } ?>
+    <!-- Left Side -->
+
+
+
+
+    <!-- Right Side -->
+    <?php
+    if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
+        if ($user->status > 2) {
+            ?>
+            <!-- Notification -->
+            <div class="layout_top_menu_notfs" id="top_notification_button">
+                <a class="layout_top_menuItem layout_top_menu_notfsIcon"></a>
+                <?php if ($user->getUserNotificationCount()) { ?>
+                    <div id="avtr_box_not" class="notf_count_div"><?= $user->getUserNotificationCount() ?></div>
+            <?php } ?>
+            </div>
+            <?php if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) { ?>
+                <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
+        <?php } ?>
+            <div id="my_timety_notf_container" class="my_timety_notfication_container my_timety_notfication_container_new" onclick="return false;" style="display: none;">
+                <div id="my_timety_notf" class="layout_top_notfication_div" style="right: 145px; top: 0px; min-width: 390px; width: auto; position: absolute;">
+                    <div class="arrowIcon" style="right:10px;"></div>
+                    <ul style="width: 100%; margin-bottom: 4px;">
+                        <li id="notf_loader_img" style="text-align: center;float: none; display:none;"><div style="height: 22px;"><img src="<?= HOSTNAME ?>images/ajax-loader.gif" style="height: 22px;"></div></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Notification -->
+            <!-- User Menu -->
+            <script>
+                function changeChannel(item){
+                    jQuery("#searchText").val("");
+                    page_wookmark=0;
+                    selectedEndDate=null;
+                    selectedDate=null;
+                    jQuery('.top_page_wookmarkmenu_ul_li_a_selected').addClass('top_menu_ul_li_a');
+                    jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
+                    jQuery(item).removeClass('top_menu_ul_li_a');
+                    jQuery(item).addClass('top_menu_ul_li_a_selected');
+                    wookmark_channel=jQuery(item).attr('channelId') || 1;
+                    wookmarkFiller(document.optionsWookmark,true,true);
+                    _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
+                    _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
+                }    
             </script>
-            <!-- Tag token input -->
+            <div class="layout_top_menu_user">
+                <a class="layout_top_menuItem layout_top_menu_userImage"
+                   style="background-image: url('<?php echo PAGE_GET_IMAGEURL . urlencode($user->getUserPic()) . "&h=48&w=48"; ?>')">
+                </a>
+                <div class="layout_top_menu_ul_div">
+                    <div class="arrowIcon"></div>
+                    <ul>
+                        <li>
+                            <a id="mytimety_top_menu" channelId="2" onclick="" href="<?= HOSTNAME . $user->userName ?>"><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_MY_TIMETY") ?></a>
+                        </li>
+                        <li>
+                            <a id="following_top_menu_a"  channelId="3" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_FOLLOWING") ?></a>
+                        </li>
+                        <li>
+                            <a id="user_pages_like_a"  class="child"  href="<?= PAGE_LIKES . "?edit" ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_ADD_INTEREST") ?></a>
+                        </li>
+                        <li>
+                            <a id="user_update_profile_a"  class="child" href="<?= PAGE_UPDATE_PROFILE ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS") ?></a>
+                        </li>
+                        <li>
+                            <a id="logout_top_menu_a"  class="child" style="cursor: pointer;" onclick="analytics_logout(function(){window.location='<?= PAGE_LOGOUT ?>';});" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- User Menu -->
+
+            <!-- Add event -->
+            <div class="layout_top_menu_addevent" id="top_addeventButton">
+                <a class="layout_top_menuItem layout_top_menu_addeventIcon"><?= LanguageUtils::getText("LANG_PAGE_TOP_ADD_EVENT") ?></a>
+            </div>
+            <?php
+            if (isset($page_id) &&
+                    ($page_id == "profile" ||
+                    $page_id == "editevent" ||
+                    $page_id == "user" ||
+                    $page_id == "createaccount" ||
+                    $page_id == "signin" ||
+                    $page_id == "registerPI" ||
+                    $page_id == "createusiness" )) {
+                ?>
+                <script type="text/javascript">
+                    jQuery(document).ready(function(){
+                        jQuery("#top_addeventButton").click(function(){
+                            window.location=TIMETY_HOSTNAME+"#addevent";
+                        }); 
+                    });
+                </script>
+                <?php
+            } else {
+                ?>
+                <script type="text/javascript">
+                    jQuery(document).ready(function(){
+                        jQuery("#top_addeventButton").click(function(){
+                            openCreatePopup();
+                        });
+                    });
+                </script>
+        <?php } ?>
+            <!-- Add event -->
+            <div class="layout_top_menu_categories">
+                <a class="layout_top_menuItem layout_top_menu_categoriesIcon"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_CATEGORIES") ?></a>
+                <div class="layout_top_menu_ul_div">
+                    <div class="arrowIcon"></div>
+                    <ul>
+                        <li id="layout_top_menu_cat_all_events"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_ALL_EVENTS") ?></li>
+                        <?php
+                        $lang = LANG_EN_US;
+                        if (!empty($user)) {
+                            $lang = $user->language;
+                        }
+                        $cats = MenuUtils::getCategories($lang);
+                        foreach ($cats as $cat) {
+                            ?>
+                            <li cat_id="<?= $cat->getId() ?>" id="my_cat_id<?= $cat->getId() ?>" style="cursor:pointer"  slc="false"><?= $cat->getName() ?></li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="layout_top_menu_time">
+                <a class="layout_top_menuItem layout_top_menu_timeIcon"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_WEEKEND") ?></a>
+                <div class="layout_top_menu_ul_div">
+                    <div class="arrowIcon"></div>
+                    <ul>
+                        <li id="layout_top_menu_time_all_events"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_WEEKEND_MENU_ALL_EVENTS") ?></li>
+                        <li id="layout_top_menu_time_today"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_WEEKEND_MENU_TODAY") ?></li>
+                        <li id="layout_top_menu_time_tomorrow"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_WEEKEND_MENU_TOMORROW") ?></li>
+                        <li id="layout_top_menu_time_thisweekend"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_WEEKEND_MENU_THISWEEKEND") ?></li>
+                        <li id="layout_top_menu_time_next_7"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_WEEKEND_MENU_NEXT_7_DAYS") ?></li>
+                        <li id="layout_top_menu_time_next_30"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_WEEKEND_MENU_NEXT_30_DAYS") ?></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="layout_top_menu_foryou">
+                <a class="layout_top_menuItem layout_top_menu_foryouIcon"><?= LanguageUtils::getText("LANG_PAGE_MY_TIMETY_MENU_FOURYOU") ?></a>
+            </div>
+
             <?php
             $ismedia = false;
 
@@ -260,47 +370,64 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
                 $settings = UserSettingsUtil::getUserSettings($p_user->id);
                 if (!empty($settings) && $settings->getMediaactive() == 1) {
                     ?>
-                    <div id="user_media" style="float: left;display: inline-block;position: absolute;line-height: 36px;margin-left: 20px;">
-                        <a href="<?=HOSTNAME.$p_user->userName."/media"?>" style="font-size: 15px;color: #505050;"><?=  LanguageUtils::getText("LANG_PAGE_TOP_MEDIA")?></a>
+                    <div class="layout_top_menu_media">
+                        <a href="<?= HOSTNAME . $p_user->userName . "/media" ?>" class="layout_top_menuItem layout_top_menu_mediaIcon <?php if (isset($_GET['media']) && !empty($_GET['media'])) {
+                    echo "layout_top_menu_media_hover_a";
+                } ?>"><?= LanguageUtils::getText("LANG_PAGE_TOP_MEDIA") ?></a>
                     </div>
-                    <?php }
+                    <?php
+                }
             }
             ?>
-        </div>
-        <!--city & sarch -->
-    </div>
-    <!--top_blm_sol-->
-
-     <!-- <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popular.min.js?201308089744"></script> -->
-    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_menu_popularv2.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
-    <?php if (!empty($user) && !empty($user->id) && !empty($user->userName) && $user->status > 2) { ?>
-        <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/notification.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
-        <?php
-        if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI" || $page_id == "createusiness")) {
-            ?>
-            <script type="text/javascript">
-                jQuery(document).ready(function(){
-                    jQuery(".top_addeventButton").click(function(){
-                        window.location=TIMETY_HOSTNAME+"#addevent";
-                    }); 
-                });
-            </script>
-            <?php
-        } else {
-            ?>
-            <script type="text/javascript">
-                jQuery(document).ready(function(){
-                    jQuery(".top_addeventButton").click(function(){
-                        openCreatePopup();
-                    });
-                });
-            </script>
+    <?php } else { ?>
+            <!-- Register User -->
+            <!-- User Menu -->
+            <div class="layout_top_menu_user" style="margin-right: 150px;">
+                <a class="layout_top_menuItem layout_top_menu_userImage"
+                   style="background-image: url('<?php echo PAGE_GET_IMAGEURL . urlencode($user->getUserPic()) . "&h=48&w=48"; ?>')">
+                </a>
+                <div class="layout_top_menu_ul_div">
+                    <div class="arrowIcon"></div>
+                    <ul>
+                        <li>
+                            <a id="logout_top_menu_a"  class="child" style="cursor: pointer;" onclick="analytics_logout(function(){window.location='<?= PAGE_LOGOUT ?>';});" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- User Menu -->
+            <!-- Register User -->
             <?php
         }
-    }
-
-    if (empty($user) || empty($user->id)) {
+    } else {
         ?>
+        <!-- No User -->
+        <?php
+        $signin_class = "";
+        $create_class = "";
+
+        if (!empty($page_id) && $page_id == "createaccount") {
+            $create_class = "layout_top_logInButton_selected";
+        }
+
+        if (!empty($page_id) && $page_id == "signin") {
+            $signin_class = "layout_top_createAccountButton_selected";
+        }
+        ?>
+        <div class="layout_top_logIn"> 
+            <a href="<?= PAGE_LOGIN ?>" class="layout_top_logInButton"><?= LanguageUtils::getText('LANG_PAGE_REGISTER_TOP_NO_USER_SIGNIN') ?></a>
+        </div>
+        <div class="layout_top_createAccount">
+            <a href="<?= PAGE_SIGNUP ?>" class="layout_top_createAccountButton"><?= LanguageUtils::getText('LANG_PAGE_REGISTER_TOP_NO_USER_CREATE_ACCOUNT') ?></a>
+        </div>
+        <!-- No User -->
+    <?php } ?>
+    <!-- Right Side -->
+    <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/top_layout_menu.js?<?= JS_CONSTANT_PARAM ?>"></script>
+
+<?php
+if (empty($user) || empty($user->id)) {
+    ?>
         <script>sessionStorage.setItem('id','');</script>
         <script type="text/javascript">
             function  to_home() {
@@ -310,7 +437,6 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
         </script>
         <?php
     }
-
     if ((!empty($user->id) && !empty($user->userName) && $user->status > 2) || empty($user)) {
         if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "createaccount" || $page_id == "signin" || $page_id == "registerPI" || $page_id == "createusiness"))) {
             ?>
@@ -319,159 +445,10 @@ $user = SessionUtil::checkLoggedinUser($checkUserStatus);
             <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/elasticsearch/elastic.js?<?= JS_CONSTANT_PARAM ?>"></script>
             <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/elasticsearch/elastic-jquery-client.js?<?= JS_CONSTANT_PARAM ?>"></script>
             <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/searchbar.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
-            <?php
-        }
-    }
-    ?>
-
-
-    <!--top_blm_sag-->
-    <div id="top_blm_sag_new">
         <?php
-        if (!empty($user) && !empty($user->id) && !empty($user->userName)) {
-            if ($user->status > 2) {
-                ?>
-                <script>
-        <?php if (isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user")) {
-            ?>
-                    function changeChannel(item){
-                        var channel=jQuery(item).attr("channelId");
-                        if(channel==2 || channel=="2"){
-                            channel="/"+<?= $user->userName ?>;
-                        }else if(channel==3 || channel=="3"){
-                            channel="#following";
-                        } else if(channel==1 || channel=="1"){
-                            channel="#popular";
-                        } else{
-                            channel= "?channel="+channel;
-                        }
-                        window.location=TIMETY_HOSTNAME+channel;
-                    }  
-            <?php
-        } else {
-            ?>
-                    function changeChannel(item){
-                        jQuery("#searchText").val("");
-                        page_wookmark=0;
-                        jQuery('.top_menu_ul_li_a_selected').addClass('top_menu_ul_li_a');
-                        jQuery('.top_menu_ul_li_a_selected').removeClass('top_menu_ul_li_a_selected');
-                        jQuery(item).removeClass('top_menu_ul_li_a');
-                        jQuery(item).addClass('top_menu_ul_li_a_selected');
-                        wookmark_channel=jQuery(item).attr('channelId') || 1;
-                        wookmarkFiller(document.optionsWookmark,true,true);
-                        _gaq.push(['_setAccount', TIMETY_GOOGLE_ANALYTICS]);
-                        _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
-                    }    
-
-        <?php } ?>
-                </script>
-                <!-- Add event -->
-                <div id="top_addevent_button" >
-                    <a  class="top_addeventButton"><?= LanguageUtils::getText('LANG_PAGE_TOP_ADD_EVENT') ?></a>
-                </div>
-                <!-- Add event -->
-
-
-                <!-- Notification -->
-                <div class="div_notf_top">
-                    <div id="top_notification_button" class="top_notification_button">
-                        <div class="top_notification_bg"></div>
-                        <?php if ($user->getUserNotificationCount()) { ?>
-                            <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-        <?php } ?>
-                    </div>
-                </div>
-                <!-- Notification -->
-
-                <!-- Drop down menu -->
-                <ul id="navbar">
-                    <li> 
-                        <div class="parent">
-                            <div class="arrow" id="te_arrow"></div>
-                            <div id="te_avatar_img" class="avatar"> <a href="#"><img class="avatar_img_custom" src="<?php echo PAGE_GET_IMAGEURL . urlencode($user->getUserPic()) . "&h=32&w=32"; ?>" width="32" height="32" border="0" /></a>
-
-                            </div>
-                        </div>
-                        <ul>
-                            <!--  <li>
-                            <?php
-                            $upcoming_class = "";
-                            if (!(isset($page_id) && ($page_id == "profile" || $page_id == "editevent" || $page_id == "user"))) {
-                                $upcoming_class = "top_menu_ul_li_a_selected";
-                            }
-                            ?>
-                                  <a id="populer_top_menu_a" class="child <?= $upcoming_class ?>" channelId="1" onclick="changeChannel(this)" href="#popular">Upcoming</a>
-                              </li> -->
-                            <li>
-                                <a id="mytimety_top_menu" class="child" channelId="2" onclick="" href="<?= HOSTNAME . $user->userName ?>"><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_MY_TIMETY") ?></a>
-                            </li>
-                            <li>
-                                <a id="following_top_menu_a" class="child" channelId="3" onclick="changeChannel(this)" href="#following" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_FOLLOWING") ?></a>
-                            </li>
-                            <li>
-                                <a id="user_pages_like_a"  class="child"  href="<?= PAGE_LIKES . "?edit" ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_ADD_INTEREST") ?></a>
-                            </li>
-                            <li>
-                                <a id="user_update_profile_a"  class="child" href="<?= PAGE_UPDATE_PROFILE ?>" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_SETTINGS") ?></a>
-                            </li>
-                            <li>
-                                <a id="logout_top_menu_a"  class="child" style="cursor: pointer;" onclick="analytics_logout(function(){window.location='<?= PAGE_LOGOUT ?>';});" ><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <!-- Drop down menu -->
-                <!-- Notification -->
-                <div id="my_timety_notf_container" class="my_timety_notfication_container my_timety_notfication_container_new" onclick="return false;" style="display: none;">
-                    <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 0px; min-width: 390px; width: auto; position: absolute;">
-                        <div class="kck_detay_ok" style="right:10px;"></div>
-                        <ul style="width: 100%; margin-bottom: 4px;">
-                            <li id="notf_loader_img" style="text-align: center;float: none; display:none;"><div style="height: 22px;"><img src="<?= HOSTNAME ?>images/ajax-loader.gif" style="height: 22px;"></div></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Notification -->
-            <?php } else {
-                ?>
-                <div class="top_menu">
-                    <ul>
-                        <li><a href="<?= PAGE_LOGOUT ?>" class="top_menu_ul_li_a"><?= LanguageUtils::getText("LANG_PAGE_TOP_MENU_LOGOUT") ?></a></li>
-                    </ul>
-                </div>
-                <div class="avatar" id="te_avatar_img"> <a href="#"><img class="avatar_img_custom" src="<?php echo $user->getUserPic(); ?>" width="32" height="32" border="0" /></a>
-                    <?php if ($user->getUserNotificationCount()) { ?>
-                        <div id="avtr_box_not" class="avtr_box"><?= $user->getUserNotificationCount() ?></div>
-        <?php } ?>
-                </div>
-                <div id="my_timety_notf_container" class="my_timety_notfication_container" onclick="return false;" style="display: none;">
-                    <div id="my_timety_notf" class="my_timete_popup" style="right: 145px; top: 8px; min-width: 390px; width: auto; position: absolute;">
-                        <div class="kck_detay_ok" style="right:10px;"></div>
-                        <ul style="width: 100%; margin-bottom: 4px;">
-                            <li id="notf_loader_img" style="text-align: center;float: none; display:none;"><div style="height: 22px;"><img src="<?= HOSTNAME ?>images/ajax-loader.gif" style="height: 22px;"></div></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <?php
-            }
-        } else {
-
-            $signin_class = "";
-            $create_class = "";
-
-            if (!empty($page_id) && $page_id == "createaccount") {
-                $create_class = "cr_acc_hover";
-            }
-
-            if (!empty($page_id) && $page_id == "signin") {
-                $signin_class = "sgn_in_hover";
-            }
-            ?>
-            <div class="t_account"><a href="<?= PAGE_SIGNUP ?>" class="cr_acc <?= $create_class ?>"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_CREATE_ACCOUNT') ?></a><a href="<?= PAGE_LOGIN ?>" class="sgn_in <?= $signin_class ?>"><?= LanguageUtils::getText('LANG_PAGE_TOP_NO_USER_SIGNIN') ?></a></div>
-
-<?php } ?>
-    </div>
-    <!--top_blm_sag-->
+    }
+}
+?>
 </div>
 <!--top_blm-->
 

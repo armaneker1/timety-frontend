@@ -70,7 +70,13 @@ class SessionUtil {
     }
 
     public static function getClientGUID($userId) {
-        $val = sha1($userId) . "," . $_SERVER['HTTP_HOST'] . "," . $_SERVER['HTTP_USER_AGENT'];
+        $host="_host_";
+        if(isset($_SERVER['HTTP_HOST']))
+            $host=$_SERVER['HTTP_HOST'];
+        $agent="_user_agent_";
+        if(isset($_SERVER['HTTP_USER_AGENT']))
+            $agent=$_SERVER['HTTP_USER_AGENT'];
+        $val = sha1($userId) . "," . $host . "," .$agent;
         return sha1($val);
     }
 
