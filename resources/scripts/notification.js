@@ -15,6 +15,13 @@ jQuery(document).ready(function(){
         });
     });
     
+    jQuery("#my_timety_notf").mouseenter(function(){
+        jQuery("#my_timety_notf").unbind("mouseleave");
+        jQuery("#my_timety_notf").mouseleave(function(){
+            closeNotifications(null);
+        });
+    });
+    
     jQuery.sessionphp.get("id", function(userId){
         if(userId)
         {
@@ -71,7 +78,7 @@ function checkNotifications(userId)
 
 function closeNotifications(e)
 {
-    if((e && e.target && !((e.target.id+"")=="top_notification_button" || jQuery(e.target).parents().is("#top_notification_button") ||(e.target.id+"")=="my_timety_notf_container" || jQuery(e.target).parents().is("#my_timety_notf_container"))))
+    if(!e || (e && e.target && !((e.target.id+"")=="top_notification_button" || jQuery(e.target).parents().is("#top_notification_button") ||(e.target.id+"")=="my_timety_notf_container" || jQuery(e.target).parents().is("#my_timety_notf_container"))))
     {
         jQuery("body").unbind('click.notfs');
         jQuery("#my_timety_notf_container").hide();
@@ -108,12 +115,34 @@ function closeNotifications(e)
                 },"json");
             }
         }
+        jQuery("#my_timety_notf").unbind("mouseleave");
+        jQuery(".layout_top_menu_user").unbind("mouseenter");
+        jQuery("#top_addeventButton").unbind("mouseenter");
+        jQuery(".layout_top_menu_categories").unbind("mouseenter");
+        jQuery(".layout_top_menu_time").unbind("mouseenter");
+        jQuery(".layout_top_menu_foryou").unbind("mouseenter");
     }
     return true;
 }
 
 function showNotifications(userId)
 {
+    jQuery(".layout_top_menu_user").mouseenter(function(){
+        closeNotifications(null);
+    });
+    jQuery("#top_addeventButton").mouseenter(function(){
+        closeNotifications(null);
+    });
+    jQuery(".layout_top_menu_categories").mouseenter(function(){
+        closeNotifications(null);
+    });
+    jQuery(".layout_top_menu_time").mouseenter(function(){
+        closeNotifications(null);
+    });
+    jQuery(".layout_top_menu_foryou").mouseenter(function(){
+        closeNotifications(null);
+    });
+    
     jQuery("body").bind("click.notfs",closeNotifications);
     var notfPopupContainer=jQuery("#my_timety_notf_container");
     var notfUl=jQuery("#my_timety_notf ul");
