@@ -29,7 +29,7 @@ $br = "";
 if (isset($_SERVER['HTTP_USER_AGENT'])) {
     $br = strtoupper($_SERVER['HTTP_USER_AGENT']);
 }
-if (stripos($br, 'MSIE')) {
+if (stripos($br, 'MSIE')>=0) {
     ?>
     <link  href="<?= HOSTNAME ?>ie7_8.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
@@ -38,6 +38,9 @@ if (stripos($br, 'MSIE')) {
     <link  href="<?= HOSTNAME ?>resources/styles/custom.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
 <?php } ?>
 
+<?php if (stripos($br, 'MOZILLA')>=0) { ?>
+    <link  href="<?= HOSTNAME ?>resources/styles/firefox.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
+<?php } ?>
 
 <!-- CSS -->
 <link href="<?= HOSTNAME ?>common.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet">
@@ -74,7 +77,7 @@ if (stripos($br, 'MSIE')) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/social.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/dateutil.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/mytimety.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
-<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/userEvents.min.js?<?=JS_CONSTANT_PARAM?>"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/userEvents.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/wookmarkfiller.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/modalpanel.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript"  src="<?= HOSTNAME ?>resources/scripts/mediapopup.min.js?<?= JS_CONSTANT_PARAM ?>"></script>

@@ -223,7 +223,7 @@ function openModalPanel(event_id,custom) {
         
         // set creator name
         jQuery("#m_event_creator_name").text("");
-        jQuery("#m_event_creator_img").text(TIMETY_PAGE_GET_IMAGE_URL+'images/anonymous.png&h=24&w=24');
+        jQuery("#m_event_creator_img").attr("src",TIMETY_PAGE_GET_IMAGE_URL+'images/anonymous.png&h=24&w=24');
         
         jQuery("#m_event_creator_img").unbind("click");
         jQuery("#m_event_creator_name").unbind("click");

@@ -2430,7 +2430,7 @@ body {
     margin-left: 445px !important;
 }
 .my_timety_notfication_container{
-    right:95px !important;
+    right:-95px !important;
 }
 
 .create_acco_popup {
@@ -2448,7 +2448,7 @@ body {
 }
 
 .edit_evt_p{
-    
+
 }
 .token-input-token-custom{
     line-height: 2px !important;
@@ -2464,4 +2464,12 @@ body {
 
 .add_event_link {
     height:  36px !important;
+}
+
+.reshareIcon{
+    margin-left: 7px !important;
+}
+
+.likeIcon{
+    margin-left: 6px !important;
 }
