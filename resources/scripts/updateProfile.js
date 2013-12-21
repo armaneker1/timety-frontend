@@ -236,6 +236,8 @@ function saveCorpProfilePage(){
                         response = unescape(response);
                         var response = response.split("|");
                         var responseType = response[0];
+                        if(responseType)
+                            responseType=responseType.trim();
                         var responseLargeImage = response[1];
                         var responseThumbImage = response[2];
                         if(responseType=="success"){

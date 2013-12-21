@@ -29,8 +29,8 @@ define('LANG_PAGE_INDEX_ADD_ERR_START_TIME_NOT_VALID', 'Etkinlik bitiş saati ge
 define('LANG_PAGE_INDEX_ADD_ERR_END_TIME_NOT_VALID', 'Bitiş saati geçersiz');
 define('LANG_PAGE_INDEX_ADD_ERR_END_DATE_NOT_VALID', 'Bitiş tarihi geçersiz');
 define('LANG_PAGE_INDEX_ADD_SUC_CREATED', 'Etkinlik başarıyla oluşturuldu.');
-define('LANG_PAGE_INDEX_ADD_PRI_PUBLIC','genel');
-define('LANG_PAGE_INDEX_ADD_PRI_PRIVATE','özel');
+define('LANG_PAGE_INDEX_ADD_PRI_PUBLIC','Genel');
+define('LANG_PAGE_INDEX_ADD_PRI_PRIVATE','Özel');
 
 #INDEX - ADD EVENT - UPLOAD IMAGE  {} degistirme
 define('LANG_PAGE_INDEX_ADD_UPL_TYPE_ERROR', '{file} dosya uzantısı geçersiz. Sadece {extensions} geçerlidir.');
@@ -82,14 +82,15 @@ define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_NEXT_30_DAYS', 'Önümüzdeki 30 Gün')
 define('LANG_PAGE_REGISTER_TOP_NO_USER_HEADER_TEXT', 'Etrafınızdaki tüm etkinlikleri Keşfedin, Paylaşın ve Takip edin');
 define('LANG_PAGE_REGISTER_TOP_NO_USER_CREATE_ACCOUNT', 'üye olun');
 define('LANG_PAGE_REGISTER_TOP_NO_USER_SIGNIN', 'giriş yapın');
+define('LANG_PAGE_REGISTER_LOGO_TEXT', 'Şimdi kayıt ol </br> ve Asla Kaçırma');
 
 #INDEX - ADD EVENT- TEMPLETE
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG', 'resim eklemek için tıklayın');
-define('LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER', 'başlık');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER', 'Etkinlik başlığı');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_EXPOT', 'Burayada ekle');
-define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_FACEBOOK', 'Etkinlik');
-define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_GOOGLE', 'Takvim');
-define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_OUTLOOK', 'Outlook');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_FACEBOOK', 'Facebook Etkinliklerine Ekle');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_GOOGLE', 'Google Tkvimine Ekle');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_OUTLOOK', 'ICS Olarak indir');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER', 'lokasyon');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_ADD', 'Ekle');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_CLOSE', 'Kapat');
@@ -100,6 +101,19 @@ define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL', 'İptal');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_DELETE', 'Etkinliği Sil');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_ADD_EVENT', 'Etkinliği Oluştur');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_DATE_TO', 'to');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_IMG', 'resim ekle');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_VIDEO', 'veya YouTube URL');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_START_DATE', 'Başlangıç tarihi');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_START_TIME', 'Başlangıç zamanı');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_END_DATE', 'Bitiş tarihi');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_END_TIME', 'Bitiş zamanı');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_END_DATE_TIME', '+ Bitiş tarihi ekle');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_MORE_DETAIL', 'Daha Fazla Detay');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_PRICE', 'Fiyat Ekle');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_TL', 'TL');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_USD', 'USD');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_EURO', 'EURO');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_TO_OFFICIAL_WEB_PAGE', 'Resmi siteye link');
 
 #INDEX - EVENT DETAIL 
 define('LANG_PAGE_EVENT_DETAIL_FOLLOW', 'takip et');
@@ -202,9 +216,9 @@ define('LANG_PAGE_SIGNIN_USERNAME_EMPTY', 'Kullanıcı adı boş');
 define('LANG_PAGE_SIGNIN_PASSWORD_EMPTY', 'Şifre boş');
 define('LANG_PAGE_SIGNIN_USERNAME_OR_PASSWORD_WRONG', 'Kullanıcı veya şifre hatalı');
 define('LANG_PAGE_SIGNIN_LOGIN_HEADER', 'Giriş');
-define('LANG_PAGE_SIGNIN_LOGIN_GOOGLE', 'Google+ ile giriş');
-define('LANG_PAGE_SIGNIN_LOGIN_FACEBOOK', 'Facebook ile giriş');
-define('LANG_PAGE_SIGNIN_LOGIN_TWITTER', 'Twitter ile giriş');
+define('LANG_PAGE_SIGNIN_LOGIN_GOOGLE', 'GOOGLE+ İLE GİRİŞ');
+define('LANG_PAGE_SIGNIN_LOGIN_FACEBOOK', 'FACEBOOK İLE GİRİŞ');
+define('LANG_PAGE_SIGNIN_LOGIN_TWITTER', 'TWITTER İLE GİRİŞ');
 define('LANG_PAGE_SIGNIN_INPUT_USERNAME_PLACEHOLDER', 'Kullanıcı adı veya email');
 define('LANG_PAGE_SIGNIN_INPUT_PASSWORD_PLACEHOLDER', 'Şifre');
 define('LANG_PAGE_SIGNIN_INPUT_REMEMBER_ME', 'Beni hatırla');
@@ -220,11 +234,11 @@ define('LANG_PAGE_REMEMBER_ERROR_USER_NOT_FOUND', 'Kullanıcı bulunamadı');
 define('LANG_PAGE_REMEMBER_ERROR_EMPTY_PASS', 'Şifre boş');
 define('LANG_PAGE_REMEMBER_ERROR_EMPTY_REPASS', 'Şifre boş');
 define('LANG_PAGE_REMEMBER_ERROR_PASSWORDS_NOTMATCH', 'Şifreler uyuşmuyor');
-define('LANG_PAGE_REMEMBER_HEADER_FORGOT', 'Şifremi unuttum');
+define('LANG_PAGE_REMEMBER_HEADER_FORGOT', 'Şifremi Unuttum');
 define('LANG_PAGE_REMEMBER_INPUT_EMAIL_PLACEHOLDER', 'E-Posta');
 define('LANG_PAGE_REMEMBER_INPUT_PASSWORD_PLACEHOLDER', 'Şifre');
 define('LANG_PAGE_REMEMBER_INPUT_CONFIRM_PASSWORD_PLACEHOLDER', 'Şifrenizi tekrarlayın');
-define('LANG_PAGE_REMEMBER_BUTTON_LOGIN', 'Giriş');
+define('LANG_PAGE_REMEMBER_BUTTON_LOGIN', 'Şifreyi Değiştir');
 
 #Personal Info
 define('LANG_PAGE_PI_TITLE', 'Timety | Kişisel bilgileriniz');
@@ -233,6 +247,7 @@ define('LANG_PAGE_PI_ERROR_TAKEN_USERNAME', '"Kullanıcı alındı"');
 define('LANG_PAGE_PI_ERROR_EMPTY_FIRST_NAME', 'Adınızı giriniz');
 define('LANG_PAGE_PI_ERROR_EMPTY_LAST_NAME', 'Soyadınızı giriniz');
 define('LANG_PAGE_PI_ERROR_NOT_VALID_EMAIL', 'E-Posta geçersiz');
+define('LANG_PAGE_PI_ERROR_EMPTY_EMAIL', 'E-Posta boş');
 define('LANG_PAGE_PI_ERROR_TAKEN_EMAIL', 'E-Posta sistemde kayıtlı');
 define('LANG_PAGE_PI_ERROR_EMPTY_LOCATION', 'Lokasyonunuzu giriniz');
 define('LANG_PAGE_PI_ERROR_EMPTY_PASSWORD', 'Şifrenizi giriniz');
@@ -247,7 +262,7 @@ define('LANG_PAGE_PI_INPUT_LOCATON_PLACEHOLDER', 'Lokasyon');
 define('LANG_PAGE_PI_INPUT_PASSWORD_PLACEHOLDER', 'Şifre');
 define('LANG_PAGE_PI_INPUT_REPASSWORD_PLACEHOLDER', 'Şifre tekrarı');
 define('LANG_PAGE_PI_BUTTON_NEXT', 'Devam');
-define('LANG_PAGE_PI_TERMS_SERVICE_HTML', 'Üyelik kayıdı oluşturarak Timety\'nin <a href="http://about.timety.com/terms-of-service/" target="_blank">Hizmet şartlarini</a> ve <a href="http://about.timety.com/privacy-policy/" target="_blank">Gizlilik politikasını</> kabul ediyorum.');
+define('LANG_PAGE_PI_TERMS_SERVICE_HTML', 'Üyelik kayıdı oluşturarak Timety\'nin <a href="http://about.timety.com/terms-of-service/" target="_blank">Hizmet şartlarini</a> ve <a href="http://about.timety.com/privacy-policy/" target="_blank">Gizlilik politikasını</a> kabul ediyorum.');
 
 #Add Interest
 define('LANG_PAGE_ADD_LIKE_TITLE', 'Timety | Kişisel bilgileriniz');
@@ -300,9 +315,17 @@ define('LANG_PAGE_EDIT_EVENT_DELETE_SUC', 'Etkinlik Sİlindi');
 #create account 
 define('LANG_PAGE_CREATE_ACCOUNT_TITLE', 'Timety | Üye olun');
 define('LANG_PAGE_CREATE_ACCOUNT_FORM_HEADER', 'Hesap oluşturun');
-define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', 'e-posta adresinizle <a onclick="analytics_createAccountButtonClicked(function(){window.location=\''.PAGE_ABOUT_YOU.'?new\';});"  style="cursor:pointer;color:#0000EE;">üye olunuz.</a><p/>veya kurum olarak <a onclick="analytics_createBussinessAccountButtonClicked(function(){window.location=\''.PAGE_BUSINESS_CREATE.'\';});"  style="cursor:pointer;color:#0000EE;">üye olunuz.</a>');
+define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', '<p>veya email adresinizle <a onclick="analytics_createAccountButtonClicked(function(){window.location=\''.PAGE_ABOUT_YOU.'?new\';});"  style="cursor:pointer;color:#0000EE;">üye olunuz.</a></p><p/>Daha önce kayıt olduysanız <a href="'.PAGE_LOGIN.'">Giriş yapın</a></p>');
+define('LANG_PAGE_CREATE_ACCOUNT_SIGN_UP_NOW','Şimdi Kayıt olun');
 define('LANG_PAGE_CREATE_ACCOUNT_ABOUT_TIMETY', 'Timety Nedir');
-
+define('LANG_PAGE_CREATE_ACCOUNT_BUSINESS', 'Kurumsal');
+define('LANG_PAGE_CREATE_ACCOUNT_EXPLORE_HEADER', 'Keşfet');
+define('LANG_PAGE_CREATE_ACCOUNT_EXPLORE_TEXT', 'Begenebileceginiz etkinlikleri bulmada yardimci oluyoruz');
+define('LANG_PAGE_CREATE_ACCOUNT_SHARE_HEADER', 'Paylaş');
+define('LANG_PAGE_CREATE_ACCOUNT_SHARE_TEXT', 'Etkinliginizin kesfedilmesini garanti ediyoruz');
+define('LANG_PAGE_CREATE_ACCOUNT_TRACK_HEADER', 'Takip Et');
+define('LANG_PAGE_CREATE_ACCOUNT_TRACK_TEXT', 'Sevdiginiz insanlarin neler yaptiklarini takip edin');
+define('LANG_PAGE_CREATE_ACCOUNT_PRIVACY', 'Gizlilik');
 #add facebook user
 define('LANG_PAGE_ADD_FB_TITLE', 'Timety | Facebook');
 define('LANG_PAGE_ADD_FB_ERROR', 'Hata oluştur ');
@@ -464,4 +487,6 @@ define('LANG_POPUP_WEATHER','Hava Durumu');
 define('LANG_POPUP_TICKET','Bilet');
 define('LANG_POPUP_JOINING','Katılanlar');
 define('LANG_POPUP_MAYBE','Belki');
+
+define('LANG_GENERAL_OR','veya');
 ?>

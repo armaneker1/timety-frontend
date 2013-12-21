@@ -14,51 +14,18 @@ if (isset($page_id) && $page_id == "editevent") {
 }
 ?>
 <?php if ($showPopup) { ?>
-    <script>jQuery(document).ready(function() {
-        new iPhoneStyle('.on_off input[type=checkbox]', {
-            widthConstant : 3,
-            widthConstant2 : 4,
-            statusChange : changePublicPrivate
-        });  
+    <script>jQuery(document).ready(function() { 
     <?php
-    if ($event->privacy == 1 || $event->privacy == "1" || $event->privacy || $event->privacy == "true") {
-        echo "jQuery('#on_off').click();";
+    if (isset($_POST['te_event_addsocial_fb']) && isset($_POST['te_event_addsocial_fb']) == "on") {
+        echo "jQuery('#checkboxFB').click();";
     }
-    if ($event->allday == 1) {
-        echo "jQuery('#te_event_allday').click();";
+    if (isset($_POST['te_event_addsocial_gg']) && isset($_POST['te_event_addsocial_gg']) == "on") {
+        echo "jQuery('#checkboxGP').click();";
     }
-    if ($event->repeat == 1) {
-        echo "jQuery('#te_event_repeat').click();";
-    }
-    if ($event->reminderType == 'sms') {
-        echo "jQuery('#te_event_reminder_type_sms').click();";
-    }
-    if ($event->reminderType == 'email') {
-        echo "jQuery('#te_event_reminder_type_email').click();";
-    }
-    if ($event->reminderUnit == 'min') {
-        echo "jQuery('#te_event_reminder_unit_min').click();";
-    }
-    if ($event->reminderUnit == 'hour') {
-        echo "jQuery('#te_event_reminder_unit_hours').click();";
-    }
-    if ($event->reminderUnit == 'day') {
-        echo "jQuery('#te_event_reminder_unit_days').click();";
-    }
-    if ($event->addsocial_fb == 1) {
-        echo "jQuery('#te_event_addsocial_fb_c').click();";
-    }
-    if ($event->addsocial_gg == 1) {
-        echo "jQuery('#te_event_addsocial_gg_c').click();";
-    }
-    if ($event->addsocial_fq == 1) {
-        echo "jQuery('#te_event_addsocial_fq_c').click();";
-    }
-    if ($event->addsocial_tw == 1) {
-        echo "jQuery('#te_event_addsocial_tw_c').click();";
+    if (isset($_POST['te_event_addsocial_out']) && isset($_POST['te_event_addsocial_out']) == "on") {
+        echo "jQuery('#checkboxICS').click();";
     }
     ?>
-
     });
     </script>
 <?php } ?>
@@ -71,808 +38,498 @@ if ($showPopup) {
 ?>;">
      <?php include('layout/template_mediadetail.php'); ?>
      <?php include('layout/template_eventdetail.php'); ?>
-     <?php include('layout/template_following.php');  ?>
+     <?php include('layout/template_following.php'); ?>
     <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/profile_friends.js?<?= JS_CONSTANT_PARAM ?>"></script>   
 
 
     <?php if (!$not_display) { ?>
-        <div  class="event_add_ekr" id="div_event_add_ekr" style="position: relative;display: <?php
+        <div  class="addEventContainer roundedCorner" id="div_event_add_ekr" style="position: relative;display: <?php
     if ($showPopup) {
         echo "block";
     } else {
         echo "none";
     }
         ?>;"> 
-              <?php
-              if ($showPopup) {
-                  if (!empty($msgs) && false) {
-                      foreach ($msgs as $msg) {
-                          $color = 'red';
-                          if ($msg->type == 's') {
-                              $color = 'green';
-                          }
-                          ?>
-                        <span class="php_errors" style="color: <?= $color ?>;"><?= $msg->message ?></span><p/>
-                        <?php
-                    }
-                }
-            }
-            ?>
-                        <form id="add_event_form_id" name="add_event_form" action="" method="post" style="background-color: #ededeb;">
-
+            <form id="add_event_form_id" name="add_event_form" action="" method="post">
                 <input type="hidden" name="te_timezone" id="te_timezone" value="+02:00"/>
                 <script>
                 jQuery(document).ready(function(){
                     jQuery("#te_timezone").val(moment().format("Z")); 
                 });
                 </script>
-                <!-- Header Image-->
-                <div class="cae_foto" style="z-index: -10;" id="event_header_image">
-                    <?php if (!$showPopup || empty($event->headerImage)) { ?>
-                        <a href="#"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG") ?></a>
-                    <?php } else { ?>
-                        <script>
-                        jQuery(document).ready(function(){
-                            setUploadImage('event_header_image','<?= HOSTNAME . UPLOAD_FOLDER . $event->headerImage ?>',100,106);
-                        });
-                        </script>
-                    <?php } ?>
-                </div>
-               <div class="cae_foto" id="te_event_image_div_cont"
-                     style="position: absolute;">
-                    <div  id="te_event_image_div" style=" height: 106px;width: 100px;cursor: pointer;"></div>
-                </div>
-                <!-- Header Image-->
+                <input 
+                    type="hidden" 
+                    name="rand_session_id" 
+                    id="rand_session_id" 
+                    value="<?php if (isset($_random_session_id)) echo $_random_session_id; ?>"/>
 
-                <!-- Title, Images and Privacy-->
-                <div class="eam_satir">
 
-                    <!-- Title and Privacy -->
-                    <div class="eam_bg">
-                        <div class="eam_bg_orta input_border" style="width: 454px;" >
-                            <!-- Title -->
-                            <div class="title_max" style="float: left;">
-                                <input name="te_event_title" type="text" class="eam_inpt"
-                                       charlength="55"
-                                       id="te_event_title" value="<?php
-                if ($showPopup) {
-                    echo htmlspecialchars($event->title, ENT_COMPAT);
-                }
-                    ?>" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER") ?>" />
-                                <script>
-                                jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
-                                </script>
-                            </div>
-                            <!-- Title -->
-                            <!-- Privacy -->
-                            <div class="left add_event_privacy" >
-                                <p id="on_off_text" style="width: 46px;"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_PRI_PRIVATE") ?></p>
-                                <ol class="on_off">
-                                    <li style="width: 48px; height: 17px;"><input type="checkbox"
-                                                                                  id="on_off" name="te_event_privacy"
-                                                                                  tabindex="-1"
-                                                                                  value="false"
-                                                                                  style="width: 48px; height: 17px;" />
-                                    </li>
-                                </ol>
-                            </div>
-                            <!-- Privacy -->
+
+                <div class="addEventUpperContainer">
+                    <div class="leftSide">
+                        <div class="addImage" id="te_event_image_div">
+                            <div class="addImageIcon"></div>
                         </div>
-                    </div>
-                    <!-- Title and Privacy -->
+                        <button class="submitButton paddingBox roundedButton" onclick="jQuery('.leftSide input[type=\'file\']').click();return false;">
+                            <a><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_IMG") ?></a>
+                        </button>
+                        <?php  if ($showPopup && isset($_POST["upload_image_header"])) {  ?>
+                        <script>
+                            setUploadImage('te_event_image_div', '<?=$_POST["upload_image_header"]?>',140,157);
+                        </script>            
+                         <?php  }  ?>
+                        <input 
+                            id="te_event_video_url" 
+                            name="te_event_video_url" 
+                            type="text" 
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_VIDEO") ?>" 
+                            class="addYoutube textBox paddingBox"
 
-                    <!-- Social Buttons -->
-                    <div class="profil_g" style="margin-left: 9px;padding-top:0px ">
-                        <?php
-                        $fb = false;
-                        $tw = false;
-                        $fq = false;
-                        $gg = false;
-                        if (!empty($user)) {
-                            $providers = $user->socialProviders;
+                            value="<?php
+                                if ($showPopup && isset($_POST["te_event_video_url"])) {
+                                    echo $_POST["te_event_video_url"];
+                                }
+                              ?>">
+                        </input>
+
+
+                        <input 
+                            type="hidden" 
+                            name="upload_image_header" 
+                            id="upload_image_header" 
+                            value="<?php
+                        if ($showPopup && isset($_POST["upload_image_header"])) {
+                            echo $_POST["upload_image_header"];
+                        } else {
+                            echo "0";
                         }
-                        if (!empty($providers)) {
-                            foreach ($user->socialProviders as $provider) {
-                                if ($provider->oauth_provider == FACEBOOK_TEXT) {
-                                    $fb = true;
-                                } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
-                                    //$fq = true;
-                                } else if ($provider->oauth_provider == TWITTER_TEXT) {
-                                    //$tw = true;
-                                } else if ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
-                                    $gg = true;
+        ?>"/>
+                    </div>
+                    <div class="rightSide">
+                        <div class="event_title_div">
+                            <input 
+                                type="text" 
+                                name="te_event_title" 
+                                id="te_event_title" 
+                                charlength="55" 
+                                placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER") ?>" 
+                                class="addEventTitle textBox"
+                                value="<?php
+                        if ($showPopup) {
+                            echo htmlspecialchars($event->title, ENT_COMPAT);
+                        }
+        ?>">
+                            </input>
+                            <script>
+                            jQuery("#te_event_title").maxlength({feedbackText: '{r}',showFeedback:"active"});
+                            </script>
+                        </div>
+
+                        <div class="event_privacy_container">
+                            <select name="te_event_privacy" id="te_event_privacy">
+                                <option value="false"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_PRI_PRIVATE") ?></option>
+                                <option value="true" <?php
+                            if (isset($_POST['te_event_privacy']) && $_POST['te_event_privacy'] == "true") {
+                                echo "selected='selected'";
+                            }
+        ?>><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_PRI_PUBLIC") ?></option>
+                            </select>
+                            <script>
+                            jQuery(function () {
+                                jQuery("#te_event_privacy").selectbox();
+                            });
+                            </script>
+                        </div>
+
+                        <div class="event_start_date_container">
+                            <script>
+                            function checkCreateDateTime(){
+                                jQuery("#te_event_end_date").val(jQuery("#te_event_start_date").val());
+                                if(jQuery("#te_event_end_date").val()==jQuery("#te_event_start_date").val()){
+                                    var st_t=moment(jQuery("#te_event_start_time").val(),"HH:mm");
+                                    var ed_t=moment(jQuery("#te_event_end_time").val(),"HH:mm");
+                                    if(st_t && ed_t){
+                                        if(st_t.isAfter(ed_t)){
+                                            jQuery("#te_event_end_time").val(st_t.add('hours', 1).format("HH:mm"));  
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        ?>
-                        <p style="font-family: arial;font-size: 15px;font-weight: bold;color: #aeaeae;"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_EXPOT") ?></p>
-
-                        <button id="add_social_c_fb" type="button" ty="fb" act="<?php if ($fb) echo 'true'; else echo 'false'; ?>" class="big-icon-f-export btn-sign-big-export  fb facebook"
-                        <?php
-                        if (!$fb) {
-                            echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fb');checkOpenPopup();\"";
-                        } else {
-                            echo "onclick=\"toogleSocialButton(this);\"";
-                        }
-                        ?>>
-                            <b><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_FACEBOOK") ?></b> 
-                            <div id="big-icon-check-fb-id" class="big-icon-check" style="top:90px;<?php if (!$fb) echo 'display:none;'; ?>"></div>
-                        </button>
-
-                        <button id="add_social_c_gg" type="button" ty="gg" act="<?php if ($gg) echo 'true'; else echo 'false'; ?>"  class="big-icon-g-export btn-sign-big-export google"
-                        <?php
-                        if (!$gg) {
-                            echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('gg');checkOpenPopup();\"";
-                        } else {
-                            echo "onclick=\"toogleSocialButton(this);\"";
-                        }
-                        ?>>
-                            <b><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_GOOGLE") ?></b> 
-                            <div id="big-icon-check-gg-id" class="big-icon-check" style="top:90px;<?php if (!$gg) echo 'display:none;'; ?>"></div>
-                        </button>
-
-                        <button id="add_social_c_out" type="button" ty="out" act="false" class="big-icon-o-export btn-sign-big-export ou outlook"
-                                onclick="toogleSocialButton(this);">
-                            <b><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_OUTLOOK") ?></b> 
-                            <div id="big-icon-check-out-id" class="big-icon-check" style="top:90px;display:none;"></div>
-                        </button>
-
-                        <input type="hidden" name="te_event_addsocial_fb" id="te_event_addsocial_fb" value="<?php
-                            if ($fb)
-                                echo 'true';
-                            else
-                                echo 'false'
-                            ?>"/>
-                        <input type="hidden" name="te_event_addsocial_gg" id="te_event_addsocial_gg" value="<?php
-                       if ($gg)
-                           echo 'true';
-                       else
-                           echo 'false'
-                            ?>"/>
-                        <input type="hidden" name="te_event_addsocial_out" id="te_event_addsocial_out" value="false"/>
-
-
-                        <input type="hidden" name="te_event_addsocial_tw" id="te_event_addsocial_tw" value="<?php
-                       if ($tw)
-                           echo 'true';
-                       else
-                           echo 'false'
-                            ?>"/>
-                        <input type="hidden" name="te_event_addsocial_fq" id="te_event_addsocial_fq" value="<?php
-                       if ($fq)
-                           echo 'true';
-                       else
-                           echo 'false'
-                            ?>"/>
-                        <!-- <button id="add_social_fq" type="button" class="four_yeni<?php if ($fq) echo '_hover'; ?> icon_yeni" ty="fq" act="<?php
-                       if ($fq)
-                           echo 'true';
-                       else
-                           echo 'false'
-                            ?>"
-                        <?php
-                        if (!$fq) {
-                            echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fq');checkOpenPopup();\"";
-                        } else {
-                            echo "onclick=\"toogleSocialButton(this);\"";
-                        }
-                        ?>>
-                        </button>-->
-                        <!-- <button id="add_social_tw" type="button" class="twiter_yeni<?php if ($tw) echo '_hover'; ?> icon_yeni" ty="tw" act="<?php
-                    if ($tw)
-                        echo 'true';
-                    else
-                        echo 'false'
-                            ?>"
-                        <?php
-                        if (!$tw) {
-                            echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('tw');checkOpenPopup();\"";
-                        } else {
-                            echo "onclick=\"toogleSocialButton(this);\"";
-                        }
-                        ?>>
-                        </button> -->
-
-                    </div>
-                    <!-- Social Buttons -->
-
-
-                    <!-- Image 1 -->
-                    <div class="akare" style="z-index: -10;display: none;" id="event_image_1">
-                        <?php if (!$showPopup || empty($event->images[0])) { ?>
-                            <a href="#" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG") ?></a>
-                        <?php } else { ?>
+                            </script>
+                            <input 
+                                id="te_event_start_date" 
+                                name="te_event_start_date"
+                                type="text" 
+                                autocomplete="off"
+                                placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_START_DATE") ?>" 
+                                class="startDate textBox paddingBox"
+                                value="<?php
+                                    if ($showPopup && isset($_POST["te_event_start_date"])) {
+                                        echo $_POST["te_event_start_date"];
+                                    } else {
+                                        echo date("d.m.Y");
+                                    }
+        ?>">
+                            </input>
                             <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>',50,50);
-                                putDeleteButton('event_image_1','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[0] ?>','event_image_1_input',jQuery("#event_image_1_div"));
+                            jQuery( "#te_event_start_date" ).datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                minDate: new Date(),
+                                dateFormat: "dd.mm.yy",
+                                beforeShow : function(dateInput,datePicker) {
+                                    setTimeout(showDate,5);
+                                },
+                                onChangeMonthYear: function(dateInput,datePicker) {
+                                    setTimeout(showDate,5);
+                                }
                             });
                             </script>
-                        <?php } ?>
-                    </div>
-                    <div class="akare" id="event_image_1_div" style="position: absolute;display: none;">
-                        <div class="akare_kapat">
-                            <span class="sil icon_bg">
-                            </span>
                         </div>
-                    </div>
-                    <!-- Image 1 -->
 
-                    <!-- Image 2 -->
-                    <div class="akare" style="z-index: -10;display: none;" id="event_image_2">
-                        <?php if (!$showPopup || empty($event->images[1])) { ?>
-                            <a href="#" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG") ?></a>
-                        <?php } else { ?>
+                        <div class="event_start_time_container">
+                            <select name="te_event_start_time" id="te_event_start_time" >
+                                <?php
+                                for ($i = 0; $i < 24; $i++) {
+                                    for ($j = 0; $j < 60; $j = $j + 15) {
+                                        $val = "";
+                                        if (strlen($i . "") < 2) {
+                                            $val = "0" . $i . ":";
+                                        } else {
+                                            $val = $i . ":";
+                                        }
+
+                                        if (strlen($j . "") < 2) {
+                                            $val = $val . "0" . $j;
+                                        } else {
+                                            $val = $val . $j;
+                                        }
+                                        $selected = "";
+                                        if ($showPopup && isset($_POST["te_event_start_time"]) && $val == $_POST["te_event_start_time"]) {
+                                            $selected = "selected='selected'";
+                                        }
+                                        ?>
+                                        <option value="<?= $val ?>" <?= $selected ?>><?= $val ?></option>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </select>
                             <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>',50,50);
-                                putDeleteButton('event_image_2','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[1] ?>','event_image_2_input',jQuery("#event_image_2_div"));
+                            jQuery(function () {
+                                jQuery("#te_event_start_time").selectbox();
                             });
-                            </script>
-                        <?php } ?>
-                    </div>
-                    <div class="akare" id="event_image_2_div" style="position: absolute;left: 185px;display: none;">
-                        <div class="akare_kapat">
-                            <span class="sil icon_bg">
-                            </span>
+                            </script>                             
                         </div>
-                    </div>
-                    <!-- Image 2 -->
 
-
-                    <!-- Image 3 -->
-                    <div class="akare" style="z-index: -10;display: none;" id="event_image_3">
-                        <?php if (!$showPopup || empty($event->images[2])) { ?>
-                            <a href="#" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG") ?></a>
-                        <?php } else { ?>
-                            <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>',50,50);
-                                putDeleteButton('event_image_3','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[2] ?>','event_image_3_input',jQuery("#event_image_3_div"));
-                            });
-                            </script>
-                        <?php } ?>
-                    </div>
-                    <div class="akare" id="event_image_3_div" style="position: absolute;left: 255px;display: none;">
-                        <div class="akare_kapat">
-                            <span class="sil icon_bg">
-                            </span>
+                        <div class="addEndDate paddingBox" id="add_end_date_time">
+                            <a style="color: #a1a1a1;cursor: pointer;"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_END_DATE_TIME") ?></a>
                         </div>
-                    </div>
-                    <!-- Image 3 -->
+                        <div id="event_end_date_time_container" style="display: none;">
+                            <div class="event_end_date_container">
+                                <input type="hidden" name="end_date_added" id="end_date_added" value="<?php if (isset($_POST['end_date_added']) && !empty($_POST['end_date_added'])) echo $_POST['end_date_added']; else echo "0"; ?>"/>
+                                <input 
+                                    id="te_event_end_date" 
+                                    name="te_event_end_date"
+                                    type="text" 
+                                    autocomplete="off"
+                                    placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_END_DATE") ?>" 
+                                    class="startDate textBox paddingBox"
+                                    value="<?php
+                            if ($showPopup && isset($_POST["te_event_end_date"])) {
+                                echo $_POST["te_event_end_date"];
+                            } else {
+                                echo date("d.m.Y");
+                            }
+                                ?>">
+                                </input>
+                                <script>
+                                jQuery( "#te_event_end_date" ).datepicker({
+                                    changeMonth: true,
+                                    changeYear: true,
+                                    minDate: new Date(),
+                                    dateFormat: "dd.mm.yy",
+                                    beforeShow : function(dateInput,datePicker) {
+                                        setTimeout(showDate,5);
+                                    },
+                                    onChangeMonthYear: function(dateInput,datePicker) {
+                                        setTimeout(showDate,5);
+                                    }
+                                });
+                                jQuery(document).click(function(e) { 
+                                    if (e && e.target && !jQuery(e.target).parents().is('.ui-datepicker'))
+                                    {   
+                                        if(e.target.id!='te_event_end_date')
+                                            jQuery('#te_event_end_date').datepicker('hide');
+                                        if(e.target.id!='te_event_start_date')
+                                            jQuery('#te_event_start_date').datepicker('hide');
+                                    }
+                                });
+                                </script>
+                            </div>
 
+                            <div class="event_end_time_container">
+                                <select name="te_event_end_time" id="te_event_end_time" >
+                                    <?php
+                                    for ($i = 0; $i < 24; $i++) {
+                                        for ($j = 0; $j < 60; $j = $j + 15) {
+                                            $val = "";
+                                            if (strlen($i . "") < 2) {
+                                                $val = "0" . $i . ":";
+                                            } else {
+                                                $val = $i . ":";
+                                            }
 
-                    <!-- Image 4 -->
-                    <div class="akare" style="z-index: -10;display: none;" id="event_image_4">
-                        <?php if (!$showPopup || empty($event->images[3])) { ?>
-                            <a href="#" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG") ?></a>
-                        <?php } else { ?>
-                            <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>',50,50);
-                                putDeleteButton('event_image_4','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[3] ?>','event_image_4_input',jQuery("#event_image_4_div"));
-                            });
-                            </script>
-                        <?php } ?>
-                    </div>
-                    <div class="akare" id="event_image_4_div" style="position: absolute;left: 323px;display: none;">
-                        <div class="akare_kapat">
-                            <span class="sil icon_bg">
-                            </span>
-                        </div>
-                    </div>
-                    <!-- Image 4 -->
-
-
-
-                    <!-- Image 5 -->
-                    <div class="akare" style="z-index: -10;display: none;" id="event_image_5">
-                        <?php if (!$showPopup || empty($event->images[4])) { ?>
-                            <a href="#" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG") ?></a>
-                        <?php } else { ?>
-                            <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>',50,50);
-                                putDeleteButton('event_image_5','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[4] ?>','event_image_5_input',jQuery("#event_image_5_div"));
-                            });
-                            </script>
-                        <?php } ?>
-                    </div>
-                    <div class="akare" id="event_image_5_div" style="position: absolute;left: 390px;display: none;">
-                        <div class="akare_kapat">
-                            <span class="sil icon_bg">
-                            </span>
-                        </div>
-                    </div>
-                    <!-- Image 5 -->
-
-
-                    <!-- Image 6 -->
-                    <div class="akare" style="z-index: -10;display: none;" id="event_image_6">
-                        <?php if (!$showPopup || empty($event->images[5])) { ?>
-                            <a href="#" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG") ?></a>
-                        <?php } else { ?>
-                            <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>',50,50);
-                                putDeleteButton('event_image_6','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[5] ?>','event_image_6_input',jQuery("#event_image_6_div"));
-                            });
-                            </script>
-                        <?php } ?>
-                    </div>
-                    <div class="akare" id="event_image_6_div" style="position: absolute;left: 458px;display: none;">
-                        <div class="akare_kapat">
-                            <span class="sil icon_bg">
-                            </span>
-                        </div>
-                    </div>
-                    <!-- Image 6 -->
-
-
-                    <!-- Image 7 -->
-                    <div class="akare" style="z-index: -10;display: none;" id="event_image_7">
-                        <?php if (!$showPopup || empty($event->images[6])) { ?>
-                            <a href="#" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG") ?></a>
-                        <?php } else { ?>
-                            <script>
-                            jQuery(document).ready(function(){
-                                setUploadImage('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>',50,50);
-                                putDeleteButton('event_image_7','<?= HOSTNAME . UPLOAD_FOLDER . $event->images[6] ?>','event_image_7_input',jQuery("#event_image_7_div"));
-                            });
-                            </script>
-                        <?php } ?>
-                    </div>
-                    <div class="akare" id="event_image_7_div" style="position: absolute;left: 526px;display: none;">
-                        <div class="akare_kapat">
-                            <span class="sil icon_bg">
-                            </span>
-                        </div>
-                    </div>
-                    <!-- Image 7 -->
-                </div>
-                <!-- Title, Images and Privacy -->
-
-                <!-- Location -->
-                <div class="eam_bg" id="inpt_div_location" style="padding-top: 12px">
-                    <div class="eam_bg_orta input_border" style="width:571px;margin-top: 5px;">
-                        <input name="te_event_location" type="text" class="eam_inpt" style="width: 435px;"
-                               id="te_event_location" 
-                               onfocus="openMap(true,true);"
-                               value="<?php
-                    if ($showPopup) {
-                        echo htmlspecialchars($event->location, ENT_COMPAT);
-                    }
-                        ?>" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER") ?>" />
+                                            if (strlen($j . "") < 2) {
+                                                $val = $val . "0" . $j;
+                                            } else {
+                                                $val = $val . $j;
+                                            }
+                                            $selected = "";
+                                            if ($showPopup && isset($_POST["te_event_end_time"]) && $val == $_POST["te_event_end_time"]) {
+                                                $selected = "selected='selected'";
+                                            }
+                                            ?>
+                                            <option value="<?= $val ?>" <?= $selected ?>><?= $val ?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <script>
+                                jQuery(function () {
+                                    jQuery("#te_event_end_time").selectbox();
+                                });
+                                </script>                             
+                            </div>
+                        </div>    
+                        <script>
+                        jQuery("#add_end_date_time").click(function(){
+                            jQuery("#add_end_date_time").hide();
+                            jQuery("#event_end_date_time_container").show();
+                            jQuery("#end_date_added").val("1");
+                        });
+    <?php
+    if (isset($_POST['end_date_added']) && !empty($_POST['end_date_added'])) {
+        ?>
+                               jQuery("#add_end_date_time").click();
+    <?php } ?>
+                        </script>
+                        <input 
+                            type="text" 
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER") ?>" 
+                            class="selectLocation textBox paddingBox"
+                            name="te_event_location"
+                            id="te_event_location"
+                            onfocus="openMap(true,true);"
+                            value="<?php
+    if ($showPopup) {
+        echo htmlspecialchars($event->location, ENT_COMPAT);
+    }
+    ?>"></input>
                         <input type="hidden" name="te_event_location_country" id="te_event_location_country" value="<?php
-                           if ($showPopup) {
-                               echo $event->loc_country;
-                           }
-                        ?>"/>
+                        if ($showPopup) {
+                            echo $event->loc_country;
+                        }
+    ?>"/>
                         <input type="hidden" name="te_event_location_city" id="te_event_location_city" value="<?php
                            if ($showPopup) {
                                echo $event->loc_city;
                            }
-                        ?>"/>
+    ?>"/>
                         <input type="hidden" name="te_map_location" id="te_map_location" value="<?php
                            if ($showPopup) {
                                echo $event->loc_lat . "," . $event->loc_lng;
                            }
-                        ?>"/>
-                        <div class="left add_event_attach">
-                            <div class="link_atac" style="display: none;left: -195px !important;">
-                                <input type="text" name="te_event_attach_link" id="te_event_attach_link" class="link_atac_adrs" value="<?php
-                           if ($showPopup) {
-                               echo $event->attach_link;
-                           }
-                        ?>"/>
-                                <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_ADD") ?></a>
-                                <a style="cursor: pointer" class="link_atac_btn" onclick="jQuery('.link_atac').hide();return false;" ><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_CLOSE") ?></a>
-                            </div>
-                            <p style="border-left: none !important;">
-                                <a style="background: none !important;" class="camera_btn"></a>
-                            </p>
-                            <p>
-                                <a style="cursor: pointer" onclick="jQuery('.link_atac').show();return false;" class="link_btn"></a>
-                            </p>
-                            <p>
-                                <a style="cursor: pointer" class="fill_btn" onclick="openMap();"></a>
-                            </p>
+    ?>"/>
+
+                        <?php if (!empty($event->loc_lat) && !empty($event->loc_lng)) { ?>
+                            <script>
+                            map_init_php=true;
+                            ce_loc_m=new Object();
+                            ce_loc_m.lat=<?= $event->loc_lat ?>;
+                            ce_loc_m.lng=<?= $event->loc_lng ?>;
+                            </script>
+                        <?php } ?>
+
+
+                        <div class="te_event_tags_container">
+                            <input 
+                                type="text" 
+                                placeholder="Tags" 
+                                class="eventTags textBox paddingBox"
+                                name="te_event_tag"
+                                id="te_event_tag"
+                                placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER") ?>"></input>       
                         </div>
-                    </div>
+
+
+
+                        <div class="te_event_desc_container">
+                            <textarea 
+                                placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_DESC_PLACEHOLDER") ?>" 
+                                class="eventDesc textBox paddingBox"
+                                name="te_event_description"
+                                autocomplete="off"
+                                charlength="256"
+                                id="te_event_description"><?php
+                    if (isset($_POST["te_event_description"])) {
+                        echo $_POST["te_event_description"];
+                    }
+                        ?></textarea> 
+                            <script>
+                            checkDescHegiht=function() {
+                                var desc=document.getElementById("te_event_description");
+                                if (desc.clientHeight < desc.scrollHeight) { 
+                                    jQuery(desc).css("height","auto");
+                                    desc.rows=document.getElementById("te_event_description").rows+1; 
+                                } 
+                            };
+                            jQuery("#te_event_description").bind('input propertychange', checkDescHegiht);
+                            checkDescHegiht();
+                            jQuery("#te_event_description").maxlength({feedbackText: '{r}',showFeedback:"active"});
+                            </script>
+                        </div>
+                    </div>    
                 </div>
-                <!-- Location -->
+                <div class="addEventLowerContainer">
+                    <div class="moreDetailSep">
+                        <div class="seperatorIcon"></div> <a style="display: inline-block;vertical-align: top;color: #2fd797;"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_MORE_DETAIL") ?></a>
 
-
-                <!-- Tags -->
-                <div class="eam_cate" style="height: auto; min-height: 49px;margin-left: 8px;margin-top: 23px;">
-                    <div class="eam_bg_orta desc_metin input_border" 
-                         style="width: 561px; height: auto;">
-
-                        <input name="te_event_tag" type="text" class="eam_inpt_b"
-                               id="te_event_tag" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_TAG_PLACEHOLDER") ?>" />
+                        <div class="seperatorLine"></div>
                     </div>
-                </div>
-                <!-- Tags -->
-
-                <!-- Description -->
-                <div class="eam_bg" style="height: auto;">
-                    <div class="desc_orta input_border desc_area" style="height: auto;width: 581px;max-width: 581px;overflow: visible;margin-top: 6px;display: table;">
-
-                        <textarea  name="te_event_description" type="text" class="desc_metin eam_inpt" autocomplete="off"
-                                   style="font-size: 16px;resize: none;margin-top: 0px;background-image: none;height: 42px;width: 542px;"
-                                   value=""
-                                   charlength="256"
-                                   id="te_event_description" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_DESC_PLACEHOLDER") ?>" ><?php
-                                   if (isset($_POST["te_event_description"])) {
-                                       echo $_POST["te_event_description"];
-                                   }
-                        ?></textarea>
+                    <div class="moreDetail">
+                        <input 
+                            type="text" 
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_PRICE") ?>" 
+                            class="addPrice textBox paddingBox"
+                            id="te_event_price"
+                            name="te_event_price"
+                            value="<?php
+                            if (isset($_POST['te_event_price']))
+                                echo $_POST['te_event_price'];
+                        ?>"></input>
                         <script>
-                        jQuery("#te_event_description").bind('input propertychange', function() {
-                            if (this.clientHeight < this.scrollHeight) { 
-                                jQuery("#te_event_description").css("height","auto");
-                                document.getElementById("te_event_description").rows=document.getElementById("te_event_description").rows+1; 
-                            } 
-                        });
+                        jQuery("#te_event_price").mask("000.000.000.000.000,00",{reverse:true});
                         </script>
-                    </div>
-                    <script>
-                    jQuery("#te_event_description").maxlength({feedbackText: '{r}',showFeedback:"active"});
-                    </script>
-                </div>
-                <!-- Description -->
 
 
-                <!-- People -->
-                <div class="eam_bg">
-                    <div class="eam_bg_orta input_border token_inpt_people" 
-                         style="width: 570px;min-height: 40px;height: auto;margin-top: 15px;">
-
-                        <input name="te_event_people" type="text" class="eam_inpt_b"
-                               id="te_event_people" value="" placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER") ?>" />
-                    </div>
-                </div>	
-                <!-- People -->
-
-                <!-- Dates and Time -->
-                <div class="eam_dates"  style="padding-top: 15px;">
-                    <div class="ts_box">
-                        <div class="ts_sorta input_border">
-                            <INPUT id="te_event_start_date" name="te_event_start_date"
-                                   autocomplete='off'
-                                   value="<?php
-                        if ($showPopup && isset($_POST["te_event_start_date"])) {
-                            echo $_POST["te_event_start_date"];
-                        } else {
-                            echo date("d.m.Y");
-                        }
-                        ?>"
-                                   class="date1 gldp ts_sorta_inpt" type="text">
+                        <div class="event_price_unit_container">
+                            <select name="te_event_price_unit" id="te_event_price_unit" >
+                                <?php
+                                $price_unit = null;
+                                if (isset($_POST['te_event_price_unit']) && !empty($_POST['te_event_price_unit'])) {
+                                    $price_unit = $_POST['te_event_price_unit'];
+                                }
+                                ?>
+                                <option value="try" <?php if ($price_unit == "try") echo "selected='selected'" ?>><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_TL") ?></option>
+                                <option value="usd" <?php if ($price_unit == "usd") echo "selected='selected'" ?>><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_USD") ?></option>
+                                <option value="eur" <?php if ($price_unit == "eur") echo "selected='selected'" ?>><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_EURO") ?></option>
+                            </select>
+                            <script>
+                            jQuery(function () {
+                                jQuery("#te_event_price_unit").selectbox();
+                            });
+                            </script>        
                         </div>
-                        <script>
-                        function checkCreateDateTime(){
-                            jQuery("#te_event_end_date").val(jQuery("#te_event_start_date").val());
-                            if(jQuery("#te_event_end_date").val()==jQuery("#te_event_start_date").val()){
-                                var st_t=moment(jQuery("#te_event_start_time").val(),"HH:mm");
-                                var ed_t=moment(jQuery("#te_event_end_time").val(),"HH:mm");
-                                if(st_t && ed_t){
-                                    if(st_t.isAfter(ed_t)){
-                                        jQuery("#te_event_end_time").val(st_t.add('hours', 1).format("HH:mm"));  
+
+                        <input 
+                            type="text" 
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_TO_OFFICIAL_WEB_PAGE") ?>" 
+                            class="linkWeb textBox paddingBox"
+                            name="te_event_attach_link"
+                            id="te_event_attach_link"
+                            value="<?php
+                            if ($showPopup) {
+                                echo $event->attach_link;
+                            }
+                                ?>">
+                        </input>
+
+                        <input 
+                            type="text" 
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_PEOPLE_PLACEHOLDER") ?>" 
+                            class="inviteFriends textBox paddingBox"
+                            name="te_event_people"
+                            id="te_event_people"></input>
+
+                        <div class="exportEvents paddingBox">
+                            <?php
+                            $fb = false;
+                            $tw = false;
+                            $fq = false;
+                            $gg = false;
+                            if (!empty($user)) {
+                                $providers = $user->socialProviders;
+                            }
+                            if (!empty($providers)) {
+                                foreach ($user->socialProviders as $provider) {
+                                    if ($provider->oauth_provider == FACEBOOK_TEXT) {
+                                        $fb = true;
+                                    } else if ($provider->oauth_provider == FOURSQUARE_TEXT) {
+                                        //$fq = true;
+                                    } else if ($provider->oauth_provider == TWITTER_TEXT) {
+                                        //$tw = true;
+                                    } else if ($provider->oauth_provider == GOOGLE_PLUS_TEXT) {
+                                        $gg = true;
                                     }
                                 }
                             }
-                        }
-                        jQuery("#te_event_start_date").bind("change",checkCreateDateTime);
-                        </script>
-                    </div>
-                    <div class="ts_box">
-                        <div class="ts_sorta input_border">
-                            <SPAN class="add-on"> <INPUT
-                                    empty="<?php
-                               if ($showPopup && isset($_POST["te_event_start_time"])) {
-                                   echo "1";
-                               } else {
-                                   echo "1";
-                               }
-                        ?>"
-                                    value="<?php
-                                if ($showPopup && isset($_POST["te_event_start_time"]) && !empty($_POST["te_event_start_time"])) {
-                                    echo $_POST["te_event_start_time"];
-                                } else {
-                                    echo date("H", strtotime("+4 hour")) . ":00";
-                                }
-                        ?>"
-                                    class="ts_sorta_time input-small timepicker-default"
-                                    id="te_event_start_time" name="te_event_start_time" type="text"/>
-                                <script>
-                                jQuery("#te_event_start_time").bind("change",checkCreateDateTime);
-                                </script>
-                            </SPAN>
+                            ?>
+
+                            <input type="checkbox" id="checkboxFB" class="css-checkbox" 
+                                   name="te_event_addsocial_fb" id="te_event_addsocial_fb"
+                                   <?php
+                                   if (!$fb) {
+                                       echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('fb');checkOpenPopup();return false;\"";
+                                   }
+                                   ?>/>
+                            <label for="checkboxFB" class="css-label"> 
+                                <a style="color: #a1a1a1"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_FACEBOOK") ?></a>
+                            </label>
+                            <input type="checkbox" id="checkboxGP" class="css-checkbox" 
+                                   name="te_event_addsocial_gg" id="te_event_addsocial_gg"
+                                   <?php
+                                   if (!$gg) {
+                                       echo "onclick=\"getLoader(true);sc_pic=false;clickedPopupButton=this;openPopup('gg');checkOpenPopup();return false;\"";
+                                   }
+                                   ?>/>
+                            <label for="checkboxGP" class="css-label"> 
+                                <a style="color: #a1a1a1"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_GOOGLE") ?></a>
+                            </label>
+                            <input type="checkbox" id="checkboxICS" name="te_event_addsocial_out" class="css-checkbox"/>
+                            <label for="checkboxICS" class="css-label">
+                                <a style="color: #a1a1a1"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_OUTLOOK") ?></a>
+                            </label>
                         </div>
-                    </div>
-                    <div class="ts_box"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_DATE_TO") ?></div>
-                    <div class="ts_box">
-                        <div class="ts_sorta input_border">
-                            <SPAN class="add-on"> <INPUT
-                                    id="te_event_end_time" name="te_event_end_time"
-                                    empty="<?php
-                                if ($showPopup && isset($_POST["te_event_start_time"])) {
-                                    echo "1";
-                                } else {
-                                    echo "1";
+                        <div class="addEventButtons paddingBox">
+                            <script>
+                            function disButton(elem){
+                                var val=jQuery(elem).data('clcked');
+                                if(val) {
+                                    return false;
+                                }else {
+                                    jQuery(elem).data('clcked',true);
+                                    return true;
                                 }
-                        ?>"
-                                    value="<?php
-                                if ($showPopup && isset($_POST["te_event_end_time"]) && !empty($_POST["te_event_end_time"])) {
-                                    echo $_POST["te_event_end_time"];
-                                } else {
-                                    echo date("H", strtotime("+5 hour")) . ":00";
-                                }
-                        ?>"
-                                    class="ts_sorta_time input-small timepicker-default" type="text"/>
-                            </SPAN>
-                        </div>
-                    </div>
-                    <div class="ts_box">
-                        <div class="ts_sorta input_border">
-                            <INPUT id="te_event_end_date" name="te_event_end_date"
-                                   autocomplete='off'
-                                   value="<?php
-                                if ($showPopup && isset($_POST["te_event_end_date"])) {
-                                    echo $_POST["te_event_end_date"];
-                                } else {
-                                    echo date("d.m.Y");
-                                }
-                        ?>"
-                                   class=" date1 gldp ts_sorta_inpt" type="text">
-                        </div>
-                    </div>
-                    <div class="ts_box" style="display:none">
-                        <label class="label_check" for="te_event_allday"> <input
-                                name="te_event_allday_" id="te_event_allday" value="false"
-                                type="checkbox"
-                                count="0"
-                                onclick="selectCheckBox(this,'te_event_allday_hidden');" />
-                            allday
-                        </label> <label class="label_check" for="te_event_repeat"> <input
-                                name="te_event_repeat_" id="te_event_repeat" value="false"
-                                type="checkbox"
-                                count="0"
-                                onclick="selectCheckBox(this,'te_event_repeat_hidden');" />
-                            repeat
-                        </label>
-                    </div>
-                </div>
-                <!-- Dates and Time -->
-
-                <!-- Reminder  -->
-                <div class="eam_remain" style="display: none">
-                    <h2>reminder</h2>
-                    <div class="ts_box">
-                        <label class="label_radio" for="te_event_reminder_type_sms"> <input
-                                name="te_event_reminder_type" id="te_event_reminder_type_sms"
-                                value="sms" type="radio" /> sms
-                        </label> <label class="label_radio"
-                                        for="te_event_reminder_type_email"> <input
-                                name="te_event_reminder_type" id="te_event_reminder_type_email"
-                                value="email" type="radio" /> e-mail
-                        </label>
-                    </div>
-                    <div class="ts_box">
-                        <div class="ts_sol"></div>
-                        <div class="ts_sorta" style="padding: 0">
-                            <input class="eam_inpt"
-                                   style="font-size: 12px; max-width: 22px; width: 22px;" type="text"
-                                   value="<?php
-                               if ($showPopup) {
-                                   echo $event->reminderValue;
-                               } else {
-                                   echo "0";
-                               }
-                        ?>" id="te_event_reminder_value"
-                                   name="te_event_reminder_value" maxlength="3"
-                                   onkeypress="validateInt(event)"/>
-                        </div>
-                        <div class="ts_sag"></div>
-                    </div>
-                    <div id="ed_menu">
-                        <ul class="dropdown">
-                            <li class="dugme"><a id="te_event_reminder_unit_label" href="#"
-                                                 onclick="return false;">Minutes</a>
-                                <ul>
-                                    <li style="height: 80px; width: 108px;"><label
-                                            class="label_radio" for="te_event_reminder_unit_minutes"> <input
-                                                onclick="selectReminderUnit('Minutes');"
-                                                checked="checked"
-                                                name="te_event_reminder_unit" id="te_event_reminder_unit_min"
-                                                value="min" type="radio" /> Minutes
-                                        </label> <br /> <label class="label_radio"
-                                                               for="te_event_reminder_unit_hours"> <input
-                                                onclick="selectReminderUnit('Hours');"
-                                                name="te_event_reminder_unit" id="te_event_reminder_unit_hours"
-                                                value="hour" type="radio" /> Hours
-                                        </label> <br /> <label class="label_radio"
-                                                               for="te_event_reminder_unit_days"> <input
-                                                onclick="selectReminderUnit('Days');"
-                                                name="te_event_reminder_unit" id="te_event_reminder_unit_days"
-                                                value="day" type="radio" /> Days
-                                        </label>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dugme">
-                                <a href="#"> Add Social </a>
-                                <ul>
-                                    <li><label class="label_check" for="te_event_addsocial_fb_c"
-                                               style="background-position: right center; padding: 0px 30px 0px 5px; display: block;">facebook
-                                            <input name="te_event_addsocial_fb_c" id="te_event_addsocial_fb_c" value="false" count="0" onclick="selectCheckBox(this,'te_event_addsocial_fb');" 
-                                                   type="checkbox" />
-                                        </label>
-                                    </li>
-                                    <li><label class="label_check" for="te_event_addsocial_gg_c"
-                                               style="background-position: right center; padding: 0px 30px 0px 5px; display: block;">google
-                                            <input name="te_event_addsocial_gg_c" id="te_event_addsocial_gg_c" value="false" count="0" onclick="selectCheckBox(this,'te_event_addsocial_gg');"
-                                                   type="checkbox" />
-                                        </label>
-                                    </li>
-                                    <li><label class="label_check" for="te_event_addsocial_tw_c"
-                                               style="background-position: right center; padding: 0px 30px 0px 5px; display: block;">twitter
-                                            <input name="te_event_addsocial_tw_c" id="te_event_addsocial_tw_c" value="false" count="0" onclick="selectCheckBox(this,'te_event_addsocial_tw');"
-                                                   type="checkbox" />
-                                        </label>
-                                    </li>
-                                    <li><label class="label_check" for="te_event_addsocial_fq_c"
-                                               style="background-position: right center; padding: 0px 30px 0px 5px; display: block;">foursquare
-                                            <input name="te_event_addsocial_fq_c" id="te_event_addsocial_fq_c" value="false" count="0" onclick="selectCheckBox(this,'te_event_addsocial_fq');"
-                                                   type="checkbox" />
-                                        </label>
-                                    </li>
-                                </ul>
-                            </li>
-
-                        </ul>
-                    </div>
-
-                </div>
-                <!-- Reminder  -->
-
-                <!-- Timeline -->
-                <div class="eab_saat" style="display: none;">
-                    <div class="eab_daire"></div>
-                    <div class="eab_stbar">
-                        <ul>
-                            <li class="stbar_normal"><a href="#">00:00</a></li>
-
-                        </ul>
-                    </div>
-                    <div class="eab_daire"></div>
-                </div>
-                <!-- Timeline -->
-
-                <!-- Buttons -->
-                <div class="ea_alt" style="height: 50px;">
-                    <div class="ea_sosyal" style="display: none"
-                         >                    <button type="button" name="" value=""
-                                                 class="face back_btn sosyal_icon"></button>
-                        <button type="button" name="" value=""
-                                class="tweet back_btn sosyal_icon"></button>
-                        <button type="button" name="" value=""
-                                class="googl_plus back_btn sosyal_icon"></button>
-                    </div>
-                    <div class="ea_alt_btn">
-                        <a href="#" class="dugme dugme_esit" onclick="closeCreatePopup();return false;"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL") ?></a>
-                        <script>
-                        function disButton(elem){
-                            var val=jQuery(elem).data('clcked');
-                            if(val) {
-                                return false;
-                            }else {
-                                jQuery(elem).data('clcked',true);
-                                return true;
                             }
-                        }
-                        </script>
-                        <button style="cursor: pointer;" class="dugme dugme_esit" onclick="return disButton(this);" type="submit" id="addEvent"><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_ADD_EVENT") ?></button>
+                            </script>
+                            <button class="cancelButton roundedButton"  onclick="closeCreatePopup();return false;">
+                                <a><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL") ?></a>
+                            </button>
+                            <button class="addEventButton roundedButton" onclick="return disButton(this);" type="submit" id="addEvent">
+                                <a><?= LanguageUtils::getText("LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_ADD_EVENT") ?></a>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <!-- Buttons -->
-
-                <!-- hidden inputs -->
-                <input type="hidden" name="te_event_allday" id="te_event_allday_hidden" value="<?php
-                               if ($showPopup && $event->allday == 1) {
-                                   echo "true";
-                               } else {
-                                   echo "false";
-                               }
-                        ?>"/>
-                <input type="hidden" name="te_event_repeat" id="te_event_repeat_hidden" value="<?php
-                   if ($showPopup && $event->repeat == 1) {
-                       echo "true";
-                   } else {
-                       echo "false";
-                   }
-                        ?>"/>
-
-                <input type="hidden" name="te_event_category1" id="te_event_category1_hidden" value="<?php
-                   if ($showPopup && isset($_POST['te_event_category1']) && empty($_POST['te_event_category1'])) {
-                       echo $_POST['te_event_category1'];
-                   }
-                        ?>"/>
-
-                <input type="hidden" name="te_event_category2" id="te_event_category2_hidden" value="<?php
-                   if ($showPopup && isset($_POST['te_event_category2']) && empty($_POST['te_event_category2'])) {
-                       echo $_POST['te_event_category2'];
-                   }
-                        ?>"/>
-
-
-
-                <input type="hidden" name="rand_session_id" id="rand_session_id" value="<?php if (isset($_random_session_id)) echo $_random_session_id; ?>"/>
-                <input type="hidden" name="upload_image_header" id="upload_image_header" value="<?php
-                   if ($showPopup && isset($_POST["upload_image_header"]) && $_POST["upload_image_header"] != '0') {
-                       echo $_POST["upload_image_header"];
-                   } else {
-                       echo "0";
-                   }
-                        ?>"/>
-                <input type="hidden" name="event_image_1_input" id="event_image_1_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_1_input"]) && $_POST["event_image_1_input"] != '0') {
-                       echo $_POST["event_image_1_input"];
-                   } else {
-                       echo "0";
-                   }
-                        ?>"/>
-                <input type="hidden" name="event_image_2_input" id="event_image_2_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_2_input"]) && $_POST["event_image_2_input"] != '0') {
-                       echo $_POST["event_image_2_input"];
-                   } else {
-                       echo "0";
-                   }
-                        ?>"/>
-                <input type="hidden" name="event_image_3_input" id="event_image_3_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_3_input"]) && $_POST["event_image_3_input"] != '0') {
-                       echo $_POST["event_image_3_input"];
-                   } else {
-                       echo "0";
-                   }
-                        ?>"/>
-                <input type="hidden" name="event_image_4_input" id="event_image_4_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_4_input"]) && $_POST["event_image_4_input"] != '0') {
-                       echo $_POST["event_image_4_input"];
-                   } else {
-                       echo "0";
-                   }
-                        ?>"/>
-                <input type="hidden" name="event_image_5_input" id="event_image_5_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_5_input"]) && $_POST["event_image_5_input"] != '0') {
-                       echo $_POST["event_image_5_input"];
-                   } else {
-                       echo "0";
-                   }
-                        ?>"/>
-                <input type="hidden" name="event_image_6_input" id="event_image_6_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_6_input"]) && $_POST["event_image_6_input"] != '0') {
-                       echo $_POST["event_image_6_input"];
-                   } else {
-                       echo "0";
-                   }
-                        ?>"/>
-                <input type="hidden" name="event_image_7_input" id="event_image_7_input" value="<?php
-                   if ($showPopup && isset($_POST["event_image_7_input"]) && $_POST["event_image_7_input"] != '0') {
-                       echo $_POST["event_image_7_input"];
-                   } else {
-                       echo "0";
-                   }
-                        ?>"/>
-                <!-- hidden inputs -->
+                </div>    
 
             </form>
 
-            <div id="div_maps" style="background-color: #fff;padding: 5px;width: 405px;height: 350px;left: 610px;position: absolute;z-index: 1000000;display: none;top: -5px;">
+            <div id="div_maps" style="background-color: #fff;padding: 5px;width: 405px;height: 350px;left: 647px;position: absolute;z-index: 1000000;display: none;top: -2px;">
                 <span class="sil icon_bg" style="position: absolute; top: -18px;z-index: 10;left: -12px;" onclick="openMap(true, false);"></span>
                 <div id="te_maps" style="height: 350px;"></div>
             </div>
         </div>
     </div>
 <?php } ?>
-

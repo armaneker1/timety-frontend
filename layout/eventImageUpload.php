@@ -11,7 +11,7 @@
             },
             autoSubmit: true,
             onSubmit: function() {
-                var filename= jQuery("#te_event_image_div_cont input[type='file']").val();
+                var filename= jQuery(".leftSide input[type='file']").val();
                 var ext = filename.match(/\.([^\.]+)$/)[1];
                 ext=ext.toLowerCase();
                 switch(ext)
@@ -28,7 +28,7 @@
                         break;
                     default:{
                             alert(getLanguageText("LANG_UPDATE_PROFILE_NOT_ALLOWED_TYPE"));
-                            jQuery("#te_event_image_div_cont input[type='file']").val("");
+                            jQuery(".leftSide input[type='file']").val("");
                             return false;
                         }
                 }
@@ -38,9 +38,9 @@
                     response= jQuery.parseJSON(response);
                 }
                 if(response && response.success){
-                    fileUploadOnComplete('event_header_image', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', response,'upload_image_header',100,106);
+                    fileUploadOnComplete('te_event_image_div', '<?= HOSTNAME . UPLOAD_FOLDER . "ImageEventHeader" . $_random_session_id . ".png" ?>', response,'upload_image_header',140,157);
                 }else if(response && response.error){
-                    alert(response.param);
+                    console.log(response.param);
                 }
             }
         });           

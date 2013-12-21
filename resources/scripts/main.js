@@ -30,7 +30,7 @@ function followUser(fromUserId, toUSerId, button,userPage) {
         }else if(follow_status=="followed"){
             jQuery(follow_buttons).data("disabled",true);
             setFollowButtonStatus(follow_buttons, false);
-
+            
             jQuery.post(TIMETY_PAGE_AJAX_UNFOLLOWUSER, {
                 fuser : fromUserId,
                 tuser : toUSerId
@@ -43,9 +43,9 @@ function followUser(fromUserId, toUSerId, button,userPage) {
                     getInfo(true, getLanguageText("LANG_FOLLOW_SOMETHING_WRONG"), "error", 4000);
                 }
             }, "json");
-            
-        }
         
+        }
+    
     }
 }
 
@@ -195,7 +195,7 @@ function validatePassword(field2, fieldEqual, isSync,setMsg) {
             {
                 setMsg=getLanguageText("LANG_FORM_MIN_CHAR",6);
             }
-            
+        
         }else
         {
             setMsg=false;
@@ -216,7 +216,7 @@ function validateUserName(field2, dbCheck,setMsg) {
         field.setAttribute("suc", false);
         return false;
     }
-        
+    
     var result = !(field.value.length < 3) ;
     result=result && /^[a-z0-9_.]+$/i.test(jQuery(field).val());
     if (!dbCheck) {
@@ -385,4 +385,154 @@ function checkFormLogin(userName, password) {
 function closeBootbox()
 {
     jQuery('.modal-backdrop').remove();
+}
+
+
+
+/*  new  */
+
+function validateUserNameInputField(field, dbCheck) {
+    field = jQuery(field);
+    if(field.val() == null || field.val() == "" || validatePlaceHolder(field, true))
+    {
+        field.removeClass("textBoxError");
+        field.attr("suc", false);
+        return false;
+    }
+    
+    var result = !(field.val().length < 3) ;
+    result=result && /^[a-z0-9_.]+$/i.test(field.val());
+    if (!dbCheck) {
+        if(!result)
+            field.addClass("textBoxError");
+        else
+            field.removeClass("textBoxError");
+        field.attr("suc", result);
+        return result;
+    } else {
+        if(result)
+        {
+            jQuery.post(TIMETY_PAGE_AJAX_CHECKUSERNAME, {
+                u : field.val()
+            }, function(data) {
+                var result = (!!data.success || (field.val() == field.attr('default')));
+                field.attr("suc", result);
+                if(!result)
+                    field.addClass("textBoxError");
+                else
+                    field.removeClass("textBoxError");
+                return result;
+            }, "json");
+        }
+    }
+    if(!result)
+        field.addClass("textBoxError");
+    else
+        field.removeClass("textBoxError");
+    field.attr("suc", result);
+    return result;
+}
+
+
+function validateInputField(field,length)
+{
+    field = jQuery(field);
+    if(field.val() == null || field.val() == "" || validatePlaceHolder(field,true))
+    {
+        field.removeClass("textBoxError");
+        return false;
+    }
+    var result=true;
+    if(length>0 && field.val().length<length)
+    {
+        result=false;
+    }
+    if(!result)
+        field.addClass("textBoxError");
+    else
+        field.removeClass("textBoxError");
+    return result;
+}
+
+function validateEmailInputField(field, dbCheck) {
+    field = jQuery(field);
+    if(field.val() == null || field.val() == "" || validatePlaceHolder(field, true))
+    {
+        field.removeClass("textBoxError");
+        field.setAttribute("suc", false);
+        return false;
+    }
+    var result = validateEmailRegex(field.val());
+    if (!dbCheck) {
+        if(!result)
+            field.addClass("textBoxError");
+        else
+            field.removeClass("textBoxError");
+        field.attr("suc", result);
+        return result;
+    } else {
+        if (result) {
+            jQuery.post(TIMETY_PAGE_AJAX_CHECKEMAIL, {
+                e : field.val()
+            }, function(data) {
+                var result =(!!data.success   || (field.val() == field.attr('default')));
+                field.attr("suc", result);
+                if(!result)
+                    field.addClass("textBoxError");
+                else
+                    field.removeClass("textBoxError");
+                return result;
+            }, "json");
+        }
+    }
+    if(!result)
+        field.addClass("textBoxError");
+    else
+        field.removeClass("textBoxError");
+    field.attr("suc", result);
+    return result;
+}
+
+function validateSelectBox(field,div)
+{
+    field=jQuery(field);
+    var selectbox = jQuery(div).find(".sbHolder");
+    if(field.val() == null || field.val() == "")
+    {
+        selectbox.addClass("textBoxError");
+        return false;
+    }else{
+        selectbox.removeClass("textBoxError");
+        return true;
+    }
+}
+
+
+function validatePasswordFields(pass, repass) {
+    pass=jQuery(pass);
+    repass=jQuery(repass);
+    if(pass.val()==null || pass.val()=="" ||  validatePlaceHolder(pass, true)){
+        jQuery(pass).removeClass("textBoxError");
+        if(repass.val()==null || repass.val()=="" ||  validatePlaceHolder(repass, true)){
+            jQuery(repass).removeClass("textBoxError");
+        }else{
+            jQuery(repass).addClass("textBoxError");
+        }
+    }else{
+        if(pass.val().length>5){
+            jQuery(pass).removeClass("textBoxError");
+        }else{
+            jQuery(pass).addClass("textBoxError");
+        }
+        if(repass.val()==null || repass.val()=="" ||  validatePlaceHolder(repass, true)){
+            jQuery(repass).removeClass("textBoxError");
+        }else{
+            if(repass.val()==pass.val()){
+                jQuery(repass).removeClass("textBoxError");
+            }else{
+                jQuery(repass).addClass("textBoxError");
+            }
+        }
+    }
+    return false;
 }

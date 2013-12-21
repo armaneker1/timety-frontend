@@ -107,25 +107,6 @@ function fileUploadOnComplete(id, fileName, responseJSON,image_input,width,heigh
         if(inpt)
             inpt.value="0";
     }
-    
-    var uploadDiv=jQuery("#"+id+"_div");
-    if(uploadDiv)
-    {
-        putDeleteButton(id, fileName, image_input,uploadDiv);
-    /*var remDiv=jQuery("#"+id+"_rem");
-        if(remDiv.length>0)
-        {
-            remDiv.remove();
-        }
-        
-        remDiv=jQuery("<div id=\""+id+"_rem\" class=\"akare_kapat\"></div>");
-        var remButton=jQuery("<span class=\"sil icon_bg\"></span>");
-        jQuery(remButton).click(function(){
-            removeUploadFile(id,fileName,image_input);
-        });
-        jQuery(remDiv).append(remButton);
-        jQuery(uploadDiv).append(remDiv);*/
-    }
 }
 
 function removeUploadFile(id,fileName,image_input)
@@ -168,11 +149,11 @@ function setUploadImage(id, fileName,mWidth,mHeight)
 {
     if(!mWidth)
     {
-        mWidth=100;   
+        mWidth=140;   
     }
     if(!mHeight)
     {
-        mHeight=100;   
+        mHeight=157;   
     }
     var div=document.getElementById(id);
     if(div)

@@ -73,6 +73,7 @@ if (isset($_POST["upload"]) && $_POST["upload"] == "Upload") {
             if ($_SESSION['user_file_ext'] != $file_ext) {
                 $_SESSION['user_file_ext'] = "";
                 $_SESSION['user_file_ext'] = "." . $file_ext;
+                session_write_close();
             }
 
             move_uploaded_file($userfile_tmp, $large_image_location);
@@ -112,6 +113,9 @@ if (isset($_POST["save_thumb"]) && $_POST["save_thumb"] == "Save Thumbnail") {
     $h = $_POST["h"];
     $userId = $_POST["userId"];
     //Scale the image to the thumb_width set above
+    if (!isset($_SESSION['user_file_ext']) || empty($_SESSION['user_file_ext'])) {
+        $_SESSION['user_file_ext']=".png";
+    }
     $large_image_location = $large_image_location . $_SESSION['user_file_ext'];
     $thumb_image_location = $thumb_image_location . $_SESSION['user_file_ext'];
     $scale = $thumb_width / $w;
@@ -130,11 +134,11 @@ if (isset($_POST["save_thumb"]) && $_POST["save_thumb"] == "Save Thumbnail") {
             if (file_exists($thumb_image_location)) {
                 unlink($thumb_image_location);
             }
-            echo "success|" . HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . "_" . $rand . $_SESSION['user_file_ext'] . "|" . HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . "_" . $rand . $_SESSION['user_file_ext'];
-
-            UserUtils::changeserProfilePic($userId, HOSTNAME . "uploads/users/" . $userId . '/profile_' . $userId . "_" . $rand . $_SESSION['user_file_ext'], "UPLOAD", TRUE);
+            $url = UserUtils::changeserProfilePic($userId, __DIR__ . "/../uploads/users/" . $userId . '/profile_' . $userId . "_" . $rand . $_SESSION['user_file_ext'], "UPLOAD", TRUE);
+            echo "success|" . $url . "|" . $url;
             $_SESSION['random_key'] = "";
             $_SESSION['user_file_ext'] = "";
+            session_write_close();
             exit(1);
         } catch (Exception $exc) {
             error_log($exc->getTraceAsString());
@@ -143,6 +147,7 @@ if (isset($_POST["save_thumb"]) && $_POST["save_thumb"] == "Save Thumbnail") {
     echo "success|" . $large_image_path . $_SESSION['user_file_ext'] . "|" . $thumb_image_path . $_SESSION['user_file_ext'];
     $_SESSION['random_key'] = "";
     $_SESSION['user_file_ext'] = "";
+    session_write_close();
 }
 
 #####################################################

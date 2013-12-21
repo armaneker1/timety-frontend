@@ -9,6 +9,7 @@ require_once __DIR__ . '/../apis/facebook/facebook.php';
 require_once __DIR__ . '/../apis/twitter/twitteroauth.php';
 require_once __DIR__ . '/../apis/foursquare/FoursquareAPI.php';
 require_once __DIR__ . '/../apis/google/Google_Client.php';
+require_once __DIR__ . '/../apis/s3/S3.php';
 
 require_once __DIR__ . '/../config/dbconfig.php';
 require_once __DIR__ . '/../config/constant.php';
@@ -449,8 +450,8 @@ class UtilFunctions {
         if (empty($object)) {
             return true;
         }
-        if($search=="-1"){
-            $search=null;
+        if ($search == "-1") {
+            $search = null;
         }
         if (!empty($search) || !empty($tagIds)) {
             $event = new Event();
@@ -516,6 +517,20 @@ class UtilFunctions {
             return $result;
         }
         return $data;
+    }
+
+     public static function url_exists($url) {
+        $handle = curl_init($url);
+        if (false === $handle) {
+            return false;
+        }
+        curl_setopt($handle, CURLOPT_HEADER, false);
+        curl_setopt($handle, CURLOPT_FAILONERROR, true); 
+        curl_setopt($handle, CURLOPT_NOBODY, true);
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, false);
+        $connectable = curl_exec($handle);
+        curl_close($handle);
+        return $connectable;
     }
 
 }

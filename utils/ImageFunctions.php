@@ -116,9 +116,12 @@ class ImageUtil {
         }
     }
 
-    public static function deleteEventImages($eventId) {
+    public static function deleteEventImages($eventId, $type = 0) {
+        //tye 0 images that is not header
+        // type 1 header
         if (!empty($eventId)) {
-            $SQL = "DELETE  FROM " . TBL_IMAGES . " WHERE eventId=" . $eventId;
+            $SQL = "DELETE  FROM " . TBL_IMAGES . " WHERE eventId=" . $eventId . " AND header=" . $type;
+            echo $SQL;
             mysql_query($SQL);
         }
     }

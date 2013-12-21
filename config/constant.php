@@ -14,7 +14,7 @@ if (!isset($error_handling)) {
  */
 require_once __DIR__ . '/../utils/SettingFunctions.php';
 define("SERVER_PROD", false);
-define("JS_CONSTANT_PARAM", '201304251188');
+define("JS_CONSTANT_PARAM", '2013042085076');
 
 define('HOSTNAME', 'http://' . SettingsUtil::getSetting(SETTINGS_HOSTNAME));
 define('HOSTNAME_WWW', 'http://www.' . SettingsUtil::getSetting(SETTINGS_HOSTNAME));
@@ -213,6 +213,17 @@ define('LOCATION_HOSTIP_API', 'http://freegeoip.net/json/');
 
 
 //IMAGE
-define('TIMETY_MAIN_IMAGE_DEFAULT_WIDTH',236);
-define('TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT',236);
+define('TIMETY_MAIN_IMAGE_DEFAULT_WIDTH', 236);
+define('TIMETY_MAIN_IMAGE_DEFAULT_HEIGHT', 236);
+
+//IMAGE & VIDEO HEADER
+define('TIMETY_POPUP_HEADER_IMAGE_DEFAULT_WIDTH', 500);
+define('TIMETY_POPUP_HEADER_IMAGE_DEFAULT_HEIGHT', 342);
+
+
+//S3 CONF
+define('TIMETY_AMAZON_S3_BUCKET', 'local.images');
+define('TIMETY_AMAZON_S3_ENDPOINT', 's3-eu-west-1.amazonaws.com');
+define('TIMETY_AMAZON_API_KEY', 'AKIAJTSBTE2CABSZTGFQ');
+define('TIMETY_AMAZON_SECRET_KEY', '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');
 ?>

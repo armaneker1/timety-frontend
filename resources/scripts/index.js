@@ -212,8 +212,11 @@ jQuery(document).ready(function(){
 jQuery(document).ready(function() {
     jQuery("#div_event_add_ekr").keypress(function(event){
         if(event.which == 13 || event.keyCode == 13){
-            event.preventDefault();
-            event.stopPropagation();
+            if(event.target && event.target.id!='te_event_description')
+            { 
+                event.preventDefault();
+                event.stopPropagation();
+            }
         }
     });
     /*
@@ -227,15 +230,7 @@ jQuery(document).ready(function() {
             closeModalPanel();
             closeFriendsPopup();
         }
-    });
-    /*
-         * 
-         */
-    jQuery('#add_event_form_id').keypress(function(e){
-        if(e.which == 13)
-            return false;
-    });
-    
+    });    
        
     likeshareButtonsInit();
 });
@@ -344,27 +339,7 @@ function openCreatePopup() {
             closeCreatePopup();
         }
     });
-    /*
-         * Set Hours
-         */
-    /*if(jQuery("#te_event_start_time").attr("empty")=="1" || jQuery("#te_event_end_time").attr("empty")=="1"){
-        var min=moment().format("mm");
-        var plus=1;
-        if(min<10){
-            min="00";
-        }else if(min>=10 && min<20){
-            min="15";
-        } else if(min>=20 && min<35){
-            min="30";
-        }else if(min>=35 && min<50){
-            min="45";
-        }else{
-            min="00";
-            plus=2;
-        }
-        jQuery("#te_event_start_time").val(moment().add('hours', plus).format("HH")+":"+min);
-        jQuery("#te_event_end_time").val(moment().add('hours', (plus+1)).format("HH")+":"+min);
-    }*/
+    
     document.body.style.overflow = "hidden";
     /*
          * Show Popup
@@ -378,16 +353,6 @@ function openCreatePopup() {
     .animate({
         top:55
     }, 350);
-    /*
-         * Create Checkbox
-         */
-    new iPhoneStyle('.on_off input[type=checkbox]', {
-        widthConstant : 3, 
-        widthConstant2 : 4,
-        statusChange : changePublicPrivate,
-        checkedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pyes.png" class="add_event_iphone_check_img" width="14" heght="10">', 
-        uncheckedLabel: '<img src="'+TIMETY_HOSTNAME+'images/pno.png" class="add_event_iphone_check_img" style="margin-left:4px;" width="10" heght="10">'
-    });
 }
 
 function changePublicPrivate(elem) {
@@ -557,7 +522,7 @@ function openMap(mod,value){
         if(value) {
             jQuery("#div_maps").show();
             jQuery(document).bind("click.cmap", function(e){
-                if(!(e && e.target && e.target.id && ((e.target.id+"")=="inpt_div_location" || jQuery(e.target).parents().is("#inpt_div_location") ||(e.target.id+"")=="div_maps") || jQuery(e.target).parents().is("#div_maps")))
+                if(!(e && e.target && e.target.id && ((e.target.id+"")=="te_event_location" ||(e.target.id+"")=="div_maps") || jQuery(e.target).parents().is("#div_maps")))
                 {
                     jQuery(document).unbind("click.cmap");
                     openMap(true, false);
@@ -574,6 +539,11 @@ function openMap(mod,value){
     if(ce_loc) {
         lat=ce_loc.lat;
         lng=ce_loc.lng;
+    }
+    if(typeof(map_init_php) != "undefined" && map_init_php && typeof(ce_loc_m) != "undefined" && ce_loc_m){
+        map_init_php=false;
+        lat= ce_loc_m.lat;
+        lng=ce_loc_m.lng;
     }
     if(!lat || !lng) {
         try{

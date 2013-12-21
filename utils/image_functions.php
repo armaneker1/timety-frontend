@@ -28,8 +28,9 @@ if (session_id() == '') {
 
 //only assign a new timestamp if the session variable is empty
 if (!isset($_SESSION['random_key']) || strlen($_SESSION['random_key']) == 0) {
-    $_SESSION['random_key'] = strtotime(date('Y-m-d H:i:s')); //assign the timestamp to the session variable
-    $_SESSION['user_file_ext'] = "";
+    $_SESSION['random_key'] = strtotime(date('Y-m-d H:i:s')).session_id(); //assign the timestamp to the session variable
+    $_SESSION['user_file_ext'] = ".png";
+    session_write_close();
 }
 #########################################################################################################
 # CONSTANTS																								#

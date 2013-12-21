@@ -71,7 +71,7 @@ class Neo4jFuctions {
         $result = new Result();
         $result->success = false;
         $result->error = true;
-        
+
         $res = Neo4jEventUtils::getUserEventRelation($userId, $eventId);
         if (!empty($res) && sizeof($res) == 3) {
             $rel = $res['rel'];
@@ -107,7 +107,7 @@ class Neo4jFuctions {
 
                 Neo4jEventUtils::relateUserToEvent2($usr, $event, $rel, 0, $relateUserToEventParam);
                 Queue::joinEvent($eventId, $userId, $redisQueueParam, $redisQueueExtraParam);
-                
+
                 $result->success = true;
                 $result->error = false;
                 return $result;
@@ -1088,7 +1088,7 @@ class Neo4jFuctions {
         } else if ($type == 2) {
             return RedisUtils::getOwnerEvents($userId, $pageNumber, $pageItemCount, $date, $query, $tagIds, $dateCalc);
         } else if ($type == 9) {
-            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $end_date,$query, $categoryId, $city_channel, $tagIds);
+            return RedisUtils::getCategoryEvents($userId, $pageNumber, $pageItemCount, $date, $end_date, $query, $categoryId, $city_channel, $tagIds);
         } else {
             $recommended = RedisUtils::getUpcomingEventsForUser($userId, $pageNumber, $pageItemCount, $date, $end_date, $query, $city_channel, $tagIds);
             $check = false;

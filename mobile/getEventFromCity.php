@@ -5,6 +5,7 @@ header('Content-type: text/html; charset=utf-8');
 
 require_once __DIR__ . '/../utils/Functions.php';
 LanguageUtils::setAJAXLocale();
+session_write_close();
 HttpAuthUtils::checkMobileHttpAuth();
 
 $uid=-1;

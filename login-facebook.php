@@ -23,6 +23,8 @@ $params = array(
 		'scope' => FB_SCOPE,'redirect_uri' => HOSTNAME.$call_back
 );
 $login_url = $facebook->getLoginUrl($params);
+var_dump($login_url);
+exit(1);
 header("Location: " . $login_url);
 
 ?>

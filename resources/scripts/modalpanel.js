@@ -292,10 +292,6 @@ function openModalPanel(event_id,custom) {
             if(data.headerVideo && data.headerVideo.id){
                 var width_v=TIMETY_POPUP_HEADER_IMAGE_DEFAULT_WIDTH;
                 var height_v=TIMETY_POPUP_HEADER_IMAGE_DEFAULT_HEIGHT;
-                //if(data.headerVideo.width>0)
-                //    width_v=data.headerVideo.width;
-                //if(data.headerVideo.height_v>0)
-                //    height_v=data.headerVideo.width;
                 headerVideo.attr("width",width_v);
                 headerVideo.attr("height",height_v);
                 setHeaderImageBoolean=false;
@@ -390,7 +386,7 @@ function openModalPanel(event_id,custom) {
             jQuery("#m_event_price_div").show();
             jQuery("#m_event_price").text(data.price);
             if(data.price_unit){
-                jQuery("#m_event_price_unit").text(data.price_unit);
+                jQuery("#m_event_price_unit").text(" "+data.price_unit.toUpperCase());
             }else{
                 jQuery("#m_event_price_unit").text("$");
             }

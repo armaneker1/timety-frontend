@@ -584,9 +584,11 @@ if (isset($_GET['media']) && !empty($_GET['media'])) {
                                             <?php
                                             $headerImageTmp = "";
                                             if (!empty($main_event) && !empty($main_event->headerImage))
-                                                $headerImageTmp = $main_event->headerImage->url
+                                                $headerImageTmp = $main_event->headerImage->url;
+                                                if(!UtilFunctions::startsWith($headerImageTmp, "http") && !UtilFunctions::startsWith($headerImageTmp, "www"))
+                                                    $headerImageTmp=PAGE_GET_IMAGEURL_SUBFOLDER.$headerImageTmp;
                                                 ?>
-                                            <img itemprop="image" eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                            <img itemprop="image" eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                                  />
                                         </div>
                                     </div>

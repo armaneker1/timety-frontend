@@ -3,22 +3,31 @@ ul.token-input-list-custom {
     overflow: hidden; 
     height: auto !important; 
     height: 1%;
-    width: 100%; 
-    cursor: text;
-    font-size: 12px;
-    font-family: Verdana;
-    min-height: 1px;
+    width: 389px; 
+    cursor: text;   
     z-index: 100000;
     margin: 0;
     padding: 0;
     list-style-type: none;
     clear: left;
+
+    min-height: 39px !important;
+    border: 2px solid #b1e1df;
+    padding-left: 10px;
+    padding-right: 3px;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: 'Lato', sans-serif;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-top: 16px;
 }
 
 ul.token-input-list-custom li input {
     border: 0;
     width: 100px;
-    padding-top:4px;
+    padding-top:8px;
     background-color: transparent;
     margin: 2px 0;
     -webkit-appearance: caret;
@@ -30,13 +39,8 @@ ul.token-input-list-custom li input {
 }
 
 li.token-input-token-custom {
-    overflow: hidden; 
-    height: auto !important; 
-    height: 15px;
-    /*margin: 3px;
-    #padding: 1px 3px;*/
-    /*background-color: #F0F0F0;*/
-    background-image: url(images/dugme_bg.png);
+    overflow: hidden;  
+    height: 25px;
     background-repeat: repeat-x;
     color: #000;
     cursor: default;
@@ -47,21 +51,17 @@ li.token-input-token-custom {
     box-shadow: 0px 1px 1px rgba(34, 25, 25, 0.4);
     margin-right: 4px;
     margin-bottom: 4px;
+    margin-top: 5px;
 }
 
 li.token-input-token-custom p {
-    /*display: inline;
-    padding: 0;
-    margin: 0;
-    background-color: #f0f0f0;*/
     font-family: arial;
     font-size: 12px;
     font-weight: bold;
     color: #717171;
     text-decoration: none;
     display: inline-block;
-    padding-top: 8px;
-    /* padding-right: 25px; */
+    padding-top: 5px;
     padding-bottom: 8px;
     padding-left: 8px;
     margin-right: 5px;
@@ -84,19 +84,8 @@ li.token-input-input-token-custom {
 }
 
 div.token-input-dropdown-custom {
-    /*position: absolute;
-    width: 400px;
-    background-color:#F0F0F0;
-    overflow: hidden;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    cursor: default;
-    font-size: 11px;
-    font-family: Verdana;
-    z-index: 100000;*/
     height: auto;
-    width: 555px;
+    width: 406px;
     position: absolute;
     z-index: 1000;
     top: 48px;

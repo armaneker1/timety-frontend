@@ -63,7 +63,7 @@ if (array_key_exists("te_username", $_POST)) {
                 $rmb = true;
             }
             SessionUtil::storeLoggedinUser($user, $rmb);
-            $_SESSION[MIXPANEL_LOGIN_FIRST]=true;
+            $_SESSION[MIXPANEL_LOGIN_FIRST] = true;
             header("location: " . HOSTNAME);
         } else {
             $param = false;
@@ -101,33 +101,11 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
                         rules : 'required|min_length[6]'
                     } ],
                 function(errors, event) {
-                    //empty messages
-                    jQuery(".create_acco_popup").text("");
-                    jQuery(".create_acco_popup").attr("style","display:none;");
-                    
-                    var SELECTOR_ERRORS = jQuery('#msg');
-                    SELECTOR_ERRORS.empty();
-                    
-                    jQuery('#te_username_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_username').attr('class', 'user_inpt username  icon_bg onay_brdr user_inpt_pi_height');
-                    
-                    jQuery('#te_password_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_password').attr('class', 'user_inpt icon_bg password onay_brdr user_inpt_pi_height');
-                    
+                    jQuery(".textBoxError").removeClass("textBoxError");
                     if (errors.length > 0) {
                         for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
-                            jQuery('#' + errors[i].id + '_span').attr('class','sil icon_bg');
-                            jQuery('#' + errors[i].id + '_span_msg').css({
-                                display : 'block'
-                            });
-                            jQuery('#' + errors[i].id + '_span_msg').text(errors[i].message);
-                            jQuery('#' + errors[i].id + '_span_msg').append(jQuery("<div class='kok'></div>"));
-                            jQuery('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
+                            jQuery('#' + errors[i].id).addClass("textBoxError");
                         }
-                    } else {
-                        SELECTOR_ERRORS.css({
-                            display : 'none'
-                        });
                     }
                 });
             });
@@ -152,18 +130,16 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
             }
                     
         </script>
-        <meta property="og:title" content="<?=LanguageUtils::getText("LANG_PAGE_TITLE")?>"/>
+        <meta property="og:title" content="<?= LanguageUtils::getText("LANG_PAGE_TITLE") ?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
-        <meta property="description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
+        <meta property="og:description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
+        <meta property="description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
-        <?php include('layout/layout_top.php'); ?>
-        <div class="register_bg"></div>
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?> registerPage" itemscope="itemscope" itemtype="http://schema.org/WebPage">
         <!-- login mail button mixpanel -->
         <?php if (isset($param) && empty($param)) { ?>
             <script>
@@ -171,106 +147,97 @@ RegisterAnaliticsUtils::increasePageRegisterCount("login");
             </script>
         <?php } ?>
         <!-- login mail button mixpanel -->
-        <div id="create_account" class="create_account_outline">
-            <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_HEADER") ?></div>
-            <div class="create_acco_alt">
-                <div class="account_sol" style="padding-top: 21px;">
-                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="analytics_loginGoogleButtonClicked(function(){openSocialLogin('gg');});">
-                        <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE") ?></b>
-                    </button>
 
-                    <button class="big-icon-f btn-sign-big fb facebook" onclick="analytics_loginFacebookButtonClicked(function(){openSocialLogin('fb');});">
-                        <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK") ?></b>
+        <div class="mainContainer">
+            <div class="leftContainer">
+                <a href="<?= HOSTNAME ?>">
+                    <div class="register_logo">
+                        <img src="<?= HOSTNAME ?>images/logoLoginPage.png" />
+                    </div>
+                </a>
+                <div class="shortMessage">
+                    <h1 style=""><?= LanguageUtils::getText("LANG_PAGE_REGISTER_LOGO_TEXT") ?></h1>
+                </div>
+                <div class="socialSignUpButtons">
+                    <button class="facebook buttons roundedBox" onclick="analytics_createFacebookAccountButtonClicked(function(){openSocialLogin('fb');})">
+                        <div class="facebookIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK") ?></a>
                     </button>
-
-                    <button class="big-icon-t btn-sign-big tw twitter" onclick="analytics_loginTwitterButtonClicked(function(){openSocialLogin('tw');});">
-                        <b><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER") ?></b>
+                    <button class="twitter buttons roundedBox" onclick="analytics_createTwitterAccountButtonClicked(function(){openSocialLogin('tw');})">
+                        <div class="twitterIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER") ?></a>
+                    </button>
+                    <button class="googleplus buttons roundedBox" onclick="analytics_createGoogleAccountButtonClicked(function(){openSocialLogin('gg');});">
+                        <div class="googleplusIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE") ?></a>
                     </button>
                 </div>
-                <div class="account_sag" style="margin-top: 21px;padding-left: 40px;">
-                    <form action="" name="formsignin" method="post">
+                <div class="emailSignUpOrLogin">
+                    <p><?= LanguageUtils::getText("LANG_GENERAL_OR") ?> <a href="<?= PAGE_SIGNUP ?>"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_SIGN_UP_NOW") ?></a></p>
+                </div>
+            </div>
+            <div class="leftContainer" style="height: 100%;"></div>
+            <div class="seperator">
+                <div class="seperator_top"></div>
+                <div class="seperator_middle"></div>
+                <div class="seperator_bottom"></div>
+            </div>
+            <div class="rightContainer">
+                <div class="loginFormDiv roundedCorner">
+                    <form action="" name="formsignin" method="post" >
                         <input name="te_username" type="text"
-                               class="user_inpt username  icon_bg user_inpt_pi_height login_inpt_ie" 
+                               class="textBox" 
                                id="te_username"
-                               name="te_username" value="<?= $uname ?>" 
-                               placeholder="<?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_USERNAME_PLACEHOLDER") ?>"
-                               />
-                        <!--   onkeyup="validateUserName(this,false,false)"
-                               onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,false,true) }" -->
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($unameError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                        <span id='te_username_span' class="<?= $class ?>">
-                            <div class="create_acco_popup" id="te_username_span_msg" style="display:<?= $display ?>;">
-                                <?= $unameError ?><div class="kok"></div>
-                            </div>
-                        </span>  <br /> 
-
+                               name="te_username" 
+                               value="<?= $uname ?>" 
+                               placeholder="<?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_USERNAME_PLACEHOLDER") ?>"/>
 
 
                         <input
                             name="te_password" type="password"
-                            class="user_inpt password icon_bg user_inpt_pi_height login_inpt_ie"  id="te_password"
-                            name="te_password" value="" placeholder="<?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_PASSWORD_PLACEHOLDER") ?>"
-                            />
-                        <!--  onkeyup="validatePassword(this,$('#te_password'),false,false);"
-                           onblur="validatePassword(this,$('#te_password'),false,true);" -->
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($upassError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                        <span id='te_password_span' class="<?= $class ?>">
-                            <div class="create_acco_popup" id="te_password_span_msg" style="display:<?= $display ?>;">
-                                <?= $upassError ?><div class="kok"></div>
-                            </div>
-                        </span>
+                            class="textBox"  id="te_password"
+                            name="te_password" 
+                            value="" 
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_PASSWORD_PLACEHOLDER") ?>"/>
 
 
+                        <button class="loginButton roundedButton" type="submit" onclick="jQuery('.php_errors').remove();">
+                            <a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_LOGIN") ?></a>
+                        </button>
 
-                        <div class="ts_box" style="font-size: 12px; margin-left: 0px;">
-                            <label class="label_check" for="te_rememberme2"> <input
-                                <?php
-                                if ($urmme) {
-                                    echo "checked='checked'";
-                                }
-                                ?>
-                                    name="te_rememberme2" id="te_rememberme2" value="<?= $urmme ?>"
-                                    type="checkbox" onclick="$('#te_rememberme').value=this.checked" />
-                                    <?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_REMEMBER_ME") ?>
-                            </label> 
 
-                            <input name="te_rememberme" id="te_rememberme"
-                                   value="<?= $urmme ?>" type="hidden" />
-                            <button style="width: 79px !important;margin-left: 58px;" type="submit" onclick="jQuery('.php_errors').remove();"
-                                    class="reg_btn reg_btn_width" name="" value=""><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_LOGIN") ?></button>
-                            <br /> <a href="forgotpassword.php"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS") ?></a> <br />
-                            <div class="ts_box" style="font-size: 12px;">
-                                <span style="color: red; display: none;" id="msg"></span>
-                                <?php
-                                if (!empty($msgs)) {
-                                    $ms = "";
-                                    foreach ($msgs as $m) {
-                                        $ms = $ms . "<p>" . $m->message . "</p>";
-                                    }
-                                    echo "<script>jQuery(document).ready(function(){ getInfo(true,'" . $ms . "','error',4000); });</script>";
-                                }
-                                ?>
-                            </div>
+                        <div class="rememberme_div" style="display: none;">
+                            <input type="hidden" id="te_rememberme" name="te_rememberme" class="css-checkbox" value="true">
+                            <label for="te_rememberme" class="css-label"> 
+                                <a style="color: #a1a1a1"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_INPUT_REMEMBER_ME") ?></a>
+                            </label>
+                        </div>
+
+                        <div class="forgotpass_div">
+                            <a href="<?= HOSTNAME ?>forgotpassword.php"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS") ?></a>
                         </div>
                     </form>
                 </div>
             </div>
-            <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_ABOUT_US") ?></a></div>
+            <div class="bottomContainer"><p>
+                    <a style="margin-right: 10px;" href="http://about.timety.com"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_ABOUT_US") ?></a>
+                    <a style="margin-right: 10px;" href="<?= PAGE_BUSINESS_CREATE ?>"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_BUSINESS") ?></a>
+                    <a href="http://about.timety.com/privacy-policy/ "><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_PRIVACY") ?></a></p>
+            </div>
+            <?php
+            if (!empty($msgs)) {
+                $ms = "";
+                foreach ($msgs as $m) {
+                    $ms = $ms . "<p>" . $m->message . "</p>";
+                }
+                if (!empty($ms)) {
+                    ?>
+                    <script>
+                        jQuery(document).ready(function(){
+                                 getInfo(true,'<?=$ms?>','error',4000); 
+                        });
+                    </script>
+                <?php
+                }
+            }
+            ?>
         </div>
-        <?php include('layout/templete_aboutus.php'); ?>
     </body>
 </html>

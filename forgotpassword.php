@@ -42,12 +42,12 @@ if (array_key_exists("te_email", $_POST)) {
             $lss = LostPassUtil::insert($lss);
             if (!empty($lss)) {
                 $lost = base64_encode($lss->id . ";" . $userId . ";" . $guid);
-                $ufname=$user->firstName;
-                if(!empty($user->business_user)){
-                    $ufname=$user->business_name;
+                $ufname = $user->firstName;
+                if (!empty($user->business_user)) {
+                    $ufname = $user->business_name;
                 }
                 $params = array(array('name', $ufname), array('link', PAGE_NEW_PASSWORD . "?guid=" . $lost), array('email_address', $user->email));
-                MailUtil::sendSESMailFromFile(LanguageUtils::getLocale()."_reset_password.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_RESET_PASS_SUBJECT"));
+                MailUtil::sendSESMailFromFile(LanguageUtils::getLocale() . "_reset_password.html", $params, $user->email, LanguageUtils::getText("LANG_MAIL_RESET_PASS_SUBJECT"));
                 $m = new HtmlMessage();
                 $m->type = "s";
                 $m->message = LanguageUtils::getText("LANG_PAGE_FORGOT_PASS_EMAIL_SEND");
@@ -60,22 +60,22 @@ if (array_key_exists("te_email", $_POST)) {
             }
         }
     }
-}else{
-     LanguageUtils::setLocale();
+} else {
+    LanguageUtils::setLocale();
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
     <head>
-<?php
-$timety_header = LanguageUtils::getText("LANG_PAGE_FORGOT_PASS_TITLE");
-LanguageUtils::setLocaleJS();
-include('layout/layout_header.php');
-?>
+        <?php
+        $timety_header = LanguageUtils::getText("LANG_PAGE_FORGOT_PASS_TITLE");
+        LanguageUtils::setLocaleJS();
+        include('layout/layout_header.php');
+        ?>
         <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?= JS_CONSTANT_PARAM ?>"></script>
         <script type="text/javascript">
-            $(function() {
-                $.Placeholder.init();
+            jQuery(function() {
+                jQuery('input, textarea').placeholder();
                 var validator = new FormValidator(
                 'forgotpassword',
                 [ {
@@ -84,65 +84,93 @@ include('layout/layout_header.php');
                         rules : 'required|valid_email'
                     } ],
                 function(errors, event) {
-                    var SELECTOR_ERRORS = $('#msg');
-                    $('#te_email_span').attr('class', '');
-                    $('#te_email').attr('class', 'user_inpt icon_bg username');
+                    jQuery(".textBoxError").removeClass("textBoxError");
                     if (errors.length > 0) {
-
-                        SELECTOR_ERRORS.empty();
                         for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
-                            SELECTOR_ERRORS.append(errors[i].message + '<br />');
-                            $('#' + errors[i].id + '_span').attr('class',
-                            'sil icon_bg');
-                            $('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
+                            jQuery('#' + errors[i].id).addClass("textBoxError");
                         }
-                        SELECTOR_ERRORS.fadeIn(200);
-                    } else {
-
-                        SELECTOR_ERRORS.css({
-                            display : 'none'
-                        });
                     }
-
                 });
             });
         </script>
     </head>
 
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
-<?php include('layout/layout_top.php'); ?>
-        <div id="personel_info_h">
-            <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_FORGOT_PASS_HEADER") ?></div>
-            <div class="personel_info" style="max-height: 150px;">
-                <form action="" method="post" name="forgotpassword"
-                      style="margin-left: 48px; margin-top: 35px;">
-                    <input name="te_email" type="text" placeholder="<?= LanguageUtils::getText("LANG_PAGE_FORGOT_PASS_EMAIL_PLACEHOLDER") ?>"
-                           class="user_inpt email icon_bg" id="te_email"
-                           value="<?php echo $email ?>" />
-                    <button
-                        style="width: 79px; margin-right: 50px; margin-bottom: 2px; float: right;"
-                        type="submit" class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();"><?= LanguageUtils::getText("LANG_PAGE_FORGOT_PASS_SNED_MAIL") ?></button>
-                    <div class="ts_box"
-                         style="font-size: 12px; margin-left: 0px;">
-                        <div class="ts_box" style="font-size: 12px;">
-                            <span style="color: red; display: none;" id="msg"></span>
-<?php
-if (!empty($msgs)) {
-    $ms = "";
-    $color = 'red';
-    if ($m->type == 's') {
-        $color = 'green';
-    }
-    foreach ($msgs as $m) {
-        $ms = $ms . "<span class='php_errors' style='color: " . $color . ";'>" . $m->message . "</span><p/>";
-    }
-    echo $ms;
-}
-?>
-                        </div>
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?> registerPage" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+
+
+        <div class="mainContainer">
+            <div class="leftContainer">
+                <a href="<?= HOSTNAME ?>">
+                    <div class="register_logo">
+                        <img src="<?= HOSTNAME ?>images/logoLoginPage.png" />
                     </div>
-                </form>
+                </a>
+                <div class="shortMessage">
+                    <h1 style=""><?= LanguageUtils::getText("LANG_PAGE_REGISTER_LOGO_TEXT") ?></h1>
+                </div>
+                <div class="socialSignUpButtons">
+                    <button class="facebook buttons roundedBox" onclick="analytics_createFacebookAccountButtonClicked(function(){openSocialLogin('fb');})">
+                        <div class="facebookIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK") ?></a>
+                    </button>
+                    <button class="twitter buttons roundedBox" onclick="analytics_createTwitterAccountButtonClicked(function(){openSocialLogin('tw');})">
+                        <div class="twitterIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER") ?></a>
+                    </button>
+                    <button class="googleplus buttons roundedBox" onclick="analytics_createGoogleAccountButtonClicked(function(){openSocialLogin('gg');});">
+                        <div class="googleplusIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE") ?></a>
+                    </button>
+                </div>
+                <div class="emailSignUpOrLogin">
+                    <p><?= LanguageUtils::getText("LANG_GENERAL_OR") ?> <a href="<?= PAGE_SIGNUP ?>"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_SIGN_UP_NOW") ?></a></p>
+                </div>
             </div>
+            <div class="leftContainer" style="height: 100%;"></div>
+            <div class="seperator">
+                <div class="seperator_top"></div>
+                <div class="seperator_middle"></div>
+                <div class="seperator_bottom"></div>
+            </div>
+            <div class="rightContainer">
+                <div class="loginFormDiv roundedCorner" style="height: 200px;">
+                    <h3 style=""><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS")?></h3>
+                    <form action="" name="forgotpassword" method="post" >
+                        <input 
+                               type="text"
+                               class="textBox" 
+                               id="te_email"
+                               name="te_email" 
+                               value="<?= $email ?>" 
+                               placeholder="<?= LanguageUtils::getText("LANG_PAGE_FORGOT_PASS_EMAIL_PLACEHOLDER") ?>"/>
+
+
+                        <button class="loginButton roundedButton" type="submit" onclick="jQuery('.php_errors').remove();">
+                            <a><?= LanguageUtils::getText("LANG_PAGE_FORGOT_PASS_SNED_MAIL") ?></a>
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+            <div class="bottomContainer"><p>
+                    <a style="margin-right: 10px;" href="http://about.timety.com"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_ABOUT_US") ?></a>
+                    <a style="margin-right: 10px;" href="<?= PAGE_BUSINESS_CREATE ?>"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_BUSINESS") ?></a>
+                    <a href="http://about.timety.com/privacy-policy/ "><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_PRIVACY") ?></a></p>
+            </div>
+            <?php
+            if (!empty($msgs)) {
+                $ms = "";
+                $color = 'error';
+                if ($m->type == 's') {
+                    $color = 'info';
+                }
+                foreach ($msgs as $m) {
+                    $ms = $ms . $m->message . "<br/>";
+                }
+                ?>
+
+                <script>
+                    getInfo(true,'<?= $ms ?>','<?= $color ?>',4000);
+                </script>
+
+            <?php } ?>
         </div>
     </body>
 </html>

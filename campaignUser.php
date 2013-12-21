@@ -42,7 +42,7 @@ if (isset($_GET['campaignId']) && !empty($_GET['campaignId'])) {
 <!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en-US" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>
-        <script>oldUrl='<?=HOSTNAME.'campaign/'.$user->userName?>';</script>
+        <script>oldUrl='<?=HOSTNAME.'campaign/'.$p_user_name?>';</script>
         <?php
         LanguageUtils::setUserLocaleJS($user);
         include('layout/layout_header_index.php');
@@ -418,9 +418,11 @@ if (isset($_GET['campaignId']) && !empty($_GET['campaignId'])) {
                                         <?php
                                         $headerImageTmp = "";
                                         if (!empty($main_event) && !empty($main_event->headerImage))
-                                            $headerImageTmp = $main_event->headerImage->url
+                                            $headerImageTmp = $main_event->headerImage->url;
+                                        if(!UtilFunctions::startsWith($headerImageTmp, "http") && !UtilFunctions::startsWith($headerImageTmp, "www"))
+                                                    $headerImageTmp=PAGE_GET_IMAGEURL_SUBFOLDER.$headerImageTmp;
                                             ?>
-                                        <img itemprop="image" eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                        <img itemprop="image" eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                              />
                                     </div>
                                 </div>

@@ -42,6 +42,7 @@ class UserProcessor {
                                     $event->commentCount = CommentUtil::getCommentListSizeByEvent($event->id, null);
                                     $event->likescount=  Neo4jEventUtils::getEventLikesCount($event->id);
                                     $event->getCreatorType();
+                                    $event->getEventPrice();
                                 } catch (Exception $exc) {
                                     $log->logError("event > addEvent Error" . $exc->getTraceAsString());
                                 }

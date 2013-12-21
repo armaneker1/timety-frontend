@@ -1,0 +1,129 @@
+@CHARSET "UTF-8";
+.sbHolder{
+    border: 2px solid #b1e1df;
+    height: 39px;
+    width: 113px;
+    position: relative;
+    padding-left: 10px;
+    padding-right: 3px;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: 'Lato', sans-serif;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: left;
+    background-color: white;
+    cursor: pointer;
+    color: #a1a1a1;
+}
+.sbHolder:focus .sbSelector{
+
+}
+.sbSelector{
+    display: block;
+    height: 39px;
+    left: 0;
+    line-height: 37px;
+    outline: none;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 10px;
+    top: 0;
+    width: 100%;
+}
+.sbSelector:link, .sbSelector:visited, .sbSelector:hover{
+    color: #a1a1a1;
+    outline: none;
+    text-decoration: none;
+}
+.sbToggle{
+    outline: none;
+    background: url('http://timety.com/images/iconSetAddEvent.png') no-repeat;
+    height: 30px;
+    width: 18px;
+    background-repeat: no-repeat;
+    background-position: -33px -54px;
+    display: block;
+    margin-top: 7px;
+    float: right;
+    margin-right: 5px;
+}
+.sbToggle:hover{
+
+}
+.sbToggleOpen{
+
+}
+.sbToggleOpen:hover{
+
+}
+.sbHolderDisabled{
+    background-color: #3C3C3C;
+    border: solid 1px #515151;
+}
+.sbHolderDisabled .sbHolder{
+
+}
+.sbHolderDisabled .sbToggle{
+
+}
+.sbOptions{
+    background-color: #fff;
+    border: 2px solid #b1e1df;
+    list-style: none;
+    margin: 0;
+    left: -2px;
+    padding: 0;
+    position: absolute;
+    width: 126px;
+    z-index: 1;
+    overflow-y: auto;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    max-height: 211px !important;
+}
+.sbOptions li{
+    padding: 0 7px;
+}
+
+
+.sbOptions li:hover{
+    background-color: #b1e1df;
+}
+
+
+.sbOptions a{
+    display: block;
+    outline: none;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions a:link, .sbOptions a:visited{
+    color: #a1a1a1;
+    text-decoration: none;
+}
+.sbOptions a:hover,
+.sbOptions a:focus,
+.sbOptions a.sbFocus{
+    color: #a1a1a1;
+}
+.sbOptions li.last a{
+    border-bottom: none;
+}
+.sbOptions .sbDisabled{
+    border-bottom: dotted 1px #515151;
+    color: #999;
+    display: block;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions .sbGroup{
+    border-bottom: dotted 1px #515151;
+    color: #b1e1df;
+    display: block;
+    font-weight: bold;
+    padding: 7px 0 7px 3px;
+}
+.sbOptions .sbSub{
+    padding-left: 17px;
+}

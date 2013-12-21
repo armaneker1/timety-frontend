@@ -30,7 +30,7 @@ $br = "";
 if (isset($_SERVER['HTTP_USER_AGENT'])) {
     $br = strtoupper($_SERVER['HTTP_USER_AGENT']);
 }
-if (stripos($br, 'MSIE')>=0) {
+if (stripos($br, 'MSIE')) {
     ?>
     <link  href="<?= HOSTNAME ?>ie7_8.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
     <link  href="<?= HOSTNAME ?>resources/styles/custom_ie.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
@@ -39,7 +39,7 @@ if (stripos($br, 'MSIE')>=0) {
     <link  href="<?= HOSTNAME ?>resources/styles/custom.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
 <?php } ?>
 
-<?php if (stripos($br, 'MOZILLA')>=0) { ?>
+<?php if (stripos($br, 'MOZILLA')) { ?>
     <link  href="<?= HOSTNAME ?>resources/styles/firefox.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
 <?php } ?>
 
@@ -57,6 +57,7 @@ if (stripos($br, 'MSIE')>=0) {
 <link  href="<?= HOSTNAME ?>resources/styles/tokeninput/token-input-custom.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
 <link href="<?= HOSTNAME ?>resources/styles/jquery/jquery.ui.autocomplete.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet">
 <link href="<?= HOSTNAME ?>resources/styles/jquery.Jcrop.min.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet">
+<link href="<?= HOSTNAME ?>resources/styles/jquery.selectbox.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet">
 <!-- CSS -->
 
 
@@ -113,6 +114,8 @@ if (stripos($br, 'MSIE')>=0) {
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery/jquery.ui.autocomplete.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/language.js?<?= JS_CONSTANT_PARAM ?>"></script>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/resolution.js?<?= JS_CONSTANT_PARAM ?>"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.selectbox-0.2.min.js?<?= JS_CONSTANT_PARAM ?>"></script>
+<script language="javascript" src="<?= HOSTNAME ?>resources/scripts/jquery.mask.js?<?= JS_CONSTANT_PARAM ?>"></script>
 
 <!--[if IE]>
 <script language="javascript" src="<?= HOSTNAME ?>resources/scripts/ie.js?<?= JS_CONSTANT_PARAM ?>"></script>

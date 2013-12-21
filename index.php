@@ -240,33 +240,25 @@ if (empty($user)) {
         /*
          * Images
          */
-        $event->images = array(null, null, null, null, null, null, null);
-
-        if (isset($_POST["event_image_1_input"]) && !empty($_POST["event_image_1_input"])) {
-            $event->images[0] = "ImageEvent_1_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_2_input"]) && !empty($_POST["event_image_2_input"])) {
-            $event->images[1] = "ImageEvent_2_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_3_input"]) && !empty($_POST["event_image_3_input"])) {
-            $event->images[2] = "ImageEvent_3_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_4_input"]) && !empty($_POST["event_image_4_input"])) {
-            $event->images[3] = "ImageEvent_4_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_5_input"]) && !empty($_POST["event_image_5_input"])) {
-            $event->images[4] = "ImageEvent_5_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_6_input"]) && !empty($_POST["event_image_6_input"])) {
-            $event->images[5] = "ImageEvent_6_" . $_random_session_id . ".png";
-        }
-        if (isset($_POST["event_image_7_input"]) && !empty($_POST["event_image_7_input"])) {
-            $event->images[6] = "ImageEvent_7_" . $_random_session_id . ".png";
-        }
-
+        $event->images = array();
         /*
          * Images
          */
+        $event->has_video = 0;
+        if (isset($_POST["te_event_video_url"]) && !empty($_POST["te_event_video_url"])) {
+            $event->has_video = 1;
+            $event->headerVideo = $_POST["te_event_video_url"];
+        }
+
+        if (isset($_POST["te_event_price"]) && !empty($_POST["te_event_price"])) {
+            $event->price = $_POST["te_event_price"];
+            $event->price=str_replace(".","",$event->price);
+            $event->price=str_replace(",",".",$event->price);
+        }
+
+        if (isset($_POST["te_event_price_unit"]) && !empty($_POST["te_event_price_unit"])) {
+            $event->price_unit = $_POST["te_event_price_unit"];
+        }
 
         $startDate = $_POST["te_event_start_date"];
         $startTime = $_POST["te_event_start_time"];
@@ -287,33 +279,37 @@ if (empty($user)) {
             array_push($msgs, $m);
         }
 
-        $endDate = $_POST["te_event_end_date"];
-        $endTime = $_POST["te_event_end_time"];
+        $endDate = "0000-00-00";
+        $endTime = "00:00";
+        if (isset($_POST['end_date_added']) && $_POST['end_date_added'] == "1") {
+            $endDate = $_POST["te_event_end_date"];
+            $endTime = $_POST["te_event_end_time"];
 
-        $endTime = UtilFunctions::checkTime($endTime);
-        if (!$endTime) {
-            $endTime = "00:00";
-        }
+            $endTime = UtilFunctions::checkTime($endTime);
+            if (!$endTime) {
+                $endTime = "00:00";
+            }
 
-        $endDate = UtilFunctions::checkDate($endDate);
-        if (!$endDate) {
-            $endDate = "0000-00-00";
-            if ($endTime != "00:00") {
-                if (($startDate . " " . $startTime) > ($startDate . " " . $endTime)) {
+            $endDate = UtilFunctions::checkDate($endDate);
+            if (!$endDate) {
+                $endDate = "0000-00-00";
+                if ($endTime != "00:00") {
+                    if (($startDate . " " . $startTime) > ($startDate . " " . $endTime)) {
+                        $error = true;
+                        $m = new HtmlMessage();
+                        $m->type = "e";
+                        $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_END_TIME_NOT_VALID");
+                        array_push($msgs, $m);
+                    }
+                }
+            } else {
+                if (($startDate . " " . $startTime) > ($endDate . " " . $endTime)) {
                     $error = true;
                     $m = new HtmlMessage();
                     $m->type = "e";
-                    $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_END_TIME_NOT_VALID");
+                    $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_END_DATE_NOT_VALID");
                     array_push($msgs, $m);
                 }
-            }
-        } else {
-            if (($startDate . " " . $startTime) > ($endDate . " " . $endTime)) {
-                $error = true;
-                $m = new HtmlMessage();
-                $m->type = "e";
-                $m->message = LanguageUtils::getText("LANG_PAGE_INDEX_ADD_ERR_END_DATE_NOT_VALID");
-                array_push($msgs, $m);
             }
         }
 
@@ -341,25 +337,25 @@ if (empty($user)) {
             $event->repeat = 0;
         }
 
-        if (isset($_POST["te_event_addsocial_fb"]) && $_POST["te_event_addsocial_fb"] == "true") {
+        if (isset($_POST["te_event_addsocial_fb"]) && $_POST["te_event_addsocial_fb"] == "on") {
             $event->addsocial_fb = 1;
         } else {
             $event->addsocial_fb = 0;
         }
 
-        if (isset($_POST["te_event_addsocial_gg"]) && $_POST["te_event_addsocial_gg"] == "true") {
+        if (isset($_POST["te_event_addsocial_gg"]) && $_POST["te_event_addsocial_gg"] == "on") {
             $event->addsocial_gg = 1;
         } else {
             $event->addsocial_gg = 0;
         }
 
-        if (isset($_POST["te_event_addsocial_tw"]) && $_POST["te_event_addsocial_tw"] == "true") {
+        if (isset($_POST["te_event_addsocial_tw"]) && $_POST["te_event_addsocial_tw"] == "on") {
             $event->addsocial_tw = 1;
         } else {
             $event->addsocial_tw = 0;
         }
 
-        if (isset($_POST["te_event_addsocial_fq"]) && $_POST["te_event_addsocial_fq"] == "true") {
+        if (isset($_POST["te_event_addsocial_fq"]) && $_POST["te_event_addsocial_fq"] == "on") {
             $event->addsocial_fq = 1;
         } else {
             $event->addsocial_fq = 0;
@@ -393,24 +389,15 @@ if (empty($user)) {
             $event->privacy = "false";
 
         $event->categories = "";
-        if (isset($_POST["te_event_category1"])) {
-            $event->categories = $_POST["te_event_category1"];
-        }
 
         $event->attach_link = "";
         if (isset($_POST["te_event_attach_link"])) {
             $event->attach_link = $_POST["te_event_attach_link"];
         }
 
-        if (isset($_POST["te_event_category2"])) {
-            if (!empty($event->categories))
-                $event->categories = $event->categories . "," . $_POST["te_event_category2"];
-            else
-                $event->categories = $_POST["te_event_category2"];
-        }
-
         $event->tags = $_POST["te_event_tag"];
         $event->attendance = $_POST["te_event_people"];
+        
         if (!$error) {
             try {
                 $eventDB = EventUtil::createEvent($event, $user);
@@ -625,7 +612,7 @@ if (empty($user)) {
             <script>          
                 jQuery(document).ready(function() {
                     new iPhoneStyle('.css_sized_container input[type=checkbox]', { resizeContainer: false, resizeHandle: false });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    		      
                     var onchange_checkbox = $$('.onchange input[type=checkbox]').first();
                     new iPhoneStyle(onchange_checkbox);
                     setInterval(function toggleCheckbox() {
@@ -654,9 +641,7 @@ if (empty($user)) {
                     {  
                         addMarker(point.lat(),point.lng());
                         
-                        var te_loc_country="";
-                        var te_loc_city="";
-                    
+                        var te_loc_country="";                    
                         //country                        
                         if(place.address_components.length>0){
                             for(var i=0;i<place.address_components.length;i++){
@@ -670,35 +655,6 @@ if (empty($user)) {
                             }
                         }
                         jQuery("#te_event_location_country").val(te_loc_country);
-                    
-                        //city
-                        /*var city_type=0;
-                        if(place.address_components.length>0){
-                            for(var i=0;i<place.address_components.length;i++){
-                                var obj=place.address_components[i];
-                                if(obj && obj.types && obj.types.length>0){
-                                    if(jQuery.inArray("city",obj.types)>=0 && city_type<4){
-                                        te_loc_city=obj.long_name;
-                                        city_type=4;
-                                    }
-                                    else if(jQuery.inArray("administrative_area_level_1",obj.types)>=0 && city_type<3){
-                                        te_loc_city=obj.long_name;
-                                        city_type=3;
-                                    }
-                                    else if(jQuery.inArray("administrative_area_level_2",obj.types)>=0 && city_type<2){
-                                        te_loc_city=obj.long_name;
-                                        city_type=2;
-                                    }
-                                    else if(jQuery.inArray("political",obj.types)>=0 && jQuery.inArray("locality",obj.types)>=0   && city_type<1){
-                                        te_loc_city=obj.long_name; 
-                                        city_type=1;
-                                    }
-                                }
-                            }
-                        }
-                        if(te_loc_city){
-                            jQuery("#te_event_location_city").val(te_loc_city);    
-                        }else{ } */
                         getCityLocationByCoordinates(point.lat(),point.lng(),setMapLocation);
                        
                     } 
@@ -760,35 +716,6 @@ if (empty($user)) {
             
         </script>
 
-
-        <!--takvim-->
-        <SCRIPT type="text/javascript">
-            jQuery.noConflict();
-            jQuery(document).ready(function()
-            {
-                // Basic date picker with default settings
-                jQuery( ".date1" ).datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    minDate: new Date(),
-                    dateFormat: "dd.mm.yy",
-                    beforeShow : function(dateInput,datePicker) {
-                        setTimeout(showDate,5);
-                    },
-                    onChangeMonthYear: function(dateInput,datePicker) {
-                        setTimeout(showDate,5);
-                    }
-                });
-                jQuery('.timepicker-default').timepicker({defaultTime:'value'});
-            });
-        </SCRIPT>
-        <!--takvim-->
-        <!--saat-->
-        <script type="text/javascript" src="<?= HOSTNAME ?>js/saat/bootstrap-timepicker.js?<?= JS_CONSTANT_PARAM ?>"></script>
-        <link href="<?= HOSTNAME ?>js/saat/timepicker.css?<?= JS_CONSTANT_PARAM ?>" rel="stylesheet" type="text/css" />
-        <!--saat-->
-
-
         <?php
         if (!empty($user)) {
             $var_cat = "[]";
@@ -831,7 +758,7 @@ if (empty($user)) {
         }
         ?>	
                 });	
-                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                 jQuery( "#te_event_people" ).tokenInput("<?= PAGE_AJAX_GETPEOPLEORGROUP . "?followers=1" ?>",{ 
                     theme: "custom",
                     userId :"<?= $user->id ?>",
@@ -933,7 +860,7 @@ if (empty($user)) {
                     console.log(exp);
                 }
             });
-                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                        
             </script>
 
 
@@ -984,30 +911,6 @@ if (empty($user)) {
                 });
             </script>
             <!-- channel -->
-        <?php } ?>
-
-
-
-
-        <?php
-        $br = UtilFunctions::getBrowser();
-        $br = $br[0];
-        if ($br == "mozilla") {
-            ?>
-            <style>
-                .iPhoneCheckHandle{
-                    width: 19px !important;
-                }
-                .iPhoneCheckContainer{
-                    width: 50px !important;
-                }
-                .iPhoneCheckLabelOn{
-                    width: 22px !important;
-                }
-                .iPhoneCheckLabelOff{
-                    width: 18px !important;
-                }
-            </style>
         <?php } ?>
     </head>
     <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
@@ -1143,7 +1046,7 @@ if (empty($user)) {
             <script>
                 jQuery(document).ready(function() {
                     getInfo(true,'<?= $m->message ?>','<?= $mtype ?>',4000);
-                    btnClickFinishAddEvent();
+                    //btnClickFinishAddEvent();
                 });
             </script>
             <?php if (!empty($sEvetId)) { ?>
@@ -1312,9 +1215,11 @@ if (empty($user)) {
                                         <?php
                                         $headerImageTmp = "";
                                         if (!empty($main_event) && !empty($main_event->headerImage))
-                                            $headerImageTmp = $main_event->headerImage->url
+                                            $headerImageTmp = $main_event->headerImage->url;
+                                            if(!UtilFunctions::startsWith($headerImageTmp, "http") && !UtilFunctions::startsWith($headerImageTmp, "www"))
+                                                    $headerImageTmp=PAGE_GET_IMAGEURL_SUBFOLDER.$headerImageTmp;
                                             ?>
-                                        <img itemprop="image" eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . PAGE_GET_IMAGEURL_SUBFOLDER . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
+                                        <img itemprop="image" eventid="<?= $main_event->id ?>" onclick="return openModalPanel(<?= $main_event->id ?>);" src="<?= PAGE_GET_IMAGEURL . urlencode($headerImageTmp) . "&h=" . $height . "&w=" . $width ?>" width="<?= $width ?>" height="<?= $height ?>"
                                              />
                                     </div>
                                 </div>

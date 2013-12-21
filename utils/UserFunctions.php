@@ -395,18 +395,18 @@ class UserUtils {
         if (!empty($uid)) {
             if (empty($url)) {
                 $url = "images/anonymous.jpg";
+            } else {
+                if ($type == TWITTER_TEXT) {
+                    $url = UserUtils::handleTwitterImage($url);
+                } else if ($type == FACEBOOK_TEXT) {
+                    $url = UserUtils::handleFacebookImage($url);
+                } else if ($type == GOOGLE_PLUS_TEXT) {
+                    $url = UserUtils::handleGoogleImage($url);
+                } else if ($type == FOURSQUARE_TEXT) {
+                    $url = UserUtils::handleFoursquareImage($url);
+                }
+                $url = UserUtils::downloadAndResizeImage($url, $uid);
             }
-            if ($type == TWITTER_TEXT) {
-                $url = UserUtils::handleTwitterImage($url);
-            } else if ($type == FACEBOOK_TEXT) {
-                $url = UserUtils::handleFacebookImage($url);
-            } else if ($type == GOOGLE_PLUS_TEXT) {
-                $url = UserUtils::handleGoogleImage($url);
-            } else if ($type == FOURSQUARE_TEXT) {
-                $url = UserUtils::handleFoursquareImage($url);
-            }
-            $url = UserUtils::downloadAndResizeImage($url, $uid);
-
             $url = DBUtils::mysql_escape($url);
             $uid = DBUtils::mysql_escape($uid);
             $SQL = "UPDATE " . TBL_USERS . " set userPicture='" . $url . "' WHERE id = $uid";
@@ -424,6 +424,14 @@ class UserUtils {
                 mkdir($upload_path, 0777, true);
             }
             $content = file_get_contents($url);
+            try {
+                if (file_exists($url)) {
+                    unlink($url);
+                }
+            } catch (Exception $exc) {
+                error_log($exc->getTraceAsString());
+            }
+
 
             $orgFileName = "profile_" . $uid . "_org_" . rand(0, 4500) . ".png";
             $smallFileName = "profile_" . $uid . "_" . rand(0, 4500) . ".png";
@@ -451,7 +459,25 @@ class UserUtils {
             }
 
             if (file_exists($upload_path . $smallFileName)) {
-                $url = HOSTNAME . 'uploads/users/' . $uid . '/' . $smallFileName;
+                try {
+                    $s3 = new S3(TIMETY_AMAZON_API_KEY, TIMETY_AMAZON_SECRET_KEY);
+                    $s3->setEndpoint(TIMETY_AMAZON_S3_ENDPOINT);
+                    $s3Name = "users/" . $uid . "/" . $smallFileName;
+                    $res = $s3->putObjectFile($upload_path . $smallFileName, TIMETY_AMAZON_S3_BUCKET, $s3Name, S3::ACL_PUBLIC_READ);
+                    if ($res) {
+                        $url = 'http://' . TIMETY_AMAZON_S3_BUCKET . '.s3.amazonaws.com/' . $s3Name;
+                        try {
+                            unlink($upload_path . $smallFileName);
+                        } catch (Exception $exc) {
+                            error_log($exc->getTraceAsString());
+                        }
+                    } else {
+                        $url = HOSTNAME . 'uploads/users/' . $uid . '/' . $smallFileName;
+                    }
+                } catch (Exception $exc) {
+                    $url = HOSTNAME . 'uploads/users/' . $uid . '/' . $smallFileName;
+                    error_log($exc->getTraceAsString());
+                }
             }
         }
         return $url;

@@ -29,8 +29,8 @@ define('LANG_PAGE_INDEX_ADD_ERR_START_TIME_NOT_VALID', 'Event Start Time not val
 define('LANG_PAGE_INDEX_ADD_ERR_END_TIME_NOT_VALID', 'End Time is not valid');
 define('LANG_PAGE_INDEX_ADD_ERR_END_DATE_NOT_VALID', 'End Date is not valid');
 define('LANG_PAGE_INDEX_ADD_SUC_CREATED', 'Event created successfully.');
-define('LANG_PAGE_INDEX_ADD_PRI_PUBLIC','public');
-define('LANG_PAGE_INDEX_ADD_PRI_PRIVATE','private');
+define('LANG_PAGE_INDEX_ADD_PRI_PUBLIC','Public');
+define('LANG_PAGE_INDEX_ADD_PRI_PRIVATE','Private');
 
 #INDEX - ADD EVENT - UPLOAD IMAGE
 define('LANG_PAGE_INDEX_ADD_UPL_TYPE_ERROR', '{file} has invalid extension. Only {extensions} are allowed.');
@@ -82,14 +82,15 @@ define('LANG_PAGE_MY_TIMETY_WEEKEND_MENU_NEXT_30_DAYS', 'Next 30 Days');
 define('LANG_PAGE_REGISTER_TOP_NO_USER_HEADER_TEXT', 'Discover, Share and Track Events All Around You');
 define('LANG_PAGE_REGISTER_TOP_NO_USER_CREATE_ACCOUNT', 'create account');
 define('LANG_PAGE_REGISTER_TOP_NO_USER_SIGNIN', 'sign-in');
+define('LANG_PAGE_REGISTER_LOGO_TEXT', 'Sign up now </br> and Never Miss Out again');
 
 #INDEX - ADD EVENT- TEMPLETE
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_CLICK_HERE_TO_ADD_IMG', 'click here to add image');
-define('LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER', 'title');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_TITLE_PLACEHOLDER', 'Event title');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_EXPOT', 'Export to');
-define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_FACEBOOK', 'Events');
-define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_GOOGLE', 'Calendar');
-define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_OUTLOOK', 'Outlook');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_FACEBOOK', 'Add to Facebook Events');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_GOOGLE', 'Add to Google Calendar');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_SOCIAL_LABEL_OUTLOOK', 'Download ICS');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_LOCATION_PLACEHOLDER', 'location');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_ADD', 'Add');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_CLOSE', 'Close');
@@ -100,6 +101,20 @@ define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_CANCEL', 'Cancel');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_DELETE', 'Delete Event');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_BUTTON_ADD_EVENT', 'Add Event');
 define('LANG_PAGE_INDEX_ADD_TEMPLATE_DATE_TO', '-');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_IMG', 'add picture');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_VIDEO', 'or a YouTube URL');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_START_DATE', 'Start date');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_START_TIME', 'Start time');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_END_DATE', 'End date');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_END_TIME', 'End time');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_END_DATE_TIME', '+ Add End Time');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_MORE_DETAIL', 'More Detail');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_ADD_PRICE', 'Add Price');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_TL', 'TL');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_USD', 'USD');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_PRICE_UNIT_EURO', 'EURO');
+define('LANG_PAGE_INDEX_ADD_TEMPLATE_LINK_TO_OFFICIAL_WEB_PAGE', 'Link to official web page');
+
 
 #INDEX - EVENT DETAIL 
 define('LANG_PAGE_EVENT_DETAIL_FOLLOW', 'follow');
@@ -202,14 +217,17 @@ define('LANG_PAGE_SIGNIN_USERNAME_EMPTY', 'User name empty');
 define('LANG_PAGE_SIGNIN_PASSWORD_EMPTY', 'Password empty');
 define('LANG_PAGE_SIGNIN_USERNAME_OR_PASSWORD_WRONG', 'Username or Password is wrong');
 define('LANG_PAGE_SIGNIN_LOGIN_HEADER', 'LOGIN');
-define('LANG_PAGE_SIGNIN_LOGIN_GOOGLE', 'Sign in with Google');
-define('LANG_PAGE_SIGNIN_LOGIN_FACEBOOK', 'Sign in with Facebook');
-define('LANG_PAGE_SIGNIN_LOGIN_TWITTER', 'Sign in with Twitter');
+define('LANG_PAGE_SIGNIN_LOGIN_GOOGLE', 'SIGN IN WITH GOOGLE+');
+define('LANG_PAGE_SIGNIN_LOGIN_FACEBOOK', 'SIGN IN WITH FACEBOOK');
+define('LANG_PAGE_SIGNIN_LOGIN_TWITTER', 'SIGN IN WITH TWITTER');
+define('LANG_PAGE_SIGNUP_LOGIN_GOOGLE', 'SIGN UP WITH GOOGLE+');
+define('LANG_PAGE_SIGNUP_LOGIN_FACEBOOK', 'SIGN UP WITH FACEBOOK');
+define('LANG_PAGE_SIGNUP_LOGIN_TWITTER', 'SIGN UP WITH TWITTER');
 define('LANG_PAGE_SIGNIN_INPUT_USERNAME_PLACEHOLDER', 'User Name or email');
 define('LANG_PAGE_SIGNIN_INPUT_PASSWORD_PLACEHOLDER', 'Password');
 define('LANG_PAGE_SIGNIN_INPUT_REMEMBER_ME', 'Remember me');
 define('LANG_PAGE_SIGNIN_BUTTON_LOGIN', 'Login');
-define('LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS', 'forgot password');
+define('LANG_PAGE_SIGNIN_BUTTON_FORGET_PASS', 'Forgot Password');
 define('LANG_PAGE_SIGNIN_BUTTON_ABOUT_US', 'About Timety');
 
 #REMEMBER PASS
@@ -224,7 +242,7 @@ define('LANG_PAGE_REMEMBER_HEADER_FORGOT', 'Forgot Password');
 define('LANG_PAGE_REMEMBER_INPUT_EMAIL_PLACEHOLDER', 'Email');
 define('LANG_PAGE_REMEMBER_INPUT_PASSWORD_PLACEHOLDER', 'Password');
 define('LANG_PAGE_REMEMBER_INPUT_CONFIRM_PASSWORD_PLACEHOLDER', 'Confirm Password');
-define('LANG_PAGE_REMEMBER_BUTTON_LOGIN', 'Login');
+define('LANG_PAGE_REMEMBER_BUTTON_LOGIN', 'Change Password');
 
 #Personal Info
 define('LANG_PAGE_PI_TITLE', 'Timety | Personal Information');
@@ -233,6 +251,7 @@ define('LANG_PAGE_PI_ERROR_TAKEN_USERNAME', '"Username already taken"');
 define('LANG_PAGE_PI_ERROR_EMPTY_FIRST_NAME', 'Please enter first name');
 define('LANG_PAGE_PI_ERROR_EMPTY_LAST_NAME', 'Please enter your last name');
 define('LANG_PAGE_PI_ERROR_NOT_VALID_EMAIL', 'Email is not valid');
+define('LANG_PAGE_PI_ERROR_EMPTY_EMAIL', 'Email is empty');
 define('LANG_PAGE_PI_ERROR_TAKEN_EMAIL', 'Email already exsts');
 define('LANG_PAGE_PI_ERROR_EMPTY_LOCATION', 'Please enter location');
 define('LANG_PAGE_PI_ERROR_EMPTY_PASSWORD', 'Please enter password');
@@ -247,7 +266,7 @@ define('LANG_PAGE_PI_INPUT_LOCATON_PLACEHOLDER', 'Location');
 define('LANG_PAGE_PI_INPUT_PASSWORD_PLACEHOLDER', 'Password');
 define('LANG_PAGE_PI_INPUT_REPASSWORD_PLACEHOLDER', 'Confirm password');
 define('LANG_PAGE_PI_BUTTON_NEXT', 'Next');
-define('LANG_PAGE_PI_TERMS_SERVICE_HTML', 'By creating an account, I accept Timety\'s <a href="http://about.timety.com/terms-of-service/" target="_blank">Terms of Service</a> and <a href="http://about.timety.com/privacy-policy/" target="_blank">Privacy Policy</>.');
+define('LANG_PAGE_PI_TERMS_SERVICE_HTML', 'By creating an account, I accept Timety\'s <a href="http://about.timety.com/terms-of-service/" target="_blank">Terms of Service</a> and <a href="http://about.timety.com/privacy-policy/" target="_blank">Privacy Policy</a>.');
 
 #Add Interest
 define('LANG_PAGE_ADD_LIKE_TITLE', 'Timety | Personal Information');
@@ -300,8 +319,17 @@ define('LANG_PAGE_EDIT_EVENT_DELETE_SUC', 'Event deleted');
 #create account 
 define('LANG_PAGE_CREATE_ACCOUNT_TITLE', 'Timety | Signup');
 define('LANG_PAGE_CREATE_ACCOUNT_FORM_HEADER', 'Create Account');
-define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', 'Sign up with <a onclick="analytics_createAccountButtonClicked(function(){window.location=\''.PAGE_ABOUT_YOU.'?new\';});" style="cursor:pointer;color:#0000EE;">your email address.</a><p/>or, sign up <a onclick="analytics_createBussinessAccountButtonClicked(function(){window.location=\''.PAGE_BUSINESS_CREATE.'\';});" style="cursor:pointer;color:#0000EE;">as a bussiness.</a>');
+define('LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL', '<p>or <a onclick="analytics_createAccountButtonClicked(function(){window.location=\''.PAGE_ABOUT_YOU.'?new\';});" style="cursor:pointer;color:#0000EE;">sign up</a> with your e-mail address</p><p>Already have an account? <a href="'.PAGE_LOGIN.'">Log in now</a></p>');
+define('LANG_PAGE_CREATE_ACCOUNT_SIGN_UP_NOW','Sign up now');
 define('LANG_PAGE_CREATE_ACCOUNT_ABOUT_TIMETY', 'About Timety');
+define('LANG_PAGE_CREATE_ACCOUNT_BUSINESS', 'Business');
+define('LANG_PAGE_CREATE_ACCOUNT_EXPLORE_HEADER', 'Explore');
+define('LANG_PAGE_CREATE_ACCOUNT_EXPLORE_TEXT', 'We help you in finding events you will like');
+define('LANG_PAGE_CREATE_ACCOUNT_SHARE_HEADER', 'Share');
+define('LANG_PAGE_CREATE_ACCOUNT_SHARE_TEXT', 'We will make sure everyone discovers your event');
+define('LANG_PAGE_CREATE_ACCOUNT_TRACK_HEADER', 'Track');
+define('LANG_PAGE_CREATE_ACCOUNT_TRACK_TEXT', 'Track people you love and see what they are up to');
+define('LANG_PAGE_CREATE_ACCOUNT_PRIVACY', 'Privacy');
 
 #add facebook user
 define('LANG_PAGE_ADD_FB_TITLE', 'Timety | Facebook');
@@ -462,4 +490,6 @@ define('LANG_POPUP_WEATHER','Weather');
 define('LANG_POPUP_TICKET','Ticket');
 define('LANG_POPUP_JOINING','Joining');
 define('LANG_POPUP_MAYBE','Maybe');
+
+define('LANG_GENERAL_OR','or');
 ?>

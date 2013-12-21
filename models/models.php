@@ -319,6 +319,8 @@ class Event {
             $this->created_time = $result['created_time'];
             $this->last_changed = $result['last_changed'];
             $this->facebook_id = $result['facebook_id'];
+            $this->price = $result['price'];
+            $this->price_unit = $result['price_unit'];
         }
         if (!empty($additionalData) && $additionalData) {
             $this->setAdditionalData();
@@ -391,6 +393,16 @@ class Event {
         return $this->loc_city;
     }
 
+    public function getEventPrice() {
+        $obj = EventUtil::getEventPrice($this->id);
+        if (!empty($obj)) {
+            if (isset($obj->price))
+                $this->price = $obj->price;
+            if (isset($obj->price_unit))
+                $this->price_unit = $obj->price_unit;
+        }
+    }
+
     public function getWorldWide() {
         $this->worldwide = EventUtil::getEventWorldWide($this->id);
         return $this->worldwide;
@@ -430,6 +442,8 @@ class Event {
         $this->created_time = $tmp->created_time;
         $this->last_changed = $tmp->last_changed;
         $this->facebook_id = $tmp->facebook_id;
+        $this->price = $tmp->price;
+        $this->price_unit = $tmp->price_unit;
     }
 
     public function getRemainingTime($time_one = null) {
@@ -458,6 +472,7 @@ class Event {
         //*$this->creatorId = Neo4jEventUtils::getEventCreatorId($this->id);
         //$this->userRelation = Neo4jEventUtils::getEventUserRelationCypher($this->id, $userId);
 
+        $this->getEventPrice();
         $rel = new stdClass();
         $rel->joinType = TYPE_JOIN_NO;
         $rel->like = FALSE;
@@ -492,6 +507,9 @@ class Event {
     public $created_time;
     public $last_changed;
     public $facebook_id;
+    public $price;
+    public $price_unit;
+
     /*
      * Additional Data
      */
@@ -504,7 +522,7 @@ class Event {
     public $commentCount;
     public $remainingtime;
     public $attendancecount;
-    public $likescount=0;
+    public $likescount = 0;
     public $startDateTimeLong;
     public $endDateTimeLong;
     public $creator;

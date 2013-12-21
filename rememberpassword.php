@@ -50,13 +50,12 @@ if (isset($_GET["guid"])) {
     array_push($msgs, $m);
 }
 
-
 if (isset($_POST["te_email"])) {
     $email = $_POST["te_email"];
     if (empty($email) && UtilFunctions::check_email_address($email)) {
         $m = new HtmlMessage();
         $m->type = "e";
-        $m->message =  LanguageUtils::getText("LANG_PAGE_REMEMBER_ERROR_INVALID_ENAIL");
+        $m->message = LanguageUtils::getText("LANG_PAGE_REMEMBER_ERROR_INVALID_ENAIL");
         array_push($msgs, $m);
     } else {
         $usr = UserUtils::getUserByEmail($email);
@@ -69,7 +68,7 @@ if (isset($_POST["te_email"])) {
             if ($_POST['te_password'] == '') {
                 $m = new HtmlMessage();
                 $m->type = "e";
-                $m->message =  LanguageUtils::getText("LANG_PAGE_REMEMBER_ERROR_EMPTY_PASS");
+                $m->message = LanguageUtils::getText("LANG_PAGE_REMEMBER_ERROR_EMPTY_PASS");
                 array_push($msgs, $m);
             } else {
                 $userpass = $_POST['te_password'];
@@ -95,7 +94,8 @@ if (isset($_POST["te_email"])) {
                 } else {
                     $m = new HtmlMessage();
                     $m->type = "e";
-                    $m->message = LanguageUtils::getText("LANG_PAGE_REMEMBER_ERROR_PASSWORDS_NOTMATCH");;
+                    $m->message = LanguageUtils::getText("LANG_PAGE_REMEMBER_ERROR_PASSWORDS_NOTMATCH");
+                    ;
                     array_push($msgs, $m);
                 }
             }
@@ -110,19 +110,19 @@ if (!empty($userId)) {
     $email = $usr->email;
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
     <head>
         <?php
         $timety_header = LanguageUtils::getText("LANG_PAGE_REMEMBER_TITLE");
         LanguageUtils::setUserLocaleJS(null);
         include('layout/layout_header.php');
         ?>
-        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?=JS_CONSTANT_PARAM?>"></script>
+        <script type="text/javascript" src="<?= HOSTNAME ?>resources/scripts/validate.js?<?= JS_CONSTANT_PARAM ?>"></script>
         <script type="text/javascript">
-            $(function() {
+            jQuery(function() {
                 sessionStorage.setItem('id','');
-                $.Placeholder.init();
+                jQuery('input, textarea').placeholder();
                 var validator = new FormValidator(
                 'rememberpassword',
                 [
@@ -136,90 +136,115 @@ if (!empty($userId)) {
                         rules : 'required|matches[te_password]'
                     } ],
                 function(errors, event) {
-                    var SELECTOR_ERRORS = $('#msg');
-                    $('#te_password_span').attr('class', '');
-                    $('#te_repassword_span').attr('class', '');
-                    $('#te_password').attr('class', 'user_inpt icon_bg password');
-                    $('#te_repassword').attr('class', 'user_inpt icon_bg password');
+                    jQuery(".textBoxError").removeClass("textBoxError");
                     if (errors.length > 0) {
-                        SELECTOR_ERRORS.empty();
                         for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
-                            SELECTOR_ERRORS.append(errors[i].message + '<br />');
-                            $('#' + errors[i].id + '_span').attr('class', 'sil icon_bg');
-                            $('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
+                            jQuery('#' + errors[i].id).addClass("textBoxError");
                         }
-                        SELECTOR_ERRORS.fadeIn(200);
-                    } else {
-                        SELECTOR_ERRORS.css({
-                            display : 'none'
-                        });
                     }
                 });
             });
         </script>
     </head>
 
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
-        <?php include('layout/layout_top.php'); ?>
-        <div id="personel_info_h">
-            <div class="create_acco_ust"><?=  LanguageUtils::getText("LANG_PAGE_REMEMBER_HEADER_FORGOT")?></div>
-            <div class="personel_info" style="height: 250px;">
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?> registerPage" itemscope="itemscope" itemtype="http://schema.org/WebPage">
 
-                <?php if (!empty($userId) && !empty($usr)) { ?>
-                    <form action="" method="post" name="rememberpassword"
-                          style="margin-left: 48px; margin-top: 35px;">
-
-                        <input name="te_email2" type="text" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_REMEMBER_INPUT_EMAIL_PLACEHOLDER")?>"
-                               class="user_inpt email icon_bg" id="te_email2" disabled="disabled"
-                               value="<?php echo $email ?>" /> <br /> 
-                        
-                        <input name="te_password"
-                               type="password" class="user_inpt password icon_bg" id="te_password"
-                               value="" placeholder="<?=  LanguageUtils::getText("LANG_PAGE_REMEMBER_INPUT_PASSWORD_PLACEHOLDER")?>" /> <span id='te_password_span'></span>
-                        <br /> 
-                        
-                        <input name="te_repassword" type="password"
-                                      class="user_inpt password icon_bg" id="te_repassword" value=""
-                                      placeholder="<?=  LanguageUtils::getText("LANG_PAGE_REMEMBER_INPUT_CONFIRM_PASSWORD_PLACEHOLDER")?>" /> <span id='te_repassword_span'></span>
-                        <br /> 
-                        
-                        <input type="hidden" value="<?php echo $email ?>"
-                                      id="te_email" name="te_email" />
-                        <button style="width: 79px; margin-right: 50px;float: right;" type="submit"
-                                onclick="jQuery('.php_errors').remove();"
-                                class="reg_btn reg_btn_width" name="" value=""><?=  LanguageUtils::getText("LANG_PAGE_REMEMBER_BUTTON_LOGIN")?></button>
-                        <div class="ts_box" style="font-size: 12px;">
-                            <span style="color: red; display: none;" id="msg"></span>
-                            <?php
-                            if (!empty($msgs)) {
-                                $ms = "";
-                                foreach ($msgs as $m) {
-                                    $ms = $ms . "<span class='php_errors' style='color: red;'>" . $m->message . "</span><p/>";
-                                }
-                                echo $ms;
-                            }
-                            ?>
-                        </div>
-                    </form>
-                <?php } else { ?>
-                    <div class="ts_box" style="font-size: 12px;">
-                        <span style="color: red; display: none;" id="msg"></span>
-                        <?php
-                        if (!empty($msgs)) {
-                            $ms = "";
-                            foreach ($msgs as $m) {
-                                $color = 'red';
-                                if ($m->type == 's') {
-                                    $color = 'green';
-                                }
-                                $ms = $ms . "<span class='php_errors' style='color: " . $color . ";'>" . $m->message . "</span><p/>";
-                            }
-                            echo $ms;
-                        }
-                        ?>
+        <div class="mainContainer">
+            <div class="leftContainer">
+                <a href="<?= HOSTNAME ?>">
+                    <div class="register_logo">
+                        <img src="<?= HOSTNAME ?>images/logoLoginPage.png" />
                     </div>
-                <?php } ?>
+                </a>
+                <div class="shortMessage">
+                    <h1 style=""><?= LanguageUtils::getText("LANG_PAGE_REGISTER_LOGO_TEXT") ?></h1>
+                </div>
+                <div class="socialSignUpButtons">
+                    <button class="facebook buttons roundedBox" onclick="analytics_createFacebookAccountButtonClicked(function(){openSocialLogin('fb');})">
+                        <div class="facebookIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK") ?></a>
+                    </button>
+                    <button class="twitter buttons roundedBox" onclick="analytics_createTwitterAccountButtonClicked(function(){openSocialLogin('tw');})">
+                        <div class="twitterIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER") ?></a>
+                    </button>
+                    <button class="googleplus buttons roundedBox" onclick="analytics_createGoogleAccountButtonClicked(function(){openSocialLogin('gg');});">
+                        <div class="googleplusIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE") ?></a>
+                    </button>
+                </div>
+                <div class="emailSignUpOrLogin">
+                    <p><?= LanguageUtils::getText("LANG_GENERAL_OR") ?> <a href="<?= PAGE_SIGNUP ?>"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_SIGN_UP_NOW") ?></a></p>
+                </div>
             </div>
+            <div class="leftContainer" style="height: 100%;"></div>
+            <div class="seperator">
+                <div class="seperator_top"></div>
+                <div class="seperator_middle"></div>
+                <div class="seperator_bottom"></div>
+            </div>
+            <div class="rightContainer">
+                <div class="loginFormDiv roundedCorner" style="height: 350px;">
+                    <h3 style=""><?= LanguageUtils::getText("LANG_PAGE_REMEMBER_HEADER_FORGOT") ?></h3>
+                    <form action="" name="rememberpassword" method="post" >
+                        <input 
+                            type="text"
+                            class="textBox" 
+                            id="te_email"
+                            name="te_email2" 
+                            value="<?= $email ?>" 
+                            disabled="disabled"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_REMEMBER_INPUT_EMAIL_PLACEHOLDER") ?>"/>
+
+                        <input type="hidden" name="te_email" value="<?= $email ?>"/>
+
+                        <input
+                            type="password"
+                            class="textBox"  
+                            id="te_password"
+                            name="te_password" 
+                            value="" 
+                            onblur="validatePasswordFields(jQuery('#te_password'),jQuery('#te_repassword'));"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_PASSWORD_PLACEHOLDER") ?>"/>
+
+                        <input
+                            type="password"
+                            class="textBox"  
+                            id="te_repassword"
+                            name="te_repassword" 
+                            value="" 
+                            onblur="validatePasswordFields(jQuery('#te_password'),jQuery('#te_repassword'));"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_REMEMBER_INPUT_CONFIRM_PASSWORD_PLACEHOLDER") ?>"/>
+
+
+
+
+                        <button class="loginButton roundedButton" type="submit" onclick="jQuery('.php_errors').remove();">
+                            <a><?= LanguageUtils::getText("LANG_PAGE_REMEMBER_BUTTON_LOGIN") ?></a>
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+            <div class="bottomContainer"><p>
+                    <a style="margin-right: 10px;" href="http://about.timety.com"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_ABOUT_US") ?></a>
+                    <a style="margin-right: 10px;" href="<?= PAGE_BUSINESS_CREATE ?>"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_BUSINESS") ?></a>
+                    <a href="http://about.timety.com/privacy-policy/ "><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_PRIVACY") ?></a></p>
+            </div>
+            <?php
+            if (!empty($msgs)) {
+                $ms = "";
+                $color = 'error';
+                if ($m->type == 's') {
+                    $color = 'info';
+                }
+                foreach ($msgs as $m) {
+                    $ms = $ms . $m->message . "<br/>";
+                }
+                ?>
+
+                <script>
+                    getInfo(true,'<?= $ms ?>','<?= $color ?>',4000);
+                </script>
+
+            <?php } ?>
         </div>
     </body>
 </html>

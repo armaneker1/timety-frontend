@@ -1504,6 +1504,8 @@ input[type=text]::-ms-clear {
 .info_popup_open p{
     margin-right: 25px;
     text-align: center;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
 }
 
 .info_popup_close {
@@ -2803,8 +2805,6 @@ span.roll_tr_tr {
 .privacy_terms{
     font-size: 12px;
     display: table;
-    padding-right: 50px;
-    padding-left: 10px;
     padding-top: 5px;
     color: #858585;
 }
@@ -3762,7 +3762,9 @@ langugae classes
 
 .editEvent {
     height: 30px;
-    width: 55px;
+    min-width: 34px;
+    padding-left: 11px;
+    padding-right: 11px;
     background-color: #1ecde8;
     text-align: center;
     color: white;
@@ -3928,8 +3930,9 @@ langugae classes
     width: 20px;
     position: absolute;
     background-position: 0px -99px;
-    margin-left: -9px;
+    margin-left: 6px;
     margin-top: 5px;
+    display: block;
 }
 .likeIcon {
     background-image: url("images/iconSetBadge.png");
@@ -3938,8 +3941,9 @@ langugae classes
     width: 20px;
     position: absolute;
     background-position: 0px -59px;
-    margin-left: -10px;
+    margin-left: 5px;
     margin-top: 5px;
+    display: block;
 }
 
 .event_box_username{
@@ -4013,6 +4017,8 @@ langugae classes
     background-color: white;
     text-align: center;
     line-height: 0px;
+    max-height: 78px;
+    display: table;
 }
 .mainEventContainer .leftEventContainer .headerImage img {
     -webkit-border-radius: 3px;
@@ -4283,7 +4289,7 @@ mainEventContainer .profileImage {
     background-repeat: no-repeat;
     background-position: 0px 0px;
     height: 20px;
-    width: 22px;
+    width: auto;
 }
 
 .mainEventContainer .rightEventContainer .eventMap {
@@ -4372,4 +4378,763 @@ mainEventContainer .profileImage {
 
 .social_button_loader a{
     display: none !important;
+}
+
+
+/*  create event */
+
+.addEventContainer textarea {
+    overflow: auto;
+    height: 37px;
+    resize: vertical;
+    max-height: 70px;
+}
+.addEventContainer {
+    width: 585px;
+    background-color: white;
+    padding: 24px;
+    padding-bottom: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 55px;
+}
+.addEventContainer a {
+    font-size: 14px;
+    font-weight: normal;
+    font-family:'Lato', sans-serif;
+}
+.roundedCorner {
+    -webkit-box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.25);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.roundedButton {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.addEventContainer .textBox {
+    height: 37px;
+    border: 2px solid #b1e1df;
+    padding-left: 10px;
+    padding-right: 3px;
+    font-size: 14px;
+    font-weight: normal;
+    font-family:'Lato', sans-serif;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.addEventContainer .textBox:hover {
+    border: 2px solid #cdcdcd;
+}
+.addEventContainer .textBox:focus {
+    border: 2px solid #e6aba5;
+    outline: none;
+}
+.addEventContainer .paddingBox {
+    margin-top: 16px
+}
+.addEventContainer .paddingLeftBox {
+    margin-left: 25px;
+}
+.addEventContainer .leftSide {
+    width: 140px;
+    display: inline-block;
+}
+.addEventContainer .addEventUpperContainer .leftSide .addImage {
+    height: 157px;
+    width: 140px;
+    background-color: #f7f6f6;
+    border: 2px dashed #cecece;
+    display: table-cell;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.addEventContainer .addEventUpperContainer .leftSide .addImageIcon {
+    background: url('images/iconSetAddEvent.png') no-repeat;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    height: 38px;
+    width: 54px;
+    margin: auto;
+}
+.addEventContainer .addEventUpperContainer .leftSide .addYoutube {
+    width: 124px;
+    margin-top: 21px;
+}
+.addEventContainer .addEventUpperContainer .leftSide .submitButton {
+    height: 37px;
+    width: 100%;
+    margin-top: 54px;
+    border: 0px;
+    cursor: pointer;
+    background-color: #7accc8;
+    -webkit-box-shadow: 0px 2px 0px 0px #00a99d;
+    -moz-box-shadow: 0px 2px 0px 0px #00a99d;
+    box-shadow: 0px 2px 0px 0px #00a99d;
+}
+.addEventContainer .addEventUpperContainer .leftSide .submitButton:hover {
+    background-color: #7fd4cf;
+    -webkit-box-shadow: 0px 2px 0px 0px #00a99d;
+    -moz-box-shadow: 0px 2px 0px 0px #00a99d;
+    box-shadow: 0px 2px 0px 0px #00a99d;
+}
+.addEventContainer .addEventUpperContainer .leftSide .submitButton:active {
+    background-color: #63a5a1;
+    -webkit-box-shadow: 0px 2px 0px 0px #00a99d;
+    -moz-box-shadow: 0px 2px 0px 0px #00a99d;
+    box-shadow: 0px 2px 0px 0px #00a99d;
+}
+.addEventContainer .addEventUpperContainer .leftSide .submitButton {
+    font-size: 14px;
+    font-weight: normal;
+    font-family:'Lato', sans-serif;
+    color: white;
+}
+.addEventContainer .addEventUpperContainer .rightSide {
+    width: 420px;
+    display: inline-block;
+    position: absolute;
+    margin-left: 35px;
+}
+.addEventContainer .addEventUpperContainer .rightSide .addEventTitle {
+    width: 230px;
+}
+.addEventContainer .addEventUpperContainer .rightSide .eventPrivacy {
+    height: 43px;
+    width: 130px;
+    text-align: left;
+    background-color: white;
+    cursor: pointer;
+    color: #a1a1a1;
+}
+.addEventContainer .dropdownArrow {
+    height: 30px;
+    width: 18px;
+    background: url('images/iconSetAddEvent.png') no-repeat;
+    background-repeat: no-repeat;
+    background-position: -33px -54px;
+    position: absolute;
+    margin-top: -22px;
+    margin-left: 89px;
+}
+.addEventContainer .addEventUpperContainer .rightSide .startDate {
+    width: 230px;
+}
+.addEventContainer .addEventUpperContainer .rightSide .startTime {
+    height: 43px;
+    width: 130px;
+    text-align: left;
+    background-color: white;
+    cursor: pointer;
+    color: #a1a1a1
+}
+.addEventContainer .addEventUpperContainer .rightSide .addEndDate {
+}
+.addEventContainer .addEventUpperContainer .rightSide .selectLocation {
+    width: 389px;
+}
+.addEventContainer .addEventUpperContainer .rightSide .eventDesc {
+    width: 389px;
+    height: 36px;
+}
+.addEventContainer .addEventUpperContainer .rightSide .maxlength-desc {
+    margin-left: -33px;
+    margin-bottom: 10px;
+    color: #aaa !important;
+    text-align: right !important;
+    font-size: 11px !important;
+    vertical-align: bottom;
+    display: inline-block;
+    padding-right: 3px;
+    width: 24px;
+}
+.addEventContainer .addEventUpperContainer .rightSide .eventTags {
+    width: 389px;
+}
+.addEventContainer .addEventLowerContainer .moreDetailSep {
+    margin-top: 52px;
+}
+.addEventContainer .addEventLowerContainer .moreDetailSep .seperatorIcon {
+    height: 17px;
+    width: 17px;
+    background: url('images/iconSetAddEvent.png') no-repeat;
+    background-repeat: no-repeat;
+    background-position: -9px -118px;
+    display: inline-block;
+    margin-left: 2px;
+}
+.addEventContainer .addEventLowerContainer .moreDetailSep .seperatorLine {
+    border-bottom: solid #2fd797;
+    border-bottom-width: 1px;
+    width: 449px;
+    display: inline-block;
+    margin-bottom: 6px;
+    margin-left: 30px;
+}
+.addEventContainer .addEventLowerContainer .addPrice {
+    width: 230px;
+    display: inline-block;
+}
+.addEventContainer .addEventLowerContainer .addCurrency {
+    height: 43px;
+    width: 130px;
+    text-align: left;
+    background-color: white;
+    cursor: pointer;
+    color: #a1a1a1;
+    display: inline-block;
+}
+.addEventContainer .addEventLowerContainer .linkWeb {
+    width: 389px;
+}
+.addEventContainer .addEventLowerContainer .inviteFriends {
+    width: 389px;
+}
+.addEventContainer .addEventLowerContainer .hashtag {
+    width: 389px;
+}
+.addEventContainer .addEventLowerContainer .hashtag {
+    width: 389px;
+}
+.addEventContainer .addEventLowerContainer .addEventButtons {
+    float: right;
+    margin-top: 45px;
+}
+.addEventContainer .addEventLowerContainer .cancelButton {
+    height: 37px;
+    width: 100px;
+    border: 0px;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid #b1e1df;
+    color: #a1a1a1;
+}
+.addEventContainer .addEventLowerContainer .cancelButton:hover {
+    border-color: #cdcdcd;
+}
+.addEventContainer .addEventLowerContainer .addEventButton {
+    height: 34px;
+    width: 100px;
+    border: 0px;
+    cursor: pointer;
+    background-color: #2fd797;
+    color: white;
+    -webkit-box-shadow: 0px 2px 0px 0px #30c28a;
+    -moz-box-shadow: 0px 2px 0px 0px #30c28a;
+    box-shadow: 0px 2px 0px 0px #30c28a;
+    vertical-align: top;
+    margin-left: 12px;
+}
+.addEventContainer .addEventLowerContainer .addEventButton:hover {
+    background-color: #61dfa5;
+    -webkit-box-shadow: 0px 2px 0px 0px #78cea5;
+    -moz-box-shadow: 0px 2px 0px 0px #78cea5;
+    box-shadow: 0px 2px 0px 0px #78cea5;
+}
+.addEventContainer .addEventLowerContainer .addEventButton:active {
+    background-color: #4cba90;
+    -webkit-box-shadow: 0px 2px 0px 0px #42a77f;
+    -moz-box-shadow: 0px 2px 0px 0px #42a77f;
+    box-shadow: 0px 2px 0px 0px #42a77f;
+}
+.addEventContainer ::-webkit-input-placeholder {
+    font-size: 14px;
+    font-weight: normal;
+    font-family:'Lato', sans-serif;
+    color: #a1a1a1;
+}
+.addEventContainer :-moz-placeholder {
+    /* Firefox 18- */
+    font-size: 14px;
+    font-weight: normal;
+    font-family:'Lato', sans-serif;
+    color: #a1a1a1;
+}
+.addEventContainer ::-moz-placeholder {
+    /* Firefox 19+ */
+    font-size: 14px;
+    font-weight: normal;
+    font-family:'Lato', sans-serif;
+    color: #a1a1a1;
+}
+.addEventContainer :-ms-input-placeholder {
+    font-size: 14px;
+    font-weight: normal;
+    font-family:'Lato', sans-serif;
+    color: #a1a1a1;
+}
+.addEventContainer input[type=checkbox].css-checkbox {
+    display:none;
+}
+.addEventContainer input[type=checkbox].css-checkbox + label.css-label {
+    padding-left: 37px;
+    height: 22px;
+    display: inline-block;
+    line-height: 23px;
+    background-repeat: no-repeat;
+    background-position: 0px -161px;
+    font-size: 15px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.addEventContainer input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0px -137px;
+}
+.addEventContainer .css-label {
+    background-image:url('images/iconSetAddEvent.png');
+}
+
+
+.event_privacy_container .sbHolder{
+    margin-top: -43px;
+    margin-left: 275px;
+}
+
+.event_start_time_container .sbHolder  {
+    margin-top: -43px;
+    margin-left: 275px;
+}
+
+.event_end_time_container .sbHolder  {
+    margin-top: -43px;
+    margin-left: 275px;
+}
+
+.event_price_unit_container .sbHolder  {
+    margin-top: -43px;
+    margin-left: 275px;
+}
+
+
+.event_title_div .maxlength-feedback{
+    left: -24px !important;
+    top: -4px !important;
+    line-height: 9px !important;
+    font-size: 9px !important;
+}
+
+
+.te_event_desc_container .maxlength-feedback {
+    margin-left: -33px;
+    margin-bottom: 10px;
+    color: #aaa !important;
+    text-align: right !important;
+    font-size: 11px !important;
+    vertical-align: bottom;
+    display: inline-block;
+    padding-right: 3px;
+    width: 24px;
+    position: initial !important;
+}
+
+
+/* register */
+.roundedBox {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.registerPage h1 {
+    font-family:'Lato', helvetica;
+    font-size: 20px;
+    font-weight: normal;
+    color: #616b74;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.registerPage h2 {
+    font-family:'Lato', helvetica;
+    font-size: 18px;
+    font-weight: normal;
+    color: #616b74;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.registerPage h3 {
+    font-family:'Lato', helvetica;
+    font-size: 16px;
+    font-weight: normal;
+    color: #616b74;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.registerPage p {
+    font-family:'Lato', helvetica;
+    font-size: 16px;
+    font-weight: normal;
+    color: #616b74;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.registerPage {
+    background-color: #f2f2f2;
+    margin: 8px;
+}
+.registerPage .mainContainer {
+    width: 1024px;
+    margin:0 auto;
+    height: 100%;
+}
+.registerPage .mainContainer .leftContainer {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.registerPage .mainContainer .register_logo{
+    cursor: pointer;
+}
+.registerPage .mainContainer .register_logo img{
+    border: none;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons {
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .buttons {
+    width: 309px;
+    height: 69px;
+    border: 0px;
+    cursor: pointer;
+    display: block;
+    margin-top: 20px;
+    font-family:'Lato', helvetica;
+    color: white;
+    text-align: left;
+    font-size: 16px;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons a {
+    line-height: 46px;
+    position: absolute;
+    padding-left: 20px;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .facebook {
+    background-color: #3b5998;
+    display: inline-block;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .facebook:hover {
+    opacity:0.75;
+    filter:alpha(opacity=75);
+    -webkit-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -kthtml-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .facebook .facebookIcon {
+    background: url('images/social_icons.png') no-repeat;
+    background-size: 28px 168px;
+    background-position: 3px 3px;
+    height: 38px;
+    width: 38px;
+    display: inline-block;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .twitter {
+    background-color: deepskyblue;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .twitter:hover {
+    opacity:0.75;
+    filter:alpha(opacity=75);
+    -webkit-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -kthtml-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .twitter .twitterIcon {
+    background: url('images/social_icons.png') no-repeat;
+    background-size: 28px 168px;
+    background-position: 3px -42px;
+    height: 38px;
+    width: 38px;
+    display: inline-block;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .googleplus {
+    background-color: firebrick;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .googleplus:hover {
+    opacity:0.75;
+    filter:alpha(opacity=75);
+    -webkit-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -kthtml-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.registerPage .mainContainer .leftContainer .socialSignUpButtons .googleplus .googleplusIcon {
+    background: url('images/social_icons.png') no-repeat;
+    background-size: 28px 168px;
+    background-position: 3px -94px;
+    height: 38px;
+    width: 38px;
+    display: inline-block;
+}
+.registerPage .mainContainer .rightContainer {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 110px;
+}
+.registerPage .mainContainer .seperator {
+    display: inline-block;
+    background-size: 1px 786px;
+    background-position: 0px 0px;
+    height: 100%;
+    width: 1px;
+    margin-left: 100px;
+    margin-right: 100px;
+    vertical-align: middle;
+}
+
+.registerPage .mainContainer .seperator .seperator_top {
+    display: inline-block;
+    background: url('images/LoginSeperator.png') no-repeat;
+    background-size: 1px 786px;
+    background-position: 0px 0px;
+    height: 180px;
+    width: 1px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registerPage .mainContainer .seperator .seperator_middle {
+    display: inline-block;
+    background: url('images/LoginSeperator_middle.png');
+    background-size: 1px 10px;
+    background-position: 0px 0px;
+    height: 50%;
+    width: 1px;
+    margin-left: auto;
+    margin-right: auto;
+    background-repeat: repeat-y;
+}
+
+.registerPage .mainContainer .seperator .seperator_bottom {
+    display: inline-block;
+    background: url('images/LoginSeperator.png') no-repeat;
+    background-size: 1px 786px;
+    background-position: 0px -565px;
+    height: 180px;
+    width: 1px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registerPage .mainContainer .rightContainer .exploreIcon {
+    background: url('images/LoginPageIcons.png') no-repeat;
+    background-size: 112px 346px;
+    background-position: 0px 0px;
+    height: 112px;
+    width: 119px;
+    display: inline-block;
+}
+.registerPage .mainContainer .rightContainer .shareIcon {
+    background: url('images/LoginPageIcons.png') no-repeat;
+    background-size: 112px 346px;
+    background-position: 0px -119px;
+    height: 112px;
+    width: 119px;
+    display: inline-block;
+}
+.registerPage .mainContainer .rightContainer .followIcon {
+    background: url('images/LoginPageIcons.png') no-repeat;
+    background-size: 112px 346px;
+    background-position: 0px -119px;
+    height: 112px;
+    width: 119px;
+    display: inline-block;
+}
+.registerPage .mainContainer .rightContainer .text {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 14px;
+    margin-left: 20px;
+}
+.registerPage .mainContainer .rightContainer .item {
+    margin-top: 20px;
+}
+.registerPage .mainContainer .bottomContainer {
+    position: absolute;
+    bottom: 0px;
+}
+
+
+/* Login Page */
+
+.loginFormDiv{
+    width: 300px;
+    height: 280px;
+    background-color: white;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.loginFormDiv .textBox{
+    height: 50px;
+    border: 2px solid #b1e1df;
+    padding-left: 10px;
+    padding-right: 3px;
+    font-size: 15px;
+    font-weight: normal;
+    font-family: 'Lato', sans-serif;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.loginFormDiv .textBoxError{
+    border: 2px solid #da4b39;
+}
+
+.loginFormDiv .loginButton {
+    height: 34px;
+    width: 100px;
+    border: 0px;
+    cursor: pointer;
+    background-color: #2fd797;
+    color: white;
+    -webkit-box-shadow: 0px 2px 0px 0px #30c28a;
+    -moz-box-shadow: 0px 2px 0px 0px #30c28a;
+    box-shadow: 0px 2px 0px 0px #30c28a;
+    vertical-align: top;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+
+}
+.loginFormDiv .loginButton:hover {
+    background-color: #61dfa5;
+    -webkit-box-shadow: 0px 2px 0px 0px #78cea5;
+    -moz-box-shadow: 0px 2px 0px 0px #78cea5;
+    box-shadow: 0px 2px 0px 0px #78cea5;
+}
+.loginFormDiv .loginButton:active {
+    background-color: #4cba90;
+    -webkit-box-shadow: 0px 2px 0px 0px #42a77f;
+    -moz-box-shadow: 0px 2px 0px 0px #42a77f;
+    box-shadow: 0px 2px 0px 0px #42a77f;
+}
+
+.loginFormDiv input[type=checkbox].css-checkbox {
+    display:none;
+}
+.loginFormDiv input[type=checkbox].css-checkbox + label.css-label {
+    padding-left: 37px;
+    height: 22px;
+    display: inline-block;
+    line-height: 23px;
+    background-repeat: no-repeat;
+    background-position: 0px -161px;
+    font-size: 15px;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
+.loginFormDiv input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0px -137px;
+}
+.loginFormDiv .css-label {
+    background-image:url('images/iconSetAddEvent.png');
+}
+
+.loginFormDiv .rememberme_div{
+    clear: right;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+
+.loginFormDiv .forgotpass_div{
+    margin-top: 60px;
+    margin-left: 175px;
+}
+
+.loginFormDiv .forgotpass_div a{
+    color: #717171;
+}
+
+.loginFormDiv .forgotpass_div a:hover{
+    color: #30c28a;
+}
+
+/* create account */
+
+.personel_infoFormDiv{
+    width: 300px;
+    background-color: white;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.personel_infoFormDiv .textBox{
+    height: 50px;
+    border: 2px solid #b1e1df;
+    padding-left: 10px;
+    padding-right: 3px;
+    font-size: 15px;
+    font-weight: normal;
+    font-family: 'Lato', sans-serif;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.personel_infoFormDiv .textBoxError{
+    border: 2px solid #da4b39;
+}
+
+.personel_infoFormDiv .createAccountButton {
+    height: 34px;
+    width: 100px;
+    border: 0px;
+    cursor: pointer;
+    background-color: #2fd797;
+    color: white;
+    -webkit-box-shadow: 0px 2px 0px 0px #30c28a;
+    -moz-box-shadow: 0px 2px 0px 0px #30c28a;
+    box-shadow: 0px 2px 0px 0px #30c28a;
+    vertical-align: top;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+
+}
+.personel_infoFormDiv .createAccountButton:hover {
+    background-color: #61dfa5;
+    -webkit-box-shadow: 0px 2px 0px 0px #78cea5;
+    -moz-box-shadow: 0px 2px 0px 0px #78cea5;
+    box-shadow: 0px 2px 0px 0px #78cea5;
+}
+.personel_infoFormDiv .createAccountButton:active {
+    background-color: #4cba90;
+    -webkit-box-shadow: 0px 2px 0px 0px #42a77f;
+    -moz-box-shadow: 0px 2px 0px 0px #42a77f;
+    box-shadow: 0px 2px 0px 0px #42a77f;
+}
+
+.personel_infoFormDiv .create_account_language{
+    margin-top: 15px;
+}
+
+.personel_infoFormDiv .create_account_language  .sbHolder{
+    width: 282px;
+}
+
+.personel_infoFormDiv .create_account_language .sbOptions{
+    width: 295px;
 }

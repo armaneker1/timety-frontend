@@ -26,12 +26,12 @@ if (array_key_exists("login", $_GET)) {
 <!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html  xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
     <head>       
-        <meta property="og:title" content="<?=LanguageUtils::getText("LANG_PAGE_TITLE")?>"/>
+        <meta property="og:title" content="<?= LanguageUtils::getText("LANG_PAGE_TITLE") ?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.png"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
-        <meta property="description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
+        <meta property="og:description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
+        <meta property="description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
         <?php
@@ -60,31 +60,63 @@ if (array_key_exists("login", $_GET)) {
                     
         </script>
     </head>
-    <body class="bg <?=  LanguageUtils::getLocale()."_class"?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
-        <?php include('layout/layout_top.php');
-        ?>
-        <div class="register_bg"></div>
-        <div id="create_account" class="create_account_width create_account_outline">
-            <div class="create_acco_ust"><?=  LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_FORM_HEADER")?></div>
-            <div class="create_acco_alt create_acco_alt_height">
-                <div class="account_sol_page" style="padding-top: 30px;">
-                    <button class="big-icon-g btn-sign-big google" id="fancy-g-signin" onclick="analytics_createGoogleAccountButtonClicked(function(){openSocialLogin('gg');});">
-                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_GOOGLE")?></b>
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?> registerPage" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+        <div class="mainContainer">
+            <div class="leftContainer">
+                <a href="<?= HOSTNAME ?>">
+                    <div class="register_logo">
+                        <img src="<?= HOSTNAME ?>images/logoLoginPage.png" />
+                    </div>
+                </a>
+                <div class="shortMessage">
+                    <h1 style=""><?= LanguageUtils::getText("LANG_PAGE_REGISTER_LOGO_TEXT") ?></h1>
+                </div>
+                <div class="socialSignUpButtons">
+                    <button class="facebook buttons roundedBox" onclick="analytics_createFacebookAccountButtonClicked(function(){openSocialLogin('fb');})">
+                        <div class="facebookIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNUP_LOGIN_FACEBOOK") ?></a>
                     </button>
-
-                    <button class="big-icon-f btn-sign-big fb facebook" onclick="analytics_createFacebookAccountButtonClicked(function(){openSocialLogin('fb');})">
-                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_FACEBOOK")?></b>
+                    <button class="twitter buttons roundedBox" onclick="analytics_createTwitterAccountButtonClicked(function(){openSocialLogin('tw');})">
+                        <div class="twitterIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNUP_LOGIN_TWITTER") ?></a>
                     </button>
-
-                    <button class="big-icon-t btn-sign-big tw twitter" onclick="analytics_createTwitterAccountButtonClicked(function(){openSocialLogin('tw');})">
-                        <b><?=  LanguageUtils::getText("LANG_PAGE_SIGNIN_LOGIN_TWITTER")?></b>
+                    <button class="googleplus buttons roundedBox" onclick="analytics_createGoogleAccountButtonClicked(function(){openSocialLogin('gg');});">
+                        <div class="googleplusIcon"></div><a><?= LanguageUtils::getText("LANG_PAGE_SIGNUP_LOGIN_GOOGLE") ?></a>
                     </button>
-
-                    <center style="font-size: 13px;"><?=  LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL")?></center>
+                </div>
+                <div class="emailSignUpOrLogin">
+                    <?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_SIGN_MAIL") ?>
                 </div>
             </div>
-            <div style=" text-align: center; margin-top: 8px;"><a class="about_timety_button"><?=  LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_ABOUT_TIMETY")?></a></div>
+            <div class="leftContainer" style="height: 100%;"></div>
+            <div class="seperator">
+                <div class="seperator_top"></div>
+                <div class="seperator_middle"></div>
+                <div class="seperator_bottom"></div>
+            </div>
+            <div class="rightContainer">
+                <div class="item">
+                    <div class="exploreIcon"></div>
+                    <div class="text">
+                        <h2><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_EXPLORE_HEADER") ?></h2>
+                        <p style="margin-top: -10px;"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_EXPLORE_TEXT") ?></p></div>
+                </div>
+                <div class="item">
+                    <div class="shareIcon"></div>
+                    <div class="text">
+                        <h2><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_SHARE_HEADER") ?></h2>
+                        <p style="margin-top: -10px;"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_SHARE_TEXT") ?></p></div>
+                </div>
+                <div class="item">
+                    <div class="followIcon"></div>
+                    <div class="text">
+                        <h2><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_TRACK_HEADER") ?></h2>
+                        <p style="margin-top: -10px;"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_TRACK_TEXT") ?></p></div>
+                </div>
+            </div>
+            <div class="bottomContainer"><p>
+                    <a style="margin-right: 10px;" href="http://about.timety.com"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_ABOUT_US") ?></a>
+                    <a style="margin-right: 10px;" href="<?= PAGE_BUSINESS_CREATE ?>"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_BUSINESS") ?></a>
+                    <a href="http://about.timety.com/privacy-policy/ "><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_PRIVACY") ?></a></p>
+            </div>
         </div>
-        <?php include('layout/templete_aboutus.php'); ?>
     </body>
 </html>

@@ -109,6 +109,7 @@ if (isset($_POST['te_username'])) {
             }
         }
     }
+    
     //location
     $te_location_country = $_POST['te_location_country'];
     $te_location_city = $_POST['te_location_city'];
@@ -216,8 +217,8 @@ if (isset($_POST['te_username'])) {
     RegisterAnaliticsUtils::increasePageRegisterCount("createbusiness");
 }
 ?>
-<!DOCTYPE html>
-<html dir="ltr" lang="en-US" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
+<!DOCTYPE html "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php
         $timety_header = LanguageUtils::getText("LANG_PAGE_TITLE_BUSINESS");
@@ -258,48 +259,12 @@ if (isset($_POST['te_username'])) {
                         rules : 'required|min_length[3]'
                     } ],
                 function(errors, event) {
-                    //empty messages
-                    jQuery(".create_acco_popup").text("");
-                    jQuery(".create_acco_popup").attr("style","display:none;");
+                    jQuery(".textBoxError").removeClass(".textBoxError");
                     
-                    var SELECTOR_ERRORS = jQuery('#msg');
-                    SELECTOR_ERRORS.empty();
-                    
-                    jQuery('#te_username_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_username').attr('class', 'user_inpt username icon_bg onay_brdr user_inpt_pi_height');
-                    
-                    jQuery('#te_businessname_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_businessname').attr('class', 'user_inpt  onay_brdr user_inpt_pi_height');
-                    
-                    jQuery('#te_firstname_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_firstname').attr('class', 'user_inpt onay_brdr user_inpt_pi_height');
-                    
-                    jQuery('#te_lastname_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_lastname').attr('class', 'user_inpt  onay_brdr user_inpt_pi_height');
-                    
-                    jQuery('#te_email_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_email').attr('class', 'user_inpt icon_bg email onay_brdr user_inpt_pi_height');
-                    
-                    jQuery('#te_hometown_span').attr('class', 'onay icon_bg');
-                    jQuery('#te_hometown').attr('class', 'user_inpt onay_brdr user_inpt_pi_height');
-              
                     if (errors.length > 0) {
                         for ( var i = 0, errorLength = errors.length; i < errorLength; i++) {
-                            jQuery('#' + errors[i].id + '_span').attr('class','sil icon_bg');
-                            jQuery('#' + errors[i].id + '_span_msg').css({
-                                display : 'block'
-                            });
-                            jQuery('#' + errors[i].id + '_span_msg').text(errors[i].message);
-                            jQuery('#' + errors[i].id + '_span_msg').append(jQuery("<div class='kok'></div>"));
-                            jQuery('#' + errors[i].id).removeClass('onay_brdr').addClass('fail_brdr');
+                            jQuery("#"+errors[i].id).addClass("textBoxError");
                         }
-                        SELECTOR_ERRORS.fadeIn(200);
-                    } else {
-                        //track event btnClickPersonelInfo function 
-                        btnClickPersonelInfo("","",jQuery('#te_hometown').val())
-                        SELECTOR_ERRORS.css({
-                            display : 'none'
-                        });
                     }
                 });
                 validator.registerCallback('check_email', function(value) {
@@ -455,36 +420,9 @@ if (isset($_POST['te_username'])) {
                         }
                         jQuery("#te_location_country").val(te_loc_country);
                         
-                        
-                        //city
-                        /*var city_type=0;
-                        var te_loc_city="";
-                        if(place.address_components.length>0){
-                            for(var i=0;i<place.address_components.length;i++){
-                                var obj=place.address_components[i];
-                                if(obj && obj.types && obj.types.length>0){
-                                    if(jQuery.inArray("city",obj.types)>=0 && city_type<4){
-                                        te_loc_city=obj.long_name;
-                                        city_type=4;
-                                    }
-                                    else if(jQuery.inArray("administrative_area_level_1",obj.types)>=0 && city_type<3){
-                                        te_loc_city=obj.long_name;
-                                        city_type=3;
-                                    }
-                                    else if(jQuery.inArray("administrative_area_level_2",obj.types)>=0 && city_type<2){
-                                        te_loc_city=obj.long_name;
-                                        city_type=2;
-                                    }
-                                    else if(jQuery.inArray("political",obj.types)>=0 && jQuery.inArray("locality",obj.types)>=0   && city_type<1){
-                                        te_loc_city=obj.long_name; 
-                                        city_type=1;
-                                    }
-                                }
-                            }
-                        }*/
                         getCityLocationByCoordinates(point.lat(),point.lng(),setLocation);
                     }
-                    validateInput(jQuery("#te_hometown"),true,true,3);
+                    validateInputField(jQuery("#te_hometown"),3);
                 });
             }
           
@@ -492,282 +430,248 @@ if (isset($_POST['te_username'])) {
                 getAllLocation(setLocation);
             });
         </script>
-        <meta property="og:title" content="<?=LanguageUtils::getText("LANG_PAGE_TITLE")?>"/>
+        <meta property="og:title" content="<?= LanguageUtils::getText("LANG_PAGE_TITLE") ?>"/>
         <meta property="og:image" content="<?= HOSTNAME ?>images/timetyFB.jpeg"/>
         <meta property="og:site_name" content="Timety"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
-        <meta property="description" content="<?=  LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX")?>"/>
+        <meta property="og:description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
+        <meta property="description" content="<?= LanguageUtils::getText("LANG_PAGE_DESC_ALL_INDEX") ?>"/>
         <meta property="og:url" content="<?= HOSTNAME ?>"/>
         <meta property="fb:app_id" content="<?= FB_APP_ID ?>"/>
     </head>
-    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?>" itemscope="itemscope" itemtype="http://schema.org/WebPage">
-        <?php
-        $checkUserStatus = false;
-        include('layout/layout_top.php');
-        ?>
-        <div id="personel_info_h">
-            <div class="create_acco_ust"><?= LanguageUtils::getText("LANG_PAGE_BUSINESS_HEADER") ?></div>
-            <div class="personel_info" style="height: 550px !important;">
-                <form id="per_info_form" action="" method="post" style="margin-left: 48px;"
-                      name="registerPI">
-
-                    <input 
-                        name="te_businessname"
-                        type="text" 
-                        class="user_inpt user_inpt_pi_height" 
-                        id="te_businessname"
-                        tabindex="1"
-                        value="<?php echo $businessName ?>" 
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_NAME_PLACEHOLDER") ?>"
-                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,2) }" /> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($businessNameError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                    <span id='te_businessname_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_businessname_span_msg" style="display:<?= $display ?>;"><?= $businessNameError ?><div class="kok"></div></div>
-                    </span><br /> 
-
-
-                    <input 
-                        name="te_username" 
-                        type="text"
-                        class="user_inpt username icon_bg user_inpt_pi_height" 
-                        id="te_username"
-                        tabindex="2"
-                        value="<?php echo $username ?>" 
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_USERNAME_PLACEHOLDER") ?>"
-                        suc="true"
-                        default="<?php echo $defaultUsername ?>"
-                        onblur="if(onBlurFirstPreventTwo(this)) { validateUserName(this,true,true) }" /> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($usernameError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                    <span id='te_username_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_username_span_msg" style="display:<?= $display ?>;"><?= $usernameError ?><div class="kok"></div></div>
-                    </span> <br /> 
-
-
-                    <input 
-                        name="te_firstname"
-                        type="text" 
-                        class="user_inpt user_inpt_pi_height" 
-                        id="te_firstname"
-                        tabindex="3"
-                        value="<?php echo $name ?>" 
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_PLACEHOLDER") ?>"
-                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($nameError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                    <span id='te_firstname_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_firstname_span_msg" style="display:<?= $display ?>;"><?= $nameError ?><div class="kok"></div></div>
-                    </span><br /> 
-
-
-                    <input 
-                        name="te_lastname"
-                        type="text" 
-                        class="user_inpt user_inpt_pi_height" 
-                        id="te_lastname"
-                        tabindex="4"
-                        value="<?php echo $lastname ?>" 
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_PLACEHOLDER") ?>" 
-                        onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }" /> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($ulastnameError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                    <span id='te_lastname_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_lastname_span_msg" style="display:<?= $display ?>;"><?= $ulastnameError ?><div class="kok"></div></div>
-                    </span> <br />
-
-
-                    <input 
-                        name="te_email" 
-                        type="text"
-                        suc="true"
-                        tabindex="5"
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_EMAIL_PLACEHOLDER") ?>" 
-                        class="user_inpt email icon_bg user_inpt_pi_height" 
-                        id="te_email"
-                        default="<?php echo $defaultEmail ?>" 
-                        value="<?php echo $email ?>" 
-                        onblur="if(onBlurFirstPreventTwo(this)) { validateEmail(this,true,true) }"/> 
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($emailError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                    <span id='te_email_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_email_span_msg" style="display:<?= $display ?>;"><?= $emailError ?><div class="kok"></div></div>
-                    </span><br /> 
-
-                    <div> 
-
-                        <input type="hidden" name="te_location_country" id="te_location_country" value="<?= $te_location_country ?>"/>
-                        <input type="hidden" name="te_location_city" id="te_location_city" value="<?= $te_location_city ?>"/>
-                        <input type="hidden" name="te_location_all_json" id="te_location_all_json" value='<?= $te_location_all_json ?>'/>
-                        <input type="hidden" name="te_location_cor_x" id="te_location_cor_x" value="<?= $te_location_cor_x ?>"/>
-                        <input type="hidden" name="te_location_cor_y" id="te_location_cor_y" value="<?= $te_location_cor_y ?>"/>
-                        <input 
-                            name="te_hometown"
-                            type="text" 
-                            tabindex="6"
-                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_LOCATON_PLACEHOLDER") ?>" 
-                            class="user_inpt user_inpt_pi_height"
-                            id="te_hometown" 
-                            value="<?php echo $hometown ?>"
-                            onblur="if(onBlurFirstPreventTwo(this)) { validateInput(this,true,true,3) }"/> 
-                        <script>
-                            jQuery(document).ready(function(){
-                                setTimeout(
-                                setLocationAutoComplete,1000);
-                            }); 
-                        </script>
+    <body class="bg <?= LanguageUtils::getLocale() . "_class" ?> registerPage" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+        <div class="mainContainer" style="padding-left: 150px">
+            <div class="leftContainer">
+                <a href="<?= HOSTNAME ?>">
+                    <div class="register_logo">
+                        <img src="<?= HOSTNAME ?>images/logoLoginPage.png" />
                     </div>
-                    <?php
-                    $display = "none";
-                    $class = "";
-                    if (!empty($hometownError)) {
-                        $display = "block";
-                        $class = "sil icon_bg";
-                    }
-                    ?>
-                    <span id='te_hometown_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_hometown_span_msg" style="display:<?= $display ?>;"><?= $hometownError ?><div class="kok"></div></div>
-                    </span><br />
-
-
-
-                    <select 
-                        name="te_language"
-                        tabindex="7"
-                        style="background-image: none; width: 260px;"
-                        class="user_inpt email icon_bg user_inpt_pi_height select_language"
-                        id="te_language">
-                            <?php
-                            $lang_tr_sel = "";
-                            $lang_en_sel = "";
-                            if (LANG_TR_TR == $language) {
-                                $lang_tr_sel = 'selected="selected"';
-                                $lang_en_sel = "";
-                            } else if (LANG_EN_US == $language) {
-                                $lang_en_sel = 'selected="selected"';
-                                $lang_tr_sel = "";
-                            }
-                            ?>
-                        <option value=""><?= LANG_SELECT_LANGUAGE ?></option>
-                        <option value="<?= LANG_TR_TR ?>" <?= $lang_tr_sel ?>><?= LANG_TR_TR_TEXT ?></option>
-                        <option value="<?= LANG_EN_US ?>" <?= $lang_en_sel ?>><?= LANG_EN_US_TEXT ?></option>
-                    </select>
-                    <?php
-                    $display = "none";
-                    $class = "";
-                    if (!empty($languageError)) {
-                        $display = "block";
-                        $class = "sil icon_bg";
-                    }
-                    ?>
-                    <span id='te_language_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_language_span_msg" style="display:<?= $display ?>;"><?= $languageError ?><div class="kok"></div></div>
-                    </span>
-                    <br /> 
-
-
-                    <input 
-                        name="te_password" 
-                        type="password"
-                        class="user_inpt password icon_bg user_inpt_pi_height" 
-                        id="te_password" 
-                        value=""
-                        tabindex="8"
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_PASSWORD_PLACEHOLDER") ?>"
-                        onblur="validatePassword(this,jQuery('#te_repassword'),false,true);" />
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($upassError)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                    <span id='te_password_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_password_span_msg" style="display:<?= $display ?>;"><?= $upassError ?><div class="kok"></div></div>
-                    </span> <br /> 
-
-                    <input 
-                        name="te_repassword"
-                        type="password" 
-                        class="user_inpt password icon_bg user_inpt_pi_height"
-                        id="te_repassword" 
-                        value="" 
-                        tabindex="9"
-                        placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_REPASSWORD_PLACEHOLDER") ?>"
-                        onblur="validatePassword(this,$('#te_password'),true,true)" />
-                        <?php
-                        $display = "none";
-                        $class = "";
-                        if (!empty($upass2Error)) {
-                            $display = "block";
-                            $class = "sil icon_bg";
-                        }
-                        ?>
-                    <span id='te_repassword_span' class="<?= $class ?>">
-                        <div class="create_acco_popup" id="te_repassword_span_msg" style="display:<?= $display ?>;"><?= $upass2Error ?><div class="kok"></div></div>
-                    </span> <br />
-                    <div class="privacy_terms"><?= LanguageUtils::getText("LANG_PAGE_PI_TERMS_SERVICE_HTML") ?></div>
-                    <br/>
-                    <button type="submit" style="float: left"  class="reg_btn reg_btn_width" name="" value="" onclick="jQuery('.php_errors').remove();"><?= LanguageUtils::getText("LANG_PAGE_PI_BUTTON_NEXT") ?></button>
-
-                    <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $defaultEmail ?>" ></input>
-                    <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $defaultUsername ?>" ></input>
-                    <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?= $userProfilePic ?>" ></input>
-                    <input type="hidden" id="userProfilePicType" name="userProfilePicType" value="<?= $userProfilePicType ?>" ></input>
-                </form>
-                <script>
-                    jQuery("#per_info_form").keypress(function(event){
-                        if(event.which == 13 || event.keyCode == 13){
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                    });
-                </script>
-                <div class="ts_box" style="font-size: 12px;margin-left: 48px;">
-                    <span style="color: red; display: none;" id="msg"></span>
-                    <?php
-                    if (!empty($msgs)) {
-                        $ms = "";
-                        foreach ($msgs as $m) {
-                            $ms = $ms . "<p>" . $m->message . "</p>";
-                        }
-                        echo "<script>jQuery(document).ready(function(){ getInfo(true,'" . $ms . "','error',4000); });</script>";
-                    }
-                    ?>
+                </a>
+                <div class="shortMessage">
+                    <h1 style=""><?= LanguageUtils::getText("LANG_PAGE_REGISTER_LOGO_TEXT") ?></h1>
                 </div>
             </div>
+            <div class="leftContainer" style="height: 100%;"></div>
+            <div class="seperator">
+                <div class="seperator_top"></div>
+                <div class="seperator_middle"></div>
+                <div class="seperator_bottom"></div>
+            </div>
+            <div class="rightContainer" style="margin-top: 0px;">
+                <div class="personel_infoFormDiv roundedCorner">
+                    <form id="per_info_form" action="" method="post"
+                          name="registerPI">
+
+
+                        <input  
+                            type="text"
+                            class="textBox <?php
+        if (!empty($businessNameError)) {
+            echo "textBoxError";
+        }
+        ?>" 
+                            id="te_businessname"
+                            name="te_businessname" 
+                            value="<?= $businessName ?>" 
+                            default="<?= $defaultUsername ?>"
+                            onblur="validateInputField(this, 2);"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_NAME_PLACEHOLDER") ?>"/>
+
+
+                        <input  
+                            type="text"
+                            class="textBox <?php
+                            if (!empty($usernameError)) {
+                                echo "textBoxError";
+                            }
+        ?>" 
+                            id="te_username"
+                            suc="true"
+                            name="te_username" 
+                            value="<?= $username ?>" 
+                            default="<?= $defaultUsername ?>"
+                            onblur="validateUserNameInputField(this,true)"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_USERNAME_PLACEHOLDER") ?>"/>
+
+
+
+                        <input
+                            type="text"
+                            class="textBox <?php
+                            if (!empty($nameError)) {
+                                echo "textBoxError";
+                            }
+        ?>" 
+                            id="te_firstname"
+                            name="te_firstname"
+                            value="<?= $name ?>" 
+                            onblur="validateInputField(this,3);"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_FIRST_NAME_PLACEHOLDER") ?>"/>
+
+
+                        <input
+                            type="text"
+                            class="textBox <?php
+                            if (!empty($ulastnameError)) {
+                                echo "textBoxError";
+                            }
+        ?>" 
+                            id="te_lastname"
+                            name="te_lastname"
+                            value="<?= $lastname ?>"
+                            onblur="validateInputField(this,3);"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_BUSINESS_CONTACT_LAST_NAME_PLACEHOLDER") ?>"/>
+
+
+                        <input  
+                            type="text"
+                            class="textBox <?php
+                            if (!empty($emailError)) {
+                                echo "textBoxError";
+                            }
+        ?>" 
+                            id="te_email"
+                            name="te_email" 
+                            suc="true"
+                            default="<?php echo $defaultEmail ?>" 
+                            value="<?= $email ?>" 
+                            onblur="validateEmailInputField(this,true);"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_EMAIL_PLACEHOLDER") ?>"/>
+
+
+                        <div> 
+                            <input type="hidden" name="te_location_country" id="te_location_country" value="<?= $te_location_country ?>"/>
+                            <input type="hidden" name="te_location_city" id="te_location_city" value="<?= $te_location_city ?>"/>
+                            <input type="hidden" name="te_location_all_json" id="te_location_all_json" value='<?= $te_location_all_json ?>'/>
+                            <input type="hidden" name="te_location_cor_x" id="te_location_cor_x" value="<?= $te_location_cor_x ?>"/>
+                            <input type="hidden" name="te_location_cor_y" id="te_location_cor_y" value="<?= $te_location_cor_y ?>"/>
+
+
+                            <input
+                                type="text"
+                                class="textBox <?php
+                            if (!empty($hometownError)) {
+                                echo "textBoxError";
+                            }
+        ?>" 
+                                id="te_hometown"
+                                name="te_hometown"
+                                value="<?= $hometown ?>"
+                                onblur="validateInputField(this,3)"
+                                placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_LOCATON_PLACEHOLDER") ?>"/>
+                            <script>
+                                jQuery(document).ready(function(){
+                                    setTimeout(
+                                    setLocationAutoComplete,1000);
+                                }); 
+                            </script>
+                        </div>
+
+
+
+                        <div class="create_account_language">
+                            <select name="te_language" id="te_language" onchange="validateSelectBox(this,jQuery('.create_account_language'))">
+                                <?php
+                                $lang_tr_sel = "";
+                                $lang_en_sel = "";
+                                if (LANG_TR_TR == $language) {
+                                    $lang_tr_sel = 'selected="selected"';
+                                    $lang_en_sel = "";
+                                } else if (LANG_EN_US == $language) {
+                                    $lang_en_sel = 'selected="selected"';
+                                    $lang_tr_sel = "";
+                                }
+                                ?>
+                                <option value=""><?= LANG_SELECT_LANGUAGE ?></option>
+                                <option value="<?= LANG_TR_TR ?>" <?= $lang_tr_sel ?>><?= LANG_TR_TR_TEXT ?></option>
+                                <option value="<?= LANG_EN_US ?>" <?= $lang_en_sel ?>><?= LANG_EN_US_TEXT ?></option>
+                            </select>
+                            <script>
+                                jQuery(function () {
+                                    jQuery("#te_language").selectbox();
+                                });
+                            </script>
+                            <?php if (!empty($languageError)) { ?>
+                                <script>
+                                    jQuery(document).ready(function(){
+                                        var selectbox = jQuery(".create_account_language").find(".sbHolder");
+                                        selectbox.addClass("textBoxError");
+                                    });
+                                </script>
+                            <?php } ?>
+                        </div>
+
+
+                        <input
+                            type="password"
+                            class="textBox <?php
+                            if (!empty($upassError)) {
+                                echo "textBoxError";
+                            }
+                            ?>"  
+                            id="te_password"
+                            name="te_password" 
+                            value="" 
+                            onblur="validatePasswordFields(jQuery('#te_password'),jQuery('#te_repassword'));"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_PASSWORD_PLACEHOLDER") ?>"/>
+
+                        <input
+                            type="password"
+                            class="textBox <?php
+                            if (!empty($upass2Error)) {
+                                echo "textBoxError";
+                            }
+                            ?>"  
+                            id="te_repassword"
+                            name="te_repassword" 
+                            value="" 
+                            onblur="validatePasswordFields(jQuery('#te_password'),jQuery('#te_repassword'));"
+                            placeholder="<?= LanguageUtils::getText("LANG_PAGE_PI_INPUT_REPASSWORD_PLACEHOLDER") ?>"/>
+
+                        <div class="privacy_terms"><?= LanguageUtils::getText("LANG_PAGE_PI_TERMS_SERVICE_HTML") ?></div>
+                        <br/>
+                        <button class="createAccountButton roundedButton" type="submit" onclick="jQuery('.php_errors').remove();">
+                            <a><?= LanguageUtils::getText("LANG_PAGE_PI_BUTTON_NEXT") ?></a>
+                        </button>
+
+
+                        <input type="hidden" id="te_default_email" name="te_default_email" value="<?= $defaultEmail ?>" ></input>
+                        <input type="hidden" id="te_default_username" name="te_default_username" value="<?= $defaultUsername ?>" ></input>
+                        <input type="hidden" id="te_userpicture" name="te_userpicture" value="<?= $userProfilePic ?>" ></input>
+                        <input type="hidden" id="userProfilePicType" name="userProfilePicType" value="<?= $userProfilePicType ?>" ></input>
+                    </form>
+                    <script>
+                        jQuery("#per_info_form").keypress(function(event){
+                            if(event.which == 13 || event.keyCode == 13){
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="bottomContainer"><p>
+                    <a style="margin-right: 10px;" href="http://about.timety.com"><?= LanguageUtils::getText("LANG_PAGE_SIGNIN_BUTTON_ABOUT_US") ?></a>
+                    <a style="margin-right: 10px;" href="<?= PAGE_BUSINESS_CREATE ?>"><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_BUSINESS") ?></a>
+                    <a href="http://about.timety.com/privacy-policy/ "><?= LanguageUtils::getText("LANG_PAGE_CREATE_ACCOUNT_PRIVACY") ?></a></p>
+            </div>
+            <?php
+            if (!empty($msgs)) {
+                $ms = "";
+                foreach ($msgs as $m) {
+                    $ms = $ms . "<p>" . $m->message . "</p>";
+                }
+                if (!empty($ms)) {
+                    ?>
+                    <script>
+                        jQuery(document).ready(function(){
+                            getInfo(true,'<?= $ms ?>','error',4000); 
+                        });
+                    </script>
+                    <?php
+                }
+            }
+            ?>
         </div>
     </body>
 </html>
